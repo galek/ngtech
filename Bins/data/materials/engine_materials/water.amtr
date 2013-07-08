@@ -1,0 +1,12 @@
+pass Ambient
+{
+shader = water_ambient.ashd
+mat4 u_mvp = scene::mvp
+mat4 u_proj_transform = scene::viewport_transform
+float u_time = scene::time
+sampler2D u_viewport_map = scene::viewport_map
+sampler2D u_dudv_map = effects/water_dudv.jpg
+}
+
+
+

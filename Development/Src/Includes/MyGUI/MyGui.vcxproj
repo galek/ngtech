@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E9497471-6143-4E9A-8DB2-436EDAD37B65}</ProjectGuid>
+    <RootNamespace>MyGui</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\freetype\include\;..\freetype\include\freetype;Common;Platforms\OpenGL\OpenGLPlatform\include;MyGUIEngine\include</AdditionalIncludeDirectories>
+      <MinimalRebuild>true</MinimalRebuild>
+      <PreprocessorDefinitions>MYGUI_USE_FREETYPE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="MyGUIEngine\include\MyGUI.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ActionController.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Align.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Allocator.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Any.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_BackwardCompatibility.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_BiIndexBase.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Bitwise.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Button.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Canvas.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ChildSkinInfo.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ClipboardManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Colour.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ComboBox.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Common.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_CommonStateInfo.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ConsoleLogListener.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Constants.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ControllerEdgeHide.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ControllerFadeAlpha.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ControllerItem.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ControllerManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ControllerPosition.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_CoordConverter.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_CustomAllocator.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_DataFileStream.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_DataManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_DataStream.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_DDContainer.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_DDItemInfo.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Delegate.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_DelegateImplement.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_DeprecatedTypes.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_DeprecatedWidgets.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Diagnostic.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_DynLib.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_DynLibManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_EditBox.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_EditText.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Enumerator.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_EventPair.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Exception.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_FactoryManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_FileLogListener.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_FlowDirection.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_FontData.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_FontManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_GenericFactory.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_GeometryUtility.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Gui.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_IBItemInfo.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ICroppedRectangle.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_IDataStream.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_IFont.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_IItem.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_IItemContainer.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ILayer.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ILayerItem.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ILayerNode.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ILogFilter.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ILogListener.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ImageBox.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ImageInfo.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_InputManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_IObject.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_IPointer.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_IRenderTarget.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_IResource.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ISerializable.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_IStateInfo.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ISubWidget.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ISubWidgetRect.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ISubWidgetText.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ItemBox.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ITexture.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_IUnlinkWidget.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_IVertexBuffer.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_KeyCode.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_LanguageManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_LayerItem.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_LayerManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_LayerNode.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_LayoutData.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_LayoutManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_LevelLogFilter.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ListBox.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_LogLevel.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_LogManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_LogSource.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_LogStream.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Macros.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_MainSkin.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_MaskPickInfo.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_MenuBar.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_MenuControl.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_MenuItem.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_MenuItemType.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_MouseButton.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_MultiListBox.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_MultiListItem.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_OverlappedLayer.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Platform.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Plugin.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_PluginManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_PointerManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_PolygonalSkin.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_PopupMenu.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Precompiled.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Prerequest.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ProgressBar.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_RenderFormat.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_RenderItem.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_RenderManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_RenderTargetInfo.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ResizingPolicy.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ResourceImageSet.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ResourceImageSetData.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ResourceImageSetPointer.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ResourceLayout.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ResourceManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ResourceManualFont.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ResourceManualPointer.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ResourceSkin.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ResourceTrueTypeFont.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_RotatingSkin.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_RTTI.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ScrollBar.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ScrollView.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ScrollViewBase.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_SharedLayer.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_SharedLayerNode.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_SimpleText.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Singleton.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_SkinItem.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_SkinManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_StringUtility.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_SubSkin.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_SubWidgetBinding.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_SubWidgetInfo.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_SubWidgetManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_TabControl.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_TabItem.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_TCoord.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_TextBox.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_TextChangeHistory.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_TextIterator.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_TextureUtility.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_TextView.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_TextViewData.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_TileRect.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Timer.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_ToolTipManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_TPoint.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_TRect.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_TSize.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Types.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_UString.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Version.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_VertexData.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Widget.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_WidgetDefines.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_WidgetInput.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_WidgetManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_WidgetStyle.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_WidgetToolTip.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_WidgetTranslate.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_WidgetUserData.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_Window.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_XmlDocument.h" />
+    <ClInclude Include="Platforms\OpenGL\OpenGLPlatform\include\GL\glew.h" />
+    <ClInclude Include="Platforms\OpenGL\OpenGLPlatform\include\GL\glxew.h" />
+    <ClInclude Include="Platforms\OpenGL\OpenGLPlatform\include\GL\wglew.h" />
+    <ClInclude Include="Platforms\OpenGL\OpenGLPlatform\include\MyGUI_OpenGLDataManager.h" />
+    <ClInclude Include="Platforms\OpenGL\OpenGLPlatform\include\MyGUI_OpenGLDiagnostic.h" />
+    <ClInclude Include="Platforms\OpenGL\OpenGLPlatform\include\MyGUI_OpenGLImageLoader.h" />
+    <ClInclude Include="Platforms\OpenGL\OpenGLPlatform\include\MyGUI_OpenGLPlatform.h" />
+    <ClInclude Include="Platforms\OpenGL\OpenGLPlatform\include\MyGUI_OpenGLRenderManager.h" />
+    <ClInclude Include="Platforms\OpenGL\OpenGLPlatform\include\MyGUI_OpenGLRTTexture.h" />
+    <ClInclude Include="Platforms\OpenGL\OpenGLPlatform\include\MyGUI_OpenGLTexture.h" />
+    <ClInclude Include="Platforms\OpenGL\OpenGLPlatform\include\MyGUI_OpenGLVertexBuffer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ActionController.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_Any.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_BackwardCompatibility.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_BiIndexBase.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_Button.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_Canvas.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ChildSkinInfo.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ClipboardManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_Colour.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ComboBox.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ConsoleLogListener.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_Constants.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ControllerEdgeHide.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ControllerFadeAlpha.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ControllerManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ControllerPosition.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_DataFileStream.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_DataManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_DataStream.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_DDContainer.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_DynLib.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_DynLibManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_EditBox.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_EditText.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_Exception.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_FactoryManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_FileLogListener.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_FontManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_GeometryUtility.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_Gui.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ImageBox.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_InputManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ItemBox.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_LanguageManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_LayerItem.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_LayerManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_LayerNode.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_LayoutManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_LevelLogFilter.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ListBox.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_LogManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_LogSource.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_MainSkin.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_MaskPickInfo.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_MenuBar.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_MenuControl.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_MenuItem.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_MultiListBox.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_MultiListItem.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_OverlappedLayer.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_PluginManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_PointerManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_PolygonalSkin.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_PopupMenu.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_Precompiled.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ProgressBar.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_RenderItem.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_RenderManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ResourceImageSet.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ResourceImageSetPointer.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ResourceLayout.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ResourceManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ResourceManualFont.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ResourceManualPointer.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ResourceSkin.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ResourceTrueTypeFont.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_RotatingSkin.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ScrollBar.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ScrollView.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ScrollViewBase.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_SharedLayer.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_SharedLayerNode.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_SimpleText.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_SkinItem.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_SkinManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_SubSkin.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_SubWidgetBinding.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_SubWidgetManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_TabControl.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_TabItem.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_TextBox.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_TextIterator.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_TextureUtility.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_TextView.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_TileRect.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_Timer.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_ToolTipManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_UString.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_Widget.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_WidgetInput.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_WidgetManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_WidgetUserData.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_Window.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_XmlDocument.cpp" />
+    <ClCompile Include="Platforms\OpenGL\OpenGLPlatform\include\GL\glew.c" />
+    <ClCompile Include="Platforms\OpenGL\OpenGLPlatform\src\MyGUI_OpenGLDataManager.cpp" />
+    <ClCompile Include="Platforms\OpenGL\OpenGLPlatform\src\MyGUI_OpenGLPlatform.cpp" />
+    <ClCompile Include="Platforms\OpenGL\OpenGLPlatform\src\MyGUI_OpenGLRenderManager.cpp" />
+    <ClCompile Include="Platforms\OpenGL\OpenGLPlatform\src\MyGUI_OpenGLRTTexture.cpp" />
+    <ClCompile Include="Platforms\OpenGL\OpenGLPlatform\src\MyGUI_OpenGLTexture.cpp" />
+    <ClCompile Include="Platforms\OpenGL\OpenGLPlatform\src\MyGUI_OpenGLVertexBuffer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Platforms\OpenGL\OpenGLPlatform\include\GL\GLEW-LICENSE" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\freetype\builds\win32\vc2010\freetype.vcxproj">
+      <Project>{78b079bd-9fc7-4b9e-b4a6-96da0f00248b}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

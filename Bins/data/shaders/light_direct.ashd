@@ -1,0 +1,100 @@
+[GLSL_VERTEX_SHADER]
+
+uniform mat4 mvp;
+uniform mat4 world;
+uniform mat4 projTransform;
+
+uniform vec3 lightPos;
+uniform vec3 viewPos;
+uniform float invRadius;
+
+varying vec2 texCoord;
+varying vec3 lightVec;
+varying vec3 viewVec;
+varying vec3 sVec;
+varying vec4 projCoord;
+
+void main() {
+	gl_Position = mvp * gl_Vertex; 
+	texCoord = gl_MultiTexCoord0.xy;
+
+	vec3 tangent  = normalize(mat3(world) * gl_MultiTexCoord1.xyz); 
+	vec3 binormal = normalize(mat3(world) * gl_MultiTexCoord2.xyz); 
+	vec3 normal   = normalize(mat3(world) * gl_Normal.xyz); 
+	
+    vec4 worldPos = world * gl_Vertex;
+
+	vec3 lVec = (lightPos - worldPos.xyz) * invRadius;
+		
+	lightVec.x = dot(tangent, lVec); 
+	lightVec.y = dot(binormal, lVec);
+	lightVec.z = dot(normal, lVec);
+	
+	sVec = -lVec;
+	projCoord = projTransform * worldPos;
+	
+	vec3 vVec = viewPos - worldPos.xyz;
+		
+	viewVec.x = dot(tangent, vVec); 
+	viewVec.y = dot(binormal, vVec);
+	viewVec.z = dot(normal , vVec);
+}
+
+
+
+[GLSL_FRAGMENT_SHADER]
+
+varying vec2 texCoord;
+varying vec3 lightVec;
+varying vec3 viewVec;
+varying vec3 sVec;
+varying vec4 projCoord;
+
+uniform vec3 lightColor;
+uniform float specCoef;
+uniform float shininess;
+
+uniform sampler2D baseMap;
+uniform sampler2D bumpMap;
+uniform sampler2D shadowMap;
+uniform sampler2D projMap;
+
+void main() {
+
+	float atten = 1.0;
+	atten = clamp(1.0 - dot(lightVec, lightVec), 0.0, 1.0);
+		
+	float shadow = 1.0;
+	
+#ifdef VSM_SHADOWS
+	vec2 mom = texture2DProj(shadowMap, projCoord).rg;
+		 
+	float E1 = mom.y;
+	float E2 = mom.x * mom.x;
+
+	float variance = min(max(E1 - E2, 0.0) + 0.004f, 1.0);
+	float distance = sqrt(dot(sVec, sVec));
+	float sigma    = distance - mom.x;
+	shadow  = (sigma > 0.0) ? variance / (variance + sigma * sigma) : 1.0;
+#endif	
+	
+#ifdef SM_SHADOWS
+	float distance = texture2DProj(shadowMap, projCoord).r + 0.004;
+	shadow = float(dot(sVec, sVec) < distance * distance);
+#endif
+
+	lightVec = normalize(lightVec);
+	viewVec = normalize(viewVec);
+	
+	vec4 baseColor = texture2D(baseMap, texCoord);
+	vec3 normal = 2.0 * texture2D(bumpMap, texCoord).xyz - 1.0;
+	
+    float diffuse = clamp(dot(normal, lightVec), 0.0, 1.0);
+
+	float specular = 0.0;
+#ifdef SPECULAR
+	specular = pow(clamp(dot(reflect(-viewVec, normal), lightVec), 0.0, 1.0), shininess) * specCoef;
+#endif
+	
+	gl_FragColor = (baseColor * diffuse + specular) * vec4(lightColor, 1.0) * atten * shadow * texture2DProj(projMap, projCoord);
+}

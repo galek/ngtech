@@ -1,0 +1,22 @@
+[GLSL_VERTEX_SHADER]
+
+uniform mat4 u_mvp;
+varying vec2 v_tex_coord;
+
+void main() {
+	gl_Position = u_mvp * gl_Vertex;
+	v_tex_coord = gl_MultiTexCoord0.xy;
+}
+
+
+[GLSL_FRAGMENT_SHADER]
+
+varying vec2 v_tex_coord;
+
+uniform vec3 u_light_color;
+uniform sampler2D u_base_map;
+
+void main() {
+	vec4 baseColor = texture2D(u_base_map, v_tex_coord);
+	gl_FragColor = baseColor * vec4(u_light_color, 1.0);
+}

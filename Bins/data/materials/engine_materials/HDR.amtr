@@ -1,0 +1,12 @@
+pass BlurPass
+{
+shader = blur.ashd
+sampler2D u_viewport_map = scene::viewport_map
+}
+
+pass BrightPass
+{
+shader = bright_pass.ashd
+sampler2D u_viewport_map = scene::viewport_map
+}
+

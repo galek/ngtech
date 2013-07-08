@@ -1,0 +1,27 @@
+[GLSL_VERTEX_SHADER]
+
+uniform mat4 u_mvp;
+uniform mat4 u_world;
+uniform vec3 u_light_pos;
+uniform float u_inv_radius;
+
+varying vec3 v_light_vec;
+
+void main() {
+	gl_Position = u_mvp * gl_Vertex; 
+	
+	vec4 worldPos = u_world * gl_Vertex;
+	v_light_vec = u_inv_radius * (u_light_pos - worldPos.xyz);
+}
+
+
+[GLSL_FRAGMENT_SHADER]
+
+varying vec3 v_light_vec;
+
+void main() {
+	float depth2 = dot(v_light_vec, v_light_vec);
+	float depth = sqrt(depth2);
+	
+	gl_FragColor = vec4(depth, depth2, 1, 1);
+}

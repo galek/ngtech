@@ -1,0 +1,53 @@
+pass Ambient
+{
+shader = mesh_ambient.ashd
+mat4 u_mvp = scene::mvp
+vec3 u_light_color = scene::light_color
+sampler2D u_base_map = reljef.jpg
+}
+pass LightOmni
+{
+shader = mesh_omni.ashd
+float u_spec_coef = 0.5
+float u_shininess = 24
+mat4 u_mvp = scene::mvp
+mat4 u_world = scene::world
+vec3 u_light_color = scene::light_color
+vec3 u_light_pos = scene::light_position
+vec3 u_view_pos = scene::view_position
+float u_inv_radius = scene::light_iradius
+sampler2D u_base_map = reljef.jpg
+sampler2D u_bump_map = normal_map() reljef.jpg
+sampler2D u_shadow_map = scene::shadow_map
+}
+pass LightSpot
+{
+shader = mesh_spot.ashd
+float u_spec_coef = 0.5
+float u_shininess = 24
+mat4 u_mvp = scene::mvp
+mat4 u_world = scene::world
+mat4 u_spot_proj_transform = scene::spot_transform
+vec3 u_light_color = scene::light_color
+vec3 u_light_pos = scene::light_position
+vec3 u_light_dir = scene::light_direction
+float u_inv_radius = scene::light_iradius
+vec3 u_view_pos = scene::view_position
+sampler2D u_base_map = reljef.jpg
+sampler2D u_bump_map = normal_map() reljef.jpg
+sampler2D u_shadow_map = scene::shadow_map
+sampler2D u_spot_proj_map = scene::spot_map
+}
+pass LightDirect
+{
+shader = mesh_direct.ashd
+float u_specular = 0.5
+float u_shininess = 24
+mat4 u_mvp = scene::mvp
+mat4 u_world = scene::world
+vec3 u_light_color = scene::light_color
+vec3 u_light_dir = scene::light_direction
+vec3 u_view_pos = scene::view_position
+sampler2D u_base_map = reljef.jpg
+sampler2D u_bump_map = normal_map() reljef.jpg
+}

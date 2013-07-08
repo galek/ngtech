@@ -1,0 +1,29 @@
+#screen width
+window_width = 1024
+
+#screen height
+window_height = 768
+
+#screen bpp
+window_bpp = 32
+
+#Z-Buffer depth
+window_zdepth = 24
+
+#fullscreen on/off
+window_fullscreen = 0
+
+#shadow type: 0 - no shadows, 1 - sm shadows, 2 - vsm soft shadows
+light_shadowtype = 2
+
+#shadow map size
+light_shadowsize = 512
+
+#specular on/off
+light_specular = 1
+
+#hdr on/off
+effect_hdr = 0
+
+#show wireframe
+debug_wireframe = 0
