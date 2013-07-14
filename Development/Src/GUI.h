@@ -14,7 +14,7 @@
 #include <vector>
 //**************************************
 #if 1
-#include "Includes\MyGUI_3.2.0\Platforms\OpenGL\OpenGLPlatform\include\MyGUI_OpenGLPlatform.h"
+#include "Includes\MyGUI\Platforms\OpenGL\OpenGLPlatform\include\MyGUI_OpenGLPlatform.h"
 namespace MyGUI{
 class OpenGLPlatform;
 class Gui;

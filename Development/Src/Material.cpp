@@ -151,7 +151,7 @@ Material::Material(String path) {
 					String name = StringHelper::getWord(line, 3);
 
 					String defines = "";
-					pass->shader = Cash::get()->loadShader("data/shaders/" + name, defines);
+					pass->shader = engine.cash->loadShader("data/shaders/" + name, defines);
 				}
 
 				//sampler
@@ -171,12 +171,12 @@ Material::Material(String path) {
 						GLTexture *sampler;
 						ILImage *map = ILImage::create2d("data/textures/" + StringHelper::getWord(line, 5));
 						map->toNormalMap(4);
-						sampler = Cash::get()->loadTexture2d(map, "data/textures/" + StringHelper::getWord(line, 5) + "_NORMAL_MAP");
+						sampler = engine.cash->loadTexture2d(map, "data/textures/" + StringHelper::getWord(line, 5) + "_NORMAL_MAP");
 						pass->u_sampler2D.push_back(std::pair<String, GLTexture*>(name, sampler));
 						delete map;
 					} else {
 						GLTexture *sampler;
-						sampler = Cash::get()->loadTexture2d("data/textures/" + StringHelper::getWord(line, 4));
+						sampler = engine.cash->loadTexture2d("data/textures/" + StringHelper::getWord(line, 4));
 						pass->u_sampler2D.push_back(std::pair<String, GLTexture*>(name, sampler));
 					}
 				}
@@ -192,7 +192,7 @@ Material::Material(String path) {
 					//user params
 					} else {
 						GLTexture *sampler;
-						sampler = Cash::get()->loadTextureCube("data/textures/" + StringHelper::getWord(line, 4));
+						sampler = engine.cash->loadTextureCube("data/textures/" + StringHelper::getWord(line, 4));
 						pass->u_samplerCube.push_back(std::pair<String, GLTexture*>(name, sampler));
 					}
 				}
@@ -323,12 +323,12 @@ Material::~Material() {
 	for(int p =0; p < passes.size(); p++) {
 		Pass *pass = passes[p];
 		for(int i = 0; i < pass->u_sampler2D.size(); i++) {
-			Cash::get()->deleteTexture(pass->u_sampler2D[i].second);
+			engine.cash->deleteTexture(pass->u_sampler2D[i].second);
 		}
 		pass->u_sampler2D.clear();
 
 		for(int i = 0; i < pass->u_samplerCube.size(); i++) {
-			Cash::get()->deleteTexture(pass->u_samplerCube[i].second);
+			engine.cash->deleteTexture(pass->u_samplerCube[i].second);
 		}
 		pass->u_samplerCube.clear();
 
@@ -338,7 +338,7 @@ Material::~Material() {
 		pass->u_Vec4.clear();
 		pass->u_Mat4.clear();
 
-		Cash::get()->deleteShader(pass->shader);
+		engine.cash->deleteShader(pass->shader);
 	}
 }
 

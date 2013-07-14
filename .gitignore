@@ -16,3 +16,5 @@
 Bins/ast_log.txt
 *.bsc
 *.exe
+*.suo
+*.ipch

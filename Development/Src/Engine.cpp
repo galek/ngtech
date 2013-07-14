@@ -70,7 +70,7 @@ namespace NGEngine {
 		Debug("[Init]ImageCodec Finished");
 		physSystem = new PhysSystem();
 		Debug("[Init]Physics Finished");
-		cash       = Cash::create();
+		cash       = new Cash();
 		Debug("[Init]FS Finished");
 		//initialize GUI
 		gui=new GUI();
@@ -147,22 +147,22 @@ namespace NGEngine {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Engine::mainLoop() {
-		if(iWindow)	iWindow->update();
+		if(this->iWindow)	this->iWindow->update();
 
-		while(running) {
-			if(iWindow)	iWindow->update();
-			if((physSystem)&&(iWindow)) physSystem->update(iWindow->getDTime());
+		while(this->running) {
+			if(iWindow)	this->iWindow->update();
+			if((this->physSystem)&&(this->iWindow)) this->physSystem->update(this->iWindow->getDTime());
 
-			if(ec) events_callback();
-			if(iRender)	iRender->clear(GLSystem::COLOR_BUFFER | GLSystem::DEPTH_BUFFER | GLSystem::STENCIL_BUFFER);
+			if(this->ec) events_callback();
+			if(this->iRender)	this->iRender->clear(GLSystem::COLOR_BUFFER | GLSystem::DEPTH_BUFFER | GLSystem::STENCIL_BUFFER);
 
-			if(scene) scene->Update();
-			if(rc) render_callback();
-			if(gui) gui->Update();
+			if(this->scene) this->scene->Update();
+			if(this->rc) render_callback();
+			if(this->gui) this->gui->Update();
 			
-			if(iRender)	iRender->flush();
+			if(this->iRender)	this->iRender->flush();
 			
-			if(iWindow)	iWindow->swapBuffers();
+			if(this->iWindow)	this->iWindow->swapBuffers();
 		}
 	}
 

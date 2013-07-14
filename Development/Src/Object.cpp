@@ -29,7 +29,8 @@ namespace NGEngine {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	Object::Object() {
-		engine.scene->addObject(this);
+		if(engine.scene)
+			engine.scene->addObject(this);
 	}
 	//**************************************************************************
 	//ObjectMesh
@@ -41,14 +42,14 @@ namespace NGEngine {
 	//---------------------------------------------------------------------------
 	ObjectMesh::ObjectMesh(const String &path)
 		:Object() {
-			model = Cash::get()->loadModel("data/meshes/" + path);
-			materials.resize(model->getNumSubsets());
-			for(int i = 0; i < materials.size(); i++) {
-				materials[i] = NULL;
+			if(engine.cash){
+				model = engine.cash->loadModel("data/meshes/" + path);
+				materials.resize(model->getNumSubsets());
+				for(int i = 0; i < materials.size(); i++) 
+					materials[i] = nullptr;
 			}
-
 			transform.identity();
-			pBody = NULL;
+			pBody = nullptr;
 			return;
 	}
 
@@ -58,12 +59,12 @@ namespace NGEngine {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	ObjectMesh::~ObjectMesh() {
-		Cash::get()->deleteModel(model);
+		engine.cash->deleteModel(model);
 		for(int i = 0; i < materials.size(); i++) {
-			Cash::get()->deleteMaterial(materials[i]);
+			engine.cash->deleteMaterial(materials[i]);
 		}
 		materials.clear();
-		Cash::get()->deleteSound(impactSound);
+		engine.cash->deleteSound(impactSound);
 		delete pBody;
 	}
 
@@ -91,13 +92,13 @@ namespace NGEngine {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void ObjectMesh::setMaterial(const String &name, const String &path) {
-		Material *material = Cash::get()->loadMaterial(path);
-		if(name == "*")	{
-			for(int s = 0; s < model->getNumSubsets(); s++) {
-				materials[s] = material;
-			}
+		if(engine.cash){
+			Material *material = engine.cash->loadMaterial(path);
+			if(name == "*")	
+				for(int s = 0; s < model->getNumSubsets(); s++) 
+					materials[s] = material;
+			materials[model->getSubset(name)] = material;
 		}
-		materials[model->getSubset(name)] = material;
 	}
 
 	//---------------------------------------------------------------------------
@@ -142,11 +143,10 @@ namespace NGEngine {
 	//Returns: object transformation matrix
 	//---------------------------------------------------------------------------
 	Mat4 ObjectMesh::getTransform() {
-		if(pBody == NULL) {
+		if(pBody == NULL)
 			return transform;
-		} else {
+		else 
 			return pBody->getTransform();
-		}
 	}
 
 	//---------------------------------------------------------------------------
@@ -266,7 +266,7 @@ namespace NGEngine {
 	}
 
 	void ObjectMesh::setImpactSound(const String &path) {
-		impactSound = Cash::get()->loadSound("data/sounds/" + path);
+		impactSound = engine.cash->loadSound("data/sounds/" + path);
 		pBody->setImpactSound(impactSound);
 	}
 
@@ -287,10 +287,8 @@ namespace NGEngine {
 	ObjectSkinnedMesh::ObjectSkinnedMesh(const String &path) {
 		model = new SkinnedModel("data/meshes/" + path);
 		materials.resize(model->getNumSubsets());
-		for(int i = 0; i < materials.size(); i++) {
-			materials[i] = NULL;
-		}
-
+		for(int i = 0; i < materials.size(); i++) 
+			materials[i] = nullptr;
 		transform.identity();
 		return;
 	}
@@ -303,7 +301,7 @@ namespace NGEngine {
 	ObjectSkinnedMesh::~ObjectSkinnedMesh() {
 		delete model;
 		for(int i = 0; i < materials.size(); i++) {
-			Cash::get()->deleteMaterial(materials[i]);
+			engine.cash->deleteMaterial(materials[i]);
 		}
 		materials.clear();
 	}
@@ -332,7 +330,7 @@ namespace NGEngine {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void ObjectSkinnedMesh::setMaterial(const String &name, const String &path) {
-		Material *material = Cash::get()->loadMaterial(path);
+		Material *material = engine.cash->loadMaterial(path);
 		if(name == "*")	{
 			for(int s = 0; s < model->getNumSubsets(); s++) {
 				materials[s] = material;

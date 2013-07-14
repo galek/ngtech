@@ -98,7 +98,7 @@ namespace NGEngine {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::reloadShaders() {
-		Cash::get()->reloadShaders();
+		engine.cash->reloadShaders();
 	}
 
 

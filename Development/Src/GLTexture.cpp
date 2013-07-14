@@ -60,21 +60,20 @@ namespace NGEngine {
 		}
 
 		GLubyte *data[6];
-		for(int i = 0; i < 6; i++) {
+		for(int i = 0; i < 6; i++) 
 			data[i] = image[i]->getData();
-		}
 
 		Format format;
-		if(image[0]->getFormat() == ILImage::RGB) {
+		if(image[0]->getFormat() == ILImage::RGB) 
 			format = RGB;
-		} else if(image[0]->getFormat() == ILImage::RGBA) {
+		 else if(image[0]->getFormat() == ILImage::RGBA) 
 			format = RGBA;
-		}
 
 		GLTexture *texture = GLTexture::create(image[0]->getWidth(), image[0]->getHeight(), image[0]->getDepth(), 
 			TEXTURE_CUBE, format, (void**)data);
-
-		delete [] image;
+	
+		if(image)
+			delete [] image;
 
 		return texture;
 	}

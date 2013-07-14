@@ -15,17 +15,7 @@
 
 namespace NGEngine {
 
-	Cash *cash;
-
-	Cash *Cash::create() {
-		if(cash) return cash;
-		cash = new Cash();
-		return cash;
-	}
-
-	Cash *Cash::get() {
-		return cash;
-	}
+	Cash::Cash() {}
 
 	Material *Cash::loadMaterial(const String &path) {
 		std::map<String, std::pair<Material*, int>>::iterator it = materials.find(path);

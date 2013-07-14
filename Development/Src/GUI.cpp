@@ -8,11 +8,11 @@
 #include "EnginePrivate.h"
 
 //**************************************
-#include "Includes\MyGUI_3.2.0\Platforms\OpenGL\OpenGLPlatform\include\MyGUI_OpenGLPlatform.h"
-#include "Includes\MyGUI_3.2.0\MyGUIEngine\include\MyGUI_Gui.h"
-#include "Includes\MyGUI_3.2.0\MyGUIEngine\include\MyGUI_TextBox.h"
-#include "Includes\MyGUI_3.2.0\MyGUIEngine\include\MyGUI_Button.h"
-#include "Includes\MyGUI_3.2.0\MyGUIEngine\include\MyGUI_PointerManager.h"
+#include "Includes\MyGUI\Platforms\OpenGL\OpenGLPlatform\include\MyGUI_OpenGLPlatform.h"
+#include "Includes\MyGUI\MyGUIEngine\include\MyGUI_Gui.h"
+#include "Includes\MyGUI\MyGUIEngine\include\MyGUI_TextBox.h"
+#include "Includes\MyGUI\MyGUIEngine\include\MyGUI_Button.h"
+#include "Includes\MyGUI\MyGUIEngine\include\MyGUI_PointerManager.h"
 #include "GUI.h"
 #include "ILSystem.h"
 #include "WindowSystem.h"

@@ -121,7 +121,9 @@
     <ClCompile Include="..\Src\EnginePrivate.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\WindowSystem.cpp" />
+    <ClCompile Include="..\Src\WindowSystem.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\ALSound.h">
@@ -253,7 +255,9 @@
     <ClInclude Include="..\Src\EnginePrivate.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\WindowSystem.h" />
+    <ClInclude Include="..\Src\WindowSystem.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Заголовочные файлы">

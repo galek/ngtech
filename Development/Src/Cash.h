@@ -21,9 +21,8 @@ namespace NGEngine {
 
 class Cash {
 public:
-	static Cash *create();
-	static Cash *get();
-
+	Cash();
+	
 	Material *loadMaterial(const String &path);
 	Model *loadModel(const String &path);
 	ALSound *loadSound(const String &path);
