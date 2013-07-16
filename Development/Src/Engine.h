@@ -30,39 +30,32 @@
 #include "Font.h"
 #include "GUI.h"
 #include "CoreManager.h"
+#include "tbb/blocked_range.h"
 //***************************************************
 
 namespace NGEngine {
-//Nick:Port	class ThreadPool;
+	struct IGame;
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main class. Created one time
 	//---------------------------------------------------------------------------
 	class Engine:public CoreManager {
 	public:
 		Engine();
-		static Engine *get();
 
 		~Engine();
-/*
-		typedef void (*EngineCallback)();*/
 
-		void renderCallback(EngineCallback callback);
-		void eventsCallback(EngineCallback callback);
 
 		void mainLoop();
 
 		void quit();
 		void initialise();
+		void SetGame(IGame*_game);
 	private:
-		void PreInit();
+		void _PreInit();
 	private:
-		/*EngineCallback render_callback;
-		EngineCallback events_callback;
-		bool rc, ec;*/
 
 	public:
 		CVARManager*cvars;
-//Nick:Port		ThreadPool* tp;
 		Log* log;
 		Config *config;
 		ALSystem *alSystem;
@@ -72,9 +65,7 @@ namespace NGEngine {
 		Cash *cash;
 		GUI*gui;
 		Scene*scene;
-
-/*
-		bool running;*/
+		IGame*game;
 	};
 	extern Engine engine;
 };

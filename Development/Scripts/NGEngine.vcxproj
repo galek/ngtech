@@ -76,7 +76,7 @@
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\Src\Common;..\Src\Core;..\Src\Includes\freetype\include\;..\Src\Includes\freetype\include\freetype;..\Src\Includes\MyGUI\Common;..\Src\Includes\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\Src\Includes\MyGUI\MyGUIEngine\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Src\Common;..\Src\Core;..\Src\Includes\freetype\include\;..\Src\Includes\freetype\include\freetype;..\Src\Includes\MyGUI\Common;..\Src\Includes\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\Src\Includes\MyGUI\MyGUIEngine\include;..\Src\Includes\tbb\include\</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -93,6 +93,7 @@
       <TargetMachine>MachineX86</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <AdditionalLibraryDirectories>..\Src\Libs</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

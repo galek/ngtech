@@ -71,10 +71,10 @@ private:
 		std::vector<std::pair<String, SceneParam>> u_scene_params;
 
 		bool hasBlending;
-		GLSystem::BlendParam src, dst;
+		IRender::BlendParam src, dst;
 
 		bool hasAlphaTest;
-		GLSystem::CompareType alphaFunc;
+		IRender::CompareType alphaFunc;
 		float alphaRef;
 
 		bool depthMask;

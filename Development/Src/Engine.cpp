@@ -8,28 +8,22 @@
 #include "EnginePrivate.h"
 //***************************************************
 #include "Engine.h"
-#include "Common\threadpool.h"
 #include "CVARManager.h"
 //***************************************************
+#include "IGame.h"
 
 namespace NGEngine {
 	using namespace Common;
 	Engine engine;
 #define ENGINE_VERSION_NUMBER 0.2.81
 #define ENGINE_VERSION_STRING "0.2.81"
-	
-	void f3(){
-		LogPrintf("Thread");
-		engine.initialise();
-	}
 	//---------------------------------------------------------------------------
 	//Desc:    creates new NGEngine
 	//Params:  -
 	//Returns: pointer to new NGEngine
 	//---------------------------------------------------------------------------
 	Engine::Engine():
-		cvars(nullptr),
-//Nick:port		tp(nullptr),
+	cvars(nullptr),
 		log(nullptr),
 		config(nullptr),
 		alSystem(nullptr),
@@ -39,15 +33,9 @@ namespace NGEngine {
 		gui(nullptr),
 		scene(nullptr)
 	{
-//Nick:port			tp=new ThreadPool(2);
 		log=new Log();
 		Log::write("NG Engine "ENGINE_VERSION_STRING"\n");
-		PreInit();
-
-		//Killme
-		//pool.enqueue<Engine>(&f);
-		//tp->enqueue<GLSystem>(&f2);
-		//tp->enqueue<void>(&f3);
+		_PreInit();
 	}
 
 	//---------------------------------------------------------------------------
@@ -55,7 +43,7 @@ namespace NGEngine {
 	//Params:  -
 	//Returns: -
 	//---------------------------------------------------------------------------
-	void Engine::PreInit()
+	void Engine::_PreInit()
 	{
 		config = new Config("ast_conf.txt");
 		cvars=new CVARManager(config);
@@ -79,6 +67,11 @@ namespace NGEngine {
 		scene=new Scene();
 		Debug("[Init]SceneManager Finished");
 	}
+
+	void Engine::SetGame(IGame*_game){
+	game=_game;
+	}
+
 	//---------------------------------------------------------------------------
 	//Desc:    Init engine sub-systems
 	//Params:  -
@@ -108,6 +101,10 @@ namespace NGEngine {
 		if(scene)
 			scene->initialise();
 		Debug("[Init]SceneManager Finished");
+		//initialize Game
+		if(game)
+			game->initialise();
+		Debug("[Init]Game Finished");
 
 		running = true;
 		Debug("[Init]Checking Render Extensions");
@@ -120,7 +117,7 @@ namespace NGEngine {
 		iRender->requireExtension("GL_EXT_framebuffer_object");
 		iRender->requireExtension("GL_ARB_occlusion_query");
 		iRender->requireExtension("GL_EXT_texture_filter_anisotropic");
-		
+
 		Debug("[Init]All Systems Initialised");
 	}
 
@@ -140,7 +137,6 @@ namespace NGEngine {
 
 		delete iWindow;
 	}
-
 	//---------------------------------------------------------------------------
 	//Desc:    engines main loop
 	//Params:  -
@@ -148,43 +144,40 @@ namespace NGEngine {
 	//---------------------------------------------------------------------------
 	void Engine::mainLoop() {
 		if(this->iWindow)	this->iWindow->update();
+			while(this->running)
+		{
+			if(iWindow)
+				this->iWindow->update();
 
-		while(this->running) {
-			if(iWindow)	this->iWindow->update();
-			if((this->physSystem)&&(this->iWindow)) this->physSystem->update(this->iWindow->getDTime());
+			if((this->physSystem)&&(this->iWindow)) 
+				this->physSystem->update(this->iWindow->getDTime());
 
-			if(this->ec) events_callback();
-			if(this->iRender)	this->iRender->clear(GLSystem::COLOR_BUFFER | GLSystem::DEPTH_BUFFER | GLSystem::STENCIL_BUFFER);
+			if(game) 
+				game->RunEventsCallback();
 
-			if(this->scene) this->scene->Update();
-			if(this->rc) render_callback();
-			if(this->gui) this->gui->Update();
+			if(this->iRender)	
+				this->iRender->clear(GLSystem::COLOR_BUFFER | GLSystem::DEPTH_BUFFER | GLSystem::STENCIL_BUFFER);
+
+			if(this->scene)
+				this->scene->Update();
+
+			if(game->rc) 
+				game->RunRenderCallback();
+
+			if(this->gui) 
+				this->gui->Update();
+
+			if(this->iRender)	
+				this->iRender->flush();
+
+			if(this->iWindow)	
+				this->iWindow->swapBuffers();
 			
-			if(this->iRender)	this->iRender->flush();
-			
-			if(this->iWindow)	this->iWindow->swapBuffers();
+			if(this->game)
+				this->game->Update();
 		}
 	}
-
-	//---------------------------------------------------------------------------
-	//Desc:    sets render callback
-	//Params:  callback - pointer to render function
-	//Returns: -
-	//---------------------------------------------------------------------------
-	void Engine::renderCallback(EngineCallback callback) {
-		render_callback = callback;
-		rc = true;
-	}
-
-	//---------------------------------------------------------------------------
-	//Desc:    sets events callback
-	//Params:  callback - pointer to events function
-	//Returns: -
-	//---------------------------------------------------------------------------
-	void Engine::eventsCallback(EngineCallback callback) {
-		events_callback = callback;
-		ec = true;
-	}
+	
 
 	//---------------------------------------------------------------------------
 	//Desc:    exits the main loop

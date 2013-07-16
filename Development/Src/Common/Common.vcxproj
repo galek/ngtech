@@ -69,6 +69,7 @@
     <ClInclude Include="Delegate.h" />
     <ClInclude Include="EString.h" />
     <ClInclude Include="IDataManager.h" />
+    <ClInclude Include="IGame.h" />
     <ClInclude Include="IRender.h" />
     <ClInclude Include="IWindow.h" />
     <ClInclude Include="Singleton.h" />
@@ -77,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EString.cpp" />
+    <ClCompile Include="iGame.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

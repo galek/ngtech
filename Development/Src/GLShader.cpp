@@ -46,6 +46,7 @@ namespace NGEngine {
 				while(!feof(shdFile)) {
 					line = FileHelper::readString(shdFile);
 					if(line == "[GLSL_FRAGMENT_SHADER]") break;
+					else if(line == "[GLSL_COMPUTE_SHADER]") break;
 					vsCode = vsCode + line + "\n";
 				}
 
@@ -76,6 +77,7 @@ namespace NGEngine {
 				while(!feof(shdFile)) {
 					line = FileHelper::readString(shdFile);
 					if(line == "[GLSL_VERTEX_SHADER]") break;
+					else if(line == "[GLSL_COMPUTE_SHADER]") break;
 					fsCode = fsCode + line + "\n";
 				}
 
