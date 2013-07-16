@@ -45,7 +45,6 @@ namespace NGEngine
 
 	/*internal:*/
 		void addResourceLocation(const std::string& _name, bool _recursive);
-
 	private:
 		struct ArhivInfo
 		{

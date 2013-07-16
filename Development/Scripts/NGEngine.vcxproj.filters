@@ -150,9 +150,6 @@
     <ClInclude Include="..\Src\Error.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\File.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="..\Src\Flare.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -193,9 +190,6 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\ILSystem.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Src\IncludesAndLibs.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\Light.h">
@@ -256,6 +250,9 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\WindowSystem.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Core\BuildDefines.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

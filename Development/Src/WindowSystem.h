@@ -34,30 +34,14 @@ public:
 
 	virtual void update();
 
-	/*int getWidth() { return width; };
-	int getHeight() { return height; };
-		
-	int getDTime() { return dTime; };
-	int getETime() { return eTime; };
-	*/
 	virtual int getTime();
 
-	/*bool isMouseMoved() { return mousing; };
-	int getMouseX() { return mouseX; };
-	int getMouseY() { return mouseY; };
-	int getMouseDX() { return mouseX - oldMouseX; };
-	int getMouseDY() { return mouseY - oldMouseY; };
-	*/
 	virtual void setMousePos(int x, int y);
 	
 	virtual void showCursor(bool show);
-	/*void toggleShowCursor() { showCursor(!cursorVisible); };
-	bool isCursorVisible() { return cursorVisible; };
-	*/
+	
 	virtual void grabMouse(bool grab);
-	/*void toggleGrabMouse() { grabMouse(!mouseGrabed); };
-	bool isMouseGrabed() { return mouseGrabed; };
-*/
+
 	virtual bool isMouseButtonPressed(MouseButton mb);
 	virtual bool wasMouseButtonPressed(MouseButton mb);
 	virtual bool wasMouseButtonReleased(MouseButton mb);

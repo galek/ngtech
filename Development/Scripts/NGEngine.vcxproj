@@ -40,8 +40,8 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(ProjectName)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\Bins\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionPath)\..\..\..\Bins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -86,7 +86,7 @@
       <PrecompiledHeaderFile>EnginePrivate.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <OutputFile>..\..\Bins\$(ProjectName).exe</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -147,6 +147,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Src\Core\BuildDefines.h" />
     <ClInclude Include="..\Src\Core\VFS.h" />
     <ClInclude Include="..\Src\Engine.h" />
     <ClInclude Include="..\Src\ALSound.h" />
@@ -156,7 +157,6 @@
     <ClInclude Include="..\Src\Config.h" />
     <ClInclude Include="..\Src\EnginePrivate.h" />
     <ClInclude Include="..\Src\Error.h" />
-    <ClInclude Include="..\Src\File.h" />
     <ClInclude Include="..\Src\GLDisplayList.h" />
     <ClInclude Include="..\Src\GLExtensions.h" />
     <ClInclude Include="..\Src\GLFBO.h" />
@@ -167,7 +167,6 @@
     <ClInclude Include="..\Src\GLVBO.h" />
     <ClInclude Include="..\Src\ILImage.h" />
     <ClInclude Include="..\Src\ILSystem.h" />
-    <ClInclude Include="..\Src\IncludesAndLibs.h" />
     <ClInclude Include="..\Src\Log.h" />
     <ClInclude Include="..\Src\MathLib.h" />
     <ClInclude Include="..\Src\PhysBody.h" />

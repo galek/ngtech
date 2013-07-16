@@ -68,7 +68,6 @@ private:
 	static GLTexture *create(int width, int height, int depth, Target target, Format format, void **data);
 	
 	GLuint glID;
-	int width, height, depth;
 
 	GLuint target;
 	

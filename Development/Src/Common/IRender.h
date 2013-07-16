@@ -50,6 +50,7 @@ namespace NGEngine {
 		ANISO_X8 = 8,
 		ANISO_X16 = 16,
 	};
+	int width, height, depth;
 	};
 
 	struct IRender{
@@ -109,7 +110,7 @@ namespace NGEngine {
 			STENCIL_BUFFER = 0x00000400,
 		};
 		
-		virtual void  requireExtension(const std::string &name)=0;
+		virtual void  requireExtension(const std::string &name,bool _fatal=false)=0;
 		virtual void  initialise()=0;
 		
 		

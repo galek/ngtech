@@ -78,7 +78,7 @@ namespace NGEngine
 
 		return result;
 	}
-	//TODO:Rewrite
+	//Nick:TODO:Rewrite
 
 	const std::string& FileSystem::getDataPath(const std::string& _name)
 	{
@@ -99,7 +99,7 @@ namespace NGEngine
 		path = result.size() == 1 ? result[0] : "";
 		return path;
 	}
-	//TODO:Rewrite
+	//Nick:TODO:Rewrite
 	void FileSystem::addResourceLocation(const std::string& _name, bool _recursive)
 	{
 		ArhivInfo info;
@@ -107,5 +107,4 @@ namespace NGEngine
 		info.recursive = _recursive;
 		mPaths.push_back(info);
 	}
-
 } // namespace MyGUI

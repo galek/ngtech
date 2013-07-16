@@ -19,9 +19,9 @@ struct EngineAppBase{
 		engine.SetGame(_game);
 		engine.initialise();
 		if(rc)
-		engine.game->SetRenderCallback(rc);
+			engine.game->SetRenderCallback(rc);
 		if(ev)
-		engine.game->SetEventsCallback(ev);
+			engine.game->SetEventsCallback(ev);
 		Update();
 	}
 	/**
@@ -29,13 +29,22 @@ struct EngineAppBase{
 	void Update(){
 		engine.mainLoop();
 	}
-
+#ifdef _ENGINE_MT
 	void operator() (const tbb::blocked_range<bool>& range) const
 	{			Debug("[threads]Called");		}
+#endif
 };
+
+
+
+
 //Это оставь в хедере
 void EngineStart(IGame*_game,EngineCallback rc=nullptr,EngineCallback ev=nullptr){
-tbb::parallel_for(tbb::blocked_range<bool>(1, 0), EngineAppBase(_game,rc,ev));
+#ifdef _ENGINE_MT
+	tbb::parallel_for(tbb::blocked_range<bool>(1, 0), EngineAppBase(_game,rc,ev));
+#else
+	EngineAppBase(_game,rc,ev);
+#endif
 }
 
 //-------------------------------------------------------------

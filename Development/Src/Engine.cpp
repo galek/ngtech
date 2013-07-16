@@ -11,6 +11,7 @@
 #include "CVARManager.h"
 //***************************************************
 #include "IGame.h"
+#include "VFS.h"
 
 namespace NGEngine {
 	using namespace Common;
@@ -26,6 +27,7 @@ namespace NGEngine {
 	cvars(nullptr),
 		log(nullptr),
 		config(nullptr),
+		vfs(nullptr),
 		alSystem(nullptr),
 		ilSystem(nullptr),
 		physSystem(nullptr),
@@ -50,6 +52,8 @@ namespace NGEngine {
 
 		iWindow  = new WindowSystem(cvars);
 		Debug("[Init]Window Finished");
+		vfs=new FileSystem();
+		Debug("[Init]FileSystem Finished");
 		iRender   = new GLSystem();
 		Debug("[Init]Render Finished");
 		alSystem   = new ALSystem();
@@ -67,9 +71,13 @@ namespace NGEngine {
 		scene=new Scene();
 		Debug("[Init]SceneManager Finished");
 	}
-
+	//---------------------------------------------------------------------------
+	//Desc:    Set Gane for using in sub-systems
+	//Params:  -
+	//Returns: -
+	//---------------------------------------------------------------------------
 	void Engine::SetGame(IGame*_game){
-	game=_game;
+		game=_game;
 	}
 
 	//---------------------------------------------------------------------------
@@ -82,6 +90,8 @@ namespace NGEngine {
 		if(iWindow)
 			iWindow->initialise();
 		Debug("[Init]Window Finished");
+		_SetResources();
+		Debug("[Init]FileSystem Finished");
 		if(iRender)
 			iRender->initialise();
 		Debug("[Init]Render Finished");
@@ -109,14 +119,31 @@ namespace NGEngine {
 		running = true;
 		Debug("[Init]Checking Render Extensions");
 
-		iRender->requireExtension("GL_ARB_vertex_shader");
-		iRender->requireExtension("GL_ARB_fragment_shader");
-		iRender->requireExtension("GL_ARB_shader_objects");
-		iRender->requireExtension("GL_ARB_shading_language_100");
-		iRender->requireExtension("GL_ARB_vertex_buffer_object");
-		iRender->requireExtension("GL_EXT_framebuffer_object");
-		iRender->requireExtension("GL_ARB_occlusion_query");
-		iRender->requireExtension("GL_EXT_texture_filter_anisotropic");
+		iRender->requireExtension("GL_ARB_vertex_shader",true);
+		iRender->requireExtension("GL_ARB_fragment_shader",true);
+		iRender->requireExtension("GL_ARB_shader_objects",true);
+		iRender->requireExtension("GL_ARB_shading_language_100",true);
+		iRender->requireExtension("GL_ARB_vertex_buffer_object",true);
+		iRender->requireExtension("GL_EXT_framebuffer_object",true);
+		iRender->requireExtension("GL_ARB_occlusion_query",true);
+		iRender->requireExtension("GL_EXT_texture_filter_anisotropic",true);
+
+		//OpenGL3 and 4
+		iRender->requireExtension("GL_ARB_occlusion_query2");
+		iRender->requireExtension("GL_ARB_compatibility");
+		iRender->requireExtension("GL_ARB_shading_language_include");
+
+		iRender->requireExtension("GL_ARB_tessellation_shader");
+		iRender->requireExtension("GL_ARB_ES2_compatibility");
+		iRender->requireExtension("GL_ARB_shader_subroutine");		
+		iRender->requireExtension("GL_ARB_geometry_shader4");
+		iRender->requireExtension("GL_ARB_shading_language_400");
+		
+		//4.X		
+		iRender->requireExtension("GL_ARB_shading_language_packing");
+		iRender->requireExtension("GL_ARB_compute_shader");
+		iRender->requireExtension("GL_ARB_shading_language_420pack");
+		iRender->requireExtension("GL_ARB_ES3_compatibility");
 
 		Debug("[Init]All Systems Initialised");
 	}
@@ -144,7 +171,7 @@ namespace NGEngine {
 	//---------------------------------------------------------------------------
 	void Engine::mainLoop() {
 		if(this->iWindow)	this->iWindow->update();
-			while(this->running)
+		while(this->running)
 		{
 			if(iWindow)
 				this->iWindow->update();
@@ -172,12 +199,12 @@ namespace NGEngine {
 
 			if(this->iWindow)	
 				this->iWindow->swapBuffers();
-			
+
 			if(this->game)
 				this->game->Update();
 		}
 	}
-	
+
 
 	//---------------------------------------------------------------------------
 	//Desc:    exits the main loop
@@ -187,5 +214,15 @@ namespace NGEngine {
 	void Engine::quit() {
 		running = false;
 	}
-
+	
+	void Engine::_SetResources() {
+		vfs->addResourceLocation("data",true);
+		//vfs->addResourceLocation("data//textures//",true);
+		//vfs->addResourceLocation("data//sounds//",true);
+		//vfs->addResourceLocation("data//shaders//",true);
+		//vfs->addResourceLocation("data//meshes//",true);
+		//vfs->addResourceLocation("data//materials//",true);
+		//vfs->addResourceLocation("data/gui/",true);
+	}
+	
 }

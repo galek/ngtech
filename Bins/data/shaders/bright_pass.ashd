@@ -15,11 +15,6 @@ uniform sampler2D u_viewport_map;
 void main() {
 	vec4 base = texture2D(u_viewport_map, v_tex_coord);
 	
-	//float br = (base.x + base.y + base.z) / 3.0;
-	//br = clamp(br - 0.6, 0.0, 0.6) * 1.6;
-			
-	//gl_FragColor = vec4(br, br, br, 1);
-	
 	vec3 color;
 	color.x = clamp(base.x - 0.6, 0.0, 0.6) * 1.6;
 	color.y = clamp(base.y - 0.6, 0.0, 0.6) * 1.6;

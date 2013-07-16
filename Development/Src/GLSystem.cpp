@@ -124,10 +124,11 @@ namespace NGEngine {
 	//Params:  name - extension name
 	//Returns: -
 	//---------------------------------------------------------------------------
-	void GLSystem::requireExtension(const String &name) {
-		if(!GLExtensions::isExtSupported(name)) {
+	void GLSystem::requireExtension(const String &name,bool _fatal) {
+		if((!GLExtensions::isExtSupported(name))&&_fatal) 
 			Error::showAndExit("GLSystem::requireExtension() error: your video card does not support " + name);
-		}
+		else
+			Warning("GLSystem::requireExtension() error: your video card does not support " + name);
 	}
 
 

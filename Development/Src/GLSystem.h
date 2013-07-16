@@ -28,62 +28,6 @@ namespace NGEngine {
 	//Desc: Engine`s main video system. Created one time
 	//---------------------------------------------------------------------------
 	class GLSystem:public IRender {
-	//public:
-	//	//---------------------------------------------------------------------------
-	//	//Desc: Blending type enum
-	//	//---------------------------------------------------------------------------
-	//	enum BlendParam {
-	//		ONE  = GL_ONE,
-	//		ZERO = GL_ZERO,
-	//		SRC_COLOR = GL_SRC_COLOR,
-	//		DST_COLOR = GL_DST_COLOR,
-	//		SRC_ALPHA = GL_SRC_ALPHA,
-	//		DST_ALPHA = GL_DST_ALPHA,
-	//		ONE_MINUS_SRC_COLOR = GL_ONE_MINUS_SRC_COLOR,
-	//		ONE_MINUS_DST_COLOR = GL_ONE_MINUS_DST_COLOR,
-	//		ONE_MINUS_SRC_ALPHA = GL_ONE_MINUS_SRC_ALPHA,
-	//		ONE_MINUS_DST_ALPHA = GL_ONE_MINUS_DST_ALPHA,
-	//	};
-
-	//	//---------------------------------------------------------------------------
-	//	//Desc: Depth function enum
-	//	//---------------------------------------------------------------------------
-	//	enum CompareType {
-	//		NEVER    = GL_NEVER,
-	//		LESS     = GL_LESS,
-	//		EQUAL    = GL_EQUAL,
-	//		LEQUAL   = GL_LEQUAL,
-	//		GREATER  = GL_GREATER,
-	//		NOTEQUAL = GL_NOTEQUAL,
-	//		GEQUAL   = GL_GEQUAL,
-	//		ALWAYS   = GL_ALWAYS,
-	//	};
-
-	//	//---------------------------------------------------------------------------
-	//	//Desc: Cull type enum
-	//	//---------------------------------------------------------------------------
-	//	enum CullType {
-	//		CCW = GL_CCW,
-	//		CW  = GL_CW,
-	//	};
-
-	//	//---------------------------------------------------------------------------
-	//	//Desc: Cull face
-	//	//---------------------------------------------------------------------------
-	//	enum CullFace {
-	//		FRONT_FACE = GL_FRONT,
-	//		BACK_FACE = GL_BACK,
-	//	};
-
-	//	//---------------------------------------------------------------------------
-	//	//Desc: Buffers enum
-	//	//---------------------------------------------------------------------------
-	//	enum Buffer {
-	//		COLOR_BUFFER = GL_COLOR_BUFFER_BIT,
-	//		DEPTH_BUFFER = GL_DEPTH_BUFFER_BIT,
-	//		STENCIL_BUFFER = GL_STENCIL_BUFFER_BIT,
-	//	};
-
 	public:
 		GLSystem();
 		~GLSystem();
@@ -93,97 +37,97 @@ namespace NGEngine {
 		String getVersion(); 
 		String getExtensions(); 
 
-		int getNumTexUnits();
-		int getMaxAniso();
+		virtual int getNumTexUnits();
+		virtual int getMaxAniso();
 
 
-		void requireExtension(const String &name);
-		void initialise();
+		virtual void requireExtension(const String &name,bool _fatal=false);
+		virtual void initialise();
 
-		void reshape(int width, int height);
-		void getViewport(int *viewport);
-		void clearColor(const Vec3 &color);
-		void colorMask(bool r, bool g, bool b, bool a);
-		void clear(GLbitfield buffers);
-		void flush();
-		void viewport(int x, int y);
+		virtual void reshape(int width, int height);
+		virtual void getViewport(int *viewport);
+		virtual void clearColor(const Vec3 &color);
+		virtual void colorMask(bool r, bool g, bool b, bool a);
+		virtual void clear(GLbitfield buffers);
+		virtual void flush();
+		virtual void viewport(int x, int y);
 
 		//----------Using-textures----
-		void setColor(const Vec3 &color);
-		void setColor(const Vec4 &color);
+		virtual void setColor(const Vec3 &color);
+		virtual void setColor(const Vec4 &color);
 
 		//----------2D/3D-mode----
-		void enable2d(bool normalized);
-		void enable3d();
-		void drawRect(float x0, float y0, float x3, float y3, float tx0, float ty0, float tx3, float ty3);
+		virtual void enable2d(bool normalized);
+		virtual void enable3d();
+		virtual void drawRect(float x0, float y0, float x3, float y3, float tx0, float ty0, float tx3, float ty3);
 
 		//---Blending-------------------------------
-		void blendFunc(BlendParam src, BlendParam dst);
-		void enableBlending();
-		void enableBlending(BlendParam src, BlendParam dst);
-		void disableBlending();
+		virtual void blendFunc(BlendParam src, BlendParam dst);
+		virtual void enableBlending();
+		virtual void enableBlending(BlendParam src, BlendParam dst);
+		virtual void disableBlending();
 
 		//---Alpha-test-----------------------------
-		void alphaTestFunc(CompareType type, float alphaRef);
-		void enableAlphaTest();
-		void enableAlphaTest(CompareType type, float alphaRef);
-		void disableAlphaTest();
+		virtual void alphaTestFunc(CompareType type, float alphaRef);
+		virtual void enableAlphaTest();
+		virtual void enableAlphaTest(CompareType type, float alphaRef);
+		virtual void disableAlphaTest();
 
 		//---Z-Buffer-------------------------------
-		void depthFunc(CompareType type);
-		void enableDepth(CompareType type);
-		void enableDepth();
-		void disableDepth();
-		void depthMask(bool mask);
+		virtual void depthFunc(CompareType type);
+		virtual void enableDepth(CompareType type);
+		virtual void enableDepth();
+		virtual void disableDepth();
+		virtual void depthMask(bool mask);
 
 		//---Scissor-test-------------------------------
-		void scissorRect(int x, int y, int z, int w);
-		void enableScissor(int x, int y, int z, int w);
-		void enableScissor();
-		void disableScissor();
+		virtual void scissorRect(int x, int y, int z, int w);
+		virtual void enableScissor(int x, int y, int z, int w);
+		virtual void enableScissor();
+		virtual void disableScissor();
 
 		//---Z-Buffer-------------------------------
-		void polygonOffsetFill(float a, float b);
-		void enablePolygonOffsetFill(float a, float b);
-		void enablePolygonOffsetFill();
-		void disablePolygonOffsetFill();
+		virtual void polygonOffsetFill(float a, float b);
+		virtual void enablePolygonOffsetFill(float a, float b);
+		virtual void enablePolygonOffsetFill();
+		virtual void disablePolygonOffsetFill();
 
 		//---Culling-------------------------------
-		void cullFunc(CullType type);
-		void cullFace(CullFace face);
-		void enableCulling(CullType type);
-		void enableCulling(CullFace face);
-		void enableCulling();
-		void disableCulling();
+		virtual void cullFunc(CullType type);
+		virtual void cullFace(CullFace face);
+		virtual void enableCulling(CullType type);
+		virtual void enableCulling(CullFace face);
+		virtual void enableCulling();
+		virtual void disableCulling();
 
 		//---Clip-plains--------------------------
-		void clipPlane(const Vec4 &plain, int plainNum);
-		void enableClipPlane(int plainNum);
-		void enableClipPlane(const Vec4 &plain, int plainNum);
-		void disableClipPlane(int plainNum);
+		virtual void clipPlane(const Vec4 &plain, int plainNum);
+		virtual void enableClipPlane(int plainNum);
+		virtual void enableClipPlane(const Vec4 &plain, int plainNum);
+		virtual void disableClipPlane(int plainNum);
 
 		//---Matrix-works-------------------------
-		void setMatrixMode_Projection();
-		void setMatrixMode_Modelview();
+		virtual void setMatrixMode_Projection();
+		virtual void setMatrixMode_Modelview();
 
-		void pop();
-		void push();
-		void identity();
+		virtual void pop();
+		virtual void push();
+		virtual void identity();
 
-		Mat4 getMatrix_MVP();
-		Mat4 getMatrix_Projection();
-		Mat4 getMatrix_Modelview();
+		virtual Mat4 getMatrix_MVP();
+		virtual Mat4 getMatrix_Projection();
+		virtual Mat4 getMatrix_Modelview();
 
-		void multMatrix(const Mat4 &matrix);
-		void loadMatrix(const Mat4 &matrix);
+		virtual void multMatrix(const Mat4 &matrix);
+		virtual void loadMatrix(const Mat4 &matrix);
 
-		void translate(const Vec3 &pos);
-		void rotate(float angle, const Vec3 &axis);
-		void scale(const Vec3 &coef);
+		virtual void translate(const Vec3 &pos);
+		virtual void rotate(float angle, const Vec3 &axis);
+		virtual void scale(const Vec3 &coef);
 
 		//---Draw-Geom-Stream---------------------
-		void drawIndexedGeometry(void *indices, int indexCount);
-		void drawGeometry(int vertexCount);
+		virtual void drawIndexedGeometry(void *indices, int indexCount);
+		virtual void drawGeometry(int vertexCount);
 
 	private:
 		friend class GLTexture;

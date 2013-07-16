@@ -17,19 +17,19 @@
 #include "Cash.h"
 #include "Log.h"
 #include "Config.h"
-
 #include "LoadingScreen.h"
-
 #include "Scene.h"
 #include "Object.h"
 #include "Terrain.h"
 #include "Light.h"
 #include "ParticleSystem.h"
 #include "Camera.h"
-
 #include "Font.h"
 #include "GUI.h"
+#include "VFS.h"
+//***************************************************
 #include "CoreManager.h"
+//***************************************************
 #include "tbb/blocked_range.h"
 //***************************************************
 
@@ -52,12 +52,12 @@ namespace NGEngine {
 		void SetGame(IGame*_game);
 	private:
 		void _PreInit();
-	private:
-
+		void _SetResources();	
 	public:
 		CVARManager*cvars;
 		Log* log;
 		Config *config;
+		class FileSystem*vfs;
 		ALSystem *alSystem;
 		ILSystem *ilSystem;
 		PhysSystem *physSystem;
