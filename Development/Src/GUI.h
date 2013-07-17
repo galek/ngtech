@@ -39,7 +39,6 @@ public:
 private:
 	class MyGUI::OpenGLPlatform* mPlatform;
 	class MyGUI::Gui*mGUI;
-	unsigned long gdiplusToken;
 };
 
 };

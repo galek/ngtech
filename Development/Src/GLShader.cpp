@@ -28,12 +28,12 @@ namespace NGEngine {
 		shader->fs = NULL;
 		shader->program = NULL;
 
-		if(!FileHelper::fileExist(path)) {
+		if(!engine.vfs->isDataExist(path)) {
 			Error::showAndExit("GLShader::create() error: shader file '" + path + "' was not found");
 			return NULL;
 		}
-
-		FILE *shdFile = fopen(path.c_str(), "rt");
+		
+		FILE *shdFile = fopen(engine.vfs->getDataPath(path).c_str(), "rt");
 		String line, vsCode, fsCode;
 
 		while(!feof(shdFile)) {

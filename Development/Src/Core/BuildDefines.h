@@ -6,8 +6,8 @@
 #define _ENGINE_DEBUG_ 1
 #endif
 
-#ifndef _ENGINE_MT
-#define _ENGINE_MT 1
+#ifndef _ENGINE_MT_
+#define _ENGINE_MT_ 1
 #endif
 
 

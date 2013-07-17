@@ -11,7 +11,7 @@ namespace NGEngine {
 		:iWindow(nullptr),
 		iRender(nullptr),
 		running(false)	{
-#ifdef _ENGINE_MT
+#ifdef _ENGINE_MT_
 			task_scheduler_init mThreads();
 #endif
 	}

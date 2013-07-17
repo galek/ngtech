@@ -63,7 +63,7 @@ namespace NGEngine {
 		physSystem = new PhysSystem();
 		Debug("[Init]Physics Finished");
 		cash       = new Cash();
-		Debug("[Init]FS Finished");
+		Debug("[Init]Cash Finished");
 		//initialize GUI
 		gui=new GUI();
 		Debug("[Init]GUI Finished");
@@ -99,7 +99,7 @@ namespace NGEngine {
 		Debug("[Init]Audio Finished");
 		//ilSystem->initialise();
 		Debug("[Init]ImageCodec Finished");
-		//physSystem->initialise();
+		physSystem->initialise();
 		Debug("[Init]Physics Finished");
 		//cash->initialise();
 		Debug("[Init]FS Finished");
@@ -129,17 +129,20 @@ namespace NGEngine {
 		iRender->requireExtension("GL_EXT_texture_filter_anisotropic",true);
 
 		//OpenGL3 and 4
+		iRender->requireExtension("GL_ARB_tessellation_shader");
 		iRender->requireExtension("GL_ARB_occlusion_query2");
 		iRender->requireExtension("GL_ARB_compatibility");
-		iRender->requireExtension("GL_ARB_shading_language_include");
-
-		iRender->requireExtension("GL_ARB_tessellation_shader");
-		iRender->requireExtension("GL_ARB_ES2_compatibility");
-		iRender->requireExtension("GL_ARB_shader_subroutine");		
-		iRender->requireExtension("GL_ARB_geometry_shader4");
-		iRender->requireExtension("GL_ARB_shading_language_400");
 		
-		//4.X		
+		iRender->requireExtension("GL_ARB_shader_subroutine");
+		iRender->requireExtension("GL_ARB_gpu_shader5");		
+		iRender->requireExtension("GL_ARB_geometry_shader4");
+		
+		//Nick:Not Supported on intel	
+		iRender->requireExtension("GL_ARB_shading_language_400");
+		iRender->requireExtension("GL_ARB_ES2_compatibility");
+		iRender->requireExtension("GL_ARB_shading_language_include");
+		
+		//4.X
 		iRender->requireExtension("GL_ARB_shading_language_packing");
 		iRender->requireExtension("GL_ARB_compute_shader");
 		iRender->requireExtension("GL_ARB_shading_language_420pack");
@@ -217,12 +220,6 @@ namespace NGEngine {
 	
 	void Engine::_SetResources() {
 		vfs->addResourceLocation("data",true);
-		//vfs->addResourceLocation("data//textures//",true);
-		//vfs->addResourceLocation("data//sounds//",true);
-		//vfs->addResourceLocation("data//shaders//",true);
-		//vfs->addResourceLocation("data//meshes//",true);
-		//vfs->addResourceLocation("data//materials//",true);
-		//vfs->addResourceLocation("data/gui/",true);
 	}
 	
 }

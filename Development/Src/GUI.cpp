@@ -17,184 +17,120 @@
 #include "ILSystem.h"
 #include "WindowSystem.h"
 #include "Log.h"
-#include <gdiplus.h>
-#pragma comment(lib,"Gdiplus.lib")
 #include "Cash.h"
+#include "CVarManager.h"
 //**************************************
 
 namespace NGEngine {
 
-	GUI *gui;
-
-	//**************************************************************************
-	//GUI class
-	//**************************************************************************
-	//---------------------------------------------------------------------------
-	//Desc:    creates new GUI
-	//Params:  -
-	//Returns: pointer to new GUI
-	//---------------------------------------------------------------------------
-	void convertRawData(Gdiplus::BitmapData* _out_data, void* _result, size_t _size, MyGUI::PixelFormat _format)
-	{
-		size_t num = 0;
-
-		if (_format == MyGUI::PixelFormat::L8)
-			num = 1;
-		if (_format == MyGUI::PixelFormat::L8A8)
-			num = 2;
-		if (_format == MyGUI::PixelFormat::R8G8B8)
-			num = 3;
-		else if (_format == MyGUI::PixelFormat::R8G8B8A8)
-			num = 4;
-		else
-			return;
-
-		unsigned char* ptr_source = (unsigned char*)_out_data->Scan0;
-		unsigned char* ptr_dest = (unsigned char*)_result;
-
-		size_t stride_source = _out_data->Stride;
-		size_t stride_dest = _out_data->Width * num;
-
-		if (stride_dest == stride_source)
-		{
-			memcpy(_result, _out_data->Scan0, _size);
-		}
-		else
-		{
-			for (unsigned int y = 0; y < _out_data->Height; ++y)
-			{
-				memcpy(ptr_dest, ptr_source, stride_dest);
-				ptr_dest += stride_dest;
-				ptr_source += stride_source;
-			}
-		}
-	}
-
 	void* GUI::loadImage(int& _width, int& _height, MyGUI::PixelFormat& _format, const std::string& _filename)
 	{
-		std::string fullname=MyGUI::OpenGLDataManager::getInstance().getDataPath(_filename);
-		LogPrintf("loadImage:"+fullname);//Nick:debug
-		void* result = 0;
-
-		Gdiplus::Bitmap* image = Gdiplus::Bitmap::FromFile(MyGUI::UString(fullname).asWStr_c_str());
-		if (image)
+		// Load the image as a resource
+		if(engine.vfs->isDataExist(_filename))
 		{
-			_width = image->GetWidth();
-			_height = image->GetHeight();
-			Gdiplus::PixelFormat format = image->GetPixelFormat();
+			Common::IDataStream* stream = engine.vfs->getData(_filename);
+			if(!stream)
+				Warning("[GUI]Failed Loading GUI image!");
+			size_t lumpSize = stream->size();
+			void* lumpData = malloc(lumpSize);
+			stream->read(lumpData, lumpSize);
 
-			if (format == PixelFormat24bppRGB){
-				_format = MyGUI::PixelFormat::R8G8B8;
-				Debug("RGB");
-			}
-			else if (format == PixelFormat32bppARGB){
-				_format = MyGUI::PixelFormat::R8G8B8A8;
-				Debug("RGBA");
-			}
-			else{
-				_format = MyGUI::PixelFormat::Unknow;
-				Debug("Unknow");
-			}
 
-			if (_format != MyGUI::PixelFormat::Unknow)
+#ifdef _UNICODE
+			// Convert filename to a std::wstring
+			std::wstring filename(_filename.length(), L' ');
+			std::copy(_filename.begin(), _filename.end(), filename.begin());
+#else
+			std::string filename = _filename;
+#endif
+
+			// Try to determine the image type
+			ILenum imageType = ilTypeFromExt(filename.c_str());//ilDetermineType(filename.c_str());
+			if (imageType == IL_TYPE_UNKNOWN)
+				imageType = ilDetermineTypeL(lumpData, lumpSize);
+
+			// Try to load the image
+			if (ilLoadL(imageType, lumpData, lumpSize) == IL_FALSE)
 			{
-				Gdiplus::Rect rect(0, 0, _width, _height);
-				Gdiplus::BitmapData out_data;
-				image->LockBits(&rect, Gdiplus::ImageLockModeRead, format, &out_data);
-
-				size_t size = out_data.Height * out_data.Stride;
-				result = new unsigned char[size];
-
-				convertRawData(&out_data, result, size, _format);
-
-				image->UnlockBits(&out_data);
+				free(lumpData);
+				return 0;
 			}
 
-			delete image;
-		}else
-			Debug("Failed Loading Image");
+			free(lumpData);
 
-		return result;
-	}
-	void GUI::saveImage(int _width, int _height, MyGUI::PixelFormat _format, void* _texture, const std::string& _filename){
-		Log::write("saveImage");//Nick:debug
-		Gdiplus::PixelFormat format;
-		int bpp;
+			// Retrieve image information
+			_width = ilGetInteger(IL_IMAGE_WIDTH);
+			_height = ilGetInteger(IL_IMAGE_HEIGHT);
+			ILenum format = ilGetInteger(IL_IMAGE_FORMAT);
+			ILenum type = ilGetInteger(IL_IMAGE_TYPE);
 
-		if (_format == MyGUI::PixelFormat::R8G8B8A8)
-		{
-			bpp = 4;
-			format = PixelFormat32bppARGB;
-		}
-		else if (_format == MyGUI::PixelFormat::R8G8B8)
-		{
-			bpp = 3;
-			format = PixelFormat24bppRGB;
-		}
-		else if (_format == MyGUI::PixelFormat::L8A8)
-		{
-			bpp = 2;
-			format = PixelFormat16bppGrayScale;
-		}
-		else
-		{
-			MYGUI_LOG(Error, "Unsuitable texture format for saving.");
-			return;
-		}
 
-		Gdiplus::Bitmap image(_width, _height, bpp * _width, format, (BYTE*)_texture);
+			// If the format is not supported, convert to a supported format
+			// Also convert if the pixel type is not unsigned byte
+			ILenum convertToFormat = format;
 
-		UINT num, size;
-		Gdiplus::GetImageEncodersSize(&num, &size);
-
-		Gdiplus::ImageCodecInfo* imageCodecInfo = (Gdiplus::ImageCodecInfo*)malloc(size);
-		GetImageEncoders(num, size, imageCodecInfo);
-
-		CLSID* pngClsid = NULL;
-		for (UINT j = 0; j < num; ++j)
-		{
-			if (wcscmp(imageCodecInfo[j].MimeType, L"image/png") == 0)
+			switch (format)
 			{
-				pngClsid = &imageCodecInfo[j].Clsid;
-				break;
+			case IL_COLOUR_INDEX: convertToFormat = IL_RGB; break;
+			case IL_ALPHA: convertToFormat = IL_LUMINANCE_ALPHA; break;
+			case IL_BGR: convertToFormat = IL_RGB; break;
+			case IL_BGRA: convertToFormat = IL_RGBA; break;
+			default: break;
 			}
-		}
 
-		if (pngClsid == NULL)
-		{
-			MYGUI_LOG(Error, "png codec not found");
-			return;
-		}
+			if ((convertToFormat != format) || (type != IL_UNSIGNED_BYTE))
+			{
+				if (ilConvertImage(convertToFormat, IL_UNSIGNED_BYTE) == IL_FALSE)
+				{
+					return 0;
+				}
+			}
 
-		HRESULT res = image.Save(MyGUI::UString(_filename).asWStr_c_str(), pngClsid, NULL);
-		if (res != S_OK)
-			MYGUI_LOG(Error, "Texture saving error. result =" << res);
+			// Determine MyGUI pixel formats
+			switch (format)
+			{
+			case IL_RGB: _format = MyGUI::PixelFormat::R8G8B8; break;
+			case IL_RGBA: _format = MyGUI::PixelFormat::R8G8B8A8; break;
+			case IL_LUMINANCE: _format = MyGUI::PixelFormat::L8; break;
+			case IL_LUMINANCE_ALPHA: _format = MyGUI::PixelFormat::L8A8; break;
+			default: _format = MyGUI::PixelFormat::Unknow; break;
+			}
+
+			// Copy the image data into some new memory
+			ILint size = ilGetInteger(IL_IMAGE_SIZE_OF_DATA);
+			void* _data = malloc(size);
+			ILubyte* data = ilGetData();
+			memcpy(_data, data, size);
+			return _data;
+		}else{
+			Warning("[GUI]Failed Loading GUI image!File not found:%s"+_filename);
+			return NULL;
+		}
 	}
-	
-	GUI::GUI():mPlatform(nullptr),
-		mGUI(nullptr),
-		gdiplusToken(0)
-	{		
-		Gdiplus::GdiplusStartupInput gdiplusStartupInput;
-		Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+	void GUI::saveImage(int _width, int _height, MyGUI::PixelFormat _format, void* _texture, const std::string& _filename){}
+
+	GUI::GUI()
+		:mPlatform(nullptr),
+		mGUI(nullptr)
+	{
 		mPlatform=new MyGUI::OpenGLPlatform();
 		mGUI=new MyGUI::Gui();
 	}
 	void GUI::Initialise()	{	
 		mPlatform->initialise(this);
-		mPlatform->getDataManagerPtr()->addResourceLocation("data/gui/", true/*false*/);
-		mPlatform->getDataManagerPtr()->addResourceLocation("data/guitest/", true/*false*/);
-		mPlatform->getRenderManagerPtr()->setViewSize(1024.0f,768.0f/*1920,1080*/);
+		mPlatform->getDataManagerPtr()->addResourceLocation("data/gui/", true);
+		mPlatform->getDataManagerPtr()->addResourceLocation("data/guitest/", true);
+		mPlatform->getRenderManagerPtr()->setViewSize(1024.0f,768.0f);
 		mGUI->initialise("MyGUI_Core.xml");
-#if 0
+#if 1
 		//TEST
-		MyGUI::TextBox*pMyGUIInfo = MyGUI::Gui::getInstance().createWidget<MyGUI::TextBox>("TextBox", 100,100,180,180, MyGUI::Align::Default, "Statistic","InfoTextBox");
+		/*	MyGUI::TextBox*pMyGUIInfo = MyGUI::Gui::getInstance().createWidget<MyGUI::TextBox>("TextBox", 100,100,180,180, MyGUI::Align::Default, "Statistic","InfoTextBox");
 		pMyGUIInfo->setTextColour(MyGUI::Colour::White);
 		pMyGUIInfo->setTextShadow(true);
 		pMyGUIInfo->setVisible(true);
 		pMyGUIInfo->setCaption("Testeeeeeeeeeeeeeeeeeeeeee");
-		
-		
+		*/	
+
 		MyGUI::Gui::getInstance().load("MyButton.xml");
 		MyGUI::Button* button =
 			MyGUI::Gui::getInstance().createWidget<MyGUI::Button>(
@@ -207,9 +143,9 @@ namespace NGEngine {
 		button->setCaption("MyButton");
 		button->setEnabled(true);
 
-		MyGUI::ButtonPtr button = mGUI->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
-		button->setFontName("DejaVuSansFont.15");
-		button->setCaption("Hello World!");
+		/*	MyGUI::ButtonPtr button2 = mGUI->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
+		button2->setFontName("DejaVuSansFont.15");
+		button2->setCaption("Hello World!");*/
 #endif
 
 		MyGUI::PointerManager::getInstance().setVisible(true);
@@ -220,7 +156,7 @@ namespace NGEngine {
 	//Returns: pointer to the GUI
 	//---------------------------------------------------------------------------
 	GUI::~GUI() {
-		Gdiplus::GdiplusShutdown(gdiplusToken);
+
 	}
 
 
@@ -231,8 +167,15 @@ namespace NGEngine {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void GUI::Update() {
-		if(mPlatform)
-			mPlatform->getRenderManagerPtr()->drawOneFrame(); 
+		engine.iRender->enable2d(false);
+		engine.iRender->disableCulling();
+		engine.iRender->enableBlending(GLSystem::ONE, GLSystem::ONE_MINUS_SRC_ALPHA);
+		if (mPlatform)
+			mPlatform->getRenderManagerPtr()->drawOneFrame();
+
+		engine.iRender->disableBlending();
+		engine.iRender->enableCulling();
+		engine.iRender->enable3d();
 	}
 
 }

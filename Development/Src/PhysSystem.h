@@ -27,7 +27,7 @@ public:
 	PhysSystem();
 
 	~PhysSystem();
-
+	void initialise();
 	void update(float dTime);
 	void setWorldSize(const Vec3 &worldSize);
 

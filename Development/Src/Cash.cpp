@@ -20,6 +20,7 @@ namespace NGEngine {
 	Material *Cash::loadMaterial(const String &path) {
 		std::map<String, std::pair<Material*, int>>::iterator it = materials.find(path);
 		if(it == materials.end() || it->second.first == NULL) {
+			Debug("Cash::loadMaterial: "+path);
 			Material *material = new Material(path);
 			materials[path].first = material;
 			materials[path].second = 1;

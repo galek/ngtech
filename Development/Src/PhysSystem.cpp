@@ -79,7 +79,13 @@ namespace NGEngine {
 	//Params:  -
 	//Returns: pointer to new PhysSystem
 	//---------------------------------------------------------------------------
-	PhysSystem::PhysSystem():nWorld(nullptr){
+	PhysSystem::PhysSystem():nWorld(nullptr){}
+	//---------------------------------------------------------------------------
+	//Desc:    creates new PhysSystem
+	//Params:  -
+	//Returns: pointer to new PhysSystem
+	//---------------------------------------------------------------------------
+	void PhysSystem::initialise(){
 		Log::write("PhysSystem::create()");
 		Log::write("{");
 		Log::write("}\n");
@@ -100,9 +106,7 @@ namespace NGEngine {
 		NewtonMaterialSetDefaultCollidable(nWorld, defaultID, defaultID, 1);
 		NewtonMaterialSetDefaultFriction(nWorld, defaultID, defaultID, 1.0f, 0.5f);
 		NewtonMaterialSetCollisionCallback(nWorld, defaultID, defaultID, NULL, contactBegin, contactProcess, contactEnd); 
-
 	}
-
 	//---------------------------------------------------------------------------
 	//Desc:    PhysSystem destructor
 	//Params:  -

@@ -4,7 +4,7 @@ shader = mesh_ambient_env.ashd
 mat4 u_mvp = scene::mvp
 mat4 u_world = scene::world
 sampler2D u_bump_map = normal_map() usor.bmp
-samplerCube u_env_map = cube/rock/%s.jpg
+samplerCube u_env_map = cube/rock/rock_%s.jpg
 }
 
 pass LightOmni

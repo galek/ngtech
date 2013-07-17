@@ -35,7 +35,7 @@ namespace NGEngine {
 			format = RGBA;
 		}
 
-		GLTexture *texture = GLTexture::create(image->getWidth(), image->getHeight(), image->getDepth(), 
+		GLTexture *texture = create(image->getWidth(), image->getHeight(), image->getDepth(), 
 			TEXTURE_2D, format, (void**)data);
 
 		delete image;
@@ -51,29 +51,29 @@ namespace NGEngine {
 	GLTexture *GLTexture::createCube(const String &path) {
 
 		ILImage *image[6];	
-		const char *suffix[] = { "px", "nx",  "py", "ny",  "pz", "nz", };
+		const char *suffix[] = { "px", "nx",  "py", "ny",  "pz", "nz" };
 
 		for(int i = 0; i < 6; i++) {
 			char dst[1024];
 			sprintf(dst, path.c_str(), suffix[i]);
 			image[i] = ILImage::create2d(dst);
 		}
-
 		GLubyte *data[6];
 		for(int i = 0; i < 6; i++) 
 			data[i] = image[i]->getData();
-
+		
 		Format format;
 		if(image[0]->getFormat() == ILImage::RGB) 
 			format = RGB;
 		 else if(image[0]->getFormat() == ILImage::RGBA) 
 			format = RGBA;
 
-		GLTexture *texture = GLTexture::create(image[0]->getWidth(), image[0]->getHeight(), image[0]->getDepth(), 
+		GLTexture *texture = create(image[0]->getWidth(), image[0]->getHeight(), image[0]->getDepth(), 
 			TEXTURE_CUBE, format, (void**)data);
-	
-		if(image)
-			delete [] image;
+		
+		for(int i = 0; i < 6; i++) {
+			delete image[i];
+		}
 
 		return texture;
 	}
@@ -95,8 +95,9 @@ namespace NGEngine {
 			format = RGBA;
 		}
 
-		GLTexture *texture = GLTexture::create(image->getWidth(), image->getHeight(), image->getDepth(), 
+		GLTexture *texture = create(image->getWidth(), image->getHeight(), image->getDepth(), 
 			TEXTURE_2D, format, (void**)data);
+
 
 		return texture;
 	}
@@ -118,7 +119,7 @@ namespace NGEngine {
 			format = RGBA;
 		}
 
-		GLTexture *texture = GLTexture::create(image->getWidth(), image->getHeight(), image->getDepth(), 
+		GLTexture *texture = create(image->getWidth(), image->getHeight(), image->getDepth(), 
 			TEXTURE_3D, format, (void**)data);
 
 		return texture;
@@ -143,7 +144,7 @@ namespace NGEngine {
 			format = RGBA;
 		}
 
-		GLTexture *texture = GLTexture::create(image[0]->getWidth(), image[0]->getHeight(), image[0]->getDepth(), 
+		GLTexture *texture = create(image[0]->getWidth(), image[0]->getHeight(), image[0]->getDepth(), 
 			TEXTURE_CUBE, format, (void**)data);
 
 		return texture;
@@ -158,7 +159,7 @@ namespace NGEngine {
 		GLubyte *data[1];
 		data[0] = NULL;
 
-		return GLTexture::create(width, height, 1, TEXTURE_2D, format, (void**)data);
+		return create(width, height, 1, TEXTURE_2D, format, (void**)data);
 	}
 
 	//---------------------------------------------------------------------------
@@ -170,7 +171,7 @@ namespace NGEngine {
 		GLubyte *data[1];
 		data[0] = NULL;
 
-		return GLTexture::create(width, height, depth, TEXTURE_3D, format, (void**)data);
+		return create(width, height, depth, TEXTURE_3D, format, (void**)data);
 	}
 
 	//---------------------------------------------------------------------------
@@ -184,7 +185,7 @@ namespace NGEngine {
 			data[i] = NULL;
 		}
 
-		return GLTexture::create(width, height, 1, TEXTURE_CUBE, format, (void**)data);
+		return create(width, height, 1, TEXTURE_CUBE, format, (void**)data);
 	}
 
 	//---------------------------------------------------------------------------

@@ -36,15 +36,15 @@ void init() {
 	sponza->setMaterialList("sponza.amtrlst");
 	sponza->setPhysicsStaticMesh();
 	sponza->setTransform(Mat4::translate(Vec3(0, -10, 0)));
-	/*
-	for(int i = 0; i < 1; i++) {
+	
+	for(int i = 0; i < 5; i++) {
 		box[i] = new ObjectMesh("cube.amdl");
 		box[i]->setMaterial("*", "grid.amtr");
 		box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);
 		box[i]->setTransform(Mat4::translate(Vec3(-10-i*2, i*20 + 10, i - 10)));
 		box[i]->setImpactSound("impact.ogg");
 	}
-	for(int i = 0; i < 1; i++) {
+	for(int i = 0; i < 5; i++) {
 		sphere[i] = new ObjectMesh("sphere.amdl");
 		sphere[i]->setMaterial("*", "grid.amtr");
 		sphere[i]->setPhysicsSphere(Vec3(5,5,5), 10);
@@ -57,7 +57,7 @@ void init() {
 		cylinder[i]->setPhysicsConvexHull(10);
 		cylinder[i]->setTransform(Mat4::translate(Vec3(20+i*2, i*20 + 20, i - 10)));
 		cylinder[i]->setImpactSound("impact.ogg");
-	}*/
+	}
 
 	fpsLabel = MyGUI::Gui::getInstance().createWidget<MyGUI::TextBox>("TextBox", 100,100,180,180, MyGUI::Align::Default, "Statistic","InfoTextBox");
 	fpsLabel->setTextColour(MyGUI::Colour::White);

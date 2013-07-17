@@ -151,7 +151,7 @@ Material::Material(String path) {
 					String name = StringHelper::getWord(line, 3);
 
 					String defines = "";
-					pass->shader = engine.cash->loadShader("data/shaders/" + name, defines);
+					pass->shader = engine.cash->loadShader(name, defines);
 				}
 
 				//sampler
