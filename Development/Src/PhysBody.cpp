@@ -8,14 +8,12 @@
 
 #include "EnginePrivate.h"
 //***************************************************************************
-#include "Engine.h"
 #include "PhysSystem.h"
 #include "PhysBody.h"
 #include "Log.h"
 //***************************************************************************
 
 namespace NGEngine {
-
 	//---------------------------------------------------------------------------
 	//Desc:    creates PhysBody with box collider
 	//Params:  size - size of the box, mass - PhysBody mass, isStatic - is PhysBody static
@@ -31,10 +29,10 @@ namespace NGEngine {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateBox(engine.physSystem->nWorld, size.x, size.y, size.z, 0); 
+		NewtonCollision *collision = NewtonCreateBox(engine.physSystem->nWorld, size.x, size.y, size.z, 0);
 
 		Vec3 inertia, origin;
-		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);	
+		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
 		float Ixx = mass * inertia.x;
 		float Iyy = mass * inertia.y;
 		float Izz = mass * inertia.z;
@@ -45,7 +43,7 @@ namespace NGEngine {
 		NewtonBodySetUserData(body->nBody, body);
 		NewtonBodySetAutoFreeze(body->nBody, 0);
 
-		if(mass > 0) {
+		if (mass > 0) {
 			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
 			NewtonBodySetCentreOfMass(body->nBody, origin);
 			NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
@@ -55,7 +53,6 @@ namespace NGEngine {
 
 		return body;
 	}
-
 	//---------------------------------------------------------------------------
 	//Desc:    creates PhysBody with sphere collider
 	//Params:  size - radius of the sphere, mass - PhysBody mass
@@ -74,7 +71,7 @@ namespace NGEngine {
 		NewtonCollision *collision = NewtonCreateSphere(engine.physSystem->nWorld, size.x, size.y, size.z, 0);
 
 		Vec3 inertia, origin;
-		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);	
+		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
 		float Ixx = mass * inertia.x;
 		float Iyy = mass * inertia.y;
 		float Izz = mass * inertia.z;
@@ -85,7 +82,7 @@ namespace NGEngine {
 		NewtonBodySetUserData(body->nBody, body);
 		NewtonBodySetAutoFreeze(body->nBody, 0);
 
-		if(mass > 0) {
+		if (mass > 0) {
 			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
 			NewtonBodySetCentreOfMass(body->nBody, origin);
 			NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
@@ -95,7 +92,6 @@ namespace NGEngine {
 
 		return body;
 	}
-
 	//---------------------------------------------------------------------------
 	//Desc:    creates PhysBody with cylinder collider
 	//Params:  radius - radius of the cylinder, height - cylinder height, mass - PhysBody mass
@@ -114,7 +110,7 @@ namespace NGEngine {
 		NewtonCollision *collision = NewtonCreateCylinder(engine.physSystem->nWorld, radius, height, 0);
 
 		Vec3 inertia, origin;
-		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);	
+		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
 		float Ixx = mass * inertia.x;
 		float Iyy = mass * inertia.y;
 		float Izz = mass * inertia.z;
@@ -125,7 +121,7 @@ namespace NGEngine {
 		NewtonBodySetUserData(body->nBody, body);
 		NewtonBodySetAutoFreeze(body->nBody, 0);
 
-		if(mass > 0) {
+		if (mass > 0) {
 			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
 			NewtonBodySetCentreOfMass(body->nBody, origin);
 			NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
@@ -135,7 +131,6 @@ namespace NGEngine {
 
 		return body;
 	}
-
 	//---------------------------------------------------------------------------
 	//Desc:    creates PhysBody with cone collider
 	//Params:  radius - radius of the cone, height - cone height, mass - PhysBody mass
@@ -154,7 +149,7 @@ namespace NGEngine {
 		NewtonCollision *collision = NewtonCreateCone(engine.physSystem->nWorld, radius, height, 0);
 
 		Vec3 inertia, origin;
-		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);	
+		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
 		float Ixx = mass * inertia.x;
 		float Iyy = mass * inertia.y;
 		float Izz = mass * inertia.z;
@@ -165,7 +160,7 @@ namespace NGEngine {
 		NewtonBodySetUserData(body->nBody, body);
 		NewtonBodySetAutoFreeze(body->nBody, 0);
 
-		if(mass > 0) {
+		if (mass > 0) {
 			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
 			NewtonBodySetCentreOfMass(body->nBody, origin);
 			NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
@@ -175,8 +170,6 @@ namespace NGEngine {
 
 		return body;
 	}
-
-
 	//---------------------------------------------------------------------------
 	//Desc:    creates PhysBody with capsule collider
 	//Params:  radius - radius of the capsule, height - capsule height, mass - PhysBody mass
@@ -195,7 +188,7 @@ namespace NGEngine {
 		NewtonCollision *collision = NewtonCreateCapsule(engine.physSystem->nWorld, radius, height, 0);
 
 		Vec3 inertia, origin;
-		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);	
+		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
 		float Ixx = mass * inertia.x;
 		float Iyy = mass * inertia.y;
 		float Izz = mass * inertia.z;
@@ -206,7 +199,7 @@ namespace NGEngine {
 		NewtonBodySetUserData(body->nBody, body);
 		NewtonBodySetAutoFreeze(body->nBody, 0);
 
-		if(mass > 0) {
+		if (mass > 0) {
 			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
 			NewtonBodySetCentreOfMass(body->nBody, origin);
 			NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
@@ -216,8 +209,6 @@ namespace NGEngine {
 
 		return body;
 	}
-
-
 	//---------------------------------------------------------------------------
 	//Desc:    creates PhysBody with champfer cylinder collider
 	//Params:  radius - radius of the cylinder, height - cylinder height, mass - PhysBody mass
@@ -236,7 +227,7 @@ namespace NGEngine {
 		NewtonCollision *collision = NewtonCreateChamferCylinder(engine.physSystem->nWorld, radius, height, 0);
 
 		Vec3 inertia, origin;
-		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);	
+		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
 		float Ixx = mass * inertia.x;
 		float Iyy = mass * inertia.y;
 		float Izz = mass * inertia.z;
@@ -247,7 +238,7 @@ namespace NGEngine {
 		NewtonBodySetUserData(body->nBody, body);
 		NewtonBodySetAutoFreeze(body->nBody, 0);
 
-		if(mass > 0) {
+		if (mass > 0) {
 			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
 			NewtonBodySetCentreOfMass(body->nBody, origin);
 			NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
@@ -257,7 +248,6 @@ namespace NGEngine {
 
 		return body;
 	}
-
 	//---------------------------------------------------------------------------
 	//Desc:    creates PhysBody with convex hull collider
 	//Params:  pos - array of the hull points, numPos - number of hull points, mass - PhysBody mass
@@ -273,10 +263,10 @@ namespace NGEngine {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateConvexHull(engine.physSystem->nWorld, numPos, &pos[0].x, 3*sizeof(float), 0);
+		NewtonCollision *collision = NewtonCreateConvexHull(engine.physSystem->nWorld, numPos, &pos[0].x, 3 * sizeof(float) , 0);
 
 		Vec3 inertia, origin;
-		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);	
+		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
 		float Ixx = mass * inertia.x;
 		float Iyy = mass * inertia.y;
 		float Izz = mass * inertia.z;
@@ -287,7 +277,7 @@ namespace NGEngine {
 		NewtonBodySetUserData(body->nBody, body);
 		NewtonBodySetAutoFreeze(body->nBody, 0);
 
-		if(mass > 0) {
+		if (mass > 0) {
 			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
 			NewtonBodySetCentreOfMass(body->nBody, origin);
 			NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
@@ -313,15 +303,15 @@ namespace NGEngine {
 
 		NewtonCollision *collision = NewtonCreateTreeCollision(engine.physSystem->nWorld, 0);
 		NewtonTreeCollisionBeginBuild(collision);
-		for(int i = 0; i < numPos/3; i++) {
+		for (int i = 0; i < numPos / 3; i++) {
 			Vec3 v[3];
-			v[0] = pos[ i*3 + 0 ];
-			v[1] = pos[ i*3 + 1 ];
-			v[2] = pos[ i*3 + 2 ];
+			v[0] = pos[i * 3 + 0];
+			v[1] = pos[i * 3 + 1];
+			v[2] = pos[i * 3 + 2];
 
-			NewtonTreeCollisionAddFace(collision, 3, &v[0].x, 3*sizeof(float), 1);
+			NewtonTreeCollisionAddFace(collision, 3, &v[0].x, 3 * sizeof(float) , 1);
 		}
-		NewtonTreeCollisionEndBuild(collision, (int)optimize);
+		NewtonTreeCollisionEndBuild(collision, (int) optimize);
 		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision);
 		NewtonReleaseCollision(engine.physSystem->nWorld, collision);
 
@@ -342,10 +332,6 @@ namespace NGEngine {
 		NewtonDestroyBody(engine.physSystem->nWorld, nBody);
 		delete impactSrc;
 	}
-
-
-
-
 
 	//***************************************************************************
 	//Set and get transform
@@ -370,9 +356,6 @@ namespace NGEngine {
 		return out;
 	}
 
-
-
-
 	//***************************************************************************
 	//Set and get velocity
 	//***************************************************************************
@@ -383,7 +366,7 @@ namespace NGEngine {
 	//---------------------------------------------------------------------------
 	void PhysBody::addTorque(const Vec3 &torque) {
 		this->torque += torque;
-		this->force  += torque * getMass();
+		this->force += torque * getMass();
 	}
 
 	Vec3 PhysBody::getTorque() {
@@ -395,17 +378,14 @@ namespace NGEngine {
 	//Params:  force - force vector
 	//Returns: -
 	//---------------------------------------------------------------------------
-
 	void PhysBody::addForce(const Vec3 &force) {
 		this->torque += force / getMass();
-		this->force  += force;
+		this->force += force;
 	}
 
 	Vec3 PhysBody::getForce() {
 		return force;
 	}
-
-
 
 	void PhysBody::addVelocity(const Vec3 &velocity) {
 		NewtonBodySetVelocity(nBody, getVelocity() + velocity);
@@ -425,10 +405,6 @@ namespace NGEngine {
 		NewtonBodyGetVelocity(nBody, velocity);
 		return velocity;
 	}
-
-
-
-
 
 	//***************************************************************************
 	//Set and get Mass
@@ -464,7 +440,7 @@ namespace NGEngine {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void PhysBody::applyForce_Callback(const NewtonBody* body) {
-		PhysBody *pBody = (PhysBody*)NewtonBodyGetUserData(body);
+		PhysBody *pBody = (PhysBody*) NewtonBodyGetUserData(body);
 		NewtonBodySetForce(body, pBody->force);
 
 		pBody->force = Vec3(0, 0, 0);

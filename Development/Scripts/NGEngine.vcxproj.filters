@@ -252,9 +252,6 @@
     <ClInclude Include="..\Src\WindowSystem.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\Core\BuildDefines.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Заголовочные файлы">

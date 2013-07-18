@@ -2,8 +2,6 @@
 #include "Src/Engine.h"
 
 #include "Main.h"
-#include "tbb/parallel_for.h"
-#include "tbb/blocked_range.h"
 #include "IGame.h"
 
 
@@ -29,10 +27,6 @@ struct EngineAppBase{
 	void Update(){
 		engine.mainLoop();
 	}
-#ifdef _ENGINE_MT_
-	void operator() (const tbb::blocked_range<bool>& range) const
-	{			Debug("[threads]Called");		}
-#endif
 };
 
 
@@ -40,11 +34,7 @@ struct EngineAppBase{
 
 //Это оставь в хедере
 void EngineStart(IGame*_game,EngineCallback rc=nullptr,EngineCallback ev=nullptr){
-#ifdef _ENGINE_MT_
-	tbb::parallel_for(tbb::blocked_range<bool>(1, 0), EngineAppBase(_game,rc,ev));
-#else
 	EngineAppBase(_game,rc,ev);
-#endif
 }
 
 //-------------------------------------------------------------

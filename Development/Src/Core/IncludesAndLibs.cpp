@@ -9,10 +9,10 @@
 //***************************************************************************
 
 #ifdef WIN32
-#pragma comment(lib, "../Libs/OpenAL32.lib")
-#pragma comment(lib, "../Libs/ogg_static.lib")
-#pragma comment(lib, "../Libs/vorbis_static.lib")
-#pragma comment(lib, "../Libs/vorbisfile_static.lib")
+#pragma comment(lib, "OpenAL32.lib")
+#pragma comment(lib, "ogg_static.lib")
+#pragma comment(lib, "vorbis_static.lib")
+#pragma comment(lib, "vorbisfile_static.lib")
 #endif
 
 #ifdef WIN32
@@ -20,10 +20,10 @@
 #endif
 
 #ifdef WIN32
-#pragma comment(lib, "../Libs/ilu.lib")
-#pragma comment(lib, "../Libs/devil.lib")
+#pragma comment(lib, "ilu.lib")
+#pragma comment(lib, "devil.lib")
 #endif
 
 #ifdef WIN32
-#pragma comment(lib, "../Libs/newton.lib")
+#pragma comment(lib, "newton.lib")
 #endif

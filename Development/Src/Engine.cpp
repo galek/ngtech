@@ -23,8 +23,8 @@ namespace NGEngine {
 	//Params:  -
 	//Returns: pointer to new NGEngine
 	//---------------------------------------------------------------------------
-	Engine::Engine():
-	cvars(nullptr),
+	Engine::Engine() :
+		cvars(nullptr),
 		log(nullptr),
 		config(nullptr),
 		vfs(nullptr),
@@ -35,7 +35,7 @@ namespace NGEngine {
 		gui(nullptr),
 		scene(nullptr)
 	{
-		log=new Log();
+		log = new Log();
 		Log::write("NG Engine "ENGINE_VERSION_STRING"\n");
 		_PreInit();
 	}
@@ -47,28 +47,28 @@ namespace NGEngine {
 	//---------------------------------------------------------------------------
 	void Engine::_PreInit()
 	{
-		config = new Config("ast_conf.txt");
-		cvars=new CVARManager(config);
+		config = new Config("user.ltx");
+		cvars = new CVARManager(config);
 
-		iWindow  = new WindowSystem(cvars);
+		iWindow = new WindowSystem(cvars);
 		Debug("[Init]Window Finished");
-		vfs=new FileSystem();
+		vfs = new FileSystem();
 		Debug("[Init]FileSystem Finished");
-		iRender   = new GLSystem();
+		iRender = new GLSystem();
 		Debug("[Init]Render Finished");
-		alSystem   = new ALSystem();
+		alSystem = new ALSystem();
 		Debug("[Init]Audio Finished");
-		ilSystem   = new ILSystem();
+		ilSystem = new ILSystem();
 		Debug("[Init]ImageCodec Finished");
 		physSystem = new PhysSystem();
 		Debug("[Init]Physics Finished");
-		cash       = new Cash();
+		cash = new Cash();
 		Debug("[Init]Cash Finished");
 		//initialize GUI
-		gui=new GUI();
+		gui = new GUI();
 		Debug("[Init]GUI Finished");
 		//initialize SceneManager
-		scene=new Scene();
+		scene = new Scene();
 		Debug("[Init]SceneManager Finished");
 	}
 	//---------------------------------------------------------------------------
@@ -77,7 +77,7 @@ namespace NGEngine {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Engine::SetGame(IGame*_game){
-		game=_game;
+		game = _game;
 	}
 
 	//---------------------------------------------------------------------------
@@ -87,61 +87,62 @@ namespace NGEngine {
 	//---------------------------------------------------------------------------
 	void Engine::initialise()
 	{
-		if(iWindow)
+		if (iWindow)
 			iWindow->initialise();
 		Debug("[Init]Window Finished");
 		_SetResources();
 		Debug("[Init]FileSystem Finished");
-		if(iRender)
+		if (iRender)
 			iRender->initialise();
 		Debug("[Init]Render Finished");
 		//alSystem->initialise();
 		Debug("[Init]Audio Finished");
 		//ilSystem->initialise();
 		Debug("[Init]ImageCodec Finished");
-		physSystem->initialise();
+		if (physSystem)
+			physSystem->initialise();
 		Debug("[Init]Physics Finished");
 		//cash->initialise();
 		Debug("[Init]FS Finished");
 		//initialize GUI
-		if(gui)
+		if (gui)
 			gui->Initialise();
 		Debug("[Init]GUI Finished");
 		//initialize SceneManager
-		if(scene)
+		if (scene)
 			scene->initialise();
 		Debug("[Init]SceneManager Finished");
 		//initialize Game
-		if(game)
+		if (game)
 			game->initialise();
 		Debug("[Init]Game Finished");
 
 		running = true;
 		Debug("[Init]Checking Render Extensions");
 
-		iRender->requireExtension("GL_ARB_vertex_shader",true);
-		iRender->requireExtension("GL_ARB_fragment_shader",true);
-		iRender->requireExtension("GL_ARB_shader_objects",true);
-		iRender->requireExtension("GL_ARB_shading_language_100",true);
-		iRender->requireExtension("GL_ARB_vertex_buffer_object",true);
-		iRender->requireExtension("GL_EXT_framebuffer_object",true);
-		iRender->requireExtension("GL_ARB_occlusion_query",true);
-		iRender->requireExtension("GL_EXT_texture_filter_anisotropic",true);
+		iRender->requireExtension("GL_ARB_vertex_shader", true);
+		iRender->requireExtension("GL_ARB_fragment_shader", true);
+		iRender->requireExtension("GL_ARB_shader_objects", true);
+		iRender->requireExtension("GL_ARB_shading_language_100", true);
+		iRender->requireExtension("GL_ARB_vertex_buffer_object", true);
+		iRender->requireExtension("GL_EXT_framebuffer_object", true);
+		iRender->requireExtension("GL_ARB_occlusion_query", true);
+		iRender->requireExtension("GL_EXT_texture_filter_anisotropic", true);
 
 		//OpenGL3 and 4
 		iRender->requireExtension("GL_ARB_tessellation_shader");
 		iRender->requireExtension("GL_ARB_occlusion_query2");
 		iRender->requireExtension("GL_ARB_compatibility");
-		
+
 		iRender->requireExtension("GL_ARB_shader_subroutine");
-		iRender->requireExtension("GL_ARB_gpu_shader5");		
+		iRender->requireExtension("GL_ARB_gpu_shader5");
 		iRender->requireExtension("GL_ARB_geometry_shader4");
-		
+
 		//Nick:Not Supported on intel	
 		iRender->requireExtension("GL_ARB_shading_language_400");
 		iRender->requireExtension("GL_ARB_ES2_compatibility");
 		iRender->requireExtension("GL_ARB_shading_language_include");
-		
+
 		//4.X
 		iRender->requireExtension("GL_ARB_shading_language_packing");
 		iRender->requireExtension("GL_ARB_compute_shader");
@@ -157,8 +158,8 @@ namespace NGEngine {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	Engine::~Engine()  {
-		if(gui) delete gui;
-		if(scene) delete scene;
+		if (gui) delete gui;
+		if (scene) delete scene;
 
 		delete physSystem;
 		delete ilSystem;
@@ -173,37 +174,37 @@ namespace NGEngine {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Engine::mainLoop() {
-		if(this->iWindow)	this->iWindow->update();
-		while(this->running)
+		if (this->iWindow)	this->iWindow->update();
+		while (this->running)
 		{
-			if(iWindow)
+			if (iWindow)
 				this->iWindow->update();
 
-			if((this->physSystem)&&(this->iWindow)) 
+			if ((this->physSystem) && (this->iWindow))
 				this->physSystem->update(this->iWindow->getDTime());
 
-			if(game) 
+			if (game)
 				game->RunEventsCallback();
 
-			if(this->iRender)	
+			if (this->iRender)
 				this->iRender->clear(GLSystem::COLOR_BUFFER | GLSystem::DEPTH_BUFFER | GLSystem::STENCIL_BUFFER);
 
-			if(this->scene)
+			if (this->scene)
 				this->scene->Update();
 
-			if(game->rc) 
+			if (game->rc)
 				game->RunRenderCallback();
 
-			if(this->gui) 
+			if (this->gui)
 				this->gui->Update();
 
-			if(this->iRender)	
+			if (this->iRender)
 				this->iRender->flush();
 
-			if(this->iWindow)	
+			if (this->iWindow)
 				this->iWindow->swapBuffers();
 
-			if(this->game)
+			if (this->game)
 				this->game->Update();
 		}
 	}
@@ -217,9 +218,9 @@ namespace NGEngine {
 	void Engine::quit() {
 		running = false;
 	}
-	
+
 	void Engine::_SetResources() {
-		vfs->addResourceLocation("data",true);
+		vfs->addResourceLocation("data", true);
 	}
-	
+
 }

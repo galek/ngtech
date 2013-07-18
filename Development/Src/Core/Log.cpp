@@ -14,7 +14,7 @@
 
 namespace NGEngine {
 
-#define LOG_FILE "ast_log.txt"
+#define LOG_FILE "EngineLog.log"
 	void Debug(String text){
 		 Log::write(text);	}
 
