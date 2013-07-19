@@ -47,9 +47,8 @@ namespace VEGA {
 		float impactSpeed;
 		Vec3 impactNormal, impactPosition;
 
-		static int contactBegin(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1);
-		static int contactProcess(const NewtonMaterial* material, const NewtonContact* contact);
-		static void contactEnd(const NewtonMaterial* material);
+		static void contactProcess(const NewtonJoint *pContactJoint, float fTimeStep, int ThreadIndex);
+		static int	playContantSound(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1, int threadIndex);
 
 		float intersectionParam;
 		Vec3 intersectionNormal;

@@ -68,7 +68,7 @@ namespace VEGA {
 
 		float mass;
 
-		static void applyForce_Callback(const NewtonBody* body);
+		static void applyForce_Callback(const NewtonBody* body, float timestep, int threadIndex);
 
 		ContactCallback contact;
 		bool cc;

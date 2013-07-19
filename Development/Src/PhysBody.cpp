@@ -41,7 +41,7 @@ namespace VEGA {
 		NewtonReleaseCollision(engine.physSystem->nWorld, collision);
 
 		NewtonBodySetUserData(body->nBody, body);
-		NewtonBodySetAutoFreeze(body->nBody, 0);
+		NewtonBodySetAutoSleep(body->nBody, 0);
 
 		if (mass > 0) {
 			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
@@ -80,7 +80,7 @@ namespace VEGA {
 		NewtonReleaseCollision(engine.physSystem->nWorld, collision);
 
 		NewtonBodySetUserData(body->nBody, body);
-		NewtonBodySetAutoFreeze(body->nBody, 0);
+		NewtonBodySetAutoSleep(body->nBody, 0);
 
 		if (mass > 0) {
 			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
@@ -119,7 +119,7 @@ namespace VEGA {
 		NewtonReleaseCollision(engine.physSystem->nWorld, collision);
 
 		NewtonBodySetUserData(body->nBody, body);
-		NewtonBodySetAutoFreeze(body->nBody, 0);
+		NewtonBodySetAutoSleep(body->nBody, 0);
 
 		if (mass > 0) {
 			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
@@ -158,7 +158,7 @@ namespace VEGA {
 		NewtonReleaseCollision(engine.physSystem->nWorld, collision);
 
 		NewtonBodySetUserData(body->nBody, body);
-		NewtonBodySetAutoFreeze(body->nBody, 0);
+		NewtonBodySetAutoSleep(body->nBody, 0);
 
 		if (mass > 0) {
 			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
@@ -197,7 +197,7 @@ namespace VEGA {
 		NewtonReleaseCollision(engine.physSystem->nWorld, collision);
 
 		NewtonBodySetUserData(body->nBody, body);
-		NewtonBodySetAutoFreeze(body->nBody, 0);
+		NewtonBodySetAutoSleep(body->nBody, 0);
 
 		if (mass > 0) {
 			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
@@ -236,7 +236,7 @@ namespace VEGA {
 		NewtonReleaseCollision(engine.physSystem->nWorld, collision);
 
 		NewtonBodySetUserData(body->nBody, body);
-		NewtonBodySetAutoFreeze(body->nBody, 0);
+		NewtonBodySetAutoSleep(body->nBody, 0);
 
 		if (mass > 0) {
 			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
@@ -263,7 +263,7 @@ namespace VEGA {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateConvexHull(engine.physSystem->nWorld, numPos, &pos[0].x, 3 * sizeof(float) , 0);
+		NewtonCollision *collision = NewtonCreateConvexHull(engine.physSystem->nWorld, numPos, &pos[0].x, 3 * sizeof(float) , 0, NULL);
 
 		Vec3 inertia, origin;
 		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
@@ -275,7 +275,7 @@ namespace VEGA {
 		NewtonReleaseCollision(engine.physSystem->nWorld, collision);
 
 		NewtonBodySetUserData(body->nBody, body);
-		NewtonBodySetAutoFreeze(body->nBody, 0);
+		NewtonBodySetAutoSleep(body->nBody, 0);
 
 		if (mass > 0) {
 			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
@@ -301,7 +301,7 @@ namespace VEGA {
 		body->impulse = Vec3(0, 0, 0);
 		body->velocity = Vec3(0, 0, 0);
 
-		NewtonCollision *collision = NewtonCreateTreeCollision(engine.physSystem->nWorld, 0);
+		NewtonCollision *collision = NewtonCreateTreeCollision(engine.physSystem->nWorld);
 		NewtonTreeCollisionBeginBuild(collision);
 		for (int i = 0; i < numPos / 3; i++) {
 			Vec3 v[3];
@@ -439,12 +439,11 @@ namespace VEGA {
 	//Params:  -
 	//Returns: -
 	//---------------------------------------------------------------------------
-	void PhysBody::applyForce_Callback(const NewtonBody* body) {
+	void PhysBody::applyForce_Callback(const NewtonBody* body, float timestep, int threadIndex) {
 		PhysBody *pBody = (PhysBody*) NewtonBodyGetUserData(body);
 		NewtonBodySetForce(body, pBody->force);
 
 		pBody->force = Vec3(0, 0, 0);
 		pBody->torque = Vec3(0, 0, 0);
 	}
-
 }

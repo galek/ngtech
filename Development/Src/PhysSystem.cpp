@@ -17,31 +17,11 @@
 
 namespace VEGA {
 
-
 	//contact-callback------------------
-	int PhysSystem::contactBegin(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1) {
+	int PhysSystem::playContantSound(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1, int threadIndex) {
 		engine.physSystem->pBody0 = (PhysBody*) NewtonBodyGetUserData(body0);
 		engine.physSystem->pBody1 = (PhysBody*) NewtonBodyGetUserData(body1);
 
-		engine.physSystem->impactSpeed = 0;
-
-		return 1;
-	}
-
-	//contact-callback------------------
-	int PhysSystem::contactProcess(const NewtonMaterial* material, const NewtonContact* contact) {
-		float speed;
-
-		speed = NewtonMaterialGetContactNormalSpeed(material, contact);
-		if (speed > engine.physSystem->impactSpeed) {
-			engine.physSystem->impactSpeed = speed;
-			NewtonMaterialGetContactPositionAndNormal(material, engine.physSystem->impactPosition, engine.physSystem->impactNormal);
-		}
-		return 1;
-	}
-
-	//contact-callback------------------
-	void PhysSystem::contactEnd(const NewtonMaterial* material) {
 		if (engine.physSystem->impactSpeed > 15) {
 			if (engine.physSystem->pBody0) {
 				if (engine.physSystem->pBody0->impactSrc) {
@@ -59,6 +39,23 @@ namespace VEGA {
 						engine.physSystem->pBody1->impactSrc->play();
 					}
 				}
+			}
+		}
+		engine.physSystem->impactSpeed = 0;
+		return 1;
+	}
+	//-----------------------------------------
+	void PhysSystem::contactProcess(const NewtonJoint *pContactJoint, float fTimeStep, int ThreadIndex)
+	{
+		for (void* contact = NewtonContactJointGetFirstContact(pContactJoint); contact; contact = NewtonContactJointGetNextContact(pContactJoint, contact)) {
+
+			NewtonMaterial* material = NewtonContactGetMaterial(contact);
+			float speed = NewtonMaterialGetContactNormalSpeed(material);
+			// play sound base of the contact speed.
+			//
+			if (speed > engine.physSystem->impactSpeed) {
+				engine.physSystem->impactSpeed = speed;
+				NewtonMaterialGetContactPositionAndNormal(material, engine.physSystem->impactPosition, engine.physSystem->impactNormal);
 			}
 		}
 	}
@@ -93,7 +90,8 @@ namespace VEGA {
 		NewtonMaterialSetDefaultElasticity(nWorld, defaultID, defaultID, 0.4f);
 		NewtonMaterialSetDefaultCollidable(nWorld, defaultID, defaultID, 1);
 		NewtonMaterialSetDefaultFriction(nWorld, defaultID, defaultID, 1.0f, 0.5f);
-		NewtonMaterialSetCollisionCallback(nWorld, defaultID, defaultID, NULL, contactBegin, contactProcess, contactEnd);
+		//NewtonMaterialSetCollisionCallback(nWorld, defaultID, defaultID, NULL, contactBegin, contactProcess);
+		NewtonMaterialSetCollisionCallback(nWorld, defaultID, defaultID, NULL, playContantSound, contactProcess);
 
 	}
 

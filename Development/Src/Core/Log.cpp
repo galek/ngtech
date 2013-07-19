@@ -16,7 +16,10 @@ namespace VEGA {
 
 #define LOG_FILE "EngineLog.log"
 	void Debug(String text){
-		 Log::write(text);	}
+#ifdef _ENGINE_DEBUG_
+		 Log::write(text);
+#endif	
+	}
 
 	void Warning(String text){
 		  Log::write(text);	}
