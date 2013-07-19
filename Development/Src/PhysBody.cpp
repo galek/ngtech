@@ -29,7 +29,7 @@ namespace VEGA {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateBox(engine.physSystem->nWorld, size.x, size.y, size.z, 0);
+		NewtonCollision *collision = NewtonCreateBox(engine.physSystem->nWorld, size.x, size.y, size.z, 0, 0);
 
 		Vec3 inertia, origin;
 		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
@@ -68,7 +68,7 @@ namespace VEGA {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateSphere(engine.physSystem->nWorld, size.x, size.y, size.z, 0);
+		NewtonCollision *collision = NewtonCreateSphere(engine.physSystem->nWorld, size.x, size.y, size.z, 0, 0);
 
 		Vec3 inertia, origin;
 		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
@@ -107,7 +107,7 @@ namespace VEGA {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateCylinder(engine.physSystem->nWorld, radius, height, 0);
+		NewtonCollision *collision = NewtonCreateCylinder(engine.physSystem->nWorld, radius, height, 0, 0);
 
 		Vec3 inertia, origin;
 		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
@@ -146,7 +146,7 @@ namespace VEGA {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateCone(engine.physSystem->nWorld, radius, height, 0);
+		NewtonCollision *collision = NewtonCreateCone(engine.physSystem->nWorld, radius, height, 0, 0);
 
 		Vec3 inertia, origin;
 		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
@@ -185,7 +185,7 @@ namespace VEGA {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateCapsule(engine.physSystem->nWorld, radius, height, 0);
+		NewtonCollision *collision = NewtonCreateCapsule(engine.physSystem->nWorld, radius, height, 0, 0);
 
 		Vec3 inertia, origin;
 		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
@@ -224,7 +224,7 @@ namespace VEGA {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateChamferCylinder(engine.physSystem->nWorld, radius, height, 0);
+		NewtonCollision *collision = NewtonCreateChamferCylinder(engine.physSystem->nWorld, radius, height, 0, 0);
 
 		Vec3 inertia, origin;
 		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
@@ -263,7 +263,7 @@ namespace VEGA {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateConvexHull(engine.physSystem->nWorld, numPos, &pos[0].x, 3 * sizeof(float) , 0, NULL);
+		NewtonCollision *collision = NewtonCreateConvexHull(engine.physSystem->nWorld, numPos, &pos[0].x, 3 * sizeof(float) , 0, NULL, 0);
 
 		Vec3 inertia, origin;
 		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
@@ -301,7 +301,7 @@ namespace VEGA {
 		body->impulse = Vec3(0, 0, 0);
 		body->velocity = Vec3(0, 0, 0);
 
-		NewtonCollision *collision = NewtonCreateTreeCollision(engine.physSystem->nWorld);
+		NewtonCollision *collision = NewtonCreateTreeCollision(engine.physSystem->nWorld, 0);
 		NewtonTreeCollisionBeginBuild(collision);
 		for (int i = 0; i < numPos / 3; i++) {
 			Vec3 v[3];

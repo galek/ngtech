@@ -77,7 +77,7 @@ namespace VEGA {
 		Log::write("{");
 		Log::write("}\n");
 
-		nWorld = NewtonCreate(NULL, NULL);
+		nWorld = NewtonCreate();
 
 		worldSize = Vec3(10000, 10000, 10000);
 		NewtonSetWorldSize(nWorld, -worldSize * 0.5, worldSize * 0.5);
