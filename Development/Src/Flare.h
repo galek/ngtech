@@ -14,7 +14,7 @@
 #include <vector>
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 //---------------------------------------------------------------------------
 //Desc: class of the system flare

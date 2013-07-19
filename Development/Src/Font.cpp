@@ -13,7 +13,7 @@
 #include "Log.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	Font::Font(const String &path) {
 		fontTex = GLTexture::create2d(path);

@@ -14,7 +14,7 @@
 #include "MathLib.h"
 //***************************************************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 class GLDisplayList {
 public:

@@ -1,6 +1,6 @@
 #include "IGame.h"
 
 
-namespace NGEngine {
+namespace VEGA {
 IGame::IGame():rc(false), ec(false){}
 }

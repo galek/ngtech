@@ -16,7 +16,7 @@
 #include "Error.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	//---------------------------------------------------------------------------
 	//Desc:    creates new SkinnedSkinnedModel from file

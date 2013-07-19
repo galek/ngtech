@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace NGEngine {
+namespace VEGA {
 	class Mat4;
 	class Vec3;
 	class Vec4;

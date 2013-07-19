@@ -13,7 +13,7 @@
 #include "ILSystem.h"
 //************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 class Water {
 public:

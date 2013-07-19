@@ -17,7 +17,7 @@
 #include "ALSoundSource.h"
 //***************************************************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main physics system. Created one time

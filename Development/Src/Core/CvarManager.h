@@ -1,7 +1,7 @@
 #pragma once 
 
 
-namespace NGEngine {
+namespace VEGA {
 
 	class Config;
 	struct CVARManager

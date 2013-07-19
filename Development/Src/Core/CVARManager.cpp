@@ -3,7 +3,7 @@
 #include "..\Common\EString.h"
 #include "Config.h"
 
-namespace NGEngine {
+namespace VEGA {
 	CVARManager::CVARManager(Config*_c)
 		:width(_c->getInt("window_width")),
 		height(_c->getInt("window_height")),

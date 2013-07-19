@@ -17,7 +17,7 @@
 #include <math.h>
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	//---------------------------------------------------------------------------
 	//Desc:    creates new ParticleSystem

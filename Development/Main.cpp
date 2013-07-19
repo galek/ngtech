@@ -5,7 +5,7 @@
 #include "IGame.h"
 
 
-using namespace NGEngine;
+using namespace VEGA;
 
 class ExampleGame:public IGame{
 	virtual void initialise(){	init(); };

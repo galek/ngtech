@@ -16,7 +16,7 @@
 #include "String.h"
 //***************************************************
 
-namespace NGEngine {
+namespace VEGA {
 struct CVARManager;
 //---------------------------------------------------------------------------
 //Desc: Engine`s main window and input system. Created one time

@@ -19,7 +19,7 @@
 #include "SkinnedModel.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	//---------------------------------------------------------------------------
 	//Desc:    creates new scene with ambient light

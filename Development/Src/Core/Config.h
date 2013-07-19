@@ -15,7 +15,7 @@
 #include <vector>
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	class Config {
 	public:

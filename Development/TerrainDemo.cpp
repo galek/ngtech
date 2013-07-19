@@ -2,7 +2,7 @@
 #include "Src/Engine.h"
 #include "Main.h"
 
-using namespace NGEngine;
+using namespace VEGA;
 
 #ifdef TERRAIN_DEMO
 ObjectMesh *box[5];

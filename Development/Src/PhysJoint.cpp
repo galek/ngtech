@@ -14,7 +14,7 @@
 #include "PhysBody.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	PhysJointUpVector *PhysJointUpVector::create(const Vec3 &direction, PhysBody *body) {
 		PhysJointUpVector *joint = new PhysJointUpVector();

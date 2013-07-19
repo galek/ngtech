@@ -13,7 +13,7 @@
 #include "Log.h"
 //***************************************************************************
 
-namespace NGEngine {
+namespace VEGA {
 	//---------------------------------------------------------------------------
 	//Desc:    creates PhysBody with box collider
 	//Params:  size - size of the box, mass - PhysBody mass, isStatic - is PhysBody static

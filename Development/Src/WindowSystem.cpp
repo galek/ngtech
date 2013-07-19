@@ -20,7 +20,7 @@
 #endif
 //***************************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	LRESULT	CALLBACK wndProc( HWND, UINT, WPARAM, LPARAM );
 
@@ -103,7 +103,7 @@ namespace NGEngine {
 
 		if (! (this->hWnd = CreateWindowEx(dwExStyle,			// Extended Style For The Window
 			"OpenGL",							// Class Name
-			"NG engine",						// Window Title
+			"VEGA Engine",						// Window Title
 			dwStyle |							// Defined Window Style
 			WS_CLIPSIBLINGS |					// Required Window Style
 			WS_CLIPCHILDREN,					// Required Window Style

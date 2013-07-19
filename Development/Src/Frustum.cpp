@@ -14,7 +14,7 @@
 #include "GLSystem.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	//---------------------------------------------------------------------------
 	//Desc:    checks wether the point is inside of the frustum

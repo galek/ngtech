@@ -14,7 +14,7 @@
 #include "Common/EString.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 //---------------------------------------------------------------------------
 //Desc: base class of the camera

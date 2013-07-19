@@ -1,12 +1,15 @@
 #include "CorePrivate.h"
 #include "CoreManager.h"
 
+#include "..\Common\ThreadPool.h"
 
-namespace NGEngine {
+namespace VEGA {
 
 	CoreManager::CoreManager()
-		:iWindow(nullptr),
+		: mTP(nullptr),
+		iWindow(nullptr),
 		iRender(nullptr),
 		running(false)	{
+			mTP=new ThreadPool(4);
 	}
 }

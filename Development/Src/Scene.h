@@ -19,7 +19,7 @@
 #include <vector>
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 //---------------------------------------------------------------------------
 //Desc: class of the scene. Created one time

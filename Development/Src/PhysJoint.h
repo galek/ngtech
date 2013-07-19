@@ -15,7 +15,7 @@
 #include "MathLib.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	//---------------------------------------------------------------------------
 	//Desc: class of the phys joint

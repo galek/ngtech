@@ -10,7 +10,7 @@
 #include "MyGUI_Prerequest.h"
 #include "..\Common\IDataManager.h"
 
-namespace NGEngine
+namespace VEGA
 {
 
 	class FileSystem :

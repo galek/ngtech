@@ -12,7 +12,7 @@
 #include "..\Common\EString.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	class Error {
 	public:

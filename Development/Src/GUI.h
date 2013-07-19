@@ -13,14 +13,13 @@
 #include "Font.h"
 #include <vector>
 //**************************************
-#if 1
-#include "Includes\MyGUI\Platforms\OpenGL\OpenGLPlatform\include\MyGUI_OpenGLPlatform.h"
+#include "MyGUI_OpenGLPlatform.h"
 namespace MyGUI{
 class OpenGLPlatform;
 class Gui;
 }
-#endif
-namespace NGEngine {
+
+namespace VEGA {
 
 
 //---------------------------------------------------------------------------

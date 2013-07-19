@@ -15,7 +15,7 @@
 #endif
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	//---------------------------------------------------------------------------
 	//Desc:    shows the error message box and exits
@@ -25,7 +25,7 @@ namespace NGEngine {
 	void Error::showAndExit(const String &text) {
 #ifdef WIN32
 		Log::write(text);
-		MessageBox(NULL, text.c_str(), "NG Engine error", MB_OK | MB_ICONERROR);
+		MessageBox(NULL, text.c_str(), "VEGA Engine error", MB_OK | MB_ICONERROR);
 		exit(0);
 #else
 		Log::write(text);

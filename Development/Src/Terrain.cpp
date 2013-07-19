@@ -13,7 +13,7 @@
 #include "Frustum.h"
 //************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	Terrain::Terrain(const String &path, float step, float height, int nodeSize) {
 		ILImage *hmap = ILImage::create2d(path);

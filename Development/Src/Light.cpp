@@ -16,7 +16,7 @@
 #include "GLSystem.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 	Light::Light(){
 	engine.scene->addLight(this);
 	}

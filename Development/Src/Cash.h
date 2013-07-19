@@ -17,7 +17,7 @@
 #include <map>
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 class Cash {
 public:

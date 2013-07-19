@@ -13,7 +13,7 @@
 #include "WindowSystem.h"
 //************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	Water::Water() {
 		size = 500;

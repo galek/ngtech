@@ -2,7 +2,7 @@
 #include "Src/Engine.h"
 #include "Main.h"
 
-using namespace NGEngine;
+using namespace VEGA;
 
 #ifdef MANDELBROT_DEMO
 GLShader *mandelbotShader;

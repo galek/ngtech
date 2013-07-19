@@ -14,7 +14,7 @@
 #include "Flare.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 class Light {
 public:

@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace NGEngine {
+namespace VEGA {
 
 	struct CoreManager{
 		CoreManager();
@@ -13,6 +13,7 @@ namespace NGEngine {
 	public:
 		bool running;
 	public:
+		class ThreadPool* mTP;
 		struct IWindow*iWindow;
 		struct IRender*iRender;
 	};

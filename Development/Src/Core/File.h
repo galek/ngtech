@@ -11,7 +11,7 @@
 #include "..\Common\EString.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 //---------------------------------------------------------------------------
 //Desc: some important File functions

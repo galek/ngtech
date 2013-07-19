@@ -1,130 +1,29 @@
 #ifndef THREAD_POOL_H
 #define THREAD_POOL_H
-//Nick:Port to 2010vs
-#if 0
+
 #include <vector>
-#include <deque>
+#include <queue>
 #include <memory>
 #include <thread>
 #include <mutex>
 #include <condition_variable>
+#include <future>
+#include <functional>
+#include <stdexcept>
 
-namespace NGEngine {
-	class ThreadPool;
-
-	// our worker thread objects
-	class Worker {
-	public:
-		Worker(ThreadPool &s) : pool(s) { }
-		void operator()();
-	private:
-		ThreadPool &pool;
-	};
-
-	template<class T>
-	class Result {
-		struct ResultImpl {
-			ResultImpl() : value(T()), available(false) { }
-			T value;
-			bool available;
-			std::mutex lock;
-			std::condition_variable cond;
-		};
-	public:
-		Result() : impl(new ResultImpl()) { }
-		bool available() const
-		{
-			std::unique_lock<std::mutex> ul(impl->lock);
-			return impl->available;
-		}
-		void wait()
-		{
-			if(!impl)
-				return;
-			std::unique_lock<std::mutex> ul(impl->lock);
-			if(impl->available)
-				return;
-			impl->cond.wait(ul);
-		}
-		void signal() const
-		{
-			std::unique_lock<std::mutex> ul(impl->lock);
-			impl->available = true; impl->cond.notify_all();
-		}
-		bool valid() const
-		{ 
-			std::unique_lock<std::mutex> ul(impl->lock);
-			return static_cast<bool>(impl);
-		}
-
-		T& get()
-		{ 
-			wait(); 
-			return impl->value;
-		}
-		void set(T v) const
-		{
-			std::unique_lock<std::mutex> ul(impl->lock); 
-			impl->value = v; 
-		}
-
-	private:
-		std::shared_ptr<ResultImpl> impl;
-	};
-
-	template<>
-	class Result<void> {
-		struct ResultImpl {
-			ResultImpl() : available(false) {  }
-			bool available;
-			std::mutex lock;
-			std::condition_variable cond;
-		};
-	public:
-		Result() : impl(new ResultImpl()) { }
-
-		bool available() const
-		{
-			std::unique_lock<std::mutex> ul(impl->lock);
-			return impl->available;
-		}
-		void wait()
-		{
-			if(!impl)
-				return;
-			std::unique_lock<std::mutex> ul(impl->lock);
-			if(impl->available)
-				return;
-			impl->cond.wait(ul);
-		}
-		void signal() const
-		{
-			std::unique_lock<std::mutex> ul(impl->lock);
-			impl->available = true; impl->cond.notify_all();
-		}
-		bool valid() const
-		{ 
-			std::unique_lock<std::mutex> ul(impl->lock);
-			return static_cast<bool>(impl);
-		}
-	private:
-		std::shared_ptr<ResultImpl> impl;
-	};
-
-	// the actual thread pool
+namespace VEGA {
 	class ThreadPool {
 	public:
 		ThreadPool(size_t);
-		template<class T, class F>
-		Result<T> enqueue(F f);
+		template<class F, class... Args>
+		auto enqueue(F && f, Args && ... args)
+			->std::future<typename std::result_of<F(Args...)>::type>;
 		~ThreadPool();
 	private:
-		friend class Worker;
-
 		// need to keep track of threads so we can join them
 		std::vector< std::thread > workers;
 		// the task queue
-		std::deque< std::function<void()> > tasks;
+		std::queue< std::function<void()> > tasks;
 
 		// synchronization
 		std::mutex queue_mutex;
@@ -132,75 +31,64 @@ namespace NGEngine {
 		bool stop;
 	};
 
-	void Worker::operator()()
-	{
-		std::function<void()> task;
-		while(true)
-		{
-			{
-				std::unique_lock<std::mutex> lock(pool.queue_mutex);
-				while(!pool.stop && pool.tasks.empty())
-					pool.condition.wait(lock);
-				if(pool.stop)
-					return;
-				task = pool.tasks.front();
-				pool.tasks.pop_front();
-			}
-			task();
-		}
-	}
-
 	// the constructor just launches some amount of workers
-	ThreadPool::ThreadPool(size_t threads)
-		:   stop(false)
+	inline ThreadPool::ThreadPool(size_t threads)
+		: stop(false)
 	{
-		for(size_t i = 0;i<threads;++i)
-			workers.push_back(std::thread(Worker(*this)));
+		for (size_t i = 0; i < threads; ++i)
+			workers.emplace_back(
+			[this]
+		{
+			while (true)
+			{
+				std::unique_lock<std::mutex> lock(this->queue_mutex);
+				while (!this->stop && this->tasks.empty())
+					this->condition.wait(lock);
+				if (this->stop && this->tasks.empty())
+					return;
+				std::function<void()> task(this->tasks.front());
+				this->tasks.pop();
+				lock.unlock();
+				task();
+			}
+		}
+		);
 	}
-
-	template<class T, class F>
-	struct CallAndSet {
-		void operator()(const Result<T> &res, const F f)
-		{
-			res.set(f());
-			res.signal();
-		}
-	};
-
-	template<class F>
-	struct CallAndSet<void,F> {
-		void operator()(const Result<void> &res, const F &f)
-		{
-			f();
-			res.signal();
-		}
-	};
 
 	// add new work item to the pool
-	template<class T, class F>
-	Result<T> ThreadPool::enqueue(F f)
+	template<class F, class... Args>
+	auto ThreadPool::enqueue(F && f, Args && ... args)
+		-> std::future<typename std::result_of<F(Args...)>::type>
 	{
-		Result<T> res;
+		typedef typename std::result_of<F(Args...)>::type return_type;
+
+		// don't allow enqueueing after stopping the pool
+		if (stop)
+			throw std::runtime_error("enqueue on stopped ThreadPool");
+
+		auto task = std::make_shared< std::packaged_task<return_type()> >(
+			std::bind(std::forward<F>(f), std::forward<Args>(args)...)
+			);
+
+		std::future<return_type> res = task->get_future();
 		{
 			std::unique_lock<std::mutex> lock(queue_mutex);
-			tasks.push_back(std::function<void()>(
-				[f,res]()
-			{
-				CallAndSet<T,F>()(res, f);
-			}));
+			tasks.push([task](){ (*task)(); });
 		}
 		condition.notify_one();
 		return res;
 	}
 
 	// the destructor joins all threads
-	ThreadPool::~ThreadPool()
+	inline ThreadPool::~ThreadPool()
 	{
-		stop = true;
+		{
+			std::unique_lock<std::mutex> lock(queue_mutex);
+			stop = true;
+		}
 		condition.notify_all();
-		for(size_t i = 0;i<workers.size();++i)
+		for (size_t i = 0; i < workers.size(); ++i)
 			workers[i].join();
 	}
 }
-#endif
 #endif

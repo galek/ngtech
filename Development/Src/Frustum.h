@@ -12,7 +12,7 @@
 #include "MathLib.h"
 //*************************
 
-namespace NGEngine {
+namespace VEGA {
 
 //---------------------------------------------------------------------------
 //Desc: View frustum struct

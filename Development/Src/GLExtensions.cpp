@@ -122,7 +122,7 @@ PFNGLFRAMEBUFFERTEXTURE2DEXTPROC		glFramebufferTexture2DEXT = NULL;
 PFNGLFRAMEBUFFERTEXTURE3DEXTPROC		glFramebufferTexture3DEXT = NULL;
 PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC	    glFramebufferRenderbufferEXT = NULL;
 
-namespace NGEngine {
+namespace VEGA {
 
 	//---------------------------------------------------------------------------
 	//Desc:    checks if extension is supported

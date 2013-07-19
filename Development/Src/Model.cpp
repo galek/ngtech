@@ -17,7 +17,7 @@
 #include "Error.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	//---------------------------------------------------------------------------
 	//Desc:    creates new Model from file

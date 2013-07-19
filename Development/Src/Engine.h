@@ -31,7 +31,7 @@
 #include "CoreManager.h"
 //***************************************************
 
-namespace NGEngine {
+namespace VEGA {
 	struct IGame;
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main class. Created one time

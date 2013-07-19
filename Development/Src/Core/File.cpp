@@ -10,7 +10,7 @@
 #include "File.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 #define UNKNOWN_EXT "UNKNOWN_EXT"
 	//---------------------------------------------------------------------------

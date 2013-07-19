@@ -22,7 +22,7 @@
 #include <vector>
 //***************************************************************************
 
-namespace NGEngine {
+namespace VEGA {
 	class Engine;
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main video system. Created one time

@@ -15,7 +15,7 @@
 #include "Common/EString.h"
 //***************************************************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 //---------------------------------------------------------------------------
 //Desc: GL GLShader struct    
@@ -36,9 +36,7 @@ public:
 	void sendInt(const String &name, int value);
 
 private:
-	GLhandleARB vs;
-	GLhandleARB fs;
-	GLhandleARB program;
+	GLhandleARB vs, fs, cs, tcs, tes, program;
 };
 
 };

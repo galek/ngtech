@@ -16,7 +16,7 @@ template <> Common::DataManager* Common::Singleton<Common::DataManager>::msInsta
 template <> const char* Common::Singleton<Common::DataManager>::mClassTypeName("DataManager");
 
 
-namespace NGEngine
+namespace VEGA
 {
 	using namespace Common;
 	FileSystem::FileSystem() :

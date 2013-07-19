@@ -14,7 +14,7 @@
 #include "ILImage.h"
 //***************************************************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 //---------------------------------------------------------------------------
 //Desc: Engine`s main image loading system. Created one time

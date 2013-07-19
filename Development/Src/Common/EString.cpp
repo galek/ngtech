@@ -14,7 +14,7 @@
 #include <stdarg.h>
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	//---------------------------------------------------------------------------
 	//Desc:    gets words count. Words are separated by space

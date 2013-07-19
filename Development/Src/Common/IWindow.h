@@ -7,7 +7,7 @@
 #include <string>
 //***************************************************
 
-namespace NGEngine {
+namespace VEGA {
 	struct IWindow{
 		//---------------------------------------------------------------------------
 		//Desc: Mouse buttons enum

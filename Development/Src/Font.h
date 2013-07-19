@@ -12,7 +12,7 @@
 #include "GLSystem.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 class Font {
 public:

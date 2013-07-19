@@ -13,15 +13,15 @@
 #include "IGame.h"
 #include "VFS.h"
 
-namespace NGEngine {
+namespace VEGA {
 	using namespace Common;
 	Engine engine;
-#define ENGINE_VERSION_NUMBER 0.2.81
-#define ENGINE_VERSION_STRING "0.2.81"
+#define ENGINE_VERSION_NUMBER 0.3.1
+#define ENGINE_VERSION_STRING "0.3.1"
 	//---------------------------------------------------------------------------
-	//Desc:    creates new NGEngine
+	//Desc:    creates new VEGA
 	//Params:  -
-	//Returns: pointer to new NGEngine
+	//Returns: pointer to new VEGA
 	//---------------------------------------------------------------------------
 	Engine::Engine() :
 		cvars(nullptr),
@@ -36,7 +36,7 @@ namespace NGEngine {
 		scene(nullptr)
 	{
 		log = new Log();
-		Log::write("NG Engine "ENGINE_VERSION_STRING"\n");
+		Log::write("VEGA Engine "ENGINE_VERSION_STRING"\n");
 		_PreInit();
 	}
 
@@ -153,7 +153,7 @@ namespace NGEngine {
 	}
 
 	//---------------------------------------------------------------------------
-	//Desc:    NGEngine destructor
+	//Desc:    VEGA destructor
 	//Params:  -
 	//Returns: -
 	//---------------------------------------------------------------------------

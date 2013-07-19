@@ -14,7 +14,7 @@
 #include "Error.h"
 //***************************************************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	//---------------------------------------------------------------------------
 	//Desc:    creates GLShader from file
@@ -26,6 +26,9 @@ namespace NGEngine {
 
 		shader->vs = NULL;
 		shader->fs = NULL;
+		shader->cs = NULL;
+		shader->tcs = NULL;
+		shader->tes = NULL;
 		shader->program = NULL;
 
 		if(!engine.vfs->isDataExist(path)) {
@@ -45,8 +48,10 @@ namespace NGEngine {
 				vsCode = "";
 				while(!feof(shdFile)) {
 					line = FileHelper::readString(shdFile);
-					if(line == "[GLSL_FRAGMENT_SHADER]") break;
-					else if(line == "[GLSL_COMPUTE_SHADER]") break;
+					if (line == "[GLSL_FRAGMENT_SHADER]") break;
+					else if (line == "[GLSL_COMPUTE_SHADER]") break;
+					else if (line == "[GLSL_TESSELATION_CONTROL_SHADER]") break;
+					else if (line == "[GLSL_TESSELATION_EVAL_SHADER]") break;
 					vsCode = vsCode + line + "\n";
 				}
 
@@ -77,7 +82,9 @@ namespace NGEngine {
 				while(!feof(shdFile)) {
 					line = FileHelper::readString(shdFile);
 					if(line == "[GLSL_VERTEX_SHADER]") break;
-					else if(line == "[GLSL_COMPUTE_SHADER]") break;
+					else if (line == "[GLSL_COMPUTE_SHADER]") break;
+					else if (line == "[GLSL_TESSELATION_CONTROL_SHADER]") break;
+					else if (line == "[GLSL_TESSELATION_EVAL_SHADER]") break;
 					fsCode = fsCode + line + "\n";
 				}
 

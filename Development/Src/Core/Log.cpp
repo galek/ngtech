@@ -12,7 +12,7 @@
 #include <stdarg.h>
 //***************************************************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 #define LOG_FILE "EngineLog.log"
 	void Debug(String text){

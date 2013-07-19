@@ -1,0 +1,8 @@
+Многопоточность(?)
+выпала ошибка,что в не может скопировать строку
+>	NGEngine.exe!free(void * pBlock)  Строка 51	C
+ 	NGEngine.exe!std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Copy(unsigned int _Newsize, unsigned int _Oldlen)  Строка 1946 + 0xe байт	C++
+ 	00000024()	
+ 	NGEngine.exe!__cos_pentium4()  + 0xf293 байт	C++
+ 	NGEngine.exe!__cos_pentium4()  + 0x2020e байт	C++
+ 	NGEngine.exe!__cos_pentium4()  + 0x203a0 байт	C++

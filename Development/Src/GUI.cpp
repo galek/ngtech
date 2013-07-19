@@ -8,11 +8,11 @@
 #include "EnginePrivate.h"
 
 //**************************************
-#include "Includes\MyGUI\Platforms\OpenGL\OpenGLPlatform\include\MyGUI_OpenGLPlatform.h"
-#include "Includes\MyGUI\MyGUIEngine\include\MyGUI_Gui.h"
-#include "Includes\MyGUI\MyGUIEngine\include\MyGUI_TextBox.h"
-#include "Includes\MyGUI\MyGUIEngine\include\MyGUI_Button.h"
-#include "Includes\MyGUI\MyGUIEngine\include\MyGUI_PointerManager.h"
+#include "MyGUI_OpenGLPlatform.h"
+#include "MyGUI_Gui.h"
+#include "MyGUI_TextBox.h"
+#include "MyGUI_Button.h"
+#include "MyGUI_PointerManager.h"
 #include "GUI.h"
 #include "ILSystem.h"
 #include "WindowSystem.h"
@@ -21,7 +21,7 @@
 #include "CVarManager.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	void* GUI::loadImage(int& _width, int& _height, MyGUI::PixelFormat& _format, const std::string& _filename)
 	{

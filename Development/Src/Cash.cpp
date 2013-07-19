@@ -13,7 +13,7 @@
 #include "Config.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	Cash::Cash() {}
 

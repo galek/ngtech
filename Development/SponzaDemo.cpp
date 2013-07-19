@@ -1,10 +1,10 @@
 #include "EnginePrivate.h"
 #include "Src/Engine.h"
 #include "Main.h"
-#include "Src\Includes\MyGUI\MyGUIEngine\include\MyGUI_Gui.h"
-#include "Src\Includes\MyGUI\MyGUIEngine\include\MyGUI_TextBox.h"
+#include "MyGUI_Gui.h"
+#include "MyGUI_TextBox.h"
 using namespace MyGUI;
-using namespace NGEngine;
+using namespace VEGA;
 
 #ifdef SPONZA_DEMO
 //objects

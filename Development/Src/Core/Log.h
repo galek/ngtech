@@ -12,7 +12,7 @@
 #include "..\Common\EString.h"
 //***************************************************************************
 
-namespace NGEngine {
+namespace VEGA {
 	void Debug(String text);
 	void Warning(String text);
 	void LogPrintf(String text);

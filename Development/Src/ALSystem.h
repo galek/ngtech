@@ -16,7 +16,7 @@
 #include "ALSoundSource.h"
 //***************************************************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 //---------------------------------------------------------------------------
 //Desc: Engine`s main sound system. Created one time

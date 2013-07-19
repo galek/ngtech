@@ -19,7 +19,7 @@
 #include "Log.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 //---------------------------------------------------------------------------
 //Desc: class of the scene object

@@ -15,7 +15,7 @@
 #include "Material.h"
 //************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 class Terrain {
 public:

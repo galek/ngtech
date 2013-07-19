@@ -21,7 +21,7 @@
 #include "SkinnedModel.h"
 //**************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 //---------------------------------------------------------------------------
 //Desc: base object class

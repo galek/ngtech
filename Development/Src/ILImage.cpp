@@ -15,7 +15,7 @@
 #include "Error.h"
 //***************************************************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 #define BMP "bmp"
 #define TGA "tga"

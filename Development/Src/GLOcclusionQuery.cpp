@@ -11,7 +11,7 @@
 #include "GLOcclusionQuery.h"
 //***************************************************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 	//---------------------------------------------------------------------------
 	//Desc:    creates GLOcclusionQuery

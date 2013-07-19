@@ -15,7 +15,7 @@
 #include "Config.h"
 //***************************************************************************
 
-namespace NGEngine {
+namespace VEGA {
 
 
 	//contact-callback------------------
