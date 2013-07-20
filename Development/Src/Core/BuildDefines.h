@@ -3,7 +3,7 @@
 
 
 #ifndef _ENGINE_DEBUG_
-//#define _ENGINE_DEBUG_ 1
+#define _ENGINE_DEBUG_ 1
 #endif
 
 #endif
