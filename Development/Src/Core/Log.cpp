@@ -47,8 +47,11 @@ namespace VEGA {
 		text += '\n';
 		FILE *fLog;
 		fLog = fopen(LOG_FILE, "a+t");
+#ifdef WIN32
 		fprintf(fLog, "%s", text.c_str());
+#else
 		printf("%s", text.c_str());
+#endif
 		fclose(fLog);
 	}
 

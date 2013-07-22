@@ -14,6 +14,7 @@
 #include "Config.h"
 #include "Error.h"
 #include "CvarManager.h"
+#include "GUI.h"
 #include "mygui.h"
 //***************************************************
 #ifdef WIN32
@@ -262,8 +263,8 @@ namespace VEGA {
 
 
 					if (!engine.iWindow->mouseGrabed)
-						MyGUI::InputManager::getInstancePtr()->injectMouseMove(engine.iWindow->mx, engine.iWindow->my, 0);
-
+						MyGUI::InputManager::getInstancePtr()->injectMouseMove(engine.iWindow->oldMouseX, engine.iWindow->oldMouseY, 0);
+			
 					return 0;
 				}
 			}
@@ -274,8 +275,8 @@ namespace VEGA {
 					engine.iWindow->mouseButtons[0] = true; 
 
 				if (!engine.iWindow->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMousePress(engine.iWindow->mx, engine.iWindow->my, (MyGUI::MouseButton::Enum)0);
-
+					MyGUI::InputManager::getInstancePtr()->injectMousePress(engine.iWindow->oldMouseX, engine.iWindow->oldMouseY, (MyGUI::MouseButton::Enum)0);
+				
 				return 0;
 			}
 
@@ -285,8 +286,8 @@ namespace VEGA {
 					engine.iWindow->mouseButtons[0] = false;
 
 				if (!engine.iWindow->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(engine.iWindow->mx, engine.iWindow->my, (MyGUI::MouseButton::Enum)1);
-
+					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(engine.iWindow->oldMouseX, engine.iWindow->oldMouseY, (MyGUI::MouseButton::Enum)1);
+				
 				return 0;
 			}
 
@@ -296,7 +297,7 @@ namespace VEGA {
 					engine.iWindow->mouseButtons[1] = true;
 
 				if (!engine.iWindow->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMousePress(engine.iWindow->mx, engine.iWindow->my, (MyGUI::MouseButton::Enum)1);
+					MyGUI::InputManager::getInstancePtr()->injectMousePress(engine.iWindow->oldMouseX, engine.iWindow->oldMouseY, (MyGUI::MouseButton::Enum)1);
 				
 				return 0;
 			}
@@ -307,8 +308,8 @@ namespace VEGA {
 					engine.iWindow->mouseButtons[1] = false;
 
 				if (!engine.iWindow->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(engine.iWindow->mx, engine.iWindow->my, (MyGUI::MouseButton::Enum)0);
-
+					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(engine.iWindow->oldMouseX, engine.iWindow->oldMouseY, (MyGUI::MouseButton::Enum)0);
+					
 				return 0;
 			}
 
@@ -324,7 +325,8 @@ namespace VEGA {
 					engine.iWindow->height = h;
 					return 0;
 				}
-				//Nick:TODO:Сделай здесь функцию ресайза
+				if (engine.gui)
+					engine.gui->resize(w, h);
 			}
 		}
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);

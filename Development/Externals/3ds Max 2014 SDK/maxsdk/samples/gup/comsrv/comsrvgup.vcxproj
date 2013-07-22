@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Hybrid|Win32">
+      <Configuration>Hybrid</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Hybrid|x64">
+      <Configuration>Hybrid</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D6A991FA-CEA4-4F17-BEF0-1CEDF83CE58F}</ProjectGuid>
+    <RootNamespace>comsrv</RootNamespace>
+    <MaxSDK>../../../../maxsdk</MaxSDK>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(MaxSDK)\ProjectSettings\PropertySheets\3dsmax.general.project.settings.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(MaxSDK)\ProjectSettings\PropertySheets\3dsmax.cpp.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Hybrid|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir>$(MaxBuildStdplugs)</OutDir>
+    <TargetName>comsrv</TargetName>
+    <TargetExt>.gup</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Midl>
+      <AdditionalIncludeDirectories>$(MaxSdkInc);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TypeLibraryName>$(IntDir)\comsrv.tlb</TypeLibraryName>
+      <HeaderFileName>$(IntDir)\%(Filename).h</HeaderFileName>
+      <InterfaceIdentifierFileName>$(IntDir)\%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>$(IntDir)\%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <ClCompile>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(IntDir);$(MaxSdkInc);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);$(MaxSdkInc);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(MaxSdkLib);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>.\mscom.def</ModuleDefinitionFile>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy $(IntDir)\comsrv.tlb $(MaxBuildStdplugs)\comsrv.tlb
+        $(MaxSdkDir)\tools\RunMUIRCT.exe $(OutDir) $(TargetFileName)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <PreprocessorDefinitions>_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>winmm.lib;comsupp.lib;shlwapi.lib;geom.lib;maxscrpt.lib;bmm.lib;core.lib;gup.lib;maxutil.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <PreprocessorDefinitions>_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>winmm.lib;comsupp.lib;shlwapi.lib;geom.lib;maxscrpt.lib;bmm.lib;core.lib;gup.lib;maxutil.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'">
+    <Midl>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <PreprocessorDefinitions>_SECURE_SCL=0;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>comsupp.lib;shlwapi.lib;geom.lib;maxscrpt.lib;bmm.lib;core.lib;gup.lib;maxutil.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Hybrid|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <PreprocessorDefinitions>_SECURE_SCL=0;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>comsupp.lib;shlwapi.lib;geom.lib;maxscrpt.lib;bmm.lib;core.lib;gup.lib;maxutil.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <PreprocessorDefinitions>_SECURE_SCL=0;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>comsupp.lib;shlwapi.lib;geom.lib;maxscrpt.lib;bmm.lib;core.lib;gup.lib;maxutil.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <PreprocessorDefinitions>_SECURE_SCL=0;_CRT_NON_CONFORMING_SWPRINTFS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>comsupp.lib;shlwapi.lib;geom.lib;maxscrpt.lib;bmm.lib;core.lib;gup.lib;maxutil.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="BitmapInfo.cpp" />
+    <ClCompile Include="comsrv.cpp" />
+    <ClCompile Include="MaxApp.cpp" />
+    <ClCompile Include="MaxDocument.cpp" />
+    <ClCompile Include="MaxMaterial.cpp" />
+    <ClCompile Include="MaxMaterialCollection.cpp" />
+    <ClCompile Include="MaxRenderer.cpp" />
+    <ClCompile Include="mscom.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <WholeProgramOptimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Async</ExceptionHandling>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">StreamingSIMDExtensions</EnableEnhancedInstructionSet>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Fast</FloatingPointModel>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <UseFullPaths Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</UseFullPaths>
+      <WholeProgramOptimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Async</ExceptionHandling>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Fast</FloatingPointModel>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
+      <UseFullPaths Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</UseFullPaths>
+      <WholeProgramOptimization Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'">false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'">$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'">Async</ExceptionHandling>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'">true</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'">StreamingSIMDExtensions</EnableEnhancedInstructionSet>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'">Fast</FloatingPointModel>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <UseFullPaths Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'">true</UseFullPaths>
+      <WholeProgramOptimization Condition="'$(Configuration)|$(Platform)'=='Hybrid|x64'">false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Hybrid|x64'">$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Hybrid|x64'">Async</ExceptionHandling>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Hybrid|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Hybrid|x64'">true</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Hybrid|x64'">Fast</FloatingPointModel>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Hybrid|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Hybrid|x64'">stdafx.h</PrecompiledHeaderFile>
+      <UseFullPaths Condition="'$(Configuration)|$(Platform)'=='Hybrid|x64'">true</UseFullPaths>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MaxSpeed</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Speed</FavorSizeOrSpeed>
+      <OmitFramePointers Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</OmitFramePointers>
+      <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Async</ExceptionHandling>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Default</BasicRuntimeChecks>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">StreamingSIMDExtensions</EnableEnhancedInstructionSet>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Fast</FloatingPointModel>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <UseFullPaths Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</UseFullPaths>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MaxSpeed</Optimization>
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IntrinsicFunctions>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Speed</FavorSizeOrSpeed>
+      <OmitFramePointers Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</OmitFramePointers>
+      <EnableFiberSafeOptimizations Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Async</ExceptionHandling>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Default</BasicRuntimeChecks>
+      <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</BufferSecurityCheck>
+      <FloatingPointModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Fast</FloatingPointModel>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
+      <UseFullPaths Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</UseFullPaths>
+    </ClCompile>
+    <ClCompile Include="TestMarshalSpeed.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="comsrv.idl">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">midl.exe /I "..\..\..\..\maxsdk\include" /nologo /char signed /env win32 /Oicf  /tlb "$(IntDir)\comsrv.tlb" /h "$(IntDir)\comsrv.h" /iid "$(IntDir)\comsrv_i.c" /proxy "$(IntDir)\comsrv_p.c" comsrv.idl</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)\comsrv.tlb;$(IntDir)\comsrv.h;$(IntDir)\comsrv_i.c;$(IntDir)\comsrv_p.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'">midl.exe /I "..\..\..\..\maxsdk\include" /nologo /char signed /env win32 /Oicf  /tlb "$(IntDir)\comsrv.tlb" /h "$(IntDir)\comsrv.h" /iid "$(IntDir)\comsrv_i.c" /proxy "$(IntDir)\comsrv_p.c" comsrv.idl</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'">$(IntDir)\comsrv.tlb;$(IntDir)\comsrv.h;$(IntDir)\comsrv_i.c;$(IntDir)\comsrv_p.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">midl.exe /I "..\..\..\..\maxsdk\include" /nologo /char signed /env win32 /Oicf  /tlb "$(IntDir)\comsrv.tlb" /h "$(IntDir)\comsrv.h" /iid "$(IntDir)\comsrv_i.c" /proxy "$(IntDir)\comsrv_p.c" comsrv.idl</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)\comsrv.tlb;$(IntDir)\comsrv.h;$(IntDir)\comsrv_i.c;$(IntDir)\comsrv_p.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">midl.exe /I "..\..\..\..\maxsdk\include" /nologo /char signed /env x64 /Oicf  /tlb "$(IntDir)\comsrv.tlb" /h "$(IntDir)\comsrv.h" /iid "$(IntDir)\comsrv_i.c" /proxy "$(IntDir)\comsrv_p.c" comsrv.idl</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)\comsrv.tlb;$(IntDir)\comsrv.h;$(IntDir)\comsrv_i.c;$(IntDir)\comsrv_p.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Hybrid|x64'">midl.exe /I "..\..\..\..\maxsdk\include" /nologo /char signed /env x64 /Oicf  /tlb "$(IntDir)\comsrv.tlb" /h "$(IntDir)\comsrv.h" /iid "$(IntDir)\comsrv_i.c" /proxy "$(IntDir)\comsrv_p.c" comsrv.idl</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Hybrid|x64'">$(IntDir)\comsrv.tlb;$(IntDir)\comsrv.h;$(IntDir)\comsrv_i.c;$(IntDir)\comsrv_p.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">midl.exe /I "..\..\..\..\maxsdk\include" /nologo /char signed /env x64 /Oicf  /tlb "$(IntDir)\comsrv.tlb" /h "$(IntDir)\comsrv.h" /iid "$(IntDir)\comsrv_i.c" /proxy "$(IntDir)\comsrv_p.c" comsrv.idl</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)\comsrv.tlb;$(IntDir)\comsrv.h;$(IntDir)\comsrv_i.c;$(IntDir)\comsrv_p.c;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="comsrv.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mscom.def" />
+    <None Include="BitmapInfo.rgs" />
+    <None Include="comsrv.rgs" />
+    <None Include="MaxApp.rgs" />
+    <None Include="MaxDocument.rgs" />
+    <None Include="MaxDocumentABS.rgs" />
+    <None Include="MaxDocumentCiv3D.rgs" />
+    <None Include="MaxMaterial.rgs" />
+    <None Include="MaxMaterialCollection.rgs" />
+    <None Include="MaxRenderer.rgs" />
+    <None Include="mxmain.ico" />
+    <None Include="TestMarshalSpeed.rgs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BitmapInfo.h" />
+    <ClInclude Include="MaxApp.h" />
+    <ClInclude Include="MaxDocument.h" />
+    <ClInclude Include="MaxMaterial.h" />
+    <ClInclude Include="MaxMaterialCollection.h" />
+    <ClInclude Include="MaxRenderer.h" />
+    <ClInclude Include="mscom.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="resOverride.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="TestMarshalSpeed.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>
