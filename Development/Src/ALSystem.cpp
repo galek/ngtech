@@ -20,28 +20,36 @@ namespace VEGA {
 	//Params:  -
 	//Returns: -
 	//---------------------------------------------------------------------------
-	ALSystem::ALSystem() {
+	ALSystem::ALSystem() : alDevice(nullptr),
+		alContext(nullptr) {}
 
-		Log::write("ALSystem::create()");
+	//---------------------------------------------------------------------------
+	//Desc:    creates new ALSystem
+	//Params:  -
+	//Returns: -
+	//---------------------------------------------------------------------------
+	void ALSystem::initialise() {
 
-		alDevice  = alcOpenDevice(NULL);
-		alContext = alcCreateContext(alDevice, NULL);
-		alcMakeContextCurrent(alContext);
+			Log::write("ALSystem::create()");
 
-		Log::write("{");
-		Log::write("Vendor:     " + getVendor()); 
-		Log::write("Renderer:   " + getRenderer());
-		Log::write("Version:    " + getVersion());
-		Log::write("Extensions: " + getExtensions()); 
+			alDevice = alcOpenDevice(NULL);
+			alContext = alcCreateContext(alDevice, NULL);
+			alcMakeContextCurrent(alContext);
 
-		int error = alGetError();
-		if(error != AL_NO_ERROR) {
-			Error::showAndExit("ALSystem::create() error: error while creating");
-			return;
-		}
-		Log::write("}\n");
+			Log::write("{");
+			Log::write("Vendor:     " + getVendor());
+			Log::write("Renderer:   " + getRenderer());
+			Log::write("Version:    " + getVersion());
+			Log::write("Extensions: " + getExtensions());
 
-		alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
+			int error = alGetError();
+			if (error != AL_NO_ERROR) {
+				Error::showAndExit("ALSystem::create() error: error while creating");
+				return;
+			}
+			Log::write("}\n");
+
+			alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
 	}
 
 

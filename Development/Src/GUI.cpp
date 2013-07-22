@@ -19,6 +19,7 @@
 #include "Log.h"
 #include "Cash.h"
 #include "CVarManager.h"
+#include "VFS.h"
 //**************************************
 
 namespace VEGA {
@@ -26,10 +27,10 @@ namespace VEGA {
 	void* GUI::loadImage(int& _width, int& _height, MyGUI::PixelFormat& _format, const std::string& _filename)
 	{
 		// Load the image as a resource
-		if(engine.vfs->isDataExist(_filename))
+		if (engine.vfs->isDataExist(_filename))
 		{
 			Common::IDataStream* stream = engine.vfs->getData(_filename);
-			if(!stream)
+			if (!stream)
 				Warning("[GUI]Failed Loading GUI image!");
 			size_t lumpSize = stream->size();
 			void* lumpData = malloc(lumpSize);
@@ -102,25 +103,27 @@ namespace VEGA {
 			ILubyte* data = ilGetData();
 			memcpy(_data, data, size);
 			return _data;
-		}else{
-			Warning("[GUI]Failed Loading GUI image!File not found:%s"+_filename);
+		}
+		else{
+			Warning("[GUI]Failed Loading GUI image!File not found:%s" + _filename);
 			return NULL;
 		}
 	}
 	void GUI::saveImage(int _width, int _height, MyGUI::PixelFormat _format, void* _texture, const std::string& _filename){}
 
 	GUI::GUI()
-		:mPlatform(nullptr),
-		mGUI(nullptr)
+		: mPlatform(nullptr),
+		mGUI(nullptr),
+		fpsLabel(nullptr)
 	{
-		mPlatform=new MyGUI::OpenGLPlatform();
-		mGUI=new MyGUI::Gui();
+		mPlatform = new MyGUI::OpenGLPlatform();
+		mGUI = new MyGUI::Gui();
 	}
-	void GUI::Initialise()	{	
+	void GUI::initialise()	{
 		mPlatform->initialise(this);
 		mPlatform->getDataManagerPtr()->addResourceLocation("data/gui/", true);
 		mPlatform->getDataManagerPtr()->addResourceLocation("data/guitest/", true);
-		mPlatform->getRenderManagerPtr()->setViewSize(1024.0f,768.0f);
+		mPlatform->getRenderManagerPtr()->setViewSize(1024.0f, 768.0f);
 		mGUI->initialise("MyGUI_Core.xml");
 #if 1
 		//TEST
@@ -129,7 +132,7 @@ namespace VEGA {
 		pMyGUIInfo->setTextShadow(true);
 		pMyGUIInfo->setVisible(true);
 		pMyGUIInfo->setCaption("Testeeeeeeeeeeeeeeeeeeeeee");
-		*/	
+		*/
 
 		MyGUI::Gui::getInstance().load("MyButton.xml");
 		MyGUI::Button* button =
@@ -147,8 +150,7 @@ namespace VEGA {
 		button2->setFontName("DejaVuSansFont.15");
 		button2->setCaption("Hello World!");*/
 #endif
-
-		MyGUI::PointerManager::getInstance().setVisible(true);
+		createDebugInfo();//Nick:TODO:Вынести все в отдельный класс
 	}
 	//---------------------------------------------------------------------------
 	//Desc:    GUI destructor
@@ -158,25 +160,36 @@ namespace VEGA {
 	GUI::~GUI() {
 
 	}
-
-
-
 	//---------------------------------------------------------------------------
 	//Desc:    draw all GUI widgets
 	//Params:  -
 	//Returns: -
 	//---------------------------------------------------------------------------
-	void GUI::Update() {
+	void GUI::update() {
 		engine.iRender->enable2d(false);
 		engine.iRender->disableCulling();
 		engine.iRender->enableBlending(GLSystem::ONE, GLSystem::ONE_MINUS_SRC_ALPHA);
 		if (mPlatform)
 			mPlatform->getRenderManagerPtr()->drawOneFrame();
 
+		updateDebugInfo();//Nick:TODO:Вынести все в отдельный класс
+
 		engine.iRender->disableBlending();
 		engine.iRender->enableCulling();
 		engine.iRender->enable3d();
 	}
+	//Nick:TODO:Вынести все в отдельный класс
+	void GUI::createDebugInfo(){
+		fpsLabel = mGUI->createWidget<MyGUI::TextBox>("TextBox", 100, 0, 180, 180, MyGUI::Align::Default, "Statistic", "InfoTextBox");
+		fpsLabel->setTextColour(MyGUI::Colour::White);
+		fpsLabel->setTextShadow(true);
+		fpsLabel->setVisible(true);
+		fpsLabel->setCaption("FPS: ");
+	}
+	//Nick:TODO:Вынести все в отдельный класс
+	void GUI::updateDebugInfo(){
+		if (engine.iWindow->getDTime() > EPSILON)
+			fpsLabel->setCaption("FPS: " + StringHelper::fromInt(1000 / engine.iWindow->getDTime()));
+	}
 
 }
-

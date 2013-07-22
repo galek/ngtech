@@ -9,9 +9,28 @@
 //***************************************************
 #include "Engine.h"
 #include "CVARManager.h"
-//***************************************************
-#include "IGame.h"
+#include "WindowSystem.h"
+#include "GLSystem.h"
+#include "ILSystem.h"
+#include "ALSystem.h"
+#include "PhysSystem.h"
+#include "Cash.h"
+#include "Log.h"
+#include "Config.h"
+#include "LoadingScreen.h"
+#include "Scene.h"
+#include "Object.h"
+#include "Terrain.h"
+#include "Light.h"
+#include "ParticleSystem.h"
+#include "Camera.h"
+#include "Font.h"
+#include "GUI.h"
 #include "VFS.h"
+#include "IGame.h"
+//***************************************************
+
+
 
 namespace VEGA {
 	using namespace Common;
@@ -37,7 +56,7 @@ namespace VEGA {
 	{
 		log = new Log();
 		Log::write("VEGA Engine "ENGINE_VERSION_STRING"\n");
-		_PreInit();
+		_preInit();
 	}
 
 	//---------------------------------------------------------------------------
@@ -45,7 +64,7 @@ namespace VEGA {
 	//Params:  -
 	//Returns: -
 	//---------------------------------------------------------------------------
-	void Engine::_PreInit()
+	void Engine::_preInit()
 	{
 		config = new Config("user.ltx");
 		cvars = new CVARManager(config);
@@ -76,7 +95,7 @@ namespace VEGA {
 	//Params:  -
 	//Returns: -
 	//---------------------------------------------------------------------------
-	void Engine::SetGame(IGame*_game){
+	void Engine::setGame(IGame*_game){
 		game = _game;
 	}
 
@@ -87,35 +106,43 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	void Engine::initialise()
 	{
-		if (iWindow)
+		if (iWindow){
 			iWindow->initialise();
-		Debug("[Init]Window Finished");
-		_SetResources();
+			Debug("[Init]Window Finished");
+		}
+		_setResources();
 		Debug("[Init]FileSystem Finished");
-		if (iRender)
+		if (iRender){
 			iRender->initialise();
-		Debug("[Init]Render Finished");
-		//alSystem->initialise();
-		Debug("[Init]Audio Finished");
+			Debug("[Init]Render Finished");
+		}
+		if (alSystem){
+			alSystem->initialise();
+			Debug("[Init]Audio Finished");
+		}
 		//ilSystem->initialise();
-		Debug("[Init]ImageCodec Finished");
-		if (physSystem)
+		//Debug("[Init]ImageCodec Finished");
+		if (physSystem){
 			physSystem->initialise();
-		Debug("[Init]Physics Finished");
+			Debug("[Init]Physics Finished");
+		}
 		//cash->initialise();
-		Debug("[Init]FS Finished");
+		//Debug("[Init]FS Finished");
 		//initialize GUI
-		if (gui)
-			gui->Initialise();
-		Debug("[Init]GUI Finished");
+		if (gui){
+			gui->initialise();
+			Debug("[Init]GUI Finished");
+		}
 		//initialize SceneManager
-		if (scene)
+		if (scene){
 			scene->initialise();
-		Debug("[Init]SceneManager Finished");
+			Debug("[Init]SceneManager Finished");
+		}
 		//initialize Game
-		if (game)
+		if (game){
 			game->initialise();
-		Debug("[Init]Game Finished");
+			Debug("[Init]Game Finished");
+		}
 
 		running = true;
 		Debug("[Init]Checking Render Extensions");
@@ -184,7 +211,7 @@ namespace VEGA {
 				this->physSystem->update(this->iWindow->getDTime());
 
 			if (game)
-				game->RunEventsCallback();
+				game->runEventsCallback();
 
 			if (this->iRender)
 				this->iRender->clear(GLSystem::COLOR_BUFFER | GLSystem::DEPTH_BUFFER | GLSystem::STENCIL_BUFFER);
@@ -193,10 +220,10 @@ namespace VEGA {
 				this->scene->Update();
 
 			if (game->rc)
-				game->RunRenderCallback();
+				game->runRenderCallback();
 
 			if (this->gui)
-				this->gui->Update();
+				this->gui->update();
 
 			if (this->iRender)
 				this->iRender->flush();
@@ -205,7 +232,7 @@ namespace VEGA {
 				this->iWindow->swapBuffers();
 
 			if (this->game)
-				this->game->Update();
+				this->game->update();
 		}
 	}
 
@@ -219,7 +246,7 @@ namespace VEGA {
 		running = false;
 	}
 
-	void Engine::_SetResources() {
+	void Engine::_setResources() {
 		vfs->addResourceLocation("data", true);
 	}
 

@@ -18,7 +18,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v120_xp</PlatformToolset>
@@ -67,40 +67,40 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;VEGA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <MinimalRebuild>true</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>..\Src\Common;..\Src\Core;..\Externals\freetype\include\;..\Externals\freetype\include\freetype;..\Externals\MyGUI\Common;..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\Externals\MyGUI\MyGUIEngine\include</AdditionalIncludeDirectories>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Full</Optimization>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <ExpandAttributedSource>true</ExpandAttributedSource>
       <BrowseInformation>true</BrowseInformation>
       <PrecompiledHeaderFile>EnginePrivate.h</PrecompiledHeaderFile>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
-      <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <AdditionalLibraryDirectories>$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenAL32.lib;ogg_static.lib;vorbis_static.lib;vorbisfile_static.lib;opengl32.lib;ilu.lib;devil.lib;newton.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Src\Core\VFS.cpp" />
+    <ClCompile Include="..\Src\Effect.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Src\Engine.cpp" />
     <ClCompile Include="..\Src\ALSound.cpp" />
     <ClCompile Include="..\Src\ALSoundSource.cpp" />
@@ -109,6 +109,7 @@
     <ClCompile Include="..\Src\EnginePrivate.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Src\Engine\EngineAppBase.cpp" />
     <ClCompile Include="..\Src\GLDisplayList.cpp" />
     <ClCompile Include="..\Src\GLExtensions.cpp" />
     <ClCompile Include="..\Src\GLFBO.cpp" />
@@ -119,7 +120,11 @@
     <ClCompile Include="..\Src\GLVBO.cpp" />
     <ClCompile Include="..\Src\ILImage.cpp" />
     <ClCompile Include="..\Src\ILSystem.cpp" />
+    <ClCompile Include="..\Src\MandelbrotDemo.cpp" />
     <ClCompile Include="..\Src\MathLib.cpp" />
+    <ClCompile Include="..\Src\ObjectSkinnedMesh.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\Src\PhysBody.cpp" />
     <ClCompile Include="..\Src\PhysJoint.cpp" />
     <ClCompile Include="..\Src\PhysSystem.cpp" />
@@ -138,19 +143,11 @@
     <ClCompile Include="..\Src\SkinnedModel.cpp" />
     <ClCompile Include="..\Src\Terrain.cpp" />
     <ClCompile Include="..\Src\Water.cpp" />
-    <ClCompile Include="..\Main.cpp" />
-    <ClCompile Include="..\MandelbrotDemo.cpp" />
-    <ClCompile Include="..\SponzaDemo.cpp" />
     <ClCompile Include="..\Src\WindowSystem.cpp" />
-    <ClCompile Include="..\TerrainDemo.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.xdc</XMLDocumentationFileName>
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
-      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.xdc</XMLDocumentationFileName>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\Core\VFS.h" />
+    <ClInclude Include="..\Src\Effect.h" />
     <ClInclude Include="..\Src\Engine.h" />
     <ClInclude Include="..\Src\ALSound.h" />
     <ClInclude Include="..\Src\ALSoundSource.h" />
@@ -158,6 +155,8 @@
     <ClInclude Include="..\Src\Cash.h" />
     <ClInclude Include="..\Src\Config.h" />
     <ClInclude Include="..\Src\EnginePrivate.h" />
+    <ClInclude Include="..\Src\Engine\DLLDef.h" />
+    <ClInclude Include="..\Src\Engine\EngineAppBase.h" />
     <ClInclude Include="..\Src\Error.h" />
     <ClInclude Include="..\Src\GLDisplayList.h" />
     <ClInclude Include="..\Src\GLExtensions.h" />
@@ -171,6 +170,7 @@
     <ClInclude Include="..\Src\ILSystem.h" />
     <ClInclude Include="..\Src\Log.h" />
     <ClInclude Include="..\Src\MathLib.h" />
+    <ClInclude Include="..\Src\ObjectSkinnedMesh.h" />
     <ClInclude Include="..\Src\PhysBody.h" />
     <ClInclude Include="..\Src\PhysJoint.h" />
     <ClInclude Include="..\Src\PhysSystem.h" />

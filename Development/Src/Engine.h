@@ -9,26 +9,9 @@
 #pragma once 
 
 //***************************************************
-#include "WindowSystem.h"
-#include "GLSystem.h"
-#include "ILSystem.h"
-#include "ALSystem.h"
-#include "PhysSystem.h"
-#include "Cash.h"
-#include "Log.h"
-#include "Config.h"
-#include "LoadingScreen.h"
-#include "Scene.h"
-#include "Object.h"
-#include "Terrain.h"
-#include "Light.h"
-#include "ParticleSystem.h"
-#include "Camera.h"
-#include "Font.h"
-#include "GUI.h"
-#include "VFS.h"
+#include "Engine\DLLDef.h"
 //***************************************************
-#include "CoreManager.h"
+#include "..\Core\CoreManager.h"
 //***************************************************
 
 namespace VEGA {
@@ -36,7 +19,7 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main class. Created one time
 	//---------------------------------------------------------------------------
-	class Engine:public CoreManager {
+	class VEGA_API Engine : public CoreManager {
 	public:
 		Engine();
 
@@ -47,23 +30,23 @@ namespace VEGA {
 
 		void quit();
 		void initialise();
-		void SetGame(IGame*_game);
+		void setGame(IGame*_game);
 	private:
-		void _PreInit();
-		void _SetResources();	
+		void _preInit();
+		void _setResources();	
 	public:
-		CVARManager*cvars;
-		Log* log;
-		Config *config;
+		struct CVARManager*cvars;
+		struct Log* log;
+		class Config *config;
 		class FileSystem*vfs;
-		ALSystem *alSystem;
-		ILSystem *ilSystem;
-		PhysSystem *physSystem;
+		class ALSystem *alSystem;
+		class ILSystem *ilSystem;
+		class PhysSystem *physSystem;
 
-		Cash *cash;
-		GUI*gui;
-		Scene*scene;
-		IGame*game;
+		class Cash *cash;
+		class GUI*gui;
+		class Scene*scene;
+		struct IGame*game;
 	};
-	extern Engine engine;
+	VEGA_API extern Engine engine;
 };

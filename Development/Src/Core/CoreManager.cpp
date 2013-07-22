@@ -10,6 +10,6 @@ namespace VEGA {
 		iWindow(nullptr),
 		iRender(nullptr),
 		running(false)	{
-			mTP=new ThreadPool(4);
+		//	mTP=new ThreadPool(4);
 	}
 }

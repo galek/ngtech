@@ -14,7 +14,7 @@
 
 namespace VEGA {
 
-class Font {
+	class VEGA_API Font {
 public:
 	Font(const String &path);
 	~Font();

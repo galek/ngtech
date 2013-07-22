@@ -12,6 +12,7 @@
 #include "Log.h"
 #include "File.h"
 #include "Error.h"
+#include "vfs.h"
 //***************************************************************************
 
 namespace VEGA {

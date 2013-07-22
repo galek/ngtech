@@ -8,7 +8,7 @@
 #pragma once
 
 //***************************************************************************
-#include "IncludesAndLibs.h"
+#include "Core/IncludesAndLibs.h"
 //***************************************************************************
 #include "MathLib.h"
 #include "ALSound.h"

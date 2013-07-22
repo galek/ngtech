@@ -24,7 +24,7 @@ namespace VEGA {
 //---------------------------------------------------------------------------
 //Desc: class of the scene. Created one time
 //---------------------------------------------------------------------------
-class Scene {
+	class VEGA_API Scene {
 public:
 	Scene();
 	

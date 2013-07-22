@@ -19,7 +19,7 @@ namespace VEGA {
 //---------------------------------------------------------------------------
 //Desc: base class of the camera
 //---------------------------------------------------------------------------
-class Camera {
+class VEGA_API Camera {
 public:
 	Camera();
 	enum CameraType {
@@ -58,7 +58,7 @@ public:
 //---------------------------------------------------------------------------
 //Desc: class of the FPS camera
 //---------------------------------------------------------------------------
-class CameraFPS : public Camera {
+class VEGA_API CameraFPS : public Camera {
 public:
 	CameraFPS();
 	~CameraFPS();
@@ -104,7 +104,7 @@ private:
 //---------------------------------------------------------------------------
 //Desc: class of the FPS camera
 //---------------------------------------------------------------------------
-class CameraFree : public Camera {
+class VEGA_API CameraFree : public Camera {
 public:
 	CameraFree();
 	~CameraFree();

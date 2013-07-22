@@ -26,7 +26,7 @@ namespace VEGA {
 //---------------------------------------------------------------------------
 //Desc: base object class
 //---------------------------------------------------------------------------
-class Object {
+class VEGA_API Object {
 public:
 	Object();
 	enum ObjectType {
@@ -62,7 +62,7 @@ public:
 //---------------------------------------------------------------------------
 //Desc: class of the scene object
 //---------------------------------------------------------------------------
-class ObjectMesh : public Object{
+class VEGA_API ObjectMesh : public Object{
 public:
 	ObjectMesh(const String &path);
 	~ObjectMesh();
@@ -122,7 +122,7 @@ private:
 //---------------------------------------------------------------------------
 //Desc: class of the scene object
 //---------------------------------------------------------------------------
-class ObjectSkinnedMesh : public Object {
+class VEGA_API ObjectSkinnedMesh : public Object {
 public:
 	ObjectSkinnedMesh(const String &path);
 	~ObjectSkinnedMesh();
