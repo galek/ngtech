@@ -23,20 +23,23 @@ namespace VEGA {
 	LoadingScreen *LoadingScreen::create(const String &path) {
 		LoadingScreen *screen = new LoadingScreen();
 
-		screen->glLogo = GLTexture::create2d("data/textures/logos/glLogo.jpg");
+		screen->glLogo = GLTexture::create2d("data/textures/logos/glLogo.png");
 		screen->glLogo->setFilter(GLTexture::LINEAR);
 
-		screen->alLogo = GLTexture::create2d("data/textures/logos/alLogo.jpg");
+		screen->alLogo = GLTexture::create2d("data/textures/logos/alLogo.png");
 		screen->alLogo->setFilter(GLTexture::LINEAR);
 
-		screen->ilLogo = GLTexture::create2d("data/textures/logos/ilLogo.jpg");
+		screen->ilLogo = GLTexture::create2d("data/textures/logos/ilLogo.png");
 		screen->ilLogo->setFilter(GLTexture::LINEAR);
 
-		screen->newtonLogo = GLTexture::create2d("data/textures/logos/newtonLogo.jpg");
+		screen->newtonLogo = GLTexture::create2d("data/textures/logos/newtonLogo.png");
 		screen->newtonLogo->setFilter(GLTexture::LINEAR);
 
+		screen->myGUILogo = GLTexture::create2d("data/textures/logos/myguiLogo.png");
+		screen->myGUILogo->setFilter(GLTexture::LINEAR);
 
-		screen->astLogo = GLTexture::create2d("data/textures/logos/astLogo.jpg");
+
+		//screen->vegaLogo = GLTexture::create2d("data/textures/logos/vegaLogo.png");
 
 		screen->background = GLTexture::create2d(path);
 		return screen;
@@ -52,9 +55,9 @@ namespace VEGA {
 		engine.iRender->drawRect(0, 0, 1, 1, 0, 0, 1, 1);
 		background->unset(0);
 
-		astLogo->set(0);
+		/*vegaLogo->set(0);
 		engine.iRender->drawRect(0.0, 0.0, 0.3, 0.1, 0, 0, 1, 1);
-		astLogo->unset(0);
+		vegaLogo->unset(0);*/
 
 		glLogo->set(0);
 		engine.iRender->drawRect(0.15, 0.9, 0.3,   1.0, 0, 0, 1, 1);
@@ -69,8 +72,12 @@ namespace VEGA {
 		ilLogo->unset(0);
 
 		newtonLogo->set(0);
-		engine.iRender->drawRect(0.6, 0.9, 0.8,   1.0, 0, 0, 1, 1);
+		engine.iRender->drawRect(0.6, 0.9, 0.8, 1.0, 0, 0, 1, 1);
 		newtonLogo->set(0);
+
+		myGUILogo->set(0);
+		engine.iRender->drawRect(0.8, 0.9, 1.0, 1.0, 0, 0, 1, 1);
+		myGUILogo->set(0);
 
 		engine.iRender->enable3d();
 		engine.iRender->flush();

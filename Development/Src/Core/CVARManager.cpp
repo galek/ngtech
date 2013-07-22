@@ -9,6 +9,7 @@ namespace VEGA {
 		height(_c->getInt("window_height")),
 		bpp(_c->getInt("window_bpp")),
 		zdepth(_c->getInt("window_zdepth")),
-		fullscreen(_c->getBool("window_fullscreen"))
+		fullscreen(_c->getBool("window_fullscreen")),
+		showInfo(_c->getBool("r_DisplayInfo"))
 	{}
 }

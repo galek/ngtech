@@ -21,16 +21,16 @@ namespace VEGA {
 		return v;
 	}
 
-	double Math::angleBetweenVec(const Vec3 &a, const Vec3 &b) {
+	float Math::angleBetweenVec(const Vec3 &a, const Vec3 &b) {
 		Vec3 va = a;
 		Vec3 vb = b;
 		float dot = Vec3::dot(va, vb);				
 		float length = va.length() * vb.length();
 
-		double angle = acos(dot / length);
+		float angle = acos(dot / length);
 
 		if(angle < EPSILON)
-			return 0.0;
+			return 0.0f;
 
 		return angle;
 	}
@@ -203,39 +203,39 @@ namespace VEGA {
 		return (x != v.x || y != v.y);
 	}
 
-	inline Vec2 operator+(const Vec2 &a, const Vec2 &b) {
+	EFORCEINLINE Vec2 operator+(const Vec2 &a, const Vec2 &b) {
 		return Vec2(a.x + b.x, a.y + b.y);
 	}
 
-	inline Vec2 operator-(const Vec2 &a, const Vec2 &b) {
+	EFORCEINLINE Vec2 operator-(const Vec2 &a, const Vec2 &b) {
 		return Vec2(a.x - b.x, a.y - b.y);
 	}
 
-	inline Vec2 operator*(const Vec2 &a, const Vec2 &b) {
+	EFORCEINLINE Vec2 operator*(const Vec2 &a, const Vec2 &b) {
 		return Vec2(a.x * b.x, a.y * b.y);
 	}
 
-	inline Vec2 operator*(const Vec2 &v, float c) {
+	EFORCEINLINE Vec2 operator*(const Vec2 &v, float c) {
 		return Vec2(v.x * c, v.y * c);
 	}
 
-	inline Vec2 operator*(float c, const Vec2 &v) {
+	EFORCEINLINE Vec2 operator*(float c, const Vec2 &v) {
 		return Vec2(v.x * c, v.y * c);
 	}
 
-	inline Vec2 operator/(const Vec2 &a, const Vec2 &b) {
+	EFORCEINLINE Vec2 operator/(const Vec2 &a, const Vec2 &b) {
 		return Vec2(a.x / b.x, a.y / b.y);
 	}
 
-	inline Vec2 operator/(const Vec2 &v, float c) {
+	EFORCEINLINE Vec2 operator/(const Vec2 &v, float c) {
 		return Vec2(v.x / c, v.y / c);
 	}
 
-	inline Vec2 operator/(float c, const Vec2 &v) {
+	EFORCEINLINE Vec2 operator/(float c, const Vec2 &v) {
 		return Vec2(v.x / c, v.y / c);
 	}
 
-	inline float Vec2::length() {
+	EFORCEINLINE float Vec2::length() {
 		return sqrt(x*x + y*y);
 	}
 
@@ -246,7 +246,7 @@ namespace VEGA {
 		return a/l;
 	}
 
-	inline float Vec2::dot(const Vec2 &a, const Vec2 &b) {
+	EFORCEINLINE float Vec2::dot(const Vec2 &a, const Vec2 &b) {
 		return (a.x * b.x + a.y * b.y);
 	}
 
@@ -349,39 +349,39 @@ namespace VEGA {
 		return (x != v.x || y != v.y || z != v.z);
 	}
 
-	inline Vec3 operator+(const Vec3 &a, const Vec3 &b) {
+	EFORCEINLINE Vec3 operator+(const Vec3 &a, const Vec3 &b) {
 		return Vec3(a.x + b.x, a.y + b.y, a.z + b.z);
 	}
 
-	inline Vec3 operator-(const Vec3 &a, const Vec3 &b) {
+	EFORCEINLINE Vec3 operator-(const Vec3 &a, const Vec3 &b) {
 		return Vec3(a.x - b.x, a.y - b.y, a.z - b.z);
 	}
 
-	inline Vec3 operator*(const Vec3 &a, const Vec3 &b) {
+	EFORCEINLINE Vec3 operator*(const Vec3 &a, const Vec3 &b) {
 		return Vec3(a.x * b.x, a.y * b.y, a.z * b.z);
 	}
 
-	inline Vec3 operator*(const Vec3 &v, float c) {
+	EFORCEINLINE Vec3 operator*(const Vec3 &v, float c) {
 		return Vec3(v.x * c, v.y * c, v.z * c);
 	}
 
-	inline Vec3 operator*(float c, const Vec3 &v) {
+	EFORCEINLINE Vec3 operator*(float c, const Vec3 &v) {
 		return Vec3(v.x * c, v.y * c, v.z * c);
 	}
 
-	inline Vec3 operator/(const Vec3 &a, const Vec3 &b) {
+	EFORCEINLINE Vec3 operator/(const Vec3 &a, const Vec3 &b) {
 		return Vec3(a.x / b.x, a.y / b.y, a.z / b.z);
 	}
 
-	inline Vec3 operator/(const Vec3 &v, float c) {
+	EFORCEINLINE Vec3 operator/(const Vec3 &v, float c) {
 		return Vec3(v.x / c, v.y / c, v.z / c);
 	}
 
-	inline Vec3 operator/(float c, const Vec3 &v) {
+	EFORCEINLINE Vec3 operator/(float c, const Vec3 &v) {
 		return Vec3(v.x / c, v.y / c, v.z / c);
 	}
 
-	inline float Vec3::length() {
+	EFORCEINLINE float Vec3::length() {
 		return sqrt(x*x + y*y + z*z);
 	}
 
@@ -392,11 +392,11 @@ namespace VEGA {
 		return a/l;
 	}
 
-	inline float Vec3::dot(const Vec3 &a, const Vec3 &b) {
+	EFORCEINLINE float Vec3::dot(const Vec3 &a, const Vec3 &b) {
 		return (a.x * b.x + a.y * b.y + a.z * b.z);
 	}
 
-	inline Vec3 Vec3::cross(const Vec3 &a, const Vec3 &b) {
+	EFORCEINLINE Vec3 Vec3::cross(const Vec3 &a, const Vec3 &b) {
 		return Vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
 	}
 
@@ -511,40 +511,40 @@ namespace VEGA {
 		return (x != v.x || y != v.y || z != v.z || w != v.w);
 	}
 
-	inline Vec4 operator+(const Vec4 &a, const Vec4 &b) {
+	EFORCEINLINE Vec4 operator+(const Vec4 &a, const Vec4 &b) {
 		return Vec4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
 	}
 
-	inline Vec4 operator-(const Vec4 &a, const Vec4 &b) {
+	EFORCEINLINE Vec4 operator-(const Vec4 &a, const Vec4 &b) {
 		return Vec4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
 	}
 
 
-	inline Vec4 operator*(const Vec4 &a, const Vec4 &b) {
+	EFORCEINLINE Vec4 operator*(const Vec4 &a, const Vec4 &b) {
 		return Vec4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
 	}
 
-	inline Vec4 operator*(const Vec4 &v, float c) {
+	EFORCEINLINE Vec4 operator*(const Vec4 &v, float c) {
 		return Vec4(v.x * c, v.y * c, v.z * c, v.w * c);
 	}
 
-	inline Vec4 operator*(float c, const Vec4 &v) {
+	EFORCEINLINE Vec4 operator*(float c, const Vec4 &v) {
 		return Vec4(v.x * c, v.y * c, v.z * c, v.w * c);
 	}
 
-	inline Vec4 operator/(const Vec4 &a, const Vec4 &b) {
+	EFORCEINLINE Vec4 operator/(const Vec4 &a, const Vec4 &b) {
 		return Vec4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
 	}
 
-	inline Vec4 operator/(const Vec4 &v, float c) {
+	EFORCEINLINE Vec4 operator/(const Vec4 &v, float c) {
 		return Vec4(v.x / c, v.y / c, v.z / c, v.w / c);
 	}
 
-	inline Vec4 operator/(float c, const Vec4 &v) {
+	EFORCEINLINE Vec4 operator/(float c, const Vec4 &v) {
 		return Vec4(v.x / c, v.y / c, v.z / c, v.w / c);
 	}
 
-	inline float Vec4::length() {
+	EFORCEINLINE float Vec4::length() {
 		return sqrt(x*x + y*y + z*z + w*w);
 	}
 
@@ -555,7 +555,7 @@ namespace VEGA {
 		return a/l;
 	}
 
-	inline float Vec4::dot(const Vec4 &a, const Vec4 &b) {
+	EFORCEINLINE float Vec4::dot(const Vec4 &a, const Vec4 &b) {
 		return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
 	}
 
@@ -692,7 +692,7 @@ namespace VEGA {
 		return sMat;
 	}
 
-	inline Mat3 operator*(const Mat3 &a, const Mat3 &b) {
+	EFORCEINLINE Mat3 operator*(const Mat3 &a, const Mat3 &b) {
 		Mat3 result;
 
 		result.e[0] = a.e[0] * b.e[0] + a.e[3] * b.e[1] + a.e[6] * b.e[2];
@@ -708,7 +708,7 @@ namespace VEGA {
 		return result;
 	}
 
-	inline Vec4 operator*(const Mat3 &m, const Vec4 &v) {
+	EFORCEINLINE Vec4 operator*(const Mat3 &m, const Vec4 &v) {
 		Vec4 result;
 		result.x = m.e[0] * v.x + m.e[3] * v.y + m.e[6] * v.z;
 		result.y = m.e[1] * v.x + m.e[4] * v.y + m.e[7] * v.z;
@@ -718,7 +718,7 @@ namespace VEGA {
 	}
 
 
-	inline Vec4 operator*(const Vec4 &v, const Mat3 &m) {
+	EFORCEINLINE Vec4 operator*(const Vec4 &v, const Mat3 &m) {
 		Vec4 result;
 		result.x = m.e[0] * v.x + m.e[3] * v.y + m.e[6] * v.z;
 		result.y = m.e[1] * v.x + m.e[4] * v.y + m.e[7] * v.z;
@@ -727,7 +727,7 @@ namespace VEGA {
 		return result;
 	}
 
-	inline Vec3 operator*(const Mat3 &m, const Vec3 &v) {
+	EFORCEINLINE Vec3 operator*(const Mat3 &m, const Vec3 &v) {
 		Vec3 result;
 		result.x = m.e[0] * v.x + m.e[3] * v.y + m.e[6] * v.z;
 		result.y = m.e[1] * v.x + m.e[4] * v.y + m.e[7] * v.z;
@@ -736,7 +736,7 @@ namespace VEGA {
 	}
 
 
-	inline Vec3 operator*(const Vec3 &v, const Mat3 &m) {
+	EFORCEINLINE Vec3 operator*(const Vec3 &v, const Mat3 &m) {
 		Vec3 result;
 		result.x = m.e[0] * v.x + m.e[3] * v.y + m.e[6] * v.z;
 		result.y = m.e[1] * v.x + m.e[4] * v.y + m.e[7] * v.z;
@@ -997,7 +997,7 @@ namespace VEGA {
 		return oMat;
 	}
 
-	inline Mat4 operator*(const Mat4 &a, const Mat4 &b) {
+	EFORCEINLINE Mat4 operator*(const Mat4 &a, const Mat4 &b) {
 		Mat4 result;
 
 		result.e[0]  = (a.e[0] * b.e[0]) + (a.e[4] * b.e[1]) + (a.e[8] * b.e[2])  + (a.e[12] * b.e[3]);
@@ -1023,7 +1023,7 @@ namespace VEGA {
 		return result;
 	}
 
-	inline Vec4 operator*(const Mat4 &m, const Vec4 &v) {
+	EFORCEINLINE Vec4 operator*(const Mat4 &m, const Vec4 &v) {
 		Vec4 result;
 		result.x = m.e[0] * v.x + m.e[4] * v.y + m.e[8] * v.z + m.e[12] * v.w;
 		result.y = m.e[1] * v.x + m.e[5] * v.y + m.e[9] * v.z + m.e[13] * v.w;
@@ -1033,7 +1033,7 @@ namespace VEGA {
 	}
 
 
-	inline Vec4 operator*(const Vec4 &v, const Mat4 &m) {
+	EFORCEINLINE Vec4 operator*(const Vec4 &v, const Mat4 &m) {
 		Vec4 result;
 		result.x = m.e[0] * v.x + m.e[4] * v.y + m.e[8] * v.z + m.e[12] * v.w;
 		result.y = m.e[1] * v.x + m.e[5] * v.y + m.e[9] * v.z + m.e[13] * v.w;
@@ -1042,7 +1042,7 @@ namespace VEGA {
 		return result;
 	}
 
-	inline Vec3 operator*(const Mat4 &m, const Vec3 &v) {
+	EFORCEINLINE Vec3 operator*(const Mat4 &m, const Vec3 &v) {
 		Vec3 result;
 		result.x = m.e[0] * v.x + m.e[4] * v.y + m.e[8] * v.z + m.e[12];
 		result.y = m.e[1] * v.x + m.e[5] * v.y + m.e[9] * v.z + m.e[13];
@@ -1051,7 +1051,7 @@ namespace VEGA {
 	}
 
 
-	inline Vec3 operator*(const Vec3 &v, const Mat4 &m) {
+	EFORCEINLINE Vec3 operator*(const Vec3 &v, const Mat4 &m) {
 		Vec3 result;
 		result.x = m.e[0] * v.x + m.e[4] * v.y + m.e[8] * v.z + m.e[12];
 		result.y = m.e[1] * v.x + m.e[5] * v.y + m.e[9] * v.z + m.e[13];

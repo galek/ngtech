@@ -30,8 +30,9 @@ private:
 	GLTexture *alLogo;
 	GLTexture *ilLogo;
 	GLTexture *newtonLogo;
+	GLTexture *myGUILogo;
 
-	GLTexture *astLogo;
+	GLTexture *vegaLogo;
 
 	GLTexture *background;
 };

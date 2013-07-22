@@ -10,6 +10,7 @@
  
 //***************************************************************************
 #include <math.h>
+#include "..\Common\Types.h"
 //***************************************************************************
 
 namespace VEGA {
@@ -30,7 +31,7 @@ class Mat4;
 struct VEGA_API Math {
 	static float clamp(float v, float min, float max);
 
-	static double angleBetweenVec(const Vec3 &a, const Vec3 &b);
+	static float angleBetweenVec(const Vec3 &a, const Vec3 &b);
 	static bool insidePolygon(const Vec3 &v0, const Vec3 &v1, const Vec3 &v2, const Vec3 &point);
 	static bool intersectPlaneByRay(const Vec3 &v0, const Vec3 &v1, const Vec3 &v2, const Vec3 &src, const Vec3 &dst, Vec3 &point);
 	static bool intersectPolygonByRay(const Vec3 &v0, const Vec3 &v1, const Vec3 &v2, const Vec3 &src, const Vec3 &dst, Vec3 &point);
@@ -67,7 +68,7 @@ public:
 	bool operator==(const Vec2 &v) const;
     bool operator!=(const Vec2 &v) const;
 
-	inline float length();
+	EFORCEINLINE float length();
 
 	friend Vec2 operator+(const Vec2 &a, const Vec2 &b);
 	friend Vec2 operator-(const Vec2 &a, const Vec2 &b);
@@ -79,17 +80,17 @@ public:
 	friend Vec2 operator/(float c, const Vec2 &v);
 
 	static Vec2 normalize(const Vec2 &a);
-	static inline float dot(const Vec2 &a, const Vec2 &b);
+	static EFORCEINLINE float dot(const Vec2 &a, const Vec2 &b);
 };
 
-extern inline Vec2 operator+(const Vec2 &a, const Vec2 &b);
-extern inline Vec2 operator-(const Vec2 &a, const Vec2 &b);
-extern inline Vec2 operator*(const Vec2 &a, const Vec2 &b);
-extern inline Vec2 operator*(const Vec2 &v, float c);
-extern inline Vec2 operator*(float c, const Vec2 &v);
-extern inline Vec2 operator/(const Vec2 &a, const Vec2 &b);
-extern inline Vec2 operator/(const Vec2 &v, float c);
-extern inline Vec2 operator/(float c, const Vec2 &v);
+extern EFORCEINLINE Vec2 operator+(const Vec2 &a, const Vec2 &b);
+extern EFORCEINLINE Vec2 operator-(const Vec2 &a, const Vec2 &b);
+extern EFORCEINLINE Vec2 operator*(const Vec2 &a, const Vec2 &b);
+extern EFORCEINLINE Vec2 operator*(const Vec2 &v, float c);
+extern EFORCEINLINE Vec2 operator*(float c, const Vec2 &v);
+extern EFORCEINLINE Vec2 operator/(const Vec2 &a, const Vec2 &b);
+extern EFORCEINLINE Vec2 operator/(const Vec2 &v, float c);
+extern EFORCEINLINE Vec2 operator/(float c, const Vec2 &v);
 
 //---------------------------------------------------------------------------
 //Desc: 3D Vector class
@@ -120,7 +121,7 @@ public:
 	bool operator==(const Vec3 &v) const;
 	bool operator!=(const Vec3 &v) const;
 
-	inline float length();
+	EFORCEINLINE float length();
 
 	friend Vec3 operator+(const Vec3 &a, const Vec3 &b);
 	friend Vec3 operator-(const Vec3 &a, const Vec3 &b);
@@ -132,18 +133,18 @@ public:
 	friend Vec3 operator/(float c, const Vec3 &v);
 
 	static Vec3 normalize(const Vec3 &a);
-	static inline float dot(const Vec3 &a, const Vec3 &b);
-	static inline Vec3 cross(const Vec3 &a, const Vec3 &b);
+	static EFORCEINLINE float dot(const Vec3 &a, const Vec3 &b);
+	static EFORCEINLINE Vec3 cross(const Vec3 &a, const Vec3 &b);
 };
 
-extern inline Vec3 operator+(const Vec3 &a, const Vec3 &b);
-extern inline Vec3 operator-(const Vec3 &a, const Vec3 &b);
-extern inline Vec3 operator*(const Vec3 &a, const Vec3 &b);
-extern inline Vec3 operator*(const Vec3 &v, float c);
-extern inline Vec3 operator*(float c, const Vec3 &v);
-extern inline Vec3 operator/(const Vec3 &a, const Vec3 &b);
-extern inline Vec3 operator/(const Vec3 &v, float c);
-extern inline Vec3 operator/(float c, const Vec3 &v);
+extern EFORCEINLINE Vec3 operator+(const Vec3 &a, const Vec3 &b);
+extern EFORCEINLINE Vec3 operator-(const Vec3 &a, const Vec3 &b);
+extern EFORCEINLINE Vec3 operator*(const Vec3 &a, const Vec3 &b);
+extern EFORCEINLINE Vec3 operator*(const Vec3 &v, float c);
+extern EFORCEINLINE Vec3 operator*(float c, const Vec3 &v);
+extern EFORCEINLINE Vec3 operator/(const Vec3 &a, const Vec3 &b);
+extern EFORCEINLINE Vec3 operator/(const Vec3 &v, float c);
+extern EFORCEINLINE Vec3 operator/(float c, const Vec3 &v);
 
 //---------------------------------------------------------------------------
 //Desc: 4D Vector class
@@ -177,7 +178,7 @@ public:
 	bool operator==(const Vec4 &v) const;
 	bool operator!=(const Vec4 &v) const;
 	
-	inline float length();
+	EFORCEINLINE float length();
 
 	friend Vec4 operator+(const Vec4 &a, const Vec4 &b);
 	friend Vec4 operator-(const Vec4 &a, const Vec4 &b);
@@ -189,17 +190,17 @@ public:
 	friend Vec4 operator/(float c, const Vec4 &v);
 
 	static Vec4 normalize(const Vec4 &a);
-	static inline float dot(const Vec4 &a, const Vec4 &b);
+	static EFORCEINLINE float dot(const Vec4 &a, const Vec4 &b);
 };
 
-extern inline Vec4 operator+(const Vec4 &a, const Vec4 &b);
-extern inline Vec4 operator-(const Vec4 &a, const Vec4 &b);
-extern inline Vec4 operator*(const Vec4 &a, const Vec4 &b);
-extern inline Vec4 operator*(const Vec4 &v, float c);
-extern inline Vec4 operator*(float c, const Vec4 &v);
-extern inline Vec4 operator/(const Vec4 &a, const Vec4 &b);
-extern inline Vec4 operator/(const Vec4 &v, float c);
-extern inline Vec4 operator/(float c, const Vec4 &v);
+extern EFORCEINLINE Vec4 operator+(const Vec4 &a, const Vec4 &b);
+extern EFORCEINLINE Vec4 operator-(const Vec4 &a, const Vec4 &b);
+extern EFORCEINLINE Vec4 operator*(const Vec4 &a, const Vec4 &b);
+extern EFORCEINLINE Vec4 operator*(const Vec4 &v, float c);
+extern EFORCEINLINE Vec4 operator*(float c, const Vec4 &v);
+extern EFORCEINLINE Vec4 operator/(const Vec4 &a, const Vec4 &b);
+extern EFORCEINLINE Vec4 operator/(const Vec4 &v, float c);
+extern EFORCEINLINE Vec4 operator/(float c, const Vec4 &v);
 
 //---------------------------------------------------------------------------
 //Desc: 3x3 Matrix class
@@ -235,11 +236,11 @@ public:
 	static Mat3 scale(const Vec3 &scale);	
 };
 
-extern inline Mat3 operator*(const Mat3 &a, const Mat3 &b);
-extern inline Vec4 operator*(const Mat3 &m, const Vec4 &v);
-extern inline Vec4 operator*(const Vec4 &v, const Mat3 &m);
-extern inline Vec3 operator*(const Mat3 &m, const Vec3 &v);
-extern inline Vec3 operator*(const Vec3 &v, const Mat3 &m);
+extern EFORCEINLINE Mat3 operator*(const Mat3 &a, const Mat3 &b);
+extern EFORCEINLINE Vec4 operator*(const Mat3 &m, const Vec4 &v);
+extern EFORCEINLINE Vec4 operator*(const Vec4 &v, const Mat3 &m);
+extern EFORCEINLINE Vec3 operator*(const Mat3 &m, const Vec3 &v);
+extern EFORCEINLINE Vec3 operator*(const Vec3 &v, const Mat3 &m);
 
 //---------------------------------------------------------------------------
 //Desc: 4x4 Matrix class
@@ -286,11 +287,11 @@ public:
 	static Mat4 texBias();
 };
 
-extern inline Mat4 operator*(const Mat4 &a, const Mat4 &b);
-extern inline Vec4 operator*(const Mat4 &m, const Vec4 &v);
-extern inline Vec4 operator*(const Vec4 &v, const Mat4 &m);
-extern inline Vec3 operator*(const Mat4 &m, const Vec3 &v);
-extern inline Vec3 operator*(const Vec3 &v, const Mat4 &m);
+extern EFORCEINLINE Mat4 operator*(const Mat4 &a, const Mat4 &b);
+extern EFORCEINLINE Vec4 operator*(const Mat4 &m, const Vec4 &v);
+extern EFORCEINLINE Vec4 operator*(const Vec4 &v, const Mat4 &m);
+extern EFORCEINLINE Vec3 operator*(const Mat4 &m, const Vec3 &v);
+extern EFORCEINLINE Vec3 operator*(const Vec3 &v, const Mat4 &m);
 			
 //---------------------------------------------------------------------------
 //Desc: Quat class

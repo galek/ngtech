@@ -22,12 +22,12 @@ namespace MyGUI{
 namespace VEGA {
 
 
-	//---------------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	//Desc: Gui struct. Created one time
 	//---------------------------------------------------------------------------
 	class VEGA_API GUI : public MyGUI::OpenGLImageLoader {
 	public:
-		GUI();
+		GUI(CVARManager *_cvars);
 
 		~GUI();
 		virtual void saveImage(int _width, int _height, MyGUI::PixelFormat _format, void* _texture, const std::string& _filename);
@@ -35,14 +35,17 @@ namespace VEGA {
 
 		void update();
 		void initialise();
+		void resize(int _width, int _height);
+		void showDebugInfo(bool _show);
 	private:
 		class MyGUI::OpenGLPlatform* mPlatform;
 		class MyGUI::Gui*mGUI;
-
+		CVARManager *cvars;
 		//DebugInfo
 	private://Nick:TODO:Вынести все в отдельный класс
 		void createDebugInfo();
 		void updateDebugInfo();
+		bool mDebugShow;
 		class MyGUI::TextBox *fpsLabel;
 	};
 

@@ -41,6 +41,7 @@ namespace VEGA {
 		this->bpp = _cvars->bpp;
 		this->zdepth = _cvars->zdepth;
 		this->fullscreen = _cvars->fullscreen;
+		ShowCursor(false);//Сразу скрываем курсор
 	}
 	//---------------------------------------------------------------------------
 	//Desc:    Init engine sub-systems
@@ -421,7 +422,6 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void WindowSystem::showCursor(bool show) {
-		ShowCursor(show);
 		MyGUI::PointerManager::getInstance().setVisible(show);
 		cursorVisible = show;
 	}

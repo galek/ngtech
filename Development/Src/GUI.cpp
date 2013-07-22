@@ -111,10 +111,12 @@ namespace VEGA {
 	}
 	void GUI::saveImage(int _width, int _height, MyGUI::PixelFormat _format, void* _texture, const std::string& _filename){}
 
-	GUI::GUI()
+	GUI::GUI(CVARManager *_cvars)
 		: mPlatform(nullptr),
 		mGUI(nullptr),
-		fpsLabel(nullptr)
+		fpsLabel(nullptr),
+		cvars(_cvars),
+		mDebugShow(false)
 	{
 		mPlatform = new MyGUI::OpenGLPlatform();
 		mGUI = new MyGUI::Gui();
@@ -122,35 +124,14 @@ namespace VEGA {
 	void GUI::initialise()	{
 		mPlatform->initialise(this);
 		mPlatform->getDataManagerPtr()->addResourceLocation("data/gui/", true);
-		mPlatform->getDataManagerPtr()->addResourceLocation("data/guitest/", true);
-		mPlatform->getRenderManagerPtr()->setViewSize(1024.0f, 768.0f);
+		resize(cvars->width, cvars->height);
 		mGUI->initialise("MyGUI_Core.xml");
 #if 1
-		//TEST
-		/*	MyGUI::TextBox*pMyGUIInfo = MyGUI::Gui::getInstance().createWidget<MyGUI::TextBox>("TextBox", 100,100,180,180, MyGUI::Align::Default, "Statistic","InfoTextBox");
-		pMyGUIInfo->setTextColour(MyGUI::Colour::White);
-		pMyGUIInfo->setTextShadow(true);
-		pMyGUIInfo->setVisible(true);
-		pMyGUIInfo->setCaption("Testeeeeeeeeeeeeeeeeeeeeee");
-		*/
-
-		MyGUI::Gui::getInstance().load("MyButton.xml");
-		MyGUI::Button* button =
-			MyGUI::Gui::getInstance().createWidget<MyGUI::Button>(
-			"MyButton",
-			MyGUI::IntCoord(30, 30, 113, 27),
-			MyGUI::Align::Default,
-			"Main");
+		MyGUI::ButtonPtr button = mGUI->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
 		button->setFontName("DejaVuSansFont.15");
-		button->setTextAlign(MyGUI::Align::Center);
-		button->setCaption("MyButton");
-		button->setEnabled(true);
-
-		/*	MyGUI::ButtonPtr button2 = mGUI->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
-		button2->setFontName("DejaVuSansFont.15");
-		button2->setCaption("Hello World!");*/
+		button->setCaption("Hello World!");
 #endif
-		createDebugInfo();//Nick:TODO:Вынести все в отдельный класс
+		showDebugInfo(cvars->showInfo);
 	}
 	//---------------------------------------------------------------------------
 	//Desc:    GUI destructor
@@ -186,10 +167,18 @@ namespace VEGA {
 		fpsLabel->setVisible(true);
 		fpsLabel->setCaption("FPS: ");
 	}
-	//Nick:TODO:Вынести все в отдельный класс
 	void GUI::updateDebugInfo(){
-		if (engine.iWindow->getDTime() > EPSILON)
-			fpsLabel->setCaption("FPS: " + StringHelper::fromInt(1000 / engine.iWindow->getDTime()));
+		if (mDebugShow)
+			if (engine.iWindow->getDTime() > EPSILON)
+				fpsLabel->setCaption("FPS: " + StringHelper::fromInt(1000 / engine.iWindow->getDTime()));
+	}
+	void GUI::resize(int _width, int _height) {
+		mPlatform->getRenderManagerPtr()->setViewSize(_width, _height);
 	}
 
+	void GUI::showDebugInfo(bool _show){
+		if (_show)
+			createDebugInfo();
+		mDebugShow = _show;
+	}
 }

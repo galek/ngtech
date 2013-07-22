@@ -15,7 +15,7 @@ void ExampleGame::update() {}
 //------------------------------------------------------------
 void ExampleGame::initialise() {
 	//initializing loading screen
-	LoadingScreen *lscreen = LoadingScreen::create("data/textures/logos/background.jpg");
+	LoadingScreen *lscreen = LoadingScreen::create("data/textures/logos/background.png");
 	lscreen->show();
 
 	sponza = new ObjectMesh("sponza.amdl");
@@ -79,20 +79,20 @@ void ExampleGame::initialise() {
 
 	//engine.iWindow->grabMouse(true);
 }
-
-
+//------------------------------------------------------------
+EventsCallback::EventsCallback() : depth(10.0f){}
+//------------------------------------------------------------
 void EventsCallback::Body(){
-	float depth = 10;
 
 	if (engine.iWindow->wasKeyPressed(IWindow::KEY_ESC))
 		engine.iWindow->toggleGrabMouse();
 
-	if (engine.iWindow->isKeyPressed(IWindow::KEY_Z)) {
+	if (engine.iWindow->isKeyPressed(IWindow::KEY_Z))
 		engine.scene->setWater(depth += 1, 500);
-	}
 
-	if (engine.iWindow->isKeyPressed(IWindow::KEY_X)) {
+
+	if (engine.iWindow->isKeyPressed(IWindow::KEY_X))
 		engine.scene->setWater(depth -= 1, 500);
-	}
+
 }
 #endif

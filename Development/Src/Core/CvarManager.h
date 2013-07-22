@@ -8,6 +8,6 @@ namespace VEGA {
 	{
 		CVARManager(Config *c);
 		int width, height, bpp, zdepth;
-		bool fullscreen;
+		bool fullscreen,showInfo;
 	};
 }

@@ -19,8 +19,7 @@ namespace VEGA
 	class ParticleSystem;
 }
 
-
-
+//------------------------------------------------------------
 class GAME_API ExampleGame : public VEGA::IGame
 {
 	virtual void initialise();
@@ -39,11 +38,17 @@ class GAME_API ExampleGame : public VEGA::IGame
 	class VEGA::ParticleSystem *particlesPink;
 	class VEGA::ParticleSystem *particlesYellow;
 };
+//------------------------------------------------------------
 class GAME_API RenderCallback : public VEGA::ICallback
 {
 	virtual void Body(){  };
 };
+//------------------------------------------------------------
 class GAME_API EventsCallback : public VEGA::ICallback
 {
+public:
+	EventsCallback();
 	virtual void Body();
+private:
+	float depth;
 };

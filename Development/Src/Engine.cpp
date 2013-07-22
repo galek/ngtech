@@ -84,7 +84,7 @@ namespace VEGA {
 		cash = new Cash();
 		Debug("[Init]Cash Finished");
 		//initialize GUI
-		gui = new GUI();
+		gui = new GUI(cvars);
 		Debug("[Init]GUI Finished");
 		//initialize SceneManager
 		scene = new Scene();
