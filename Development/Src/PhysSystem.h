@@ -8,7 +8,7 @@
 #pragma once
 
 //***************************************************************************
-#include "IncludesAndLibs.h"
+#include "Core\IncludesAndLibs.h"
 //***************************************************************************
 #include "PhysBody.h"
 #include "PhysJoint.h"
@@ -22,7 +22,7 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main physics system. Created one time
 	//---------------------------------------------------------------------------
-	class PhysSystem {
+	class VEGA_API PhysSystem {
 	public:
 		PhysSystem();
 		~PhysSystem();

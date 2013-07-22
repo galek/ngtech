@@ -90,9 +90,7 @@ namespace VEGA {
 		NewtonMaterialSetDefaultElasticity(nWorld, defaultID, defaultID, 0.4f);
 		NewtonMaterialSetDefaultCollidable(nWorld, defaultID, defaultID, 1);
 		NewtonMaterialSetDefaultFriction(nWorld, defaultID, defaultID, 1.0f, 0.5f);
-		//NewtonMaterialSetCollisionCallback(nWorld, defaultID, defaultID, NULL, contactBegin, contactProcess);
 		NewtonMaterialSetCollisionCallback(nWorld, defaultID, defaultID, NULL, playContantSound, contactProcess);
-
 	}
 
 	//---------------------------------------------------------------------------

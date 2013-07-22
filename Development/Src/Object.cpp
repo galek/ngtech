@@ -16,6 +16,7 @@
 #include "MathLib.h"
 #include "Error.h"
 #include "Cash.h"
+#include "Scene.h"
 //**************************************
 
 namespace VEGA {

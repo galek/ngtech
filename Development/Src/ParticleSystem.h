@@ -19,7 +19,7 @@ namespace VEGA {
 //---------------------------------------------------------------------------
 //Desc: class of the system particle system
 //---------------------------------------------------------------------------
-class ParticleSystem {
+	class VEGA_API ParticleSystem {
 public:
 	ParticleSystem(const String &path, int numParticles);
 	~ParticleSystem();

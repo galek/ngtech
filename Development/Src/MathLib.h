@@ -27,7 +27,7 @@ class Mat4;
 //---------------------------------------------------------------------------
 //Desc: Some math functions
 //---------------------------------------------------------------------------
-struct Math {
+struct VEGA_API Math {
 	static float clamp(float v, float min, float max);
 
 	static double angleBetweenVec(const Vec3 &a, const Vec3 &b);
@@ -40,7 +40,7 @@ struct Math {
 //---------------------------------------------------------------------------
 //Desc: 2D Vector class
 //---------------------------------------------------------------------------
-class Vec2 {
+class VEGA_API Vec2 {
 public:
 	float x, y;
 	
@@ -94,7 +94,7 @@ extern inline Vec2 operator/(float c, const Vec2 &v);
 //---------------------------------------------------------------------------
 //Desc: 3D Vector class
 //---------------------------------------------------------------------------
-class Vec3 {
+class VEGA_API Vec3 {
 public:
 	float x, y, z;
 
@@ -148,7 +148,7 @@ extern inline Vec3 operator/(float c, const Vec3 &v);
 //---------------------------------------------------------------------------
 //Desc: 4D Vector class
 //---------------------------------------------------------------------------
-class Vec4 {
+class VEGA_API Vec4 {
 public:
 	float x, y, z, w;
 	
@@ -204,7 +204,7 @@ extern inline Vec4 operator/(float c, const Vec4 &v);
 //---------------------------------------------------------------------------
 //Desc: 3x3 Matrix class
 //---------------------------------------------------------------------------
-class Mat3 {
+class VEGA_API Mat3 {
 public:
 	float e[9];
 	
@@ -244,7 +244,7 @@ extern inline Vec3 operator*(const Vec3 &v, const Mat3 &m);
 //---------------------------------------------------------------------------
 //Desc: 4x4 Matrix class
 //---------------------------------------------------------------------------
-class Mat4 {
+class VEGA_API Mat4 {
 public:
 	float e[16];
 	
@@ -295,7 +295,7 @@ extern inline Vec3 operator*(const Vec3 &v, const Mat4 &m);
 //---------------------------------------------------------------------------
 //Desc: Quat class
 //---------------------------------------------------------------------------
-class Quat {
+class VEGA_API Quat {
 public:
 	float x,y,z,w;
 
@@ -318,7 +318,7 @@ public:
 //---------------------------------------------------------------------------
 //Desc: Computes TBN basis
 //---------------------------------------------------------------------------
-struct TBNComputer {
+struct VEGA_API TBNComputer {
 	static void computeN(Vec3 &n, Vec3 p0, Vec3 p1, Vec3 p2);
 	static void computeTBN(Vec3 &t, Vec3 &b, Vec3 p0, Vec3 p1, Vec3 p2, Vec2 t0, Vec2 t1, Vec2 t2, Vec3 n);
 };

@@ -70,12 +70,6 @@
     <ClCompile Include="..\Src\LoadingScreen.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\Main.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="..\MandelbrotDemo.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="..\Src\Material.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -103,13 +97,7 @@
     <ClCompile Include="..\Src\SkinnedModel.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\SponzaDemo.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="..\Src\Terrain.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="..\TerrainDemo.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Water.cpp">
@@ -124,6 +112,10 @@
     <ClCompile Include="..\Src\WindowSystem.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="..\Src\Engine\EngineAppBase.cpp" />
+    <ClCompile Include="..\Src\Effect.cpp" />
+    <ClCompile Include="..\Src\MandelbrotDemo.cpp" />
+    <ClCompile Include="..\Src\ObjectSkinnedMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\ALSound.h">
@@ -252,6 +244,10 @@
     <ClInclude Include="..\Src\WindowSystem.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="..\Src\Engine\EngineAppBase.h" />
+    <ClInclude Include="..\Src\Engine\DLLDef.h" />
+    <ClInclude Include="..\Src\Effect.h" />
+    <ClInclude Include="..\Src\ObjectSkinnedMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Заголовочные файлы">

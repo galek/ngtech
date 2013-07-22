@@ -14,6 +14,7 @@
 #include "Config.h"
 #include "Error.h"
 #include "CvarManager.h"
+#include "mygui.h"
 //***************************************************
 #ifdef WIN32
 #include <windows.h>
@@ -22,7 +23,7 @@
 
 namespace VEGA {
 
-	LRESULT	CALLBACK wndProc( HWND, UINT, WPARAM, LPARAM );
+	LRESULT	CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
 
 	//---------------------------------------------------------------------------
 	//Desc:    creates new WindowSystem
@@ -35,9 +36,9 @@ namespace VEGA {
 		Log::write("{");
 
 		//-----read-config-values-----------------------------------
-		this->width  = _cvars->width;
+		this->width = _cvars->width;
 		this->height = _cvars->height;
-		this->bpp    = _cvars->bpp;
+		this->bpp = _cvars->bpp;
 		this->zdepth = _cvars->zdepth;
 		this->fullscreen = _cvars->fullscreen;
 	}
@@ -47,68 +48,68 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void WindowSystem::initialise(){
-	
-	unsigned int pixelFormat;			
-		WNDCLASS wc;						
-		DWORD dwExStyle;				
-		DWORD dwStyle;				
-		RECT windowRect;				
 
-		windowRect.left   =(long)0;			
-		windowRect.right  =(long)width;		
-		windowRect.top    =(long)0;				
-		windowRect.bottom =(long)height;		
+		unsigned int pixelFormat;
+		WNDCLASS wc;
+		DWORD dwExStyle;
+		DWORD dwStyle;
+		RECT windowRect;
 
-		this->hInstance = GetModuleHandle(NULL);				
-		wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;	
-		wc.lpfnWndProc = (WNDPROC)wndProc;					
-		wc.cbClsExtra = 0;									
-		wc.cbWndExtra = 0;									
-		wc.hInstance = this->hInstance;							
-		wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);			
-		wc.hCursor = LoadCursor(NULL, IDC_ARROW);			
-		wc.hbrBackground = NULL;									
-		wc.lpszMenuName = NULL;									
-		wc.lpszClassName = "OpenGL";								
+		windowRect.left = (long) 0;
+		windowRect.right = (long) width;
+		windowRect.top = (long) 0;
+		windowRect.bottom = (long) height;
 
-		if(!RegisterClass(&wc)) {
+		this->hInstance = GetModuleHandle(NULL);
+		wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+		wc.lpfnWndProc = (WNDPROC) wndProc;
+		wc.cbClsExtra = 0;
+		wc.cbWndExtra = 0;
+		wc.hInstance = this->hInstance;
+		wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
+		wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+		wc.hbrBackground = NULL;
+		wc.lpszMenuName = NULL;
+		wc.lpszClassName = "OpenGL";
+
+		if (!RegisterClass(&wc)) {
 			Error::showAndExit("WindowSystem::create() error: failed to register the window class");
-			return; 
+			return;
 		}
 
-		if(fullscreen) {
-			DEVMODE dmScreenSettings;								
-			memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));	
+		if (fullscreen) {
+			DEVMODE dmScreenSettings;
+			memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
 
-			dmScreenSettings.dmSize = sizeof(dmScreenSettings);		
-			dmScreenSettings.dmPelsWidth = width;				
-			dmScreenSettings.dmPelsHeight = height;				
-			dmScreenSettings.dmBitsPerPel = bpp;					
-			dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH |DM_PELSHEIGHT;
+			dmScreenSettings.dmSize = sizeof(dmScreenSettings);
+			dmScreenSettings.dmPelsWidth = width;
+			dmScreenSettings.dmPelsHeight = height;
+			dmScreenSettings.dmBitsPerPel = bpp;
+			dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 
-			if(ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN)  != DISP_CHANGE_SUCCESSFUL) {
-				fullscreen = false;		
+			if (ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL) {
+				fullscreen = false;
 			}
 		}
 
-		if(fullscreen) {
-			dwExStyle = WS_EX_APPWINDOW;								
-			dwStyle   = WS_POPUP;										
+		if (fullscreen) {
+			dwExStyle = WS_EX_APPWINDOW;
+			dwStyle = WS_POPUP;
 		} else {
-			dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;			
-			dwStyle   = WS_OVERLAPPEDWINDOW;							
+			dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
+			dwStyle = WS_OVERLAPPEDWINDOW;
 		}
 
-		AdjustWindowRectEx(&windowRect, dwStyle, FALSE, dwExStyle);		
+		AdjustWindowRectEx(&windowRect, dwStyle, FALSE, dwExStyle);
 
-		if (! (this->hWnd = CreateWindowEx(dwExStyle,			// Extended Style For The Window
+		if (!(this->hWnd = CreateWindowEx(dwExStyle,			// Extended Style For The Window
 			"OpenGL",							// Class Name
 			"VEGA Engine",						// Window Title
 			dwStyle |							// Defined Window Style
 			WS_CLIPSIBLINGS |					// Required Window Style
 			WS_CLIPCHILDREN,					// Required Window Style
 			0, 0,								// Window Position
-			windowRect.right  - windowRect.left,	// Calculate Window Width
+			windowRect.right - windowRect.left,	// Calculate Window Width
 			windowRect.bottom - windowRect.top,	// Calculate Window Height
 			NULL,								// No Parent Window
 			NULL,								// No Menu
@@ -116,12 +117,12 @@ namespace VEGA {
 			NULL)))								// Dont Pass Anything To WM_CREATE
 		{
 			Error::showAndExit("WindowSystem::create() error: window creation error");
-			return;								
+			return;
 		}
 
-		static PIXELFORMATDESCRIPTOR pfd =		
+		static PIXELFORMATDESCRIPTOR pfd =
 		{
-			sizeof(PIXELFORMATDESCRIPTOR),				
+			sizeof(PIXELFORMATDESCRIPTOR),
 			1,											// Version Number
 			PFD_DRAW_TO_WINDOW |						// Format Must Support Window
 			PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
@@ -143,38 +144,38 @@ namespace VEGA {
 
 		if (!(this->hDC = GetDC(this->hWnd)))	{
 			Error::showAndExit("WindowSystem::create() error: can't create a GL device context");
-			return;								
+			return;
 		}
 
 		if (!(pixelFormat = ChoosePixelFormat(this->hDC, &pfd))) {
 			Error::showAndExit("WindowSystem::create() error: can't find a suitable pixel format");
-			return;								
+			return;
 		}
 
-		if(!(SetPixelFormat(this->hDC, pixelFormat, &pfd)))	{
+		if (!(SetPixelFormat(this->hDC, pixelFormat, &pfd)))	{
 			Error::showAndExit("WindowSystem::create() error: can't set the pixel format");
-			return;								
+			return;
 		}
 
 		if (!(this->hRC = wglCreateContext(this->hDC)))	{
 			Error::showAndExit("WindowSystem::create() error: can't create a GL rendering context");
-			return;								
+			return;
 		}
 
-		if(!wglMakeCurrent(this->hDC, this->hRC)) {
+		if (!wglMakeCurrent(this->hDC, this->hRC)) {
 			Error::showAndExit("WindowSystem::create() error: can't activate the GL rendering context");
-			return;								
+			return;
 		}
 
-		ShowWindow(this->hWnd, SW_SHOW);						
-		SetForegroundWindow(this->hWnd);						
-		SetFocus(this->hWnd);									
+		ShowWindow(this->hWnd, SW_SHOW);
+		SetForegroundWindow(this->hWnd);
+		SetFocus(this->hWnd);
 
-		for(int i = 0; i < 3; i++) 
+		for (int i = 0; i < 3; i++)
 			this->mouseButtons[i] = false;
 
 
-		for(int i = 0; i < 315; i++) 
+		for (int i = 0; i < 315; i++)
 			this->keys[i] = false;
 
 
@@ -189,28 +190,28 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	WindowSystem::~WindowSystem() {
-		if(fullscreen) { 
-			ShowCursor(TRUE); 
+		if (fullscreen) {
+			ShowCursor(TRUE);
 		}
 
-		if(hRC) {	
+		if (hRC) {
 			wglMakeCurrent(NULL, NULL);
 			wglDeleteContext(hRC);
-			hRC = NULL; 
+			hRC = NULL;
 		}
 
-		if(hDC) {
+		if (hDC) {
 			ReleaseDC(hWnd, hDC);
-			hDC = NULL; 
+			hDC = NULL;
 		}
 
-		if(hWnd) {
+		if (hWnd) {
 			DestroyWindow(hWnd);
 			hWnd = NULL;
 		}
 
 		UnregisterClass("OpenGL", hInstance);
-		hInstance = NULL;	
+		hInstance = NULL;
 	}
 
 	//---------------------------------------------------------------------------
@@ -219,84 +220,110 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void WindowSystem::setTitle(const String &title) {
-		SetWindowText(hWnd, title.c_str());		
+		SetWindowText(hWnd, title.c_str());
 	}
 
 
 	LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-		switch(uMsg)								
+		switch (uMsg)
 		{
-		case WM_CLOSE:								
+		case WM_CLOSE:
 			{
 				//PostQuitMessage(0);	
 				exit(0);
-				return 0;								
+				return 0;
 			}
 
-		case WM_KEYDOWN:							
+		case WM_KEYDOWN:
 			{
-				if(engine.iWindow)
-					engine.iWindow->keys[wParam] = true;				
-				return 0;								
+				if (engine.iWindow)
+					engine.iWindow->keys[wParam] = true;
+				//Nick:TODO: сделай ввод
+
+				return 0;
 			}
 
-		case WM_KEYUP:								
+		case WM_KEYUP:
 			{
-				if(engine.iWindow)
-					engine.iWindow->keys[wParam] = false;				
-				return 0;								
+				if (engine.iWindow)
+					engine.iWindow->keys[wParam] = false;
+				//Nick:TODO: сделай ввод
+
+				return 0;
 			}
 
 		case WM_MOUSEMOVE:
 			{
-				if(engine.iWindow){
-					engine.iWindow->mx = LOWORD(lParam);          
+				if (engine.iWindow){
+					engine.iWindow->mx = LOWORD(lParam);
 					engine.iWindow->my = HIWORD(lParam);
 					engine.iWindow->mousing = true;
+
+
+					if (!engine.iWindow->mouseGrabed)
+						MyGUI::InputManager::getInstancePtr()->injectMouseMove(engine.iWindow->mx, engine.iWindow->my, 0);
+
 					return 0;
 				}
 			}
 
 		case WM_LBUTTONDOWN:
 			{
-				if(engine.iWindow)
-					engine.iWindow->mouseButtons[0] = true;
+				if (engine.iWindow)
+					engine.iWindow->mouseButtons[0] = true; 
+
+				if (!engine.iWindow->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMousePress(engine.iWindow->mx, engine.iWindow->my, (MyGUI::MouseButton::Enum)0);
+
 				return 0;
 			}
 
 		case WM_LBUTTONUP:
 			{
-				if(engine.iWindow)
+				if (engine.iWindow)
 					engine.iWindow->mouseButtons[0] = false;
+
+				if (!engine.iWindow->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(engine.iWindow->mx, engine.iWindow->my, (MyGUI::MouseButton::Enum)1);
+
 				return 0;
 			}
 
 		case WM_RBUTTONDOWN:
 			{
-				if(engine.iWindow)
+				if (engine.iWindow)
 					engine.iWindow->mouseButtons[1] = true;
+
+				if (!engine.iWindow->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMousePress(engine.iWindow->mx, engine.iWindow->my, (MyGUI::MouseButton::Enum)1);
+				
 				return 0;
 			}
 
 		case WM_RBUTTONUP:
 			{
-				if(engine.iWindow)
+				if (engine.iWindow)
 					engine.iWindow->mouseButtons[1] = false;
+
+				if (!engine.iWindow->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(engine.iWindow->mx, engine.iWindow->my, (MyGUI::MouseButton::Enum)0);
+
 				return 0;
 			}
 
-		case WM_SIZE:								
+		case WM_SIZE:
 			{
 				int w = LOWORD(lParam);
 				int h = HIWORD(lParam);
 
-				if(engine.iRender)
-					engine.iRender->reshape(w, h);  
-				if(engine.iWindow){
-					engine.iWindow->width  = w;
+				if (engine.iRender)
+					engine.iRender->reshape(w, h);
+				if (engine.iWindow){
+					engine.iWindow->width = w;
 					engine.iWindow->height = h;
 					return 0;
 				}
+				//Nick:TODO:Сделай здесь функцию ресайза
 			}
 		}
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
@@ -315,18 +342,18 @@ namespace VEGA {
 		mousing = false;
 
 		MSG	msg;
-		while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))	{
-			TranslateMessage(&msg);				
-			DispatchMessage(&msg);				
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))	{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
 		}
 
-		if(mouseGrabed) {
+		if (mouseGrabed) {
 			oldMouseX = mouseX;
 			oldMouseY = mouseY;
-			mouseX += mx - width/2;
-			mouseY += my - height/2;
-			setMousePos(width/2, height/2);
-		} else {
+			mouseX += mx - width / 2;
+			mouseY += my - height / 2;
+			setMousePos(width / 2, height / 2);
+		}else {
 			oldMouseX = mouseX;
 			oldMouseY = mouseY;
 			mouseX = mx;
@@ -395,6 +422,7 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	void WindowSystem::showCursor(bool show) {
 		ShowCursor(show);
+		MyGUI::PointerManager::getInstance().setVisible(show);
 		cursorVisible = show;
 	}
 
@@ -417,8 +445,8 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void WindowSystem::grabMouse(bool grab) {
-		mouseX = oldMouseX = width/2;
-		mouseY = oldMouseY = height/2;
+		mouseX = oldMouseX = width / 2;
+		mouseY = oldMouseY = height / 2;
 
 		if(grab) { setMousePos(width/2, height/2); }
 		showCursor(!grab);
@@ -442,7 +470,7 @@ namespace VEGA {
 	void WindowSystem::updateTimer() {
 		int ticks = GetTickCount();
 		dTime = ticks - eTime;
-		eTime = ticks;		
+		eTime = ticks;
 	}
 
 	//---------------------------------------------------------------------------

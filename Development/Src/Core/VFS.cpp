@@ -3,7 +3,7 @@
 @author		George Evmenov
 @date		07/2009
 */
-#include "EnginePrivate.h"
+#include "..\EnginePrivate.h"
 #include "MyGUI_OpenGLDiagnostic.h"
 #include "MyGUI_DataFileStream.h"
 #include "FileSystemInfo/FileSystemInfo.h"

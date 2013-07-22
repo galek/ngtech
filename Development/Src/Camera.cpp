@@ -12,6 +12,7 @@
 #include "Camera.h"
 #include "WindowSystem.h"
 #include "Log.h"
+#include "Scene.h"
 //**************************************
 
 namespace VEGA {
