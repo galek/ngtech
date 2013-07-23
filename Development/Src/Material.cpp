@@ -25,6 +25,11 @@ namespace VEGA {
 //Returns: -
 //---------------------------------------------------------------------------
 Material::Material(String path) {
+	if (path == ""){
+		Warning("[Material::Material]Material loading from blank path,automatic deletion.Check your material list");
+		return;
+		delete this;
+	}
 	path = "data/materials/" + path;
 
 	//Check if exist
