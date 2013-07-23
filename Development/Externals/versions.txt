@@ -1,0 +1,4 @@
+mygui 3.2
+cal3d-0.11.0
+freetype latest(07.2013)
+newton-dynamics-2.36
