@@ -1,4 +1,4 @@
 freetype-2.5.0.1
 MyGUI_3.2.0
-tbb41_20130613oss
 DevIL 1.78
+Newton 2.36

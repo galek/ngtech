@@ -16,6 +16,10 @@
 #include "ALSound.h"
 #include "ALSoundSource.h"
 //***************************************************************************
+class NewtonWorld;
+class NewtonJoint;
+class NewtonMaterial;
+class NewtonBody;
 
 namespace VEGA {
 

@@ -11,6 +11,7 @@
 #include "PhysSystem.h"
 #include "PhysBody.h"
 #include "Log.h"
+#include "../Externals/newton/coreLibrary_200/source/newton/newton.h"
 //***************************************************************************
 
 namespace VEGA {
@@ -37,7 +38,7 @@ namespace VEGA {
 		float Iyy = mass * inertia.y;
 		float Izz = mass * inertia.z;
 
-		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision);
+		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
 		NewtonReleaseCollision(engine.physSystem->nWorld, collision);
 
 		NewtonBodySetUserData(body->nBody, body);
@@ -76,7 +77,7 @@ namespace VEGA {
 		float Iyy = mass * inertia.y;
 		float Izz = mass * inertia.z;
 
-		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision);
+		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
 		NewtonReleaseCollision(engine.physSystem->nWorld, collision);
 
 		NewtonBodySetUserData(body->nBody, body);
@@ -115,7 +116,7 @@ namespace VEGA {
 		float Iyy = mass * inertia.y;
 		float Izz = mass * inertia.z;
 
-		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision);
+		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
 		NewtonReleaseCollision(engine.physSystem->nWorld, collision);
 
 		NewtonBodySetUserData(body->nBody, body);
@@ -154,7 +155,7 @@ namespace VEGA {
 		float Iyy = mass * inertia.y;
 		float Izz = mass * inertia.z;
 
-		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision);
+		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
 		NewtonReleaseCollision(engine.physSystem->nWorld, collision);
 
 		NewtonBodySetUserData(body->nBody, body);
@@ -193,7 +194,7 @@ namespace VEGA {
 		float Iyy = mass * inertia.y;
 		float Izz = mass * inertia.z;
 
-		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision);
+		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
 		NewtonReleaseCollision(engine.physSystem->nWorld, collision);
 
 		NewtonBodySetUserData(body->nBody, body);
@@ -232,7 +233,7 @@ namespace VEGA {
 		float Iyy = mass * inertia.y;
 		float Izz = mass * inertia.z;
 
-		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision);
+		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
 		NewtonReleaseCollision(engine.physSystem->nWorld, collision);
 
 		NewtonBodySetUserData(body->nBody, body);
@@ -271,7 +272,7 @@ namespace VEGA {
 		float Iyy = mass * inertia.y;
 		float Izz = mass * inertia.z;
 
-		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision);
+		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
 		NewtonReleaseCollision(engine.physSystem->nWorld, collision);
 
 		NewtonBodySetUserData(body->nBody, body);
@@ -312,7 +313,7 @@ namespace VEGA {
 			NewtonTreeCollisionAddFace(collision, 3, &v[0].x, 3 * sizeof(float) , 1);
 		}
 		NewtonTreeCollisionEndBuild(collision, (int) optimize);
-		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision);
+		body->nBody = NewtonCreateBody(engine.physSystem->nWorld, collision, Mat4(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1));//Nick:Сомневаюсь,верно ли?
 		NewtonReleaseCollision(engine.physSystem->nWorld, collision);
 
 		NewtonBodySetMassMatrix(body->nBody, 1.0f, 1.0f, 1.0f, 1.0f);

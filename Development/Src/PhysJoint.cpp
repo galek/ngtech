@@ -12,6 +12,7 @@
 #include "PhysJoint.h"
 #include "PhysSystem.h"
 #include "PhysBody.h"
+#include "../Externals/newton/coreLibrary_200/source/newton/newton.h"
 //**************************************
 
 namespace VEGA {

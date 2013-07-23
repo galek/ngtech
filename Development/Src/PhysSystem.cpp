@@ -13,6 +13,7 @@
 #include "PhysBody.h"
 #include "Log.h"
 #include "Config.h"
+#include "../Externals/newton/coreLibrary_200/source/newton/newton.h"
 //***************************************************************************
 
 namespace VEGA {
@@ -47,17 +48,19 @@ namespace VEGA {
 	//-----------------------------------------
 	void PhysSystem::contactProcess(const NewtonJoint *pContactJoint, float fTimeStep, int ThreadIndex)
 	{
+		// Get pointer to body
+		NewtonBody* const body0 = NewtonJointGetBody0(pContactJoint);
 		for (void* contact = NewtonContactJointGetFirstContact(pContactJoint); contact; contact = NewtonContactJointGetNextContact(pContactJoint, contact)) {
 
-			NewtonMaterial* material = NewtonContactGetMaterial(contact);
-			float speed = NewtonMaterialGetContactNormalSpeed(material);
-			// play sound base of the contact speed.
-			//
-			if (speed > engine.physSystem->impactSpeed) {
-				engine.physSystem->impactSpeed = speed;
-				NewtonMaterialGetContactPositionAndNormal(material, engine.physSystem->impactPosition, engine.physSystem->impactNormal);
+				NewtonMaterial* material = NewtonContactGetMaterial(contact);
+				float speed = NewtonMaterialGetContactNormalSpeed(material);
+				// play sound base of the contact speed.
+				//
+				if (speed > engine.physSystem->impactSpeed) {
+					engine.physSystem->impactSpeed = speed;
+					NewtonMaterialGetContactPositionAndNormal(material, body0, engine.physSystem->impactPosition, engine.physSystem->impactNormal);
+				}
 			}
-		}
 	}
 
 	//---------------------------------------------------------------------------

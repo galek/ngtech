@@ -80,7 +80,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>OpenAL32.lib;ogg_static.lib;vorbis_static.lib;vorbisfile_static.lib;opengl32.lib;ilu.lib;devil.lib;newton.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenAL32.lib;ogg_static.lib;vorbis_static.lib;vorbisfile_static.lib;opengl32.lib;ilu.lib;devil.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -114,6 +114,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Externals\MyGUI\MyGui.vcxproj">
       <Project>{e9497471-6143-4e9a-8db2-436edad37b65}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Externals\newton\coreLibrary_200\projets\windows\project_vs2010\newton.vcxproj">
+      <Project>{68d9962c-0ec7-445a-b0fd-f87b16d43901}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{413d151a-e7ac-419a-b9c1-e270e686f949}</Project>

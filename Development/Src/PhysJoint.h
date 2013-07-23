@@ -14,6 +14,7 @@
 #include "PhysBody.h"
 #include "MathLib.h"
 //**************************************
+class NewtonJoint;
 
 namespace VEGA {
 
