@@ -44,7 +44,7 @@ namespace VEGA {
 	ObjectMesh::ObjectMesh(const String &path)
 		:Object() {
 			if(engine.cash){
-				model = engine.cash->loadModel("data/meshes/" + path);
+				model = engine.cash->loadModel("../data/meshes/" + path);
 				materials.resize(model->getNumSubsets());
 				for(int i = 0; i < materials.size(); i++) 
 					materials[i] = nullptr;
@@ -108,7 +108,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void ObjectMesh::setMaterialList(const String &path) {
-		FILE *mFile = fopen(String("data/meshes/" + path).c_str(), "rt");
+		FILE *mFile = fopen(String("../data/meshes/" + path).c_str(), "rt");
 
 		//Check if exist
 		if(!mFile) {
@@ -267,7 +267,7 @@ namespace VEGA {
 	}
 
 	void ObjectMesh::setImpactSound(const String &path) {
-		impactSound = engine.cash->loadSound("data/sounds/" + path);
+		impactSound = engine.cash->loadSound("../data/sounds/" + path);
 		pBody->setImpactSound(impactSound);
 	}
 
@@ -286,7 +286,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	ObjectSkinnedMesh::ObjectSkinnedMesh(const String &path) {
-		model = new SkinnedModel("data/meshes/" + path);
+		model = new SkinnedModel("../data/meshes/" + path);
 		materials.resize(model->getNumSubsets());
 		for(int i = 0; i < materials.size(); i++) 
 			materials[i] = nullptr;
@@ -346,7 +346,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void ObjectSkinnedMesh::setMaterialList(const String &path) {
-		FILE *mFile = fopen(String("data/meshes/" + path).c_str(), "rt");
+		FILE *mFile = fopen(String("../data/meshes/" + path).c_str(), "rt");
 
 		//Check if exist
 		if(!mFile) {

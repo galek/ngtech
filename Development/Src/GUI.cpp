@@ -123,7 +123,7 @@ namespace VEGA {
 	}
 	void GUI::initialise()	{
 		mPlatform->initialise(this);
-		mPlatform->getDataManagerPtr()->addResourceLocation("data/gui/", true);
+		mPlatform->getDataManagerPtr()->addResourceLocation("../data/gui/", true);
 		resize(cvars->width, cvars->height);
 		mGUI->initialise("MyGUI_Core.xml");
 #if 1

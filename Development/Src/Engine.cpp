@@ -247,7 +247,7 @@ namespace VEGA {
 	}
 
 	void Engine::_setResources() {
-		vfs->addResourceLocation("data", true);
+		vfs->addResourceLocation("../data", true);
 	}
 
 }

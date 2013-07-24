@@ -11,10 +11,10 @@ WidgetButton *exitButton;
 Vec2 position, scale;
 
 void init() {
-	GUI::create("data/textures/gui");
+	GUI::create("../data/textures/gui");
 
-	mandelbotShader = GLShader::create("data/shaders/mandelbrot.ashd");
-	usor = GLTexture::create2d("data/textures/usor.jpg");
+	mandelbotShader = GLShader::create("../data/shaders/mandelbrot.ashd");
+	usor = GLTexture::create2d("../data/textures/usor.jpg");
 	usor->setFilter(GLTexture::LINEAR);
 
 	GUI::get()->addWidget(scaleLabel = new WidgetLabel("Scale (mouse buttons)"));

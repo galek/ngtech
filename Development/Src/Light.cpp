@@ -153,7 +153,7 @@ namespace VEGA {
 		shadowMap->setFilter(GLTexture::LINEAR);
 		shadowMap->setWrap(GLTexture::CLAMP);
 
-		projMap = GLTexture::create2d("data/textures/effects/spot.jpg");
+		projMap = GLTexture::create2d("../data/textures/effects/spot.jpg");
 		projMap->setWrap(GLTexture::CLAMP);
 	}
 

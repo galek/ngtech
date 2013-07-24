@@ -79,7 +79,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void ObjectMesh::setMaterialList(String path) {
-		path = "data/meshes/" + path;
+		path = "../data/meshes/" + path;
 
 		//Check if exist
 		if (!FileHelper::fileExist(path)) {
@@ -241,7 +241,7 @@ namespace VEGA {
 	};
 
 	void ObjectMesh::setImpactSound(const String &path) {
-		pBody->setImpactSound(engine.cash->loadSound("data/sounds/" + path));
+		pBody->setImpactSound(engine.cash->loadSound("../data/sounds/" + path));
 	};
 
 	/*

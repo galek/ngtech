@@ -24,11 +24,11 @@ WidgetLabel *fpsLabel;
 //------------------------------------------------------------
 void init() {
 	//initializing loading screen
-	LoadingScreen *lscreen = LoadingScreen::create("data/textures/logos/background.jpg");
+	LoadingScreen *lscreen = LoadingScreen::create("../data/textures/logos/background.jpg");
 	lscreen->show();
 
 	//initialize GUI
-	GUI::create("data/textures/gui");
+	GUI::create("../data/textures/gui");
 	GUI::get()->setAlpha(0.8);
 
 	GUI::get()->addWidget(fpsLabel = new WidgetLabel("FPS: "));
@@ -130,7 +130,7 @@ void init() {
 
 	engine.scene->setGravity(Vec3(0, -9.8, 0));
 	engine.scene->setWater(55, 1000);
-	engine.scene->setTerrain("data/textures/HeightMap_small.tga", 1.5, 100.0, true);
+	engine.scene->setTerrain("../data/textures/HeightMap_small.tga", 1.5, 100.0, true);
 	engine.scene->setTerrainLods(Vec3(400, 600, 900));
 	engine.scene->setTerrainMaterial("terrain.amtr");
 	engine.scene->setAmbient(Vec3(0.2, 0.2, 0.2));

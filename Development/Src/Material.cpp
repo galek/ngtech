@@ -30,7 +30,7 @@ Material::Material(String path) {
 		return;
 		delete this;
 	}
-	path = "data/materials/" + path;
+	path = "../data/materials/" + path;
 
 	//Check if exist
 	if(!FileHelper::fileExist(path)) {
@@ -174,14 +174,14 @@ Material::Material(String path) {
 					//user params
 					} else if(StringHelper::getWord(line, 4) == "normal_map()") {
 						GLTexture *sampler;
-						ILImage *map = ILImage::create2d("data/textures/" + StringHelper::getWord(line, 5));
+						ILImage *map = ILImage::create2d("../data/textures/" + StringHelper::getWord(line, 5));
 						map->toNormalMap(4);
-						sampler = engine.cash->loadTexture2d(map, "data/textures/" + StringHelper::getWord(line, 5) + "_NORMAL_MAP");
+						sampler = engine.cash->loadTexture2d(map, "../data/textures/" + StringHelper::getWord(line, 5) + "_NORMAL_MAP");
 						pass->u_sampler2D.push_back(std::pair<String, GLTexture*>(name, sampler));
 						delete map;
 					} else {
 						GLTexture *sampler;
-						sampler = engine.cash->loadTexture2d("data/textures/" + StringHelper::getWord(line, 4));
+						sampler = engine.cash->loadTexture2d("../data/textures/" + StringHelper::getWord(line, 4));
 						pass->u_sampler2D.push_back(std::pair<String, GLTexture*>(name, sampler));
 					}
 				}
@@ -197,7 +197,7 @@ Material::Material(String path) {
 					//user params
 					} else {
 						GLTexture *sampler;
-						sampler = engine.cash->loadTextureCube("data/textures/" + StringHelper::getWord(line, 4));
+						sampler = engine.cash->loadTextureCube("../data/textures/" + StringHelper::getWord(line, 4));
 						pass->u_samplerCube.push_back(std::pair<String, GLTexture*>(name, sampler));
 					}
 				}
