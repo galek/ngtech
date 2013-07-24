@@ -16,9 +16,6 @@
 #include "../Includes/AL/al.h"
 #include "../Includes/AL/alc.h"
 //***************************************************************************
-#include "../Includes/OGG/codec.h"
-#include "../Includes/OGG/vorbisfile.h"
-//***************************************************************************
 #include "../Includes/IL/il.h"
 #include "../Includes/IL/ilu.h"
 //***************************************************************************

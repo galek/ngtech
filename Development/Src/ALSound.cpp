@@ -11,6 +11,7 @@
 #include "Log.h"
 #include "File.h" 
 #include "Error.h"
+#include "../Externals/libvorbis/include/vorbis/vorbisfile.h"
 //***************************************************************************
 
 namespace VEGA {
