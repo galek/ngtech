@@ -24,12 +24,11 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	void Error::showAndExit(const String &text) {
 #ifdef WIN32
-		Log::write(text);
+		Log::error(text);
 		MessageBox(NULL, text.c_str(), "VEGA Engine error", MB_OK | MB_ICONERROR);
 		exit(0);
 #else
-		Log::write(text);
-		printf(text.c_str()); 
+		Log::error(text);
 		exit(0);
 #endif
 	}

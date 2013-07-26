@@ -22,7 +22,9 @@ namespace VEGA {
 	struct Log {
 		Log();
 		static void write(String text);
-		static void printf(const char *format, ...);
+		static void warning(String text);
+		static void error(String text);
+		static void writeHeader(String text);
 	};
 
 };

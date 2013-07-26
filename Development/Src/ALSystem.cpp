@@ -29,14 +29,12 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void ALSystem::initialise() {
-
-			Log::write("ALSystem::create()");
+			Log::writeHeader("-- ALSystem --");
 
 			alDevice = alcOpenDevice(NULL);
 			alContext = alcCreateContext(alDevice, NULL);
 			alcMakeContextCurrent(alContext);
 
-			Log::write("{");
 			Log::write("Vendor:     " + getVendor());
 			Log::write("Renderer:   " + getRenderer());
 			Log::write("Version:    " + getVersion());
@@ -47,8 +45,6 @@ namespace VEGA {
 				Error::showAndExit("ALSystem::create() error: error while creating");
 				return;
 			}
-			Log::write("}\n");
-
 			alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
 	}
 

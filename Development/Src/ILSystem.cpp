@@ -20,10 +20,7 @@ namespace VEGA {
 	//Returns: pointer to new ILSystem
 	//---------------------------------------------------------------------------
 	ILSystem::ILSystem() {
-
-		Log::write("ILSystem::create()");
-		Log::write("{");
-		Log::write("}\n");
+		Log::writeHeader("-- ILSystem --");
 
 		ilInit();
 		iluInit();

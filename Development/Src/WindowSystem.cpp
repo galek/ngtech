@@ -33,8 +33,7 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	WindowSystem::WindowSystem(CVARManager*_cvars) {
 
-		Log::write("WindowSystem::create()");
-		Log::write("{");
+		Log::writeHeader("-- WindowSystem --");
 
 		//-----read-config-values-----------------------------------
 		this->width = _cvars->width;
@@ -182,8 +181,6 @@ namespace VEGA {
 
 
 		this->mouseGrabed = false;
-
-		Log::write("}\n");
 	}
 
 	//---------------------------------------------------------------------------

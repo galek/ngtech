@@ -45,7 +45,7 @@ namespace VEGA {
 	Engine::Engine()
 	{
 		log = new Log();
-		Log::write("VEGA Engine "ENGINE_VERSION_STRING"\n");
+		Log::write("Engine Version:"ENGINE_VERSION_STRING);
 		_preInit();
 	}
 
@@ -133,39 +133,7 @@ namespace VEGA {
 			game->initialise();
 			Debug("[Init]Game Finished");
 		}
-
 		running = true;
-		Debug("[Init]Checking Render Extensions");
-
-		iRender->requireExtension("GL_ARB_vertex_shader", true);
-		iRender->requireExtension("GL_ARB_fragment_shader", true);
-		iRender->requireExtension("GL_ARB_shader_objects", true);
-		iRender->requireExtension("GL_ARB_shading_language_100", true);
-		iRender->requireExtension("GL_ARB_vertex_buffer_object", true);
-		iRender->requireExtension("GL_EXT_framebuffer_object", true);
-		iRender->requireExtension("GL_ARB_occlusion_query", true);
-		iRender->requireExtension("GL_EXT_texture_filter_anisotropic", true);
-
-		//OpenGL3 and 4
-		iRender->requireExtension("GL_ARB_tessellation_shader");
-		iRender->requireExtension("GL_ARB_occlusion_query2");
-		iRender->requireExtension("GL_ARB_compatibility");
-
-		iRender->requireExtension("GL_ARB_shader_subroutine");
-		iRender->requireExtension("GL_ARB_gpu_shader5");
-		iRender->requireExtension("GL_ARB_geometry_shader4");
-
-		//Nick:Not Supported on intel	
-		iRender->requireExtension("GL_ARB_shading_language_400");
-		iRender->requireExtension("GL_ARB_ES2_compatibility");
-		iRender->requireExtension("GL_ARB_shading_language_include");
-
-		//4.X
-		iRender->requireExtension("GL_ARB_shading_language_packing");
-		iRender->requireExtension("GL_ARB_compute_shader");
-		iRender->requireExtension("GL_ARB_shading_language_420pack");
-		iRender->requireExtension("GL_ARB_ES3_compatibility");
-
 		Debug("[Init]All Systems Initialised");
 	}
 

@@ -76,9 +76,7 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	void PhysSystem::initialise()
 	{
-		Log::write("PhysSystem::create()");
-		Log::write("{");
-		Log::write("}\n");
+		Log::writeHeader("-- PhysSystem --");
 
 		nWorld = NewtonCreate();
 

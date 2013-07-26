@@ -21,3 +21,5 @@ Bins/ast_log.txt
 Bins/Bin32/ExampleGame.dll
 Bins/Bin32/VegaEngine.dll
 TempFiles/
+Bins/Bin32/EngineLog.html
+*.exp
