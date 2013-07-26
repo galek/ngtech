@@ -9,6 +9,7 @@
 #include "EnginePrivate.h"
 //**************************************
 #include "Engine.h"
+#include "GUI.h"
 #include "Scene.h"
 #include "Config.h"
 #include "Log.h"
@@ -26,7 +27,7 @@ namespace VEGA {
 	//Params:  -
 	//Returns: -
 	//---------------------------------------------------------------------------
-	Scene::Scene():camera(nullptr) {
+	Scene::Scene() : camera(nullptr) {
 		water = NULL;
 		terrain = NULL;
 	}
@@ -141,7 +142,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::setWater(float depth, float size) {
-		if(!water) water = new Water();
+		if (!water) water = new Water();
 		water->setDepth(depth);
 		water->setSize(size);
 	}
@@ -154,7 +155,7 @@ namespace VEGA {
 	void Scene::setTerrain(const String &path, float step, float height, bool physics) {
 		terrain = new Terrain(path, step, height, 16);
 		terrainLods = Vec3(100, 200, 400);
-		if(physics) terrain->setPhysics();
+		if (physics) terrain->setPhysics();
 	}
 
 	//---------------------------------------------------------------------------
@@ -172,7 +173,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::setTerrainMaterial(const String &path) {
-		if(terrain) terrain->setMaterial(path);
+		if (terrain) terrain->setMaterial(path);
 	}
 
 	//---------------------------------------------------------------------------
@@ -209,8 +210,8 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::deleteLight(Light *light) {
-		for(int i = 0; i < lights.size(); i++) {
-			if(light == lights[i]) {
+		for (int i = 0; i < lights.size(); i++) {
+			if (light == lights[i]) {
 				lights[i] = NULL;
 			}
 		}
@@ -222,8 +223,8 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::deleteObjectMesh(ObjectMesh *object) {
-		for(int i = 0; i < objects.size(); i++) {
-			if(object == objects[i]) {
+		for (int i = 0; i < objects.size(); i++) {
+			if (object == objects[i]) {
 				objects[i] = NULL;
 			}
 		}
@@ -235,8 +236,8 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::deleteParticleSystem(ParticleSystem *system) {
-		for(int i = 0; i < systems.size(); i++) {
-			if(system == systems[i]) {
+		for (int i = 0; i < systems.size(); i++) {
+			if (system == systems[i]) {
 				systems[i] = NULL;
 			}
 		}
@@ -264,17 +265,17 @@ namespace VEGA {
 		matLightColor = ambient;
 
 		//DRAW TERRAIN
-		if(terrain && !blended) {
+		if (terrain && !blended) {
 			Material *mtr = terrain->getMaterial();
-			if(mtr) {
+			if (mtr) {
 				frustum.get();
 
 				matMVP = engine.iRender->getMatrix_MVP();
 				matLightColor = ambient;
-				if(!mtr->setPass("Ambient")) return;	
+				if (!mtr->setPass("Ambient")) return;
 
-				for(int n = 0; n < terrain->getNumNodes(); n++)	{
-					if(!frustum.isInside(terrain->getMin(n), terrain->getMax(n)))
+				for (int n = 0; n < terrain->getNumNodes(); n++)	{
+					if (!frustum.isInside(terrain->getMin(n), terrain->getMax(n)))
 						continue;
 
 					terrain->drawNode(n, camera->getPosition());
@@ -285,11 +286,11 @@ namespace VEGA {
 		}
 
 		//DRAW OBJECTS
-		for(int m = 0; m < objects.size(); m++) {
-			if(!objects[m]) {
+		for (int m = 0; m < objects.size(); m++) {
+			if (!objects[m]) {
 				continue;
 			}
-			if(objects[m]->getType() == Object::OBJECT) {
+			if (objects[m]->getType() == Object::OBJECT) {
 				continue;
 			}
 			Object *object = objects[m];
@@ -298,34 +299,35 @@ namespace VEGA {
 			engine.iRender->multMatrix(object->getTransform());
 
 			frustum.get();
-			if(!frustum.isInside(object->getCenter(), object->getRadius())) {
+			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
 				engine.iRender->pop();
 				continue;
 			}
 
 			//DRAW OBJECT SUBSETS
-			for(int s = 0; s < object->getNumSubsets(); s++) {
-				if(!frustum.isInside(object->getCenter(s), object->getRadius(s)))
+			for (int s = 0; s < object->getNumSubsets(); s++) {
+				if (!frustum.isInside(object->getCenter(s), object->getRadius(s)))
 					continue;
 
 				Material *mtr = object->getMaterial(s);
-				if(!mtr) continue;
+				if (!mtr) continue;
 
 				matMVP = engine.iRender->getMatrix_MVP();
 				matWorld = object->getTransform();
 
-				if(blended) {
-					if(!mtr->passHasBlending("Ambient")) continue;
+				if (blended) {
+					if (!mtr->passHasBlending("Ambient")) continue;
 					mtr->setPassBlending("Ambient");
-				} else {
-					if(mtr->passHasBlending("Ambient")) continue;
+				}
+				else {
+					if (mtr->passHasBlending("Ambient")) continue;
 				}
 
-				if(!mtr->setPass("Ambient")) continue;	
+				if (!mtr->setPass("Ambient")) continue;
 
 				object->drawSubset(s);
 
-				if(mtr->passHasBlending("Ambient") && blended) 
+				if (mtr->passHasBlending("Ambient") && blended)
 					mtr->unsetPassBlending();
 				mtr->unsetPass();
 			}
@@ -340,7 +342,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::drawOmni(LightOmni *light, bool blended) {
-		if(!light->visible) return;
+		if (!light->visible) return;
 
 		/*int x, y, z, w;
 		light->getScissorRect(camera->getPosition(), x, y, z, w);
@@ -375,19 +377,19 @@ namespace VEGA {
 		matShadowMap = light->shadowMap;
 
 		//DRAW TERRAIN
-		if(terrain && !blended) {
+		if (terrain && !blended) {
 			Material *mtr = terrain->getMaterial();
-			if(mtr) {
+			if (mtr) {
 				frustum.get();
 
 				matMVP = engine.iRender->getMatrix_MVP();
-				if(!mtr->setPass("LightOmni")) return;	
+				if (!mtr->setPass("LightOmni")) return;
 
-				for(int n = 0; n < terrain->getNumNodes(); n++)	{
-					if(!frustum.isInside(terrain->getCenter(n), terrain->getRadius(n))) {
+				for (int n = 0; n < terrain->getNumNodes(); n++)	{
+					if (!frustum.isInside(terrain->getCenter(n), terrain->getRadius(n))) {
 						continue;
 					}
-					if((light->position - terrain->getCenter(n)).length() > 
+					if ((light->position - terrain->getCenter(n)).length() >
 						light->radius + terrain->getRadius(n)) {
 							continue;
 					}
@@ -398,11 +400,11 @@ namespace VEGA {
 			}
 		}
 
-		for(int m = 0; m < objects.size(); m++) {
-			if(!objects[m]) {
+		for (int m = 0; m < objects.size(); m++) {
+			if (!objects[m]) {
 				continue;
 			}
-			if(objects[m]->getType() == Object::OBJECT) {
+			if (objects[m]->getType() == Object::OBJECT) {
 				continue;
 			}
 			Object *object = objects[m];
@@ -411,34 +413,35 @@ namespace VEGA {
 			engine.iRender->multMatrix(object->getTransform());
 
 			frustum.get();
-			if(!frustum.isInside(object->getCenter(), object->getRadius())) {
+			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
 				engine.iRender->pop();
 				continue;
 			}
-			if((light->position - object->getTransform().getTranslation()).length() > 
+			if ((light->position - object->getTransform().getTranslation()).length() >
 				light->radius + object->getRadius()) {
 					engine.iRender->pop();
 					continue;
 			}
 
 			//DRAW OBJECT SUBSETS
-			for(int s = 0; s < object->getNumSubsets(); s++) {
+			for (int s = 0; s < object->getNumSubsets(); s++) {
 				frustum.get();
-				if(!frustum.isInside(object->getCenter(s), object->getRadius(s)))
+				if (!frustum.isInside(object->getCenter(s), object->getRadius(s)))
 					continue;
 
 				Material *mtr = object->getMaterial(s);
-				if(!mtr) continue;
+				if (!mtr) continue;
 
 				matMVP = engine.iRender->getMatrix_MVP();
 				matWorld = object->getTransform();
 
-				if(blended) {
-					if(!mtr->passHasBlending("Ambient")) continue;
-				} else {
-					if(mtr->passHasBlending("Ambient")) continue;
+				if (blended) {
+					if (!mtr->passHasBlending("Ambient")) continue;
 				}
-				if(!mtr->setPass("LightOmni")) continue;	
+				else {
+					if (mtr->passHasBlending("Ambient")) continue;
+				}
+				if (!mtr->setPass("LightOmni")) continue;
 
 				object->drawSubset(s);
 
@@ -457,7 +460,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::getOmniShadowMap(LightOmni *light) {
-		if(!light->visible || !light->castShadows || !engine.config->getInt("light_shadowtype")) {
+		if (!light->visible || !light->castShadows || !engine.config->getInt("light_shadowtype")) {
 			return;
 		}
 
@@ -473,7 +476,7 @@ namespace VEGA {
 		matLightIRadius = light->getIRadius();
 		matLightPosition = light->position;
 
-		for(int f = 0; f < 6; f++) {
+		for (int f = 0; f < 6; f++) {
 			shadowFBO->set();
 			shadowFBO->setColorTarget(light->shadowMap, f);
 			shadowFBO->clear();
@@ -482,11 +485,11 @@ namespace VEGA {
 			engine.iRender->loadMatrix(Mat4::cube(light->position, f));
 
 			//DRAW OBJECTS
-			for(int m = 0; m < objects.size(); m++) {
-				if(!objects[m]) {
+			for (int m = 0; m < objects.size(); m++) {
+				if (!objects[m]) {
 					continue;
 				}
-				if(objects[m]->getType() == Object::OBJECT) {
+				if (objects[m]->getType() == Object::OBJECT) {
 					continue;
 				}
 				Object *object = objects[m];
@@ -495,30 +498,30 @@ namespace VEGA {
 				engine.iRender->multMatrix(object->getTransform());
 
 				frustum.get();
-				if(!frustum.isInside(object->getCenter(), object->getRadius())) {
+				if (!frustum.isInside(object->getCenter(), object->getRadius())) {
 					engine.iRender->pop();
 					continue;
 				}
-				if((light->position - object->getTransform().getTranslation()).length() > 
+				if ((light->position - object->getTransform().getTranslation()).length() >
 					light->radius + object->getRadius()) {
 						engine.iRender->pop();
 						continue;
 				}
 
 				//DRAW OBJECT SUBSETS
-				for(int s = 0; s < object->getNumSubsets(); s++) {
+				for (int s = 0; s < object->getNumSubsets(); s++) {
 					Material *mtr = object->getMaterial(s);
-					if(!mtr) continue;
+					if (!mtr) continue;
 
 					frustum.get();
-					if(!frustum.isInside(object->getCenter(s), object->getRadius(s))) {
+					if (!frustum.isInside(object->getCenter(s), object->getRadius(s))) {
 						continue;
 					}
 
 					//set material params
 					matMVP = engine.iRender->getMatrix_MVP();
 					matWorld = object->getTransform();
-					depthPass->setPass("DepthPass");						
+					depthPass->setPass("DepthPass");
 
 					object->drawSubset(s);
 
@@ -543,11 +546,11 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::drawSpot(LightSpot *light, bool blended) {
-		if(!light->visible) return;
+		if (!light->visible) return;
 
 		ViewFrustum frustum;
 
-		light->projTransform = Mat4::texBias() * 
+		light->projTransform = Mat4::texBias() *
 			Mat4::perspective(light->fov, 1, 1, light->radius) *
 			Mat4::lookAt(light->position, light->position + light->direction, Vec3(0, 1, 0));
 
@@ -562,21 +565,21 @@ namespace VEGA {
 		matSpotTransform = light->projTransform;
 
 		//DRAW TERRAIN
-		if(terrain && !blended) {
+		if (terrain && !blended) {
 			Material *mtr = terrain->getMaterial();
-			if(mtr) {
+			if (mtr) {
 				frustum.get();
 
 				//set material params
 				matMVP = engine.iRender->getMatrix_MVP();
-				if(!mtr->setPass("LightSpot")) return;		
+				if (!mtr->setPass("LightSpot")) return;
 
-				for(int n = 0; n < terrain->getNumNodes(); n++)	{
+				for (int n = 0; n < terrain->getNumNodes(); n++)	{
 
-					if(!frustum.isInside(terrain->getCenter(n), terrain->getRadius(n))) {
+					if (!frustum.isInside(terrain->getCenter(n), terrain->getRadius(n))) {
 						continue;
 					}
-					if((light->position - terrain->getCenter(n)).length() > 
+					if ((light->position - terrain->getCenter(n)).length() >
 						light->radius + terrain->getRadius(n)) {
 							continue;
 					}
@@ -588,11 +591,11 @@ namespace VEGA {
 		}
 
 		//DRAW OBJECTS
-		for(int m = 0; m < objects.size(); m++) {
-			if(!objects[m]) {
+		for (int m = 0; m < objects.size(); m++) {
+			if (!objects[m]) {
 				continue;
 			}
-			if(objects[m]->getType() == Object::OBJECT) {
+			if (objects[m]->getType() == Object::OBJECT) {
 				continue;
 			}
 			Object *object = objects[m];
@@ -601,35 +604,36 @@ namespace VEGA {
 			engine.iRender->multMatrix(object->getTransform());
 
 			frustum.get();
-			if(!frustum.isInside(object->getCenter(), object->getRadius())) {
+			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
 				engine.iRender->pop();
 				continue;
 			}
-			if((light->position - object->getTransform().getTranslation()).length() > 
+			if ((light->position - object->getTransform().getTranslation()).length() >
 				light->radius + object->getRadius()) {
 					engine.iRender->pop();
 					continue;
 			}
 
 			//DRAW OBJECT SUBSETS
-			for(int s = 0; s < object->getNumSubsets(); s++) {
+			for (int s = 0; s < object->getNumSubsets(); s++) {
 				frustum.get();
-				if(!frustum.isInside(object->getCenter(s), object->getRadius(s))) {
+				if (!frustum.isInside(object->getCenter(s), object->getRadius(s))) {
 					continue;
 				}
 
 				Material *mtr = object->getMaterial(s);
-				if(!mtr) continue;
+				if (!mtr) continue;
 
 				//set material params
 				matMVP = engine.iRender->getMatrix_MVP();
 				matWorld = object->getTransform();
-				if(blended) {
-					if(!mtr->passHasBlending("Ambient")) continue;
-				} else {
-					if(mtr->passHasBlending("Ambient")) continue;
+				if (blended) {
+					if (!mtr->passHasBlending("Ambient")) continue;
 				}
-				if(!mtr->setPass("LightSpot")) continue;			
+				else {
+					if (mtr->passHasBlending("Ambient")) continue;
+				}
+				if (!mtr->setPass("LightSpot")) continue;
 
 				object->drawSubset(s);
 
@@ -645,7 +649,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::getSpotShadowMap(LightSpot *light) {
-		if(!light->visible || !light->castShadows || !engine.config->getInt("light_shadowtype")) {
+		if (!light->visible || !light->castShadows || !engine.config->getInt("light_shadowtype")) {
 			return;
 		}
 
@@ -668,11 +672,11 @@ namespace VEGA {
 		engine.iRender->clearColor(Vec3(1.0, 1.0, 1.0));
 
 		//DRAW OBJECTS
-		for(int m = 0; m < objects.size(); m++) {
-			if(!objects[m]) {
+		for (int m = 0; m < objects.size(); m++) {
+			if (!objects[m]) {
 				continue;
 			}
-			if(objects[m]->getType() == Object::OBJECT) {
+			if (objects[m]->getType() == Object::OBJECT) {
 				continue;
 			}
 			Object *object = objects[m];
@@ -681,30 +685,30 @@ namespace VEGA {
 			engine.iRender->multMatrix(object->getTransform());
 
 			frustum.get();
-			if(!frustum.isInside(object->getCenter(), object->getRadius())) {
+			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
 				engine.iRender->pop();
 				continue;
 			}
-			if((light->position - object->getTransform().getTranslation()).length() >
+			if ((light->position - object->getTransform().getTranslation()).length() >
 				light->radius + object->getRadius()) {
 					engine.iRender->pop();
 					continue;
 			}
 
 			//DRAW OBJECT SUBSETS
-			for(int s = 0; s < object->getNumSubsets(); s++) {
+			for (int s = 0; s < object->getNumSubsets(); s++) {
 				Material *mtr = object->getMaterial(s);
 
-				if(!mtr) continue;
+				if (!mtr) continue;
 
 				frustum.get();
-				if(!frustum.isInside(object->getCenter(s), object->getRadius(s))) {
+				if (!frustum.isInside(object->getCenter(s), object->getRadius(s))) {
 					continue;
 				}
 
 				matMVP = engine.iRender->getMatrix_MVP();
 				matWorld = object->getTransform();
-				depthPass->setPass("DepthPass");		
+				depthPass->setPass("DepthPass");
 
 				object->drawSubset(s);
 
@@ -729,7 +733,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::drawDirect(LightDirect *light, bool blended) {
-		ViewFrustum frustum;	
+		ViewFrustum frustum;
 
 		//set material params
 		matLightDirection = light->direction;
@@ -737,17 +741,17 @@ namespace VEGA {
 		matLightColor = light->color;
 
 		//DRAW TERRAIN
-		if(terrain && !blended) {
+		if (terrain && !blended) {
 			Material *mtr = terrain->getMaterial();
-			if(mtr) {
+			if (mtr) {
 				//set material params
 				matMVP = engine.iRender->getMatrix_MVP();
-				if(!mtr->setPass("LightDirect")) return;	
+				if (!mtr->setPass("LightDirect")) return;
 
 				frustum.get();
 
-				for(int n = 0; n < terrain->getNumNodes(); n++)	{
-					if(!frustum.isInside(terrain->getCenter(n), terrain->getRadius(n))) {
+				for (int n = 0; n < terrain->getNumNodes(); n++)	{
+					if (!frustum.isInside(terrain->getCenter(n), terrain->getRadius(n))) {
 						continue;
 					}
 
@@ -758,11 +762,11 @@ namespace VEGA {
 		}
 
 		//DRAW OBJECTS
-		for(int m = 0; m < objects.size(); m++) {
-			if(!objects[m]) {
+		for (int m = 0; m < objects.size(); m++) {
+			if (!objects[m]) {
 				continue;
 			}
-			if(objects[m]->getType() == Object::OBJECT) {
+			if (objects[m]->getType() == Object::OBJECT) {
 				continue;
 			}
 			Object *object = objects[m];
@@ -771,30 +775,31 @@ namespace VEGA {
 			engine.iRender->multMatrix(object->getTransform());
 
 			frustum.get();
-			if(!frustum.isInside(object->getCenter(), object->getRadius())) {
+			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
 				engine.iRender->pop();
 				continue;
 			}
 
 			//DRAW OBJECT SUBSETS
-			for(int s = 0; s < object->getNumSubsets(); s++) {
-				if(!frustum.isInside(object->getCenter(s), object->getRadius(s))) {
+			for (int s = 0; s < object->getNumSubsets(); s++) {
+				if (!frustum.isInside(object->getCenter(s), object->getRadius(s))) {
 					continue;
 				}
 
 				Material *mtr = object->getMaterial(s);
-				if(!mtr) continue;
+				if (!mtr) continue;
 
 				//set material params
 				matMVP = engine.iRender->getMatrix_MVP();
 				matWorld = object->getTransform();
 
-				if(blended) {
-					if(!mtr->passHasBlending("Ambient")) continue;
-				} else {
-					if(mtr->passHasBlending("Ambient")) continue;
+				if (blended) {
+					if (!mtr->passHasBlending("Ambient")) continue;
 				}
-				if(!mtr->setPass("LightDirect")) continue;	
+				else {
+					if (mtr->passHasBlending("Ambient")) continue;
+				}
+				if (!mtr->setPass("LightDirect")) continue;
 
 				object->drawSubset(s);
 
@@ -814,19 +819,19 @@ namespace VEGA {
 		ViewFrustum frustum;
 
 		frustum.get();
-		if(!frustum.isInside(light->position, light->radius)) {
+		if (!frustum.isInside(light->position, light->radius)) {
 			light->visible = false;
 			return;
 		}
 
-		if((light->position - camera->getPosition()).length() > light->radius) {
+		if ((light->position - camera->getPosition()).length() > light->radius) {
 			engine.iRender->colorMask(false, false, false, false);
 			engine.iRender->depthMask(false);
 			//glColor3f(0, 0, 1);
 			query->beginRendering();
 
 			engine.iRender->push();
-			engine.iRender->multMatrix(Mat4::translate(light->position) * 
+			engine.iRender->multMatrix(Mat4::translate(light->position) *
 				Mat4::scale(Vec3(light->radius*0.2, light->radius*0.2, light->radius*0.2)));
 
 			sphere->drawSubset(0);
@@ -838,7 +843,7 @@ namespace VEGA {
 			engine.iRender->depthMask(true);
 			engine.iRender->colorMask(true, true, true, true);
 
-			if(query->getResult() < 2) {
+			if (query->getResult() < 2) {
 				light->visible = false;
 				return;
 			}
@@ -855,19 +860,19 @@ namespace VEGA {
 		ViewFrustum frustum;
 
 		frustum.get();
-		if(!frustum.isInside(light->position, light->radius)) {
+		if (!frustum.isInside(light->position, light->radius)) {
 			light->visible = false;
 			return;
 		}
 
-		if((light->position - camera->getPosition()).length() > light->radius) {
+		if ((light->position - camera->getPosition()).length() > light->radius) {
 			engine.iRender->colorMask(false, false, false, false);
 			engine.iRender->depthMask(false);
 
 			query->beginRendering();
 
 			engine.iRender->push();
-			engine.iRender->multMatrix(Mat4::translate(light->position) * 
+			engine.iRender->multMatrix(Mat4::translate(light->position) *
 				Mat4::scale(Vec3(light->radius*0.2, light->radius*0.2, light->radius*0.2)));
 
 			sphere->drawSubset(0);
@@ -879,7 +884,7 @@ namespace VEGA {
 			engine.iRender->depthMask(true);
 			engine.iRender->colorMask(true, true, true, true);
 
-			if(query->getResult() < 2) {
+			if (query->getResult() < 2) {
 				light->visible = false;
 				return;
 			}
@@ -900,19 +905,19 @@ namespace VEGA {
 		engine.alSystem->setListener(camera->getPosition(), camera->getDirection());
 
 		//---------set-gravity-----------------------------------
-		for(int k = 0; k < objects.size(); k++) {
-			if(objects[k]->getPhysBody()) {
+		for (int k = 0; k < objects.size(); k++) {
+			if (objects[k]->getPhysBody()) {
 				objects[k]->getPhysBody()->addTorque(gravity);
-				if(water) {
-					if(objects[k]->getTransform().getTranslation().y < water->getDepth() - 2.5) {
-						float volume = 4/3 * PI * pow(objects[k]->getRadius(), 3.0f);
+				if (water) {
+					if (objects[k]->getTransform().getTranslation().y < water->getDepth() - 2.5) {
+						float volume = 4 / 3 * PI * pow(objects[k]->getRadius(), 3.0f);
 						float d = objects[k]->getPhysBody()->getMass() / volume;
-						objects[k]->getPhysBody()->addTorque(-gravity/d * 0.02);
+						objects[k]->getPhysBody()->addTorque(-gravity / d * 0.02);
 					}
 				}
 			}
 
-			if(camera->getPhysBody()) camera->getPhysBody()->addTorque(gravity);
+			if (camera->getPhysBody()) camera->getPhysBody()->addTorque(gravity);
 		}
 
 		//---------draw-scene--------------------------------
@@ -928,20 +933,22 @@ namespace VEGA {
 
 		drawAmbient(false);
 
-		for(int i = 0; i < lights.size(); i++) {
-			if(!lights[i]->enabled) continue;
-			if(lights[i]->getType() == Light::LIGHT_OMNI) {
-				checkOmniVisibility((LightOmni*)lights[i]);
-			} else if(lights[i]->getType() == Light::LIGHT_SPOT) {
-				checkSpotVisibility((LightSpot*)lights[i]);
+		for (int i = 0; i < lights.size(); i++) {
+			if (!lights[i]->enabled) continue;
+			if (lights[i]->getType() == Light::LIGHT_OMNI) {
+				checkOmniVisibility((LightOmni*) lights[i]);
+			}
+			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
+				checkSpotVisibility((LightSpot*) lights[i]);
 			}
 		}
 
-		for(int i = 0; i < lights.size(); i++) {
-			if(lights[i]->getType() == Light::LIGHT_OMNI) {
-				getOmniShadowMap((LightOmni*)lights[i]);
-			} else if(lights[i]->getType() == Light::LIGHT_SPOT) {
-				getSpotShadowMap((LightSpot*)lights[i]);
+		for (int i = 0; i < lights.size(); i++) {
+			if (lights[i]->getType() == Light::LIGHT_OMNI) {
+				getOmniShadowMap((LightOmni*) lights[i]);
+			}
+			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
+				getSpotShadowMap((LightSpot*) lights[i]);
 			}
 		}
 
@@ -949,20 +956,20 @@ namespace VEGA {
 		engine.iRender->depthMask(false);
 
 		//draw wireframe
-		if(engine.config->getBool("debug_wireframe")) {
-			glColor3f(1,1,1);
+		if (engine.config->getBool("debug_wireframe")) {
+			glColor3f(1, 1, 1);
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-			for(int i = 0; i < objects.size(); i++) {
+			for (int i = 0; i < objects.size(); i++) {
 				engine.iRender->push();
 				engine.iRender->multMatrix(objects[i]->getTransform());
-				for(int k = 0; k < objects[i]->getNumSubsets(); k++) {
+				for (int k = 0; k < objects[i]->getNumSubsets(); k++) {
 					objects[i]->drawSubset(k);
 				}
 				engine.iRender->pop();
 			}
-			if(terrain) {
-				for(int n = 0; n < terrain->getNumNodes(); n++) {
+			if (terrain) {
+				for (int n = 0; n < terrain->getNumNodes(); n++) {
 					terrain->drawNode(n, camera->getPosition());
 				}
 			}
@@ -970,13 +977,15 @@ namespace VEGA {
 		}
 
 		//draw lighting
-		for(int i = 0; i < lights.size(); i++) {
-			if(lights[i]->getType() == Light::LIGHT_OMNI) {
-				drawOmni((LightOmni*)lights[i], false);
-			} else if(lights[i]->getType() == Light::LIGHT_SPOT) {
-				drawSpot((LightSpot*)lights[i], false);
-			} else if(lights[i]->getType() == Light::LIGHT_DIRECT) {
-				drawDirect((LightDirect*)lights[i], false);
+		for (int i = 0; i < lights.size(); i++) {
+			if (lights[i]->getType() == Light::LIGHT_OMNI) {
+				drawOmni((LightOmni*) lights[i], false);
+			}
+			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
+				drawSpot((LightSpot*) lights[i], false);
+			}
+			else if (lights[i]->getType() == Light::LIGHT_DIRECT) {
+				drawDirect((LightDirect*) lights[i], false);
 			}
 		}
 
@@ -1003,8 +1012,8 @@ namespace VEGA {
 		engine.iRender->disableBlending();*/
 
 		//draw particle systems
-		for(int k = 0; k < systems.size(); k++) {
-			if(systems[k]) systems[k]->draw();
+		for (int k = 0; k < systems.size(); k++) {
+			if (systems[k]) systems[k]->draw();
 		}
 
 		//---------draw-scene-into-viewport-copy-------------------------------
@@ -1024,65 +1033,73 @@ namespace VEGA {
 		engine.iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
 		engine.iRender->depthMask(false);
 
-		if(engine.config->getBool("debug_wireframe")) {
-			glColor3f(1,1,1);
+		if (engine.config->getBool("debug_wireframe")) {
+			glColor3f(1, 1, 1);
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-			for(int i = 0; i < objects.size(); i++) {
+			for (int i = 0; i < objects.size(); i++) {
 				engine.iRender->push();
 				engine.iRender->multMatrix(objects[i]->getTransform());
-				for(int k = 0; k < objects[i]->getNumSubsets(); k++) {
+				for (int k = 0; k < objects[i]->getNumSubsets(); k++) {
 					objects[i]->drawSubset(k);
 				}
 				engine.iRender->pop();
 			}
-			if(terrain) {
-				for(int n = 0; n < terrain->getNumNodes(); n++) {
+			if (terrain) {
+				for (int n = 0; n < terrain->getNumNodes(); n++) {
 					terrain->drawNode(n, camera->getPosition());
 				}
 			}
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 
-		for(int i = 0; i < lights.size(); i++) {
-			if(lights[i]->getType() == Light::LIGHT_OMNI) {
-				drawOmni((LightOmni*)lights[i], false);
-			} else if(lights[i]->getType() == Light::LIGHT_SPOT) {
-				drawSpot((LightSpot*)lights[i], false);
-			} else if(lights[i]->getType() == Light::LIGHT_DIRECT) {
-				drawDirect((LightDirect*)lights[i], false);
+		for (int i = 0; i < lights.size(); i++) {
+			if (lights[i]->getType() == Light::LIGHT_OMNI) {
+				drawOmni((LightOmni*) lights[i], false);
+			}
+			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
+				drawSpot((LightSpot*) lights[i], false);
+			}
+			else if (lights[i]->getType() == Light::LIGHT_DIRECT) {
+				drawDirect((LightDirect*) lights[i], false);
 			}
 		}
 
 		drawAmbient(true);
-		for(int i = 0; i < lights.size(); i++) {
-			if(lights[i]->getType() == Light::LIGHT_OMNI) {
-				drawOmni((LightOmni*)lights[i], true);
-			} else if(lights[i]->getType() == Light::LIGHT_SPOT) {
-				drawSpot((LightSpot*)lights[i], true);
-			} else if(lights[i]->getType() == Light::LIGHT_DIRECT) {
-				drawDirect((LightDirect*)lights[i], true);
+		for (int i = 0; i < lights.size(); i++) {
+			if (lights[i]->getType() == Light::LIGHT_OMNI) {
+				drawOmni((LightOmni*) lights[i], true);
+			}
+			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
+				drawSpot((LightSpot*) lights[i], true);
+			}
+			else if (lights[i]->getType() == Light::LIGHT_DIRECT) {
+				drawDirect((LightDirect*) lights[i], true);
 			}
 		}
 
 		engine.iRender->depthMask(true);
 		engine.iRender->disableBlending();
 
-		for(int k = 0; k < systems.size(); k++) {
-			if(systems[k]) systems[k]->draw();
+		for (int k = 0; k < systems.size(); k++) {
+			if (systems[k]) systems[k]->draw();
 		}
 
 		viewportFBO->flush();
 		viewportFBO->unset();
 
-		if(water) {
+		if (water) {
 			matMVP = engine.iRender->getMatrix_MVP();
 			waterMtr->setPass("Ambient");
 			water->draw();
 			waterMtr->unsetPass();
 		}
+		//GUI Update
+		//Drawing this,because we won't have problems after HDR Pass
+		if (engine.gui)
+			engine.gui->update();
 
-		if(engine.config->getBool("effect_hdr")) {
+		if (engine.config->getBool("effect_hdr")) {
 			//---------bright-pass--------------------------------
 			viewportFBO->set();
 			viewportFBO->setColorTarget(viewportCopy_brightPass);
