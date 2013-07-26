@@ -7,7 +7,6 @@
 #ifndef __DATA_MANAGER_H__
 #define __DATA_MANAGER_H__
 
-#include "MyGUI_Prerequest.h"
 #include "..\Common\IDataManager.h"
 
 namespace VEGA
@@ -21,15 +20,6 @@ namespace VEGA
 
 		void initialise();
 		void shutdown();
-
-		static FileSystem& getInstance()
-		{
-			return *getInstancePtr();
-		}
-		static FileSystem* getInstancePtr()
-		{
-			return static_cast<FileSystem*>(DataManager::getInstancePtr());
-		}
 
 		/** @see DataManager::getData(const std::string& _name) */
 		virtual Common::IDataStream* getData(const std::string& _name);
@@ -57,6 +47,6 @@ namespace VEGA
 		bool mIsInitialise;
 	};
 
-} // namespace MyGUI
+} // namespace VEGA
 
 #endif // __MYGUI_OPENGL_DATA_MANAGER_H__

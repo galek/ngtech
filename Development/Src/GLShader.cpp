@@ -38,28 +38,29 @@ namespace VEGA {
 		}
 		
 		FILE *shdFile = fopen(engine.vfs->getDataPath(path).c_str(), "rt");
-		String line, vsCode, fsCode;
+		String line, vsCode, fsCode, tcsCode, tesCode, gsCode;
 
 		while(!feof(shdFile)) {
 			line = FileHelper::readString(shdFile);
 
 
 			//find GLSL vertex shader
-			if(line == "[GLSL_VERTEX_SHADER]") {
+			if (line == "[GLSL_VERTEX_SHADER]") {
 				vsCode = "";
-				while(!feof(shdFile)) {
+				while (!feof(shdFile)) {
 					line = FileHelper::readString(shdFile);
 					if (line == "[GLSL_FRAGMENT_SHADER]") break;
 					else if (line == "[GLSL_COMPUTE_SHADER]") break;
 					else if (line == "[GLSL_TESSELATION_CONTROL_SHADER]") break;
 					else if (line == "[GLSL_TESSELATION_EVAL_SHADER]") break;
+					else if (line == "[GLSL_GEOMETRY_SHADER]") break;
 					vsCode = vsCode + line + "\n";
 				}
 
 				vsCode = defines + vsCode;
 
 				const char *vsString[1];
-				vsString[0] = (char*)vsCode.c_str();
+				vsString[0] = (char*) vsCode.c_str();
 
 				shader->vs = glCreateShaderObjectARB(GL_VERTEX_SHADER_ARB);
 				glShaderSourceARB(shader->vs, 1, vsString, NULL);
@@ -68,14 +69,13 @@ namespace VEGA {
 				int compiled;
 				glGetObjectParameterivARB(shader->vs, GL_OBJECT_COMPILE_STATUS_ARB, &compiled);
 
-				if(!compiled) {
+				if (!compiled) {
 					char errorString[4096];
 					glGetInfoLogARB(shader->vs, sizeof(errorString), NULL, errorString);
 					Error::showAndExit("GLShader::create() error: shader file '" + path + "' vs compiling error: " + String(errorString));
 					return NULL;
 				}
 			}
-
 
 			//find GLSL fragment shader
 			if(line == "[GLSL_FRAGMENT_SHADER]") {
@@ -86,6 +86,8 @@ namespace VEGA {
 					else if (line == "[GLSL_COMPUTE_SHADER]") break;
 					else if (line == "[GLSL_TESSELATION_CONTROL_SHADER]") break;
 					else if (line == "[GLSL_TESSELATION_EVAL_SHADER]") break;
+					else if (line == "[GLSL_TESSELATION_EVAL_SHADER]") break;
+					else if (line == "[GLSL_GEOMETRY_SHADER]") break;
 					fsCode = fsCode + line + "\n";
 				}
 
@@ -108,14 +110,117 @@ namespace VEGA {
 					return NULL;
 				}
 			}
+
+			//find GLSL TESSELATION EVAL SHADER
+			if (line == "[GLSL_GEOMETRY_SHADER]") {
+				gsCode = "";
+				while (!feof(shdFile)) {
+					line = FileHelper::readString(shdFile);
+					if (line == "[GLSL_FRAGMENT_SHADER]") break;
+					else if (line == "[GLSL_COMPUTE_SHADER]") break;
+					else if (line == "[GLSL_TESSELATION_CONTROL_SHADER]") break;
+					else if (line == "[GLSL_TESSELATION_EVAL_SHADER]") break;
+					else if (line == "[GLSL_VERTEX_SHADER]") break;
+					gsCode = gsCode + line + "\n";
+				}
+
+				gsCode = defines + gsCode;
+
+				const char *gsString[1];
+				gsString[0] = (char*) gsCode.c_str();
+
+				shader->gs = glCreateShaderObjectARB(GL_GEOMETRY_SHADER);
+				glShaderSourceARB(shader->gs, 1, gsString, NULL);
+				glCompileShaderARB(shader->gs);
+
+				int compiled;
+				glGetObjectParameterivARB(shader->gs, GL_OBJECT_COMPILE_STATUS_ARB, &compiled);
+
+				if (!compiled) {
+					char errorString[4096];
+					glGetInfoLogARB(shader->gs, sizeof(errorString), NULL, errorString);
+					Error::showAndExit("GLShader::create() error: shader file '" + path + "' gs compiling error: " + String(errorString));
+					return NULL;
+				}
+			}
+
+
+			//find GLSL TESSELATION EVAL SHADER
+			if (line == "[GLSL_TESSELATION_EVAL_SHADER]") {
+				tesCode = "";
+				while (!feof(shdFile)) {
+					line = FileHelper::readString(shdFile);
+					if (line == "[GLSL_FRAGMENT_SHADER]") break;
+					else if (line == "[GLSL_COMPUTE_SHADER]") break;
+					else if (line == "[GLSL_TESSELATION_CONTROL_SHADER]") break;
+					else if (line == "[GLSL_VERTEX_SHADER]") break;
+					else if (line == "[GLSL_GEOMETRY_SHADER]") break;
+					tesCode = tesCode + line + "\n";
+				}
+
+				tesCode = defines + tesCode;
+
+				const char *tesString[1];
+				tesString[0] = (char*) tesCode.c_str();
+
+				shader->tes = glCreateShaderObjectARB(GL_TESS_EVALUATION_SHADER);
+				glShaderSourceARB(shader->tes, 1, tesString, NULL);
+				glCompileShaderARB(shader->tes);
+
+				int compiled;
+				glGetObjectParameterivARB(shader->tes, GL_OBJECT_COMPILE_STATUS_ARB, &compiled);
+
+				if (!compiled) {
+					char errorString[4096];
+					glGetInfoLogARB(shader->tes, sizeof(errorString), NULL, errorString);
+					Error::showAndExit("GLShader::create() error: shader file '" + path + "' tes compiling error: " + String(errorString));
+					return NULL;
+				}
+			}
+
+			//find GLSL TESSELATION CONTROL SHADER
+			if (line == "[GLSL_TESSELATION_CONTROL_SHADER]") {
+				tcsCode = "";
+				while (!feof(shdFile)) {
+					line = FileHelper::readString(shdFile);
+					if (line == "[GLSL_FRAGMENT_SHADER]") break;
+					else if (line == "[GLSL_COMPUTE_SHADER]") break;
+					else if (line == "[GLSL_TESSELATION_EVAL_SHADER]") break;
+					else if (line == "[GLSL_VERTEX_SHADER]") break;
+					else if (line == "[GLSL_GEOMETRY_SHADER]") break;					
+					tcsCode = tcsCode + line + "\n";
+				}
+
+				tcsCode = defines + tcsCode;
+
+				const char *tecString[1];
+				tecString[0] = (char*) tcsCode.c_str();
+
+				shader->vs = glCreateShaderObjectARB(GL_TESS_CONTROL_SHADER);
+				glShaderSourceARB(shader->tcs, 1, tecString, NULL);
+				glCompileShaderARB(shader->tcs);
+
+				int compiled;
+				glGetObjectParameterivARB(shader->tcs, GL_OBJECT_COMPILE_STATUS_ARB, &compiled);
+
+				if (!compiled) {
+					char errorString[4096];
+					glGetInfoLogARB(shader->tcs, sizeof(errorString), NULL, errorString);
+					Error::showAndExit("GLShader::create() error: shader file '" + path + "' tcs compiling error: " + String(errorString));
+					return NULL;
+				}
+			}
 		}
 
 		fclose(shdFile);
 
 		//create
 		shader->program  = glCreateProgramObjectARB();
-		if(shader->vs) glAttachObjectARB(shader->program, shader->vs);
-		if(shader->fs) glAttachObjectARB(shader->program, shader->fs);
+		if (shader->vs) glAttachObjectARB(shader->program, shader->vs);
+		if (shader->fs) glAttachObjectARB(shader->program, shader->fs);
+		if (shader->gs) glAttachObjectARB(shader->program, shader->tcs);
+		if (shader->tes) glAttachObjectARB(shader->program, shader->tes);
+		if (shader->tcs) glAttachObjectARB(shader->program, shader->tcs);
 
 		int linked;
 		glLinkProgramARB(shader->program);

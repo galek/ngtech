@@ -7,8 +7,7 @@ varying vec3 v_env_coord;
 
 void main() {
 	gl_Position = u_mvp * gl_Vertex;
-	v_env_coord = //normalize(u_world * vec4(gl_Normal, 0) 
-		normalize(u_world * vec4(0.0, 0.0, 0.0, 0.0) - u_world * gl_Vertex).xyz;	
+	v_env_coord = normalize(u_world * vec4(0.0, 0.0, 0.0, 0.0) - u_world * gl_Vertex).xyz;	
 	v_tex_coord = gl_MultiTexCoord0.xy;
 }
 

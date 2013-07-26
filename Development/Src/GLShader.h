@@ -36,7 +36,7 @@ public:
 	void sendInt(const String &name, int value);
 
 private:
-	GLhandleARB vs, fs, cs, tcs, tes, program;
+	GLhandleARB gs,vs, fs, cs, tcs, tes, program;
 };
 
 };
