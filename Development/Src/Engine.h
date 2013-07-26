@@ -34,19 +34,6 @@ namespace VEGA {
 	private:
 		void _preInit();
 		void _setResources();	
-	public:
-		struct CVARManager*cvars;
-		struct Log* log;
-		class Config *config;
-		class FileSystem*vfs;
-		class ALSystem *alSystem;
-		class ILSystem *ilSystem;
-		class PhysSystem *physSystem;
-
-		class Cash *cash;
-		class GUI*gui;
-		class Scene*scene;
-		struct IGame*game;
 	};
 	VEGA_API extern Engine engine;
 };

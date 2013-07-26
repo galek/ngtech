@@ -110,5 +110,8 @@ namespace VEGA {
 	virtual bool isKeyPressed(Key key)=0;
 	virtual bool wasKeyPressed(Key key)=0;
 	virtual bool wasKeyReleased(Key key)=0;
+
+	virtual void showOSCursor(bool _value) = 0;
+
 	};
 }

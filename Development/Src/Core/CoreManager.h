@@ -16,5 +16,17 @@ namespace VEGA {
 		class ThreadPool* mTP;
 		struct IWindow*iWindow;
 		struct IRender*iRender;
+		struct CVARManager*cvars;
+		struct Log* log;
+		class Config *config;
+		class FileSystem*vfs;
+		class ALSystem *alSystem;
+		class ILSystem *ilSystem;
+		class PhysSystem *physSystem;
+
+		class Cash *cash;
+		class GUI*gui;
+		class Scene*scene;
+		struct IGame*game;
 	};
 }

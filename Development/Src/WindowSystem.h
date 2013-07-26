@@ -50,6 +50,8 @@ public:
 	virtual bool wasKeyPressed(Key key);
 	virtual bool wasKeyReleased(Key key);
 
+	virtual void showOSCursor(bool _value);
+
 private:
 	HDC hDC;		
 	HGLRC hRC;		

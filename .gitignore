@@ -18,3 +18,6 @@ Bins/ast_log.txt
 *.exe
 *.suo
 *.ipch
+Bins/Bin32/ExampleGame.dll
+Bins/Bin32/VegaEngine.dll
+TempFiles/

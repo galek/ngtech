@@ -42,17 +42,7 @@ namespace VEGA {
 	//Params:  -
 	//Returns: pointer to new VEGA
 	//---------------------------------------------------------------------------
-	Engine::Engine() :
-		cvars(nullptr),
-		log(nullptr),
-		config(nullptr),
-		vfs(nullptr),
-		alSystem(nullptr),
-		ilSystem(nullptr),
-		physSystem(nullptr),
-		cash(nullptr),
-		gui(nullptr),
-		scene(nullptr)
+	Engine::Engine()
 	{
 		log = new Log();
 		Log::write("VEGA Engine "ENGINE_VERSION_STRING"\n");
@@ -66,7 +56,7 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	void Engine::_preInit()
 	{
-		config = new Config("user.ltx");
+		config = new Config("..\\user.ltx");
 		cvars = new CVARManager(config);
 
 		iWindow = new WindowSystem(cvars);

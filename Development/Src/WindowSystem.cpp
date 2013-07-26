@@ -42,7 +42,7 @@ namespace VEGA {
 		this->bpp = _cvars->bpp;
 		this->zdepth = _cvars->zdepth;
 		this->fullscreen = _cvars->fullscreen;
-		ShowCursor(false);//Сразу скрываем курсор
+		showOSCursor(false);//Сразу скрываем курсор
 	}
 	//---------------------------------------------------------------------------
 	//Desc:    Init engine sub-systems
@@ -483,5 +483,13 @@ namespace VEGA {
 	int WindowSystem::getTime() {
 		return GetTickCount();
 	}
+
+	//---------------------------------------------------------------------------
+	//Desc:    get elapsed time in mseconds
+	//Params:  -
+	//Returns: time in mseconds
+	//---------------------------------------------------------------------------
+	void WindowSystem::showOSCursor(bool _value){
+		::ShowCursor(_value);	}
 
 }
