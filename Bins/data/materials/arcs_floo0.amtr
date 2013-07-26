@@ -1,6 +1,6 @@
 pass Ambient
 {
-shader = mesh_ambient.ashd
+shader = mesh_ambient_env.ashd
 mat4 u_mvp = scene::mvp
 vec3 u_light_color = scene::light_color
 sampler2D u_base_map = sp_luk.jpg
