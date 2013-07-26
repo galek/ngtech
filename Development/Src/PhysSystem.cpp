@@ -82,8 +82,8 @@ namespace VEGA {
 
 		nWorld = NewtonCreate();
 
-		worldSize = Vec3(10000, 10000, 10000);
-		NewtonSetWorldSize(nWorld, -worldSize * 0.5, worldSize * 0.5);
+		worldSize = Vec3(10000.0f, 10000.0f, 10000.0f);
+		NewtonSetWorldSize(nWorld, -worldSize * 0.5f, worldSize * 0.5f);
 
 		accTimeSlice = 0.0f;
 

@@ -1,0 +1,15 @@
+Удалить или переписать класс Font
+Добавить в конфиг сборки дефайн вкл\откл MyGUI
+VFS
+
+
+
+
+
+
+
+https://github.com/id-Software/DOOM-3-BFG/blob/master/neo/idlib/Thread.h
+https://github.com/id-Software/DOOM-3-BFG/blob/master/neo/idlib/Thread.cpp
+https://github.com/id-Software/DOOM-3-BFG/blob/master/neo/idlib/ParallelJobList_JobHeaders.h
+https://github.com/id-Software/DOOM-3-BFG/blob/master/neo/idlib/ParallelJobList.h
+https://github.com/id-Software/DOOM-3-BFG/blob/master/neo/idlib/ParallelJobList.cpp
