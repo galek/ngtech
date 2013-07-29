@@ -15,7 +15,6 @@ namespace MyGUI
 	{
 		mRenderManager = new OpenGLRenderManager();
 		mDataManager = new OpenGLDataManager();
-		mLogManager = new LogManager();
 	}
 
 	OpenGLPlatform::~OpenGLPlatform()
@@ -23,16 +22,13 @@ namespace MyGUI
 		assert(!mIsInitialise);
 		delete mRenderManager;
 		delete mDataManager;
-		delete mLogManager;
+		/*delete mLogManager;*/
 	}
 
 	void OpenGLPlatform::initialise(OpenGLImageLoader* _loader, const std::string& _logName)
 	{
 		assert(!mIsInitialise);
 		mIsInitialise = true;
-
-		if (!_logName.empty())
-			LogManager::getInstance().createDefaultSource(_logName);
 
 		mRenderManager->initialise(_loader);
 		mDataManager->initialise();

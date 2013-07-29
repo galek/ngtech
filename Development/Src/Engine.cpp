@@ -62,25 +62,25 @@ namespace VEGA {
 		cvars = new CVARManager(config);
 
 		iWindow = new WindowSystem(cvars);
-		Debug("[Init]Window Finished");
+		Debug("[Init] Window Finished");
 		vfs = new FileSystem();
-		Debug("[Init]FileSystem Finished");
+		Debug("[Init] FileSystem Finished");
 		iRender = new GLSystem();
-		Debug("[Init]Render Finished");
+		Debug("[Init] Render Finished");
 		alSystem = new ALSystem();
-		Debug("[Init]Audio Finished");
+		Debug("[Init] Audio Finished");
 		ilSystem = new ILSystem();
-		Debug("[Init]ImageCodec Finished");
+		Debug("[Init] ImageCodec Finished");
 		physSystem = new PhysSystem();
-		Debug("[Init]Physics Finished");
+		Debug("[Init] Physics Finished");
 		cash = new Cash();
-		Debug("[Init]Cash Finished");
+		Debug("[Init] Cash Finished");
 		//initialize GUI
 		gui = new GUI(cvars);
-		Debug("[Init]GUI Finished");
+		Debug("[Init] GUI Finished");
 		//initialize SceneManager
 		scene = new Scene();
-		Debug("[Init]SceneManager Finished");
+		Debug("[Init] SceneManager Finished");
 	}
 	//---------------------------------------------------------------------------
 	//Desc:    Set Gane for using in sub-systems
@@ -100,43 +100,43 @@ namespace VEGA {
 	{
 		if (iWindow){
 			iWindow->initialise();
-			Debug("[Init]Window Finished");
+			Debug("[Init] Window Finished");
 		}
 		_setResources();
-		Debug("[Init]FileSystem Finished");
+		Debug("[Init] FileSystem Finished");
 		if (iRender){
 			iRender->initialise();
-			Debug("[Init]Render Finished");
+			Debug("[Init] Render Finished");
 		}
 		if (alSystem){
 			alSystem->initialise();
-			Debug("[Init]Audio Finished");
+			Debug("[Init] Audio Finished");
 		}
 		//ilSystem->initialise();
 		//Debug("[Init]ImageCodec Finished");
 		if (physSystem){
 			physSystem->initialise();
-			Debug("[Init]Physics Finished");
+			Debug("[Init] Physics Finished");
 		}
 		//cash->initialise();
 		//Debug("[Init]FS Finished");
 		//initialize GUI
 		if (gui){
 			gui->initialise();
-			Debug("[Init]GUI Finished");
+			Debug("[Init] GUI Finished");
 		}
 		//initialize SceneManager
 		if (scene){
 			scene->initialise();
-			Debug("[Init]SceneManager Finished");
+			Debug("[Init] SceneManager Finished");
 		}
 		//initialize Game
 		if (game){
 			game->initialise();
-			Debug("[Init]Game Finished");
+			Debug("[Init] Game Finished");
 		}
 		running = true;
-		Debug("[Init]All Systems Initialised");
+		Debug("[Init] All Systems Initialised");
 	}
 
 	//---------------------------------------------------------------------------

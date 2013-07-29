@@ -9,15 +9,19 @@
 //***************************************************************************
 #include "Log.h"
 #include "File.h"
+#include "Error.h"
 #include <stdarg.h>
 //***************************************************************************
 
 namespace VEGA {
 
 #define LOG_FILE "EngineLog.html"
-	void Debug(String text){
+	void DebugF(String text, const char* _file, int _line){
+		char buf[32];
+		sprintf(buf, "%d", _line);
+		std::string line = std::string(buf);
 #ifdef _ENGINE_DEBUG_
-		 Log::write(text);
+		Log::write(text + " In: " + _file + " : " + line);
 #endif	
 	}
 
@@ -27,6 +31,10 @@ namespace VEGA {
 
 	void LogPrintf(String text){
 		  Log::write(text);	}
+
+	void Error(String text, bool _fatal){
+		if (_fatal)	Error::showAndExit(text);
+		else Log::error(text);	}
 	//---------------------------------------------------------------------------
 	//Desc:    creates the log file
 	//Params:  -

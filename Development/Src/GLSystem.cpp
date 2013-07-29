@@ -46,7 +46,7 @@ namespace VEGA {
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		reshape(engine.iWindow->getWidth(), engine.iWindow->getHeight());
 		GLExtensions::initExtensions();
-		Debug("[Init]Checking Render Extensions");
+		Debug("[Init] Checking Render Extensions");
 
 		requireExtension("GL_ARB_vertex_shader", true);
 		requireExtension("GL_ARB_fragment_shader", true);

@@ -33,7 +33,6 @@ namespace MyGUI
 		bool mIsInitialise;
 		OpenGLRenderManager* mRenderManager;
 		OpenGLDataManager* mDataManager;
-		LogManager* mLogManager;
 	};
 
 } // namespace MyGUI
