@@ -71,6 +71,9 @@
 #	define MYGUI_FORCEINLINE __inline
 #endif
 
+/*Nick:Не трогай блеать!
+Похуй,что тут конфигурация статик либа,а символы экспортируем,зато не возникает
+проблем с синглетонами*/
 
 // Windows settings
 #if MYGUI_PLATFORM == MYGUI_PLATFORM_WIN32
@@ -78,24 +81,24 @@
 #	if defined( MYGUI_STATIC )
 #		define MYGUI_EXPORT
 #	elif defined( MYGUI_BUILD )
-#		define MYGUI_EXPORT //Nick __declspec( dllexport )
+#		define MYGUI_EXPORT  __declspec( dllexport )
 #	else
 #		if defined( __MINGW32__ )
 #			define MYGUI_EXPORT
 #		else
-#			define MYGUI_EXPORT //Nick __declspec( dllimport )
+#			define MYGUI_EXPORT __declspec( dllimport )
 #		endif
 #	endif
 #
 #	if defined( MYGUI_STATIC )
 #		define MYGUI_EXPORT_DLL
 #	elif defined( MYGUI_BUILD_DLL )
-#		define MYGUI_EXPORT_DLL //Nick __declspec( dllexport )
+#		define MYGUI_EXPORT_DLL  __declspec( dllexport )
 #	else
 #		if defined( __MINGW32__ )
 #			define MYGUI_EXPORT_DLL
 #		else
-#			define MYGUI_EXPORT_DLL //Nick __declspec( dllimport )
+#			define MYGUI_EXPORT_DLL  __declspec( dllimport )
 #		endif
 #	endif
 #

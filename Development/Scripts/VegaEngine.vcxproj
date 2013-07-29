@@ -137,6 +137,7 @@
       <BrowseInformation>true</BrowseInformation>
       <PrecompiledHeaderFile>EnginePrivate.h</PrecompiledHeaderFile>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <DisableSpecificWarnings>4275</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>

@@ -118,19 +118,16 @@ namespace VEGA {
 		cvars(_cvars),
 		mDebugShow(false)
 	{
+		Debug("[GUI] Constructor");
 		mPlatform = new MyGUI::OpenGLPlatform();
 		mGUI = new MyGUI::Gui();
 	}
 	void GUI::initialise()	{
+		Log::writeHeader("-- GUI --");
 		mPlatform->initialise(this);
 		mPlatform->getDataManagerPtr()->addResourceLocation("../data/gui/", true);
 		resize(cvars->width, cvars->height);
 		mGUI->initialise("MyGUI_Core.xml");
-#if 1
-		MyGUI::ButtonPtr button = mGUI->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
-		button->setFontName("DejaVuSansFont.15");
-		button->setCaption("Hello World!");
-#endif
 		showDebugInfo(cvars->showInfo);
 	}
 	//---------------------------------------------------------------------------

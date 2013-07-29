@@ -127,7 +127,7 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	String StringHelper::toUpper(const String &input) {
 		String buf = input;
-		strupr((char *)buf.c_str());
+		_strupr((char *)buf.c_str());
 		return buf;
 	}
 

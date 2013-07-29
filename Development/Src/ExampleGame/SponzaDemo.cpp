@@ -7,6 +7,7 @@
 #ifdef SPONZA_DEMO
 #include "MyGUI_Gui.h"
 #include "MyGUI_TextBox.h"
+#include "MyGUI_Button.h"
 using namespace MyGUI;
 using namespace VEGA;
 
@@ -77,7 +78,11 @@ void ExampleGame::initialise() {
 	engine.scene->setWater(1, 400);
 	engine.scene->setAmbient(Vec3(0.2, 0.2, 0.2));
 
-	//engine.iWindow->grabMouse(true);
+	engine.iWindow->grabMouse(true);
+
+	MyGUI::ButtonPtr button = engine.gui->getGUI()->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
+	button->setFontName("DejaVuSansFont.15");
+	button->setCaption("Hello World!");
 }
 //------------------------------------------------------------
 EventsCallback::EventsCallback() : depth(10.0f){}

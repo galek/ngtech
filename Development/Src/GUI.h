@@ -30,21 +30,23 @@ namespace VEGA {
 		GUI(CVARManager *_cvars);
 
 		~GUI();
-		virtual void saveImage(int _width, int _height, MyGUI::PixelFormat _format, void* _texture, const std::string& _filename);
-		virtual void* loadImage(int& _width, int& _height, MyGUI::PixelFormat& _format, const std::string& _filename);
-
+		
 		void update();
 		void initialise();
 		void resize(int _width, int _height);
 		void showDebugInfo(bool _show);
+		EFORCEINLINE MyGUI::Gui* getGUI(){ return mGUI; };
+	private:
+		virtual void saveImage(int _width, int _height, MyGUI::PixelFormat _format, void* _texture, const std::string& _filename);
+		virtual void* loadImage(int& _width, int& _height, MyGUI::PixelFormat& _format, const std::string& _filename);
+		//DebugInfo
+		void createDebugInfo();
+		void updateDebugInfo();
 	private:
 		class MyGUI::OpenGLPlatform* mPlatform;
 		class MyGUI::Gui*mGUI;
 		CVARManager *cvars;
 		//DebugInfo
-	private://Nick:TODO:Вынести все в отдельный класс
-		void createDebugInfo();
-		void updateDebugInfo();
 		bool mDebugShow;
 		class MyGUI::TextBox *fpsLabel;
 	};
