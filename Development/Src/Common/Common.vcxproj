@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="Delegate.h" />
     <ClInclude Include="EString.h" />
+    <ClInclude Include="IAudio.h" />
     <ClInclude Include="IDataManager.h" />
     <ClInclude Include="IGame.h" />
     <ClInclude Include="IRender.h" />

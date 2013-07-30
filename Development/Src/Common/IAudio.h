@@ -9,36 +9,21 @@
 #pragma once
 
 //***************************************************************************
-#include "Core/IncludesAndLibs.h"
-//***************************************************************************
-#include "Common/EString.h"
-#include "Common/IAudio.h"
-#include "ALSound.h"
-#include "ALSoundSource.h"
-//***************************************************************************
 
 namespace VEGA {
-
+	class Vec3;
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main sound system. Created one time
 	//---------------------------------------------------------------------------
-	class VEGA_API ALSystem : public IAudio {
+	class IAudio {
 	public:
-		ALSystem();
+		virtual void initialise()=0;
+		virtual std::string getVendor() = 0;
+		virtual std::string getRenderer() = 0;
+		virtual std::string getVersion() = 0;
+		virtual std::string getExtensions() = 0;
 
-		~ALSystem();
-
-		void initialise();
-		String getVendor();
-		String getRenderer();
-		String getVersion();
-		String getExtensions();
-
-		void setListener(const Vec3 &pos, const Vec3 &dir);
-
-	private:
-		ALCcontext *alContext;
-		ALCdevice  *alDevice;
+		virtual void setListener(const Vec3 &pos, const Vec3 &dir) = 0;
 	};
 
 };

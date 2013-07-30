@@ -199,6 +199,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Src\Engine\Console.cpp" />
     <ClCompile Include="..\Src\Engine\EngineAppBase.cpp" />
     <ClCompile Include="..\Src\GLDisplayList.cpp" />
     <ClCompile Include="..\Src\GLExtensions.cpp" />
@@ -246,6 +247,7 @@
     <ClInclude Include="..\Src\Cash.h" />
     <ClInclude Include="..\Src\Config.h" />
     <ClInclude Include="..\Src\EnginePrivate.h" />
+    <ClInclude Include="..\Src\Engine\Console.h" />
     <ClInclude Include="..\Src\Engine\DLLDef.h" />
     <ClInclude Include="..\Src\Engine\EngineAppBase.h" />
     <ClInclude Include="..\Src\Error.h" />

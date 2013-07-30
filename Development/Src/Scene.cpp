@@ -16,7 +16,7 @@
 #include "ALSystem.h"
 #include "WindowSystem.h"
 #include "Cash.h"
-
+#include "CvarManager.h"
 #include "SkinnedModel.h"
 //**************************************
 
@@ -27,7 +27,7 @@ namespace VEGA {
 	//Params:  -
 	//Returns: -
 	//---------------------------------------------------------------------------
-	Scene::Scene() : camera(nullptr) {
+	Scene::Scene(CVARManager*_cvars) : cvars(_cvars),camera(nullptr) {
 		water = NULL;
 		terrain = NULL;
 	}
@@ -460,7 +460,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::getOmniShadowMap(LightOmni *light) {
-		if (!light->visible || !light->castShadows || !engine.config->getInt("light_shadowtype")) {
+		if (!light->visible || !light->castShadows || !cvars->shadowtype) {
 			return;
 		}
 
@@ -649,7 +649,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::getSpotShadowMap(LightSpot *light) {
-		if (!light->visible || !light->castShadows || !engine.config->getInt("light_shadowtype")) {
+		if (!light->visible || !light->castShadows || !cvars->shadowtype) {
 			return;
 		}
 

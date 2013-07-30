@@ -26,7 +26,7 @@ namespace VEGA {
 //---------------------------------------------------------------------------
 	class VEGA_API Scene {
 public:
-	Scene();
+	Scene(CVARManager*_cvars);
 	
 	~Scene();
 
@@ -111,6 +111,7 @@ private:
 	GLOcclusionQuery *query;
 
 	ObjectMesh *sphere;
+	struct CVARManager*cvars;
 
 	friend class ParticleSystem;
 	friend class Flare;

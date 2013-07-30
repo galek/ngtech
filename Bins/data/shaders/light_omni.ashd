@@ -19,7 +19,7 @@ void main() {
 	vec3 binormal = normalize(mat3(world) * gl_MultiTexCoord2.xyz); 
 	vec3 normal   = normalize(mat3(world) * gl_Normal.xyz); 
 	
-    vec4 worldPos = world * gl_Vertex;
+   	vec4 worldPos = world * gl_Vertex;
 
 	vec3 lVec = (lightPos - worldPos.xyz) * invRadius;
 	sVec = -lVec;

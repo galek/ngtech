@@ -10,6 +10,8 @@ namespace VEGA {
 		bpp(_c->getInt("window_bpp")),
 		zdepth(_c->getInt("window_zdepth")),
 		fullscreen(_c->getBool("window_fullscreen")),
-		showInfo(_c->getBool("r_DisplayInfo"))
+		showInfo(_c->getBool("r_DisplayInfo")),
+		shadowtype(_c->getInt("light_shadowtype")),
+		use_specular(_c->getBool("light_specular"))
 	{}
 }

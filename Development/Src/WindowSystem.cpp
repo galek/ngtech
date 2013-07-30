@@ -237,7 +237,7 @@ namespace VEGA {
 			{
 				if (engine.iWindow)
 					engine.iWindow->keys[wParam] = true;
-				//Nick:TODO: сделай ввод
+				//Nick:TODO: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 
 				return 0;
 			}
@@ -246,7 +246,7 @@ namespace VEGA {
 			{
 				if (engine.iWindow)
 					engine.iWindow->keys[wParam] = false;
-				//Nick:TODO: сделай ввод
+				//Nick:TODO: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 
 				return 0;
 			}
@@ -283,7 +283,7 @@ namespace VEGA {
 					engine.iWindow->mouseButtons[0] = false;
 
 				if (!engine.iWindow->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(engine.iWindow->oldMouseX, engine.iWindow->oldMouseY, (MyGUI::MouseButton::Enum)1);
+					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(engine.iWindow->oldMouseX, engine.iWindow->oldMouseY, (MyGUI::MouseButton::Enum)0);
 				
 				return 0;
 			}
@@ -305,7 +305,7 @@ namespace VEGA {
 					engine.iWindow->mouseButtons[1] = false;
 
 				if (!engine.iWindow->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(engine.iWindow->oldMouseX, engine.iWindow->oldMouseY, (MyGUI::MouseButton::Enum)0);
+					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(engine.iWindow->oldMouseX, engine.iWindow->oldMouseY, (MyGUI::MouseButton::Enum)1);
 					
 				return 0;
 			}

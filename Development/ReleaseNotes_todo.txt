@@ -2,10 +2,13 @@
 Добавить в конфиг сборки дефайн вкл\откл MyGUI
 VFS
 
+Переписать Scene -
+перенести оттуда воду,террейн и тому подобную хуйню
 
+GUI:
+пронаследовать FS mygui от моей
 
-
-
+Вычистить шейдера от остатоков VSM
 
 
 https://github.com/id-Software/DOOM-3-BFG/blob/master/neo/idlib/Thread.h

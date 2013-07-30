@@ -21,7 +21,7 @@ namespace VEGA {
 
 class Cash {
 public:
-	Cash();
+	Cash(CVARManager*_cvars);
 	
 	Material *loadMaterial(const String &path);
 	Model *loadModel(const String &path);
@@ -45,6 +45,7 @@ private:
 	std::map<String, std::pair<ALSound*, int>> sounds;
 	std::map<String, std::pair<GLTexture*, int>> textures;
 	std::map<String, std::pair<GLShader*, int>> shaders;
+	struct CVARManager*cvars;
 };
 
 };

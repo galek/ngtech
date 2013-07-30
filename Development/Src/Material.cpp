@@ -15,6 +15,7 @@
 #include "Config.h"
 #include "Cash.h"
 #include "Scene.h"
+#include "CvarManager.h"
  //***************************************************************************
 
 namespace VEGA {
@@ -417,7 +418,7 @@ bool Material::setPass(const String &name) {
 		if(type == Pass::matSpotTransform) { p->shader->sendMat4(name, engine.scene->matSpotTransform); }
 		if(type == Pass::matViewportTransform) { p->shader->sendMat4(name, engine.scene->matViewportTransform); }
 
-		if(type == Pass::matShadowMap && (engine.config->getInt("light_shadowtype"))) { p->shader->sendInt(name, p->maxUnit); 
+		if(type == Pass::matShadowMap && (engine.cvars->shadowtype)) { p->shader->sendInt(name, p->maxUnit); 
 			engine.scene->matShadowMap->set(p->maxUnit); }
 
 		if(type == Pass::matViewportMap) { p->shader->sendInt(name, p->maxUnit+1); 
@@ -451,7 +452,7 @@ void Material::unsetPass() {
 	}
 	p->maxUnit += p->u_samplerCube.size();
 
-	if(engine.config->getInt("light_shadowtype")) 
+	if(engine.cvars->shadowtype) 
 		if(engine.scene->matShadowMap) engine.scene->matShadowMap->unset(p->maxUnit);
 
 	if(engine.scene->matViewportMap) engine.scene->matViewportMap->unset(p->maxUnit+1);

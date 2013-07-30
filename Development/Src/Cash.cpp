@@ -10,12 +10,12 @@
 #include "Engine.h"
 #include "Cash.h"
 #include "Log.h"
-#include "Config.h"
+#include "CvarManager.h"
 //**************************************
 
 namespace VEGA {
 
-	Cash::Cash() {}
+	Cash::Cash(CvarManager*_cvars):cvars(_cvars) {}
 
 	Material *Cash::loadMaterial(const String &path) {
 		std::map<String, std::pair<Material*, int>>::iterator it = materials.find(path);
@@ -95,10 +95,11 @@ namespace VEGA {
 		std::map<String, std::pair<GLShader*, int>>::iterator it = shaders.find(path);
 		if(it == shaders.end() || it->second.first == NULL) {
 			String defines = "";
-			if(engine.config->getBool("light_specular") == true) defines += "#define SPECULAR\n";
-			if(engine.config->getInt("light_shadowtype") == 1) defines += "#define SM_SHADOWS\n";
-			if(engine.config->getInt("light_shadowtype") == 2) defines += "#define SM_SHADOWS_PCF_2\n";
-			if(engine.config->getInt("light_shadowtype") == 3) defines += "#define SM_SHADOWS_PCF_3\n";
+			if (cvars->use_specular) defines += "#define SPECULAR\n";
+			if (cvars->shadowtype == 1) defines += "#define SM_SHADOWS\n";
+			if (cvars->shadowtype == 2) defines += "#define SM_SHADOWS_PCF_2\n";
+			if (cvars->shadowtype == 3) defines += "#define SM_SHADOWS_PCF_3\n";
+			if (cvars->shadowtype == 4) defines += "#define VSM_SHADOWS\n";
 
 			GLShader *shader= GLShader::create(path, defines);
 			shaders[path].first = shader;
@@ -111,10 +112,11 @@ namespace VEGA {
 
 	void Cash::reloadShaders() {
 		String defines = "";
-		if(engine.config->getBool("light_specular") == true) defines += "#define SPECULAR\n";
-		if(engine.config->getInt("light_shadowtype") == 1) defines += "#define SM_SHADOWS\n";
-		if(engine.config->getInt("light_shadowtype") == 2) defines += "#define SM_SHADOWS_PCF_2\n";
-		if(engine.config->getInt("light_shadowtype") == 3) defines += "#define SM_SHADOWS_PCF_3\n";
+		if (cvars->use_specular) defines += "#define SPECULAR\n";
+		if (cvars->shadowtype == 1) defines += "#define SM_SHADOWS\n";
+		if (cvars->shadowtype == 2) defines += "#define SM_SHADOWS_PCF_2\n";
+		if (cvars->shadowtype == 3) defines += "#define SM_SHADOWS_PCF_3\n";
+		if (cvars->shadowtype == 4) defines += "#define VSM_SHADOWS\n";
 
 		std::map<String, std::pair<GLShader*, int>>::iterator it;
 		for(it = shaders.begin(); it != shaders.end(); it++) {

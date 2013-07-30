@@ -73,13 +73,13 @@ namespace VEGA {
 		Debug("[Init] ImageCodec Finished");
 		physSystem = new PhysSystem();
 		Debug("[Init] Physics Finished");
-		cash = new Cash();
+		cash = new Cash(cvars);
 		Debug("[Init] Cash Finished");
 		//initialize GUI
 		gui = new GUI(cvars);
 		Debug("[Init] GUI Finished");
 		//initialize SceneManager
-		scene = new Scene();
+		scene = new Scene(cvars);
 		Debug("[Init] SceneManager Finished");
 	}
 	//---------------------------------------------------------------------------

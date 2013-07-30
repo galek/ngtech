@@ -20,7 +20,7 @@ namespace VEGA {
 		struct Log* log;
 		class Config *config;
 		class FileSystem*vfs;
-		class ALSystem *alSystem;
+		class IAudio *alSystem;
 		class ILSystem *ilSystem;
 		class PhysSystem *physSystem;
 
