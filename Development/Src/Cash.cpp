@@ -99,7 +99,6 @@ namespace VEGA {
 			if (cvars->shadowtype == 1) defines += "#define SM_SHADOWS\n";
 			if (cvars->shadowtype == 2) defines += "#define SM_SHADOWS_PCF_2\n";
 			if (cvars->shadowtype == 3) defines += "#define SM_SHADOWS_PCF_3\n";
-			if (cvars->shadowtype == 4) defines += "#define VSM_SHADOWS\n";
 
 			GLShader *shader= GLShader::create(path, defines);
 			shaders[path].first = shader;
@@ -116,7 +115,6 @@ namespace VEGA {
 		if (cvars->shadowtype == 1) defines += "#define SM_SHADOWS\n";
 		if (cvars->shadowtype == 2) defines += "#define SM_SHADOWS_PCF_2\n";
 		if (cvars->shadowtype == 3) defines += "#define SM_SHADOWS_PCF_3\n";
-		if (cvars->shadowtype == 4) defines += "#define VSM_SHADOWS\n";
 
 		std::map<String, std::pair<GLShader*, int>>::iterator it;
 		for(it = shaders.begin(); it != shaders.end(); it++) {
