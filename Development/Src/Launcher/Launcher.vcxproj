@@ -190,15 +190,6 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Externals\freetype\builds\win32\vc2010\freetype.vcxproj">
-      <Project>{78b079bd-9fc7-4b9e-b4a6-96da0f00248b}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Externals\MyGUI\MyGui.vcxproj">
-      <Project>{e9497471-6143-4e9a-8db2-436edad37b65}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.vcxproj">
-      <Project>{413d151a-e7ac-419a-b9c1-e270e686f949}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\ExampleGame\ExampleGame.vcxproj">
       <Project>{e5e11765-b5b8-4013-9098-dd7ed97e7905}</Project>
     </ProjectReference>

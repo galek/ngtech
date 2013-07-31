@@ -63,25 +63,25 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Flare::draw() {
-		engine.iRender->push();
-		engine.iRender->translate(position);
-		engine.iRender->scale(Vec3(radius, radius, radius));
+		GetEngine()->iRender->push();
+		GetEngine()->iRender->translate(position);
+		GetEngine()->iRender->scale(Vec3(radius, radius, radius));
 
-		engine.iRender->rotate(engine.scene->camera->angle[0] - 180, Vec3(0, 1, 0));
-		engine.iRender->rotate(engine.scene->camera->angle[1], Vec3(1, 0, 0));
+		GetEngine()->iRender->rotate(GetEngine()->scene->camera->angle[0] - 180, Vec3(0, 1, 0));
+		GetEngine()->iRender->rotate(GetEngine()->scene->camera->angle[1], Vec3(1, 0, 0));
 
 		texture->set(0);
-		engine.iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
-		engine.iRender->setColor(color);
-		engine.iRender->depthMask(false);
+		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
+		GetEngine()->iRender->setColor(color);
+		GetEngine()->iRender->depthMask(false);
 
 		flareList->call();
 
-		engine.iRender->depthMask(true);
-		engine.iRender->disableBlending();
+		GetEngine()->iRender->depthMask(true);
+		GetEngine()->iRender->disableBlending();
 		texture->unset(0);
 
-		engine.iRender->pop();
+		GetEngine()->iRender->pop();
 	}
 
 }

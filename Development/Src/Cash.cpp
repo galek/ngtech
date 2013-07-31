@@ -15,7 +15,7 @@
 
 namespace VEGA {
 
-	Cash::Cash(CvarManager*_cvars):cvars(_cvars) {}
+	Cash::Cash(CVARManager*_cvars):cvars(_cvars) {}
 
 	Material *Cash::loadMaterial(const String &path) {
 		std::map<String, std::pair<Material*, int>>::iterator it = materials.find(path);

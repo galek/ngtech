@@ -27,9 +27,9 @@ namespace VEGA {
 	void* GUI::loadImage(int& _width, int& _height, MyGUI::PixelFormat& _format, const std::string& _filename)
 	{
 		// Load the image as a resource
-		if (engine.vfs->isDataExist(_filename))
+		if (GetEngine()->vfs->isDataExist(_filename))
 		{
-			Common::IDataStream* stream = engine.vfs->getData(_filename);
+			Common::IDataStream* stream = GetEngine()->vfs->getData(_filename);
 			if (!stream)
 				Warning("[GUI]Failed Loading GUI image!");
 			size_t lumpSize = stream->size();
@@ -144,17 +144,17 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void GUI::update() {
-		engine.iRender->enable2d(false);
-		engine.iRender->disableCulling();
-		engine.iRender->enableBlending(GLSystem::ONE, GLSystem::ONE_MINUS_SRC_ALPHA);
+		GetEngine()->iRender->enable2d(false);
+		GetEngine()->iRender->disableCulling();
+		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE_MINUS_SRC_ALPHA);
 		if (mPlatform)
 			mPlatform->getRenderManagerPtr()->drawOneFrame();
 
 		updateDebugInfo();//Nick:TODO:Вынести все в отдельный класс
 
-		engine.iRender->disableBlending();
-		engine.iRender->enableCulling();
-		engine.iRender->enable3d();
+		GetEngine()->iRender->disableBlending();
+		GetEngine()->iRender->enableCulling();
+		GetEngine()->iRender->enable3d();
 	}
 	//Nick:TODO:Вынести все в отдельный класс
 	void GUI::createDebugInfo(){
@@ -166,8 +166,8 @@ namespace VEGA {
 	}
 	void GUI::updateDebugInfo(){
 		if (mDebugShow)
-			if (engine.iWindow->getDTime() > EPSILON)
-				fpsLabel->setCaption("FPS: " + StringHelper::fromInt(1000 / engine.iWindow->getDTime()));
+			if (GetEngine()->iWindow->getDTime() > EPSILON)
+				fpsLabel->setCaption("FPS: " + StringHelper::fromInt(1000 / GetEngine()->iWindow->getDTime()));
 	}
 	void GUI::resize(int _width, int _height) {
 		mPlatform->getRenderManagerPtr()->setViewSize(_width, _height);

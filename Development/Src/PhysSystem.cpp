@@ -20,29 +20,29 @@ namespace VEGA {
 
 	//contact-callback------------------
 	int PhysSystem::playContantSound(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1, int threadIndex) {
-		engine.physSystem->pBody0 = (PhysBody*) NewtonBodyGetUserData(body0);
-		engine.physSystem->pBody1 = (PhysBody*) NewtonBodyGetUserData(body1);
+		GetEngine()->physSystem->pBody0 = (PhysBody*) NewtonBodyGetUserData(body0);
+		GetEngine()->physSystem->pBody1 = (PhysBody*) NewtonBodyGetUserData(body1);
 
-		if (engine.physSystem->impactSpeed > 15) {
-			if (engine.physSystem->pBody0) {
-				if (engine.physSystem->pBody0->impactSrc) {
-					if (!engine.physSystem->pBody0->impactSrc->isPlaying()) {
-						engine.physSystem->pBody0->impactSrc->setPosition(engine.physSystem->impactPosition);
-						engine.physSystem->pBody0->impactSrc->play();
+		if (GetEngine()->physSystem->impactSpeed > 15) {
+			if (GetEngine()->physSystem->pBody0) {
+				if (GetEngine()->physSystem->pBody0->impactSrc) {
+					if (!GetEngine()->physSystem->pBody0->impactSrc->isPlaying()) {
+						GetEngine()->physSystem->pBody0->impactSrc->setPosition(GetEngine()->physSystem->impactPosition);
+						GetEngine()->physSystem->pBody0->impactSrc->play();
 					}
 				}
 			}
 
-			if (engine.physSystem->pBody1) {
-				if (engine.physSystem->pBody1->impactSrc) {
-					if (!engine.physSystem->pBody1->impactSrc->isPlaying()) {
-						engine.physSystem->pBody1->impactSrc->setPosition(engine.physSystem->impactPosition);
-						engine.physSystem->pBody1->impactSrc->play();
+			if (GetEngine()->physSystem->pBody1) {
+				if (GetEngine()->physSystem->pBody1->impactSrc) {
+					if (!GetEngine()->physSystem->pBody1->impactSrc->isPlaying()) {
+						GetEngine()->physSystem->pBody1->impactSrc->setPosition(GetEngine()->physSystem->impactPosition);
+						GetEngine()->physSystem->pBody1->impactSrc->play();
 					}
 				}
 			}
 		}
-		engine.physSystem->impactSpeed = 0;
+		GetEngine()->physSystem->impactSpeed = 0;
 		return 1;
 	}
 	//-----------------------------------------
@@ -56,9 +56,9 @@ namespace VEGA {
 				float speed = NewtonMaterialGetContactNormalSpeed(material);
 				// play sound base of the contact speed.
 				//
-				if (speed > engine.physSystem->impactSpeed) {
-					engine.physSystem->impactSpeed = speed;
-					NewtonMaterialGetContactPositionAndNormal(material, body0, engine.physSystem->impactPosition, engine.physSystem->impactNormal);
+				if (speed > GetEngine()->physSystem->impactSpeed) {
+					GetEngine()->physSystem->impactSpeed = speed;
+					NewtonMaterialGetContactPositionAndNormal(material, body0, GetEngine()->physSystem->impactPosition, GetEngine()->physSystem->impactNormal);
 				}
 			}
 	}
@@ -135,10 +135,10 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	float PhysSystem::rayCastFilter(const NewtonBody* body, const float* normal, int collisionID, void* userData, float iParam) {
-		if (iParam < engine.physSystem->intersectionParam) {
-			engine.physSystem->intersectionParam = iParam;
-			engine.physSystem->intersectionNormal = Vec3(normal[0], normal[1], normal[2]);
-			engine.physSystem->intersectedBody = (PhysBody*) NewtonBodyGetUserData(body);
+		if (iParam < GetEngine()->physSystem->intersectionParam) {
+			GetEngine()->physSystem->intersectionParam = iParam;
+			GetEngine()->physSystem->intersectionNormal = Vec3(normal[0], normal[1], normal[2]);
+			GetEngine()->physSystem->intersectedBody = (PhysBody*) NewtonBodyGetUserData(body);
 		}
 		return iParam;
 	}

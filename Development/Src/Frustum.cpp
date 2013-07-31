@@ -79,8 +79,8 @@ namespace VEGA {
 	void ViewFrustum::get() {
 		Mat4 modl, proj;
 
-		proj = engine.iRender->getMatrix_Projection();
-		modl = engine.iRender->getMatrix_Modelview();
+		proj = GetEngine()->iRender->getMatrix_Projection();
+		modl = GetEngine()->iRender->getMatrix_Modelview();
 
 		Mat4 clip = proj * modl;
 

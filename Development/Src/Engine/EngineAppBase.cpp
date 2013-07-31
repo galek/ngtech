@@ -5,18 +5,18 @@
 namespace VEGA {
 
 	EngineAppBase::EngineAppBase(IGame*_game, ICallback* rc, ICallback* ev){
-		engine.setGame(_game);
-		engine.initialise();
+		GetEngine()->setGame(_game);
+		GetEngine()->initialise();
 		if (rc)
-			engine.game->setRenderCallback(rc);
+			GetEngine()->game->setRenderCallback(rc);
 		if (ev)
-			engine.game->setEventsCallback(ev);
+			GetEngine()->game->setEventsCallback(ev);
 		Update();
 	}
 	/**
 	*/
 	void EngineAppBase::Update(){
-		engine.mainLoop();
+		GetEngine()->mainLoop();
 	}
 
 }

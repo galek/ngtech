@@ -28,8 +28,8 @@ namespace VEGA {
 				list[y*16 + x] = GLDisplayList::create();
 				list[y*16 + x]->beginBuild();
 
-				engine.iRender->drawRect(0, 0, 1, 1, x*cx, y*cy - 0.0625f, x*cx + 0.0625f, y*cy); 
-				engine.iRender->translate(Vec3(0.8, 0, 0));
+				GetEngine()->iRender->drawRect(0, 0, 1, 1, x*cx, y*cy - 0.0625f, x*cx + 0.0625f, y*cy); 
+				GetEngine()->iRender->translate(Vec3(0.8, 0, 0));
 
 				list[y*16 + x]->endBuild();
 			}
@@ -47,15 +47,15 @@ namespace VEGA {
 
 
 	void Font::print(int x, int y, int size, const String &text, const Vec3 &color, float alpha) {
-		engine.iRender->enable2d(false);
-		engine.iRender->disableCulling();
+		GetEngine()->iRender->enable2d(false);
+		GetEngine()->iRender->disableCulling();
 
-		engine.iRender->translate(Vec3(x, y, 0));								
-		engine.iRender->scale(Vec3(size, size, 1));
+		GetEngine()->iRender->translate(Vec3(x, y, 0));								
+		GetEngine()->iRender->scale(Vec3(size, size, 1));
 
-		engine.iRender->enableBlending(GLSystem::ONE, GLSystem::ONE_MINUS_SRC_ALPHA);
+		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE_MINUS_SRC_ALPHA);
 
-		engine.iRender->setColor(Vec4(color * alpha, alpha));
+		GetEngine()->iRender->setColor(Vec4(color * alpha, alpha));
 		fontTex->set(0);
 
 		for(int p = 0; p < text.length(); p++) {
@@ -63,12 +63,12 @@ namespace VEGA {
 		}
 
 		fontTex->unset(0);
-		engine.iRender->setColor(Vec4(1, 1, 1, 1));
+		GetEngine()->iRender->setColor(Vec4(1, 1, 1, 1));
 
-		engine.iRender->disableBlending();
+		GetEngine()->iRender->disableBlending();
 
-		engine.iRender->enableCulling();
-		engine.iRender->enable3d();
+		GetEngine()->iRender->enableCulling();
+		GetEngine()->iRender->enable3d();
 	}
 
 }

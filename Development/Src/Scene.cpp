@@ -41,7 +41,7 @@ namespace VEGA {
 		viewportFBO = GLFBO::create(512, 512);
 		viewportFBO->createDepthAttachment();
 
-		int size = engine.config->getInt("light_shadowsize");
+		int size = GetEngine()->config->getInt("light_shadowsize");
 		shadowFBO = GLFBO::create(size, size);
 		shadowFBO->createDepthAttachment();
 
@@ -99,7 +99,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::reloadShaders() {
-		engine.cash->reloadShaders();
+		GetEngine()->cash->reloadShaders();
 	}
 
 
@@ -270,7 +270,7 @@ namespace VEGA {
 			if (mtr) {
 				frustum.get();
 
-				matMVP = engine.iRender->getMatrix_MVP();
+				matMVP = GetEngine()->iRender->getMatrix_MVP();
 				matLightColor = ambient;
 				if (!mtr->setPass("Ambient")) return;
 
@@ -295,12 +295,12 @@ namespace VEGA {
 			}
 			Object *object = objects[m];
 
-			engine.iRender->push();
-			engine.iRender->multMatrix(object->getTransform());
+			GetEngine()->iRender->push();
+			GetEngine()->iRender->multMatrix(object->getTransform());
 
 			frustum.get();
 			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
-				engine.iRender->pop();
+				GetEngine()->iRender->pop();
 				continue;
 			}
 
@@ -312,7 +312,7 @@ namespace VEGA {
 				Material *mtr = object->getMaterial(s);
 				if (!mtr) continue;
 
-				matMVP = engine.iRender->getMatrix_MVP();
+				matMVP = GetEngine()->iRender->getMatrix_MVP();
 				matWorld = object->getTransform();
 
 				if (blended) {
@@ -332,7 +332,7 @@ namespace VEGA {
 				mtr->unsetPass();
 			}
 
-			engine.iRender->pop();
+			GetEngine()->iRender->pop();
 		}
 	}
 
@@ -346,11 +346,11 @@ namespace VEGA {
 
 		/*int x, y, z, w;
 		light->getScissorRect(camera->getPosition(), x, y, z, w);
-		engine.iRender->enableScissor(x, y, z, w);
+		GetEngine()->iRender->enableScissor(x, y, z, w);
 
-		engine.iRender->enable2d(false);
+		GetEngine()->iRender->enable2d(false);
 		glColor3f(0, 1, 0);
-		engine.iRender->disableDepth();
+		GetEngine()->iRender->disableDepth();
 		z += x;
 		w += y;
 		glBegin(GL_LINES);
@@ -364,8 +364,8 @@ namespace VEGA {
 		glVertex2i(x, w);
 		glVertex2i(z, w);
 		glEnd();
-		engine.iRender->enableDepth();
-		engine.iRender->enable3d();*/
+		GetEngine()->iRender->enableDepth();
+		GetEngine()->iRender->enable3d();*/
 
 		ViewFrustum frustum;
 
@@ -382,7 +382,7 @@ namespace VEGA {
 			if (mtr) {
 				frustum.get();
 
-				matMVP = engine.iRender->getMatrix_MVP();
+				matMVP = GetEngine()->iRender->getMatrix_MVP();
 				if (!mtr->setPass("LightOmni")) return;
 
 				for (int n = 0; n < terrain->getNumNodes(); n++)	{
@@ -409,17 +409,17 @@ namespace VEGA {
 			}
 			Object *object = objects[m];
 
-			engine.iRender->push();
-			engine.iRender->multMatrix(object->getTransform());
+			GetEngine()->iRender->push();
+			GetEngine()->iRender->multMatrix(object->getTransform());
 
 			frustum.get();
 			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
-				engine.iRender->pop();
+				GetEngine()->iRender->pop();
 				continue;
 			}
 			if ((light->position - object->getTransform().getTranslation()).length() >
 				light->radius + object->getRadius()) {
-					engine.iRender->pop();
+					GetEngine()->iRender->pop();
 					continue;
 			}
 
@@ -432,7 +432,7 @@ namespace VEGA {
 				Material *mtr = object->getMaterial(s);
 				if (!mtr) continue;
 
-				matMVP = engine.iRender->getMatrix_MVP();
+				matMVP = GetEngine()->iRender->getMatrix_MVP();
 				matWorld = object->getTransform();
 
 				if (blended) {
@@ -447,11 +447,11 @@ namespace VEGA {
 
 				mtr->unsetPass();
 			}
-			engine.iRender->pop();
+			GetEngine()->iRender->pop();
 		}
 
 
-		//engine.iRender->disableScissor();
+		//GetEngine()->iRender->disableScissor();
 	}
 
 	//---------------------------------------------------------------------------
@@ -466,12 +466,12 @@ namespace VEGA {
 
 		ViewFrustum frustum;
 
-		engine.iRender->setMatrixMode_Projection();
-		engine.iRender->push();
-		engine.iRender->loadMatrix(Mat4::perspective(90, 1, 1, light->radius));
+		GetEngine()->iRender->setMatrixMode_Projection();
+		GetEngine()->iRender->push();
+		GetEngine()->iRender->loadMatrix(Mat4::perspective(90, 1, 1, light->radius));
 
-		engine.iRender->setMatrixMode_Modelview();
-		engine.iRender->push();
+		GetEngine()->iRender->setMatrixMode_Modelview();
+		GetEngine()->iRender->push();
 
 		matLightIRadius = light->getIRadius();
 		matLightPosition = light->position;
@@ -480,9 +480,9 @@ namespace VEGA {
 			shadowFBO->set();
 			shadowFBO->setColorTarget(light->shadowMap, f);
 			shadowFBO->clear();
-			//engine.iRender->clearColor(Vec3(1.0, 1.0, 1.0));
+			//GetEngine()->iRender->clearColor(Vec3(1.0, 1.0, 1.0));
 
-			engine.iRender->loadMatrix(Mat4::cube(light->position, f));
+			GetEngine()->iRender->loadMatrix(Mat4::cube(light->position, f));
 
 			//DRAW OBJECTS
 			for (int m = 0; m < objects.size(); m++) {
@@ -494,17 +494,17 @@ namespace VEGA {
 				}
 				Object *object = objects[m];
 
-				engine.iRender->push();
-				engine.iRender->multMatrix(object->getTransform());
+				GetEngine()->iRender->push();
+				GetEngine()->iRender->multMatrix(object->getTransform());
 
 				frustum.get();
 				if (!frustum.isInside(object->getCenter(), object->getRadius())) {
-					engine.iRender->pop();
+					GetEngine()->iRender->pop();
 					continue;
 				}
 				if ((light->position - object->getTransform().getTranslation()).length() >
 					light->radius + object->getRadius()) {
-						engine.iRender->pop();
+						GetEngine()->iRender->pop();
 						continue;
 				}
 
@@ -519,7 +519,7 @@ namespace VEGA {
 					}
 
 					//set material params
-					matMVP = engine.iRender->getMatrix_MVP();
+					matMVP = GetEngine()->iRender->getMatrix_MVP();
 					matWorld = object->getTransform();
 					depthPass->setPass("DepthPass");
 
@@ -527,17 +527,17 @@ namespace VEGA {
 
 					depthPass->unsetPass();
 				}
-				engine.iRender->pop();
+				GetEngine()->iRender->pop();
 			}
 			shadowFBO->flush();
 			shadowFBO->unset();
 		}
 
-		engine.iRender->setMatrixMode_Projection();
-		engine.iRender->pop();
+		GetEngine()->iRender->setMatrixMode_Projection();
+		GetEngine()->iRender->pop();
 
-		engine.iRender->setMatrixMode_Modelview();
-		engine.iRender->pop();
+		GetEngine()->iRender->setMatrixMode_Modelview();
+		GetEngine()->iRender->pop();
 	}
 
 	//---------------------------------------------------------------------------
@@ -571,7 +571,7 @@ namespace VEGA {
 				frustum.get();
 
 				//set material params
-				matMVP = engine.iRender->getMatrix_MVP();
+				matMVP = GetEngine()->iRender->getMatrix_MVP();
 				if (!mtr->setPass("LightSpot")) return;
 
 				for (int n = 0; n < terrain->getNumNodes(); n++)	{
@@ -600,17 +600,17 @@ namespace VEGA {
 			}
 			Object *object = objects[m];
 
-			engine.iRender->push();
-			engine.iRender->multMatrix(object->getTransform());
+			GetEngine()->iRender->push();
+			GetEngine()->iRender->multMatrix(object->getTransform());
 
 			frustum.get();
 			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
-				engine.iRender->pop();
+				GetEngine()->iRender->pop();
 				continue;
 			}
 			if ((light->position - object->getTransform().getTranslation()).length() >
 				light->radius + object->getRadius()) {
-					engine.iRender->pop();
+					GetEngine()->iRender->pop();
 					continue;
 			}
 
@@ -625,7 +625,7 @@ namespace VEGA {
 				if (!mtr) continue;
 
 				//set material params
-				matMVP = engine.iRender->getMatrix_MVP();
+				matMVP = GetEngine()->iRender->getMatrix_MVP();
 				matWorld = object->getTransform();
 				if (blended) {
 					if (!mtr->passHasBlending("Ambient")) continue;
@@ -639,7 +639,7 @@ namespace VEGA {
 
 				mtr->unsetPass();
 			}
-			engine.iRender->pop();
+			GetEngine()->iRender->pop();
 		}
 	}
 
@@ -658,18 +658,18 @@ namespace VEGA {
 		matLightIRadius = light->getIRadius();
 		matLightPosition = light->position;
 
-		engine.iRender->setMatrixMode_Projection();
-		engine.iRender->push();
-		engine.iRender->loadMatrix(Mat4::perspective(light->fov, 1, 1, light->radius));
+		GetEngine()->iRender->setMatrixMode_Projection();
+		GetEngine()->iRender->push();
+		GetEngine()->iRender->loadMatrix(Mat4::perspective(light->fov, 1, 1, light->radius));
 
-		engine.iRender->setMatrixMode_Modelview();
-		engine.iRender->push();
-		engine.iRender->loadMatrix(Mat4::lookAt(light->position, light->position + light->direction, Vec3(0, 1, 0)));
+		GetEngine()->iRender->setMatrixMode_Modelview();
+		GetEngine()->iRender->push();
+		GetEngine()->iRender->loadMatrix(Mat4::lookAt(light->position, light->position + light->direction, Vec3(0, 1, 0)));
 
 		shadowFBO->set();
 		shadowFBO->setColorTarget(light->shadowMap);
 		shadowFBO->clear();
-		engine.iRender->clearColor(Vec3(1.0, 1.0, 1.0));
+		GetEngine()->iRender->clearColor(Vec3(1.0, 1.0, 1.0));
 
 		//DRAW OBJECTS
 		for (int m = 0; m < objects.size(); m++) {
@@ -681,17 +681,17 @@ namespace VEGA {
 			}
 			Object *object = objects[m];
 
-			engine.iRender->push();
-			engine.iRender->multMatrix(object->getTransform());
+			GetEngine()->iRender->push();
+			GetEngine()->iRender->multMatrix(object->getTransform());
 
 			frustum.get();
 			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
-				engine.iRender->pop();
+				GetEngine()->iRender->pop();
 				continue;
 			}
 			if ((light->position - object->getTransform().getTranslation()).length() >
 				light->radius + object->getRadius()) {
-					engine.iRender->pop();
+					GetEngine()->iRender->pop();
 					continue;
 			}
 
@@ -706,7 +706,7 @@ namespace VEGA {
 					continue;
 				}
 
-				matMVP = engine.iRender->getMatrix_MVP();
+				matMVP = GetEngine()->iRender->getMatrix_MVP();
 				matWorld = object->getTransform();
 				depthPass->setPass("DepthPass");
 
@@ -714,17 +714,17 @@ namespace VEGA {
 
 				depthPass->unsetPass();
 			}
-			engine.iRender->pop();
+			GetEngine()->iRender->pop();
 		}
 
 		shadowFBO->flush();
 		shadowFBO->unset();
 
-		engine.iRender->setMatrixMode_Projection();
-		engine.iRender->pop();
+		GetEngine()->iRender->setMatrixMode_Projection();
+		GetEngine()->iRender->pop();
 
-		engine.iRender->setMatrixMode_Modelview();
-		engine.iRender->pop();
+		GetEngine()->iRender->setMatrixMode_Modelview();
+		GetEngine()->iRender->pop();
 	}
 
 	//---------------------------------------------------------------------------
@@ -745,7 +745,7 @@ namespace VEGA {
 			Material *mtr = terrain->getMaterial();
 			if (mtr) {
 				//set material params
-				matMVP = engine.iRender->getMatrix_MVP();
+				matMVP = GetEngine()->iRender->getMatrix_MVP();
 				if (!mtr->setPass("LightDirect")) return;
 
 				frustum.get();
@@ -771,12 +771,12 @@ namespace VEGA {
 			}
 			Object *object = objects[m];
 
-			engine.iRender->push();
-			engine.iRender->multMatrix(object->getTransform());
+			GetEngine()->iRender->push();
+			GetEngine()->iRender->multMatrix(object->getTransform());
 
 			frustum.get();
 			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
-				engine.iRender->pop();
+				GetEngine()->iRender->pop();
 				continue;
 			}
 
@@ -790,7 +790,7 @@ namespace VEGA {
 				if (!mtr) continue;
 
 				//set material params
-				matMVP = engine.iRender->getMatrix_MVP();
+				matMVP = GetEngine()->iRender->getMatrix_MVP();
 				matWorld = object->getTransform();
 
 				if (blended) {
@@ -805,7 +805,7 @@ namespace VEGA {
 
 				mtr->unsetPass();
 			}
-			engine.iRender->pop();
+			GetEngine()->iRender->pop();
 		}
 	}
 
@@ -825,23 +825,23 @@ namespace VEGA {
 		}
 
 		if ((light->position - camera->getPosition()).length() > light->radius) {
-			engine.iRender->colorMask(false, false, false, false);
-			engine.iRender->depthMask(false);
+			GetEngine()->iRender->colorMask(false, false, false, false);
+			GetEngine()->iRender->depthMask(false);
 			//glColor3f(0, 0, 1);
 			query->beginRendering();
 
-			engine.iRender->push();
-			engine.iRender->multMatrix(Mat4::translate(light->position) *
+			GetEngine()->iRender->push();
+			GetEngine()->iRender->multMatrix(Mat4::translate(light->position) *
 				Mat4::scale(Vec3(light->radius*0.2, light->radius*0.2, light->radius*0.2)));
 
 			sphere->drawSubset(0);
 
-			engine.iRender->pop();
+			GetEngine()->iRender->pop();
 
 			query->endRendering();
 
-			engine.iRender->depthMask(true);
-			engine.iRender->colorMask(true, true, true, true);
+			GetEngine()->iRender->depthMask(true);
+			GetEngine()->iRender->colorMask(true, true, true, true);
 
 			if (query->getResult() < 2) {
 				light->visible = false;
@@ -866,23 +866,23 @@ namespace VEGA {
 		}
 
 		if ((light->position - camera->getPosition()).length() > light->radius) {
-			engine.iRender->colorMask(false, false, false, false);
-			engine.iRender->depthMask(false);
+			GetEngine()->iRender->colorMask(false, false, false, false);
+			GetEngine()->iRender->depthMask(false);
 
 			query->beginRendering();
 
-			engine.iRender->push();
-			engine.iRender->multMatrix(Mat4::translate(light->position) *
+			GetEngine()->iRender->push();
+			GetEngine()->iRender->multMatrix(Mat4::translate(light->position) *
 				Mat4::scale(Vec3(light->radius*0.2, light->radius*0.2, light->radius*0.2)));
 
 			sphere->drawSubset(0);
 
-			engine.iRender->pop();
+			GetEngine()->iRender->pop();
 
 			query->endRendering();
 
-			engine.iRender->depthMask(true);
-			engine.iRender->colorMask(true, true, true, true);
+			GetEngine()->iRender->depthMask(true);
+			GetEngine()->iRender->colorMask(true, true, true, true);
 
 			if (query->getResult() < 2) {
 				light->visible = false;
@@ -902,7 +902,7 @@ namespace VEGA {
 		//---------update-camera-----------------------------------
 		camera->update();
 
-		engine.alSystem->setListener(camera->getPosition(), camera->getDirection());
+		GetEngine()->alSystem->setListener(camera->getPosition(), camera->getDirection());
 
 		//---------set-gravity-----------------------------------
 		for (int k = 0; k < objects.size(); k++) {
@@ -921,15 +921,15 @@ namespace VEGA {
 		}
 
 		//---------draw-scene--------------------------------
-		engine.iRender->setMatrixMode_Projection();
-		engine.iRender->loadMatrix(camera->getProjection());
+		GetEngine()->iRender->setMatrixMode_Projection();
+		GetEngine()->iRender->loadMatrix(camera->getProjection());
 
-		engine.iRender->setMatrixMode_Modelview();
-		engine.iRender->loadMatrix(camera->getTransform());
+		GetEngine()->iRender->setMatrixMode_Modelview();
+		GetEngine()->iRender->loadMatrix(camera->getTransform());
 
-		matTime = engine.iWindow->getETime();
+		matTime = GetEngine()->iWindow->getETime();
 		matViewportMap = viewportCopy;
-		matViewportTransform = Mat4::texBias() * engine.iRender->getMatrix_MVP();
+		matViewportTransform = Mat4::texBias() * GetEngine()->iRender->getMatrix_MVP();
 
 		drawAmbient(false);
 
@@ -952,21 +952,21 @@ namespace VEGA {
 			}
 		}
 
-		engine.iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
-		engine.iRender->depthMask(false);
+		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
+		GetEngine()->iRender->depthMask(false);
 
 		//draw wireframe
-		if (engine.config->getBool("debug_wireframe")) {
+		if (GetEngine()->config->getBool("debug_wireframe")) {
 			glColor3f(1, 1, 1);
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 			for (int i = 0; i < objects.size(); i++) {
-				engine.iRender->push();
-				engine.iRender->multMatrix(objects[i]->getTransform());
+				GetEngine()->iRender->push();
+				GetEngine()->iRender->multMatrix(objects[i]->getTransform());
 				for (int k = 0; k < objects[i]->getNumSubsets(); k++) {
 					objects[i]->drawSubset(k);
 				}
-				engine.iRender->pop();
+				GetEngine()->iRender->pop();
 			}
 			if (terrain) {
 				for (int n = 0; n < terrain->getNumNodes(); n++) {
@@ -989,14 +989,14 @@ namespace VEGA {
 			}
 		}
 
-		engine.iRender->depthMask(true);
-		engine.iRender->disableBlending();
+		GetEngine()->iRender->depthMask(true);
+		GetEngine()->iRender->disableBlending();
 
 
 		drawAmbient(true);
 
-		/*engine.iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
-		engine.iRender->depthMask(false);
+		/*GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
+		GetEngine()->iRender->depthMask(false);
 
 		for(int i = 0; i < lights.size(); i++) {
 		if(lights[i]->getType() == Light::LIGHT_OMNI) {
@@ -1008,8 +1008,8 @@ namespace VEGA {
 		}
 		}
 
-		engine.iRender->depthMask(true);
-		engine.iRender->disableBlending();*/
+		GetEngine()->iRender->depthMask(true);
+		GetEngine()->iRender->disableBlending();*/
 
 		//draw particle systems
 		for (int k = 0; k < systems.size(); k++) {
@@ -1022,28 +1022,28 @@ namespace VEGA {
 		viewportFBO->clear();
 
 		//---------set-camera--------------------------------
-		engine.iRender->setMatrixMode_Projection();
-		engine.iRender->loadMatrix(camera->getProjection());
+		GetEngine()->iRender->setMatrixMode_Projection();
+		GetEngine()->iRender->loadMatrix(camera->getProjection());
 
-		engine.iRender->setMatrixMode_Modelview();
-		engine.iRender->loadMatrix(camera->getTransform());
+		GetEngine()->iRender->setMatrixMode_Modelview();
+		GetEngine()->iRender->loadMatrix(camera->getTransform());
 
 		drawAmbient(false);
 
-		engine.iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
-		engine.iRender->depthMask(false);
+		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
+		GetEngine()->iRender->depthMask(false);
 
-		if (engine.config->getBool("debug_wireframe")) {
+		if (GetEngine()->config->getBool("debug_wireframe")) {
 			glColor3f(1, 1, 1);
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 			for (int i = 0; i < objects.size(); i++) {
-				engine.iRender->push();
-				engine.iRender->multMatrix(objects[i]->getTransform());
+				GetEngine()->iRender->push();
+				GetEngine()->iRender->multMatrix(objects[i]->getTransform());
 				for (int k = 0; k < objects[i]->getNumSubsets(); k++) {
 					objects[i]->drawSubset(k);
 				}
-				engine.iRender->pop();
+				GetEngine()->iRender->pop();
 			}
 			if (terrain) {
 				for (int n = 0; n < terrain->getNumNodes(); n++) {
@@ -1078,8 +1078,8 @@ namespace VEGA {
 			}
 		}
 
-		engine.iRender->depthMask(true);
-		engine.iRender->disableBlending();
+		GetEngine()->iRender->depthMask(true);
+		GetEngine()->iRender->disableBlending();
 
 		for (int k = 0; k < systems.size(); k++) {
 			if (systems[k]) systems[k]->draw();
@@ -1089,30 +1089,30 @@ namespace VEGA {
 		viewportFBO->unset();
 
 		if (water) {
-			matMVP = engine.iRender->getMatrix_MVP();
+			matMVP = GetEngine()->iRender->getMatrix_MVP();
 			waterMtr->setPass("Ambient");
 			water->draw();
 			waterMtr->unsetPass();
 		}
 		//GUI Update
 		//Drawing this,because we won't have problems after HDR Pass
-		if (engine.gui)
-			engine.gui->update();
+		if (GetEngine()->gui)
+			GetEngine()->gui->update();
 
-		if (engine.config->getBool("effect_hdr")) {
+		if (GetEngine()->config->getBool("effect_hdr")) {
 			//---------bright-pass--------------------------------
 			viewportFBO->set();
 			viewportFBO->setColorTarget(viewportCopy_brightPass);
 			viewportFBO->clear();
 
-			engine.iRender->enable2d(true);
+			GetEngine()->iRender->enable2d(true);
 
 			matViewportMap = viewportCopy;
 			hdr->setPass("BrightPass");
-			engine.iRender->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
+			GetEngine()->iRender->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
 			hdr->unsetPass();
 
-			engine.iRender->enable3d();
+			GetEngine()->iRender->enable3d();
 
 			viewportFBO->flush();
 			viewportFBO->unset();
@@ -1122,29 +1122,29 @@ namespace VEGA {
 			viewportFBO->setColorTarget(viewportCopy_brightPass_blured);
 			viewportFBO->clear();
 
-			engine.iRender->enable2d(true);
+			GetEngine()->iRender->enable2d(true);
 
 			matViewportMap = viewportCopy_brightPass;
 			hdr->setPass("BlurPass");
-			engine.iRender->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
+			GetEngine()->iRender->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
 			hdr->unsetPass();
 
-			engine.iRender->enable3d();
+			GetEngine()->iRender->enable3d();
 
 			viewportFBO->flush();
 			viewportFBO->unset();
 
 			//---------draw-bloom-------------------------------
-			engine.iRender->enable2d(true);
-			engine.iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
+			GetEngine()->iRender->enable2d(true);
+			GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
 
 			matViewportMap = viewportCopy_brightPass_blured;
 			hdr->setPass("BlurPass");
-			engine.iRender->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
+			GetEngine()->iRender->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
 			hdr->unsetPass();
 
-			engine.iRender->disableBlending();
-			engine.iRender->enable3d();
+			GetEngine()->iRender->disableBlending();
+			GetEngine()->iRender->enable3d();
 		}
 	}
 

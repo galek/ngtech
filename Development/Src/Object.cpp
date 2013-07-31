@@ -30,8 +30,8 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	Object::Object() {
-		if(engine.scene)
-			engine.scene->addObject(this);
+		if(GetEngine()->scene)
+			GetEngine()->scene->addObject(this);
 	}
 	//**************************************************************************
 	//ObjectMesh
@@ -43,8 +43,8 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	ObjectMesh::ObjectMesh(const String &path)
 		:Object() {
-			if(engine.cash){
-				model = engine.cash->loadModel("../data/meshes/" + path);
+			if(GetEngine()->cash){
+				model = GetEngine()->cash->loadModel("../data/meshes/" + path);
 				materials.resize(model->getNumSubsets());
 				for(int i = 0; i < materials.size(); i++) 
 					materials[i] = nullptr;
@@ -60,12 +60,12 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	ObjectMesh::~ObjectMesh() {
-		engine.cash->deleteModel(model);
+		GetEngine()->cash->deleteModel(model);
 		for(int i = 0; i < materials.size(); i++) {
-			engine.cash->deleteMaterial(materials[i]);
+			GetEngine()->cash->deleteMaterial(materials[i]);
 		}
 		materials.clear();
-		engine.cash->deleteSound(impactSound);
+		GetEngine()->cash->deleteSound(impactSound);
 		delete pBody;
 	}
 
@@ -93,8 +93,8 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void ObjectMesh::setMaterial(const String &name, const String &path) {
-		if(engine.cash){
-			Material *material = engine.cash->loadMaterial(path);
+		if(GetEngine()->cash){
+			Material *material = GetEngine()->cash->loadMaterial(path);
 			if(name == "*")	
 				for(int s = 0; s < model->getNumSubsets(); s++) 
 					materials[s] = material;
@@ -267,7 +267,7 @@ namespace VEGA {
 	}
 
 	void ObjectMesh::setImpactSound(const String &path) {
-		impactSound = engine.cash->loadSound("../data/sounds/" + path);
+		impactSound = GetEngine()->cash->loadSound("../data/sounds/" + path);
 		pBody->setImpactSound(impactSound);
 	}
 
@@ -302,7 +302,7 @@ namespace VEGA {
 	ObjectSkinnedMesh::~ObjectSkinnedMesh() {
 		delete model;
 		for(int i = 0; i < materials.size(); i++) {
-			engine.cash->deleteMaterial(materials[i]);
+			GetEngine()->cash->deleteMaterial(materials[i]);
 		}
 		materials.clear();
 	}
@@ -331,7 +331,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void ObjectSkinnedMesh::setMaterial(const String &name, const String &path) {
-		Material *material = engine.cash->loadMaterial(path);
+		Material *material = GetEngine()->cash->loadMaterial(path);
 		if(name == "*")	{
 			for(int s = 0; s < model->getNumSubsets(); s++) {
 				materials[s] = material;

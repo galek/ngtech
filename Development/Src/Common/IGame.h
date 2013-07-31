@@ -8,7 +8,9 @@ namespace VEGA {
 
 	struct IGame
 	{
-		IGame();
+	protected:
+		IGame():rc(false), ec(false){}
+	public:
 		virtual void initialise() = 0;
 		virtual void update() = 0;
 

@@ -188,7 +188,7 @@ namespace VEGA {
 		st->vertBuff->setTexCoordSource(2, 3, sizeof(Vertex), 3*sizeof(Vec3) + sizeof(Vec2)); 
 		st->vertBuff->setVertexSource(3, sizeof(Vertex),0);
 
-		engine.iRender->drawIndexedGeometry(st->indices, st->numIndices);
+		GetEngine()->iRender->drawIndexedGeometry(st->indices, st->numIndices);
 
 		st->vertBuff->unset(); 
 		st->vertBuff->unsetVertexSource();

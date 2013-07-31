@@ -19,7 +19,7 @@
 
 namespace VEGA {
 	Light::Light(){
-		engine.scene->addLight(this);
+		GetEngine()->scene->addLight(this);
 	}
 
 	//**************************************************************************
@@ -37,7 +37,7 @@ namespace VEGA {
 
 		this->castShadows = true;
 
-		int size = engine.config->getInt("light_shadowsize");
+		int size = GetEngine()->config->getInt("light_shadowsize");
 		shadowMap = GLTexture::createCube(size, size, GLTexture::RGBA);
 		shadowMap->setFilter(GLTexture::LINEAR);
 		shadowMap->setAniso(GLTexture::ANISO_X0);
@@ -61,7 +61,7 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	void LightOmni::getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w) {
 		int viewport[4];
-		engine.iRender->getViewport(viewport);
+		GetEngine()->iRender->getViewport(viewport);
 
 		if ((position - cameraPos).length() < radius*1.5) {
 			x = viewport[0];
@@ -71,8 +71,8 @@ namespace VEGA {
 			return;
 		}
 
-		Mat4 tmodelview = Mat4::transpose(engine.iRender->getMatrix_Modelview());
-		Mat4 mvp = engine.iRender->getMatrix_MVP();
+		Mat4 tmodelview = Mat4::transpose(GetEngine()->iRender->getMatrix_Modelview());
+		Mat4 mvp = GetEngine()->iRender->getMatrix_MVP();
 
 		Vec3 vx = tmodelview * Vec3(radius, 0, 0);
 		Vec3 vy = tmodelview * Vec3(0, radius, 0);
@@ -147,7 +147,7 @@ namespace VEGA {
 
 		this->castShadows = true;
 
-		int size = engine.config->getInt("light_shadowsize");
+		int size = GetEngine()->config->getInt("light_shadowsize");
 
 		shadowMap = GLTexture::create2d(size, size, GLTexture::RGBA);
 		shadowMap->setFilter(GLTexture::LINEAR);
@@ -174,7 +174,7 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	void LightSpot::getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w) {
 		int viewport[4];
-		engine.iRender->getViewport(viewport);
+		GetEngine()->iRender->getViewport(viewport);
 
 		if ((position - cameraPos).length() < radius*1.5) {
 			x = viewport[0];
@@ -184,8 +184,8 @@ namespace VEGA {
 			return;
 		}
 
-		Mat4 tmodelview = Mat4::transpose(engine.iRender->getMatrix_Modelview());
-		Mat4 mvp = engine.iRender->getMatrix_MVP();
+		Mat4 tmodelview = Mat4::transpose(GetEngine()->iRender->getMatrix_Modelview());
+		Mat4 mvp = GetEngine()->iRender->getMatrix_MVP();
 
 		Vec3 vx = tmodelview * Vec3(radius, 0, 0);
 		Vec3 vy = tmodelview * Vec3(0, radius, 0);

@@ -35,5 +35,5 @@ namespace VEGA {
 		void _preInit();
 		void _setResources();	
 	};
-	VEGA_API extern Engine engine;
+	VEGA_API Engine* GetEngine();
 };

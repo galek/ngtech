@@ -212,7 +212,7 @@ namespace VEGA {
 		vertBuff->setNormalSource(sizeof(Vertex), sizeof(Vec3) + sizeof(Vec2));
 		vertBuff->setVertexSource(3, sizeof(Vertex), 0);
 
-		engine.iRender->drawIndexedGeometry(nodes[n].indices[lod], nodes[n].numIndices[lod]);
+		GetEngine()->iRender->drawIndexedGeometry(nodes[n].indices[lod], nodes[n].numIndices[lod]);
 
 		vertBuff->unset();
 		vertBuff->unsetVertexSource();

@@ -24,7 +24,7 @@ namespace VEGA {
 	}
 
 	void Water::draw() {
-		engine.iRender->disableCulling();
+		GetEngine()->iRender->disableCulling();
 
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
@@ -40,7 +40,7 @@ namespace VEGA {
 		glVertex3f(size, depth, -size);
 		glEnd();
 
-		engine.iRender->enableCulling();
+		GetEngine()->iRender->enableCulling();
 	}
 
 }

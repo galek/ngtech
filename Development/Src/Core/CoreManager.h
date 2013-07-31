@@ -13,7 +13,7 @@ namespace VEGA {
 	public:
 		bool running;
 	public:
-		class ThreadPool* mTP;
+		//class ThreadPool* mTP;
 		struct IWindow*iWindow;
 		struct IRender*iRender;
 		struct CVARManager*cvars;

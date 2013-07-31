@@ -89,9 +89,9 @@ namespace VEGA {
 		/*Vec3 forwardVec = Vec3::normalize(Vec3(sinf(angle[0]) * cosf(angle[1]),
 		sinf(angle[1]),
 		cosf(angle[0]) * cosf(angle[1])));*/
-		if(engine.iWindow->isMouseMoved() && engine.iWindow->isMouseGrabed()) {
-			angle[0] = -0.4 * engine.iWindow->getMouseX();
-			angle[1] = -0.4 * engine.iWindow->getMouseY();
+		if(GetEngine()->iWindow->isMouseMoved() && GetEngine()->iWindow->isMouseGrabed()) {
+			angle[0] = -0.4 * GetEngine()->iWindow->getMouseX();
+			angle[1] = -0.4 * GetEngine()->iWindow->getMouseY();
 		}
 
 		if(angle[1] > 80) angle[1] = 75;
@@ -108,23 +108,23 @@ namespace VEGA {
 
 		bool inTheAir = false;
 		Vec3 point;
-		if(engine.physSystem->intersectWorldByRay(position - Vec3(0, size.y, 0), 
+		if(GetEngine()->physSystem->intersectWorldByRay(position - Vec3(0, size.y, 0), 
 			position - Vec3(0, size.y+10, 0), Vec3(), 
 			point)) {
 				if(point.y <= position.y - size.y - 10)
 					inTheAir = true;
 		}
 
-		if(engine.iWindow->isKeyPressed(WindowSystem::KEY_W)) {
+		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_W)) {
 			movement += forwardVec;
 		}
-		if(engine.iWindow->isKeyPressed(WindowSystem::KEY_S)) {
+		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_S)) {
 			movement -= forwardVec;
 		}
-		if(engine.iWindow->isKeyPressed(WindowSystem::KEY_A)) {
+		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_A)) {
 			movement += leftVec;
 		}
-		if(engine.iWindow->isKeyPressed(WindowSystem::KEY_D)) {
+		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_D)) {
 			movement -= leftVec;
 		}
 
@@ -136,7 +136,7 @@ namespace VEGA {
 			movement = Vec3::normalize(movement);
 		}
 
-		if(engine.iWindow->wasKeyPressed(WindowSystem::KEY_Q) && !inTheAir) {
+		if(GetEngine()->iWindow->wasKeyPressed(WindowSystem::KEY_Q) && !inTheAir) {
 			movement += Vec3(0, 1.5, 0);
 		}
 
@@ -145,8 +145,8 @@ namespace VEGA {
 
 
 	Camera::Camera() {
-		if(engine.scene)
-			engine.scene->setCamera(this);
+		if(GetEngine()->scene)
+			GetEngine()->scene->setCamera(this);
 	}
 
 	//***************************************************************************
@@ -218,9 +218,9 @@ namespace VEGA {
 		/*Vec3 forwardVec = Vec3::normalize(Vec3(sinf(angle[0]) * cosf(angle[1]),
 		sinf(angle[1]),
 		cosf(angle[0]) * cosf(angle[1])));*/
-		if(engine.iWindow->isMouseMoved() && engine.iWindow->isMouseGrabed()) {
-			angle[0] = -0.4 * engine.iWindow->getMouseX();
-			angle[1] = -0.4 * engine.iWindow->getMouseY();
+		if(GetEngine()->iWindow->isMouseMoved() && GetEngine()->iWindow->isMouseGrabed()) {
+			angle[0] = -0.4 * GetEngine()->iWindow->getMouseX();
+			angle[1] = -0.4 * GetEngine()->iWindow->getMouseY();
 		}
 
 		if(angle[1] > 80) angle[1] = 75;
@@ -238,16 +238,16 @@ namespace VEGA {
 		direction.z = cosf(DEG_TO_RAD * angle[0]) * cosf(DEG_TO_RAD * angle[1]);
 		direction = Vec3::normalize(direction);
 
-		if(engine.iWindow->isKeyPressed(WindowSystem::KEY_W)) {
+		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_W)) {
 			movement += forwardVec;
 		}
-		if(engine.iWindow->isKeyPressed(WindowSystem::KEY_S)) {
+		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_S)) {
 			movement -= forwardVec;
 		}
-		if(engine.iWindow->isKeyPressed(WindowSystem::KEY_A)) {
+		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_A)) {
 			movement += leftVec;
 		}
-		if(engine.iWindow->isKeyPressed(WindowSystem::KEY_D)) {
+		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_D)) {
 			movement -= leftVec;
 		}
 

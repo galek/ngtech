@@ -37,6 +37,11 @@ Changes:
 namespace VEGA {
 	using namespace Common;
 	Engine engine;
+
+	Engine* GetEngine() {
+		return &engine;
+	}
+
 #define ENGINE_VERSION_NUMBER 0.3.2
 #define ENGINE_VERSION_STRING "0.3.2"
 	//---------------------------------------------------------------------------

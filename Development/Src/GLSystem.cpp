@@ -44,7 +44,7 @@ namespace VEGA {
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-		reshape(engine.iWindow->getWidth(), engine.iWindow->getHeight());
+		reshape(GetEngine()->iWindow->getWidth(), GetEngine()->iWindow->getHeight());
 		GLExtensions::initExtensions();
 		Debug("[Init] Checking Render Extensions");
 
@@ -681,7 +681,7 @@ namespace VEGA {
 		if(normalized) {
 			loadMatrix(Mat4::ortho(0, 1, 1, 0, 0, 1));
 		} else {
-			loadMatrix(Mat4::ortho(0, engine.iWindow->getWidth(), engine.iWindow->getHeight(), 0, 0, 1));
+			loadMatrix(Mat4::ortho(0, GetEngine()->iWindow->getWidth(), GetEngine()->iWindow->getHeight(), 0, 0, 1));
 		}
 
 		glMatrixMode(GL_MODELVIEW);	

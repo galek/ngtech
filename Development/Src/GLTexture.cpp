@@ -330,7 +330,7 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	void GLTexture::endRenderTo() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glViewport(0, 0, engine.iWindow->getWidth(), engine.iWindow->getHeight());
+		glViewport(0, 0, GetEngine()->iWindow->getWidth(), GetEngine()->iWindow->getHeight());
 	}
 
 	//---------------------------------------------------------------------------
@@ -395,13 +395,13 @@ namespace VEGA {
 		glTexParameteri(texture->target, GL_TEXTURE_WRAP_T, texture->wrap);
 		glTexParameteri(texture->target, GL_TEXTURE_WRAP_R, texture->wrap);
 
-		Aniso aniso  = engine.iRender->defAniso;
+		Aniso aniso  = GetEngine()->iRender->defAniso;
 		if(aniso > 0) {
 			texture->aniso = aniso;
 			glTexParameterf(texture->target, GL_TEXTURE_MAX_ANISOTROPY_EXT, texture->aniso);
 		}
 
-		Filter filter = engine.iRender->defFilter;
+		Filter filter = GetEngine()->iRender->defFilter;
 		if(filter == NEAREST) {
 			texture->magFilter = GL_NEAREST;
 			texture->minFilter = GL_NEAREST;

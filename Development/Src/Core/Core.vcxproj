@@ -24,7 +24,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v120_xp</PlatformToolset>
@@ -189,12 +189,6 @@
     <ClCompile Include="Log.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Externals\freetype\builds\win32\vc2010\freetype.vcxproj">
-      <Project>{78b079bd-9fc7-4b9e-b4a6-96da0f00248b}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Externals\MyGUI\MyGui.vcxproj">
-      <Project>{e9497471-6143-4e9a-8db2-436edad37b65}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\Externals\newton\coreLibrary_200\projets\windows\project_vs2010\newton.vcxproj">
       <Project>{68d9962c-0ec7-445a-b0fd-f87b16d43901}</Project>
     </ProjectReference>

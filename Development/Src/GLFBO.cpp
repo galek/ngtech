@@ -156,7 +156,7 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	void GLFBO::unset() {
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,0);
-		glViewport(0, 0, engine.iWindow->getWidth(), engine.iWindow->getHeight());
+		glViewport(0, 0, GetEngine()->iWindow->getWidth(), GetEngine()->iWindow->getHeight());
 	}
 
 	//---------------------------------------------------------------------------

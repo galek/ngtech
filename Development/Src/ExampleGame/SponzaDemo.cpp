@@ -74,13 +74,13 @@ void ExampleGame::initialise() {
 	particlesYellow->setParticleLifeTime(10000);
 	particlesYellow->setDispersion(0.1);
 
-	engine.scene->setGravity(Vec3(0, -9.8, 0));
-	engine.scene->setWater(1, 400);
-	engine.scene->setAmbient(Vec3(0.2, 0.2, 0.2));
+	GetEngine()->scene->setGravity(Vec3(0, -9.8, 0));
+	GetEngine()->scene->setWater(1, 400);
+	GetEngine()->scene->setAmbient(Vec3(0.2, 0.2, 0.2));
 
-	engine.iWindow->grabMouse(true);
+	GetEngine()->iWindow->grabMouse(true);
 
-	MyGUI::ButtonPtr button = engine.gui->getGUI()->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
+	MyGUI::ButtonPtr button = GetEngine()->gui->getGUI()->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
 	button->setFontName("DejaVuSansFont.15");
 	button->setCaption("Hello World!");
 }
@@ -89,15 +89,15 @@ EventsCallback::EventsCallback() : depth(10.0f){}
 //------------------------------------------------------------
 void EventsCallback::Body(){
 
-	if (engine.iWindow->wasKeyPressed(IWindow::KEY_ESC))
-		engine.iWindow->toggleGrabMouse();
+	if (GetEngine()->iWindow->wasKeyPressed(IWindow::KEY_ESC))
+		GetEngine()->iWindow->toggleGrabMouse();
 
-	if (engine.iWindow->isKeyPressed(IWindow::KEY_Z))
-		engine.scene->setWater(depth += 1, 500);
+	if (GetEngine()->iWindow->isKeyPressed(IWindow::KEY_Z))
+		GetEngine()->scene->setWater(depth += 1, 500);
 
 
-	if (engine.iWindow->isKeyPressed(IWindow::KEY_X))
-		engine.scene->setWater(depth -= 1, 500);
+	if (GetEngine()->iWindow->isKeyPressed(IWindow::KEY_X))
+		GetEngine()->scene->setWater(depth -= 1, 500);
 
 }
 #endif

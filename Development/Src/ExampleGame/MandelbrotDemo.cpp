@@ -31,7 +31,7 @@ void init() {
 }
 
 void render() {
-	engine.iRender->enable2d(true);
+	GetEngine()->iRender->enable2d(true);
 
 	mandelbotShader->set();
 	mandelbotShader->sendVec2("position", position);
@@ -39,44 +39,44 @@ void render() {
 	mandelbotShader->sendInt("colorMap", 0);
 
 	usor->set(0);
-	engine.iRender->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
+	GetEngine()->iRender->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
 	usor->unset(0);
 
 	mandelbotShader->unset();
 }
 
 void events() {
-	if(engine.iWindow->isMouseButtonPressed(WindowSystem::MOUSE_LEFT_BUTTON)) {
-		float s = (float)engine.iWindow->getDTime() / 1000.0;
+	if(GetEngine()->iWindow->isMouseButtonPressed(WindowSystem::MOUSE_LEFT_BUTTON)) {
+		float s = (float)GetEngine()->iWindow->getDTime() / 1000.0;
 		scale = scale * 1.0 / (1.0 + s * 0.5);
 	}
 
-	if(engine.iWindow->isMouseButtonPressed(WindowSystem::MOUSE_RIGHT_BUTTON)) {
-		float s = (float)engine.iWindow->getDTime() / 1000.0;
+	if(GetEngine()->iWindow->isMouseButtonPressed(WindowSystem::MOUSE_RIGHT_BUTTON)) {
+		float s = (float)GetEngine()->iWindow->getDTime() / 1000.0;
 		scale = scale * (1.0 + s * 0.5);
 	}
 
-	if(engine.iWindow->isKeyPressed(WindowSystem::KEY_UP)) {
-		float p = (float)engine.iWindow->getDTime() / 1000.0 * 0.5;
+	if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_UP)) {
+		float p = (float)GetEngine()->iWindow->getDTime() / 1000.0 * 0.5;
 		position.y += p * scale.y;
 	}
 
-	if(engine.iWindow->isKeyPressed(WindowSystem::KEY_DOWN)) {
-		float p = (float)engine.iWindow->getDTime() / 1000.0 * 0.5;
+	if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_DOWN)) {
+		float p = (float)GetEngine()->iWindow->getDTime() / 1000.0 * 0.5;
 		position.y -= p * scale.y;
 	}
 
-	if(engine.iWindow->isKeyPressed(WindowSystem::KEY_LEFT)) {
-		float p = (float)engine.iWindow->getDTime() / 1000.0 * 0.5;
+	if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_LEFT)) {
+		float p = (float)GetEngine()->iWindow->getDTime() / 1000.0 * 0.5;
 		position.x -= p * scale.x;
 	}
 
-	if(engine.iWindow->isKeyPressed(WindowSystem::KEY_RIGHT)) {
-		float p = (float)engine.iWindow->getDTime() / 1000.0 * 0.5;
+	if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_RIGHT)) {
+		float p = (float)GetEngine()->iWindow->getDTime() / 1000.0 * 0.5;
 		position.x += p * scale.x;
 	}
 
-	if(exitButton->isPressed() || engine.iWindow->wasKeyPressed(WindowSystem::KEY_ESC)) {
+	if(exitButton->isPressed() || GetEngine()->iWindow->wasKeyPressed(WindowSystem::KEY_ESC)) {
 		Engine::get()->quit();
 	}
 }

@@ -32,12 +32,12 @@ namespace VEGA {
 		shader->tes = NULL;
 		shader->program = NULL;
 
-		if(!engine.vfs->isDataExist(path)) {
+		if(!GetEngine()->vfs->isDataExist(path)) {
 			Error::showAndExit("GLShader::create() error: shader file '" + path + "' was not found");
 			return NULL;
 		}
 		
-		FILE *shdFile = fopen(engine.vfs->getDataPath(path).c_str(), "rt");
+		FILE *shdFile = fopen(GetEngine()->vfs->getDataPath(path).c_str(), "rt");
 		String line, vsCode, fsCode, tcsCode, tesCode, gsCode;
 
 		while(!feof(shdFile)) {

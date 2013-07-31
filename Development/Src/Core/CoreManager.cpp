@@ -1,12 +1,12 @@
 #include "CorePrivate.h"
 #include "CoreManager.h"
 
-#include "..\Common\ThreadPool.h"
+//#include "..\Common\ThreadPool.h"
 
 namespace VEGA {
 
 	CoreManager::CoreManager()
-		: mTP(nullptr),
+		: //mTP(nullptr),
 		iWindow(nullptr),
 		iRender(nullptr),
 		cvars(nullptr),

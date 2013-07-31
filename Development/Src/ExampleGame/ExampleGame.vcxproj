@@ -187,20 +187,8 @@
     <ClCompile Include="TerrainDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Externals\freetype\builds\win32\vc2010\freetype.vcxproj">
-      <Project>{78b079bd-9fc7-4b9e-b4a6-96da0f00248b}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Externals\MyGUI\MyGui.vcxproj">
-      <Project>{e9497471-6143-4e9a-8db2-436edad37b65}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\Scripts\VegaEngine.vcxproj">
       <Project>{422176d6-9f6c-4344-90a5-3520c7213826}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.vcxproj">
-      <Project>{413d151a-e7ac-419a-b9c1-e270e686f949}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\Core.vcxproj">
-      <Project>{a260ec1a-1997-4d03-8b91-1302498eb505}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

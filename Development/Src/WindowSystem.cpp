@@ -235,32 +235,32 @@ namespace VEGA {
 
 		case WM_KEYDOWN:
 			{
-				if (engine.iWindow)
-					engine.iWindow->keys[wParam] = true;
-				//Nick:TODO: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+				if (GetEngine()->iWindow)
+					GetEngine()->iWindow->keys[wParam] = true;
+				//Nick:TODO: сделай ввод
 
 				return 0;
 			}
 
 		case WM_KEYUP:
 			{
-				if (engine.iWindow)
-					engine.iWindow->keys[wParam] = false;
-				//Nick:TODO: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+				if (GetEngine()->iWindow)
+					GetEngine()->iWindow->keys[wParam] = false;
+				//Nick:TODO: сделай ввод
 
 				return 0;
 			}
 
 		case WM_MOUSEMOVE:
 			{
-				if (engine.iWindow){
-					engine.iWindow->mx = LOWORD(lParam);
-					engine.iWindow->my = HIWORD(lParam);
-					engine.iWindow->mousing = true;
+				if (GetEngine()->iWindow){
+					GetEngine()->iWindow->mx = LOWORD(lParam);
+					GetEngine()->iWindow->my = HIWORD(lParam);
+					GetEngine()->iWindow->mousing = true;
 
 
-					if (!engine.iWindow->mouseGrabed)
-						MyGUI::InputManager::getInstancePtr()->injectMouseMove(engine.iWindow->oldMouseX, engine.iWindow->oldMouseY, 0);
+					if (!GetEngine()->iWindow->mouseGrabed)
+						MyGUI::InputManager::getInstancePtr()->injectMouseMove(GetEngine()->iWindow->oldMouseX, GetEngine()->iWindow->oldMouseY, 0);
 			
 					return 0;
 				}
@@ -268,44 +268,44 @@ namespace VEGA {
 
 		case WM_LBUTTONDOWN:
 			{
-				if (engine.iWindow)
-					engine.iWindow->mouseButtons[0] = true; 
+				if (GetEngine()->iWindow)
+					GetEngine()->iWindow->mouseButtons[0] = true; 
 
-				if (!engine.iWindow->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMousePress(engine.iWindow->oldMouseX, engine.iWindow->oldMouseY, (MyGUI::MouseButton::Enum)0);
+				if (!GetEngine()->iWindow->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMousePress(GetEngine()->iWindow->oldMouseX, GetEngine()->iWindow->oldMouseY, (MyGUI::MouseButton::Enum)0);
 				
 				return 0;
 			}
 
 		case WM_LBUTTONUP:
 			{
-				if (engine.iWindow)
-					engine.iWindow->mouseButtons[0] = false;
+				if (GetEngine()->iWindow)
+					GetEngine()->iWindow->mouseButtons[0] = false;
 
-				if (!engine.iWindow->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(engine.iWindow->oldMouseX, engine.iWindow->oldMouseY, (MyGUI::MouseButton::Enum)0);
+				if (!GetEngine()->iWindow->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(GetEngine()->iWindow->oldMouseX, GetEngine()->iWindow->oldMouseY, (MyGUI::MouseButton::Enum)0);
 				
 				return 0;
 			}
 
 		case WM_RBUTTONDOWN:
 			{
-				if (engine.iWindow)
-					engine.iWindow->mouseButtons[1] = true;
+				if (GetEngine()->iWindow)
+					GetEngine()->iWindow->mouseButtons[1] = true;
 
-				if (!engine.iWindow->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMousePress(engine.iWindow->oldMouseX, engine.iWindow->oldMouseY, (MyGUI::MouseButton::Enum)1);
+				if (!GetEngine()->iWindow->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMousePress(GetEngine()->iWindow->oldMouseX, GetEngine()->iWindow->oldMouseY, (MyGUI::MouseButton::Enum)1);
 				
 				return 0;
 			}
 
 		case WM_RBUTTONUP:
 			{
-				if (engine.iWindow)
-					engine.iWindow->mouseButtons[1] = false;
+				if (GetEngine()->iWindow)
+					GetEngine()->iWindow->mouseButtons[1] = false;
 
-				if (!engine.iWindow->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(engine.iWindow->oldMouseX, engine.iWindow->oldMouseY, (MyGUI::MouseButton::Enum)1);
+				if (!GetEngine()->iWindow->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(GetEngine()->iWindow->oldMouseX, GetEngine()->iWindow->oldMouseY, (MyGUI::MouseButton::Enum)1);
 					
 				return 0;
 			}
@@ -315,15 +315,15 @@ namespace VEGA {
 				int w = LOWORD(lParam);
 				int h = HIWORD(lParam);
 
-				if (engine.iRender)
-					engine.iRender->reshape(w, h);
-				if (engine.iWindow){
-					engine.iWindow->width = w;
-					engine.iWindow->height = h;
+				if (GetEngine()->iRender)
+					GetEngine()->iRender->reshape(w, h);
+				if (GetEngine()->iWindow){
+					GetEngine()->iWindow->width = w;
+					GetEngine()->iWindow->height = h;
 					return 0;
 				}
-				if (engine.gui)
-					engine.gui->resize(w, h);
+				if (GetEngine()->gui)
+					GetEngine()->gui->resize(w, h);
 			}
 		}
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);

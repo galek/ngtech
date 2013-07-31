@@ -19,12 +19,12 @@ namespace VEGA {
 
 	PhysJointUpVector *PhysJointUpVector::create(const Vec3 &direction, PhysBody *body) {
 		PhysJointUpVector *joint = new PhysJointUpVector();
-		joint->nJoint = NewtonConstraintCreateUpVector(engine.physSystem->nWorld, direction, body->nBody);
+		joint->nJoint = NewtonConstraintCreateUpVector(GetEngine()->physSystem->nWorld, direction, body->nBody);
 		return joint;
 	}
 
 	PhysJointUpVector::~PhysJointUpVector() {
-		NewtonDestroyJoint(engine.physSystem->nWorld, nJoint);
+		NewtonDestroyJoint(GetEngine()->physSystem->nWorld, nJoint);
 	}
 
 }
