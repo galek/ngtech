@@ -1,94 +1,163 @@
-#ifndef THREAD_POOL_H
-#define THREAD_POOL_H
+// Filename		: ThreadPool.h
+// Author		: Siddharth Barman
+// Date			: 18 Sept 2005
+/* Description	: Defines CThreadPool class. How to use the Thread Pool. First
+				  create a CThreadPool object. The default constructor will 
+				  create 10 threads in the pool. To defer creation of the pool
+				  pass the pool size and false to the sonstructor. 
+				  
+				  You can use two approaches while working with the thread 
+				  pool. 
 
-#include <vector>
-#include <queue>
-#include <memory>
-#include <thread>
-#include <mutex>
-#include <condition_variable>
-#include <future>
-#include <functional>
-#include <stdexcept>
+				  1. To make use of the thread pool, you will need to first 
+				  create a function having the following signature
+				  DWORD WINAPI ThreadProc(LPVOID); Check the CreateThread 
+				  documentation in MSDN to get details. Add this function to	
+				  the pool by calling the Run() method and pass in the function 
+				  name and a void* pointer to any object you want. The pool will
+				  pick up the function passed into Run() method and execute as 
+				  threads in the pool become free. 
 
-namespace VEGA {
-	class ThreadPool {
-	public:
-		ThreadPool(size_t);
-		template<class F, class... Args>
-		auto enqueue(F && f, Args && ... args)
-			->std::future<typename std::result_of<F(Args...)>::type>;
-		~ThreadPool();
-	private:
-		// need to keep track of threads so we can join them
-		std::vector< std::thread > workers;
-		// the task queue
-		std::queue< std::function<void()> > tasks;
+				  2. Instead of using a function pointer, you can use an object
+				  of a class which derives from IRunObject. Pass a pointer to 
+				  this object in the Run() method of the thread pool. As threads
+				  become free, the thread pool will call the Run() method of you
+				  r class. You will also need to write a body for AutoDelete() f
+				  unction. If the return value is true, the thread pool will use
+				  'delete' to free the object you pass in. If it returns false,  
+				  the thread pool will not do anything else to the object after
+				  calling the Run() function.
+	
+				  It is possible to destroy the pool whenever you want by 
+				  calling the Destroy() method. If you want to create a new pool
+				  call the Create() method. Make sure you have destoryed the 
+				  existing pool before creating a new one.
+				  
+				  By default, the pool uses _beginthreadex() function to create
+				  threads. To have the pool use CreateThread() Windows API, just
+				  define USE_WIN32API_THREAD. Note: it is better to use the defa
+				  ult _beginthreadex(). 
+				  
+				  If this code works, it was written by Siddharth Barman, email 
+				  siddharth_b@yahoo.com. 
+				   _____ _                        _  ______           _  
+				  |_   _| |                      | | | ___ \         | | 
+				    | | | |__  _ __ ___  __ _  __| | | |_/ /__   ___ | | 
+				    | | | '_ \| '__/ _ \/ _` |/ _` | |  __/ _ \ / _ \| | 
+				    | | | | | | | |  __/ (_| | (_| | | | | (_) | (_) | | 
+				    \_/ |_| |_|_|  \___|\__,_|\__,_| \_|  \___/ \___/|_|  
+------------------------------------------------------------------------------*/
+#ifndef THREAD_POOL_CLASS
+#define THREAD_POOL_CLASS
+#pragma warning( disable : 4786) // remove irritating STL warnings
 
-		// synchronization
-		std::mutex queue_mutex;
-		std::condition_variable condition;
-		bool stop;
-	};
+#include <windows.h>
+#include <list>
+#include <map>
+#include "RunObject.h"
 
-	// the constructor just launches some amount of workers
-	inline ThreadPool::ThreadPool(size_t threads)
-		: stop(false)
+#define POOL_SIZE		  10
+#define SHUTDOWN_EVT_NAME _T("PoolEventShutdown")
+using namespace std;
+
+// info about functions which require servicing will be saved using this struct.
+typedef struct tagFunctionData
+{
+	LPTHREAD_START_ROUTINE lpStartAddress;
+	union 
 	{
-		for (size_t i = 0; i < threads; ++i)
-			workers.emplace_back(
-			[this]
-		{
-			while (true)
-			{
-				std::unique_lock<std::mutex> lock(this->queue_mutex);
-				while (!this->stop && this->tasks.empty())
-					this->condition.wait(lock);
-				if (this->stop && this->tasks.empty())
-					return;
-				std::function<void()> task(this->tasks.front());
-				this->tasks.pop();
-				lock.unlock();
-				task();
-			}
-		}
-		);
-	}
+		IRunObject* runObject;
+		LPVOID pData;
+	};	
+} _FunctionData;
 
-	// add new work item to the pool
-	template<class F, class... Args>
-	auto ThreadPool::enqueue(F && f, Args && ... args)
-		-> std::future<typename std::result_of<F(Args...)>::type>
-	{
-		typedef typename std::result_of<F(Args...)>::type return_type;
+// // info about threads in the pool will be saved using this struct.
+typedef struct tagThreadData
+{
+	bool	bFree;
+	HANDLE	WaitHandle;
+	HANDLE	hThread;
+	DWORD	dwThreadId;
+} _ThreadData;
 
-		// don't allow enqueueing after stopping the pool
-		if (stop)
-			throw std::runtime_error("enqueue on stopped ThreadPool");
+// info about all threads belonging to this pool will be stored in this map
+typedef map<DWORD, _ThreadData, less<DWORD>, allocator<_ThreadData> > ThreadMap;
 
-		auto task = std::make_shared< std::packaged_task<return_type()> >(
-			std::bind(std::forward<F>(f), std::forward<Args>(args)...)
-			);
+// all functions passed in by clients will be initially stored in this list.
+typedef list<_FunctionData, allocator<_FunctionData> > FunctionList;
 
-		std::future<return_type> res = task->get_future();
-		{
-			std::unique_lock<std::mutex> lock(queue_mutex);
-			tasks.push([task](){ (*task)(); });
-		}
-		condition.notify_one();
-		return res;
-	}
+// this decides whether a function is added to the front or back of the list.
+enum ThreadPriority
+{
+	High,
+	Low
+};
 
-	// the destructor joins all threads
-	inline ThreadPool::~ThreadPool()
-	{
-		{
-			std::unique_lock<std::mutex> lock(queue_mutex);
-			stop = true;
-		}
-		condition.notify_all();
-		for (size_t i = 0; i < workers.size(); ++i)
-			workers[i].join();
-	}
-}
+typedef struct UserPoolData
+{
+	LPVOID pData;
+	CThreadPool* pThreadPool;
+} _tagUserPoolData;
+
+enum PoolState
+{
+	Ready, // has been created
+	Destroying, // in the process of getting destroyed, no request is processed / accepted
+	Destroyed // Destroyed, no threads are available, request can still be queued
+};
+
+class CThreadPool
+{
+private:
+	#ifdef USE_WIN32API_THREAD
+	static DWORD WINAPI _ThreadProc(LPVOID);
+	#else
+	static UINT __stdcall _ThreadProc(LPVOID pParam);
+	#endif
+	
+	FunctionList m_functionList;
+	ThreadMap m_threads;
+
+	int		m_nPoolSize;
+	int		m_nWaitForThreadsToDieMS; // In milli-seconds
+	TCHAR	m_szPoolName[256];
+	HANDLE	m_hNotifyShutdown; // notifies threads that a new function 
+							   // is added
+	volatile PoolState	 m_state;
+	volatile static long m_lInstance;
+	
+	CRITICAL_SECTION m_csFuncList;
+	CRITICAL_SECTION m_csThreads;
+
+	bool	GetThreadProc(DWORD dwThreadId, LPTHREAD_START_ROUTINE&, 
+						  LPVOID*, IRunObject**); 
+	
+	void	FinishNotify(DWORD dwThreadId);
+	void	BusyNotify(DWORD dwThreadId);
+	void	ReleaseMemory();
+		
+	HANDLE	GetWaitHandle(DWORD dwThreadId);
+	HANDLE	GetShutdownHandle();
+
+public:
+	CThreadPool(int nPoolSize = POOL_SIZE, bool bCreateNow = true, int nWaitTimeForThreadsToComplete = 5000);
+	virtual ~CThreadPool();
+	bool	Create();	// creates the thread pool
+	void	Destroy();	// destroy the thread pool
+	
+	int		GetPoolSize();
+	void	SetPoolSize(int);
+	
+	bool	Run(LPTHREAD_START_ROUTINE pFunc, LPVOID pData, 
+				ThreadPriority priority = Low);
+
+	bool	Run(IRunObject*, ThreadPriority priority = Low);
+
+	bool	CheckThreadStop();
+
+	int		GetWorkingThreadCount();
+
+	PoolState GetState();
+};
+//------------------------------------------------------------------------------
 #endif

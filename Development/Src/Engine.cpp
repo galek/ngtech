@@ -5,7 +5,7 @@
 *   This is a part of work done by AST.       *
 *   If you want to use it, please contact me. *
 Changes:
-	*Galek:Drawing GUI,was moved in Scene,because we won't have problems after HDR Pass
+*Galek:Drawing GUI,was moved in Scene,because we won't have problems after HDR Pass
 ***************************************************************************/
 #include "EnginePrivate.h"
 //***************************************************

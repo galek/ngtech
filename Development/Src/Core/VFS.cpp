@@ -8,12 +8,9 @@
 #include "MyGUI_DataFileStream.h"
 #include "FileSystemInfo/FileSystemInfo.h"
 #include <fstream>
-#include "..\Common\Singleton.h"
 #include "..\Common\IDataManager.h"
 #include "VFS.h"
 
-template <> Common::DataManager* Common::Singleton<Common::DataManager>::msInstance = nullptr;
-template <> const char* Common::Singleton<Common::DataManager>::mClassTypeName("DataManager");
 
 
 namespace VEGA

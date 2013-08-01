@@ -1,13 +1,10 @@
 #include "CorePrivate.h"
 #include "CoreManager.h"
 
-//#include "..\Common\ThreadPool.h"
-
 namespace VEGA {
 
 	CoreManager::CoreManager()
-		: //mTP(nullptr),
-		iWindow(nullptr),
+		:iWindow(nullptr),
 		iRender(nullptr),
 		cvars(nullptr),
 		log(nullptr),
@@ -20,6 +17,5 @@ namespace VEGA {
 		gui(nullptr),
 		scene(nullptr),
 		running(false)	{
-		//	mTP=new ThreadPool(4);
 	}
 }

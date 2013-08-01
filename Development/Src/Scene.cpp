@@ -901,7 +901,6 @@ namespace VEGA {
 	void Scene::Update() {
 		//---------update-camera-----------------------------------
 		camera->update();
-
 		GetEngine()->alSystem->setListener(camera->getPosition(), camera->getDirection());
 
 		//---------set-gravity-----------------------------------
@@ -991,7 +990,6 @@ namespace VEGA {
 
 		GetEngine()->iRender->depthMask(true);
 		GetEngine()->iRender->disableBlending();
-
 
 		drawAmbient(true);
 
@@ -1087,15 +1085,19 @@ namespace VEGA {
 
 		viewportFBO->flush();
 		viewportFBO->unset();
-
+		//GUI Update
+		//ѕытаюсь отладить
+		if (GetEngine()->gui)
+			GetEngine()->gui->update();
 		if (water) {
 			matMVP = GetEngine()->iRender->getMatrix_MVP();
 			waterMtr->setPass("Ambient");
 			water->draw();
 			waterMtr->unsetPass();
 		}
+		
 		//GUI Update
-		//Drawing this,because we won't have problems after HDR Pass
+		//ѕытаюсь отладить
 		if (GetEngine()->gui)
 			GetEngine()->gui->update();
 

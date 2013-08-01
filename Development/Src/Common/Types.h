@@ -17,15 +17,20 @@ typedef std::vector<std::string> VectorString;
 typedef std::pair<std::string, std::string> PairString;
 typedef std::vector<PairString> VectorStringPairs;
 
-typedef char int8;
-typedef short int16;
-typedef int int32;
-typedef unsigned char uint8;
-typedef unsigned short uint16;
-typedef unsigned int uint32;
-typedef unsigned int uint;
+typedef unsigned char	byte;	// 8 bits
+typedef unsigned short	word;	// 16 bits
+typedef unsigned int	dword;	// 32 bits
+typedef unsigned int	uint;
 
-typedef unsigned int Char;
+typedef signed char	int8;
+typedef unsigned char	uint8;
+typedef short int	int16;
+typedef unsigned short int	uint16;
+typedef int	int32;
+typedef unsigned int	uint32;
+typedef long long	int64;
+typedef unsigned long long	uint64;
+
 
 #define EFORCEINLINE __forceinline
 

@@ -151,13 +151,14 @@
     <ClInclude Include="IGame.h" />
     <ClInclude Include="IRender.h" />
     <ClInclude Include="IWindow.h" />
-    <ClInclude Include="Singleton.h" />
+    <ClInclude Include="RunObject.h" />
     <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="Types.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EString.cpp" />
     <ClCompile Include="iGame.cpp" />
+    <ClCompile Include="ThreadPool.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

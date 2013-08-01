@@ -1,7 +1,6 @@
 #ifndef __I_DATA_MANAGER_H__
 #define __I_DATA_MANAGER_H__
 
-#include "Singleton.h"
 #include "Types.h"
 
 namespace Common

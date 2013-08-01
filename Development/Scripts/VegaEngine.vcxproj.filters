@@ -119,6 +119,7 @@
     <ClCompile Include="..\Src\Engine\Console.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="..\Src\Engine\ThreadFuncts.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\ALSound.h">
@@ -254,6 +255,7 @@
     <ClInclude Include="..\Src\Engine\Console.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="..\Src\Engine\ThreadFuncts.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Заголовочные файлы">

@@ -201,6 +201,7 @@
     </ClCompile>
     <ClCompile Include="..\Src\Engine\Console.cpp" />
     <ClCompile Include="..\Src\Engine\EngineAppBase.cpp" />
+    <ClCompile Include="..\Src\Engine\ThreadFuncts.cpp" />
     <ClCompile Include="..\Src\GLDisplayList.cpp" />
     <ClCompile Include="..\Src\GLExtensions.cpp" />
     <ClCompile Include="..\Src\GLFBO.cpp" />
@@ -250,6 +251,7 @@
     <ClInclude Include="..\Src\Engine\Console.h" />
     <ClInclude Include="..\Src\Engine\DLLDef.h" />
     <ClInclude Include="..\Src\Engine\EngineAppBase.h" />
+    <ClInclude Include="..\Src\Engine\ThreadFuncts.h" />
     <ClInclude Include="..\Src\Error.h" />
     <ClInclude Include="..\Src\GLDisplayList.h" />
     <ClInclude Include="..\Src\GLExtensions.h" />
