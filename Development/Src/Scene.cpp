@@ -243,18 +243,6 @@ namespace VEGA {
 		}
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
 	//---------------------------------------------------------------------------
 	//Desc:    draws the ambient pass
 	//Params:  -
@@ -1085,21 +1073,17 @@ namespace VEGA {
 
 		viewportFBO->flush();
 		viewportFBO->unset();
-		//GUI Update
-		//ѕытаюсь отладить
+
+		matMVP = GetEngine()->iRender->getMatrix_MVP();
+		waterMtr->setPass("Ambient");
+		if (water) 			
+			water->draw();		
+		waterMtr->unsetPass();
+
+		//Now GUI Update
 		if (GetEngine()->gui)
 			GetEngine()->gui->update();
-		if (water) {
-			matMVP = GetEngine()->iRender->getMatrix_MVP();
-			waterMtr->setPass("Ambient");
-			water->draw();
-			waterMtr->unsetPass();
-		}
-		
-		//GUI Update
-		//ѕытаюсь отладить
-		if (GetEngine()->gui)
-			GetEngine()->gui->update();
+			waterMtr->unsetPass();	
 
 		if (GetEngine()->config->getBool("effect_hdr")) {
 			//---------bright-pass--------------------------------
