@@ -19,9 +19,9 @@
 
 namespace VEGA {
 
-class Cash {
+class Cache {
 public:
-	Cash(CVARManager*_cvars);
+	explicit Cache(CVARManager*_cvars);
 	
 	Material *loadMaterial(const String &path);
 	Model *loadModel(const String &path);

@@ -1,10 +1,10 @@
 /***************************************************************************
- *   Copyright (C) 2006 by AST   *
- *   tsyplyaev@gmail.com   *
- *   ICQ: 279-533-134                          *
- *   This is a part of work done by AST.       *
- *   If you want to use it, please contact me. *
- ***************************************************************************/
+*   Copyright (C) 2006 by AST   *
+*   tsyplyaev@gmail.com   *
+*   ICQ: 279-533-134                          *
+*   This is a part of work done by AST.       *
+*   If you want to use it, please contact me. *
+***************************************************************************/
 
 #pragma once
 
@@ -21,109 +21,109 @@
 
 namespace VEGA {
 
-//---------------------------------------------------------------------------
-//Desc: class of the scene. Created one time
-//---------------------------------------------------------------------------
+	//---------------------------------------------------------------------------
+	//Desc: class of the scene. Created one time
+	//---------------------------------------------------------------------------
 	class VEGA_API Scene {
-public:
-	Scene(CVARManager*_cvars);
-	
-	~Scene();
+	public:
+		explicit Scene(CVARManager*_cvars);
 
-	void clear();
-		
-	void initialise();
-	void Update();
+		~Scene();
 
-	void setGravity(const Vec3 &gravity);
+		void clear();
 
-	void setAmbient(const Vec3 &color);
-	void setCamera(Camera *camera);
-	void setWater(float depth, float size);
-	void setTerrain(const String &path, float step, float height, bool physics);
-	void setTerrainLods(const Vec3 &lods);
-	void setTerrainMaterial(const String &path);
+		void initialise();
+		void Update();
 
-	void addObject(Object *object);
-	void addLight(Light *light);
-	void addParticleSystem(ParticleSystem *system);
+		void setGravity(const Vec3 &gravity);
 
-	void deleteObjectMesh(ObjectMesh *object);
-	void deleteLight(Light *light);
-    void deleteParticleSystem(ParticleSystem *system);
+		void setAmbient(const Vec3 &color);
+		void setCamera(Camera *camera);
+		void setWater(float depth, float size);
+		void setTerrain(const String &path, float step, float height, bool physics);
+		void setTerrainLods(const Vec3 &lods);
+		void setTerrainMaterial(const String &path);
 
-	void reloadShaders();
+		void addObject(Object *object);
+		void addLight(Light *light);
+		void addParticleSystem(ParticleSystem *system);
 
-private:
-	void drawAmbient(bool blended);
-	
-	void drawOmni(LightOmni *light, bool blended);
-	void drawSpot(LightSpot *light, bool blended);
-	void drawDirect(LightDirect *light, bool blended);
-	
-	void getOmniShadowMap(LightOmni *light);
-	void getSpotShadowMap(LightSpot *light);
+		void deleteObjectMesh(ObjectMesh *object);
+		void deleteLight(Light *light);
+		void deleteParticleSystem(ParticleSystem *system);
 
-	void checkOmniVisibility(LightOmni *light);
-	void checkSpotVisibility(LightSpot *light);
+		void reloadShaders();
 
-	void drawWater();
-	
-	Vec3 ambient;
-	Camera *camera;
-	Water *water;
-	Terrain *terrain;
-	Vec3 terrainLods;
-	Vec3 gravity;
+	private:
+		void drawAmbient(bool blended);
 
-	std::vector<Object*> objects;
-	std::vector<Light*> lights;
-	std::vector<ParticleSystem*> systems;
-	
-	GLFBO *viewportFBO;
-	GLFBO *shadowFBO;
+		void drawOmni(LightOmni *light, bool blended);
+		void drawSpot(LightSpot *light, bool blended);
+		void drawDirect(LightDirect *light, bool blended);
 
-	GLTexture *viewportCopy;
-	GLTexture *viewportCopy_brightPass;
-	GLTexture *viewportCopy_brightPass_blured;
+		void getOmniShadowMap(LightOmni *light);
+		void getSpotShadowMap(LightSpot *light);
 
-	Material *depthPass;
-	Material *waterMtr;
-	Material *hdr;
+		void checkOmniVisibility(LightOmni *light);
+		void checkSpotVisibility(LightSpot *light);
 
-	float matTime;
-	float matLightIRadius;
+		void drawWater();
 
-	Vec3 matLightColor;
-	Vec3 matLightPosition;
-	Vec3 matLightDirection;
-	Vec3 matViewPosition;
-				
-	Mat4 matMVP;
-	Mat4 matWorld;
-	Mat4 matViewportTransform;
-	Mat4 matSpotTransform;
+		Vec3 ambient;
+		Camera *camera;
+		Water *water;
+		Terrain *terrain;
+		Vec3 terrainLods;
+		Vec3 gravity;
 
-	GLTexture *matShadowMap;
-	GLTexture *matViewportMap;
-	GLTexture *matSpotMap;
-		
-	GLOcclusionQuery *query;
+		std::vector<Object*> objects;
+		std::vector<Light*> lights;
+		std::vector<ParticleSystem*> systems;
 
-	ObjectMesh *sphere;
-	struct CVARManager*cvars;
+		GLFBO *viewportFBO;
+		GLFBO *shadowFBO;
 
-	friend class ParticleSystem;
-	friend class Flare;
-	friend class ParticleSystem;
+		GLTexture *viewportCopy;
+		GLTexture *viewportCopy_brightPass;
+		GLTexture *viewportCopy_brightPass_blured;
 
-	friend class Light;
-	friend class LightOmni;
-	friend class LightSpot;
-	friend class LightDirect;
+		Material *depthPass;
+		Material *waterMtr;
+		Material *hdr;
 
-	friend class Material;
-};
+		float matTime;
+		float matLightIRadius;
+
+		Vec3 matLightColor;
+		Vec3 matLightPosition;
+		Vec3 matLightDirection;
+		Vec3 matViewPosition;
+
+		Mat4 matMVP;
+		Mat4 matWorld;
+		Mat4 matViewportTransform;
+		Mat4 matSpotTransform;
+
+		GLTexture *matShadowMap;
+		GLTexture *matViewportMap;
+		GLTexture *matSpotMap;
+
+		GLOcclusionQuery *query;
+
+		ObjectMesh *sphere;
+		struct CVARManager*cvars;
+
+		friend class ParticleSystem;
+		friend class Flare;
+		friend class ParticleSystem;
+
+		friend class Light;
+		friend class LightOmni;
+		friend class LightSpot;
+		friend class LightDirect;
+
+		friend class Material;
+	};
 
 };
 

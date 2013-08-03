@@ -26,7 +26,7 @@ namespace VEGA {
 //---------------------------------------------------------------------------
 class Model {
 public:
-	Model(const String &path);
+	explicit Model(const String &path);
 	~Model();
 
 	void save(const String &path);

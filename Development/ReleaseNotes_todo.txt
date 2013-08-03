@@ -10,9 +10,4 @@ GUI:
 
 Вычистить шейдера от остатоков VSM
 
-
-https://github.com/id-Software/DOOM-3-BFG/blob/master/neo/idlib/Thread.h
-https://github.com/id-Software/DOOM-3-BFG/blob/master/neo/idlib/Thread.cpp
-https://github.com/id-Software/DOOM-3-BFG/blob/master/neo/idlib/ParallelJobList_JobHeaders.h
-https://github.com/id-Software/DOOM-3-BFG/blob/master/neo/idlib/ParallelJobList.h
-https://github.com/id-Software/DOOM-3-BFG/blob/master/neo/idlib/ParallelJobList.cpp
+GUI.mat:8 определиться с текстурой

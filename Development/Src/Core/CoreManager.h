@@ -23,7 +23,7 @@ namespace VEGA {
 		class ILSystem *ilSystem;
 		class PhysSystem *physSystem;
 
-		class Cash *cash;
+		class Cache *cache;
 		class GUI*gui;
 		class Scene*scene;
 		struct IGame*game;

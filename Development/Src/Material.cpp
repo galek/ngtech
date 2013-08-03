@@ -13,7 +13,7 @@
 #include "Log.h"
 #include "Error.h"
 #include "Config.h"
-#include "Cash.h"
+#include "Cache.h"
 #include "Scene.h"
 #include "CvarManager.h"
  //***************************************************************************
@@ -157,7 +157,7 @@ Material::Material(String path) {
 					String name = StringHelper::getWord(line, 3);
 
 					String defines = "";
-					pass->shader = GetEngine()->cash->loadShader(name, defines);
+					pass->shader = GetEngine()->cache->loadShader(name, defines);
 				}
 
 				//sampler
@@ -177,12 +177,12 @@ Material::Material(String path) {
 						GLTexture *sampler;
 						ILImage *map = ILImage::create2d("../data/textures/" + StringHelper::getWord(line, 5));
 						map->toNormalMap(4);
-						sampler = GetEngine()->cash->loadTexture2d(map, "../data/textures/" + StringHelper::getWord(line, 5) + "_NORMAL_MAP");
+						sampler = GetEngine()->cache->loadTexture2d(map, "../data/textures/" + StringHelper::getWord(line, 5) + "_NORMAL_MAP");
 						pass->u_sampler2D.push_back(std::pair<String, GLTexture*>(name, sampler));
 						delete map;
 					} else {
 						GLTexture *sampler;
-						sampler = GetEngine()->cash->loadTexture2d("../data/textures/" + StringHelper::getWord(line, 4));
+						sampler = GetEngine()->cache->loadTexture2d("../data/textures/" + StringHelper::getWord(line, 4));
 						pass->u_sampler2D.push_back(std::pair<String, GLTexture*>(name, sampler));
 					}
 				}
@@ -198,7 +198,7 @@ Material::Material(String path) {
 					//user params
 					} else {
 						GLTexture *sampler;
-						sampler = GetEngine()->cash->loadTextureCube("../data/textures/" + StringHelper::getWord(line, 4));
+						sampler = GetEngine()->cache->loadTextureCube("../data/textures/" + StringHelper::getWord(line, 4));
 						pass->u_samplerCube.push_back(std::pair<String, GLTexture*>(name, sampler));
 					}
 				}
@@ -329,12 +329,12 @@ Material::~Material() {
 	for(int p =0; p < passes.size(); p++) {
 		Pass *pass = passes[p];
 		for(int i = 0; i < pass->u_sampler2D.size(); i++) {
-			GetEngine()->cash->deleteTexture(pass->u_sampler2D[i].second);
+			GetEngine()->cache->deleteTexture(pass->u_sampler2D[i].second);
 		}
 		pass->u_sampler2D.clear();
 
 		for(int i = 0; i < pass->u_samplerCube.size(); i++) {
-			GetEngine()->cash->deleteTexture(pass->u_samplerCube[i].second);
+			GetEngine()->cache->deleteTexture(pass->u_samplerCube[i].second);
 		}
 		pass->u_samplerCube.clear();
 
@@ -344,7 +344,7 @@ Material::~Material() {
 		pass->u_Vec4.clear();
 		pass->u_Mat4.clear();
 
-		GetEngine()->cash->deleteShader(pass->shader);
+		GetEngine()->cache->deleteShader(pass->shader);
 	}
 }
 
@@ -418,7 +418,7 @@ bool Material::setPass(const String &name) {
 		if(type == Pass::matSpotTransform) { p->shader->sendMat4(name, GetEngine()->scene->matSpotTransform); }
 		if(type == Pass::matViewportTransform) { p->shader->sendMat4(name, GetEngine()->scene->matViewportTransform); }
 
-		if(type == Pass::matShadowMap && (GetEngine()->config->getInt("light_shadowtype"))) { p->shader->sendInt(name, p->maxUnit); 
+		if(type == Pass::matShadowMap && (GetEngine()->config->getInt("light_shadowtype"))) { p->shader->sendInt(name, p->maxUnit); //Nick:TODO:Replace
 			GetEngine()->scene->matShadowMap->set(p->maxUnit); }
 
 		if(type == Pass::matViewportMap) { p->shader->sendInt(name, p->maxUnit+1); 

@@ -15,7 +15,7 @@
 #include "Frustum.h"
 #include "MathLib.h"
 #include "Error.h"
-#include "Cash.h"
+#include "Cache.h"
 #include "Scene.h"
 //**************************************
 
@@ -43,8 +43,8 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	ObjectMesh::ObjectMesh(const String &path)
 		:Object() {
-			if(GetEngine()->cash){
-				model = GetEngine()->cash->loadModel("../data/meshes/" + path);
+			if(GetEngine()->cache){
+				model = GetEngine()->cache->loadModel("../data/meshes/" + path);
 				materials.resize(model->getNumSubsets());
 				for(int i = 0; i < materials.size(); i++) 
 					materials[i] = nullptr;
@@ -60,12 +60,12 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	ObjectMesh::~ObjectMesh() {
-		GetEngine()->cash->deleteModel(model);
+		GetEngine()->cache->deleteModel(model);
 		for(int i = 0; i < materials.size(); i++) {
-			GetEngine()->cash->deleteMaterial(materials[i]);
+			GetEngine()->cache->deleteMaterial(materials[i]);
 		}
 		materials.clear();
-		GetEngine()->cash->deleteSound(impactSound);
+		GetEngine()->cache->deleteSound(impactSound);
 		delete pBody;
 	}
 
@@ -93,8 +93,8 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void ObjectMesh::setMaterial(const String &name, const String &path) {
-		if(GetEngine()->cash){
-			Material *material = GetEngine()->cash->loadMaterial(path);
+		if(GetEngine()->cache){
+			Material *material = GetEngine()->cache->loadMaterial(path);
 			if(name == "*")	
 				for(int s = 0; s < model->getNumSubsets(); s++) 
 					materials[s] = material;
@@ -267,7 +267,7 @@ namespace VEGA {
 	}
 
 	void ObjectMesh::setImpactSound(const String &path) {
-		impactSound = GetEngine()->cash->loadSound("../data/sounds/" + path);
+		impactSound = GetEngine()->cache->loadSound("../data/sounds/" + path);
 		pBody->setImpactSound(impactSound);
 	}
 
@@ -302,7 +302,7 @@ namespace VEGA {
 	ObjectSkinnedMesh::~ObjectSkinnedMesh() {
 		delete model;
 		for(int i = 0; i < materials.size(); i++) {
-			GetEngine()->cash->deleteMaterial(materials[i]);
+			GetEngine()->cache->deleteMaterial(materials[i]);
 		}
 		materials.clear();
 	}
@@ -331,7 +331,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void ObjectSkinnedMesh::setMaterial(const String &name, const String &path) {
-		Material *material = GetEngine()->cash->loadMaterial(path);
+		Material *material = GetEngine()->cache->loadMaterial(path);
 		if(name == "*")	{
 			for(int s = 0; s < model->getNumSubsets(); s++) {
 				materials[s] = material;

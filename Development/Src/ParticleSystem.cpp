@@ -29,19 +29,19 @@ namespace VEGA {
 
 		particleList = GLDisplayList::create();
 		particleList->beginBuild();
-		glBegin(GL_QUADS);
-		glTexCoord2f(0, 0);
-		glVertex3f(-1, -1, 0);
+		glBegin(GL_QUADS);//Nick:TODO:Replace
+		glTexCoord2f(0, 0);//Nick:TODO:Replace
+		glVertex3f(-1, -1, 0);//Nick:TODO:Replace
 
-		glTexCoord2f(1, 0);
-		glVertex3f(1, -1, 0);
+		glTexCoord2f(1, 0);//Nick:TODO:Replace
+		glVertex3f(1, -1, 0);//Nick:TODO:Replace
 
-		glTexCoord2f(1, 1);
-		glVertex3f(1, 1, 0);
+		glTexCoord2f(1, 1);//Nick:TODO:Replace
+		glVertex3f(1, 1, 0);//Nick:TODO:Replace
 
-		glTexCoord2f(0, 1);
-		glVertex3f(-1, 1, 0);
-		glEnd();
+		glTexCoord2f(0, 1);//Nick:TODO:Replace
+		glVertex3f(-1, 1, 0);//Nick:TODO:Replace
+		glEnd();//Nick:TODO:Replace
 		particleList->endBuild();
 
 		position = Vec3(0, 0, 0);

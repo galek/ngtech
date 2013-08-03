@@ -29,21 +29,21 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v110_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v110_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v110_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v110_xp</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -194,14 +194,13 @@
     <ClCompile Include="..\Src\ALSound.cpp" />
     <ClCompile Include="..\Src\ALSoundSource.cpp" />
     <ClCompile Include="..\Src\ALSystem.cpp" />
-    <ClCompile Include="..\Src\Cash.cpp" />
+    <ClCompile Include="..\Src\Cache.cpp" />
     <ClCompile Include="..\Src\EnginePrivate.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Src\Engine\Console.cpp" />
     <ClCompile Include="..\Src\Engine\EngineAppBase.cpp" />
-    <ClCompile Include="..\Src\Engine\ThreadFuncts.cpp" />
     <ClCompile Include="..\Src\GLDisplayList.cpp" />
     <ClCompile Include="..\Src\GLExtensions.cpp" />
     <ClCompile Include="..\Src\GLFBO.cpp" />
@@ -245,14 +244,11 @@
     <ClInclude Include="..\Src\ALSound.h" />
     <ClInclude Include="..\Src\ALSoundSource.h" />
     <ClInclude Include="..\Src\ALSystem.h" />
-    <ClInclude Include="..\Src\Cash.h" />
-    <ClInclude Include="..\Src\Config.h" />
+    <ClInclude Include="..\Src\Cache.h" />
     <ClInclude Include="..\Src\EnginePrivate.h" />
     <ClInclude Include="..\Src\Engine\Console.h" />
     <ClInclude Include="..\Src\Engine\DLLDef.h" />
     <ClInclude Include="..\Src\Engine\EngineAppBase.h" />
-    <ClInclude Include="..\Src\Engine\ThreadFuncts.h" />
-    <ClInclude Include="..\Src\Error.h" />
     <ClInclude Include="..\Src\GLDisplayList.h" />
     <ClInclude Include="..\Src\GLExtensions.h" />
     <ClInclude Include="..\Src\GLFBO.h" />
@@ -263,13 +259,11 @@
     <ClInclude Include="..\Src\GLVBO.h" />
     <ClInclude Include="..\Src\ILImage.h" />
     <ClInclude Include="..\Src\ILSystem.h" />
-    <ClInclude Include="..\Src\Log.h" />
     <ClInclude Include="..\Src\MathLib.h" />
     <ClInclude Include="..\Src\ObjectSkinnedMesh.h" />
     <ClInclude Include="..\Src\PhysBody.h" />
     <ClInclude Include="..\Src\PhysJoint.h" />
     <ClInclude Include="..\Src\PhysSystem.h" />
-    <ClInclude Include="..\Src\String.h" />
     <ClInclude Include="..\Src\Camera.h" />
     <ClInclude Include="..\Src\Flare.h" />
     <ClInclude Include="..\Src\Font.h" />
@@ -285,7 +279,6 @@
     <ClInclude Include="..\Src\SkinnedModel.h" />
     <ClInclude Include="..\Src\Terrain.h" />
     <ClInclude Include="..\Src\Water.h" />
-    <ClInclude Include="..\Main.h" />
     <ClInclude Include="..\Src\WindowSystem.h" />
   </ItemGroup>
   <ItemGroup>

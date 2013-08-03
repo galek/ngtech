@@ -21,7 +21,7 @@ namespace VEGA {
 //---------------------------------------------------------------------------
 class Flare {
 public:
-	Flare(const String &path);
+	explicit Flare(const String &path);
 	~Flare();
 
 	void draw();

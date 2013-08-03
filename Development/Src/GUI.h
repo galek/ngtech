@@ -27,7 +27,7 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	class VEGA_API GUI : public MyGUI::OpenGLImageLoader {
 	public:
-		GUI(CVARManager *_cvars);
+		explicit GUI(CVARManager *_cvars);
 
 		~GUI();
 		
@@ -46,6 +46,7 @@ namespace VEGA {
 		class MyGUI::OpenGLPlatform* mPlatform;
 		class MyGUI::Gui*mGUI;
 		CVARManager *cvars;
+		class Material *GUIRenderMtr;
 		//DebugInfo
 		bool mDebugShow;
 		class MyGUI::TextBox *fpsLabel;

@@ -16,7 +16,7 @@ namespace VEGA {
 
 	class VEGA_API Font {
 public:
-	Font(const String &path);
+	explicit Font(const String &path);
 	~Font();
 	void print(int x, int y, int size, const String &text, const Vec3 &color, float alpha);
 		

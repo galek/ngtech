@@ -17,7 +17,7 @@
 #include "ILSystem.h"
 #include "WindowSystem.h"
 #include "Log.h"
-#include "Cash.h"
+#include "Cache.h"
 #include "CVarManager.h"
 #include "VFS.h"
 //**************************************
@@ -105,7 +105,7 @@ namespace VEGA {
 			return _data;
 		}
 		else{
-			Warning("[GUI]Failed Loading GUI image!File not found:%s" + _filename);
+			Warning("[GUI] Failed Loading GUI image!File not found:%s" + _filename);
 			return NULL;
 		}
 	}
@@ -115,6 +115,7 @@ namespace VEGA {
 		: mPlatform(nullptr),
 		mGUI(nullptr),
 		fpsLabel(nullptr),
+		GUIRenderMtr(nullptr),
 		cvars(_cvars),
 		mDebugShow(false)
 	{
@@ -128,6 +129,7 @@ namespace VEGA {
 		mPlatform->getDataManagerPtr()->addResourceLocation("../data/gui/", true);
 		resize(cvars->width, cvars->height);
 		mGUI->initialise("MyGUI_Core.xml");
+		GUIRenderMtr = new Material("engine_materials/gui.mat");
 		showDebugInfo(cvars->showInfo);
 	}
 	//---------------------------------------------------------------------------
@@ -136,7 +138,9 @@ namespace VEGA {
 	//Returns: pointer to the GUI
 	//---------------------------------------------------------------------------
 	GUI::~GUI() {
-
+		SAFE_DELETE(fpsLabel);
+		SAFE_DELETE(GUIRenderMtr);
+		SAFE_DELETE(mGUI);
 	}
 	//---------------------------------------------------------------------------
 	//Desc:    draw all GUI widgets
@@ -144,6 +148,9 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void GUI::update() {
+		GUIRenderMtr->setPass("Ambient");
+		GUIRenderMtr->unsetPass();	
+					
 		GetEngine()->iRender->enable2d(false);
 		GetEngine()->iRender->disableCulling();
 		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE_MINUS_SRC_ALPHA);

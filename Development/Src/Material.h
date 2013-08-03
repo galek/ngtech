@@ -22,7 +22,7 @@ namespace VEGA {
 //---------------------------------------------------------------------------
 class Material {
 public:
-	Material(String path);
+	explicit Material(String path);
 	~Material();
 
 	bool setPass(const String &name);

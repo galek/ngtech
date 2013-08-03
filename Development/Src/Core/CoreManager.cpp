@@ -13,7 +13,7 @@ namespace VEGA {
 		alSystem(nullptr),
 		ilSystem(nullptr),
 		physSystem(nullptr),
-		cash(nullptr),
+		cache(nullptr),
 		gui(nullptr),
 		scene(nullptr),
 		running(false)	{

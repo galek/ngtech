@@ -13,7 +13,7 @@
 #include "Frustum.h"
 #include "MathLib.h"
 #include "Error.h"
-#include "Cash.h"
+#include "Cache.h"
 //**************************************
 
 namespace VEGA {
@@ -23,7 +23,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	ObjectMesh::ObjectMesh(const String & path) {
-		model = GetEngine()->cash->loadModel(path);
+		model = GetEngine()->cache->loadModel(path);
 		materials = new Material*[model->numSubsets];
 		transform.identity();
 		pBody = NULL;
@@ -64,7 +64,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void ObjectMesh::setMaterial(const String &name, const String &path) {
-		Material *material = GetEngine()->cash->loadMaterial(path);
+		Material *material = GetEngine()->cache->loadMaterial(path);
 		if (name == "*")	{
 			for (int s = 0; s < model->numSubsets; s++) {
 				materials[s] = material;
@@ -241,7 +241,7 @@ namespace VEGA {
 	};
 
 	void ObjectMesh::setImpactSound(const String &path) {
-		pBody->setImpactSound(GetEngine()->cash->loadSound("../data/sounds/" + path));
+		pBody->setImpactSound(GetEngine()->cache->loadSound("../data/sounds/" + path));
 	};
 
 	/*

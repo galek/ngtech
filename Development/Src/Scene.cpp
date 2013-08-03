@@ -15,7 +15,7 @@
 #include "Log.h"
 #include "ALSystem.h"
 #include "WindowSystem.h"
-#include "Cash.h"
+#include "Cache.h"
 #include "CvarManager.h"
 #include "SkinnedModel.h"
 //**************************************
@@ -99,14 +99,8 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::reloadShaders() {
-		GetEngine()->cash->reloadShaders();
+		GetEngine()->cache->reloadShaders();
 	}
-
-
-
-
-
-
 
 	//---------------------------------------------------------------------------
 	//Desc:    sets the scene gravity value
@@ -944,8 +938,8 @@ namespace VEGA {
 
 		//draw wireframe
 		if (GetEngine()->config->getBool("debug_wireframe")) {
-			glColor3f(1, 1, 1);
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glColor3f(1, 1, 1);//Nick:TODO:Replace
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//Nick:TODO:Replace
 
 			for (int i = 0; i < objects.size(); i++) {
 				GetEngine()->iRender->push();
@@ -960,7 +954,7 @@ namespace VEGA {
 					terrain->drawNode(n, camera->getPosition());
 				}
 			}
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);//Nick:TODO:Replace
 		}
 
 		//draw lighting
@@ -1019,9 +1013,9 @@ namespace VEGA {
 		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
 		GetEngine()->iRender->depthMask(false);
 
-		if (GetEngine()->config->getBool("debug_wireframe")) {
-			glColor3f(1, 1, 1);
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		if (GetEngine()->config->getBool("debug_wireframe")) {//Nick:TODO:Replace
+			glColor3f(1, 1, 1);//Nick:TODO:Replace
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//Nick:TODO:Replace
 
 			for (int i = 0; i < objects.size(); i++) {
 				GetEngine()->iRender->push();
@@ -1036,7 +1030,7 @@ namespace VEGA {
 					terrain->drawNode(n, camera->getPosition());
 				}
 			}
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);//Nick:TODO:Replace
 		}
 
 		for (int i = 0; i < lights.size(); i++) {
@@ -1074,16 +1068,17 @@ namespace VEGA {
 		viewportFBO->flush();
 		viewportFBO->unset();
 
-		matMVP = GetEngine()->iRender->getMatrix_MVP();
-		waterMtr->setPass("Ambient");
-		if (water) 			
+		if (water) 	{
+			matMVP = GetEngine()->iRender->getMatrix_MVP();
+			waterMtr->setPass("Ambient");		
 			water->draw();		
-		waterMtr->unsetPass();
+			waterMtr->unsetPass();
+		}
 
 		//Now GUI Update
 		if (GetEngine()->gui)
 			GetEngine()->gui->update();
-			waterMtr->unsetPass();	
+
 
 		if (GetEngine()->config->getBool("effect_hdr")) {
 			//---------bright-pass--------------------------------

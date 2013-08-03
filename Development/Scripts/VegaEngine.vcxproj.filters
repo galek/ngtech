@@ -13,9 +13,6 @@
     <ClCompile Include="..\Src\Camera.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\Cash.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="..\Src\Engine.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -119,7 +116,9 @@
     <ClCompile Include="..\Src\Engine\Console.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\Engine\ThreadFuncts.cpp" />
+    <ClCompile Include="..\Src\Cache.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\ALSound.h">
@@ -134,16 +133,7 @@
     <ClInclude Include="..\Src\Camera.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\Cash.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Src\Config.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="..\Src\Engine.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Src\Error.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="..\Src\Flare.h">
@@ -194,12 +184,6 @@
     <ClInclude Include="..\Src\LoadingScreen.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\Log.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Main.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="..\Src\Material.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -230,9 +214,6 @@
     <ClInclude Include="..\Src\SkinnedModel.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\String.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="..\Src\Terrain.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -255,7 +236,9 @@
     <ClInclude Include="..\Src\Engine\Console.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\Engine\ThreadFuncts.h" />
+    <ClInclude Include="..\Src\Cache.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Заголовочные файлы">

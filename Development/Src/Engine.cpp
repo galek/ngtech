@@ -16,7 +16,7 @@ Changes:
 #include "ILSystem.h"
 #include "ALSystem.h"
 #include "PhysSystem.h"
-#include "Cash.h"
+#include "Cache.h"
 #include "Log.h"
 #include "Config.h"
 #include "LoadingScreen.h"
@@ -78,8 +78,8 @@ namespace VEGA {
 		Debug("[Init] ImageCodec Finished");
 		physSystem = new PhysSystem();
 		Debug("[Init] Physics Finished");
-		cash = new Cash(cvars);
-		Debug("[Init] Cash Finished");
+		cache = new Cache(cvars);
+		Debug("[Init] Cache Finished");
 		//initialize GUI
 		gui = new GUI(cvars);
 		Debug("[Init] GUI Finished");
@@ -123,7 +123,7 @@ namespace VEGA {
 			physSystem->initialise();
 			Debug("[Init] Physics Finished");
 		}
-		//cash->initialise();
+		//cache->initialise();
 		//Debug("[Init]FS Finished");
 		//initialize GUI
 		if (gui){
