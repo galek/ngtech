@@ -15,14 +15,17 @@
 
 namespace VEGA {
 
-//---------------------------------------------------------------------------
-//Desc: Loading screen class
-//---------------------------------------------------------------------------
+/**
+Loading screen class
+*/
 	class VEGA_API LoadingScreen {
 public:
-	static LoadingScreen *create(const String &path);
+	LoadingScreen(const String &path);
 	~LoadingScreen();
 	
+	/**
+	Shows the loading screen
+	*/
 	void show();
 
 private:

@@ -108,10 +108,14 @@ namespace VEGA {
 	virtual bool wasMouseButtonReleased(MouseButton mb)=0;
 	
 	virtual bool isKeyPressed(Key key)=0;
-	virtual bool wasKeyPressed(Key key)=0;
-	virtual bool wasKeyReleased(Key key)=0;
+	virtual bool isKeyDown(Key key)=0;
+	virtual bool isKeyUp(Key key)=0;
 
 	virtual void showOSCursor(bool _value) = 0;
-
+	protected:
+		HDC hDC;			
+		HWND hWnd;	
+		HGLRC hRC;		
+		HINSTANCE hInstance;
 	};
 }

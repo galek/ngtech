@@ -3,14 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		FF8C27BF1313DA9C00646B90 /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FF8C27B91313DA9C00646B90 /* tinystr.cpp */; };
-		FF8C27C01313DA9C00646B90 /* tinystr.h in Headers */ = {isa = PBXBuildFile; fileRef = FF8C27BA1313DA9C00646B90 /* tinystr.h */; };
 		FF8C27C11313DA9C00646B90 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FF8C27BB1313DA9C00646B90 /* tinyxml.cpp */; };
-		FF8C27C21313DA9C00646B90 /* tinyxml.h in Headers */ = {isa = PBXBuildFile; fileRef = FF8C27BC1313DA9C00646B90 /* tinyxml.h */; };
 		FF8C27C31313DA9C00646B90 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FF8C27BD1313DA9C00646B90 /* tinyxmlerror.cpp */; };
 		FF8C27C41313DA9C00646B90 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FF8C27BE1313DA9C00646B90 /* tinyxmlparser.cpp */; };
 /* End PBXBuildFile section */
@@ -19,9 +17,7 @@
 		32BAE0B70371A74B00C91783 /* tinyxml_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml_Prefix.pch; sourceTree = "<group>"; };
 		D2AAC06F0554671400DB518D /* libtinyxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtinyxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF8C27B91313DA9C00646B90 /* tinystr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinystr.cpp; path = ../../../thirdParty/tinyxml/tinystr.cpp; sourceTree = SOURCE_ROOT; };
-		FF8C27BA1313DA9C00646B90 /* tinystr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinystr.h; path = ../../../thirdParty/tinyxml/tinystr.h; sourceTree = SOURCE_ROOT; };
 		FF8C27BB1313DA9C00646B90 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxml.cpp; path = ../../../thirdParty/tinyxml/tinyxml.cpp; sourceTree = SOURCE_ROOT; };
-		FF8C27BC1313DA9C00646B90 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinyxml.h; path = ../../../thirdParty/tinyxml/tinyxml.h; sourceTree = SOURCE_ROOT; };
 		FF8C27BD1313DA9C00646B90 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlerror.cpp; path = ../../../thirdParty/tinyxml/tinyxmlerror.cpp; sourceTree = SOURCE_ROOT; };
 		FF8C27BE1313DA9C00646B90 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlparser.cpp; path = ../../../thirdParty/tinyxml/tinyxmlparser.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -58,9 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				FF8C27B91313DA9C00646B90 /* tinystr.cpp */,
-				FF8C27BA1313DA9C00646B90 /* tinystr.h */,
 				FF8C27BB1313DA9C00646B90 /* tinyxml.cpp */,
-				FF8C27BC1313DA9C00646B90 /* tinyxml.h */,
 				FF8C27BD1313DA9C00646B90 /* tinyxmlerror.cpp */,
 				FF8C27BE1313DA9C00646B90 /* tinyxmlparser.cpp */,
 				32BAE0B70371A74B00C91783 /* tinyxml_Prefix.pch */,
@@ -75,8 +69,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF8C27C01313DA9C00646B90 /* tinystr.h in Headers */,
-				FF8C27C21313DA9C00646B90 /* tinyxml.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,8 +97,12 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+			};
 			buildConfigurationList = 1DEB920508733DBB0010E9CD /* Build configuration list for PBXProject "tinyxml" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -144,20 +140,22 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = tinyxml_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = _MAC_VER;
+				GCC_PREPROCESSOR_DEFINITIONS = _MACOSX_VER;
 				GCC_VERSION = "";
 				INSTALL_PATH = /usr/local/lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = tinyxml_d;
-				SDKROOT = macosx10.5;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = "";
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Debug;
 		};
@@ -166,17 +164,20 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = tinyxml_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = _MAC_VER;
+				GCC_PREPROCESSOR_DEFINITIONS = _MACOSX_VER;
 				GCC_VERSION = "";
 				INSTALL_PATH = /usr/local/lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = tinyxml;
-				SDKROOT = macosx10.5;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = "";
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
 		};
@@ -184,14 +185,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -199,12 +201,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};

@@ -17,9 +17,10 @@
 /////////////////////////////////////////////////////////////////////////////
 
 
-#include "dPluginStdafx.h"
+#include "dSceneStdafx.h"
 #include "dScene.h"
 #include "dDrawUtils.h"
+#include "dSceneRender.h"
 #include "dSceneNodeInfo.h"
 #include "dGeometryNodeInfo.h"
 
@@ -29,27 +30,27 @@
 D_IMPLEMENT_CLASS_NODE(dSceneNodeInfo);
 
 dSceneNodeInfo::dSceneNodeInfo(dScene* const world) 
-	:dNodeInfo (), 
-	m_position (0.0f, 0.0f, 0.0f, 1.0f),  // node location in global space
-	m_euler (0.0f, 0.0f, 0.0f, 1.0f),     // node orientation matrix R: x = pitch, y = yaw, z = roll, 
-	m_scale (1.0f, 1.0f, 1.0f, 1.0f),	// local scale: x = scale_x, y = scale_y, z = scale_z, 
-	m_eigenScaleAxis (GetIdentityMatrix()),
-	m_solidColor (0.75f, 0.75f, 0.0f, 0.0f),
-	m_editorMinOOBB (0.0f, 0.0f, 0.0f, 0.0f), 
-	m_editorMaxOOBB (0.0f, 0.0f, 0.0f, 0.0f)
+	:dNodeInfo () 
+	,m_position (0.0f, 0.0f, 0.0f, 1.0f)  // node location in global space
+	,m_euler (0.0f, 0.0f, 0.0f, 1.0f)     // node orientation matrix R: x = pitch, y = yaw, z = roll, 
+	,m_scale (1.0f, 1.0f, 1.0f, 1.0f)	// local scale: x = scale_x, y = scale_y, z = scale_z, 
+	,m_eigenScaleAxis (GetIdentityMatrix())
+	,m_solidColor (0.75f, 0.75f, 0.0f, 0.0f)
+	,m_editorMinOOBB (0.0f, 0.0f, 0.0f, 0.0f) 
+	,m_editorMaxOOBB (0.0f, 0.0f, 0.0f, 0.0f)
 {
 	SetName ("sceneNode");
 }
 
 dSceneNodeInfo::dSceneNodeInfo()
-	:dNodeInfo (), 
-	 m_position (0.0f, 0.0f, 0.0f, 1.0f),  // node location in global space
-	 m_euler (0.0f, 0.0f, 0.0f, 1.0f),     // node orientation matrix R: x = pitch, y = yaw, z = roll, 
-	 m_scale (1.0f, 1.0f, 1.0f, 1.0f),	// local scale: x = scale_x, y = scale_y, z = scale_z, 
-	 m_eigenScaleAxis (GetIdentityMatrix()),
-	 m_solidColor (0.75f, 0.75f, 0.0f, 0.0f),
-	 m_editorMinOOBB (0.0f, 0.0f, 0.0f, 0.0f), 
-	 m_editorMaxOOBB (0.0f, 0.0f, 0.0f, 0.0f)
+	:dNodeInfo ()
+	,m_position (0.0f, 0.0f, 0.0f, 1.0f)  // node location in global space
+	,m_euler (0.0f, 0.0f, 0.0f, 1.0f)     // node orientation matrix R: x = pitch, y = yaw, z = roll, 
+	,m_scale (1.0f, 1.0f, 1.0f, 1.0f)	// local scale: x = scale_x, y = scale_y, z = scale_z, 
+	,m_eigenScaleAxis (GetIdentityMatrix())
+	,m_solidColor (0.75f, 0.75f, 0.0f, 0.0f)
+	,m_editorMinOOBB (0.0f, 0.0f, 0.0f, 0.0f) 
+	,m_editorMaxOOBB (0.0f, 0.0f, 0.0f, 0.0f)
 {
 	SetName ("sceneNode");
 }
@@ -71,7 +72,8 @@ void dSceneNodeInfo::SetTransform (const dMatrix& matrix)
 	dMatrix transform;
 	matrix.PolarDecomposition(transform, m_scale, m_eigenScaleAxis);
 	m_position = matrix.m_posit;
-	m_euler = transform.GetXYZ_EulerAngles ();
+//	m_euler = transform.GetXYZ_EulerAngles ();
+	m_euler = transform.GetEulerAngles ();
 }
 
 dMatrix dSceneNodeInfo::CalculateScaleMatrix() const
@@ -137,36 +139,34 @@ void dSceneNodeInfo::BakeTransform (const dMatrix& transform)
 	SetTransform (transform.Inverse4x4() * GetTransform() * transform);
 }
 
-void dSceneNodeInfo::UpdateOOBB (dGeometryNodeInfo* geomInfo)
+void dSceneNodeInfo::UpdateOOBB (dScene* const scene, dScene::dTreeNode* const myNode)
 {
-	if (geomInfo) {
-		dVector euler (GetEulers ());
-		dMatrix matrix (euler.m_x, euler.m_y, euler.m_z, GetPosition());
-		dMatrix scaleMatrix (GetTransform() * matrix.Inverse());
-		
-		geomInfo->CalculateOOBBGizmo (scaleMatrix, m_editorMinOOBB, m_editorMaxOOBB);
-	} else {
-		// null will have a small OOBB for picking
-		m_editorMinOOBB = dVector (-0.01f, -0.01f, -0.01f, -0.01f) ;	
-		m_editorMaxOOBB = dVector ( 0.0f,   0.0f,   0.0f,   0.0f) ;	
+	dAssert (scene->GetInfoFromNode(myNode) == this);
+
+	m_editorMinOOBB = dVector (0.0f, 0.0f, 0.0f, 0.0f) ;	
+	m_editorMaxOOBB = dVector (0.0f, 0.0f, 0.0f, 0.0f) ;	
+	for (void* link = scene->GetFirstChild(myNode); link; link = scene->GetNextChild(myNode, link)) {
+		dScene::dTreeNode* const node = scene->GetNodeFromLink(link);
+		dGeometryNodeInfo* const geometryInfo = (dGeometryNodeInfo*)scene->GetInfoFromNode(node);
+		if (geometryInfo->IsType(dGeometryNodeInfo::GetRttiType())) {
+			dVector p0; 
+			dVector p1;
+			geometryInfo->CalcutateAABB (p0, p1);
+			m_editorMinOOBB[0] = dMin(p0[0], m_editorMinOOBB[0]);
+			m_editorMinOOBB[1] = dMin(p0[1], m_editorMinOOBB[1]);
+			m_editorMinOOBB[2] = dMin(p0[2], m_editorMinOOBB[2]);
+
+			m_editorMaxOOBB[0] = dMax(p1[0], m_editorMaxOOBB[0]);
+			m_editorMaxOOBB[1] = dMax(p1[1], m_editorMaxOOBB[1]);
+			m_editorMaxOOBB[2] = dMax(p1[2], m_editorMaxOOBB[2]);
+		}
 	}
 }
 
-dFloat dSceneNodeInfo::RayCast (const dVector& p0, const dVector& p1) const
+
+dFloat dSceneNodeInfo::RayCast (const dVector& localP0, const dVector& localP1) const
 {
-	// for now just calculate the OOBB ray cast
-	dVector euler (GetEulers ());
-	dMatrix matrix (euler.m_x, euler.m_y, euler.m_z, GetPosition());
-
-	dVector localP0 (matrix.UntransformVector(p0));
-	dVector localP1 (matrix.UntransformVector(p1)); 
-
-	if ((localP0.m_x >= m_editorMinOOBB.m_x) &&(localP0.m_y >= m_editorMinOOBB.m_y) && (localP0.m_z >= m_editorMinOOBB.m_z) && 
-		(localP1.m_x <= m_editorMaxOOBB.m_x) &&(localP1.m_y <= m_editorMaxOOBB.m_y) && (localP1.m_z <= m_editorMaxOOBB.m_z)) {
-			return 0.0f;
-	} else {
-		return dBoxRayCast (localP0, localP1, m_editorMinOOBB, m_editorMaxOOBB);
-	}
+	return dBoxRayCast (localP0, localP1, m_editorMinOOBB, m_editorMaxOOBB);
 }
 
 
@@ -176,12 +176,12 @@ void dSceneNodeInfo::Serialize (TiXmlElement* const rootNode) const
 
 	char tmp[1024];
 
-	TiXmlElement* color = new TiXmlElement ("color");
+	TiXmlElement* const color = new TiXmlElement ("color");
 	rootNode->LinkEndChild(color);
 	dFloatArrayToString (&m_solidColor[0], 4, tmp, sizeof (tmp));
 	color->SetAttribute("float4", tmp);
 
-	TiXmlElement* matrix = new TiXmlElement ("transform");
+	TiXmlElement* const matrix = new TiXmlElement ("transform");
 	rootNode->LinkEndChild(matrix);
 	dFloatArrayToString (&m_position[0], 4, tmp, sizeof (tmp));
 	matrix->SetAttribute("position", tmp);
@@ -196,14 +196,14 @@ void dSceneNodeInfo::Serialize (TiXmlElement* const rootNode) const
 	matrix->SetAttribute("stretchAxis", tmp);
 }
 
-bool dSceneNodeInfo::Deserialize (TiXmlElement* const rootNode, int revisionNumber) 
+bool dSceneNodeInfo::Deserialize (const dScene* const scene, TiXmlElement* const rootNode) 
 {
-	DeserialiseBase(dNodeInfo, rootNode, revisionNumber);
+	DeserialiseBase(scene, dNodeInfo, rootNode);
 
-	TiXmlElement* tcolor = (TiXmlElement*) rootNode->FirstChild ("color");
+	TiXmlElement* const tcolor = (TiXmlElement*) rootNode->FirstChild ("color");
 	dStringToFloatArray (tcolor->Attribute("float4"), &m_solidColor[0], 4);
 
-	TiXmlElement* transformNode = (TiXmlElement*) rootNode->FirstChild ("transform");
+	TiXmlElement* const transformNode = (TiXmlElement*) rootNode->FirstChild ("transform");
 	dStringToFloatArray (transformNode->Attribute("position"), &m_position[0], 4);
 	dStringToFloatArray (transformNode->Attribute("eulerAngles"), &m_euler[0], 4);
 	dStringToFloatArray (transformNode->Attribute("localScale"), &m_scale[0], 4);
@@ -211,18 +211,6 @@ bool dSceneNodeInfo::Deserialize (TiXmlElement* const rootNode, int revisionNumb
 
 	return true;
 }
-
-
-void dSceneNodeInfo::SerializeBinary (FILE* const file) 
-{
-	fprintf (file, "%s\n%s\n", GetClassName(), GetName());
-	_ASSERTE (0);
-//	fwrite (&m_matrix[0][0], 1, sizeof (dMatrix), file);
-}
-
-
-
-
 
 
 

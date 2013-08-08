@@ -17,7 +17,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 
-#include "dPluginStdafx.h"
+#include "dSceneStdafx.h"
 #include "dScene.h"
 #include "dDrawUtils.h"
 #include "dSceneNodeInfo.h"
@@ -55,8 +55,12 @@ dRigidbodyNodeInfo::~dRigidbodyNodeInfo(void)
 
 void dRigidbodyNodeInfo::BakeTransform (const dMatrix& transform)
 {
-	_ASSERTE (0);
 //	SetTransform (transform.Inverse4x4() * GetTransform() * transform);
+	dNodeInfo::BakeTransform (transform);
+
+	m_centerOfMass = transform.UnrotateVector(m_centerOfMass);
+	m_massMatrix = transform.UnrotateVector(m_massMatrix);
+	m_velocity = transform.RotateVector(m_velocity);
 }
 
 
@@ -103,7 +107,43 @@ const dVector& dRigidbodyNodeInfo::GetVelocity () const
 	return m_velocity;
 }
 
+NewtonBody* dRigidbodyNodeInfo::CreateNewtonBody (NewtonWorld* const world, dScene* const scene, dScene::dTreeNode* const myNode) const
+{
+	// find the collision and crate a rigid body
+	dAssert (IsType (dRigidbodyNodeInfo::GetRttiType()));
 
+	// attach the parent node as user data
+	dScene::dTreeNode* parentNode = scene->FindParentByType(myNode, dSceneNodeInfo::GetRttiType());
+	dSceneNodeInfo* sceneInfo = (dSceneNodeInfo*) scene->GetInfoFromNode(parentNode);
+
+	dScene::dTreeNode* shapeNode = scene->FindChildByType (myNode, dCollisionNodeInfo::GetRttiType());
+	dAssert (shapeNode);
+	dCollisionNodeInfo* collInfo = (dCollisionNodeInfo*) scene->GetInfoFromNode(shapeNode);
+
+	dMatrix matrix (sceneInfo->CalculateOrthoMatrix());
+
+	NewtonCollision* const collision = collInfo->CreateNewtonCollision (world, scene, shapeNode);
+	NewtonBody* const body = NewtonCreateDynamicBody(world, collision, &matrix[0][0]);
+	NewtonDestroyCollision(collision);
+
+	//	NewtonBodySetMatrix(body, &matrix[0][0]);
+
+	NewtonBodySetUserData(body, parentNode);
+
+	NewtonBodySetCentreOfMass(body, &m_centerOfMass[0]);
+	NewtonBodySetMassMatrix(body, m_massMatrix.m_w, m_massMatrix.m_x, m_massMatrix.m_y, m_massMatrix.m_z);
+
+	NewtonBodySetVelocity(body, &m_velocity[0]);
+	NewtonBodySetOmega(body, &m_omega[0]);
+
+	//dVector internalDamp(rigidBody->GetI);
+	//NewtonBodySetLinearDamping(body, internalDamp);
+	//dVariable* bodyType = rigidBody->FindVariable("rigidBodyType");
+	//if (!bodyType || !strcmp (bodyType->GetString(), "default gravity")) {
+	//	NewtonBodySetTransformCallback(body, DemoEntity::TransformCallback);
+	//}
+	return body;
+}
 
 
 void dRigidbodyNodeInfo::Serialize (TiXmlElement* const rootNode) const
@@ -141,9 +181,9 @@ void dRigidbodyNodeInfo::Serialize (TiXmlElement* const rootNode) const
 	dataNode->SetAttribute("float4", tmp);
 }
 
-bool dRigidbodyNodeInfo::Deserialize (TiXmlElement* const rootNode, int revisionNumber) 
+bool dRigidbodyNodeInfo::Deserialize (const dScene* const scene, TiXmlElement* const rootNode) 
 {
-	DeserialiseBase(dNodeInfo, rootNode, revisionNumber);
+	DeserialiseBase(scene, dNodeInfo, rootNode);
 
 	TiXmlElement* dataNode = (TiXmlElement*) rootNode->FirstChild ("centerOfMass");
 	dStringToFloatArray (dataNode->Attribute("float4"), &m_centerOfMass[0], 4);
@@ -164,21 +204,13 @@ bool dRigidbodyNodeInfo::Deserialize (TiXmlElement* const rootNode, int revision
 }
 
 
-void dRigidbodyNodeInfo::SerializeBinary (FILE* const file) 
-{
-_ASSERTE (0);
-	fprintf (file, "%s\n%s\n", GetClassName(), GetName());
-	_ASSERTE (0);
-//	fwrite (&m_matrix[0][0], 1, sizeof (dMatrix), file);
-}
-
-
+#if 0
 void dRigidbodyNodeInfo::DrawWireFrame(dScene* const world, dScene::dTreeNode* const myNode, const dVector& color) const
 {
-	_ASSERTE (world->GetInfoFromNode(myNode) == this);
-	_ASSERTE (myNode == world->Find(GetUniqueID()));
+	dAssert (world->GetInfoFromNode(myNode) == this);
+	dAssert (myNode == world->Find(GetUniqueID()));
 
-_ASSERTE (0);
+dAssert (0);
 /*
 
 	dScene::dTreeNode* geomNode = world->FindChildByType(myNode, dGeometryNodeInfo::GetRttiType());
@@ -201,9 +233,9 @@ _ASSERTE (0);
 // draw scene in solid wire frame mode
 void dRigidbodyNodeInfo::DrawSolidWireFrame(dScene* const world, dScene::dTreeNode* const myNode, const dVector& color) const
 {
-	_ASSERTE (world->GetInfoFromNode(myNode) == this);
-	_ASSERTE (myNode == world->Find(GetUniqueID()));
-_ASSERTE (0);
+	dAssert (world->GetInfoFromNode(myNode) == this);
+	dAssert (myNode == world->Find(GetUniqueID()));
+dAssert (0);
 /*
 	dScene::dTreeNode* geomNode = world->FindChildByType(myNode, dGeometryNodeInfo::GetRttiType());
 	if (geomNode) {
@@ -225,10 +257,10 @@ _ASSERTE (0);
 // draw scene in Gouraud shaded normal textured mode 
 void dRigidbodyNodeInfo::DrawGouraudShaded(dScene* const world, dScene::dTreeNode* const myNode, const dVector& color) const
 {
-	_ASSERTE (world->GetInfoFromNode(myNode) == this);
-	_ASSERTE (myNode == world->Find(GetUniqueID()));
+	dAssert (world->GetInfoFromNode(myNode) == this);
+	dAssert (myNode == world->Find(GetUniqueID()));
 
-_ASSERTE (0);
+dAssert (0);
 /*
 	dScene::dTreeNode* geomNode = world->FindChildByType(myNode, dGeometryNodeInfo::GetRttiType());
 	if (geomNode) {
@@ -250,14 +282,14 @@ _ASSERTE (0);
 
 
 dRigidbodyNodeInfo::dGizmoHandle dRigidbodyNodeInfo::GetHighlightedGizmoHandle(
-	dScene* world, 
+	dScene* const world, 
 	dScene::dTreeNode* myNode, 
 	const dMatrix& coordinaSystem,
 	const dVector& screenPosition, 
 	dGizmoMode mode, 
 	dFloat size) const
 {
-_ASSERTE (0);
+dAssert (0);
 return m_noHandle;
 /*
 	dGizmoHandle handle = m_noHandle;
@@ -537,9 +569,9 @@ return m_noHandle;
 }
 
 
-void dRigidbodyNodeInfo::DrawGizmoHandle(dScene* world, const dMatrix& coordinaSystem, dGizmoMode mode, dGizmoHandle handle, const dVector& color, dFloat size) const
+void dRigidbodyNodeInfo::DrawGizmoHandle(dScene* const world, const dMatrix& coordinaSystem, dGizmoMode mode, dGizmoHandle handle, const dVector& color, dFloat size) const
 {
-_ASSERTE (0);
+dAssert (0);
 
 /*
 	glEnable (GL_DEPTH_TEST);
@@ -835,10 +867,10 @@ _ASSERTE (0);
 // Draw selection gizmo
 void dRigidbodyNodeInfo::DrawGizmo(dScene* const world, dScene::dTreeNode* const myNode, const dMatrix& coordinaSystem, const dVector& color, dGizmoMode mode, dFloat size) const
 {
-_ASSERTE (0);
+dAssert (0);
 
 /*
-	_ASSERTE (world->GetInfoFromNode(myNode) == this);
+	dAssert (world->GetInfoFromNode(myNode) == this);
 	glEnable (GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glDisable(GL_CULL_FACE);
@@ -1043,39 +1075,4 @@ _ASSERTE (0);
 */
 }
 
-NewtonBody* dRigidbodyNodeInfo::CreateNewtonBody (NewtonWorld* const world, dScene* const scene, dScene::dTreeNode* const myNode) const
-{
-	// find the collision and crate a rigid body
-	_ASSERTE (IsType (dRigidbodyNodeInfo::GetRttiType()));
-
-	// attach the parent node as user data
-	dScene::dTreeNode* parentNode = scene->FindParentByType(myNode, dSceneNodeInfo::GetRttiType());
-	dSceneNodeInfo* sceneInfo = (dSceneNodeInfo*) scene->GetInfoFromNode(parentNode);
-
-	dScene::dTreeNode* shapeNode = scene->FindChildByType (myNode, dCollisionNodeInfo::GetRttiType());
-	_ASSERTE (shapeNode);
-	dCollisionNodeInfo* collInfo = (dCollisionNodeInfo*) scene->GetInfoFromNode(shapeNode);
-
-	dMatrix matrix (sceneInfo->CalculateOrthoMatrix());
-	
-	NewtonCollision* collision = collInfo->CreateNewtonCollision (world, scene, shapeNode);
-	NewtonBody* body = NewtonCreateBody(world, collision, &matrix[0][0]);
-	NewtonReleaseCollision(world, collision);
-
-//	NewtonBodySetMatrix(body, &matrix[0][0]);
-
-	NewtonBodySetUserData(body, parentNode);
-	
-	NewtonBodySetCentreOfMass(body, &m_centerOfMass[0]);
-	NewtonBodySetMassMatrix(body, m_massMatrix.m_w, m_massMatrix.m_x, m_massMatrix.m_y, m_massMatrix.m_z);
-	NewtonBodySetVelocity(body, &m_velocity[0]);
-	NewtonBodySetOmega(body, &m_omega[0]);
-
-	//dVector internalDamp(rigidBody->GetI);
-	//NewtonBodySetLinearDamping(body, internalDamp);
-	//dVariable* bodyType = rigidBody->FindVariable("rigidBodyType");
-	//if (!bodyType || !strcmp (bodyType->GetString(), "default gravity")) {
-	//	NewtonBodySetTransformCallback(body, DemoEntity::SetTransformCallback);
-	//}
-	return body;
-}
+#endif

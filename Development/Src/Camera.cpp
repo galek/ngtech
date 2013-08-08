@@ -51,10 +51,10 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void CameraFPS::setPhysics(const Vec3 &size, float mass) {
-		pBody = PhysBody::createSphere(size, mass);
+		pBody = PhysBody::createCapsule(size.x,size.y, mass);
 		pBody->setTransform(Mat4::translate(position));
 		this->size = size;
-		pJoint = PhysJointUpVector::create(Vec3(0, 1, 0), pBody);
+		pJoint = new PhysJointUpVector(Vec3(0, 1, 0), pBody);
 	}
 
 	//---------------------------------------------------------------------------
@@ -136,7 +136,7 @@ namespace VEGA {
 			movement = Vec3::normalize(movement);
 		}
 
-		if(GetEngine()->iWindow->wasKeyPressed(WindowSystem::KEY_Q) && !inTheAir) {
+		if(GetEngine()->iWindow->isKeyDown(WindowSystem::KEY_Q) && !inTheAir) {
 			movement += Vec3(0, 1.5, 0);
 		}
 
@@ -182,7 +182,7 @@ namespace VEGA {
 	//---------------------------------------------------------------------------
 	void CameraFree::setPhysics(const Vec3 &size, float mass) {
 		mass = 0.001;
-		pBody = PhysBody::createSphere(size, mass);
+		pBody = PhysBody::createSphere(size.y, mass);
 		pBody->setTransform(Mat4::translate(position));
 	}
 

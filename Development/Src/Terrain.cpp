@@ -195,7 +195,7 @@ namespace VEGA {
 			}
 		}
 
-		pBody = PhysBody::createStaticObjectMesh(pos, numPos, false);
+		pBody = PhysBody::createStaticMesh(pos, numPos, false);
 
 		delete [] pos;
 	}

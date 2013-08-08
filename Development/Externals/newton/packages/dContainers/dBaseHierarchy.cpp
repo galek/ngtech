@@ -12,37 +12,20 @@
 #include "dContainersStdAfx.h"
 #include "dBaseHierarchy.h"
 
-/*
+
 dBaseHierarchy::dBaseHierarchy (const dBaseHierarchy &clone)
 {
-//	_ASSERTE (0);
-
-	dBaseHierarchy *obj;
-	dBaseHierarchy *newObj;
-
 	Clear ();
-
-	for (obj = clone.m_child; obj; obj = obj->m_sibling) {
-		newObj = obj->CreateClone ();
+	SetNameID (clone.m_name.GetStr());
+	for (dBaseHierarchy* obj = clone.m_child; obj; obj = obj->m_sibling) {
+		dBaseHierarchy* const newObj = obj->CreateClone ();
 		newObj->Attach (this);
-		newObj->Release();
 	}
-
 }
-*/
+
 
 dBaseHierarchy::~dBaseHierarchy () 
 {
-/*
-	if (m_child) {
-		delete m_child;
-	}
-
-	if (m_sibling) {
-		delete m_sibling;
-	}
-*/
-
 	Detach();
 	while (m_child) {
 		delete m_child;
@@ -50,20 +33,17 @@ dBaseHierarchy::~dBaseHierarchy ()
 }
 
 
-void dBaseHierarchy::Attach (dBaseHierarchy *parentArg, bool addFirst)
+
+void dBaseHierarchy::Attach (dBaseHierarchy* const parentArg, bool addFirst)
 {
-	dBaseHierarchy *obj;
-//	_ASSERTE (!m_parent);
-//	_ASSERTE (!m_sibling);
-//	_ASSERTE (parentArg);
-	
 	m_parent = parentArg;
 	if (m_parent->m_child) {
 		if (addFirst) {
 			m_sibling = m_parent->m_child;
 			m_parent->m_child = this;
 		} else {
-			for (obj = m_parent->m_child; obj->m_sibling; obj = obj->m_sibling);
+			dBaseHierarchy* obj = m_parent->m_child;
+			for (; obj->m_sibling; obj = obj->m_sibling);
 			obj->m_sibling = this;
 		}
 	} else {
@@ -74,13 +54,12 @@ void dBaseHierarchy::Attach (dBaseHierarchy *parentArg, bool addFirst)
 
 void dBaseHierarchy::Detach ()
 {
-//	_ASSERTE (m_parent || !m_sibling);
  	if (m_parent) {
 		if (m_parent->m_child == this) {
 			m_parent->m_child = m_sibling;
 		} else {
-			dBaseHierarchy *ptr;
-			for (ptr = m_parent->m_child; ptr->m_sibling != this; ptr = ptr->m_sibling);
+			dBaseHierarchy* ptr = m_parent->m_child;
+			for (; ptr->m_sibling != this; ptr = ptr->m_sibling);
 			ptr->m_sibling = m_sibling;
 		}
 		m_parent = NULL;
@@ -91,31 +70,28 @@ void dBaseHierarchy::Detach ()
 
 dBaseHierarchy* dBaseHierarchy::GetRoot() const
 {
-	const dBaseHierarchy *root;
-	for (root = this; root->m_parent; root = root->m_parent);
+	const dBaseHierarchy* root = this;
+	for (; root->m_parent; root = root->m_parent);
 	return (dBaseHierarchy*)root;
 }
 
 
 dBaseHierarchy* dBaseHierarchy::GetFirst() const
 {
-	dBaseHierarchy *ptr;
-
-	for (ptr = (dBaseHierarchy *)this; ptr->m_child; ptr = ptr->m_child);
+	dBaseHierarchy* ptr = (dBaseHierarchy*) this;
+	for (; ptr->m_child; ptr = ptr->m_child);
 	return ptr;
 }
 
 dBaseHierarchy* dBaseHierarchy::GetNext() const
 {
-	dBaseHierarchy *x;
-	dBaseHierarchy *ptr;
-
 	if (m_sibling) {
 		return m_sibling->GetFirst();
 	}
 
-	x = (dBaseHierarchy *)this;
-	for (ptr = m_parent; ptr && (x == ptr->m_sibling); ptr = ptr->m_parent) {
+	dBaseHierarchy* ptr = m_parent;
+	dBaseHierarchy* x = (dBaseHierarchy *)this;
+	for (; ptr && (x == ptr->m_sibling); ptr = ptr->m_parent) {
 		x = ptr;
 	}
 	return ptr;
@@ -125,38 +101,34 @@ dBaseHierarchy* dBaseHierarchy::GetNext() const
 
 dBaseHierarchy* dBaseHierarchy::GetLast() const
 {
-	dBaseHierarchy *ptr;
-		
-	for (ptr = (dBaseHierarchy *)this; ptr->m_sibling; ptr = ptr->m_sibling);
+	dBaseHierarchy* ptr = (dBaseHierarchy*) this;
+	for (; ptr->m_sibling; ptr = ptr->m_sibling);
 	return ptr;
 }
 
 
 dBaseHierarchy* dBaseHierarchy::GetPrev() const
 {
-	dBaseHierarchy *x;
-	dBaseHierarchy *ptr;
 
 	if (m_child) {
 		return m_child->GetNext();
 	}
 
-	x = (dBaseHierarchy *)this;
-	for (ptr = m_parent; ptr && (x == ptr->m_child); ptr = ptr->m_child) {
+	dBaseHierarchy* ptr = m_parent;
+	dBaseHierarchy* x = (dBaseHierarchy *)this;
+	for (; ptr && (x == ptr->m_child); ptr = ptr->m_child) {
 		x = ptr;
 	}
 	return ptr;
 }
 
 
-dBaseHierarchy* dBaseHierarchy::Find (unsigned nameCRC) const 
+dBaseHierarchy* dBaseHierarchy::Find (dCRCTYPE nameCRC) const 
 {
-	dBaseHierarchy *ptr;
-
 	if (nameCRC == GetNameID()) {
 		return (dBaseHierarchy*)this;
 	} else {
-		for (ptr = GetFirst(); ptr && (ptr != this); ptr = ptr->GetNext()) {
+		for (dBaseHierarchy* ptr = GetFirst(); ptr && (ptr != this); ptr = ptr->GetNext()) {
 			if (nameCRC == ptr->GetNameID()) {
 				return ptr;
 			}

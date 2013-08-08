@@ -13,50 +13,32 @@
 
 namespace VEGA {
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates GLDisplayList
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
-	GLDisplayList *GLDisplayList::create() {
-		GLDisplayList *list = new GLDisplayList();
-
-		list->glID = glGenLists(1);
-		return list;
+/*
+*/
+	GLDisplayList::GLDisplayList() {
+		glID = glGenLists(1);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    GLDisplayList destructor
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	GLDisplayList::~GLDisplayList() {
 		glDeleteLists(glID, 1);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    begins the display list build
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	void GLDisplayList::beginBuild() {
 		glNewList(glID, GL_COMPILE);		
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    ends the display list build
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	void GLDisplayList::endBuild() {
 		glEndList();
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    calls the display list
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	void GLDisplayList::call() {
 		glCallList(glID);
 	}

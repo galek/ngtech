@@ -23,9 +23,11 @@
 
 #define MIN_JOINT_PIN_LENGTH	50.0f
 
+//dInitRtti(CustomBallAndSocket);
+//dInitRtti(CustomLimitBallAndSocket);
 
-CustomBallAndSocket::CustomBallAndSocket(const dMatrix& pinAndPivotFrame, const NewtonBody* child, const NewtonBody* parent)
-	:NewtonCustomJoint(6, child, parent)
+CustomBallAndSocket::CustomBallAndSocket(const dMatrix& pinAndPivotFrame, NewtonBody* const child, NewtonBody* const parent)
+	:CustomJoint(6, child, parent)
 {
 	CalculateLocalMatrix (pinAndPivotFrame, m_localMatrix0, m_localMatrix1);
 }
@@ -36,17 +38,12 @@ CustomBallAndSocket::~CustomBallAndSocket()
 {
 }
 
-void CustomBallAndSocket::GetInfo (NewtonJointRecord* info) const
+void CustomBallAndSocket::GetInfo (NewtonJointRecord* const info) const
 {
 	strcpy (info->m_descriptionType, "ballsocket");
 
 	info->m_attachBody_0 = m_body0;
 	info->m_attachBody_1 = m_body1;
-
-//	dMatrix matrix0;
-//	dMatrix matrix1;
-//	// calculate the position of the pivot point and the Jacobian direction vectors, in global space. 
-//	CalculateGlobalMatrix (m_localMatrix0, m_localMatrix1, matrix0, matrix1);
 
 	info->m_minLinearDof[0] = 0.0f;
 	info->m_maxLinearDof[0] = 0.0f;
@@ -76,7 +73,7 @@ void CustomBallAndSocket::SubmitConstraints (dFloat timestep, int threadIndex)
 	// calculate the position of the pivot point and the jacobian direction vectors, in global space. 
 	CalculateGlobalMatrix (m_localMatrix0, m_localMatrix1, matrix0, matrix1);
 
-	// Restrict the movement on the pivot point along all tree orthonormal direction
+	// Restrict the movement on the pivot point along all three orthonormal directions
 	NewtonUserJointAddLinearRow (m_joint, &matrix0.m_posit[0], &matrix1.m_posit[0], &matrix0.m_front[0]);
 	NewtonUserJointAddLinearRow (m_joint, &matrix0.m_posit[0], &matrix1.m_posit[0], &matrix0.m_up[0]);
 	NewtonUserJointAddLinearRow (m_joint, &matrix0.m_posit[0], &matrix1.m_posit[0], &matrix0.m_right[0]);
@@ -84,17 +81,22 @@ void CustomBallAndSocket::SubmitConstraints (dFloat timestep, int threadIndex)
 
 
 
-CustomLimitBallAndSocket::CustomLimitBallAndSocket(const dMatrix& pinAndPivotFrame, const NewtonBody* child, const NewtonBody* parent)
+CustomLimitBallAndSocket::CustomLimitBallAndSocket(const dMatrix& pinAndPivotFrame, NewtonBody* const child, NewtonBody* const parent)
 	:CustomBallAndSocket(pinAndPivotFrame, child, parent)
+	,m_rotationOffset(GetIdentityMatrix())
 {
-	dMatrix matrix0;
-	dMatrix matrix1;
-
-	SetTwistAngle (0.0f, 0.0f);
 	SetConeAngle (0.0f);
+	SetTwistAngle (0.0f, 0.0f);
+}
 
-	// calculate the twist handle vector
-	CalculateGlobalMatrix (m_localMatrix0, m_localMatrix1, matrix0, matrix1);
+CustomLimitBallAndSocket::CustomLimitBallAndSocket(const dMatrix& childPinAndPivotFrame, NewtonBody* const child, const dMatrix& parentPinAndPivotFrame, NewtonBody* const parent)
+	:CustomBallAndSocket(childPinAndPivotFrame, child, parent)
+	,m_rotationOffset(childPinAndPivotFrame * parentPinAndPivotFrame.Inverse())
+{
+	SetConeAngle (0.0f);
+	SetTwistAngle (0.0f, 0.0f);
+	dMatrix matrix;
+	CalculateLocalMatrix (parentPinAndPivotFrame, matrix, m_localMatrix1);
 }
 
 
@@ -119,13 +121,18 @@ void CustomLimitBallAndSocket::SetTwistAngle (dFloat minAngle, dFloat maxAngle)
 }
 
 
-void CustomLimitBallAndSocket::GetInfo (NewtonJointRecord* info) const
+void CustomLimitBallAndSocket::GetInfo (NewtonJointRecord* const info) const
 {
 	CustomBallAndSocket::GetInfo (info);
 
+	info->m_minAngularDof[0] = m_minTwistAngle;
+	info->m_maxAngularDof[0] = m_maxTwistAngle;
+	info->m_minAngularDof[1] = -dAcos (m_coneAngleCos);
+	info->m_maxAngularDof[1] =  dAcos (m_coneAngleCos);
+	info->m_minAngularDof[2] = -dAcos (m_coneAngleCos); 
+	info->m_maxAngularDof[2] =  dAcos (m_coneAngleCos);
+
 	strcpy (info->m_descriptionType, "limitballsocket");
-
-
 }
 
 void CustomLimitBallAndSocket::SubmitConstraints (dFloat timestep, int threadIndex)
@@ -140,52 +147,37 @@ void CustomLimitBallAndSocket::SubmitConstraints (dFloat timestep, int threadInd
 	const dVector& p1 = matrix1.m_posit;
 
 	// Restrict the movement on the pivot point along all tree orthonormal direction
-	NewtonUserJointAddLinearRow (m_joint, &p0[0], &p1[0], &matrix0.m_front[0]);
-	NewtonUserJointAddLinearRow (m_joint, &p0[0], &p1[0], &matrix0.m_up[0]);
-	NewtonUserJointAddLinearRow (m_joint, &p0[0], &p1[0], &matrix0.m_right[0]);
+	NewtonUserJointAddLinearRow (m_joint, &p0[0], &p1[0], &matrix1.m_front[0]);
+	NewtonUserJointAddLinearRow (m_joint, &p0[0], &p1[0], &matrix1.m_up[0]);
+	NewtonUserJointAddLinearRow (m_joint, &p0[0], &p1[0], &matrix1.m_right[0]);
 
+	dMatrix localMatrix (matrix0 * (m_rotationOffset * matrix1).Inverse());
+	dVector euler (localMatrix.GetEulerAngles());
+	dFloat pitchAngle = -dAtan2(localMatrix[1][2], localMatrix[2][2]);
 
 	if ((m_maxTwistAngle - m_minTwistAngle) < 1.0e-4f) {
 
-		const dVector& twistDir0 = matrix0.m_right;
-		const dVector& twistDir1 = matrix1.m_up;
-		// construct an orthogonal coordinate system with these two vectors
-		dVector twistDir2 (twistDir1 * twistDir0);
-		twistDir2 = twistDir2.Scale (1.0f / dSqrt (twistDir2 % twistDir2));
-		dVector twistDir3 (twistDir0 * twistDir2);
+		dMatrix base (dPitchMatrix(pitchAngle) * matrix0);
+		dVector q0 (p1 + matrix0.m_up.Scale(MIN_JOINT_PIN_LENGTH));
+		dVector q1 (p1 + base.m_up.Scale(MIN_JOINT_PIN_LENGTH));
 
-	    dVector q0 (p0 + twistDir3.Scale(MIN_JOINT_PIN_LENGTH));
-	    dVector q1 (p1 + twistDir1.Scale(MIN_JOINT_PIN_LENGTH));
-	    NewtonUserJointAddLinearRow (m_joint, &q0[0], &q1[0], &twistDir0[0]);
+		NewtonUserJointAddLinearRow (m_joint, &q0[0], &q1[0], &base.m_right[0]);
 	} else {
-	    dFloat angle;
-
-
-		dVector twistDirUp (matrix1.m_up - matrix0.m_front.Scale (matrix1.m_up % matrix0.m_front));
-		angle = 0.0f;
-		if ((twistDirUp % twistDirUp) > 0.25f) { 
-			dFloat x;
-			dFloat y;
-			y = twistDirUp % matrix0.m_up;
-			x = (matrix0.m_up * twistDirUp) % matrix0.m_front;
-			angle = dAtan2 (x, y);
-		} else {
-			dFloat x;
-			dFloat y;
-			dVector twistDirRight (matrix1.m_right - matrix0.m_front.Scale (matrix1.m_right % matrix0.m_front));
-			y = twistDirRight % matrix0.m_right;
-			x = (matrix0.m_right * twistDirRight) % matrix0.m_front;
-			angle = dAtan2 (x, y);
-		}
-
-	    if (angle > m_maxTwistAngle) {
-			NewtonUserJointAddAngularRow (m_joint, angle - m_maxTwistAngle, &matrix0.m_front[0]);
+		if (pitchAngle > m_maxTwistAngle) {
+			pitchAngle -= m_maxTwistAngle;
+			dMatrix base (dPitchMatrix(pitchAngle) * matrix0);
+			dVector q0 (p1 + matrix0.m_up.Scale(MIN_JOINT_PIN_LENGTH));
+			dVector q1 (p1 + base.m_up.Scale(MIN_JOINT_PIN_LENGTH));
+			NewtonUserJointAddLinearRow (m_joint, &q0[0], &q1[0], &base.m_right[0]);
 			NewtonUserJointSetRowMinimumFriction (m_joint, -0.0f);
-
-	    } else if (angle < m_minTwistAngle) {
-			NewtonUserJointAddAngularRow (m_joint, angle - m_minTwistAngle, &matrix0.m_front[0]);
+		} else if (pitchAngle < m_minTwistAngle) {
+			pitchAngle -= m_minTwistAngle;
+			dMatrix base (dPitchMatrix(pitchAngle) * matrix0);
+			dVector q0 (p1 + matrix0.m_up.Scale(MIN_JOINT_PIN_LENGTH));
+			dVector q1 (p1 + base.m_up.Scale(MIN_JOINT_PIN_LENGTH));
+			NewtonUserJointAddLinearRow (m_joint, &q0[0], &q1[0], &base.m_right[0]);
 			NewtonUserJointSetRowMaximumFriction (m_joint,  0.0f);
-	    }
+		}
 	}
 
 

@@ -17,7 +17,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 
-#include "dPluginStdafx.h"
+#include "dSceneStdafx.h"
 #include "dRootNodeInfo.h"
 
 
@@ -44,13 +44,9 @@ void dRootNodeInfo::Serialize (TiXmlElement* const rootNode) const
 	SerialiseBase(dNodeInfo, rootNode);
 }
 
-bool dRootNodeInfo::Deserialize (TiXmlElement* const rootNode, int revisionNumber) 
+bool dRootNodeInfo::Deserialize (const dScene* const scene, TiXmlElement* const rootNode) 
 {
-	DeserialiseBase(dNodeInfo, rootNode, revisionNumber);
+	DeserialiseBase(scene, dNodeInfo, rootNode);
 	return true;
 }
 
-void dRootNodeInfo::SerializeBinary (FILE* const file) 
-{
-	fprintf (file, "%s\n%s\n", GetClassName(), GetName());
-}

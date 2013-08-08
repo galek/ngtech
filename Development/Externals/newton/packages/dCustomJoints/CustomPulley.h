@@ -14,10 +14,10 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_CustomPulley_H__B631F556_468B_4331_B7D7_INCLUDED_)
-#define AFX_CustomPulley_H__B631F556_468B_4331_B7D7_INCLUDED_
+#ifndef _CustomPulley_H__
+#define _CustomPulley_H__
 
-#include "NewtonCustomJoint.h"
+#include "CustomJoint.h"
 
 // this joint is for used in conjunction with Slider of other linear joints
 // is is useful for establishing synchronization between the rel;ative position 
@@ -25,25 +25,40 @@
 // velErro = -(v0 + n * v1)
 // where v0 and v1 are the linear velocity
 // n is the number of turn on the pulley, in the case of this joint N coudl
-// be a velue with fraction, as this joint is a generalization of the pulley idea.
-class JOINTLIBRARY_API CustomPulley: public NewtonCustomJoint  
+// be a value with fraction, as this joint is a generalization of the pulley idea.
+class CustomPulley: public CustomJoint  
 {
 	public:
-	CustomPulley(dFloat pulleyRatio, 
-			   const dVector& childPin, const dVector& parentPin, 
-			   NewtonBody* parenPin, NewtonBody* parent);
-	virtual ~CustomPulley();
-
+	NEWTON_API CustomPulley(dFloat pulleyRatio, const dVector& childPin, const dVector& parentPin, NewtonBody* const parenPin, NewtonBody* const parent);
+	NEWTON_API virtual ~CustomPulley();
 
 	protected:
-	virtual void SubmitConstraints (dFloat timestep, int threadIndex);
-	virtual void GetInfo (NewtonJointRecord* info) const;
+	NEWTON_API virtual void SubmitConstraints (dFloat timestep, int threadIndex);
+	NEWTON_API virtual void GetInfo (NewtonJointRecord* const info) const;
 
 	dMatrix m_localMatrix0;
 	dMatrix m_localMatrix1;
 
 	dFloat m_gearRatio;
 };
+
+/*
+class CustomPulleyAndTwist: public CustomPulley
+{
+	public:
+	NEWTON_API CustomPulleyAndTwist(dFloat pulleyRatio, const dVector& childPin, const dVector& parentPin, NewtonBody* const parenPin, NewtonBody* const parent);
+	NEWTON_API virtual ~CustomPulley();
+
+	protected:
+	NEWTON_API virtual void SubmitConstraints (dFloat timestep, int threadIndex);
+	NEWTON_API virtual void GetInfo (NewtonJointRecord* const info) const;
+
+	dMatrix m_localMatrix0;
+	dMatrix m_localMatrix1;
+
+	dFloat m_gearRatio;
+};
+*/
 
 #endif 
 

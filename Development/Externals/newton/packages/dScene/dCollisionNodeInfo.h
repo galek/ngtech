@@ -35,7 +35,7 @@ class dCollisionNodeInfo: public dNodeInfo
 	virtual void SetTransform (const dMatrix& matrix);
 
 	virtual void BakeTransform (const dMatrix& transform);
-	virtual void CalculateInertiaGeometry (dScene* world, dVector& Inertia, dVector& centerOfMass) const; 
+	virtual void CalculateInertiaGeometry (dScene* const world, dVector& Inertia, dVector& centerOfMass) const; 
 
 	virtual void SetShapeId (int id); 
 	virtual int GetShapeId () const; 
@@ -47,31 +47,16 @@ class dCollisionNodeInfo: public dNodeInfo
 	virtual const dVector& GetCenterMassAndVolume () const; 
 
 
-//	virtual void UpdateOOBB (dGeometryNodeInfo* geomInfo);
 //	virtual dFloat RayCast (const dVector& p0, const dVector& p1) const;
 
-	// draw scene in wire frame mode
-	virtual void DrawWireFrame(dScene* const world, dScene::dTreeNode* const myNode, const dVector& color) const;
-
-	// draw scene in solid wire frame mode
-	virtual void DrawSolidWireFrame(dScene* const world, dScene::dTreeNode* const myNode, const dVector& color) const;
-
-	// draw scene in Gouraud shaded normal textured mode 
-	virtual void DrawGouraudShaded(dScene* const world, dScene::dTreeNode* const myNode, const dVector& color) const;
-
-	// Draw selection gizmo
-	virtual void DrawGizmo(dScene* const world, dScene::dTreeNode* const myNode, const dMatrix& coordinaSystem, const dVector& color, dGizmoMode mode, dFloat size) const;
-	virtual dGizmoHandle GetHighlightedGizmoHandle(dScene* const world, dScene::dTreeNode* const myNode, const dMatrix& coordinaSystem, const dVector& screenPosition, dGizmoMode mode, dFloat size) const;
-	virtual void DrawGizmoHandle(dScene* world, const dMatrix& coordinaSystem, dGizmoMode mode, dGizmoHandle handle, const dVector& color, dFloat size) const;
 
 	virtual NewtonCollision* CreateNewtonCollision (NewtonWorld* const world, dScene* const scene, dScene::dTreeNode* const myNode) const;
 
 	protected:
 	virtual void CalculateGeometryProperies (NewtonCollision* shape, dVector& inertia, dVector& centerOfMass) const;
 
-	virtual void SerializeBinary (FILE* const file);
 	virtual void Serialize (TiXmlElement* const rootNode) const; 
-	virtual bool Deserialize (TiXmlElement* const rootNode, int revisionNumber);
+	virtual bool Deserialize (const dScene* const scene, TiXmlElement* const rootNode);
 
 	dMatrix m_matrix;
 	dVector m_geometricInertia;

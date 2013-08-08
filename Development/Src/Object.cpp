@@ -166,7 +166,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void ObjectMesh::setPhysicsSphere(const Vec3 &size, float mass) {
-		pBody = PhysBody::createSphere(size, mass);
+		pBody = PhysBody::createSphere(size.y, mass);//Nick:TODO:заменить на getRadius
 		setTransform(transform);
 	}
 
@@ -260,7 +260,7 @@ namespace VEGA {
 			}
 		}
 
-		pBody = PhysBody::createStaticObjectMesh(pos, numPos, true);
+		pBody = PhysBody::createStaticMesh(pos, numPos, true);
 		setTransform(transform);
 
 		delete [] pos;
@@ -270,12 +270,6 @@ namespace VEGA {
 		impactSound = GetEngine()->cache->loadSound("../data/sounds/" + path);
 		pBody->setImpactSound(impactSound);
 	}
-
-
-
-
-
-
 
 	//**************************************************************************
 	//ObjectSkinnedMesh

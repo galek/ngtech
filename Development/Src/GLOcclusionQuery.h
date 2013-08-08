@@ -16,14 +16,27 @@
 
 namespace VEGA {
 
+/**
+Occlusion query class
+*/
 class GLOcclusionQuery {
 public:
-	static GLOcclusionQuery *create();
+	GLOcclusionQuery ();
 	~GLOcclusionQuery();
-
+	/**
+	Begins rendering to query
+	*/
 	void beginRendering();
+
+	/**
+	End rendering to query
+	*/
 	void endRendering();
 
+	/**
+	Get number of passed samples
+	\return number of passed samples
+	*/
 	unsigned int getResult();
 
 private:

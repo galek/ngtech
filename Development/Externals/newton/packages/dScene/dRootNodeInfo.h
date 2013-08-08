@@ -31,9 +31,8 @@ class dRootNodeInfo: public dNodeInfo
 	dRootNodeInfo(dScene* const world);
 	virtual ~dRootNodeInfo(void);
 
-	virtual void SerializeBinary (FILE* const file);
 	virtual void Serialize (TiXmlElement* const rootNode) const; 
-	virtual bool Deserialize (TiXmlElement* const rootNode, int revisionNumber);
+	virtual bool Deserialize (const dScene* const scene, TiXmlElement* const rootNode);
 };
 
 #endif

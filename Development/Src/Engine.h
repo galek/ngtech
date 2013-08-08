@@ -11,7 +11,7 @@
 //***************************************************
 #include "Engine\DLLDef.h"
 //***************************************************
-#include "..\Core\CoreManager.h"
+#include "Core\CoreManager.h"
 //***************************************************
 
 namespace VEGA {
@@ -24,10 +24,13 @@ namespace VEGA {
 		Engine();
 
 		~Engine();
-
-
+		/**
+		engines main loop
+		*/
 		void mainLoop();
-
+		/**
+		exits the main loop
+		*/
 		void quit();
 		void initialise();
 		void setGame(IGame*_game);

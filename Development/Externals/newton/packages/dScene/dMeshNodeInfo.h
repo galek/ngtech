@@ -38,12 +38,12 @@ class dMeshNodeInfo: public dGeometryNodeInfo
 
 	dMeshNodeInfo();
 	dMeshNodeInfo(dScene* const world);
-	dMeshNodeInfo(NewtonMesh* mesh);
+	dMeshNodeInfo(NewtonMesh* const mesh);
 	dMeshNodeInfo(const dMeshNodeInfo& me);
 	virtual ~dMeshNodeInfo(void);
 
 	virtual NewtonMesh* GetMesh () const;
-	virtual void ReplaceMesh (NewtonMesh* mesh);
+	virtual void ReplaceMesh (NewtonMesh* const mesh);
 
 	virtual void BakeTransform (const dMatrix& matrix);
 
@@ -65,15 +65,17 @@ class dMeshNodeInfo: public dGeometryNodeInfo
 												const dFloat* const uv1, int uv1StrideInBytes, const int* uv1Index);
 
 
-	virtual void CalculateOOBBGizmo (const dMatrix& matrix, dVector& p0, dVector& p1) const;
-
+	virtual void CalcutateAABB (dVector& p0, dVector& p1) const;
 	virtual dFloat RayCast (const dVector& p0, const dVector& p1) const;
 
 	
 	protected:
-	virtual void SerializeBinary (FILE* const file);
+	virtual dCRCTYPE CalculateSignature() const;
 	virtual void Serialize (TiXmlElement* const rootNode) const; 
-	virtual bool Deserialize (TiXmlElement* const rootNode, int revisionNumber);
+	virtual bool Deserialize (const dScene* const scene, TiXmlElement* const rootNode);
+
+	virtual void DrawWireFrame(dSceneRender* const render, dScene* const scene, dScene::dTreeNode* const myNode) const;
+	virtual void DrawFlatShaded(dSceneRender* const render, dScene* const scene, dScene::dTreeNode* const myNode) const;
 
 	NewtonMesh* m_mesh;
 };

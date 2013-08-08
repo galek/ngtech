@@ -17,7 +17,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 
-#include "dPluginStdafx.h"
+#include "dSceneStdafx.h"
 #include "dScene.h"
 #include "dGeometryNodeModifierInfo.h"
 
@@ -63,7 +63,7 @@ void dGeometryNodeModifierInfo::SetPivotMatrix (const dMatrix& matrix)
 
 void dGeometryNodeModifierInfo::BakeTransform (const dMatrix& transform)
 {
-	_ASSERTE (0);
+	dAssert (0);
 }
 */
 
@@ -73,8 +73,8 @@ void dGeometryNodeModifierInfo::Serialize (TiXmlElement* const rootNode) const
 	SerialiseBase(dNodeInfo, rootNode);
 }
 
-bool dGeometryNodeModifierInfo::Deserialize (TiXmlElement* const rootNode, int revisionNumber)
+bool dGeometryNodeModifierInfo::Deserialize (const dScene* const scene, TiXmlElement* const rootNode) 
 {
-	DeserialiseBase(dNodeInfo, rootNode, revisionNumber);
+	DeserialiseBase(scene, dNodeInfo, rootNode);
 	return true;
 }

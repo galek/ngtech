@@ -23,8 +23,10 @@
 
 #define MIN_JOINT_PIN_LENGTH	50.0f
 
-CustomSlidingContact::CustomSlidingContact (const dMatrix& pinsAndPivoFrame, const NewtonBody* child, const NewtonBody* parent)
-	:NewtonCustomJoint(6, child, parent)
+//dInitRtti(CustomSlidingContact);
+
+CustomSlidingContact::CustomSlidingContact (const dMatrix& pinAndPivotFrame, NewtonBody* const child, NewtonBody* const parent)
+	:CustomJoint(6, child, parent)
 {
 	EnableLinearLimits(false);
 	EnableAngularLimits(false);
@@ -32,7 +34,7 @@ CustomSlidingContact::CustomSlidingContact (const dMatrix& pinsAndPivoFrame, con
 	SetAngularLimis(-30.0f * 3.141592f / 180.0f, 30.0f * 3.141592f / 180.0f);
 
 	// calculate the two local matrix of the pivot point
-	CalculateLocalMatrix (pinsAndPivoFrame, m_localMatrix0, m_localMatrix1);
+	CalculateLocalMatrix (pinAndPivotFrame, m_localMatrix0, m_localMatrix1);
 }
 
 CustomSlidingContact::~CustomSlidingContact()
@@ -52,8 +54,8 @@ void CustomSlidingContact::EnableAngularLimits(bool state)
 
 void CustomSlidingContact::SetLinearLimis(dFloat minDist, dFloat maxDist)
 {
-	//_ASSERTE (minDist < 0.0f);
-	//_ASSERTE (maxDist > 0.0f);
+	//dAssert (minDist < 0.0f);
+	//dAssert (maxDist > 0.0f);
 
 	m_minLinearDist = minDist;
 	m_maxLinearDist = maxDist;
@@ -61,8 +63,8 @@ void CustomSlidingContact::SetLinearLimis(dFloat minDist, dFloat maxDist)
 
 void CustomSlidingContact::SetAngularLimis(dFloat minDist, dFloat maxDist)
 {
-	//_ASSERTE (minDist < 0.0f);
-	//_ASSERTE (maxDist > 0.0f);
+	//dAssert (minDist < 0.0f);
+	//dAssert (maxDist > 0.0f);
 
 	m_minAngularDist = minDist;
 	m_maxAngularDist = maxDist;
@@ -70,7 +72,7 @@ void CustomSlidingContact::SetAngularLimis(dFloat minDist, dFloat maxDist)
 
 
 
-void CustomSlidingContact::GetInfo (NewtonJointRecord* info) const
+void CustomSlidingContact::GetInfo (NewtonJointRecord* const info) const
 {
 	strcpy (info->m_descriptionType, "slidingContact");
 
@@ -130,7 +132,6 @@ void CustomSlidingContact::GetInfo (NewtonJointRecord* info) const
 
 void CustomSlidingContact::SubmitConstraints (dFloat timestep, int threadIndex)
 {
-//	dFloat dist;
 	dMatrix matrix0;
 	dMatrix matrix1;
 
@@ -152,7 +153,7 @@ void CustomSlidingContact::SubmitConstraints (dFloat timestep, int threadIndex)
 
 	// if limit are enable ...
 	if (m_limitsLinearOn) {
-		_ASSERTE (0);
+		dAssert (0);
 /*
 	dist = (matrix0.m_posit - matrix1.m_posit) % matrix0.m_front;
 	if (dist < m_minLinearDist) {
@@ -172,7 +173,7 @@ void CustomSlidingContact::SubmitConstraints (dFloat timestep, int threadIndex)
 	}
 
 	if (m_limitsAngularOn) {
-		_ASSERTE (0);
+		dAssert (0);
 	}
 }
 

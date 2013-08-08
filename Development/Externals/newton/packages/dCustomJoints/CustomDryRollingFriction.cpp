@@ -20,9 +20,10 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
+//dInitRtti(CustomDryRollingFriction);
 
 CustomDryRollingFriction::CustomDryRollingFriction(NewtonBody* child, dFloat radius, dFloat coefficient)
-	:NewtonCustomJoint(1, child, NULL)
+	:CustomJoint(1, child, NULL)
 {
 	dFloat mass;
 	dFloat Ixx;
@@ -52,23 +53,22 @@ CustomDryRollingFriction::~CustomDryRollingFriction()
 void CustomDryRollingFriction::SubmitConstraints (dFloat timestep, int threadIndex)
 {
 	dVector omega;
-	dFloat omegaMag;
-	dFloat torqueFriction;
 
 	// get the omega vector
 	NewtonBodyGetOmega(m_body0, &omega[0]);
 
-	omegaMag = dSqrt (omega % omega);
+	dFloat omegaMag = dSqrt (omega % omega);
 	if (omegaMag > 0.1f) {
 		// tell newton to used this the friction of the omega vector to apply the rolling friction
 		dVector pin (omega.Scale (1.0f / omegaMag));
 		NewtonUserJointAddAngularRow (m_joint, 0.0f, &pin[0]);
 
 		// calculate the acceleration to stop the ball in one time step
-		NewtonUserJointSetRowAcceleration (m_joint, -omegaMag / timestep);
+		dFloat invTimestep = (timestep > 0.0f) ? 1.0f / timestep: 1.0f;
+		NewtonUserJointSetRowAcceleration (m_joint, -omegaMag * invTimestep);
 
 		// set the friction limit proportional the sphere Inertia
-		torqueFriction = m_frictionTorque * m_frictionCoef;
+		dFloat torqueFriction = m_frictionTorque * m_frictionCoef;
 		NewtonUserJointSetRowMinimumFriction (m_joint, -torqueFriction);
 		NewtonUserJointSetRowMaximumFriction (m_joint, torqueFriction);
 
@@ -80,7 +80,7 @@ void CustomDryRollingFriction::SubmitConstraints (dFloat timestep, int threadInd
 }
 
 
-void CustomDryRollingFriction::GetInfo (NewtonJointRecord* info) const
+void CustomDryRollingFriction::GetInfo (NewtonJointRecord* const info) const
 {
 	strcpy (info->m_descriptionType, "dryRollingFriction");
 

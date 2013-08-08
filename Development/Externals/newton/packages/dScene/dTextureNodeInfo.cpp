@@ -17,66 +17,63 @@
 /////////////////////////////////////////////////////////////////////////////
 
 
-#include "dPluginStdafx.h"
+#include "dSceneStdafx.h"
 #include "dTextureNodeInfo.h"
 
 
 D_IMPLEMENT_CLASS_NODE(dTextureNodeInfo);
 
 dTextureNodeInfo::dTextureNodeInfo()
-	:dNodeInfo (), m_id (0), m_internalUsage(-1) 
+	:dNodeInfo (), m_id (0)
+	,m_internalUsage(-1) 
+	,m_path()
 {
 
 }
 
 dTextureNodeInfo::dTextureNodeInfo(dScene* const world)
-	:dNodeInfo (), m_id (0), m_internalUsage(-1) 
+	:dNodeInfo (), m_id (0)
+	,m_internalUsage(-1) 
+	,m_path()
 {
 	SetName ("texture");
 }
 
 dTextureNodeInfo::dTextureNodeInfo(const char* const pathName)
 	:dNodeInfo (), m_internalUsage(-1) 
+	,m_path((char*)pathName)
 {
 	SetName ("texture");
-	SetPathName (pathName);
 }
 
 dTextureNodeInfo::~dTextureNodeInfo(void)
 {
 	if (m_internalUsage != -1)  {
-		_ASSERTE (0);
+		dAssert (0);
 	}
 }
 
 void dTextureNodeInfo::SetPathName (const char* const path)
 {
-	const char* ptr = dGetNameFromPath (path);
-	strncpy (m_path, ptr, sizeof (m_path));
-	m_id = dCRC (m_path);
+	//const char* const ptr = dGetNameFromPath (path);
+	//strncpy (m_path, ptr, sizeof (m_path));
+	m_path = dGetNameFromPath (path);
+	m_id = dCRC64 (m_path.GetStr());
 }
 
 
 void dTextureNodeInfo::Serialize (TiXmlElement* const rootNode) const
 {
 	SerialiseBase(dNodeInfo, rootNode);
-
-	rootNode->SetAttribute("path", m_path);
+	rootNode->SetAttribute("path", m_path.GetStr());
 }
 
-bool dTextureNodeInfo::Deserialize (TiXmlElement* const rootNode, int revisionNumber) 
+bool dTextureNodeInfo::Deserialize (const dScene* const scene, TiXmlElement* const rootNode) 
 {
-	DeserialiseBase(dNodeInfo, rootNode, revisionNumber);
+	DeserialiseBase(scene, dNodeInfo, rootNode);
 
 	SetPathName (rootNode->Attribute ("path"));
 
 	return true;
 }
 
-void dTextureNodeInfo::SerializeBinary (FILE* const file) 
-{
-	fprintf (file, "%s\n%s\n", GetClassName(), GetName());
-
-	fwrite (&m_id, 1, sizeof (int), file);
-	fprintf (file, "%s\n", m_path);
-}

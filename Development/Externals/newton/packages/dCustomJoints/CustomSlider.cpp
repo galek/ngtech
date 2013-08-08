@@ -23,8 +23,10 @@
 
 #define MIN_JOINT_PIN_LENGTH	50.0f
 
-CustomSlider::CustomSlider (const dMatrix& pinsAndPivoFrame, const NewtonBody* child, const NewtonBody* parent)
-	:NewtonCustomJoint(6, child, parent)
+//dInitRtti(CustomSlider);
+
+CustomSlider::CustomSlider (const dMatrix& pinAndPivotFrame, NewtonBody* const child, NewtonBody* const parent)
+	:CustomJoint(6, child, parent)
 {
 	m_limitsOn = false;
 	m_hitLimitOnLastUpdate = false;
@@ -32,7 +34,7 @@ CustomSlider::CustomSlider (const dMatrix& pinsAndPivoFrame, const NewtonBody* c
 	m_maxDist =  1.0f;
 
 	// calculate the two local matrix of the pivot point
-	CalculateLocalMatrix (pinsAndPivoFrame, m_localMatrix0, m_localMatrix1);
+	CalculateLocalMatrix (pinAndPivotFrame, m_localMatrix0, m_localMatrix1);
 }
 
 CustomSlider::~CustomSlider()
@@ -47,8 +49,8 @@ void CustomSlider::EnableLimits(bool state)
 
 void CustomSlider::SetLimis(dFloat minDist, dFloat maxDist)
 {
-//	_ASSERTE (minDist < 0.0f);
-//	_ASSERTE (maxDist > 0.0f);
+//	dAssert (minDist < 0.0f);
+//	dAssert (maxDist > 0.0f);
 
 	m_minDist = minDist;
 	m_maxDist = maxDist;
@@ -61,7 +63,6 @@ bool CustomSlider::JoinHitLimit () const
 
 void CustomSlider::SubmitConstraints (dFloat timestep, int threadIndex)
 {
-	dFloat dist;
 	dMatrix matrix0;
 	dMatrix matrix1;
 
@@ -93,7 +94,7 @@ void CustomSlider::SubmitConstraints (dFloat timestep, int threadIndex)
 	// if limit are enable ...
 	m_hitLimitOnLastUpdate = false;
 	if (m_limitsOn) {
-		dist = (matrix0.m_posit - matrix1.m_posit) % matrix0.m_front;
+		dFloat dist = (matrix0.m_posit - matrix1.m_posit) % matrix0.m_front;
 		if (dist < m_minDist) {
 			// indicate that this row hit a limit
 			m_hitLimitOnLastUpdate = true;
@@ -150,7 +151,7 @@ void CustomSlider::SubmitConstraints (dFloat timestep, int threadIndex)
  }
 
 
-void CustomSlider::GetInfo (NewtonJointRecord* info) const
+void CustomSlider::GetInfo (NewtonJointRecord* const info) const
 {
 	strcpy (info->m_descriptionType, "slider");
 

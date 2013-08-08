@@ -25,7 +25,7 @@ namespace VEGA {
 				float cx = 0.0625f;						
 				float cy = 0.0625f;						
 
-				list[y*16 + x] = GLDisplayList::create();
+				list[y*16 + x] = new GLDisplayList();
 				list[y*16 + x]->beginBuild();
 
 				GetEngine()->iRender->drawRect(0, 0, 1, 1, x*cx, y*cy - 0.0625f, x*cx + 0.0625f, y*cy); 

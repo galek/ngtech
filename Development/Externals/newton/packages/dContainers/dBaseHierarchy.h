@@ -14,8 +14,7 @@
 #define __Hierarchy__
 
 #include "dCRC.h"
-
-#define D_NAME_STRING_LENGTH 64
+#include "dString.h"
 
 #if (_MSC_VER >= 1400)
 	#pragma warning (disable: 4996) // for 2005 users declared deprecated
@@ -25,47 +24,42 @@
 class dBaseHierarchy
 {
 	public:
-	dBaseHierarchy *GetChild () const;
-	dBaseHierarchy *GetParent () const;
-	dBaseHierarchy *GetSibling () const;
+	dBaseHierarchy* GetChild () const;
+	dBaseHierarchy* GetParent () const;
+	dBaseHierarchy* GetSibling () const;
 
 	void Detach ();
-	void Attach (dBaseHierarchy *parent, bool addFirst = false);
+	void Attach (dBaseHierarchy* const parent, bool addFirst = false);
 	
-	dBaseHierarchy *GetRoot () const;
-	dBaseHierarchy *GetFirst() const;
-	dBaseHierarchy *GetLast() const;
-	dBaseHierarchy *GetNext() const;
-	dBaseHierarchy *GetPrev() const;
+	dBaseHierarchy* GetRoot () const;
+	dBaseHierarchy* GetFirst() const;
+	dBaseHierarchy* GetLast() const;
+	dBaseHierarchy* GetNext() const;
+	dBaseHierarchy* GetPrev() const;
 
-	dBaseHierarchy *Find (unsigned nameCRC) const; 
-	dBaseHierarchy *Find (const char *name) const;
+	dBaseHierarchy* Find (dCRCTYPE nameCRC) const; 
+	dBaseHierarchy* Find (const char* const name) const;
 
-
-	unsigned GetNameID() const;
-	const char* GetName() const;
-	void SetNameID(const char* name);
-	
-
+	long long GetNameID() const;
+	const dString& GetName() const;
+	void SetNameID(const char* const name);
 
 	protected:
 	dBaseHierarchy ();
-	dBaseHierarchy (const char *name);
+	dBaseHierarchy (const char* const name);
 	dBaseHierarchy (const dBaseHierarchy &clone);
 	virtual ~dBaseHierarchy ();
 
-//	virtual void CloneFixUp (const dBaseHierarchy &clone);
+	virtual dBaseHierarchy* CreateClone () const = 0;
 
 	private:
 	inline void Clear();
 
-	dBaseHierarchy *m_parent;
-	dBaseHierarchy *m_child;
-	dBaseHierarchy *m_sibling;
-
-	unsigned m_nameID;
-	char m_name[D_NAME_STRING_LENGTH];
-
+	dString m_name;
+	long long m_nameID;
+	dBaseHierarchy* m_parent;
+	dBaseHierarchy* m_child;
+	dBaseHierarchy* m_sibling;
 };
 
 template<class T>
@@ -73,27 +67,24 @@ class dHierarchy: public dBaseHierarchy
 {
 	public:
 	dHierarchy ();
-	dHierarchy (const char *name);
-	void Attach (T *parent, bool addFirst = false);
+	dHierarchy (const char* const name);
+	void Attach (T* const parent, bool addFirst = false);
 	void Detach ();
-	T *GetChild () const;
-	T *GetParent () const;
-	T *GetSibling () const;
-	T *GetRoot () const;
-	T *GetFirst() const;
-	T *GetLast() const;
-	T *GetNext() const;
-	T *GetPrev() const;
-	T *Find (unsigned nameCRC) const;
-	T *Find (const char *name) const;
+	T* GetChild () const;
+	T* GetParent () const;
+	T* GetSibling () const;
+	T* GetRoot () const;
+	T* GetFirst() const;
+	T* GetLast() const;
+	T* GetNext() const;
+	T* GetPrev() const;
+	T* Find (long long nameCRC) const;
+	T* Find (const char* const name) const;
 
 	protected:
 	dHierarchy (const T &clone);
 	virtual ~dHierarchy ();
-	dBaseHierarchy *CreateClone () const;
 };
-
-
 
 
 inline dBaseHierarchy::dBaseHierarchy ()
@@ -101,7 +92,7 @@ inline dBaseHierarchy::dBaseHierarchy ()
 	Clear ();
 }
 
-inline dBaseHierarchy::dBaseHierarchy (const char *name)
+inline dBaseHierarchy::dBaseHierarchy (const char* const name)
 {
 	Clear ();
 	SetNameID (name);
@@ -114,43 +105,43 @@ inline void dBaseHierarchy::Clear()
 	m_parent = NULL;
 	m_sibling = NULL;
 	m_nameID = 0;
-	m_name[0] = 0;
+	m_name = (char*)NULL;
 }
 
 
-inline dBaseHierarchy *dBaseHierarchy::GetChild () const
+inline dBaseHierarchy* dBaseHierarchy::GetChild () const
 {
 	return m_child;
 }
 
-inline dBaseHierarchy *dBaseHierarchy::GetSibling () const
+inline dBaseHierarchy* dBaseHierarchy::GetSibling () const
 {
 	return m_sibling;
 }
 
-inline dBaseHierarchy *dBaseHierarchy::GetParent () const
+inline dBaseHierarchy* dBaseHierarchy::GetParent () const
 {
 	return m_parent;
 }
 
 
-inline dBaseHierarchy *dBaseHierarchy::Find (const char *name) const
+inline dBaseHierarchy* dBaseHierarchy::Find (const char* const name) const
 {
-	return Find (dCRC (name)); 
+	return Find (dCRC64 (name)); 
 } 
 
-inline void dBaseHierarchy::SetNameID(const char* name)
+inline void dBaseHierarchy::SetNameID(const char* const name)
 {
-	m_nameID = dCRC (name);
-	strcpy (m_name, name);
+	m_nameID = dCRC64 (name);
+	m_name = name;
 }
 
-inline unsigned dBaseHierarchy::GetNameID() const
+inline long long  dBaseHierarchy::GetNameID() const
 {
 	return m_nameID;
 }
 
-inline const char* dBaseHierarchy::GetName() const
+inline const dString& dBaseHierarchy::GetName() const
 {
 	return m_name;
 }
@@ -169,7 +160,7 @@ dHierarchy<T>::dHierarchy (const T &clone)
 }
 
 template<class T>
-dHierarchy<T>::dHierarchy (const char *name)
+dHierarchy<T>::dHierarchy (const char* const name)
 	:dBaseHierarchy (name)
 {
 }
@@ -180,14 +171,14 @@ dHierarchy<T>::~dHierarchy ()
 }
 
 
-template<class T>
-dBaseHierarchy *dHierarchy<T>::CreateClone () const
-{
-	return new T (*(T*)this);
-}
+//template<class T>
+//dBaseHierarchy* dHierarchy<T>::CreateClone () const
+//{
+//	return new T (*(T*)this);
+//}
 
 template<class T>
-void dHierarchy<T>::Attach (T *parent, bool addFirst)
+void dHierarchy<T>::Attach (T* const parent, bool addFirst)
 {
 	dBaseHierarchy::Attach(parent, addFirst);
 }
@@ -199,65 +190,65 @@ void dHierarchy<T>::Detach ()
 }
 
 template<class T>
-T *dHierarchy<T>::GetChild () const
+T* dHierarchy<T>::GetChild () const
 {
 	return (T*) dBaseHierarchy::GetChild();
 }
 
 template<class T>
-T *dHierarchy<T>::GetSibling () const
+T* dHierarchy<T>::GetSibling () const
 {
 	return (T*) dBaseHierarchy::GetSibling ();
 }
 
 template<class T>
-T *dHierarchy<T>::GetParent () const
+T* dHierarchy<T>::GetParent () const
 {
 	return (T*) dBaseHierarchy::GetParent ();
 }
 
 
 template<class T>
-T *dHierarchy<T>::GetRoot () const
+T* dHierarchy<T>::GetRoot () const
 {
 	return (T*) dBaseHierarchy::GetRoot ();
 }
 
 
 template<class T>
-T *dHierarchy<T>::GetFirst() const
+T* dHierarchy<T>::GetFirst() const
 {
 	return (T*) dBaseHierarchy::GetFirst ();
 }
 
 template<class T>
-T *dHierarchy<T>::GetLast() const
+T* dHierarchy<T>::GetLast() const
 {
 	return (T*) dBaseHierarchy::GetLast ();
 }
 
 
 template<class T>
-T *dHierarchy<T>::GetNext() const
+T* dHierarchy<T>::GetNext() const
 {
 	return (T*) dBaseHierarchy::GetNext ();
 }
 
 template<class T>
-T *dHierarchy<T>::GetPrev() const
+T* dHierarchy<T>::GetPrev() const
 {
 	return (T*) dBaseHierarchy::GetPrev ();
 }
 
 
 template<class T>
-T *dHierarchy<T>::Find (unsigned nameCRC) const 
+T* dHierarchy<T>::Find (dCRCTYPE nameCRC) const 
 {
 	return (T*) dBaseHierarchy::Find (nameCRC);
 }
 
 template<class T>
-T *dHierarchy<T>::Find (const char *name) const
+T* dHierarchy<T>::Find (const char* const name) const
 {
 	return (T*) dBaseHierarchy::Find (name);
 } 

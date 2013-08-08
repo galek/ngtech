@@ -15,11 +15,14 @@
 
 namespace VEGA {
 
-//---------------------------------------------------------------------------
-//Desc: Image class  
-//---------------------------------------------------------------------------
+/**
+Image class  
+*/
 class ILImage {
 public:
+	/**
+	Image format
+	*/
 	enum Format {
 		RGB = IL_RGB,
 		RGBA = IL_RGBA,

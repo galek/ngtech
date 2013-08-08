@@ -16,6 +16,8 @@
 #include "CustomJointLibraryStdAfx.h"
 #include "Custom6DOF.h"
 
+//dInitRtti(Custom6DOF);
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -34,8 +36,8 @@ enum d6DOF_AngularGeometry
 };
 
 
-Custom6DOF::Custom6DOF (const dMatrix& pinsAndPivotChildFrame, const dMatrix& pinsAndPivotParentFrame, const NewtonBody* child, const NewtonBody* parent)
-	:NewtonCustomJoint(6, child, parent),
+Custom6DOF::Custom6DOF (const dMatrix& pinsAndPivotChildFrame, const dMatrix& pinsAndPivotParentFrame, NewtonBody* const child, NewtonBody* const parent)
+	:CustomJoint(6, child, parent),
 	 m_minLinearLimits(0.0f, 0.0f, 0.0f, 0.0f), m_maxLinearLimits(0.0f, 0.0f, 0.0f, 0.0f),
 	 m_minAngularLimits(0.0f, 0.0f, 0.0f, 0.0f), m_maxAngularLimits(0.0f, 0.0f, 0.0f, 0.0f)
 {
@@ -89,7 +91,7 @@ void Custom6DOF::SetReverserUniversal (int order)
 	m_reverseUniversal = order ? true : false;
 }
 
-void Custom6DOF::GetInfo (NewtonJointRecord* info) const
+void Custom6DOF::GetInfo (NewtonJointRecord* const info) const
 {
 	int i;
 	dFloat dist;
@@ -154,48 +156,42 @@ void Custom6DOF::SubmitConstraints (dFloat timestep, int threadIndex)
 
 void Custom6DOF::SubmitConstraints (const dMatrix& matrix0, const dMatrix& matrix1, dFloat timestep)
 {
-	int i;
-	dFloat dist;
-
 	// add the linear limits
 	const dVector& p0 = matrix0.m_posit;
-	dVector p1 (matrix1.m_posit);
+	const dVector& p1 (matrix1.m_posit);
 	dVector dp (p0 - p1);
-	for (i = 0; i < 3; i ++) {
-		if (!((m_minLinearLimits[i] == 0.0f) && (m_maxLinearLimits[i] == 0.0f))) {
-			p1 += matrix1[i].Scale (dp % matrix1[i]);
-		}
-	}
 
-	for (i = 0; i < 3; i ++) {
+	for (int i = 0; i < 3; i ++) {
 		if ((m_minLinearLimits[i] == 0.0f) && (m_maxLinearLimits[i] == 0.0f)) {
 			NewtonUserJointAddLinearRow (m_joint, &p0[0], &p1[0], &matrix0[i][0]);
 			NewtonUserJointSetRowStiffness (m_joint, 1.0f);
 		} else {
 			// it is a limited linear dof, check if it pass the limits
-			dist = dp % matrix1[i];
+			dFloat dist = dp % matrix1[i];
 			if (dist > m_maxLinearLimits[i]) {
+				dVector q1 (p1 + matrix1[i].Scale (m_maxLinearLimits[i]));
+
 				// clamp the error, so the not too much energy is added when constraint violation occurs
-				if (dist > m_maxMaxLinearErrorRamp[i]) {
-					dist = m_maxMaxLinearErrorRamp[i];
+				dFloat maxDist = (p0 - q1) % matrix1[i];
+				if (maxDist > m_maxMaxLinearErrorRamp[i]) {
+					q1 = p0 - matrix1[i].Scale(m_maxMaxLinearErrorRamp[i]);
 				}
 
-				dVector q1 (p1 + matrix1[i].Scale (m_maxLinearLimits[i] - dist));
 				NewtonUserJointAddLinearRow (m_joint, &p0[0], &q1[0], &matrix0[i][0]);
-
 				NewtonUserJointSetRowStiffness (m_joint, 1.0f);
 				// allow the object to return but not to kick going forward
 				NewtonUserJointSetRowMaximumFriction (m_joint, 0.0f);
 
 			} else if (dist < m_minLinearLimits[i]) {
+				dVector q1 (p1 + matrix1[i].Scale (m_minLinearLimits[i]));
+
 				// clamp the error, so the not too much energy is added when constraint violation occurs
-				if (dist < -m_maxMaxLinearErrorRamp[i]) {
-					dist = -m_maxMaxLinearErrorRamp[i];
+				dFloat maxDist = (p0 - q1) % matrix1[i];
+				if (maxDist < -m_maxMaxLinearErrorRamp[i]) {
+					q1 = p0 - matrix1[i].Scale(-m_maxMaxLinearErrorRamp[i]);
 				}
-
-				dVector q1 (p1 + matrix1[i].Scale (m_minLinearLimits[i] - dist));
+				
 				NewtonUserJointAddLinearRow (m_joint, &p0[0], &q1[0], &matrix0[i][0]);
-
 				NewtonUserJointSetRowStiffness (m_joint, 1.0f);
 				// allow the object to return but not to kick going forward
 				NewtonUserJointSetRowMinimumFriction (m_joint, 0.0f);
@@ -205,14 +201,14 @@ void Custom6DOF::SubmitConstraints (const dMatrix& matrix0, const dMatrix& matri
 
 	dMatrix basisAndEulerAngles (CalculateBasisAndJointAngle (matrix0, matrix1));
 	const dVector& eulerAngles = basisAndEulerAngles.m_posit;
-	for (i = 0; i < 3; i ++) {
+	for (int i = 0; i < 3; i ++) {
 		if ((m_minAngularLimits[i] == 0.0f) && (m_maxAngularLimits[i] == 0.0f)) {
 			NewtonUserJointAddAngularRow (m_joint, eulerAngles[i], &basisAndEulerAngles[i][0]);
 			NewtonUserJointSetRowStiffness (m_joint, 1.0f);
 		} else {
 			// it is a limited linear dof, check if it pass the limits
 			if (eulerAngles[i] > m_maxAngularLimits[i]) {
-				dist = eulerAngles[i] - m_maxAngularLimits[i];
+				dFloat dist = eulerAngles[i] - m_maxAngularLimits[i];
 				// clamp the error, so the not too much energy is added when constraint violation occurs
 				if (dist > m_maxMaxAngularErrorRamp[i]) {
 					dist = m_maxMaxAngularErrorRamp[i];
@@ -228,7 +224,7 @@ void Custom6DOF::SubmitConstraints (const dMatrix& matrix0, const dMatrix& matri
 				NewtonUserJointSetRowMinimumFriction (m_joint, 0.0f);
 
 			} else if (eulerAngles[i] < m_minAngularLimits[i]) {
-				dist = eulerAngles[i] - m_minAngularLimits[i];
+				dFloat dist = eulerAngles[i] - m_minAngularLimits[i];
 				// clamp the error, so the not too much energy is added when constraint violation occurs
 				if (dist < -m_maxMaxAngularErrorRamp[i]) {
 					dist = -m_maxMaxAngularErrorRamp[i];
@@ -291,14 +287,14 @@ dMatrix Custom6DOF::CalculateBasisAndJointAngle (const dMatrix& matrix0, const d
 		case m_fixed:
 		{
 			//return CalculateHinge_X_Angles (matrix0, matrix1);
-			//_ASSERTE (0);
+			//dAssert (0);
 			return CalculateHinge_Angles (matrix0, matrix1, 0, 1, 2);
 			break;
 		}
 
 		case m_ball:
 		{
-			_ASSERTE (0);
+			dAssert (0);
 			return (GetIdentityMatrix());
 			break;
 		}
@@ -349,7 +345,7 @@ dMatrix Custom6DOF::CalculateBasisAndJointAngle (const dMatrix& matrix0, const d
 		case m_free:
 		{
 			//return CalculateFree_XYZ_Angles (matrix0, matrix1);
-//			_ASSERTE (0);
+//			dAssert (0);
 //			return (GetIdentityMatrix());
 			return CalculateUniversal_Angles (matrix0, matrix1, 0, 1, 2);
 		}
@@ -395,8 +391,8 @@ dMatrix Custom6DOF::CalculateHinge_Angles (const dMatrix& matrix0, const dMatrix
 
 	angles[3] = 1.0f;
 
-//	_ASSERTE (dAbs (angles[y]) < 0.3f);
-//	_ASSERTE (dAbs (angles[z]) < 0.3f);
+//	dAssert (dAbs (angles[y]) < 0.3f);
+//	dAssert (dAbs (angles[z]) < 0.3f);
 
 	return dMatrix (matrix1[0], matrix1[1], matrix1[2], angles);
 }
@@ -434,10 +430,10 @@ dMatrix Custom6DOF::CalculateUniversal_Angles (const dMatrix& matrix0, const dMa
 	cosAngle = dir3 % basisAndEulerAngles[y];
 	sinAngle = (dir3 * basisAndEulerAngles[y]) % basisAndEulerAngles[z];
 	basisAndEulerAngles[3][z] = dAtan2 (sinAngle, cosAngle);
-	//	_ASSERTE (dAbs (angle_z) < 0.1f);
+	//	dAssert (dAbs (angle_z) < 0.1f);
 	basisAndEulerAngles[3][3] = 1.0f;
 
-//	_ASSERTE (dAbs (basisAndEulerAngles[3][z]) < 0.3f);
+//	dAssert (dAbs (basisAndEulerAngles[3][z]) < 0.3f);
 	return basisAndEulerAngles;
 }
 

@@ -15,21 +15,21 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_CUSTOM_USER_BLANK_INCLUDED_)
-#define AFX_CUSTOM_USER_BLANK_INCLUDED_
+#ifndef _CUSTOM_USER_BLANK_H_
+#define _CUSTOM_USER_BLANK_H_
 
-#include "NewtonCustomJoint.h"
+#include "CustomJoint.h"
 
-class JOINTLIBRARY_API CustomUserBlank: public NewtonCustomJoint  
+class CustomUserBlank: public CustomJoint  
 {
 	public:
-	CustomUserBlank(unsigned int maxDOF, const NewtonBody* child, const NewtonBody* parent = NULL);
-	virtual ~CustomUserBlank();
+	NEWTON_API CustomUserBlank(unsigned int maxDOF, NewtonBody* const child, NewtonBody* const parent = NULL);
+	NEWTON_API virtual ~CustomUserBlank();
 
 	protected:
-	virtual void SubmitConstraints (dFloat timestep, int threadIndex);
-	virtual void GetInfo (NewtonJointRecord* info) const;
+	NEWTON_API virtual void SubmitConstraints (dFloat timestep, int threadIndex);
+	NEWTON_API virtual void GetInfo (NewtonJointRecord* const info) const;
 };
 
-#endif // !defined(AFX_CUSTOM_USER_BLANK_INCLUDED_)
+#endif 
 

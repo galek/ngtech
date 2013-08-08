@@ -22,8 +22,10 @@
 
 #define MIN_JOINT_PIN_LENGTH	50.0f
 
-CustomPathFollow::CustomPathFollow (const dMatrix& pinAndPivotFrame, NewtonBody* child)
-	:NewtonCustomJoint(6, child, NULL)
+//dInitRtti(CustomPathFollow);
+
+CustomPathFollow::CustomPathFollow (const dMatrix& pinAndPivotFrame, NewtonBody* const child)
+	:CustomJoint(6, child, NULL)
 {
 	// calculate the two local matrix of the pivot point
 	dMatrix tmp;
@@ -34,7 +36,7 @@ CustomPathFollow::~CustomPathFollow()
 {
 }
 
-void CustomPathFollow::GetInfo (NewtonJointRecord* info) const
+void CustomPathFollow::GetInfo (NewtonJointRecord* const info) const
 {
 /*
 	strcpy (info->m_descriptionType, "slider");

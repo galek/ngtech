@@ -16,7 +16,7 @@ void ExampleGame::update() {}
 //------------------------------------------------------------
 void ExampleGame::initialise() {
 	//initializing loading screen
-	LoadingScreen *lscreen = LoadingScreen::create("../data/textures/logos/background.png");
+	LoadingScreen *lscreen = new LoadingScreen("../data/textures/logos/background.png");
 	lscreen->show();
 
 	sponza = new ObjectMesh("sponza.amdl");
@@ -89,7 +89,7 @@ EventsCallback::EventsCallback() : depth(10.0f){}
 //------------------------------------------------------------
 void EventsCallback::Body(){
 
-	if (GetEngine()->iWindow->wasKeyPressed(IWindow::KEY_ESC))
+	if (GetEngine()->iWindow->isKeyDown(IWindow::KEY_ESC))
 		GetEngine()->iWindow->toggleGrabMouse();
 
 	if (GetEngine()->iWindow->isKeyPressed(IWindow::KEY_Z))

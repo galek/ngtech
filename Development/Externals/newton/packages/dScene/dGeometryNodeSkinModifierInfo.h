@@ -47,19 +47,15 @@ class dGeometryNodeSkinModifierInfo: public dGeometryNodeModifierInfo
 
 //	virtual const dMatrix& GetPivotMatrix () const;
 //	virtual void SetPivotMatrix (const dMatrix& matrix);
-	
-	
-//	virtual void CalculateOOBBGizmo (const dMatrix& matrix, dVector& p0, dVector& p1) const {};
 //	virtual dFloat RayCast (const dVector& p0, const dVector& p1) const {return 1.0f;}
 
 	virtual void RemoveUnusedVertices(const int* const verteMap);
-	virtual void SkinMesh(dScene::dTreeNode* myNode, dScene* world, dBoneVertexWeightData* skinData, int skinDataCount);  
+	virtual void SkinMesh(dScene::dTreeNode* myNode, dScene* const world, dBoneVertexWeightData* skinData, int skinDataCount);  
 
 	virtual void BakeTransform (const dMatrix& matrix);
 
-	virtual void SerializeBinary (FILE* const file) {};
 	virtual void Serialize (TiXmlElement* const rootNode) const;
-	virtual bool Deserialize (TiXmlElement* const rootNode, int revisionNumber);
+	virtual bool Deserialize (const dScene* const scene, TiXmlElement* const rootNode);
 
 	int m_boneCount;
 	int m_vertexCount;

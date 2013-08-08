@@ -17,10 +17,9 @@
 /////////////////////////////////////////////////////////////////////////////
 
 
-#include "dPluginStdafx.h"
+#include "dSceneStdafx.h"
 #include "dScene.h"
 #include "dNodeInfo.h"
-#include "dCameraNodeInfo.h"
 #include "dSceneNodeInfo.h"
 #include "dSceneGraph.h"
 
@@ -33,10 +32,9 @@ dGraphNode::dGraphNode ()
 }
 
 dGraphNode::dGraphNode (const dGraphNode& node)
-//	:dList<neGraphEdge>(), m_lru (0)
 	:m_lru (0),  m_nodeInfo(NULL), m_parents(), m_children()
 {
-	_ASSERTE (0);
+	dAssert (0);
 }
 
 dGraphNode::~dGraphNode ()
@@ -100,7 +98,6 @@ void dSceneGraph::Cleanup()
 	Iterator iter (*this);
 	for (iter.Begin(); iter; iter ++) {
 		dGraphNode& info = (*iter);
-		//info.RemoveAll();
 		info.m_parents.RemoveAll();
 		info.m_children.RemoveAll();
 		info.m_nodeInfo->Release();
@@ -116,10 +113,6 @@ int dSceneGraph::GetLRU()
 	return m_lru;
 }
 
-dSceneGraph::dTreeNode* dSceneGraph::GetRootNode() const
-{
-	return m_rootNode;
-}
 
 bool dSceneGraph::HasLinkToRoot (dTreeNode* const node)
 {
@@ -144,7 +137,7 @@ bool dSceneGraph::HasLinkToRoot (dTreeNode* const node)
 		for (index = stack - 1; (index >= 0) && parentEdge[index]; index --);
 		if ((index >= 0) && !parentEdge[index]) {
 			index ++;
-			_ASSERTE (index <= stack);
+			dAssert (index <= stack);
 		}
 		
 		for (dGraphNode::dLink::dListNode* link = node->GetInfo().m_children.GetFirst(); link; link = link->GetNext()){
@@ -164,7 +157,7 @@ bool dSceneGraph::HasLinkToRoot (dTreeNode* const node)
 					parentEdge[stack] = 0;
 				}
 				stack ++;
-				_ASSERTE (stack < (sizeof (parentEdge) / sizeof (parentEdge[0])));
+				dAssert (stack < int (sizeof (parentEdge) / sizeof (parentEdge[0])));
 			}
 		}
 
@@ -175,28 +168,24 @@ bool dSceneGraph::HasLinkToRoot (dTreeNode* const node)
 				pool[stack] = link->GetInfo();
 				parentEdge[stack] = 1;
 				stack ++;
-				_ASSERTE (stack < (sizeof (parentEdge) / sizeof (parentEdge[0])));
+				dAssert (stack < int (sizeof (parentEdge) / sizeof (parentEdge[0])));
 			}
 		}
 	}
 	return false;
 }
 
-dSceneGraph::dTreeNode* dSceneGraph::AddNode (dNodeInfo* const info, dTreeNode* parent)
+void dSceneGraph::SetNodeInfo (dNodeInfo* const newInfo, dTreeNode* const node)
 {
-	dTreeNode* child = Insert(info->GetUniqueID());
-	dGraphNode& node = child->GetInfo();
-	node.m_nodeInfo = info;
-	info->AddRef();
-
-	if (parent) {
-		parent->GetInfo().m_children.Append(child);
-		child->GetInfo().m_parents.Append(parent);
-	}
-	return child;
+	newInfo->AddRef();
+	dGraphNode& graphNode = node->GetInfo();
+	dNodeInfo* const oldInfo = graphNode.m_nodeInfo;
+	oldInfo->Release();
+	graphNode.m_nodeInfo = newInfo;
 }
 
-void dSceneGraph::AddEdge (dTreeNode* parent, dTreeNode* child)
+
+void dSceneGraph::AddEdge (dTreeNode* const parent, dTreeNode* const child)
 {
 	dGraphNode& parentNode = parent->GetInfo();
 	dGraphNode& childNode = child->GetInfo();
@@ -215,7 +204,7 @@ void dSceneGraph::AddEdge (dTreeNode* parent, dTreeNode* child)
 		}
 	}
 
-	_ASSERTE ((parentLink && childLink) || (!parentLink && !childLink));
+	dAssert ((parentLink && childLink) || (!parentLink && !childLink));
 	if ((!parentLink && !childLink)) {
 		parentNode.m_children.Append(child);
 		childNode.m_parents.Append(parent);
@@ -224,7 +213,7 @@ void dSceneGraph::AddEdge (dTreeNode* parent, dTreeNode* child)
 
 void dSceneGraph::UnlinkEdge (dTreeNode* const node1, dTreeNode* const node2)
 {
-_ASSERTE (0);
+dAssert (0);
 /*
 	dGraphNode& info1 = node1->GetInfo();
 	dGraphNode& info2 = node2->GetInfo();
@@ -242,7 +231,7 @@ _ASSERTE (0);
 		}
 	}
 
-	_ASSERTE ((link1 && link2) || (!link1 && !link2));
+	dAssert ((link1 && link2) || (!link1 && !link2));
 	if (link1 && link2) {
 		info1.Remove(link1);
 		info2.Remove(link2);
@@ -263,11 +252,11 @@ void dSceneGraph::DeleteEdge (dTreeNode* const node1, dTreeNode* const node2)
 					info2.m_parents.Remove(link2);
 
 					if (!HasLinkToRoot (node1)) {
-						_ASSERTE (node1 != m_rootNode);
+						dAssert (node1 != m_rootNode);
 						DeleteNode (node1);
 					}
 					if (!HasLinkToRoot (node2)) {
-						_ASSERTE (node2 != m_rootNode);
+						dAssert (node2 != m_rootNode);
 						DeleteNode (node2);
 					}
 					return;
@@ -284,11 +273,11 @@ void dSceneGraph::DeleteEdge (dTreeNode* const node1, dTreeNode* const node2)
 					info2.m_children.Remove(link2);
 
 					if (!HasLinkToRoot (node1)) {
-						_ASSERTE (node1 != m_rootNode);
+						dAssert (node1 != m_rootNode);
 						DeleteNode (node1);
 					}
 					if (!HasLinkToRoot (node2)) {
-						_ASSERTE (node2 != m_rootNode);
+						dAssert (node2 != m_rootNode);
 						DeleteNode (node2);
 					}
 					return;
@@ -297,6 +286,22 @@ void dSceneGraph::DeleteEdge (dTreeNode* const node1, dTreeNode* const node2)
 		}
 	}
 }
+
+
+dSceneGraph::dTreeNode* dSceneGraph::AddNode (dNodeInfo* const info, dTreeNode* const parent)
+{
+	dTreeNode* const child = Insert(info->GetUniqueID());
+	dGraphNode& node = child->GetInfo();
+	node.m_nodeInfo = info;
+	info->AddRef();
+
+	if (parent) {
+		parent->GetInfo().m_children.Append(child);
+		child->GetInfo().m_parents.Append(parent);
+	}
+	return child;
+}
+
 
 void dSceneGraph::DeleteNode (dTreeNode* const node)
 {
@@ -374,7 +379,7 @@ void dSceneGraph::DeleteNode (dTreeNode* const node)
 					info.SetLRU(lru);
 					pool[stack] = link->GetInfo();
 					stack ++;
-					_ASSERTE (stack < (sizeof (pool) / sizeof (pool[0])));
+					dAssert (stack < int (sizeof (pool) / sizeof (pool[0])));
 				}
 			}
 
@@ -385,7 +390,7 @@ void dSceneGraph::DeleteNode (dTreeNode* const node)
 					info.SetLRU(lru);
 					pool[stack] = link->GetInfo();
 					stack ++;
-					_ASSERTE (stack < (sizeof (pool) / sizeof (pool[0])));
+					dAssert (stack < int (sizeof (pool) / sizeof (pool[0])));
 				}
 			}
 		}
@@ -410,14 +415,40 @@ void dSceneGraph::DeleteNode (dTreeNode* const node)
 			Remove (node);
 		}
 	}
-
 }
+
+
+dSceneGraph::dTreeNode* dSceneGraph::GetRootNode() const
+{
+	dAssert (m_rootNode);
+	return m_rootNode;
+}
+
+
+void dSceneGraph::AddRootNode(dNodeInfo* const info)
+{
+	dAssert (!m_rootNode);
+	m_rootNode = AddNode(info, NULL);
+}
+
+
+void dSceneGraph::DeleteRootNode()
+{
+	dAssert (m_rootNode);
+	DeleteNode(m_rootNode);
+	m_rootNode = NULL;
+}
+
+
+
+
+
 
 
 void dSceneGraph::Serialize (TiXmlElement* const rootNode) const
 {
 	// save scenes nodes
-	TiXmlElement* nodes = new TiXmlElement ("nodes");
+	TiXmlElement* const nodes = new TiXmlElement ("nodes");
 	rootNode->LinkEndChild(nodes);
 	
 	dTree<int, dTreeNode*> enumerator;
@@ -436,27 +467,26 @@ void dSceneGraph::Serialize (TiXmlElement* const rootNode) const
 	char text[D_GRAPH_MAX_STACK_DEPTH * 32];
 
 	for (iter.Begin(); iter; iter ++) {
-		dTreeNode* node = iter.GetNode();
-//		TiXmlElement* infoNode = node->GetInfo().GetNode()->Serialize(nodes);
+		dTreeNode* const node = iter.GetNode();
 		dNodeInfo* info = node->GetInfo().GetNode();
-		TiXmlElement* infoNode = new TiXmlElement (info->GetClassName());
+		TiXmlElement* const infoNode = new TiXmlElement (info->GetClassName());
 		nodes->LinkEndChild(infoNode);
 		info->Serialize (infoNode);
-		_ASSERTE (infoNode);
+		dAssert (infoNode);
 
 		int nodeCount = 0;
 		for (dGraphNode::dLink::dListNode* edgeNode = node->GetInfo().m_parents.GetFirst(); edgeNode; edgeNode = edgeNode->GetNext()) {
-			dTree<int, dTreeNode*>::dTreeNode* edge = enumerator.Find (edgeNode->GetInfo());
-			_ASSERTE (edge);
+			dTree<int, dTreeNode*>::dTreeNode* const edge = enumerator.Find (edgeNode->GetInfo());
+			dAssert (edge);
 //			if (edge) {
 				indexList[nodeCount] = edge->GetInfo();
 				nodeCount ++;
-				_ASSERTE (nodeCount < (sizeof (indexList) / sizeof (indexList[0])));
+				dAssert (nodeCount < int (sizeof (indexList) / sizeof (indexList[0])));
 //			}
 		}
 		if (nodeCount) {
 			dIntArrayToString (indexList, nodeCount, text, sizeof (text));
-			TiXmlElement* parent = new TiXmlElement ("parentNodes");
+			TiXmlElement* const parent = new TiXmlElement ("parentNodes");
 			parent->SetAttribute("count", nodeCount);
 			parent->SetAttribute("indices", text);
 			infoNode->LinkEndChild(parent);
@@ -464,17 +494,17 @@ void dSceneGraph::Serialize (TiXmlElement* const rootNode) const
 		
 		nodeCount = 0;
 		for (dGraphNode::dLink::dListNode* edgeNode = node->GetInfo().m_children.GetFirst(); edgeNode; edgeNode = edgeNode->GetNext()) {
-			dTree<int, dTreeNode*>::dTreeNode* edge = enumerator.Find (edgeNode->GetInfo());
-			_ASSERTE (edge);
+			dTree<int, dTreeNode*>::dTreeNode* const edge = enumerator.Find (edgeNode->GetInfo());
+			dAssert (edge);
 //			if (edge) {
 				indexList[nodeCount] = edge->GetInfo();
 				nodeCount ++;
-				_ASSERTE (nodeCount < (sizeof (indexList) / sizeof (indexList[0])));
+				dAssert (nodeCount < int (sizeof (indexList) / sizeof (indexList[0])));
 //			}
 		}
 		if (nodeCount) {
 			dIntArrayToString (indexList, nodeCount, text, sizeof (text));
-			TiXmlElement* parent = new TiXmlElement ("childrenNodes");
+			TiXmlElement* const parent = new TiXmlElement ("childrenNodes");
 			parent->SetAttribute("count", nodeCount);
 			parent->SetAttribute("indices", text);
 			infoNode->LinkEndChild(parent);
@@ -482,71 +512,74 @@ void dSceneGraph::Serialize (TiXmlElement* const rootNode) const
 	}
 }
 
-bool dSceneGraph::Deserialize (TiXmlElement* const rootNode, int revision)
+bool dSceneGraph::Deserialize (TiXmlElement* const rootNode) 
 {
 	Cleanup();
-	int count;
-	rootNode->Attribute("count", &count);
 
-	dScene* world = (dScene*) this;
+	dScene* const world = (dScene*) this;
 	for (TiXmlElement* element = (TiXmlElement*) rootNode->FirstChild(); element; element = (TiXmlElement*) element->NextSibling()) {
-		const char* className = element->Value();
-		dNodeInfo* info = dNodeInfo::CreateFromClassName (className, world);
-		_ASSERTE (info);
-		info->Deserialize(element, revision);
-		AddNode (info, NULL);
-		info->Release();
+		const char* const className = element->Value();
+		dNodeInfo* const info = dNodeInfo::CreateFromClassName (className, world);
+		if (info) {
+			info->Deserialize((dScene*)this, element);
+			AddNode (info, NULL);
+			info->Release();
+		}
 	}
 
 	int baseIndex = Minimum()->GetKey();
 	int baseIndexCount = baseIndex;
 	for (TiXmlElement* element = (TiXmlElement*) rootNode->FirstChild(); element; element = (TiXmlElement*) element->NextSibling()) {
-		dTreeNode* myNode = Find (baseIndexCount);
+		dTreeNode* const myNode = Find (baseIndexCount);
 		baseIndexCount ++;
-		_ASSERTE (myNode);
-		dGraphNode& node = myNode->GetInfo();
+		if (myNode) {
+			dAssert (myNode);
+			dGraphNode& node = myNode->GetInfo();
 
-		TiXmlElement* parentNodes = (TiXmlElement*) element->FirstChild ("parentNodes");
-		if (parentNodes) {
-			int count;
-			parentNodes->Attribute("count", &count);
-			const char* indices = parentNodes->Attribute ("indices");
+			TiXmlElement* const parentNodes = (TiXmlElement*) element->FirstChild ("parentNodes");
+			if (parentNodes) {
+				int count;
+				parentNodes->Attribute("count", &count);
+				const char* const indices = parentNodes->Attribute ("indices");
 
-			const char* ptr = indices;
-			for (int i = 0; i < count; i ++) {
-				char index[128];
-				sscanf (ptr, "%s", index);
-				ptr = strstr (ptr, index);
-				ptr += strlen (index); 
-				int parentIndex = atoi (index);
+				const char* ptr = indices;
+				for (int i = 0; i < count; i ++) {
+					char index[128];
+					sscanf (ptr, "%s", index);
+					ptr = strstr (ptr, index);
+					ptr += strlen (index); 
+					int parentIndex = atoi (index);
 
-				dTreeNode* parentNode = Find(parentIndex + baseIndex);
-				_ASSERTE (parentNode);
-				node.m_parents.Append(parentNode);
+					dTreeNode* parentNode = Find(parentIndex + baseIndex);
+					dAssert (parentNode);
+					node.m_parents.Append(parentNode);
+				}
+			} else {
+				dAssert (!m_rootNode);
+				m_rootNode = myNode;
 			}
-		} else {
-			_ASSERTE (!m_rootNode);
-			m_rootNode = myNode;
-		}
 
 
-		TiXmlElement* childrenNodes = (TiXmlElement*) element->FirstChild ("childrenNodes");
-		if (childrenNodes) {
-			int count;
-			childrenNodes->Attribute("count", &count);
-			const char* indices = childrenNodes->Attribute ("indices");
+			TiXmlElement* const childrenNodes = (TiXmlElement*) element->FirstChild ("childrenNodes");
+			if (childrenNodes) {
+				int count;
+				childrenNodes->Attribute("count", &count);
+				const char* const indices = childrenNodes->Attribute ("indices");
 
-			const char* ptr = indices;
-			for (int i = 0; i < count; i ++) {
-				char index[128];
-				sscanf (ptr, "%s", index);
-				ptr = strstr (ptr, index);
-				ptr += strlen (index); 
-				int childIndex = atoi (index);
+				const char* ptr = indices;
+				for (int i = 0; i < count; i ++) {
+					char index[128];
+					sscanf (ptr, "%s", index);
+					ptr = strstr (ptr, index);
+					ptr += strlen (index); 
+					int childIndex = atoi (index);
 
-				dTreeNode* childNode = Find(childIndex + baseIndex);
-				_ASSERTE (childNode);
-				node.m_children.Append(childNode);
+					dTreeNode* const childNode = Find(childIndex + baseIndex);
+					if (childNode) {
+						dAssert (childNode);
+						node.m_children.Append(childNode);
+					}
+				}
 			}
 		}
 	}
@@ -554,72 +587,5 @@ bool dSceneGraph::Deserialize (TiXmlElement* const rootNode, int revision)
 	return true;
 }
 
-void dSceneGraph::SerializeBinary (FILE* const file)
-{
-_ASSERTE (0);
-/*
-	// save scenes nodes
-
-	int index = 0;
-	dTree<int, dTreeNode*> enumerator;
-
-	Iterator iter (*this);
-	for (iter.Begin(); iter; iter ++) {
-		enumerator.Insert (index ++, iter.GetNode());
-	}
-//	nodes->SetAttribute("count", index);
-
-	fprintf (file, "nodes\n");
-	fwrite (&index, 1, sizeof (int), file);
-	for (iter.Begin(); iter; iter ++) {
-		int indexList[1024];
-		dTreeNode* node = iter.GetNode();
-
-		int nodeCount = 0;
-//		TiXmlElement* infoNode = node->GetInfo().GetNode()->Serialize(nodes);
-		node->GetInfo().GetNode()->SerializeBinary(file);
-		for (dGraphNode::dListNode* edgeNode = node->GetInfo().GetFirst(); edgeNode; edgeNode = edgeNode->GetNext()) {
-			if (edgeNode->GetInfo().IsParent()) {
-				indexList[nodeCount] = enumerator.Find (edgeNode->GetInfo().GetNode())->GetInfo();
-				nodeCount ++;
-				_ASSERTE (nodeCount < (sizeof (indexList) / sizeof (indexList[0])));
-			}
-		}
-
-		if (nodeCount) {
-//			char text[1024 * 32];
-//			dIntArrayToString (indexList, nodeCount, text, sizeof (text));
-//			TiXmlElement* parent = new TiXmlElement ("parentNodes");
-//			parent->SetAttribute("count", nodeCount);
-//			parent->SetAttribute("indices", text);
-//			infoNode->LinkEndChild(parent);
-			fprintf (file, "parentNodes\n");
-			fwrite (&nodeCount, 1, sizeof (int), file);
-			fwrite (indexList, nodeCount, sizeof (int), file);
-		}
-
-
-		nodeCount = 0;
-		for (dGraphNode::dListNode* edgeNode = node->GetInfo().GetFirst(); edgeNode; edgeNode = edgeNode->GetNext()) {
-			if (!edgeNode->GetInfo().IsParent()) {
-				indexList[nodeCount] = enumerator.Find (edgeNode->GetInfo().GetNode())->GetInfo();
-				nodeCount ++;
-				_ASSERTE (nodeCount < (sizeof (indexList) / sizeof (indexList[0])));
-			}
-		}
-		if (nodeCount) {
-//			char text[1024 * 32];
-//			dIntArrayToString (indexList, nodeCount, text, sizeof (text));
-//			TiXmlElement* parent = new TiXmlElement ("childrenNodes");
-//			parent->SetAttribute("count", nodeCount);
-//			parent->SetAttribute("indices", text);
-//			infoNode->LinkEndChild(parent);
-			fprintf (file, "childrenNodes\n");
-			fwrite (&nodeCount, 1, sizeof (int), file);
-			fwrite (indexList, nodeCount, sizeof (int), file);
-		}
-	}
-*/
-}
 
 

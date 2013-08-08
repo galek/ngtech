@@ -12,15 +12,13 @@
 #include "PhysJoint.h"
 #include "PhysSystem.h"
 #include "PhysBody.h"
-#include "../Externals/newton/coreLibrary_200/source/newton/newton.h"
+#include "../Externals/newton/coreLibrary_300/source/newton/newton.h"
 //**************************************
 
 namespace VEGA {
 
-	PhysJointUpVector *PhysJointUpVector::create(const Vec3 &direction, PhysBody *body) {
-		PhysJointUpVector *joint = new PhysJointUpVector();
-		joint->nJoint = NewtonConstraintCreateUpVector(GetEngine()->physSystem->nWorld, direction, body->nBody);
-		return joint;
+	PhysJointUpVector::PhysJointUpVector(const Vec3 &direction, PhysBody *body) {
+		nJoint = NewtonConstraintCreateUpVector(GetEngine()->physSystem->nWorld, direction, body->nBody);
 	}
 
 	PhysJointUpVector::~PhysJointUpVector() {

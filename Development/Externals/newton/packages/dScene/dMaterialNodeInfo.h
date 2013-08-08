@@ -32,19 +32,18 @@ class dMaterialNodeInfo: public dNodeInfo
 	dMaterialNodeInfo(int id);
 	virtual ~dMaterialNodeInfo(void);
 
+	virtual void SetId (int id){m_id = id;}
 	virtual int GetId () const {return m_id;}
 
-	virtual void SetAmbientTextId(int id) {m_ambientTexId = id;}
-	virtual void SetDiffuseTextId(int id) {m_diffuseTexId = id;}
-	virtual void SetSpecularTextId(int id) {m_specularTexId = id;}
-	virtual void SetEmissiveTextId(int id) {m_emissiveTexId = id;}
+	virtual void SetAmbientTextId(dCRCTYPE id) {m_ambientTexId = id;}
+	virtual void SetDiffuseTextId(dCRCTYPE id) {m_diffuseTexId = id;}
+	virtual void SetSpecularTextId(dCRCTYPE id) {m_specularTexId = id;}
+	virtual void SetEmissiveTextId(dCRCTYPE id) {m_emissiveTexId = id;}
 
-	virtual int GetAmbientTextId() const {return m_ambientTexId;}
-	virtual int GetDiffuseTextId() const {return m_diffuseTexId;}
-	virtual int GetSpecularTextId() const {return m_specularTexId;}
-	virtual int GetEmissiveTextId() const {return m_emissiveTexId;}
-
-
+	virtual dCRCTYPE GetAmbientTextId() const {return m_ambientTexId;}
+	virtual dCRCTYPE GetDiffuseTextId() const {return m_diffuseTexId;}
+	virtual dCRCTYPE GetSpecularTextId() const {return m_specularTexId;}
+	virtual dCRCTYPE GetEmissiveTextId() const {return m_emissiveTexId;}
 
 	virtual void SetAmbientColor(const dVector& color) {m_ambientColor = color;}
 	virtual void SetDiffuseColor(const dVector& color) {m_diffuseColor = color;}
@@ -59,11 +58,12 @@ class dMaterialNodeInfo: public dNodeInfo
 	virtual const dVector& GetEmissiveColor() const {return m_emissiveColor;}
 	virtual dFloat GetShininess() const {return m_shininess;}
 	virtual dFloat GetOpacity() const {return m_opacity;}
+	
+	virtual dCRCTYPE CalculateSignature() const; 
 
 	protected:
-	virtual void SerializeBinary (FILE* const file);
 	virtual void Serialize (TiXmlElement* const rootNode) const; 
-	virtual bool Deserialize (TiXmlElement* const rootNode, int revisionNumber);
+	virtual bool Deserialize (const dScene* const scene, TiXmlElement* const rootNode);
 
 	dVector m_ambientColor;
 	dVector m_diffuseColor;
@@ -71,10 +71,10 @@ class dMaterialNodeInfo: public dNodeInfo
 	dVector m_emissiveColor;
 	dFloat m_shininess;
 	dFloat m_opacity;
-	int m_ambientTexId;
-	int m_diffuseTexId;
-	int m_specularTexId;
-	int m_emissiveTexId;
+	dCRCTYPE m_ambientTexId;
+	dCRCTYPE m_diffuseTexId;
+	dCRCTYPE m_specularTexId;
+	dCRCTYPE m_emissiveTexId;
 	int m_id;
 	friend class dScene;
 };

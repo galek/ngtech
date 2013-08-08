@@ -13,7 +13,7 @@
 #ifndef __dMatrix__
 #define __dMatrix__
 
-#include <dVector.h>
+#include "dVector.h"
 
 class dMatrix ;
 class dQuaternion;
@@ -23,10 +23,12 @@ class dQuaternion;
 
 inline dMatrix GetIdentityMatrix();
 
+D_MSC_VECTOR_ALIGMENT
 class dMatrix
 {
 	public:
 	dMatrix ();
+	dMatrix (const dFloat* const array);
 	dMatrix (const dVector &front, const dVector &up, const dVector &right, const dVector &posit);
 	dMatrix (const dQuaternion &rotation, const dVector &position);
 	dMatrix (dFloat pitch, dFloat yaw, dFloat roll, const dVector& location);
@@ -37,13 +39,14 @@ class dMatrix
 	dMatrix Inverse () const;
 	dMatrix Transpose () const;
 	dMatrix Transpose4X4 () const;
-	dVector GetXYZ_EulerAngles() const;
+	
 	dVector RotateVector (const dVector &v) const;
 	dVector UnrotateVector (const dVector &v) const;
 	dVector TransformVector (const dVector &v) const;
 	dVector UntransformVector (const dVector &v) const;
 	dVector TransformPlane (const dVector &localPlane) const;
 	dVector UntransformPlane (const dVector &globalPlane) const;
+	dVector GetEulerAngles(dEulerAngleOrder order = m_pitchYawRoll) const;
 
 	dMatrix Inverse4x4 () const;
 	dVector RotateVector4x4 (const dVector &v) const;
@@ -55,8 +58,8 @@ class dMatrix
 	// constructor for polar composition
 	dMatrix (const dMatrix& transformMatrix, const dVector& scale, const dMatrix& stretchAxis);
 
-	void TransformTriplex (dFloat* const dst, int dstStrideInBytes, dFloat* const src, int srcStrideInBytes, int count) const;
-	void TransformTriplex (dFloat64* const dst, int dstStrideInBytes, dFloat64* const src, int srcStrideInBytes, int count) const;
+	void TransformTriplex (dFloat* const dst, int dstStrideInBytes, const dFloat* const src, int srcStrideInBytes, int count) const;
+	void TransformTriplex (dFloat64* const dst, int dstStrideInBytes, const dFloat64* const src, int srcStrideInBytes, int count) const;
 
 	dMatrix operator* (const dMatrix & B) const;
 
@@ -97,6 +100,11 @@ inline dMatrix::dMatrix (
 	const dVector &posit)
 	:m_front (front), m_up(up), m_right(right), m_posit(posit)
 {
+}
+
+inline dMatrix::dMatrix (const dFloat* const array)
+{
+	memcpy (&(*this)[0][0], array, sizeof (dMatrix));
 }
 
 inline dVector& dMatrix::operator[] (int  i)

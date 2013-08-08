@@ -14,29 +14,21 @@
 // are changed infrequently
 //
 
-#ifndef __CONTAINERS_STDAFX__
-#define __CONTAINERS_STDAFX__
+#ifndef __D_CONTAINERS_STDAFX__
+#define __D_CONTAINERS_STDAFX__
 
+#include <new>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <windows.h>
-
+#include <assert.h>
 
 #ifdef _MSC_VER
-	#ifndef WIN32_LEAN_AND_MEAN
-		#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
-	#endif
 	#include <windows.h>
 	#include <crtdbg.h>
 #endif
 
-
-#if (defined (_LINUX_VER) || defined (_MAC_VER))
-#define _ASSERTE(x)
-#endif
-
-
-#ifdef _MAC_VER
+#ifdef _MACOSX_VER
 	#ifndef _MAC_IPHONE
 		#include <pthread.h>
 		#include <semaphore.h>
@@ -47,5 +39,7 @@
 	#include <sys/sysctl.h>
 #endif
 
+
+#include <dMathDefines.h>
 
 #endif

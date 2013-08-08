@@ -50,7 +50,7 @@ class TemplateVector
 	T m_w;
 };
 
-
+D_MSC_VECTOR_ALIGMENT
 class dVector: public TemplateVector<dFloat>
 {
 	public:
@@ -66,27 +66,24 @@ class dBigVector: public TemplateVector<double>
 	public: 
 	dBigVector(){};
 	dBigVector (const TemplateVector<dFloat>& v)
+		:TemplateVector<dFloat64> (v.m_x, v.m_y, v.m_z, v.m_w)
 	{
-		m_x = v.m_x;
-		m_y = v.m_y;
-		m_z = v.m_z;
-		m_w = v.m_w; 		
 	}
+
 	dBigVector (const TemplateVector<double>& v)
+		:TemplateVector<dFloat64> (v.m_x, v.m_y, v.m_z, v.m_w)
 	{
-		m_x = v.m_x;
-		m_y = v.m_y;
-		m_z = v.m_z;
-		m_w = v.m_w; 		
 	}
 
 	//	dBigVector (const dFloat *ptr);
 	dBigVector (dFloat x, dFloat y, dFloat z, dFloat w = 1.0)
+		:TemplateVector<dFloat64> (x, y, z, w)
 	{
-		m_x = x;
-		m_y = y;
-		m_z = z;
-		m_w = w; 		
+	}
+
+	dBigVector (dFloat64 x, dFloat64 y, dFloat64 z, dFloat64 w = 1.0)
+		:TemplateVector<dFloat64> (x, y, z, w)
+	{
 	}
 };
 
@@ -98,20 +95,14 @@ TemplateVector<T>::TemplateVector() {}
 
 template<class T>
 TemplateVector<T>::TemplateVector(const T *ptr)
+	:m_x (ptr[0]), m_y(ptr[1]), m_z(ptr[2]), m_w(1.0)
 {
-	m_x = ptr[0];
-	m_y = ptr[1];
-	m_z = ptr[2];
-	m_w = 1.0;
 }
 
 template<class T>
 TemplateVector<T>::TemplateVector(T x, T y, T z, T w) 
+	:m_x (x), m_y(y), m_z(z), m_w(w)
 {
-	m_x = x;
-	m_y = y;
-	m_z = z;
-	m_w = w;
 }
 
 
@@ -135,13 +126,13 @@ TemplateVector<T> TemplateVector<T>::Scale (T scale) const
 
 
 template<class T>
-TemplateVector<T> TemplateVector<T>::operator+ (const TemplateVector<T> &B) const
+TemplateVector<T> TemplateVector<T>::operator+ (const TemplateVector<T>& B) const
 {
 	return TemplateVector<T> (m_x + B.m_x, m_y + B.m_y, m_z + B.m_z, m_w);
 }
 
 template<class T>
-TemplateVector<T>& TemplateVector<T>::operator+= (const TemplateVector<T> &A) 
+TemplateVector<T>& TemplateVector<T>::operator+= (const TemplateVector<T>& A) 
 {
 	m_x += A.m_x;
 	m_y += A.m_y;
@@ -150,13 +141,13 @@ TemplateVector<T>& TemplateVector<T>::operator+= (const TemplateVector<T> &A)
 }
 
 template<class T>
-TemplateVector<T> TemplateVector<T>::operator- (const TemplateVector<T> &A) const
+TemplateVector<T> TemplateVector<T>::operator- (const TemplateVector<T>& A) const
 {
 	return TemplateVector<T> (m_x - A.m_x, m_y - A.m_y, m_z - A.m_z, m_w);
 }
 
 template<class T>
-TemplateVector<T>& TemplateVector<T>::operator-= (const TemplateVector<T> &A) 
+TemplateVector<T>& TemplateVector<T>::operator-= (const TemplateVector<T>& A) 
 {
 	m_x -= A.m_x;
 	m_y -= A.m_y;
@@ -166,14 +157,14 @@ TemplateVector<T>& TemplateVector<T>::operator-= (const TemplateVector<T> &A)
 
 
 template<class T>
-T TemplateVector<T>::operator% (const TemplateVector<T> &A) const
+T TemplateVector<T>::operator% (const TemplateVector<T>& A) const
 {
 	return m_x * A.m_x + m_y * A.m_y + m_z * A.m_z;
 }
 
 
 template<class T>
-TemplateVector<T> TemplateVector<T>::operator* (const TemplateVector<T> &B) const
+TemplateVector<T> TemplateVector<T>::operator* (const TemplateVector<T>& B) const
 {
 	return TemplateVector<T> (m_y * B.m_z - m_z * B.m_y,
  							    m_z * B.m_x - m_x * B.m_z,
@@ -183,7 +174,7 @@ TemplateVector<T> TemplateVector<T>::operator* (const TemplateVector<T> &B) cons
 
 
 template<class T>
-TemplateVector<T> TemplateVector<T>::CompProduct (const TemplateVector<T> &A) const
+TemplateVector<T> TemplateVector<T>::CompProduct (const TemplateVector<T>& A) const
 {
 	return TemplateVector<T> (m_x * A.m_x, m_y * A.m_y, m_z * A.m_z, A.m_w);
 }

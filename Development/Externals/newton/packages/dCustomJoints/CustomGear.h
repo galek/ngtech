@@ -14,10 +14,10 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_CustomGear_H__B631F556_B7D7_F85ECF3E9ADE__INCLUDED_)
-#define AFX_CustomGear_H__B631F556_B7D7_F85ECF3E9ADE__INCLUDED_
+#ifndef _CustomGear_H__
+#define _CustomGear_H__
 
-#include "NewtonCustomJoint.h"
+#include "CustomJoint.h"
 
 // this joint is for used in conjunction with Hinge of other spherical joints
 // is is usefully for establishing synchronization between the phase angle other the 
@@ -25,18 +25,17 @@
 // velErro = -(W0 * r0 + W1 *  r1)
 // where w0 and W1 are the angular velocity
 // r0 and r1 are the radius of the spinning disk
-class JOINTLIBRARY_API CustomGear: public NewtonCustomJoint  
+class CustomGear: public CustomJoint  
 {
 	public:
-	CustomGear(dFloat gearRatio, 
-			   const dVector& childPin, const dVector& parentPin, 
-			   NewtonBody* parenPin, NewtonBody* parent);
-	virtual ~CustomGear();
+	NEWTON_API CustomGear(dFloat gearRatio, const dVector& childPin, const dVector& parentPin, NewtonBody* const child, NewtonBody* const parent);
+	NEWTON_API CustomGear(int dof, NewtonBody* const child, NewtonBody* const parent);
+	NEWTON_API virtual ~CustomGear();
 
 
 	protected:
-	virtual void SubmitConstraints (dFloat timestep, int threadIndex);
-	virtual void GetInfo (NewtonJointRecord* info) const;
+	NEWTON_API virtual void SubmitConstraints (dFloat timestep, int threadIndex);
+	NEWTON_API virtual void GetInfo (NewtonJointRecord* const info) const;
 
 	dMatrix m_localMatrix0;
 	dMatrix m_localMatrix1;
@@ -44,5 +43,19 @@ class JOINTLIBRARY_API CustomGear: public NewtonCustomJoint
 	dFloat m_gearRatio;
 };
 
-#endif // !defined(AFX_CustomGear_H__B631F556_468B_4331_B7D7_F85ECF3E9ADE__INCLUDED_)
+class CustomGearAndSlide: public CustomGear
+{
+	public:
+	NEWTON_API CustomGearAndSlide (dFloat gearRatio, dFloat slideRatio, const dVector& childPin, const dVector& parentPin, NewtonBody* const parenPin, NewtonBody* const parent);
+	NEWTON_API virtual ~CustomGearAndSlide();
+
+	NEWTON_API virtual void SubmitConstraints (dFloat timestep, int threadIndex);
+	NEWTON_API virtual void GetInfo (NewtonJointRecord* const info) const;
+
+	protected:
+	dFloat m_slideRatio;
+};
+
+
+#endif 
 

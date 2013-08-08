@@ -15,25 +15,25 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_CUSTOM_PATH_FOLLOW_H__INCLUDED_)
-#define AFX_CUSTOM_PATH_FOLLOW_H__INCLUDED_
+#if !defined(AFX_CUSTOM_PATH_FOLLOW_H_H)
+#define AFX_CUSTOM_PATH_FOLLOW_H_H
 
-#include "NewtonCustomJoint.h"
+#include "CustomJoint.h"
 
-class JOINTLIBRARY_API CustomPathFollow: public NewtonCustomJoint  
+class CustomPathFollow: public CustomJoint  
 {
 	public:
-	CustomPathFollow (const dMatrix& pinsAndPivoFrame, NewtonBody* body);
-	virtual ~CustomPathFollow();
+	NEWTON_API CustomPathFollow (const dMatrix& pinAndPivotFrame, NewtonBody* const body);
+	NEWTON_API virtual ~CustomPathFollow();
 
-	virtual dMatrix EvalueCurve (const dVector& posit);
+	NEWTON_API virtual dMatrix EvalueCurve (const dVector& posit);
 
 	protected:
-	virtual void SubmitConstraints (dFloat timestep, int threadIndex);
-	virtual void GetInfo (NewtonJointRecord* info) const;
+	NEWTON_API virtual void SubmitConstraints (dFloat timestep, int threadIndex);
+	NEWTON_API virtual void GetInfo (NewtonJointRecord* const info) const;
 
 	dMatrix m_localMatrix0;
 };
 
-#endif // !defined(AFX_CUSTOM_PATH_FOLLOW_H__INCLUDED_)
+#endif // !defined(AFX_CUSTOM_PATH_FOLLOW_H_H)
 

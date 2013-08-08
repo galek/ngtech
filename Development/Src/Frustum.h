@@ -14,20 +14,42 @@
 
 namespace VEGA {
 
-//---------------------------------------------------------------------------
-//Desc: View frustum struct
-//---------------------------------------------------------------------------
-class ViewFrustum {
+/**
+View frustum
+*/
+class Frustum {
 public:
-	void get();
-	double *getPlane(int n) { return plane[n]; };
 
+	/**
+	gets the current view frustum from Meshview and Projection matrix
+	*/
+	void get();
+	float *getPlane(int n) { return plane[n]; };
+	/**
+	checks wether the point is inside of the frustum
+	\param point  point coordinates
+	\return true if inside
+	*/
 	bool isInside(const Vec3 &point);
+
+	/**
+	checks weather the bounding box is inside the frustum
+	\param min box`s min and max
+	\param max  sphere radius
+	\return true if inside
+	*/
 	bool isInside(const Vec3 &min, const Vec3 &max);
+
+	/**
+	checks weather the bounding sphere is inside the frustum
+	\param center  sphere center
+	\param radius  sphere radius
+	\return true if inside
+	*/
 	bool isInside(const Vec3 &center, float radius);
 
 private:
-	double plane[6][4];
+	float plane[6][4];
 };
 
 };

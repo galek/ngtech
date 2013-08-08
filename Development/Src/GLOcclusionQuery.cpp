@@ -12,51 +12,32 @@
 //***************************************************************************
 
 namespace VEGA {
-
-	//---------------------------------------------------------------------------
-	//Desc:    creates GLOcclusionQuery
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
-	GLOcclusionQuery *GLOcclusionQuery::create() {
-		GLOcclusionQuery *ocq = new GLOcclusionQuery();
-
-		glGenQueriesARB(1, &ocq->glID);
-		return ocq;
+/*
+*/
+	GLOcclusionQuery::GLOcclusionQuery() {
+		glGenQueriesARB(1, &glID);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    GLOcclusionQuery destructor
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	GLOcclusionQuery::~GLOcclusionQuery() {
 		glDeleteQueriesARB(1, &glID);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    begins rendering to query
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	void GLOcclusionQuery::beginRendering() {
 		glBeginQueryARB(GL_SAMPLES_PASSED_ARB, glID);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    end rendering to query
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	void GLOcclusionQuery::endRendering() {
 		glEndQueryARB(GL_SAMPLES_PASSED_ARB);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    get number of passed samples
-	//Params:  number of passed samples
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	unsigned int GLOcclusionQuery::getResult() {
 		unsigned int fc;
 		glGetQueryObjectuivARB(glID, GL_QUERY_RESULT_ARB, &fc);

@@ -10,6 +10,7 @@
 
 //**************************************
 #include "GLSystem.h"
+#include "Engine\DLLDef.h"
 #include "Font.h"
 #include <vector>
 //**************************************

@@ -10,7 +10,7 @@
 
 //***************************************************
 #include "IncludesAndLibs.h"
-#include "..\Common\IWindow.h"
+#include "Common\IWindow.h"
 #include "Config.h"
 //***************************************************************************
 #include "String.h"
@@ -47,16 +47,10 @@ namespace VEGA {
 		virtual bool wasMouseButtonReleased(MouseButton mb);
 
 		virtual bool isKeyPressed(Key key);
-		virtual bool wasKeyPressed(Key key);
-		virtual bool wasKeyReleased(Key key);
+		virtual bool isKeyDown(Key key);
+		virtual bool isKeyUp(Key key);
 
 		virtual void showOSCursor(bool _value);
-
-	private:
-		HDC hDC;		
-		HGLRC hRC;		
-		HWND hWnd;		
-		HINSTANCE hInstance;	
 	};
 
 };

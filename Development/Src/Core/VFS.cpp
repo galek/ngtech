@@ -3,12 +3,12 @@
 @author		George Evmenov
 @date		07/2009
 */
-#include "..\EnginePrivate.h"
+#include "../EnginePrivate.h"
 #include "MyGUI_OpenGLDiagnostic.h"
 #include "MyGUI_DataFileStream.h"
 #include "FileSystemInfo/FileSystemInfo.h"
 #include <fstream>
-#include "..\Common\IDataManager.h"
+#include "../Common/IDataManager.h"
 #include "VFS.h"
 
 
@@ -43,7 +43,7 @@ namespace VEGA
 			delete stream;
 			return nullptr;
 		}
-		//TODO:Nick:тут надо этот класс перенести из mygui
+		//Nick:TODO:тут надо этот класс перенести из mygui
 		using namespace MyGUI;
 		DataFileStream* data = new DataFileStream(stream);
 

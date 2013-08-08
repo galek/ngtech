@@ -7,7 +7,7 @@ namespace VEGA {
 	struct CVARManager
 	{
 		CVARManager(Config *c);
-		int width, height, bpp, zdepth, shadowtype;
-		bool fullscreen, showInfo, use_specular;
+		int r_width, r_height, r_bpp, r_zdepth, r_shadowtype,r_shadowsize;
+		bool r_fullscreen, r_showInfo, r_specular, r_hdr,r_wireframe,r_parallax,r_reflections;
 	};
 }

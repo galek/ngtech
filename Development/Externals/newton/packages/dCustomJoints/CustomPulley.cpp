@@ -17,6 +17,8 @@
 #include "CustomJointLibraryStdAfx.h"
 #include "CustomPulley.h"
 
+//dInitRtti(CustomPulley);
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -24,9 +26,9 @@ CustomPulley::CustomPulley(
 	dFloat gearRatio, 
 	const dVector& childPin, 
 	const dVector& parentPin, 
-	NewtonBody* child, 
-	NewtonBody* parent)
-	:NewtonCustomJoint(1, child, parent)
+	NewtonBody* const child, 
+	NewtonBody* const parent)
+	:CustomJoint(1, child, parent)
 {
 	m_gearRatio = gearRatio;
 
@@ -41,7 +43,7 @@ CustomPulley::CustomPulley(
 
 
 	// calculate the local matrix for body body1  
-//_ASSERTE (0);
+//dAssert (0);
 	dMatrix pinAndPivot1 (dgGrammSchmidt (parentPin));
 //	CalculateLocalMatrix (pivot, parentPin, dommyMatrix, m_localMatrix1);
 	CalculateLocalMatrix (pinAndPivot1, dommyMatrix, m_localMatrix1);
@@ -55,10 +57,6 @@ CustomPulley::~CustomPulley()
 
 void CustomPulley::SubmitConstraints (dFloat timestep, int threadIndex)
 {
-	dFloat w0;
-	dFloat w1;
-	dFloat relAccel;
-	dFloat relVeloc;
 	dVector veloc0;
 	dVector veloc1;
 	dMatrix matrix0;
@@ -74,18 +72,19 @@ void CustomPulley::SubmitConstraints (dFloat timestep, int threadIndex)
 	NewtonBodyGetVelocity(m_body1, &veloc1[0]);
 
 	// get angular velocity relative to the pin vector
-	w0 = veloc0 % matrix0.m_front;
-	w1 = veloc1 % matrix1.m_front;
+	dFloat w0 = veloc0 % matrix0.m_front;
+	dFloat w1 = veloc1 % matrix1.m_front;
 
 	// establish the gear equation.
-	relVeloc = w0 + m_gearRatio * w1;
+	dFloat relVeloc = w0 + m_gearRatio * w1;
 
 	// calculate the relative angular acceleration by dividing by the time step
 	// ideally relative acceleration should be zero, but is practice there will always 
 	// be a small difference in velocity that need to be compensated. 
 	// using the full acceleration will make the to over show a oscillate 
 	// so use only fraction of the acceleration
-	relAccel = - 0.3f * relVeloc / timestep;
+	dFloat invTimestep = (timestep > 0.0f) ? 1.0f / timestep: 1.0f;
+	dFloat relAccel = - 0.3f * relVeloc * invTimestep;
 
 	// set the linear part of Jacobian 0 to translational pin vector	
 	jacobian0[0] = 	matrix0.m_front[0];
@@ -115,7 +114,7 @@ void CustomPulley::SubmitConstraints (dFloat timestep, int threadIndex)
 }
 
 
-void CustomPulley::GetInfo (NewtonJointRecord* info) const
+void CustomPulley::GetInfo (NewtonJointRecord* const info) const
 {
 	strcpy (info->m_descriptionType, "pulley");
 

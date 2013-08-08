@@ -16,31 +16,33 @@
 #include "ALSound.h"
 #include "ALSoundSource.h"
 //***************************************************************************
-class NewtonWorld;
-class NewtonJoint;
-class NewtonMaterial;
-class NewtonBody;
+struct NewtonWorld;
+struct NewtonJoint;
+struct NewtonMaterial;
+struct NewtonBody;
+struct NewtonCollision;
 
 namespace VEGA {
 
-	//---------------------------------------------------------------------------
-	//Desc: Engine`s main physics system. Created one time
-	//---------------------------------------------------------------------------
+/**
+Engine`s main physics system. Created one time
+*/
 	class VEGA_API PhysSystem {
 	public:
 		PhysSystem();
 		~PhysSystem();
 
 		void initialise();
+	/**
+	Updates PhysSystem engine
+	\param dTime time from the last frame in miliseconds
+	*/
 		void update(float dTime);
-		void setWorldSize(const Vec3 &worldSize);
 
 		PhysBody *intersectWorldByRay(const Vec3 &src, const Vec3 &dst, Vec3 &normal, Vec3 &point);
 
 	private:
 		NewtonWorld *nWorld;
-
-		Vec3 worldSize;
 
 		float accTimeSlice;
 
@@ -57,7 +59,7 @@ namespace VEGA {
 		float intersectionParam;
 		Vec3 intersectionNormal;
 		PhysBody *intersectedBody;
-		static float rayCastFilter(const NewtonBody* body, const float* normal, int collisionID, void* userData, float iParam);
+		static float rayCastFilter(const NewtonBody* const body, const NewtonCollision* const shapeHit, const float* const hitContact, const float* const hitNormal, int* const collisionID, void* const userData, float intersectParam);
 
 		friend class PhysBody;
 		friend class PhysJoint;

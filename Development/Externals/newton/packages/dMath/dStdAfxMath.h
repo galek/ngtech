@@ -30,6 +30,7 @@
 	#include <crtdbg.h>
 #endif
 
-
+#include <stdio.h>
+#include <assert.h>
 #endif
 

@@ -57,7 +57,7 @@ namespace VEGA {
 		viewportCopy_brightPass_blured->setWrap(GLTexture::CLAMP_TO_EDGE);
 		viewportCopy_brightPass_blured->setFilter(GLTexture::LINEAR);
 
-		query = GLOcclusionQuery::create();
+		query = new GLOcclusionQuery();
 
 		sphere = new ObjectMesh("sphere.amdl");
 
@@ -243,7 +243,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::drawAmbient(bool blended) {
-		ViewFrustum frustum;
+		Frustum frustum;
 		matLightColor = ambient;
 
 		//DRAW TERRAIN
@@ -349,7 +349,7 @@ namespace VEGA {
 		GetEngine()->iRender->enableDepth();
 		GetEngine()->iRender->enable3d();*/
 
-		ViewFrustum frustum;
+		Frustum frustum;
 
 		//set material params
 		matLightIRadius = light->getIRadius();
@@ -442,11 +442,11 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::getOmniShadowMap(LightOmni *light) {
-		if (!light->visible || !light->castShadows || !cvars->shadowtype) {
+		if (!light->visible || !light->castShadows || !cvars->r_shadowtype) {
 			return;
 		}
 
-		ViewFrustum frustum;
+		Frustum frustum;
 
 		GetEngine()->iRender->setMatrixMode_Projection();
 		GetEngine()->iRender->push();
@@ -530,7 +530,7 @@ namespace VEGA {
 	void Scene::drawSpot(LightSpot *light, bool blended) {
 		if (!light->visible) return;
 
-		ViewFrustum frustum;
+		Frustum frustum;
 
 		light->projTransform = Mat4::texBias() *
 			Mat4::perspective(light->fov, 1, 1, light->radius) *
@@ -631,11 +631,11 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::getSpotShadowMap(LightSpot *light) {
-		if (!light->visible || !light->castShadows || !cvars->shadowtype) {
+		if (!light->visible || !light->castShadows || !cvars->r_shadowtype) {
 			return;
 		}
 
-		ViewFrustum frustum;
+		Frustum frustum;
 
 		matLightIRadius = light->getIRadius();
 		matLightPosition = light->position;
@@ -715,7 +715,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::drawDirect(LightDirect *light, bool blended) {
-		ViewFrustum frustum;
+		Frustum frustum;
 
 		//set material params
 		matLightDirection = light->direction;
@@ -798,7 +798,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::checkOmniVisibility(LightOmni *light) {
-		ViewFrustum frustum;
+		Frustum frustum;
 
 		frustum.get();
 		if (!frustum.isInside(light->position, light->radius)) {
@@ -839,7 +839,7 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::checkSpotVisibility(LightSpot *light) {
-		ViewFrustum frustum;
+		Frustum frustum;
 
 		frustum.get();
 		if (!frustum.isInside(light->position, light->radius)) {

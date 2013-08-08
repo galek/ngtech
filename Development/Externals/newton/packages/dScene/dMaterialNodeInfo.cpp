@@ -17,7 +17,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 
-#include "dPluginStdafx.h"
+#include "dSceneStdafx.h"
 #include "dMaterialNodeInfo.h"
 
 
@@ -80,69 +80,122 @@ dMaterialNodeInfo::dMaterialNodeInfo(int id)
 dMaterialNodeInfo::~dMaterialNodeInfo(void)
 {
 }
+/*
+void dMaterialNodeInfo::InitFrom (const dMaterialNodeInfo& src, )
+{
+	m_ambientColor = src.m_ambientColor;
+	m_diffuseColor = src.m_diffuseColor;
+	m_specularColor = src.m_specularColor;
+	m_emissiveColor = src.m_emissiveColor;
+	m_shininess = src.m_shininess;
+	m_opacity = src.m_opacity;
+	m_ambientTexId = src.m_ambientTexId;
+	m_diffuseTexId = src.m_diffuseTexId;
+	m_specularTexId = src.m_specularTexId;
+	m_emissiveTexId = src.m_emissiveTexId;
+}
+*/
 
-
+dCRCTYPE dMaterialNodeInfo::CalculateSignature() const
+{
+	dCRCTYPE signature = 0;
+	signature = dCRC64 (&m_ambientColor, sizeof (m_ambientColor), signature);
+	signature = dCRC64 (&m_diffuseColor, sizeof (m_diffuseColor), signature);
+	signature = dCRC64 (&m_specularColor, sizeof (m_specularColor), signature);
+	signature = dCRC64 (&m_emissiveColor, sizeof (m_emissiveColor), signature);
+	signature = dCRC64 (&m_shininess, sizeof (m_shininess), signature);
+	
+	signature = dCRC64 (&m_opacity, sizeof (m_opacity), signature);
+	signature = dCRC64 (&m_ambientTexId, sizeof (m_ambientTexId), signature);
+	signature = dCRC64 (&m_diffuseTexId, sizeof (m_diffuseTexId), signature);
+	signature = dCRC64 (&m_specularTexId, sizeof (m_specularTexId), signature);
+	signature = dCRC64 (&m_emissiveTexId, sizeof (m_emissiveTexId), signature);
+	return signature;
+}
 
 void dMaterialNodeInfo::Serialize (TiXmlElement* const rootNode) const
 {
 	SerialiseBase(dNodeInfo, rootNode);
 
-	char buffer[1024];
+	char buffer[4096];
+
+//	itoa64____ (m_id, id, 10);
+//	rootNode->SetAttribute("id", id);
 	rootNode->SetAttribute("id", m_id);
 
-	TiXmlElement* ambient = new TiXmlElement ("ambient");
+//	char id[256];
+	TiXmlElement* const ambient = new TiXmlElement ("ambient");
 	rootNode->LinkEndChild(ambient);
 	dFloatArrayToString(&m_ambientColor[0], 4, buffer, sizeof (buffer));
-	ambient->SetAttribute("textureId", m_ambientTexId);
+
+	//itoa64____ (m_ambientTexId, id, 10);
+	dString id (m_ambientTexId);
+	ambient->SetAttribute("textureId", id.GetStr());
 	ambient->SetAttribute("color", buffer);
 
-	TiXmlElement* diffuse = new TiXmlElement ("diffuse");
+	TiXmlElement* const diffuse = new TiXmlElement ("diffuse");
 	rootNode->LinkEndChild(diffuse);
 	dFloatArrayToString(&m_diffuseColor[0], 4, buffer, sizeof (buffer));
-	diffuse->SetAttribute("textureId", m_diffuseTexId);
+
+	//itoa64____ (m_diffuseTexId, id, 10);
+	id = dString (m_diffuseTexId);
+	diffuse->SetAttribute("textureId", id.GetStr());
 	diffuse->SetAttribute("color", buffer);
 
-	TiXmlElement* specular = new TiXmlElement ("specular");
+	TiXmlElement* const specular = new TiXmlElement ("specular");
 	rootNode->LinkEndChild(specular);
 	dFloatArrayToString(&m_specularColor[0], 4, buffer, sizeof (buffer));
-	specular->SetAttribute("textureId", m_specularTexId);
+
+	//itoa64____ (m_specularTexId, id, 10);
+	id =  dString (m_specularTexId);
+	specular->SetAttribute("textureId", id.GetStr());
 	specular->SetAttribute("color", buffer);
 
-	TiXmlElement* emissive = new TiXmlElement ("emissive");
+	TiXmlElement* const emissive = new TiXmlElement ("emissive");
 	rootNode->LinkEndChild(emissive);
 	dFloatArrayToString(&m_emissiveColor[0], 4, buffer, sizeof (buffer));
-	emissive->SetAttribute("textureId", m_emissiveTexId);
+
+	//itoa64____ (m_emissiveTexId, id, 10);
+	id =  dString (m_emissiveTexId);
+	emissive->SetAttribute("textureId", id.GetStr());
 	emissive->SetAttribute("color", buffer);
 
-	TiXmlElement* shininess = new TiXmlElement ("shininess");
+	TiXmlElement* const shininess = new TiXmlElement ("shininess");
 	rootNode->LinkEndChild(shininess);
 	shininess->SetDoubleAttribute ("float", m_shininess);
 
-	TiXmlElement* opacity = new TiXmlElement ("opacity");
+	TiXmlElement* const opacity = new TiXmlElement ("opacity");
 	rootNode->LinkEndChild(opacity);
 	opacity->SetDoubleAttribute ("float", m_opacity);
 }
 
-bool dMaterialNodeInfo::Deserialize (TiXmlElement* const rootNode, int revisionNumber) 
+bool dMaterialNodeInfo::Deserialize (const dScene* const scene, TiXmlElement* const rootNode) 
 {
-	DeserialiseBase(dNodeInfo, rootNode, revisionNumber);
+	DeserialiseBase(scene, dNodeInfo, rootNode);
+
+	char text[1024];
 
 	rootNode->Attribute("id", &m_id);
 
 	TiXmlElement* const ambient = (TiXmlElement*) rootNode->FirstChild ("ambient");
-	ambient->Attribute("textureId", &m_ambientTexId);
+	sprintf (text, "%s", ambient->Attribute("textureId"));
+	m_ambientTexId = dString((const char*)text).ToInteger64();
 	dStringToFloatArray (ambient->Attribute("color"), &m_ambientColor[0], 4);
 
 	TiXmlElement* const diffuse = (TiXmlElement*) rootNode->FirstChild ("diffuse");
-	diffuse->Attribute("textureId", &m_diffuseTexId);
+	sprintf (text, "%s", diffuse->Attribute("textureId"));
+	m_diffuseTexId = dString((const char*)text).ToInteger64();
 	dStringToFloatArray (diffuse->Attribute("color"), &m_diffuseColor[0], 4);
 
 	TiXmlElement* const specular = (TiXmlElement*) rootNode->FirstChild ("specular");
-	specular->Attribute("textureId", &m_specularTexId);
+
+	sprintf (text, "%s", specular->Attribute("textureId"));
+	m_emissiveTexId = dString((const char*)text).ToInteger64();
 	dStringToFloatArray (specular->Attribute("color"), &m_specularColor[0], 4);
 
 	TiXmlElement* const emissive = (TiXmlElement*) rootNode->FirstChild ("emissive");
-	emissive->Attribute("textureId", &m_emissiveTexId);
+	sprintf (text, "%s", emissive->Attribute("textureId"));
+	m_emissiveTexId = dString((const char*)text).ToInteger64();
 	dStringToFloatArray (emissive->Attribute("color"), &m_emissiveColor[0], 4);
 
 	TiXmlElement* const shininess = (TiXmlElement*) rootNode->FirstChild ("shininess");
@@ -158,53 +211,3 @@ bool dMaterialNodeInfo::Deserialize (TiXmlElement* const rootNode, int revisionN
 }
 
 
-void dMaterialNodeInfo::SerializeBinary (FILE* const file) 
-{
-	fprintf (file, "%s\n%s\n", GetClassName(), GetName());
-
-//	node->SetAttribute("id", m_id);
-
-	fwrite (&m_id, 1, sizeof (int), file);
-	
-
-//	TiXmlElement* ambient = new TiXmlElement ("ambient");
-//	parentNode->LinkEndChild(ambient);
-//	dFloatArrayToString(&m_ambientColor[0], 4, buffer, sizeof (buffer));
-//	ambient->SetAttribute("textureId", m_ambientTexId);
-//	ambient->SetAttribute("color", buffer);
-	fwrite (&m_ambientTexId, 1, sizeof (int), file);
-	fwrite (&m_ambientColor[0], 4, sizeof (dFloat), file);
-
-//	TiXmlElement* diffuse = new TiXmlElement ("diffuse");
-//	parentNode->LinkEndChild(diffuse);
-//	dFloatArrayToString(&m_diffuseColor[0], 4, buffer, sizeof (buffer));
-//	diffuse->SetAttribute("textureId", m_ambientTexId);
-//	diffuse->SetAttribute("color", buffer);
-	fwrite (&m_diffuseTexId, 1, sizeof (int), file);
-	fwrite (&m_diffuseColor[0], 4, sizeof (dFloat), file);
-
-//	TiXmlElement* specular = new TiXmlElement ("specular");
-//	parentNode->LinkEndChild(specular);
-//	dFloatArrayToString(&m_specularColor[0], 4, buffer, sizeof (buffer));
-//	specular->SetAttribute("textureId", m_ambientTexId);
-//	specular->SetAttribute("color", buffer);
-	fwrite (&m_specularTexId, 1, sizeof (int), file);
-	fwrite (&m_specularColor[0], 4, sizeof (dFloat), file);
-
-//	TiXmlElement* emissive = new TiXmlElement ("emissive");
-//	parentNode->LinkEndChild(emissive);
-//	dFloatArrayToString(&m_emissiveColor[0], 4, buffer, sizeof (buffer));
-//	emissive->SetAttribute("float4", buffer);
-	fwrite (&m_emissiveTexId, 1, sizeof (int), file);
-	fwrite (&m_emissiveColor[0], 4, sizeof (dFloat), file);
-
-//	TiXmlElement* shininess = new TiXmlElement ("shininess");
-//	parentNode->LinkEndChild(shininess);
-//	shininess->SetDoubleAttribute ("float", m_shininess);
-	fwrite (&m_shininess, 1, sizeof (dFloat), file);
-
-//	TiXmlElement* opacity = new TiXmlElement ("opacity");
-//	parentNode->LinkEndChild(opacity);
-//	opacity->SetDoubleAttribute ("float", m_opacity);
-	fwrite (&m_opacity, 1, sizeof (dFloat), file);
-}

@@ -189,9 +189,6 @@
     <ClCompile Include="Log.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Externals\newton\coreLibrary_200\projets\windows\project_vs2010\newton.vcxproj">
-      <Project>{68d9962c-0ec7-445a-b0fd-f87b16d43901}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{413d151a-e7ac-419a-b9c1-e270e686f949}</Project>
     </ProjectReference>

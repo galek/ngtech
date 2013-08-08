@@ -15,34 +15,29 @@
 
 namespace VEGA {
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates the log file
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
-	LoadingScreen *LoadingScreen::create(const String &path) {
-		LoadingScreen *screen = new LoadingScreen();
+	/*
+	*/
+	LoadingScreen::LoadingScreen(const String &path) {
+		
+	glLogo = GLTexture::create2d("../data/textures/logos/glLogo.png");
+	glLogo->setFilter(GLTexture::LINEAR);
 
-		screen->glLogo = GLTexture::create2d("../data/textures/logos/glLogo.png");
-		screen->glLogo->setFilter(GLTexture::LINEAR);
+	alLogo = GLTexture::create2d("../data/textures/logos/alLogo.png");
+	alLogo->setFilter(GLTexture::LINEAR);
 
-		screen->alLogo = GLTexture::create2d("../data/textures/logos/alLogo.png");
-		screen->alLogo->setFilter(GLTexture::LINEAR);
+	ilLogo = GLTexture::create2d("../data/textures/logos/ilLogo.png");
+	ilLogo->setFilter(GLTexture::LINEAR);
 
-		screen->ilLogo = GLTexture::create2d("../data/textures/logos/ilLogo.png");
-		screen->ilLogo->setFilter(GLTexture::LINEAR);
+	newtonLogo = GLTexture::create2d("../data/textures/logos/newtonLogo.png");
+	newtonLogo->setFilter(GLTexture::LINEAR);
 
-		screen->newtonLogo = GLTexture::create2d("../data/textures/logos/newtonLogo.png");
-		screen->newtonLogo->setFilter(GLTexture::LINEAR);
-
-		screen->myGUILogo = GLTexture::create2d("../data/textures/logos/myguiLogo.png");
-		screen->myGUILogo->setFilter(GLTexture::LINEAR);
+	myGUILogo = GLTexture::create2d("../data/textures/logos/myguiLogo.png");
+	myGUILogo->setFilter(GLTexture::LINEAR);
 
 
-		//screen->vegaLogo = GLTexture::create2d("../data/textures/logos/vegaLogo.png");
+	//vegaLogo = GLTexture::create2d("../data/textures/logos/vegaLogo.png");
 
-		screen->background = GLTexture::create2d(path);
-		return screen;
+	background = GLTexture::create2d(path);
 	}
 
 	LoadingScreen::~LoadingScreen() {}

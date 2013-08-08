@@ -12,9 +12,6 @@
 
 namespace VEGA {
 
-	//---------------------------------------------------------------------------
-	//Desc: Some important math functions
-	//---------------------------------------------------------------------------
 	float Math::clamp(float v, float min, float max) {
 		if(v < min) v = min;
 		if(v > max) v = max;
@@ -250,10 +247,8 @@ namespace VEGA {
 		return (a.x * b.x + a.y * b.y);
 	}
 
-
-	//---------------------------------------------------------------------------
-	//Desc: 3D Vector class
-	//---------------------------------------------------------------------------
+/*
+*/
 	Vec3::Vec3() {
 		x = 0.0;
 		y = 0.0;
@@ -400,11 +395,8 @@ namespace VEGA {
 		return Vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
 	}
 
-
-
-	//---------------------------------------------------------------------------
-	//Desc: 4D Vector class
-	//---------------------------------------------------------------------------
+/*
+*/
 	Vec4::Vec4() {
 		x = y = z = w = 0.0;
 	}
@@ -559,9 +551,8 @@ namespace VEGA {
 		return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc: 3x3 Matrix class
-	//---------------------------------------------------------------------------
+/*
+*/
 	Mat3::Mat3() {
 		identity();
 	}
@@ -743,11 +734,8 @@ namespace VEGA {
 		result.z = m.e[2] * v.x + m.e[5] * v.y + m.e[8] * v.z;
 		return result;
 	}
-
-
-	//---------------------------------------------------------------------------
-	//Desc: 4x4 Matrix class
-	//---------------------------------------------------------------------------
+/*
+*/
 	Mat4::Mat4() {
 		identity();
 	}
@@ -1059,6 +1047,62 @@ namespace VEGA {
 		return result;
 	}
 
+Mat4 Mat4::reflect(const Vec4 &plane) {
+	Mat4 out;
+	float x = plane.x;
+	float y = plane.y;
+	float z = plane.z;
+	
+	float x2 = x * 2.0f;
+	float y2 = y * 2.0f;
+	float z2 = z * 2.0f;
+	
+	out.e[0]  = 1.0f - x * x2; 
+	out.e[4]  = -y * x2; 
+	out.e[8]  = -z * x2; 
+	out.e[12] = -plane.w * x2;
+	out.e[1]  = -x * y2; 
+	out.e[5]  = 1.0f - y * y2; 
+	out.e[9]  = -z * y2; 
+	out.e[13] = -plane.w * y2;
+	out.e[2]  = -x * z2; 
+	out.e[6]  = -y * z2; 
+	out.e[10] = 1.0f - z * z2; 
+	out.e[14] = -plane.w * z2;
+	out.e[3]  = 0.0; 
+	out.e[7]  = 0.0; 
+	out.e[11] = 0.0; 
+	out.e[15] = 1.0;
+
+	return out;
+}
+
+EFORCEINLINE float sign(float a) {
+    if (a > 0.0) return 1.0;
+    if (a < 0.0) return -1.0;
+    return 0.0;
+}
+
+Mat4 Mat4::reflectProjection(const Mat4 &proj, const Vec4 &plane) {
+	Mat4 out = proj;
+	
+	Vec4 q; //= Vec4(sign(plane.x), 1.0, sign(plane.z), 1.0);
+	//q = q * Mat4::inverse(proj);
+	q.x = (sign(plane.x) + proj.e[8]) / proj.e[0];
+	q.y = (sign(plane.y) + proj.e[9]) / proj.e[5];
+    q.z = -1.0;
+    q.w = (1.0 + proj.e[10]) / proj.e[14];
+    
+	Vec4 c = plane * (2.0 / Vec3::dot(plane, q));
+    
+    out.e[2] = c.x;
+    out.e[6] = c.y;
+    out.e[10] = c.z + 1.0;
+    out.e[14] = c.w;
+
+	return out;
+}
+
 	Mat4 Mat4::cube(const Vec3 &position, int face) {
 		Mat4 out;
 
@@ -1084,11 +1128,8 @@ namespace VEGA {
 		return Mat4::translate(Vec3(0.5, 0.5, 1)) *
 			Mat4::scale(Vec3(0.5, 0.5, 0));
 	}
-
-
-	//---------------------------------------------------------------------------
-	//Desc: Quat class
-	//---------------------------------------------------------------------------
+/*
+*/
 	Quat::Quat() { 
 		x = 0;
 		y = 0; 
@@ -1235,11 +1276,8 @@ namespace VEGA {
 		r[2] = xz - wy;          r[5] = yz + wx;          r[8] = 1.0f - (xx + yy);
 		return r;
 	}
-
-
-	//---------------------------------------------------------------------------
-	//Desc: Computes TBN basis
-	//---------------------------------------------------------------------------
+/*
+*/
 	void TBNComputer::computeN(Vec3 &n, Vec3 p0, Vec3 p1, Vec3 p2) {
 		Vec3 s = p1 - p0;
 		Vec3 t = p2 - p0;
@@ -1306,7 +1344,9 @@ namespace VEGA {
 			binormal.z = 0;
 		}
 
-		Vec3 temp = Vec3::cross(tangent, binormal);
+	Vec3 temp = Vec3(tangent.y * binormal.z - tangent.z * binormal.y, 
+		tangent.z * binormal.x - tangent.x * binormal.z, 
+		tangent.x * binormal.y - tangent.y * binormal.x);
 		float scalar = normal.x * temp.x + normal.y * temp.y + normal.z * temp.z;
 		if(scalar < 0) tangent = -tangent;
 

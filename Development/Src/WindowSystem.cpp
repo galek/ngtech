@@ -26,28 +26,20 @@ namespace VEGA {
 
 	LRESULT	CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates new WindowSystem
-	//Params:  width, height - resolution, bpp - screen bpp, zDepth - ZBuffer depth, fullscr - fullscreen flag, windowTitle - window title string
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	WindowSystem::WindowSystem(CVARManager*_cvars) {
 
 		Log::writeHeader("-- WindowSystem --");
 
 		//-----read-config-values-----------------------------------
-		this->width = _cvars->width;
-		this->height = _cvars->height;
-		this->bpp = _cvars->bpp;
-		this->zdepth = _cvars->zdepth;
-		this->fullscreen = _cvars->fullscreen;
+		this->width = _cvars->r_width;
+		this->height = _cvars->r_height;
+		this->bpp = _cvars->r_bpp;
+		this->zdepth = _cvars->r_zdepth;
+		this->fullscreen = _cvars->r_fullscreen;
 		showOSCursor(false);//Сразу скрываем курсор
 	}
-	//---------------------------------------------------------------------------
-	//Desc:    Init engine sub-systems
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void WindowSystem::initialise(){
 
 		unsigned int pixelFormat;
@@ -74,7 +66,7 @@ namespace VEGA {
 		wc.lpszClassName = "OpenGL";
 
 		if (!RegisterClass(&wc)) {
-			Error::showAndExit("WindowSystem::create() error: failed to register the window class");
+			Error::showAndExit("WindowSystem::initialise() error: failed to register the window class");
 			return;
 		}
 
@@ -117,7 +109,7 @@ namespace VEGA {
 			this->hInstance,							// Instance
 			NULL)))								// Dont Pass Anything To WM_CREATE
 		{
-			Error::showAndExit("WindowSystem::create() error: window creation error");
+			Error::showAndExit("WindowSystem::initialise() error: window creation error");
 			return;
 		}
 
@@ -135,7 +127,7 @@ namespace VEGA {
 			0,											// Shift Bit Ignored
 			0,											// No Accumulation Buffer
 			0, 0, 0, 0,									// Accumulation Bits Ignored
-			zdepth,										// 16Bit Z-Buffer (Depth Buffer)  
+			zdepth,										// Z-Buffer (Depth Buffer)  
 			0,											// No Stencil Buffer
 			0,											// No Auxiliary Buffer
 			PFD_MAIN_PLANE,								// Main Drawing Layer
@@ -144,27 +136,27 @@ namespace VEGA {
 		};
 
 		if (!(this->hDC = GetDC(this->hWnd)))	{
-			Error::showAndExit("WindowSystem::create() error: can't create a GL device context");
+			Error::showAndExit("WindowSystem::initialise() error: can't create a GL device context");
 			return;
 		}
 
 		if (!(pixelFormat = ChoosePixelFormat(this->hDC, &pfd))) {
-			Error::showAndExit("WindowSystem::create() error: can't find a suitable pixel format");
+			Error::showAndExit("WindowSystem::initialise() error: can't find a suitable pixel format");
 			return;
 		}
 
 		if (!(SetPixelFormat(this->hDC, pixelFormat, &pfd)))	{
-			Error::showAndExit("WindowSystem::create() error: can't set the pixel format");
+			Error::showAndExit("WindowSystem::initialise() error: can't set the pixel format");
 			return;
 		}
 
 		if (!(this->hRC = wglCreateContext(this->hDC)))	{
-			Error::showAndExit("WindowSystem::create() error: can't create a GL rendering context");
+			Error::showAndExit("WindowSystem::initialise() error: can't create a GL rendering context");
 			return;
 		}
 
 		if (!wglMakeCurrent(this->hDC, this->hRC)) {
-			Error::showAndExit("WindowSystem::create() error: can't activate the GL rendering context");
+			Error::showAndExit("WindowSystem::initialise() error: can't activate the GL rendering context");
 			return;
 		}
 
@@ -183,11 +175,9 @@ namespace VEGA {
 		this->mouseGrabed = false;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    WindowSystem destructor
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+
+/*
+*/
 	WindowSystem::~WindowSystem() {
 		if (fullscreen) {
 			ShowCursor(TRUE);
@@ -213,11 +203,8 @@ namespace VEGA {
 		hInstance = NULL;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    Sets window title
-	//Params:  title - title text
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	void WindowSystem::setTitle(const String &title) {
 		SetWindowText(hWnd, title.c_str());
 	}
@@ -329,11 +316,8 @@ namespace VEGA {
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    updates WindowSystem and processes events
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	void WindowSystem::update() {
 		updateTimer();
 
@@ -361,75 +345,51 @@ namespace VEGA {
 		}
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    checks if the key is pressed
-	//Params:  key - key id
-	//Returns: true if pressed
-	//---------------------------------------------------------------------------
+/*
+*/
 	bool WindowSystem::isKeyPressed(Key key) {
 		return keys[key];
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    checks if the key was pressed in previous frame and now it is released
-	//Params:  key - key id
-	//Returns: true if was pressed
-	//---------------------------------------------------------------------------
-	bool WindowSystem::wasKeyPressed(Key key) {
+/*
+*/
+	bool WindowSystem::isKeyDown(Key key) {
 		return (keys[key] && !oldKeys[key]);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    checks if the key was released in previous frame and now it is pressed
-	//Params:  key - key id
-	//Returns: true if was released
-	//---------------------------------------------------------------------------
-	bool WindowSystem::wasKeyReleased(Key key) {
+/*
+*/
+	bool WindowSystem::isKeyUp(Key key) {
 		return (!keys[key] && oldKeys[key]);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    checks if the mouse button is pressed
-	//Params:  mb - mouse button id
-	//Returns: true if pressed
-	//---------------------------------------------------------------------------
+/*
+*/
 	bool WindowSystem::isMouseButtonPressed(MouseButton mb) {
 		return mouseButtons[mb];
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    checks if the mouse button was pressed in previous frame and now it is released
-	//Params:  mb - mouse button id
-	//Returns: true if was pressed
-	//---------------------------------------------------------------------------
+/*
+*/
 	bool WindowSystem::wasMouseButtonPressed(MouseButton mb) {
 		return (mouseButtons[mb] && !oldMouseButtons[mb]);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    checks if the mouse button was released in previous frame and now it is pressed
-	//Params:  mb - mouse button id
-	//Returns: true if was pressed
-	//---------------------------------------------------------------------------
+/*
+*/
 	bool WindowSystem::wasMouseButtonReleased(MouseButton mb) {
 		return (!mouseButtons[mb] && oldMouseButtons[mb]);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    show/hide cursor
-	//Params:  show - show cursor if true
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	void WindowSystem::showCursor(bool show) {
 		MyGUI::PointerManager::getInstance().setVisible(show);
 		cursorVisible = show;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets mouse position
-	//Params:  x, y - mouse coordinates
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	void WindowSystem::setMousePos(int x, int y) {
 		POINT pt;
 		pt.x = x;
@@ -438,11 +398,8 @@ namespace VEGA {
 		SetCursorPos(pt.x, pt.y);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    grab/release cursor
-	//Params:  grab - grab cursor if true
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	void WindowSystem::grabMouse(bool grab) {
 		mouseX = oldMouseX = width / 2;
 		mouseY = oldMouseY = height / 2;
@@ -452,40 +409,28 @@ namespace VEGA {
 		mouseGrabed = grab;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    swaps app`s back and front buffers
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	void WindowSystem::swapBuffers() {
 		SwapBuffers(hDC);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    updates app`s timer
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	void WindowSystem::updateTimer() {
 		int ticks = GetTickCount();
 		dTime = ticks - eTime;
 		eTime = ticks;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    get elapsed time in mseconds
-	//Params:  -
-	//Returns: time in mseconds
-	//---------------------------------------------------------------------------
+/*
+*/
 	int WindowSystem::getTime() {
 		return GetTickCount();
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    get elapsed time in mseconds
-	//Params:  -
-	//Returns: time in mseconds
-	//---------------------------------------------------------------------------
+/*
+*/
 	void WindowSystem::showOSCursor(bool _value){
 		::ShowCursor(_value);	}
 

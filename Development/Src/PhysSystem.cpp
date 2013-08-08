@@ -13,7 +13,7 @@
 #include "PhysBody.h"
 #include "Log.h"
 #include "Config.h"
-#include "../Externals/newton/coreLibrary_200/source/newton/newton.h"
+#include "../Externals/newton/coreLibrary_300/source/newton/newton.h"
 //***************************************************************************
 
 namespace VEGA {
@@ -63,25 +63,16 @@ namespace VEGA {
 			}
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates new PhysSystem
-	//Params:  -
-	//Returns: pointer to new PhysSystem
-	//---------------------------------------------------------------------------
+/*
+*/
 	PhysSystem::PhysSystem() : nWorld(nullptr) {}
-	//---------------------------------------------------------------------------
-	//Desc:    initialises new PhysSystem
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	void PhysSystem::initialise()
 	{
 		Log::writeHeader("-- PhysSystem --");
 
 		nWorld = NewtonCreate();
-
-		worldSize = Vec3(10000.0f, 10000.0f, 10000.0f);
-		NewtonSetWorldSize(nWorld, -worldSize * 0.5f, worldSize * 0.5f);
 
 		accTimeSlice = 0.0f;
 
@@ -94,20 +85,14 @@ namespace VEGA {
 		NewtonMaterialSetCollisionCallback(nWorld, defaultID, defaultID, NULL, playContantSound, contactProcess);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    PhysSystem destructor
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	PhysSystem::~PhysSystem() {
 		NewtonDestroy(nWorld);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    updates PhysSystem engine
-	//Params:  dTime - time from the last frame in miliseconds
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	void PhysSystem::update(float dTime) {
 		accTimeSlice += dTime;
 
@@ -119,37 +104,21 @@ namespace VEGA {
 		intersectionParam = 100000.0;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets PhysSystem world size
-	//Params:  worldSize - world size 
-	//Returns: -
-	//---------------------------------------------------------------------------
-	void PhysSystem::setWorldSize(const Vec3 &worldSize) {
-		this->worldSize = worldSize;
-		NewtonSetWorldSize(nWorld, -worldSize * 0.5, worldSize * 0.5);
-	}
-
-	//---------------------------------------------------------------------------
-	//Desc:    Newton callback
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
-	float PhysSystem::rayCastFilter(const NewtonBody* body, const float* normal, int collisionID, void* userData, float iParam) {
+/*
+*/
+	float PhysSystem::rayCastFilter(const NewtonBody* const body, const NewtonCollision* const shapeHit, const float* const hitContact, const float* const hitNormal, int* const collisionID, void* const userData, float iParam) {
 		if (iParam < GetEngine()->physSystem->intersectionParam) {
 			GetEngine()->physSystem->intersectionParam = iParam;
-			GetEngine()->physSystem->intersectionNormal = Vec3(normal[0], normal[1], normal[2]);
+			GetEngine()->physSystem->intersectionNormal = Vec3(hitNormal[0], hitNormal[1], hitNormal[2]);
 			GetEngine()->physSystem->intersectedBody = (PhysBody*) NewtonBodyGetUserData(body);
 		}
 		return iParam;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets PhysSystems world by ray
-	//Params:  src - ray src, dst 
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	PhysBody *PhysSystem::intersectWorldByRay(const Vec3 &src, const Vec3 &dst, Vec3 &normal, Vec3 &point) {
-		NewtonWorldRayCast(nWorld, src, dst, rayCastFilter, NULL, NULL);
+		NewtonWorldRayCast(nWorld, src, dst, rayCastFilter,NULL, NULL,  2);
 
 		if (intersectedBody) {
 			point = src + (dst - src) * intersectionParam;

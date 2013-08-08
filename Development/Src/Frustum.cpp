@@ -16,12 +16,9 @@
 
 namespace VEGA {
 
-	//---------------------------------------------------------------------------
-	//Desc:    checks wether the point is inside of the frustum
-	//Params:  point - point coordinates
-	//Returns: true if inside
-	//---------------------------------------------------------------------------
-	bool ViewFrustum::isInside(const Vec3 &point) {
+/*
+*/
+bool Frustum::isInside(const Vec3 &point) {
 		for(int p = 0; p < 6; p++) {
 			if(plane[p][0] * point.x + plane[p][1] * point.y + plane[p][2] * point.z + plane[p][3] < 0)
 				return false;
@@ -29,12 +26,9 @@ namespace VEGA {
 		return true;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    checks weather the bounding sphere is inside the frustum
-	//Params:  center - sphere center, radius - sphere radius
-	//Returns: true if inside
-	//---------------------------------------------------------------------------
-	bool ViewFrustum::isInside(const Vec3 &center, float radius) {
+/*
+*/
+bool Frustum::isInside(const Vec3 &center, float radius) {
 		for(int p = 0; p < 6; p++ ) {
 			if(plane[p][0] * center.x + plane[p][1] * center.y + plane[p][2] * center.z + plane[p][3] < -radius)
 				return false;
@@ -42,12 +36,9 @@ namespace VEGA {
 		return true;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    checks weather the bounding box is inside the frustum
-	//Params:  min, max - box`s min and max
-	//Returns: true if inside
-	//---------------------------------------------------------------------------
-	bool ViewFrustum::isInside(const Vec3 &min, const Vec3 &max) {
+/*
+*/
+bool Frustum::isInside(const Vec3 &min, const Vec3 &max) {
 		for(int p = 0; p < 6; p++)
 		{
 			if(plane[p][0] * (min[0]) + plane[p][1] * (min[1]) + plane[p][2] * (min[2]) + plane[p][3] > 0)
@@ -71,12 +62,9 @@ namespace VEGA {
 		return true;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    gets the current view frustum from Modelview and Projection matrix
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
-	void ViewFrustum::get() {
+/*
+*/
+void Frustum::get() {
 		Mat4 modl, proj;
 
 		proj = GetEngine()->iRender->getMatrix_Projection();
@@ -84,7 +72,7 @@ namespace VEGA {
 
 		Mat4 clip = proj * modl;
 
-		double d;
+		float d;
 
 		plane[0][0] = clip.e[ 3] - clip.e[ 0];
 		plane[0][1] = clip.e[ 7] - clip.e[ 4];

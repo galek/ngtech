@@ -27,7 +27,7 @@ namespace VEGA {
 	Flare::Flare(const String &path) {
 		texture = GLTexture::create2d(path);
 
-		flareList = GLDisplayList::create();
+		flareList = new GLDisplayList();
 		flareList->beginBuild();
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
@@ -46,7 +46,7 @@ namespace VEGA {
 
 		position = Vec3(0, 0, 0);
 		color = Vec3(1, 1, 1);
-		radius = 5.0;
+		radius = 5.0f;
 	}
 
 	//---------------------------------------------------------------------------

@@ -17,7 +17,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 
-#include "dPluginStdafx.h"
+#include "dSceneStdafx.h"
 #include "dScene.h"
 #include "dMeshNodeInfo.h"
 #include "dSceneNodeInfo.h"
@@ -60,7 +60,7 @@ dGeometryNodeSkinModifierInfo::dGeometryNodeSkinModifierInfo(const dGeometryNode
 	 m_boneBindingMatrix(NULL),
 	 m_boneWeightIndex(NULL)
 {
-	_ASSERTE (0);
+	dAssert (0);
 	SetName ("Skin Modifier");
 }
 
@@ -89,7 +89,7 @@ void dGeometryNodeSkinModifierInfo::RemoveUnusedVertices(const int* const vertex
 		if (index >= 0) {
 			m_vertexWeights[index] = vertexWeights[i];
 			m_boneWeightIndex[index] = boneWeightIndex[i];
-			vertexCount = max (index + 1, vertexCount);
+			vertexCount = dMax (index + 1, vertexCount);
 		}
 	}
 	m_vertexCount = vertexCount;
@@ -101,14 +101,14 @@ void dGeometryNodeSkinModifierInfo::RemoveUnusedVertices(const int* const vertex
 
 //void dGeometryNodeSkinModifierInfo::BakeTransform (const dMatrix& transform)
 //{
-//	_ASSERTE (0);
+//	dAssert (0);
 //}
 
 
 
 void dGeometryNodeSkinModifierInfo::SkinMesh(dScene::dTreeNode* skinNode, dScene* scene, dBoneVertexWeightData* skinData, int skinDataCount)  
 {
-	_ASSERTE (scene->GetInfoFromNode(skinNode) == this);
+	dAssert (scene->GetInfoFromNode(skinNode) == this);
 
 	if (m_vertexWeights) {
 		delete[] m_vertexWeights;
@@ -123,12 +123,12 @@ void dGeometryNodeSkinModifierInfo::SkinMesh(dScene::dTreeNode* skinNode, dScene
 
 	while (scene->GetFirstChild(skinNode)) {
 		dScene::dTreeNode* bone = scene->GetNodeFromLink(scene->GetFirstChild(skinNode));
-		_ASSERTE (bone);
+		dAssert (bone);
 		scene->RemoveReference (skinNode, bone);
 	}
 
 	dScene::dTreeNode* meshNode = scene->FindParentByType(skinNode, dMeshNodeInfo::GetRttiType());
-	_ASSERTE (meshNode);
+	dAssert (meshNode);
 
 	dMeshNodeInfo* meshInfo = (dMeshNodeInfo*) scene->GetInfoFromNode (meshNode);
 	NewtonMesh* mesh = meshInfo->GetMesh();
@@ -144,7 +144,7 @@ void dGeometryNodeSkinModifierInfo::SkinMesh(dScene::dTreeNode* skinNode, dScene
 	int skinBoneCount = 0;
 	dTree<int,dScene::dTreeNode*> boneMap;
 	for (int i = 0; i < skinDataCount; i ++) {
-		_ASSERTE (skinData[i].m_weight > 0.0f);
+		dAssert (skinData[i].m_weight > 0.0f);
 		dScene::dTreeNode* bone = skinData[i].m_boneNode;
 		dTree<int,dScene::dTreeNode*>::dTreeNode* node = boneMap.Find(bone);
 		if (!node){
@@ -156,7 +156,7 @@ void dGeometryNodeSkinModifierInfo::SkinMesh(dScene::dTreeNode* skinNode, dScene
 		int vertexIndex = skinData[i].m_vertexIndex;
 		for (int j = 0; j < 4; j ++) {
 			if (m_vertexWeights[vertexIndex][j] == 0.0f) {
-				_ASSERTE (node && node->GetInfo() >= 0);
+				dAssert (node && node->GetInfo() >= 0);
 				m_vertexWeights[vertexIndex][j] = skinData[i].m_weight;
 				m_boneWeightIndex[vertexIndex].m_index[j] = node->GetInfo();
 				break;
@@ -168,7 +168,7 @@ void dGeometryNodeSkinModifierInfo::SkinMesh(dScene::dTreeNode* skinNode, dScene
 	m_boneBindingMatrix = new dMatrix [skinBoneCount];
 
 	dScene::dTreeNode* parentBone = scene->FindParentByType(meshNode, dSceneNodeInfo::GetRttiType());
-	_ASSERTE (parentBone);
+	dAssert (parentBone);
 	dSceneNodeInfo* sceneNode = (dSceneNodeInfo*) scene->GetInfoFromNode(parentBone);
 	m_shapeBindMatrix = meshInfo->m_matrix * sceneNode->GetTransform();
 	int index = 0;
@@ -227,7 +227,7 @@ void dGeometryNodeSkinModifierInfo::Serialize (TiXmlElement* const rootNode) con
 		}
 	}
 
-	_ASSERTE (count == weightCount);
+	dAssert (count == weightCount);
 
 	TiXmlElement* vertexWeight = new TiXmlElement ("vertexWeights");
 	rootNode->LinkEndChild(vertexWeight);
@@ -255,9 +255,9 @@ void dGeometryNodeSkinModifierInfo::Serialize (TiXmlElement* const rootNode) con
 	delete[] buffer;
 }
 
-bool dGeometryNodeSkinModifierInfo::Deserialize (TiXmlElement* const rootNode, int revisionNumber)
+bool dGeometryNodeSkinModifierInfo::Deserialize (const dScene* const scene, TiXmlElement* const rootNode) 
 {
-	DeserialiseBase(dNodeInfo, rootNode, revisionNumber);
+	DeserialiseBase(scene, dNodeInfo, rootNode);
 
 	TiXmlElement* const vertexCount = (TiXmlElement*) rootNode->FirstChild ("vertexCount");
 	vertexCount->Attribute("count", &m_vertexCount);

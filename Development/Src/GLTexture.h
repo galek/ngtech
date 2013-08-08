@@ -9,6 +9,7 @@
 #pragma once 
 
 //***************************************************************************
+#include "Common/IRender.h"
 #include "Core/IncludesAndLibs.h"
 //***************************************************************************
 #include "ILImage.h"
@@ -16,23 +17,23 @@
 
 namespace VEGA {
 
-//---------------------------------------------------------------------------
-//Desc: Texture class
-//---------------------------------------------------------------------------
+/**
+Texture class
+*/
 class GLTexture:public ITexture {
 public:
-	//---------------------------------------------------------------------------
-	//Desc: Texture target enum
-	//---------------------------------------------------------------------------
+	/**
+	Texture target enum
+	*/
 	enum Target {
 		TEXTURE_2D = GL_TEXTURE_2D,
 		TEXTURE_3D = GL_TEXTURE_3D_EXT,
 		TEXTURE_CUBE = GL_TEXTURE_CUBE_MAP_ARB,
 	};
 
-	//---------------------------------------------------------------------------
-	//Desc: Texture edge wrap enum
-	//---------------------------------------------------------------------------
+	/**
+	Texture edge wrap enum
+	*/
 	enum Wrap {
 		REPEAT = GL_REPEAT,
 		CLAMP = GL_CLAMP,

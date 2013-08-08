@@ -14,28 +14,31 @@
 #ifndef __dQuaternion__
 #define __dQuaternion__
 
-#include <dVector.h>
+#include "dVector.h"
 class dMatrix;
 
+D_MSC_VECTOR_ALIGMENT
 class dQuaternion
 {
 	public:
 	dQuaternion (); 
-	dQuaternion (const dMatrix &matrix);
+	dQuaternion (const dMatrix& matrix);
 	dQuaternion (dFloat q0, dFloat q1, dFloat q2, dFloat q3); 
-	dQuaternion (const dVector &unit_Axis, dFloat Angle = 0.0f);
+	dQuaternion (const dVector& unit_Axis, dFloat Angle = 0.0f);
 	
 	void Scale (dFloat scale); 
 	void Normalize (); 
-	inline dFloat DotProduct (const dQuaternion &QB) const;
+	inline dFloat DotProduct (const dQuaternion& QB) const;
 	dQuaternion Inverse () const; 
 
 	dVector RotateVector (const dVector& point) const;
 	dVector UnrotateVector (const dVector& point) const;
 
-	dVector GetXYZ_EulerAngles() const;
+	//dVector GetXYZ_EulerAngles() const;
+	dVector GetEulerAngles (dEulerAngleOrder order = m_pitchYawRoll) const;
+	dVector CalcAverageOmega (const dQuaternion &q1, dFloat invdt) const;
 	dQuaternion Slerp (const dQuaternion &q1, dFloat t) const;
-	dVector CalcAverageOmega (const dQuaternion &q1, dFloat dt) const;
+	dQuaternion IntegrateOmega (const dVector& omega, dFloat timestep) const;
 
 	dQuaternion operator* (const dQuaternion &B) const;
 	dQuaternion operator+ (const dQuaternion &B) const; 
@@ -64,7 +67,7 @@ inline dQuaternion::dQuaternion (dFloat Q0, dFloat Q1, dFloat Q2, dFloat Q3)
 	m_q1 = Q1;
 	m_q2 = Q2;
 	m_q3 = Q3;
-//	_ASSERTE (dAbs (DotProduct (*this) - 1.0f) < 1.0e-4f);
+//	dAssert (dAbs (DotProduct (*this) - 1.0f) < 1.0e-4f);
 }
 
 
@@ -123,14 +126,13 @@ inline dQuaternion dQuaternion::operator* (const dQuaternion &B) const
 						B.m_q3 * m_q0 - B.m_q2 * m_q1 + B.m_q1 * m_q2 + B.m_q0 * m_q3); 
 }
 
+/*
 inline dVector dQuaternion::GetXYZ_EulerAngles() const
 {
-	dFloat val;
 	dFloat pitch;
 	dFloat yaw;
 	dFloat roll;
-
-	val = 2.0f * (m_q2 * m_q0 - m_q3 * m_q1);
+	dFloat val = 2.0f * (m_q2 * m_q0 - m_q3 * m_q1);
 	if (val  >= 0.99995f) {
 		pitch = 2.0f * atan2(m_q1, m_q0);
 		yaw = (0.5f * 3.141592f);
@@ -146,6 +148,8 @@ inline dVector dQuaternion::GetXYZ_EulerAngles() const
 	}
 	return dVector (pitch, yaw, roll);
 }
+*/
+
 
 
 #endif 

@@ -18,11 +18,21 @@ namespace VEGA {
 
 class GLDisplayList {
 public:
-	static GLDisplayList *create();
+	GLDisplayList ();
 	~GLDisplayList();
-
+	/**
+	Begins the display list build
+	*/
 	void beginBuild();
+
+	/**
+	Ends the display list build
+	*/
 	void endBuild();
+
+	/**
+	Calls the display list
+	*/
 	void call();
 
 private:

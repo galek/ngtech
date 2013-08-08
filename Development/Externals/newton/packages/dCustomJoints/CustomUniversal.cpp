@@ -23,8 +23,10 @@
 
 #define MIN_JOINT_PIN_LENGTH	50.0f
 
-CustomUniversal::CustomUniversal(const dMatrix& pinsAndPivoFrame, NewtonBody* child, NewtonBody* parent)
-	:NewtonCustomJoint(6, child, parent)
+//dInitRtti(CustomUniversal);
+
+CustomUniversal::CustomUniversal(const dMatrix& pinAndPivotFrame, NewtonBody* child, NewtonBody* parent)
+	:CustomJoint(6, child, parent)
 {
 	dMatrix matrix0;
 
@@ -52,8 +54,8 @@ CustomUniversal::CustomUniversal(const dMatrix& pinsAndPivoFrame, NewtonBody* ch
 	}
 
 	// calculate the relative matrix of the pin and pivot on each body
- 	m_localMatrix0 = pinsAndPivoFrame * matrix0.Inverse();
-	m_localMatrix1 = pinsAndPivoFrame * matrix1.Inverse();
+ 	m_localMatrix0 = pinAndPivotFrame * matrix0.Inverse();
+	m_localMatrix1 = pinAndPivotFrame * matrix1.Inverse();
 }
 
 CustomUniversal::~CustomUniversal()
@@ -84,8 +86,8 @@ void CustomUniversal::EnableMotor_1(bool state)
 
 void CustomUniversal::SetLimis_0(dFloat minAngle, dFloat maxAngle)
 {
-	_ASSERTE (minAngle < 0.0f);
-	_ASSERTE (maxAngle > 0.0f);
+	dAssert (minAngle < 0.0f);
+	dAssert (maxAngle > 0.0f);
 
 	m_minAngle_0 = minAngle;
 	m_maxAngle_0 = maxAngle;
@@ -93,8 +95,8 @@ void CustomUniversal::SetLimis_0(dFloat minAngle, dFloat maxAngle)
 
 void CustomUniversal::SetLimis_1(dFloat minAngle, dFloat maxAngle)
 {
-	_ASSERTE (minAngle < 0.0f);
-	_ASSERTE (maxAngle > 0.0f);
+	dAssert (minAngle < 0.0f);
+	dAssert (maxAngle > 0.0f);
 
 	m_minAngle_1 = minAngle;
 	m_maxAngle_1 = maxAngle;
@@ -254,7 +256,7 @@ void CustomUniversal::SubmitConstraints (dFloat timestep, int threadIndex)
  }
 
 
- void CustomUniversal::GetInfo (NewtonJointRecord* info) const
+ void CustomUniversal::GetInfo (NewtonJointRecord* const info) const
  {
 	 strcpy (info->m_descriptionType, "universal");
 

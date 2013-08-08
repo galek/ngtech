@@ -14,24 +14,24 @@
 #include "PhysBody.h"
 #include "MathLib.h"
 //**************************************
-class NewtonJoint;
+struct NewtonJoint;
 
 namespace VEGA {
 
-	//---------------------------------------------------------------------------
-	//Desc: class of the phys joint
-	//---------------------------------------------------------------------------
-	class PhysJoint {
+/**
+Class of the phys joint
+*/
+class VEGA_API PhysJoint {
 
 	};
 
 
-	//---------------------------------------------------------------------------
-	//Desc: class of the up vector joint
-	//---------------------------------------------------------------------------
-	class PhysJointUpVector : public PhysJoint {
+/**
+Class of the up vector joint
+*/
+class VEGA_API PhysJointUpVector : public PhysJoint {
 	public:
-		static PhysJointUpVector *create(const Vec3 &direction, PhysBody *body);
+		PhysJointUpVector(const Vec3 &direction, PhysBody *body);
 		~PhysJointUpVector();
 
 	private:

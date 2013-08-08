@@ -21,8 +21,10 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
+//dInitRtti(CustomUpVector);
+
 CustomUpVector::CustomUpVector(const dVector& pin, NewtonBody* child)
-	:NewtonCustomJoint(2, child, NULL)
+	:CustomJoint(2, child, NULL)
 {
 	dMatrix pivot;
 
@@ -48,8 +50,6 @@ void CustomUpVector::SetPinDir (const dVector& pin)
 
 void CustomUpVector::SubmitConstraints (dFloat timestep, int threadIndex)
 {
-	dFloat mag; 
-	dFloat angle; 
 	dMatrix matrix0;
 	dMatrix matrix1;
 
@@ -58,12 +58,12 @@ void CustomUpVector::SubmitConstraints (dFloat timestep, int threadIndex)
   
 	// if the body ha rotated by some amount, the there will be a plane of rotation
 	dVector lateralDir (matrix0.m_front * matrix1.m_front);
-	mag = lateralDir % lateralDir;
+	dFloat mag = lateralDir % lateralDir;
 	if (mag > 1.0e-6f) {
 		// if the side vector is not zero, it means the body has rotated
 		mag = dSqrt (mag);
 		lateralDir = lateralDir.Scale (1.0f / mag);
-		angle = dAsin (mag);
+		dFloat angle = dAsin (mag);
 
 		// add an angular constraint to correct the error angle
 		NewtonUserJointAddAngularRow (m_joint, angle, &lateralDir[0]);
@@ -79,7 +79,7 @@ void CustomUpVector::SubmitConstraints (dFloat timestep, int threadIndex)
 	}
 }
 
-void CustomUpVector::GetInfo (NewtonJointRecord* info) const
+void CustomUpVector::GetInfo (NewtonJointRecord* const info) const
 {
 	strcpy (info->m_descriptionType, "upVector");
 

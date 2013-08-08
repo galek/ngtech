@@ -76,7 +76,7 @@ void events() {
 		position.x += p * scale.x;
 	}
 
-	if(exitButton->isPressed() || GetEngine()->iWindow->wasKeyPressed(WindowSystem::KEY_ESC)) {
+	if(exitButton->isPressed() || GetEngine()->iWindow->isKeyDown(WindowSystem::KEY_ESC)) {
 		Engine::get()->quit();
 	}
 }

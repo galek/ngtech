@@ -17,22 +17,22 @@
 /////////////////////////////////////////////////////////////////////////////
 
 
-#include "dPluginStdafx.h"
+#include "dSceneStdafx.h"
 #include "dVariable.h"
 
 
 
 dVariable::dVariable ()
+	:m_type(m_int)
+	,m_name()
+	,m_integer(0)
 {
-	m_type = m_int;
-	m_name[0] = 0;
-	m_integer = 0;
 }
 
 dVariable::dVariable (const dVariable& me)
 	:m_type (me.m_type) 
+	,m_name(me.m_name)
 {
-	strcpy (m_name, me.m_name);
 	if (m_type == m_string){
 		SetValue (me.m_data);
 	} else {
@@ -47,14 +47,15 @@ dVariable::~dVariable ()
 	}
 }
 
-void dVariable::SetName (const char* name)
+void dVariable::SetName (const char* const name)
 {
-	strcpy (m_name, name);
+//	strcpy (m_name, name);
+	m_name = name;
 }
 
 const char* dVariable::GetName() const
 {
-	return m_name;
+	return m_name.GetStr();
 }
 
 dVariable::dType dVariable::GetType() const
@@ -109,14 +110,13 @@ const char* dVariable::GetString () const
 
 
 dVariableList::dVariableList()
-	:dTree<dVariable, unsigned>()
+	:dTree<dVariable, dCRCTYPE>()
 {
 }
 
 dVariableList::dVariableList(const dVariableList& me)
-	:dTree<dVariable, unsigned>()
+	:dTree<dVariable, dCRCTYPE>()
 {
-//	for (dListNode* node = me.GetFirst(); node; node = node->GetNext()) {
 	Iterator iter (me);
 	for (iter.Begin(); iter; iter++) {
 		dVariable& var = iter.GetNode()->GetInfo();
@@ -128,20 +128,20 @@ dVariableList::~dVariableList ()
 {
 }
 
-dVariable* dVariableList::FindVariable(unsigned crc) const
+dVariable* dVariableList::FindVariable(dCRCTYPE crc) const
 {
 	dTreeNode* node = Find (crc);
 	return node ? &node->GetInfo() : NULL;
 }
 
-dVariable* dVariableList::FindVariable(const char* name) const
+dVariable* dVariableList::FindVariable(const char* const name) const
 {
-	return FindVariable(dCRC (name));
+	return FindVariable(dCRC64 (name));
 }
 
-dVariable* dVariableList::CreateVariable (const char* name)
+dVariable* dVariableList::CreateVariable (const char* const name)
 {
-	unsigned crc = dCRC(name);
+	dCRCTYPE crc = dCRC64(name);
 	dTreeNode* node = Find (crc);
 	if (!node) {
 		node = Insert(crc);
@@ -155,7 +155,7 @@ dVariable* dVariableList::CreateVariable (const char* name)
 void dVariableList::Serialize(TiXmlElement* const rootNode) const
 {
 	if (GetCount()) {
-		TiXmlElement* dataNode = new TiXmlElement ("variables");
+		TiXmlElement* const dataNode = new TiXmlElement ("variables");
 
 		rootNode->LinkEndChild(dataNode);
 		Iterator iter (*this);
@@ -168,7 +168,7 @@ void dVariableList::Serialize(TiXmlElement* const rootNode) const
 				{
 					TiXmlElement* variable = new TiXmlElement ("integer");
 					dataNode->LinkEndChild(variable);
-					variable->SetAttribute("name", var.m_name);
+					variable->SetAttribute("name", var.m_name.GetStr());
 					variable->SetAttribute("value", var.m_integer);
 					break;
 				}
@@ -177,7 +177,7 @@ void dVariableList::Serialize(TiXmlElement* const rootNode) const
 				{
 					TiXmlElement* variable = new TiXmlElement ("float");
 					dataNode->LinkEndChild(variable);
-					variable->SetAttribute("name", var.m_name);
+					variable->SetAttribute("name", var.m_name.GetStr());
 					variable->SetDoubleAttribute("value", var.m_real);
 					break;
 				}
@@ -186,7 +186,7 @@ void dVariableList::Serialize(TiXmlElement* const rootNode) const
 				{
 					TiXmlElement* variable = new TiXmlElement ("string");
 					dataNode->LinkEndChild(variable);
-					variable->SetAttribute("name", var.m_name);
+					variable->SetAttribute("name", var.m_name.GetStr());
 					variable->SetAttribute("value", var.m_data);
 					break;
 				}
@@ -197,20 +197,21 @@ void dVariableList::Serialize(TiXmlElement* const rootNode) const
 
 
 
-void dVariableList::Deserialize(TiXmlElement* node)
+bool dVariableList::Deserialize(const dScene* const scene, TiXmlElement* const node)
 {
-	TiXmlElement* dataNode = (TiXmlElement*) node->FirstChild ("variables");
+	TiXmlElement* const dataNode = (TiXmlElement*) node->FirstChild ("variables");
 	if (dataNode) {
 		for (TiXmlElement* element = (TiXmlElement*) dataNode->FirstChild(); element; element = (TiXmlElement*) element->NextSibling()) {
 			const char* className = element->Value();
 			dVariable* var = CreateVariable (element->Attribute ("name"));
 			if (!strcmp (className, "integer")) {
-				_ASSERTE (0);
+				dAssert (0);
 			} else if (!strcmp (className, "float")) {
-				_ASSERTE (0);
+				dAssert (0);
 			} else if (!strcmp (className, "string")) {
 				var->SetValue(element->Attribute ("value"));
 			}
 		}
 	}
+	return true;
 }

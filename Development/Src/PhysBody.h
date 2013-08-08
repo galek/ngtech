@@ -14,7 +14,7 @@
 #include "ALSound.h"
 #include "ALSoundSource.h"
 //***************************************************************************
-class NewtonBody;
+struct NewtonBody;
 
 namespace VEGA {
 
@@ -24,7 +24,7 @@ namespace VEGA {
 	class PhysBody {
 	public:
 		static PhysBody *createBox(const Vec3 &size, float mass = 0);
-		static PhysBody *createSphere(const Vec3 &size, float mass = 0);
+		static PhysBody *createSphere(float radius, float mass = 0);
 
 		static PhysBody *createCylinder(float radius, float height, float mass = 0);
 		static PhysBody *createCone(float radius, float height, float mass = 0);
@@ -32,7 +32,7 @@ namespace VEGA {
 		static PhysBody *createChampferCylinder(float radius, float height, float mass = 0);
 
 		static PhysBody *createConvexHull(Vec3 *pos, const int numPos, float mass = 0);
-		static PhysBody *createStaticObjectMesh(Vec3 *pos, const int numPos, bool optimize);
+		static PhysBody *createStaticMesh(Vec3 *pos, const int numPos, bool optimize);
 
 		~PhysBody();
 

@@ -17,7 +17,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 
-#include "dPluginStdafx.h"
+#include "dSceneStdafx.h"
 #include "dNodeInfo.h"
 
 dInitRtti(dNodeInfo);
@@ -26,40 +26,45 @@ dInitRtti(dNodeInfo);
 
 unsigned dNodeInfo::m_uniqueIDCounter = 0;
 
-dTree<const dNodeInfo*, int>& dNodeInfo::GetSingletonDictionary()
+dTree<const dNodeInfo*, dCRCTYPE>& dNodeInfo::GetSingletonDictionary()
 {
-	static dTree<const dNodeInfo*, int> dictionary;
+	static dTree<const dNodeInfo*, dCRCTYPE> dictionary;
 	return dictionary;
 }
 
 
 dNodeInfo::dRegisterSingleton::dRegisterSingleton (const char* const className, const dNodeInfo* const singleton)
 {
-	int crc = dCRC (className);
-	dTree<const dNodeInfo*, int>& dictionary = dNodeInfo::GetSingletonDictionary();
+	dCRCTYPE crc = dCRC64 (className);
+	dTree<const dNodeInfo*, dCRCTYPE>& dictionary = dNodeInfo::GetSingletonDictionary();
 	dictionary.Insert (singleton, crc);
 }
 
 
 
 dNodeInfo::dNodeInfo() 
-	:dClassInfo(), dVariableList() 
+	:dClassInfo()
+	,dVariableList() 
+	,m_name()
+	,m_uniqueID(m_uniqueIDCounter)
 {
-	m_name[0] = 0; 
-	m_uniqueID = m_uniqueIDCounter;
 	m_uniqueIDCounter ++;
 }
 
 
 dNodeInfo::dNodeInfo(const dNodeInfo& me)
-	:dClassInfo(), dVariableList(me), m_uniqueID (me.m_uniqueID)
+	:dClassInfo()
+	,dVariableList(me) 
+	,m_name(me.m_name)
+	,m_uniqueID (m_uniqueIDCounter)
 {
-	SetName (me.m_name);
+	m_uniqueIDCounter ++;
 }
 
 dNodeInfo::~dNodeInfo(void)
 {
 }
+
 
 dNodeInfo* dNodeInfo::MakeCopy () const
 {
@@ -73,9 +78,9 @@ dNodeInfo* dNodeInfo::MetaFunction(dScene* const world) const
 
 void dNodeInfo::ReplaceSingletonClass (const char* const className, const dNodeInfo* const singleton)
 {
-	int crc = dCRC (className);
-	dTree<const dNodeInfo*, int>& dictionary = dNodeInfo::GetSingletonDictionary();
-	dTree<const dNodeInfo*, int>::dTreeNode* const node = dictionary.Find(crc);
+	dCRCTYPE crc = dCRC64 (className);
+	dTree<const dNodeInfo*, dCRCTYPE>& dictionary = dNodeInfo::GetSingletonDictionary();
+	dTree<const dNodeInfo*, dCRCTYPE>::dTreeNode* const node = dictionary.Find(crc);
 	if (node) {
 		node->GetInfo() = singleton;
 	} else {
@@ -83,14 +88,16 @@ void dNodeInfo::ReplaceSingletonClass (const char* const className, const dNodeI
 	}
 }
 
-dNodeInfo* dNodeInfo::CreateFromClassName (const char* className, dScene* world)
+dNodeInfo* dNodeInfo::CreateFromClassName (const char* const className, dScene* const world)
 {
-	int crc = dCRC (className);
-	dTree<const dNodeInfo*, int>& dictionary = dNodeInfo::GetSingletonDictionary();
-	dTree<const dNodeInfo*, int>::dTreeNode* const node = dictionary.Find(crc);
+	dCRCTYPE crc = dCRC64 (className);
+	dTree<const dNodeInfo*, dCRCTYPE>& dictionary = dNodeInfo::GetSingletonDictionary();
+	dTree<const dNodeInfo*, dCRCTYPE>::dTreeNode* const node = dictionary.Find(crc);
 	if (node) {
 		const dNodeInfo* const singleton = node->GetInfo();
 		return singleton->MetaFunction(world);
+	} else {
+		m_uniqueIDCounter ++;
 	}
 	return NULL;
 }
@@ -98,12 +105,12 @@ dNodeInfo* dNodeInfo::CreateFromClassName (const char* className, dScene* world)
 
 const char* dNodeInfo::GetName () const
 {
-	return m_name;
+	return m_name.GetStr();
 }
 
-void dNodeInfo::SetName (const char* name)
+void dNodeInfo::SetName (const char* const name)
 {
-	strncpy (m_name, name, NE_MAX_NAME_SIZE - 1);
+	m_name = name;
 }
 
 const char* dNodeInfo::GetClassName () const
@@ -122,12 +129,12 @@ dVariableList& dNodeInfo::GetVariableList()
 	return m_variables; 
 }
 
-dVariable* dNodeInfo::FindVariable(const char* name) const
+dVariable* dNodeInfo::FindVariable(const char* const name) const
 {
 	return m_variables.FindVariable(name);
 }
 
-dVariable* dNodeInfo::CreateVariable (const char* name)
+dVariable* dNodeInfo::CreateVariable (const char* const name)
 {
 	return m_variables.CreateVariable(name);
 }
@@ -137,22 +144,18 @@ dVariable* dNodeInfo::CreateVariable (const char* name)
 
 
 
-void dNodeInfo::SerializeBinary (FILE* const file) const
-{
-	_ASSERTE (0);
-}
-
 void dNodeInfo::Serialize (TiXmlElement* const rootNode) const
 {
-	rootNode->SetAttribute("name", m_name);
+	rootNode->SetAttribute("name", m_name.GetStr());
 	dVariableList::Serialize(rootNode);
 }
 
 
-bool dNodeInfo::Deserialize (TiXmlElement* const rootNode, int revisionNumber)
+bool dNodeInfo::Deserialize (const dScene* const scene, TiXmlElement* const rootNode) 
 {
 	SetName (rootNode->Attribute("name"));
-	dVariableList::Deserialize(rootNode);
+
+	dVariableList::Deserialize(scene, rootNode);
 
 	return true;
 }

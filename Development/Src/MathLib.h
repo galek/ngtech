@@ -26,9 +26,9 @@ class Vec3;
 class Vec4;
 class Mat4;
 
-//---------------------------------------------------------------------------
-//Desc: Some math functions
-//---------------------------------------------------------------------------
+/**
+Some math functions
+*/
 struct VEGA_API Math {
 	static float clamp(float v, float min, float max);
 
@@ -39,9 +39,9 @@ struct VEGA_API Math {
 	static bool intersectSphereByRay(const Vec3 &center, float radius, const Vec3 &src, const Vec3 &dst);
 };
 
-//---------------------------------------------------------------------------
-//Desc: 2D Vector class
-//---------------------------------------------------------------------------
+/**
+2D Vector class
+*/
 class VEGA_API Vec2 {
 public:
 	float x, y;
@@ -71,31 +71,31 @@ public:
 
 	EFORCEINLINE float length();
 
-	friend Vec2 operator+(const Vec2 &a, const Vec2 &b);
-	friend Vec2 operator-(const Vec2 &a, const Vec2 &b);
-	friend Vec2 operator*(const Vec2 &a, const Vec2 &b);
-	friend Vec2 operator*(const Vec2 &v, float c);
-	friend Vec2 operator*(float c, const Vec2 &v);
-	friend Vec2 operator/(const Vec2 &a, const Vec2 &b);
-	friend Vec2 operator/(const Vec2 &v, float c);
-	friend Vec2 operator/(float c, const Vec2 &v);
+	friend Vec2 VEGA_API operator+(const Vec2 &a, const Vec2 &b);
+	friend Vec2 VEGA_API operator-(const Vec2 &a, const Vec2 &b);
+	friend Vec2 VEGA_API operator*(const Vec2 &a, const Vec2 &b);
+	friend Vec2 VEGA_API operator*(const Vec2 &v, float c);
+	friend Vec2 VEGA_API operator*(float c, const Vec2 &v);
+	friend Vec2 VEGA_API operator/(const Vec2 &a, const Vec2 &b);
+	friend Vec2 VEGA_API operator/(const Vec2 &v, float c);
+	friend Vec2 VEGA_API operator/(float c, const Vec2 &v);
 
 	static Vec2 normalize(const Vec2 &a);
 	static EFORCEINLINE float dot(const Vec2 &a, const Vec2 &b);
 };
 
-extern EFORCEINLINE Vec2 operator+(const Vec2 &a, const Vec2 &b);
-extern EFORCEINLINE Vec2 operator-(const Vec2 &a, const Vec2 &b);
-extern EFORCEINLINE Vec2 operator*(const Vec2 &a, const Vec2 &b);
-extern EFORCEINLINE Vec2 operator*(const Vec2 &v, float c);
-extern EFORCEINLINE Vec2 operator*(float c, const Vec2 &v);
-extern EFORCEINLINE Vec2 operator/(const Vec2 &a, const Vec2 &b);
-extern EFORCEINLINE Vec2 operator/(const Vec2 &v, float c);
-extern EFORCEINLINE Vec2 operator/(float c, const Vec2 &v);
+extern EFORCEINLINE Vec2 VEGA_API operator+(const Vec2 &a, const Vec2 &b);
+extern EFORCEINLINE Vec2 VEGA_API operator-(const Vec2 &a, const Vec2 &b);
+extern EFORCEINLINE Vec2 VEGA_API operator*(const Vec2 &a, const Vec2 &b);
+extern EFORCEINLINE Vec2 VEGA_API operator*(const Vec2 &v, float c);
+extern EFORCEINLINE Vec2 VEGA_API operator*(float c, const Vec2 &v);
+extern EFORCEINLINE Vec2 VEGA_API operator/(const Vec2 &a, const Vec2 &b);
+extern EFORCEINLINE Vec2 VEGA_API operator/(const Vec2 &v, float c);
+extern EFORCEINLINE Vec2 VEGA_API operator/(float c, const Vec2 &v);
 
-//---------------------------------------------------------------------------
-//Desc: 3D Vector class
-//---------------------------------------------------------------------------
+/**
+3D Vector class
+*/
 class VEGA_API Vec3 {
 public:
 	float x, y, z;
@@ -124,32 +124,32 @@ public:
 
 	EFORCEINLINE float length();
 
-	friend Vec3 operator+(const Vec3 &a, const Vec3 &b);
-	friend Vec3 operator-(const Vec3 &a, const Vec3 &b);
-	friend Vec3 operator*(const Vec3 &a, const Vec3 &b);
-	friend Vec3 operator*(const Vec3 &v, float c);
-	friend Vec3 operator*(float c, const Vec3 &v);
-	friend Vec3 operator/(const Vec3 &a, const Vec3 &b);
-	friend Vec3 operator/(const Vec3 &v, float c);
-	friend Vec3 operator/(float c, const Vec3 &v);
+	friend Vec3 VEGA_API operator+(const Vec3 &a, const Vec3 &b);
+	friend Vec3 VEGA_API operator-(const Vec3 &a, const Vec3 &b);
+	friend Vec3 VEGA_API operator*(const Vec3 &a, const Vec3 &b);
+	friend Vec3 VEGA_API operator*(const Vec3 &v, float c);
+	friend Vec3 VEGA_API operator*(float c, const Vec3 &v);
+	friend Vec3 VEGA_API operator/(const Vec3 &a, const Vec3 &b);
+	friend Vec3 VEGA_API operator/(const Vec3 &v, float c);
+	friend Vec3 VEGA_API operator/(float c, const Vec3 &v);
 
 	static Vec3 normalize(const Vec3 &a);
 	static EFORCEINLINE float dot(const Vec3 &a, const Vec3 &b);
 	static EFORCEINLINE Vec3 cross(const Vec3 &a, const Vec3 &b);
 };
 
-extern EFORCEINLINE Vec3 operator+(const Vec3 &a, const Vec3 &b);
-extern EFORCEINLINE Vec3 operator-(const Vec3 &a, const Vec3 &b);
-extern EFORCEINLINE Vec3 operator*(const Vec3 &a, const Vec3 &b);
-extern EFORCEINLINE Vec3 operator*(const Vec3 &v, float c);
-extern EFORCEINLINE Vec3 operator*(float c, const Vec3 &v);
-extern EFORCEINLINE Vec3 operator/(const Vec3 &a, const Vec3 &b);
-extern EFORCEINLINE Vec3 operator/(const Vec3 &v, float c);
-extern EFORCEINLINE Vec3 operator/(float c, const Vec3 &v);
+extern EFORCEINLINE Vec3 VEGA_API operator+(const Vec3 &a, const Vec3 &b);
+extern EFORCEINLINE Vec3 VEGA_API operator-(const Vec3 &a, const Vec3 &b);
+extern EFORCEINLINE Vec3 VEGA_API operator*(const Vec3 &a, const Vec3 &b);
+extern EFORCEINLINE Vec3 VEGA_API operator*(const Vec3 &v, float c);
+extern EFORCEINLINE Vec3 VEGA_API operator*(float c, const Vec3 &v);
+extern EFORCEINLINE Vec3 VEGA_API operator/(const Vec3 &a, const Vec3 &b);
+extern EFORCEINLINE Vec3 VEGA_API operator/(const Vec3 &v, float c);
+extern EFORCEINLINE Vec3 VEGA_API operator/(float c, const Vec3 &v);
 
-//---------------------------------------------------------------------------
-//Desc: 4D Vector class
-//---------------------------------------------------------------------------
+/**
+4D Vector class
+*/
 class VEGA_API Vec4 {
 public:
 	float x, y, z, w;
@@ -181,31 +181,31 @@ public:
 	
 	EFORCEINLINE float length();
 
-	friend Vec4 operator+(const Vec4 &a, const Vec4 &b);
-	friend Vec4 operator-(const Vec4 &a, const Vec4 &b);
-	friend Vec4 operator*(const Vec4 &a, const Vec4 &b);
-	friend Vec4 operator*(const Vec4 &v, float c);
-	friend Vec4 operator*(float c, const Vec4 &v);
-	friend Vec4 operator/(const Vec4 &a, const Vec4 &b);
-	friend Vec4 operator/(const Vec4 &v, float c);
-	friend Vec4 operator/(float c, const Vec4 &v);
+	friend Vec4 VEGA_API operator+(const Vec4 &a, const Vec4 &b);
+	friend Vec4 VEGA_API operator-(const Vec4 &a, const Vec4 &b);
+	friend Vec4 VEGA_API operator*(const Vec4 &a, const Vec4 &b);
+	friend Vec4 VEGA_API operator*(const Vec4 &v, float c);
+	friend Vec4 VEGA_API operator*(float c, const Vec4 &v);
+	friend Vec4 VEGA_API operator/(const Vec4 &a, const Vec4 &b);
+	friend Vec4 VEGA_API operator/(const Vec4 &v, float c);
+	friend Vec4 VEGA_API operator/(float c, const Vec4 &v);
 
 	static Vec4 normalize(const Vec4 &a);
 	static EFORCEINLINE float dot(const Vec4 &a, const Vec4 &b);
 };
 
-extern EFORCEINLINE Vec4 operator+(const Vec4 &a, const Vec4 &b);
-extern EFORCEINLINE Vec4 operator-(const Vec4 &a, const Vec4 &b);
-extern EFORCEINLINE Vec4 operator*(const Vec4 &a, const Vec4 &b);
-extern EFORCEINLINE Vec4 operator*(const Vec4 &v, float c);
-extern EFORCEINLINE Vec4 operator*(float c, const Vec4 &v);
-extern EFORCEINLINE Vec4 operator/(const Vec4 &a, const Vec4 &b);
-extern EFORCEINLINE Vec4 operator/(const Vec4 &v, float c);
-extern EFORCEINLINE Vec4 operator/(float c, const Vec4 &v);
+extern EFORCEINLINE Vec4 VEGA_API operator+(const Vec4 &a, const Vec4 &b);
+extern EFORCEINLINE Vec4 VEGA_API operator-(const Vec4 &a, const Vec4 &b);
+extern EFORCEINLINE Vec4 VEGA_API operator*(const Vec4 &a, const Vec4 &b);
+extern EFORCEINLINE Vec4 VEGA_API operator*(const Vec4 &v, float c);
+extern EFORCEINLINE Vec4 VEGA_API operator*(float c, const Vec4 &v);
+extern EFORCEINLINE Vec4 VEGA_API operator/(const Vec4 &a, const Vec4 &b);
+extern EFORCEINLINE Vec4 VEGA_API operator/(const Vec4 &v, float c);
+extern EFORCEINLINE Vec4 VEGA_API operator/(float c, const Vec4 &v);
 
-//---------------------------------------------------------------------------
-//Desc: 3x3 Matrix class
-//---------------------------------------------------------------------------
+/**
+3x3 Matrix class
+*/
 class VEGA_API Mat3 {
 public:
 	float e[9];
@@ -237,15 +237,15 @@ public:
 	static Mat3 scale(const Vec3 &scale);	
 };
 
-extern EFORCEINLINE Mat3 operator*(const Mat3 &a, const Mat3 &b);
-extern EFORCEINLINE Vec4 operator*(const Mat3 &m, const Vec4 &v);
-extern EFORCEINLINE Vec4 operator*(const Vec4 &v, const Mat3 &m);
-extern EFORCEINLINE Vec3 operator*(const Mat3 &m, const Vec3 &v);
-extern EFORCEINLINE Vec3 operator*(const Vec3 &v, const Mat3 &m);
+extern EFORCEINLINE Mat3 VEGA_API operator*(const Mat3 &a, const Mat3 &b);
+extern EFORCEINLINE Vec4 VEGA_API operator*(const Mat3 &m, const Vec4 &v);
+extern EFORCEINLINE Vec4 VEGA_API operator*(const Vec4 &v, const Mat3 &m);
+extern EFORCEINLINE Vec3 VEGA_API operator*(const Mat3 &m, const Vec3 &v);
+extern EFORCEINLINE Vec3 VEGA_API operator*(const Vec3 &v, const Mat3 &m);
 
-//---------------------------------------------------------------------------
-//Desc: 4x4 Matrix class
-//---------------------------------------------------------------------------
+/**
+4x4 Matrix class
+*/
 class VEGA_API Mat4 {
 public:
 	float e[16];
@@ -283,20 +283,23 @@ public:
 	static Mat4 perspective(float fovy, float aspect, float n, float f);
 	static Mat4 ortho(float left, float right, float bottom, float top, float n, float f);
 
+	static Mat4 reflect(const Vec4 &plane);
+	static Mat4 reflectProjection(const Mat4 &proj, const Vec4 &plane);
+
 	static Mat4 cube(const Vec3 &position, int face);
 
 	static Mat4 texBias();
 };
 
-extern EFORCEINLINE Mat4 operator*(const Mat4 &a, const Mat4 &b);
-extern EFORCEINLINE Vec4 operator*(const Mat4 &m, const Vec4 &v);
-extern EFORCEINLINE Vec4 operator*(const Vec4 &v, const Mat4 &m);
-extern EFORCEINLINE Vec3 operator*(const Mat4 &m, const Vec3 &v);
-extern EFORCEINLINE Vec3 operator*(const Vec3 &v, const Mat4 &m);
+extern EFORCEINLINE Mat4 VEGA_API operator*(const Mat4 &a, const Mat4 &b);
+extern EFORCEINLINE Vec4 VEGA_API operator*(const Mat4 &m, const Vec4 &v);
+extern EFORCEINLINE Vec4 VEGA_API operator*(const Vec4 &v, const Mat4 &m);
+extern EFORCEINLINE Vec3 VEGA_API operator*(const Mat4 &m, const Vec3 &v);
+extern EFORCEINLINE Vec3 VEGA_API operator*(const Vec3 &v, const Mat4 &m);
 			
-//---------------------------------------------------------------------------
-//Desc: Quat class
-//---------------------------------------------------------------------------
+/**
+Quat class
+*/
 class VEGA_API Quat {
 public:
 	float x,y,z,w;
@@ -317,9 +320,9 @@ public:
 	Mat3 toMatrix() const;
 };
 
-//---------------------------------------------------------------------------
-//Desc: Computes TBN basis
-//---------------------------------------------------------------------------
+/**
+Computes TBN basis
+*/
 struct VEGA_API TBNComputer {
 	static void computeN(Vec3 &n, Vec3 p0, Vec3 p1, Vec3 p2);
 	static void computeTBN(Vec3 &t, Vec3 &b, Vec3 p0, Vec3 p1, Vec3 p2, Vec2 t0, Vec2 t1, Vec2 t2, Vec3 n);

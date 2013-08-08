@@ -23,20 +23,33 @@
 
 #define MIN_JOINT_PIN_LENGTH	50.0f
 
+//dInitRtti(CustomHinge);
 
-CustomHinge::CustomHinge (const dMatrix& pinAndPivotFrame, const NewtonBody* child, const NewtonBody* parent)
-	:NewtonCustomJoint(6, child, parent), m_curJointAngle()
+CustomHinge::CustomHinge (const dMatrix& pinAndPivotFrame, NewtonBody* const child, NewtonBody* const parent)
+	:CustomJoint(6, child, parent)
+	,m_curJointAngle()
 {
 	m_limitsOn = false;
 	m_jointOmega = 0.0f;
 	m_minAngle = -45.0f * 3.141592f / 180.0f;
 	m_maxAngle =  45.0f * 3.141592f / 180.0f;
 
-//	// the joint current angle is zero at joint creation time
-//	m_curJointAngle = 0.0f;
-
 	// calculate the two local matrix of the pivot point
 	CalculateLocalMatrix (pinAndPivotFrame, m_localMatrix0, m_localMatrix1);
+}
+
+
+CustomHinge::CustomHinge (const dMatrix& pinAndPivotFrameChild, const dMatrix& pinAndPivotFrameParent, NewtonBody* const child, NewtonBody* const parent)
+	:CustomJoint(6, child, parent), m_curJointAngle()
+{
+	m_limitsOn = false;
+	m_jointOmega = 0.0f;
+	m_minAngle = -45.0f * 3.141592f / 180.0f;
+	m_maxAngle =  45.0f * 3.141592f / 180.0f;
+
+	dMatrix	dummy;
+	CalculateLocalMatrix (pinAndPivotFrameChild, m_localMatrix0, dummy);
+	CalculateLocalMatrix (pinAndPivotFrameParent, dummy, m_localMatrix1);
 }
 
 CustomHinge::~CustomHinge()
@@ -51,8 +64,8 @@ void CustomHinge::EnableLimits(bool state)
 
 void CustomHinge::SetLimis(dFloat minAngle, dFloat maxAngle)
 {
-	//_ASSERTE (minAngle < 0.0f);
-	//_ASSERTE (maxAngle > 0.0f);
+	//dAssert (minAngle < 0.0f);
+	//dAssert (maxAngle > 0.0f);
 	m_minAngle = minAngle;
 	m_maxAngle = maxAngle;
 }
@@ -79,9 +92,6 @@ dFloat CustomHinge::GetJointOmega () const
 
 void CustomHinge::SubmitConstraints (dFloat timestep, int threadIndex)
 {
-//	dFloat angle;
-//	dFloat sinAngle;
-//	dFloat cosAngle;
 	dMatrix matrix0;
 	dMatrix matrix1;
 
@@ -111,19 +121,9 @@ void CustomHinge::SubmitConstraints (dFloat timestep, int threadIndex)
 
 	// if limit are enable ...
 	if (m_limitsOn) {
-
 		// the joint angle can be determine by getting the angle between any two non parallel vectors
-//		sinAngle = (matrix0.m_up * matrix1.m_up) % matrix0.m_front;
-//		cosAngle = matrix0.m_up % matrix1.m_up;
-//		angle = dAtan2 (sinAngle, cosAngle);
-
-
-//		if (angle < m_minAngle) {
 		if (angle < m_minAngle) {
-			dFloat relAngle;
-
-//			relAngle = angle - m_minAngle;
-			relAngle = angle - m_minAngle;
+			dFloat relAngle = angle - m_minAngle;
 			// the angle was clipped save the new clip limit
 			m_curJointAngle.m_angle = m_minAngle;
 
@@ -138,11 +138,7 @@ void CustomHinge::SubmitConstraints (dFloat timestep, int threadIndex)
 
 
 		} else if (angle  > m_maxAngle) {
-			dFloat relAngle;
-
-//			relAngle = angle - m_maxAngle;
-
-			relAngle = angle - m_maxAngle;
+			dFloat relAngle = angle - m_maxAngle;
 
 			// the angle was clipped save the new clip limit
 			m_curJointAngle.m_angle = m_maxAngle;
@@ -155,7 +151,6 @@ void CustomHinge::SubmitConstraints (dFloat timestep, int threadIndex)
 
 			// allow the joint to move back freely
 			NewtonUserJointSetRowMinimumFriction (m_joint, 0.0f);
-
 		}
 	}
 
@@ -170,7 +165,7 @@ void CustomHinge::SubmitConstraints (dFloat timestep, int threadIndex)
  }
 
 
-void CustomHinge::GetInfo (NewtonJointRecord* info) const
+void CustomHinge::GetInfo (NewtonJointRecord* const info) const
 {
 	strcpy (info->m_descriptionType, "hinge");
 

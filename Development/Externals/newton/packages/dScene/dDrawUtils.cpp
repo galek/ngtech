@@ -17,7 +17,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 
-#include "dPluginStdafx.h"
+#include "dSceneStdafx.h"
 #include "dDrawUtils.h"
 
 
@@ -105,7 +105,7 @@ int CreateCylinder (dVector* const points, dVector* const normals, int segments,
 
 static void SetMaterial (const dVector& color)
 {
-	_ASSERTE (0);
+	dAssert (0);
 /*
 	SetDefaultLight ();
 	dVector ambient(0.0f, 0.0f, 0.0f, 0.0f);
@@ -129,7 +129,7 @@ static void SetMaterial (const dVector& color)
 void Draw3DArrow (const dMatrix& location, int segments, dFloat radius, dFloat height, const dVector& color)
 {
 
-	_ASSERTE (0);
+	dAssert (0);
 /*
 	SetMaterial (color);
 
@@ -156,7 +156,7 @@ void Draw3DArrow (const dMatrix& location, int segments, dFloat radius, dFloat h
 
 void Draw3DCylinder (const dMatrix& location, int segments, dFloat radius, dFloat height, const dVector& color)
 {
-_ASSERTE (0);
+dAssert (0);
 /*
 	SetMaterial (color);
 

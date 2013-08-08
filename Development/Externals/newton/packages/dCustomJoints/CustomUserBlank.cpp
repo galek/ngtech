@@ -23,9 +23,10 @@
 
 #define MIN_JOINT_PIN_LENGTH   50.0f
 
+//dInitRtti(CustomUserBlank);
 
-CustomUserBlank::CustomUserBlank(unsigned int maxDOF, const NewtonBody* child, const NewtonBody* parent)
-   :NewtonCustomJoint(maxDOF, child, parent)
+CustomUserBlank::CustomUserBlank(unsigned int maxDOF, NewtonBody* const child, NewtonBody* const parent)
+   :CustomJoint(maxDOF, child, parent)
 {
 }
 
@@ -33,7 +34,7 @@ CustomUserBlank::~CustomUserBlank()
 {
 }
 
-void CustomUserBlank::GetInfo (NewtonJointRecord* info) const
+void CustomUserBlank::GetInfo (NewtonJointRecord* const info) const
 {
    strcpy (info->m_descriptionType, "customuser");
 

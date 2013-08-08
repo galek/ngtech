@@ -19,6 +19,8 @@
 #ifndef _D_VARIABLE_H_
 #define _D_VARIABLE_H_
 
+class dScene;
+
 class dVariable
 {	
 	public:
@@ -35,11 +37,11 @@ class dVariable
 
 	virtual dType GetType() const;
 
-	virtual void SetName (const char* name);
+	virtual void SetName (const char* const name);
 	virtual const char* GetName() const;
 	virtual void SetValue (int value);
 	virtual void SetValue (float value);
-	virtual void SetValue (const char* value);
+	virtual void SetValue (const char* const value);
 
 	virtual int GetInt () const;
 	virtual dFloat GetFloat () const;
@@ -49,7 +51,7 @@ class dVariable
 
 	private:
 	dType m_type;
-	char m_name[64];
+	dString m_name;
 	union
 	{
 		char*	m_data;
@@ -60,22 +62,20 @@ class dVariable
 	friend class dVariableList;
 };
 
-class dVariableList: public dTree<dVariable, unsigned>
+class dVariableList: public dTree<dVariable, dCRCTYPE>
 {
 	public:
 	dVariableList();
 	dVariableList(const dVariableList& me);
 	virtual ~dVariableList ();
 
-	virtual dVariable* CreateVariable (const char* name);
+	virtual dVariable* CreateVariable (const char* const name);
 
-	virtual dVariable* FindVariable(unsigned crc) const;
-	virtual dVariable* FindVariable(const char* name) const;
+	virtual dVariable* FindVariable(dCRCTYPE crc) const;
+	virtual dVariable* FindVariable(const char* const name) const;
 
 	virtual void Serialize(TiXmlElement* const rootNode) const;
-	virtual void Deserialize(TiXmlElement* const rootNode);
-	
-	
+	virtual bool Deserialize(const dScene* const scene, TiXmlElement* const rootNode);
 };
 
 #endif

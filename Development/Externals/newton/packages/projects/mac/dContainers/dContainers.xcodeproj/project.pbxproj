@@ -3,49 +3,31 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		FF8C267A1313D31E00646B90 /* dBaseHierarchy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FF8C26691313D31E00646B90 /* dBaseHierarchy.cpp */; };
-		FF8C267B1313D31E00646B90 /* dBaseHierarchy.h in Headers */ = {isa = PBXBuildFile; fileRef = FF8C266A1313D31E00646B90 /* dBaseHierarchy.h */; };
 		FF8C267C1313D31E00646B90 /* dClassInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FF8C266B1313D31E00646B90 /* dClassInfo.cpp */; };
-		FF8C267D1313D31E00646B90 /* dClassInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = FF8C266C1313D31E00646B90 /* dClassInfo.h */; };
 		FF8C267E1313D31E00646B90 /* dContainersStdAfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FF8C266D1313D31E00646B90 /* dContainersStdAfx.cpp */; };
-		FF8C267F1313D31E00646B90 /* dContainersStdAfx.h in Headers */ = {isa = PBXBuildFile; fileRef = FF8C266E1313D31E00646B90 /* dContainersStdAfx.h */; };
 		FF8C26801313D31E00646B90 /* dCRC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FF8C266F1313D31E00646B90 /* dCRC.cpp */; };
-		FF8C26811313D31E00646B90 /* dCRC.h in Headers */ = {isa = PBXBuildFile; fileRef = FF8C26701313D31E00646B90 /* dCRC.h */; };
-		FF8C26821313D31E00646B90 /* dHeap.h in Headers */ = {isa = PBXBuildFile; fileRef = FF8C26711313D31E00646B90 /* dHeap.h */; };
-		FF8C26831313D31E00646B90 /* dList.h in Headers */ = {isa = PBXBuildFile; fileRef = FF8C26721313D31E00646B90 /* dList.h */; };
 		FF8C26841313D31E00646B90 /* dRefCounter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FF8C26731313D31E00646B90 /* dRefCounter.cpp */; };
-		FF8C26851313D31E00646B90 /* dRefCounter.h in Headers */ = {isa = PBXBuildFile; fileRef = FF8C26741313D31E00646B90 /* dRefCounter.h */; };
-		FF8C26861313D31E00646B90 /* dRtti.h in Headers */ = {isa = PBXBuildFile; fileRef = FF8C26751313D31E00646B90 /* dRtti.h */; };
-		FF8C26871313D31E00646B90 /* dThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FF8C26761313D31E00646B90 /* dThread.cpp */; };
-		FF8C26881313D31E00646B90 /* dThread.h in Headers */ = {isa = PBXBuildFile; fileRef = FF8C26771313D31E00646B90 /* dThread.h */; };
 		FF8C26891313D31E00646B90 /* dTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FF8C26781313D31E00646B90 /* dTree.cpp */; };
-		FF8C268A1313D31E00646B90 /* dTree.h in Headers */ = {isa = PBXBuildFile; fileRef = FF8C26791313D31E00646B90 /* dTree.h */; };
+		FFD2742B172D9F9000114513 /* dString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FFD27429172D9F9000114513 /* dString.cpp */; };
+		FFDE47C9166BF801006CFDE9 /* dUndoRedo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FFDE47C5166BF801006CFDE9 /* dUndoRedo.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		32BAE0B70371A74B00C91783 /* dContainers_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dContainers_Prefix.pch; sourceTree = "<group>"; };
 		D2AAC06F0554671400DB518D /* libdContainers.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libdContainers.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF8C26691313D31E00646B90 /* dBaseHierarchy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dBaseHierarchy.cpp; path = ../../../dContainers/dBaseHierarchy.cpp; sourceTree = SOURCE_ROOT; };
-		FF8C266A1313D31E00646B90 /* dBaseHierarchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dBaseHierarchy.h; path = ../../../dContainers/dBaseHierarchy.h; sourceTree = SOURCE_ROOT; };
 		FF8C266B1313D31E00646B90 /* dClassInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dClassInfo.cpp; path = ../../../dContainers/dClassInfo.cpp; sourceTree = SOURCE_ROOT; };
-		FF8C266C1313D31E00646B90 /* dClassInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dClassInfo.h; path = ../../../dContainers/dClassInfo.h; sourceTree = SOURCE_ROOT; };
 		FF8C266D1313D31E00646B90 /* dContainersStdAfx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dContainersStdAfx.cpp; path = ../../../dContainers/dContainersStdAfx.cpp; sourceTree = SOURCE_ROOT; };
-		FF8C266E1313D31E00646B90 /* dContainersStdAfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dContainersStdAfx.h; path = ../../../dContainers/dContainersStdAfx.h; sourceTree = SOURCE_ROOT; };
 		FF8C266F1313D31E00646B90 /* dCRC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dCRC.cpp; path = ../../../dContainers/dCRC.cpp; sourceTree = SOURCE_ROOT; };
-		FF8C26701313D31E00646B90 /* dCRC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dCRC.h; path = ../../../dContainers/dCRC.h; sourceTree = SOURCE_ROOT; };
-		FF8C26711313D31E00646B90 /* dHeap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dHeap.h; path = ../../../dContainers/dHeap.h; sourceTree = SOURCE_ROOT; };
-		FF8C26721313D31E00646B90 /* dList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dList.h; path = ../../../dContainers/dList.h; sourceTree = SOURCE_ROOT; };
 		FF8C26731313D31E00646B90 /* dRefCounter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dRefCounter.cpp; path = ../../../dContainers/dRefCounter.cpp; sourceTree = SOURCE_ROOT; };
-		FF8C26741313D31E00646B90 /* dRefCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dRefCounter.h; path = ../../../dContainers/dRefCounter.h; sourceTree = SOURCE_ROOT; };
-		FF8C26751313D31E00646B90 /* dRtti.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dRtti.h; path = ../../../dContainers/dRtti.h; sourceTree = SOURCE_ROOT; };
-		FF8C26761313D31E00646B90 /* dThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dThread.cpp; path = ../../../dContainers/dThread.cpp; sourceTree = SOURCE_ROOT; };
-		FF8C26771313D31E00646B90 /* dThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dThread.h; path = ../../../dContainers/dThread.h; sourceTree = SOURCE_ROOT; };
 		FF8C26781313D31E00646B90 /* dTree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dTree.cpp; path = ../../../dContainers/dTree.cpp; sourceTree = SOURCE_ROOT; };
-		FF8C26791313D31E00646B90 /* dTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dTree.h; path = ../../../dContainers/dTree.h; sourceTree = SOURCE_ROOT; };
+		FFD27429172D9F9000114513 /* dString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dString.cpp; path = ../../../dContainers/dString.cpp; sourceTree = "<group>"; };
+		FFDE47C5166BF801006CFDE9 /* dUndoRedo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dUndoRedo.cpp; path = ../../../dContainers/dUndoRedo.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,23 +61,14 @@
 		08FB77ACFE841707C02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				FFD27429172D9F9000114513 /* dString.cpp */,
+				FFDE47C5166BF801006CFDE9 /* dUndoRedo.cpp */,
 				FF8C26691313D31E00646B90 /* dBaseHierarchy.cpp */,
-				FF8C266A1313D31E00646B90 /* dBaseHierarchy.h */,
 				FF8C266B1313D31E00646B90 /* dClassInfo.cpp */,
-				FF8C266C1313D31E00646B90 /* dClassInfo.h */,
 				FF8C266D1313D31E00646B90 /* dContainersStdAfx.cpp */,
-				FF8C266E1313D31E00646B90 /* dContainersStdAfx.h */,
 				FF8C266F1313D31E00646B90 /* dCRC.cpp */,
-				FF8C26701313D31E00646B90 /* dCRC.h */,
-				FF8C26711313D31E00646B90 /* dHeap.h */,
-				FF8C26721313D31E00646B90 /* dList.h */,
 				FF8C26731313D31E00646B90 /* dRefCounter.cpp */,
-				FF8C26741313D31E00646B90 /* dRefCounter.h */,
-				FF8C26751313D31E00646B90 /* dRtti.h */,
-				FF8C26761313D31E00646B90 /* dThread.cpp */,
-				FF8C26771313D31E00646B90 /* dThread.h */,
 				FF8C26781313D31E00646B90 /* dTree.cpp */,
-				FF8C26791313D31E00646B90 /* dTree.h */,
 				32BAE0B70371A74B00C91783 /* dContainers_Prefix.pch */,
 			);
 			name = Source;
@@ -108,16 +81,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF8C267B1313D31E00646B90 /* dBaseHierarchy.h in Headers */,
-				FF8C267D1313D31E00646B90 /* dClassInfo.h in Headers */,
-				FF8C267F1313D31E00646B90 /* dContainersStdAfx.h in Headers */,
-				FF8C26811313D31E00646B90 /* dCRC.h in Headers */,
-				FF8C26821313D31E00646B90 /* dHeap.h in Headers */,
-				FF8C26831313D31E00646B90 /* dList.h in Headers */,
-				FF8C26851313D31E00646B90 /* dRefCounter.h in Headers */,
-				FF8C26861313D31E00646B90 /* dRtti.h in Headers */,
-				FF8C26881313D31E00646B90 /* dThread.h in Headers */,
-				FF8C268A1313D31E00646B90 /* dTree.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,8 +109,12 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+			};
 			buildConfigurationList = 1DEB920508733DBB0010E9CD /* Build configuration list for PBXProject "dContainers" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -175,8 +142,9 @@
 				FF8C267E1313D31E00646B90 /* dContainersStdAfx.cpp in Sources */,
 				FF8C26801313D31E00646B90 /* dCRC.cpp in Sources */,
 				FF8C26841313D31E00646B90 /* dRefCounter.cpp in Sources */,
-				FF8C26871313D31E00646B90 /* dThread.cpp in Sources */,
 				FF8C26891313D31E00646B90 /* dTree.cpp in Sources */,
+				FFDE47C9166BF801006CFDE9 /* dUndoRedo.cpp in Sources */,
+				FFD2742B172D9F9000114513 /* dString.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,19 +156,28 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = dContainers_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = _MAC_VER;
+				GCC_PREPROCESSOR_DEFINITIONS = _MACOSX_VER;
+				HEADER_SEARCH_PATHS = (
+					../../../../coreLibrary_300/source/newton,
+					../../../dMath,
+					../../../dContainers,
+					../../../thirdParty/tinyxml,
+					"../../../thirdParty/enet-1.2/include",
+				);
 				INSTALL_PATH = /usr/local/lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = dContainers_d;
-				SDKROOT = macosx10.5;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = "";
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Debug;
 		};
@@ -209,16 +186,27 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = dContainers_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = _MAC_VER;
+				GCC_PREPROCESSOR_DEFINITIONS = _MACOSX_VER;
+				HEADER_SEARCH_PATHS = (
+					../../../../coreLibrary_300/source/newton,
+					../../../dMath,
+					../../../dContainers,
+					../../../thirdParty/tinyxml,
+					"../../../thirdParty/enet-1.2/include",
+				);
 				INSTALL_PATH = /usr/local/lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = dContainers;
-				SDKROOT = macosx10.5;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = "";
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
 		};
@@ -226,14 +214,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_X86_VECTOR_INSTRUCTIONS = sse4.1;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				PRODUCT_NAME = dContainers_d;
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -241,12 +232,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_X86_VECTOR_INSTRUCTIONS = sse4.1;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = dContainers;
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};

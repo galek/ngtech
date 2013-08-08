@@ -15,25 +15,26 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_CUSTOMSLIDER_H__B631F556_468B_4331_B7D7_F85ECF3E9ADE__INCLUDED_)
-#define AFX_CUSTOMSLIDER_H__B631F556_468B_4331_B7D7_F85ECF3E9ADE__INCLUDED_
+#ifndef _CUSTOMSLIDER_H__
+#define _CUSTOMSLIDER_H__
 
-#include "NewtonCustomJoint.h"
+#include "CustomJoint.h"
 
-class JOINTLIBRARY_API CustomSlider: public NewtonCustomJoint  
+class CustomSlider: public CustomJoint  
 {
 	public:
-	CustomSlider (const dMatrix& pinsAndPivoFrame, const NewtonBody* child, const NewtonBody* parent = NULL);
-	virtual ~CustomSlider();
+	NEWTON_API CustomSlider (const dMatrix& pinAndPivotFrame, NewtonBody* const child, NewtonBody* const parent = NULL);
+	NEWTON_API virtual ~CustomSlider();
 
-	void EnableLimits(bool state);
-	void SetLimis(dFloat mindist, dFloat maxdist);
+	NEWTON_API void EnableLimits(bool state);
+	NEWTON_API void SetLimis(dFloat mindist, dFloat maxdist);
 
-	bool JoinHitLimit () const ;
+	NEWTON_API bool JoinHitLimit () const ;
 	
 	protected:
-	virtual void SubmitConstraints (dFloat timestep, int threadIndex);
-	virtual void GetInfo (NewtonJointRecord* info) const;
+	NEWTON_API virtual void SubmitConstraints (dFloat timestep, int threadIndex);
+	NEWTON_API virtual void GetInfo (NewtonJointRecord* const info) const;
+
 	dMatrix m_localMatrix0;
 	dMatrix m_localMatrix1;
 
@@ -43,5 +44,5 @@ class JOINTLIBRARY_API CustomSlider: public NewtonCustomJoint
 	dFloat m_maxDist;
 };
 
-#endif // !defined(AFX_CUSTOMSLIDER_H__B631F556_468B_4331_B7D7_F85ECF3E9ADE__INCLUDED_)
+#endif // !defined(AFX_CUSTOMSLIDER_H__B631F556_468B_4331_B7D7_F85ECF3E9ADE_H)
 

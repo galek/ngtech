@@ -47,41 +47,15 @@
 	#pragma warning (disable: 4127) //conditional expression is constant
 #endif
 
-
-
-#ifndef _MSC_VER
-	#ifndef _NEWTON_USE_LIB
-		#define _NEWTON_USE_LIB
-	#endif
-#endif
-
-
-
-#ifdef _NEWTON_STATIC_LIB
-	#define JOINTLIBRARY_API
-#else
-	#ifdef JOINTLIBRARY_LIB
-		#define JOINTLIBRARY_API 
-	#else
-		#ifdef JOINTLIBRARY_EXPORTS
-			#define JOINTLIBRARY_API __declspec(dllexport)
-		#else
-			#define JOINTLIBRARY_API __declspec(dllimport)
-		#endif
-	#endif
-#endif
-
-
-
+#include <new>
+#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <Newton.h>
-//#include <JointLibrary.h>
-#include <NewtonCustomJoint.h>
+#include <CustomJoint.h>
 
-
-
+#if (defined (_POSIX_VER) || defined (_POSIX_VER_64))
+#endif
 
 #endif
-// TODO: reference additional headers your program requires here
+
 

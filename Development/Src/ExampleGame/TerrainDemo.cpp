@@ -148,7 +148,7 @@ float depth = 20;
 //------------------------------------------------------------
 void events() {
 	chammy->setFrame((int)(GetEngine()->iWindow->getETime() * 0.01)%100);
-	if(GetEngine()->iWindow->wasKeyPressed(WindowSystem::KEY_ESC)) {
+	if(GetEngine()->iWindow->isKeyDown(WindowSystem::KEY_ESC)) {
 		window->toggleActive();
 		GetEngine()->iWindow->toggleGrabMouse();
 	}

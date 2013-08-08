@@ -21,7 +21,6 @@
 
 #include "dNodeInfo.h"
 
-class dGeometryNodeInfo;
 
 class dSceneNodeInfo: public dNodeInfo
 {
@@ -52,16 +51,13 @@ class dSceneNodeInfo: public dNodeInfo
 	virtual void SetColor (const dVector& color); 
 
 	virtual void BakeTransform (const dMatrix& transform);
-	virtual void UpdateOOBB (dGeometryNodeInfo* geomInfo);
+
+	virtual void UpdateOOBB (dScene* const scene, dScene::dTreeNode* const myNode);
 	virtual dFloat RayCast (const dVector& p0, const dVector& p1) const;
 
 	protected:
-
-
-	virtual void SerializeBinary (FILE* const file);
 	virtual void Serialize (TiXmlElement* const rootNode) const; 
-	virtual bool Deserialize (TiXmlElement* const rootNode, int revisionNumber);
-	
+	virtual bool Deserialize (const dScene* const scene, TiXmlElement* const rootNode);
 
 	// the transformation of a node supports rotation, non uniform scaling and stretch
 	// the full matrix is store as Ut * S * U * R * T

@@ -27,13 +27,8 @@ dQuaternion::dQuaternion (const dMatrix &matrix)
 	};
 	static QUAT_INDEX QIndex [] = {Y_INDEX, Z_INDEX, X_INDEX};
 
-	dFloat *ptr;
-	dFloat trace;
-	QUAT_INDEX i;
-	QUAT_INDEX j;
-	QUAT_INDEX k;
-
-	trace = matrix[0][0] + matrix[1][1] + matrix[2][2];
+	dFloat trace = matrix[0][0] + matrix[1][1] + matrix[2][2];
+	dAssert (((matrix[0] * matrix[1]) % matrix[2]) > 0.0f);
 
 	if (trace > dFloat(0.0f)) {
 		trace = dSqrt (trace + dFloat(1.0f));
@@ -44,20 +39,20 @@ dQuaternion::dQuaternion (const dMatrix &matrix)
 		m_q3 = (matrix[0][1] - matrix[1][0]) * trace;
 
 	} else {
-		i = X_INDEX;
+		QUAT_INDEX i = X_INDEX;
 		if (matrix[Y_INDEX][Y_INDEX] > matrix[X_INDEX][X_INDEX]) {
 			i = Y_INDEX;
 		}
 		if (matrix[Z_INDEX][Z_INDEX] > matrix[i][i]) {
 			i = Z_INDEX;
 		}
-		j = QIndex [i];
-		k = QIndex [j];
+		QUAT_INDEX j = QIndex [i];
+		QUAT_INDEX k = QIndex [j];
 
 		trace = dFloat(1.0f) + matrix[i][i] - matrix[j][j] - matrix[k][k];
 		trace = dSqrt (trace);
 
-		ptr = &m_q1;
+		dFloat* const ptr = &m_q1;
 		ptr[i] = dFloat (0.5f) * trace;
 		trace = dFloat (0.5f) / trace;
 		m_q0 = (matrix[j][k] - matrix[k][j]) * trace;
@@ -71,27 +66,25 @@ dQuaternion::dQuaternion (const dMatrix &matrix)
 	dMatrix unitMatrix (tmp * matrix.Inverse());
 	for (int i = 0; i < 4; i ++) {
 		dFloat err = dAbs (unitMatrix[i][i] - dFloat(1.0f));
-		_ASSERTE (err < dFloat (1.0e-3f));
+		dAssert (err < dFloat (1.0e-3f));
 	}
 
 	dFloat err = dAbs (DotProduct(*this) - dFloat(1.0f));
-	_ASSERTE (err < dFloat(1.0e-3f));
+	dAssert (err < dFloat(1.0e-3f));
 #endif
 
 }
 
 
-dQuaternion::dQuaternion (const dVector &unitAxis, dFloat Angle)
+dQuaternion::dQuaternion (const dVector &unitAxis, dFloat angle)
 {
-	dFloat sinAng;
-
-	Angle *= dFloat (0.5f);
-	m_q0 = dCos (Angle);
-	sinAng = dSin (Angle);
+	angle *= dFloat (0.5f);
+	m_q0 = dCos (angle);
+	dFloat sinAng = dSin (angle);
 
 #ifdef _DEBUG
-	if (dAbs (Angle) > dFloat(1.0e-6f)) {
-		_ASSERTE (dAbs (dFloat(1.0f) - unitAxis % unitAxis) < dFloat(1.0e-3f));
+	if (dAbs (angle) > dFloat(1.0e-6f)) {
+		dAssert (dAbs (dFloat(1.0f) - unitAxis % unitAxis) < dFloat(1.0e-3f));
 	} 
 #endif
 	m_q1 = unitAxis.m_x * sinAng;
@@ -100,51 +93,44 @@ dQuaternion::dQuaternion (const dVector &unitAxis, dFloat Angle)
 }
 
 
-dVector dQuaternion::CalcAverageOmega (const dQuaternion &QB, dFloat dt) const
+dVector dQuaternion::CalcAverageOmega (const dQuaternion &q1, dFloat invdt) const
 {
-	dFloat dirMag;
-	dFloat dirMag2;
-	dFloat omegaMag;
-	dFloat dirMagInv;
-
-
-	dQuaternion dq (Inverse() * QB);
+	dQuaternion q0 (*this);
+	if (q0.DotProduct (q1) < 0.0f) {
+		q0.Scale(-1.0f);
+	}
+	dQuaternion dq (q0.Inverse() * q1);
 	dVector omegaDir (dq.m_q1, dq.m_q2, dq.m_q3);
 
-	dirMag2 = omegaDir % omegaDir;
+	dFloat dirMag2 = omegaDir % omegaDir;
 	if (dirMag2	< dFloat(dFloat (1.0e-5f) * dFloat (1.0e-5f))) {
 		return dVector (dFloat(0.0f), dFloat(0.0f), dFloat(0.0f), dFloat(0.0f));
 	}
 
-	dirMagInv = dFloat (1.0f) / dSqrt (dirMag2);
-	dirMag = dirMag2 * dirMagInv;
+	dFloat dirMagInv = dFloat (1.0f) / dSqrt (dirMag2);
+	dFloat dirMag = dirMag2 * dirMagInv;
 
-	omegaMag = dFloat(2.0f) * dAtan2 (dirMag, dq.m_q0) / dt;
-
+	dFloat omegaMag = dFloat(2.0f) * dAtan2 (dirMag, dq.m_q0) * invdt;
 	return omegaDir.Scale (dirMagInv * omegaMag);
 }
 
 
 dQuaternion dQuaternion::Slerp (const dQuaternion &QB, dFloat t) const 
 {
-	dFloat dot;
-	dFloat ang;
-	dFloat Sclp;
-	dFloat Sclq;
-	dFloat den;
-	dFloat sinAng;
 	dQuaternion Q;
 
-	dot = DotProduct (QB);
-	_ASSERTE (dot >= 0.0f);
+	dFloat dot = DotProduct (QB);
+	dAssert (dot >= 0.0f);
 
 	if ((dot + dFloat(1.0f)) > dFloat(1.0e-5f)) {
+		dFloat Sclp;
+		dFloat Sclq;
 		if (dot < dFloat(0.995f)) {
 
-			ang = dAcos (dot);
+			dFloat ang = dAcos (dot);
+			dFloat sinAng = dSin (ang);
 
-			sinAng = dSin (ang);
-			den = dFloat(1.0f) / sinAng;
+			dFloat den = dFloat(1.0f) / sinAng;
 
 			Sclp = dSin ((dFloat(1.0f) - t ) * ang) * den;
 			Sclq = dSin (t * ang) * den;
@@ -165,8 +151,8 @@ dQuaternion dQuaternion::Slerp (const dQuaternion &QB, dFloat t) const
 		Q.m_q2 =  m_q1;
 		Q.m_q3 =  m_q0;
 
-		Sclp = dSin ((dFloat(1.0f) - t) * dFloat (3.141592f *0.5f));
-		Sclq = dSin (t * dFloat (3.141592f * 0.5f));
+		dFloat Sclp = dSin ((dFloat(1.0f) - t) * dFloat (3.141592f *0.5f));
+		dFloat Sclq = dSin (t * dFloat (3.141592f * 0.5f));
 
 		Q.m_q0 = m_q0 * Sclp + Q.m_q0 * Sclq;
 		Q.m_q1 = m_q1 * Sclp + Q.m_q1 * Sclq;
@@ -198,3 +184,27 @@ dVector dQuaternion::UnrotateVector (const dVector& point) const
 	return matrix.UnrotateVector(point);
 }
 
+dVector dQuaternion::GetEulerAngles (dEulerAngleOrder order) const
+{
+	dMatrix matrix (*this, dVector (0.0f,0.0f,0.0f,1.0f));
+	return matrix.GetEulerAngles (order);
+}
+
+
+dQuaternion dQuaternion::IntegrateOmega (const dVector& omega, dFloat timestep) const
+{
+	// this is correct
+	dQuaternion rotation (*this);
+	dFloat omegaMag2 = omega % omega;
+	const dFloat errAngle = 0.0125f * 3.141592f / 180.0f;
+	const dFloat errAngle2 = errAngle * errAngle;
+	if (omegaMag2 > errAngle2) {
+		dFloat invOmegaMag = 1.0f / dSqrt (omegaMag2);
+		dVector omegaAxis (omega.Scale (invOmegaMag));
+		dFloat omegaAngle = invOmegaMag * omegaMag2 * timestep;
+		dQuaternion deltaRotation (omegaAxis, omegaAngle);
+		rotation = rotation * deltaRotation;
+		rotation.Scale(1.0f / dSqrt (rotation.DotProduct (rotation)));
+	}
+	return rotation;
+}

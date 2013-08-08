@@ -9,9 +9,9 @@ namespace VEGA {
 	class Vec4;
 	
 	struct ITexture{
-		//---------------------------------------------------------------------------
-	//Desc: Texture src format enum
-	//---------------------------------------------------------------------------
+	/**
+	Texture src format enum
+	*/
 	enum Format {
 		RGB,
 		RGBA,
@@ -26,9 +26,10 @@ namespace VEGA {
 		RGBA_FP32,
 	};
 
-	//---------------------------------------------------------------------------
-	//Desc: Texture filter enum
-	//---------------------------------------------------------------------------
+	
+	/**
+	Texture filter enum
+	*/
 	enum Filter {
 		NEAREST,
 		LINEAR,

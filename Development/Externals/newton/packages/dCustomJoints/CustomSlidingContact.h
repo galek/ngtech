@@ -15,25 +15,25 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_CustomSlidingContact_INCLUDED_)
-#define AFX_CustomSlidingContact_INCLUDED_
+#ifndef _CUSTOM_SLIDING_H_
+#define _CUSTOM_SLIDING_H_
 
-#include "NewtonCustomJoint.h"
+#include "CustomJoint.h"
 
-class JOINTLIBRARY_API CustomSlidingContact: public NewtonCustomJoint  
+class CustomSlidingContact: public CustomJoint  
 {
 	public:
-	CustomSlidingContact (const dMatrix& pinsAndPivoFrame, const NewtonBody* child, const NewtonBody* parent = NULL);
-	virtual ~CustomSlidingContact();
+	NEWTON_API CustomSlidingContact (const dMatrix& pinAndPivotFrame, NewtonBody* const child, NewtonBody* const parent = NULL);
+	NEWTON_API virtual ~CustomSlidingContact();
 
-	void EnableLinearLimits(bool state);
-	void EnableAngularLimits(bool state);
-	void SetLinearLimis(dFloat minAngle, dFloat maxAngle);
-	void SetAngularLimis(dFloat minAngle, dFloat maxAngle);
+	NEWTON_API void EnableLinearLimits(bool state);
+	NEWTON_API void EnableAngularLimits(bool state);
+	NEWTON_API void SetLinearLimis(dFloat minAngle, dFloat maxAngle);
+	NEWTON_API void SetAngularLimis(dFloat minAngle, dFloat maxAngle);
 
-protected:
-	virtual void SubmitConstraints (dFloat timestep, int threadIndex);
-	virtual void GetInfo (NewtonJointRecord* info) const;
+	protected:
+	NEWTON_API virtual void SubmitConstraints (dFloat timestep, int threadIndex);
+	NEWTON_API virtual void GetInfo (NewtonJointRecord* const info) const;
 
 	dMatrix m_localMatrix0;
 	dMatrix m_localMatrix1;
@@ -47,5 +47,5 @@ protected:
 
 };
 
-#endif // !defined(AFX_CustomSlidingContact_H__B631F556_468B_4331_B7D7_F85ECF3E9ADE__INCLUDED_)
+#endif // !defined(AFX_CustomSlidingContact_H__B631F556_468B_4331_B7D7_F85ECF3E9ADE_H)
 

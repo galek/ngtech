@@ -44,11 +44,8 @@ namespace VEGA {
 
 #define ENGINE_VERSION_NUMBER 0.3.2
 #define ENGINE_VERSION_STRING "0.3.2"
-	//---------------------------------------------------------------------------
-	//Desc:    creates new VEGA
-	//Params:  -
-	//Returns: pointer to new VEGA
-	//---------------------------------------------------------------------------
+	/*
+	*/
 	Engine::Engine()
 	{
 		log = new Log();
@@ -56,11 +53,8 @@ namespace VEGA {
 		_preInit();
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    Init engine sub-systems
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/*
+	*/
 	void Engine::_preInit()
 	{
 		config = new Config("..\\user.ltx");
@@ -87,20 +81,14 @@ namespace VEGA {
 		scene = new Scene(cvars);
 		Debug("[Init] SceneManager Finished");
 	}
-	//---------------------------------------------------------------------------
-	//Desc:    Set Gane for using in sub-systems
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/*
+	*/
 	void Engine::setGame(IGame*_game){
 		game = _game;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    Init engine sub-systems
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/*
+	*/
 	void Engine::initialise()
 	{
 		if (iWindow){
@@ -144,27 +132,22 @@ namespace VEGA {
 		Debug("[Init] All Systems Initialised");
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    VEGA destructor
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/*
+	*/
 	Engine::~Engine()  {
-		if (gui) delete gui;
-		if (scene) delete scene;
-
-		delete physSystem;
-		delete ilSystem;
-		delete alSystem;
-		delete iRender;
-
-		delete iWindow;
+//		SAFE_DELETE(scripting);
+		SAFE_DELETE(game);
+		SAFE_DELETE(gui);
+		SAFE_DELETE(scene);
+		SAFE_DELETE(physSystem);
+		SAFE_DELETE(ilSystem);
+		SAFE_DELETE(alSystem);
+		SAFE_DELETE(iRender);
+		SAFE_DELETE(iWindow);
 	}
-	//---------------------------------------------------------------------------
-	//Desc:    engines main loop
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+
+	/*
+	*/
 	void Engine::mainLoop() {
 		if (this->iWindow)	this->iWindow->update();
 		while (this->running)
@@ -199,15 +182,13 @@ namespace VEGA {
 	}
 
 
-	//---------------------------------------------------------------------------
-	//Desc:    exits the main loop
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/*
+	*/	
 	void Engine::quit() {
 		running = false;
 	}
-
+	/*
+	*/
 	void Engine::_setResources() {
 		vfs->addResourceLocation("../data", true);
 	}

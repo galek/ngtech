@@ -127,10 +127,10 @@ namespace VEGA {
 		Log::writeHeader("-- GUI --");
 		mPlatform->initialise(this);
 		mPlatform->getDataManagerPtr()->addResourceLocation("../data/gui/", true);
-		resize(cvars->width, cvars->height);
+		resize(cvars->r_width, cvars->r_height);
 		mGUI->initialise("MyGUI_Core.xml");
 		GUIRenderMtr = new Material("engine_materials/gui.mat");
-		showDebugInfo(cvars->showInfo);
+		showDebugInfo(cvars->r_showInfo);
 	}
 	//---------------------------------------------------------------------------
 	//Desc:    GUI destructor
