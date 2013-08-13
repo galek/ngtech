@@ -33,7 +33,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -113,8 +113,9 @@
     </ProjectReference>
     <Lib>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\</AdditionalLibraryDirectories>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalDependencies>opencl.lib</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
       <Command>
@@ -154,8 +155,9 @@
     </ProjectReference>
     <Lib>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\</AdditionalLibraryDirectories>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalDependencies>opencl.lib</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
       <Command>
@@ -235,7 +237,7 @@ rem xcopy  "$(OutDir)$(TargetName).dll" "C:\dev\pengII\pengII\Debug\*.*"  /F /Y 
       <OmitFramePointers>true</OmitFramePointers>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <AdditionalIncludeDirectories>../../../source/core;../../../source/physics;../../../source/meshUtil;../../../../packages/thirdParty/pthreads.2</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;_NEWTON_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_WIN_64_VER;PTW32_STATIC_LIB</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN64;WIN32;NDEBUG;_WINDOWS;_USRDLL;_NEWTON_BUILD_DLL;_CRT_SECURE_NO_WARNINGS;_WIN_64_VER;PTW32_STATIC_LIB</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>
       </ExceptionHandling>
@@ -254,9 +256,10 @@ rem xcopy  "$(OutDir)$(TargetName).dll" "C:\dev\pengII\pengII\Debug\*.*"  /F /Y 
       <WarningLevel>Level4</WarningLevel>
       <TreatWarningAsError>false</TreatWarningAsError>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -284,6 +287,10 @@ rem xcopy  "$(OutDir)$(TargetName).dll" "C:\dev\pengII\pengII\Debug\*.*"  /F /Y 
 
 </Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>opencl.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\newton\Newton.cpp" />

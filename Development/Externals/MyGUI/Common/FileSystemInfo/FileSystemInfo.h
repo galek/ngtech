@@ -69,27 +69,24 @@ namespace common
 		//FIXME add optional parameter?
 		bool ms_IgnoreHidden = true;
 
-		long lHandle, res;
+		intptr_t lHandle;	int res;
 		struct _wfinddata_t tagData;
-
 		// pattern can contain a directory name, separate it from mask
 		size_t pos = _mask.find_last_of(L"/\\");
 		std::wstring directory;
 		if (pos != _mask.npos)
-			directory = _mask.substr (0, pos);
-
+			directory = _mask.substr(0, pos);
 		std::wstring full_mask = concatenatePath(_folder, _mask);
-
 		lHandle = _wfindfirst(full_mask.c_str(), &tagData);
 		res = 0;
 		while (lHandle != -1 && res != -1)
 		{
-			if (( !ms_IgnoreHidden || (tagData.attrib & _A_HIDDEN) == 0 ) &&
-				(!isReservedDir (tagData.name)))
+			if ((!ms_IgnoreHidden || (tagData.attrib & _A_HIDDEN) == 0) &&
+				!isReservedDir(tagData.name))
 			{
 				_result.push_back(FileInfo(concatenatePath(directory, tagData.name), (tagData.attrib & _A_SUBDIR) != 0));
 			}
-			res = _wfindnext( lHandle, &tagData );
+			res = _wfindnext(lHandle, &tagData);
 		}
 		// Close if we found any files
 		if (lHandle != -1)

@@ -57,13 +57,13 @@ namespace VEGA {
 	*/
 	void Engine::_preInit()
 	{
+		vfs = new FileSystem();
+		Debug("[Init] FileSystem Finished");
 		config = new Config("..\\user.ltx");
 		cvars = new CVARManager(config);
 
 		iWindow = new WindowSystem(cvars);
 		Debug("[Init] Window Finished");
-		vfs = new FileSystem();
-		Debug("[Init] FileSystem Finished");
 		iRender = new GLSystem();
 		Debug("[Init] Render Finished");
 		alSystem = new ALSystem();
