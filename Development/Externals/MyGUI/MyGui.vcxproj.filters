@@ -555,6 +555,12 @@
     <ClInclude Include="Platforms\OpenGL\OpenGLPlatform\include\MyGUI_OpenGLVertexBuffer.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="MyGUIEngine\include\MyGUI_DataMemoryStream.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGUIEngine\include\MyGUI_DataStreamHolder.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGUIEngine\src\MyGUI_ActionController.cpp">
@@ -858,6 +864,9 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Platforms\OpenGL\OpenGLPlatform\src\MyGUI_OpenGLVertexBuffer.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGUIEngine\src\MyGUI_DataMemoryStream.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>

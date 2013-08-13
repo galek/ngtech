@@ -9,7 +9,7 @@
 #include "RecentFilesManager.h"
 #include "CommandManager.h"
 #include "MessageBoxManager.h"
-#include "Tools/DialogManager.h"
+#include "DialogManager.h"
 #include "FileSystemInfo/FileSystemInfo.h"
 #include "Localise.h"
 #include "EditorWidgets.h"
@@ -18,6 +18,7 @@
 
 namespace tools
 {
+
 	const std::string LogSection = "LayoutEditor";
 
 	ProjectControl::ProjectControl(MyGUI::Widget* _parent) :
@@ -34,24 +35,26 @@ namespace tools
 		mList->eventToolTip += MyGUI::newDelegate(this, &ProjectControl::notifyToolTip);
 
 		mOpenSaveFileDialog = new OpenSaveFileDialog();
+		mOpenSaveFileDialog->Initialise(SettingsManager::getInstance().getValue("EditorState/OpenSaveFileDialogLayout"));
 		mOpenSaveFileDialog->setFileMask("*.xml");
-		mOpenSaveFileDialog->eventEndDialog = MyGUI::newDelegate(this, &ProjectControl::notifyEndDialogOpenSaveFile);
+		mOpenSaveFileDialog->eventEndDialog.connect(this, &ProjectControl::notifyEndDialogOpenSaveFile);
 		mOpenSaveFileDialog->setCurrentFolder(RecentFilesManager::getInstance().getRecentFolder());
 		mOpenSaveFileDialog->setRecentFolders(RecentFilesManager::getInstance().getRecentFolders());
 
 		mTextFieldControl = new TextFieldControl();
-		mTextFieldControl->eventEndDialog = MyGUI::newDelegate(this, &ProjectControl::notifyTextFieldEndDialog);
+		mTextFieldControl->Initialise();
+		mTextFieldControl->eventEndDialog.connect(this, &ProjectControl::notifyTextFieldEndDialog);
 
-		CommandManager::getInstance().registerCommand("Command_ProjectCreate", MyGUI::newDelegate(this, &ProjectControl::command_ProjectCreate));
-		CommandManager::getInstance().registerCommand("Command_ProjectLoad", MyGUI::newDelegate(this, &ProjectControl::command_ProjectLoad));
-		CommandManager::getInstance().registerCommand("Command_ProjectClose", MyGUI::newDelegate(this, &ProjectControl::command_ProjectClose));
-		CommandManager::getInstance().registerCommand("Command_ProjectDeleteItem", MyGUI::newDelegate(this, &ProjectControl::command_ProjectDeleteItem));
-		CommandManager::getInstance().registerCommand("Command_ProjectRenameItem", MyGUI::newDelegate(this, &ProjectControl::command_ProjectRenameItem));
-		CommandManager::getInstance().registerCommand("Command_ProjectAddItem", MyGUI::newDelegate(this, &ProjectControl::command_ProjectAddItem));
-		CommandManager::getInstance().registerCommand("Command_UpdateResources", MyGUI::newDelegate(this, &ProjectControl::command_UpdateResources));
-		CommandManager::getInstance().registerCommand("Command_OpenRecentProject", MyGUI::newDelegate(this, &ProjectControl::command_OpenRecentProject));
+		CommandManager::getInstance().getEvent("Command_ProjectCreate")->connect(this, &ProjectControl::command_ProjectCreate);
+		CommandManager::getInstance().getEvent("Command_ProjectLoad")->connect(this, &ProjectControl::command_ProjectLoad);
+		CommandManager::getInstance().getEvent("Command_ProjectClose")->connect(this, &ProjectControl::command_ProjectClose);
+		CommandManager::getInstance().getEvent("Command_ProjectDeleteItem")->connect(this, &ProjectControl::command_ProjectDeleteItem);
+		CommandManager::getInstance().getEvent("Command_ProjectRenameItem")->connect(this, &ProjectControl::command_ProjectRenameItem);
+		CommandManager::getInstance().getEvent("Command_ProjectAddItem")->connect(this, &ProjectControl::command_ProjectAddItem);
+		CommandManager::getInstance().getEvent("Command_UpdateResources")->connect(this, &ProjectControl::command_UpdateResources);
+		CommandManager::getInstance().getEvent("Command_OpenRecentProject")->connect(this, &ProjectControl::command_OpenRecentProject);
 
-		if (SettingsManager::getInstance().getSector("Settings")->getPropertyValue<bool>("LoadLastProject"))
+		if (SettingsManager::getInstance().getValue<bool>("Settings/LoadLastProject"))
 			loadLastProject();
 	}
 
@@ -78,6 +81,7 @@ namespace tools
 				RecentFilesManager::getInstance().setRecentFolder(mOpenSaveFileDialog->getCurrentFolder());
 				setFileName(mOpenSaveFileDialog->getCurrentFolder(), mOpenSaveFileDialog->getFileName());
 
+				updateProjectSkins();
 				if (!load())
 				{
 					/*Message* message = */MessageBoxManager::getInstance().create(
@@ -390,8 +394,8 @@ namespace tools
 		mProjectName = _fileName;
 		mProjectPath = _filePath;
 
-		SettingsManager::getInstance().getSector("Settings")->setPropertyValue("LastProjectName", mProjectName);
-		SettingsManager::getInstance().getSector("Settings")->setPropertyValue("LastProjectPath", mProjectPath);
+		SettingsManager::getInstance().setValue("Files/LastProjectName", mProjectName);
+		SettingsManager::getInstance().setValue("Files/LastProjectPath", mProjectPath);
 
 		addUserTag("CurrentProjectName", mProjectName);
 	}
@@ -573,7 +577,7 @@ namespace tools
 		if (_index == MyGUI::ITEM_NONE)
 			return;
 
-		MyGUI::UString data = MyGUI::utility::toString(common::concatenatePath(mProjectPath, mProjectName), "|", _index);
+		MyGUI::UString data = MyGUI::utility::toString(MyGUI::UString(common::concatenatePath(mProjectPath, mProjectName)), "|", _index);
 		CommandManager::getInstance().setCommandData(data);
 		CommandManager::getInstance().executeCommand("Command_FileDrop");
 	}
@@ -608,7 +612,7 @@ namespace tools
 
 		if (indexItem != MyGUI::ITEM_NONE)
 		{
-			MyGUI::UString fileName = MyGUI::utility::toString(common::concatenatePath(mProjectPath, mProjectName), "|", indexItem);
+			MyGUI::UString fileName = MyGUI::utility::toString(MyGUI::UString(common::concatenatePath(mProjectPath, mProjectName)), "|", indexItem);
 			CommandManager::getInstance().setCommandData(fileName);
 			CommandManager::getInstance().executeCommand("Command_SaveItemAs");
 		}
@@ -660,14 +664,15 @@ namespace tools
 
 	void ProjectControl::loadLastProject()
 	{
-		MyGUI::UString projectName = SettingsManager::getInstance().getSector("Settings")->getPropertyValue("LastProjectName");
-		MyGUI::UString projectPath = SettingsManager::getInstance().getSector("Settings")->getPropertyValue("LastProjectPath");
+		MyGUI::UString projectName = SettingsManager::getInstance().getValue("Files/LastProjectName");
+		MyGUI::UString projectPath = SettingsManager::getInstance().getValue("Files/LastProjectPath");
 
 		if (projectName.empty())
 			return;
 
 		setFileName(projectPath, projectName);
 
+		updateProjectSkins();
 		if (!load())
 		{
 			/*Message* message = MessageBoxManager::getInstance().create(
@@ -710,4 +715,4 @@ namespace tools
 		return SkinInfo(MyGUI::TextIterator::getOnlyText(name), "", "");
 	}
 
-} // namespace tools
+}

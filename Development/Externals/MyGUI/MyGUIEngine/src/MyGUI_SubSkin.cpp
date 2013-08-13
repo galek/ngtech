@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		02/2008
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_SubSkin.h"
 #include "MyGUI_RenderItem.h"
@@ -49,10 +34,12 @@ namespace MyGUI
 
 	void SubSkin::setVisible(bool _visible)
 	{
-		if (mVisible == _visible) return;
+		if (mVisible == _visible)
+			return;
 		mVisible = _visible;
 
-		if (nullptr != mNode) mNode->outOfDate(mRenderItem);
+		if (nullptr != mNode)
+			mNode->outOfDate(mRenderItem);
 	}
 
 	void SubSkin::setAlpha(float _alpha)
@@ -66,7 +53,8 @@ namespace MyGUI
 
 	void SubSkin::_correctView()
 	{
-		if (nullptr != mNode) mNode->outOfDate(mRenderItem);
+		if (nullptr != mNode)
+			mNode->outOfDate(mRenderItem);
 	}
 
 	void SubSkin::_setAlign(const IntSize& _oldsize)
@@ -120,7 +108,6 @@ namespace MyGUI
 			mCurrentCoord = mCoord;
 			_updateView();
 		}
-
 	}
 
 	void SubSkin::_updateView()
@@ -139,23 +126,23 @@ namespace MyGUI
 			// проверка на полный выход за границу
 			if (_checkOutside())
 			{
-
 				// запоминаем текущее состояние
 				mIsMargin = margin;
 
 				// обновить перед выходом
-				if (nullptr != mNode) mNode->outOfDate(mRenderItem);
+				if (nullptr != mNode)
+					mNode->outOfDate(mRenderItem);
 				return;
 			}
 		}
 
 		// мы обрезаны или были обрезаны
-		if ( mIsMargin || margin )
+		if (mIsMargin || margin)
 		{
 			mCurrentCoord.width = _getViewWidth();
 			mCurrentCoord.height = _getViewHeight();
 
-			if ( (mCurrentCoord.width > 0) && (mCurrentCoord.height > 0) )
+			if ((mCurrentCoord.width > 0) && (mCurrentCoord.height > 0))
 			{
 				// теперь смещаем текстуру
 				float UV_lft = mMargin.left / (float)mCoord.width;
@@ -184,7 +171,8 @@ namespace MyGUI
 		// запоминаем текущее состояние
 		mIsMargin = margin;
 
-		if (nullptr != mNode) mNode->outOfDate(mRenderItem);
+		if (nullptr != mNode)
+			mNode->outOfDate(mRenderItem);
 	}
 
 	void SubSkin::createDrawItem(ITexture* _texture, ILayerNode* _node)
@@ -207,7 +195,8 @@ namespace MyGUI
 
 	void SubSkin::_setUVSet(const FloatRect& _rect)
 	{
-		if (mRectTexture == _rect) return;
+		if (mRectTexture == _rect)
+			return;
 		mRectTexture = _rect;
 
 		// если обрезаны, то просчитываем с учето обрезки
@@ -228,25 +217,26 @@ namespace MyGUI
 
 			mCurrentTexture.set(UV_lft_total, UV_top_total, UV_rgt_total, UV_btm_total);
 		}
-
 		// мы не обрезаны, базовые координаты
 		else
 		{
 			mCurrentTexture = mRectTexture;
 		}
 
-		if (nullptr != mNode) mNode->outOfDate(mRenderItem);
+		if (nullptr != mNode)
+			mNode->outOfDate(mRenderItem);
 	}
 
 	void SubSkin::doRender()
 	{
-		if (!mVisible || mEmptyView) return;
+		if (!mVisible || mEmptyView)
+			return;
 
-		VertexQuad* quad = (VertexQuad*)mRenderItem->getCurrentVertexBuffer();
+		VertexQuad* quad = reinterpret_cast<VertexQuad*>(mRenderItem->getCurrentVertexBuffer());
 
 		const RenderTargetInfo& info = mRenderItem->getRenderTarget()->getInfo();
 
-		float vertex_z = info.maximumDepth;
+		float vertex_z = mNode->getNodeDepth();
 
 		float vertex_left = ((info.pixScaleX * (float)(mCurrentCoord.left + mCroppedParent->getAbsoluteLeft() - info.leftOffset) + info.hOffset) * 2) - 1;
 		float vertex_right = vertex_left + (info.pixScaleX * (float)mCurrentCoord.width * 2);
@@ -263,8 +253,7 @@ namespace MyGUI
 			mCurrentTexture.top,
 			mCurrentTexture.right,
 			mCurrentTexture.bottom,
-			mCurrentColour
-		);
+			mCurrentColour);
 
 		mRenderItem->setLastVertexCount(VertexQuad::VertexCount);
 	}

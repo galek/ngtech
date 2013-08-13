@@ -17,6 +17,16 @@
 namespace MyGUI
 {
 
+	OpenGLRenderManager& OpenGLRenderManager::getInstance()
+	{
+		return *getInstancePtr();
+	}
+
+	OpenGLRenderManager* OpenGLRenderManager::getInstancePtr()
+	{
+		return static_cast<OpenGLRenderManager*>(RenderManager::getInstancePtr());
+	}
+
 	OpenGLRenderManager::OpenGLRenderManager() :
 		mUpdate(false),
 		mImageLoader(nullptr),
@@ -80,7 +90,7 @@ namespace MyGUI
 
 		glBindTexture(GL_TEXTURE_2D, texture_id);
 
-		glBindBufferARB(GL_ARRAY_BUFFER_ARB, buffer_id);
+		glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
 
 		// enable vertex arrays
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -101,7 +111,7 @@ namespace MyGUI
 		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
 
-		glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
@@ -164,6 +174,11 @@ namespace MyGUI
 	VertexColourType OpenGLRenderManager::getVertexFormat()
 	{
 		return mVertexFormat;
+	}
+
+	bool OpenGLRenderManager::isFormatSupported(PixelFormat _format, TextureUsage _usage)
+	{
+		return true;
 	}
 
 	void OpenGLRenderManager::drawOneFrame()

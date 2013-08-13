@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		08/2008
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_ScrollView.h"
 #include "MyGUI_SkinManager.h"
@@ -46,6 +31,7 @@ namespace MyGUI
 		// FIXME нам нужен фокус клавы
 		setNeedKeyFocus(true);
 
+		///@wskin_child{ScrollView, Widget, Client} Клиентская зона.
 		assignWidget(mClient, "Client");
 		MyGUI::Widget* realClientOwner = this;
 		if (mClient != nullptr)
@@ -59,12 +45,14 @@ namespace MyGUI
 		mRealClient->eventMouseWheel += newDelegate(this, &ScrollView::notifyMouseWheel);
 		setWidgetClient(mRealClient);
 
+		///@wskin_child{ScrollView, ScrollBar, VScroll} Вертикальная полоса прокрутки.
 		assignWidget(mVScroll, "VScroll");
 		if (mVScroll != nullptr)
 		{
 			mVScroll->eventScrollChangePosition += newDelegate(this, &ScrollView::notifyScrollChangePosition);
 		}
 
+		///@wskin_child{ScrollView, ScrollBar, HScroll} Горизонтальная полоса прокрутки.
 		assignWidget(mHScroll, "HScroll");
 		if (mHScroll != nullptr)
 		{
@@ -238,19 +226,28 @@ namespace MyGUI
 
 	void ScrollView::setPropertyOverride(const std::string& _key, const std::string& _value)
 	{
+		/// @wproperty{ScrollView, VisibleVScroll, bool} Видимость вертикальной полосы прокрутки.
 		if (_key == "VisibleVScroll")
 			setVisibleVScroll(utility::parseValue<bool>(_value));
+
+		/// @wproperty{ScrollView, VisibleHScroll, bool} Видимость горизонтальной полосы прокрутки.
 		else if (_key == "VisibleHScroll")
 			setVisibleHScroll(utility::parseValue<bool>(_value));
+
+		/// @wproperty{ScrollView, CanvasAlign, Align} Выравнивание содержимого.
 		else if (_key == "CanvasAlign")
 			setCanvasAlign(utility::parseValue<Align>(_value));
+
+		/// @wproperty{ScrollView, CanvasSize, int int} Размер содержимого.
 		else if (_key == "CanvasSize")
 			setCanvasSize(utility::parseValue<IntSize>(_value));
+
 		else
 		{
 			Base::setPropertyOverride(_key, _value);
 			return;
 		}
+
 		eventChangeProperty(this, _key, _value);
 	}
 

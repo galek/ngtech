@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		George Evmenov
-	@date		07/2010
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_PolygonalSkin.h"
 #include "MyGUI_RenderItem.h"
@@ -32,8 +17,9 @@ namespace MyGUI
 	PolygonalSkin::PolygonalSkin() :
 		mGeometryOutdated(false),
 		mLineWidth(1.0f),
+		mLineStroke(0),
 		mLineLength(0.0f),
-		mVertexCount(0),
+		mVertexCount(VertexQuad::VertexCount),
 		mEmptyView(false),
 		mCurrentColour(0xFFFFFFFF),
 		mNode(nullptr),
@@ -101,6 +87,12 @@ namespace MyGUI
 	void PolygonalSkin::setWidth(float _width)
 	{
 		mLineWidth = _width;
+		_updateView();
+	}
+
+	void PolygonalSkin::setStroke(size_t _value)
+	{
+		mLineStroke = _value;
 		_updateView();
 	}
 
@@ -207,13 +199,14 @@ namespace MyGUI
 				mIsMargin = margin;
 
 				// обновить перед выходом
-				if (nullptr != mNode) mNode->outOfDate(mRenderItem);
+				if (nullptr != mNode)
+					mNode->outOfDate(mRenderItem);
 				return;
 			}
 		}
 
 		// мы обрезаны или были обрезаны
-		if ((mIsMargin) || (margin))
+		if (mIsMargin || margin)
 		{
 			mCurrentCoord.width = _getViewWidth();
 			mCurrentCoord.height = _getViewHeight();
@@ -246,14 +239,16 @@ namespace MyGUI
 
 	void PolygonalSkin::doRender()
 	{
-		if ((!mVisible) || mEmptyView)
+		if (!mVisible || mEmptyView)
 			return;
+
+		bool update = mRenderItem->getCurrentUpdate();
+		if (update)
+			mGeometryOutdated = true;
 
 		Vertex* verticies = mRenderItem->getCurrentVertexBuffer();
 
-		const RenderTargetInfo& info = mRenderItem->getRenderTarget()->getInfo();
-
-		float vertex_z = info.maximumDepth;
+		float vertex_z = mNode->getNodeDepth();
 
 		if (mGeometryOutdated)
 		{
@@ -297,8 +292,10 @@ namespace MyGUI
 
 	void PolygonalSkin::_rebuildGeometry()
 	{
-		if (mLinePoints.size() < 2) return;
-		if (!mRenderItem || !mRenderItem->getRenderTarget()) return;
+		if (mLinePoints.size() < 2)
+			return;
+		if (!mRenderItem || !mRenderItem->getRenderTarget())
+			return;
 
 		mGeometryOutdated = false;
 
@@ -326,10 +323,24 @@ namespace MyGUI
 
 		FloatPoint points[2] = {mLinePoints[0] + normal, mLinePoints[0] - normal};
 		FloatPoint pointsUV[2] = {baseVerticiesUV[0], baseVerticiesUV[3]};
+
+		bool draw = true;
+		size_t stroke = 0;
+
 		// add other verticies
 		float currentLength = 0.0f;
 		for (size_t i = 1; i < mLinePoints.size(); ++i)
 		{
+			if (mLineStroke != 0)
+			{
+				stroke++;
+				if (stroke == mLineStroke)
+				{
+					stroke = 0;
+					draw = !draw;
+				}
+			}
+
 			currentLength += len(mLinePoints[i - 1].left - mLinePoints[i].left,  mLinePoints[i - 1].top - mLinePoints[i].top);
 
 			// getting normal between previous and next point
@@ -361,19 +372,22 @@ namespace MyGUI
 
 			FloatPoint UVoffset(currentLength / mLineLength * vectorU.left, currentLength / mLineLength * vectorU.top);
 
-			mResultVerticiesPos.push_back(points[0]);
-			mResultVerticiesPos.push_back(points[1]);
-			mResultVerticiesPos.push_back(mLinePoints[i] + normal);
-			mResultVerticiesUV.push_back(pointsUV[0]);
-			mResultVerticiesUV.push_back(pointsUV[1]);
-			mResultVerticiesUV.push_back(baseVerticiesUV[0] + UVoffset);
+			if (draw)
+			{
+				mResultVerticiesPos.push_back(points[0]);
+				mResultVerticiesPos.push_back(points[1]);
+				mResultVerticiesPos.push_back(mLinePoints[i] + normal);
+				mResultVerticiesUV.push_back(pointsUV[0]);
+				mResultVerticiesUV.push_back(pointsUV[1]);
+				mResultVerticiesUV.push_back(baseVerticiesUV[0] + UVoffset);
 
-			mResultVerticiesPos.push_back(points[1]);
-			mResultVerticiesPos.push_back(mLinePoints[i] - normal);
-			mResultVerticiesPos.push_back(mLinePoints[i] + normal);
-			mResultVerticiesUV.push_back(pointsUV[1]);
-			mResultVerticiesUV.push_back(baseVerticiesUV[3] + UVoffset);
-			mResultVerticiesUV.push_back(baseVerticiesUV[0] + UVoffset);
+				mResultVerticiesPos.push_back(points[1]);
+				mResultVerticiesPos.push_back(mLinePoints[i] - normal);
+				mResultVerticiesPos.push_back(mLinePoints[i] + normal);
+				mResultVerticiesUV.push_back(pointsUV[1]);
+				mResultVerticiesUV.push_back(baseVerticiesUV[3] + UVoffset);
+				mResultVerticiesUV.push_back(baseVerticiesUV[0] + UVoffset);
+			}
 
 			points[edge ? 1 : 0] = mLinePoints[i] + normal;
 			points[edge ? 0 : 1] = mLinePoints[i] - normal;
@@ -408,26 +422,30 @@ namespace MyGUI
 				// check orientation
 				FloatPoint normal2 = _getPerpendicular(mLinePoints[i], mLinePoints[i + 1]);
 				lineDir = mLinePoints[i - 1] - mLinePoints[i];
-				if ((lineDir.left * normal2.top - lineDir.top * normal2.left < 0))
+				if (lineDir.left * normal2.top - lineDir.top * normal2.left < 0)
 				{
 					normal2.left = -normal2.left;
 					normal2.top = -normal2.top;
 				}
 
 				FloatPoint UVcenter((baseVerticiesUV[0].left + baseVerticiesUV[3].left) / 2, (baseVerticiesUV[0].top + baseVerticiesUV[3].top) / 2);
-				mResultVerticiesPos.push_back(points[0]);
-				mResultVerticiesPos.push_back(mLinePoints[i] + normal);
-				mResultVerticiesPos.push_back(mLinePoints[i]);
-				mResultVerticiesUV.push_back(pointsUV[0]);
-				mResultVerticiesUV.push_back(baseVerticiesUV[0] + UVoffset);
-				mResultVerticiesUV.push_back(UVcenter + UVoffset);
 
-				mResultVerticiesPos.push_back(mLinePoints[i] + normal);
-				mResultVerticiesPos.push_back(mLinePoints[i] + normal2);
-				mResultVerticiesPos.push_back(mLinePoints[i]);
-				mResultVerticiesUV.push_back(baseVerticiesUV[0] + UVoffset);
-				mResultVerticiesUV.push_back(baseVerticiesUV[0] + UVoffset);
-				mResultVerticiesUV.push_back(UVcenter + UVoffset);
+				if (draw)
+				{
+					mResultVerticiesPos.push_back(points[0]);
+					mResultVerticiesPos.push_back(mLinePoints[i] + normal);
+					mResultVerticiesPos.push_back(mLinePoints[i]);
+					mResultVerticiesUV.push_back(pointsUV[0]);
+					mResultVerticiesUV.push_back(baseVerticiesUV[0] + UVoffset);
+					mResultVerticiesUV.push_back(UVcenter + UVoffset);
+
+					mResultVerticiesPos.push_back(mLinePoints[i] + normal);
+					mResultVerticiesPos.push_back(mLinePoints[i] + normal2);
+					mResultVerticiesPos.push_back(mLinePoints[i]);
+					mResultVerticiesUV.push_back(baseVerticiesUV[0] + UVoffset);
+					mResultVerticiesUV.push_back(baseVerticiesUV[0] + UVoffset);
+					mResultVerticiesUV.push_back(UVcenter + UVoffset);
+				}
 
 				points[0] = mLinePoints[i] + normal2;
 				points[1] = mLinePoints[i] - normal2;

@@ -1,28 +1,14 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		26/2009
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_ResourceSkin.h"
 #include "MyGUI_FactoryManager.h"
 #include "MyGUI_LanguageManager.h"
+#include "MyGUI_SubWidgetManager.h"
 
 namespace MyGUI
 {
@@ -44,6 +30,8 @@ namespace MyGUI
 	void ResourceSkin::deserialization(xml::ElementPtr _node, Version _version)
 	{
 		Base::deserialization(_node, _version);
+
+		std::string stateCategory = SubWidgetManager::getInstance().getStateCategoryName();
 
 		// парсим атрибуты скина
 		std::string name, texture, tmp;
@@ -77,8 +65,10 @@ namespace MyGUI
 			{
 				// загружаем свойства
 				std::string key, value;
-				if (!basis->findAttribute("key", key)) continue;
-				if (!basis->findAttribute("value", value)) continue;
+				if (!basis->findAttribute("key", key))
+					continue;
+				if (!basis->findAttribute("value", value))
+					continue;
 
 				// поддержка замены тегов в скинах
 				if (_version >= Version(1, 1))
@@ -98,8 +88,7 @@ namespace MyGUI
 					IntCoord::parse(basis->findAttribute("offset")),
 					Align::parse(basis->findAttribute("align")),
 					basis->findAttribute("layer"),
-					basis->findAttribute("name")
-				);
+					basis->findAttribute("name"));
 
 				xml::ElementEnumerator child_params = basis->getElementEnumerator();
 				while (child_params.next("Property"))
@@ -115,8 +104,10 @@ namespace MyGUI
 				IntCoord offset;
 				Align align = Align::Default;
 				basis->findAttribute("type", basisSkinType);
-				if (basis->findAttribute("offset", tmp_str)) offset = IntCoord::parse(tmp_str);
-				if (basis->findAttribute("align", tmp_str)) align = Align::parse(tmp_str);
+				if (basis->findAttribute("offset", tmp_str))
+					offset = IntCoord::parse(tmp_str);
+				if (basis->findAttribute("align", tmp_str))
+					align = Align::parse(tmp_str);
 
 				bind.create(offset, align, basisSkinType);
 
@@ -156,23 +147,32 @@ namespace MyGUI
 						if (_version < Version(1, 0))
 						{
 							// это обсолет новых типов
-							if (basisStateName == "disable_check") basisStateName = "disabled_checked";
-							else if (basisStateName == "normal_check") basisStateName = "normal_checked";
-							else if (basisStateName == "active_check") basisStateName = "highlighted_checked";
-							else if (basisStateName == "pressed_check") basisStateName = "pushed_checked";
-							else if (basisStateName == "disable") basisStateName = "disabled";
-							else if (basisStateName == "active") basisStateName = "highlighted";
-							else if (basisStateName == "select") basisStateName = "pushed";
+							if (basisStateName == "disable_check")
+								basisStateName = "disabled_checked";
+							else if (basisStateName == "normal_check")
+								basisStateName = "normal_checked";
+							else if (basisStateName == "active_check")
+								basisStateName = "highlighted_checked";
+							else if (basisStateName == "pressed_check")
+								basisStateName = "pushed_checked";
+							else if (basisStateName == "disable")
+								basisStateName = "disabled";
+							else if (basisStateName == "active")
+								basisStateName = "highlighted";
+							else if (basisStateName == "select")
+								basisStateName = "pushed";
 							else if (basisStateName == "pressed")
 							{
-								if (new_format) basisStateName = "pushed";
-								else basisStateName = "normal_checked";
+								if (new_format)
+									basisStateName = "pushed";
+								else
+									basisStateName = "normal_checked";
 							}
 						}
 
 						// конвертируем инфу о стейте
 						IStateInfo* data = nullptr;
-						IObject* object = FactoryManager::getInstance().createObject("BasisSkin/State", basisSkinType);
+						IObject* object = FactoryManager::getInstance().createObject(stateCategory, basisSkinType);
 						if (object != nullptr)
 						{
 							data = object->castType<IStateInfo>();

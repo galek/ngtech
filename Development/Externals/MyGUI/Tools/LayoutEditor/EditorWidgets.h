@@ -1,12 +1,12 @@
-#ifndef __EDITOR_WIDGETS_H__
-#define __EDITOR_WIDGETS_H__
+#ifndef _2430e622_7ed5_481e_91df_1a6805bc9e49_
+#define _2430e622_7ed5_481e_91df_1a6805bc9e49_
 
 #include <sstream>
 #include "WidgetContainer.h"
-#include "SettingsSector.h"
 
 namespace tools
 {
+
 	typedef MyGUI::delegates::CMultiDelegate0 Event_ChangeWidgets;
 	typedef MyGUI::delegates::CMultiDelegate3<MyGUI::Widget*, const MyGUI::IntCoord&, const std::string&> Event_ChangeWidgetCoord;
 
@@ -42,8 +42,6 @@ namespace tools
 		void invalidateWidgets();
 		EnumeratorWidgetContainer getWidgets();
 
-		SettingsSector* getSector(const MyGUI::UString& _sectorName);
-
 		std::string getSkinReplace(const std::string& _skinName);
 
 		const MyGUI::UString& getCurrentFileName() const;
@@ -53,6 +51,8 @@ namespace tools
 		Event_ChangeWidgetCoord eventChangeWidgetCoord;
 
 		virtual void _unlinkWidget(MyGUI::Widget* _widget);
+
+		MyGUI::MapString& getCodeGeneratorSettings();
 
 	private:
 		WidgetContainer* _find(MyGUI::Widget* _widget, const std::string& _name, std::vector<WidgetContainer*> _widgets);
@@ -65,10 +65,6 @@ namespace tools
 
 		void notifyFrameStarted(float _time);
 
-		void loadSector(MyGUI::xml::ElementPtr _sectorNode);
-		void saveSectors(MyGUI::xml::ElementPtr _rootNode);
-
-		void destroyAllSectors();
 		void destroyAllWidgets();
 
 		bool isSkinExist(const std::string& _skinName);
@@ -81,20 +77,24 @@ namespace tools
 
 		void loadWidgetsFromXmlNode(MyGUI::xml::ElementPtr _root, bool _testMode = false);
 		void saveWidgetsToXmlNode(MyGUI::xml::ElementPtr _root, bool _compatibility = false);
+
+		void loadCodeGeneratorSettings(MyGUI::xml::ElementPtr _sectorNode);
+		void saveCodeGeneratorSettings(MyGUI::xml::ElementPtr _rootNode);
+
 	private:
 		bool mWidgetsChanged;
 		typedef std::vector<std::string> VectorString;
 		VectorString mIgnoreParameters;
-		VectorSettingsSector mSettings;
 		VectorWidgetContainer mWidgets;
 
-		typedef std::map<std::string, std::string> MapString;
-		MapString mSkinReplaces;
+		MyGUI::MapString mSkinReplaces;
 
 		MyGUI::UString mCurrentFileName;
 		MyGUI::UString mCurrentItemName;
+
+		MyGUI::MapString mCodeGeneratorSettings;
 	};
 
-} // namespace tools
+}
 
-#endif // __EDITOR_WIDGETS_H__
+#endif

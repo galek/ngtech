@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		02/2008
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_MenuControl.h"
 #include "MyGUI_ResourceSkin.h"
@@ -50,7 +35,8 @@ namespace MyGUI
 		mOwner(nullptr),
 		mAnimateSmooth(false),
 		mChangeChildSkin(false),
-		mClient(nullptr)
+		mClient(nullptr),
+		mInternalCreateChild(false)
 	{
 	}
 
@@ -77,6 +63,7 @@ namespace MyGUI
 		// FIXME нам нужен фокус клавы
 		setNeedKeyFocus(true);
 
+		///@wskin_child{MenuControl, Widget, Client} Клиентская зона.
 		assignWidget(mClient, "Client");
 		if (mClient != nullptr)
 		{
@@ -104,6 +91,7 @@ namespace MyGUI
 
 		if (isUserString("SubMenuSkin"))
 			mSubMenuSkin = getUserString("SubMenuSkin");
+
 		if (isUserString("SubMenuLayer"))
 			mSubMenuLayer = getUserString("SubMenuLayer");
 
@@ -126,7 +114,7 @@ namespace MyGUI
 		Base::onWidgetCreated(_widget);
 
 		MenuItem* child = _widget->castType<MenuItem>(false);
-		if (child != nullptr)
+		if (child != nullptr && !mInternalCreateChild)
 		{
 			_wrapItem(child, mItemsInfo.size(), "", MenuItemType::Normal, "", Any::Null);
 		}
@@ -137,7 +125,9 @@ namespace MyGUI
 		MYGUI_ASSERT_RANGE_INSERT(_index, mItemsInfo.size(), "MenuControl::insertItemAt");
 		if (_index == ITEM_NONE) _index = mItemsInfo.size();
 
+		mInternalCreateChild = true;
 		MenuItem* item = _getClientWidget()->createWidget<MenuItem>(getSkinByType(_type), IntCoord(), Align::Default);
+		mInternalCreateChild = false;
 		_wrapItem(item, _index, _name, _type, _id, _data);
 
 		return item;
@@ -903,13 +893,16 @@ namespace MyGUI
 
 	void MenuControl::setPropertyOverride(const std::string& _key, const std::string& _value)
 	{
+		/// @wproperty{MenuControl, VerticalAlignment, bool} Вертикальное выравнивание.
 		if (_key == "VerticalAlignment")
 			setVerticalAlignment(utility::parseValue<bool>(_value));
+
 		else
 		{
 			Base::setPropertyOverride(_key, _value);
 			return;
 		}
+
 		eventChangeProperty(this, _key, _value);
 	}
 

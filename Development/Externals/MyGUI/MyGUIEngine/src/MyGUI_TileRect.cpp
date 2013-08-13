@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		05/2008
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_TileRect.h"
 #include "MyGUI_RenderItem.h"
@@ -56,10 +41,12 @@ namespace MyGUI
 
 	void TileRect::setVisible(bool _visible)
 	{
-		if (mVisible == _visible) return;
+		if (mVisible == _visible)
+			return;
 		mVisible = _visible;
 
-		if (nullptr != mNode) mNode->outOfDate(mRenderItem);
+		if (nullptr != mNode)
+			mNode->outOfDate(mRenderItem);
 	}
 
 	void TileRect::setAlpha(float _alpha)
@@ -73,7 +60,8 @@ namespace MyGUI
 
 	void TileRect::_correctView()
 	{
-		if (nullptr != mNode) mNode->outOfDate(mRenderItem);
+		if (nullptr != mNode)
+			mNode->outOfDate(mRenderItem);
 	}
 
 	void TileRect::_setAlign(const IntSize& _oldsize)
@@ -129,7 +117,6 @@ namespace MyGUI
 			if (!mTileV) mTileSize.height = mCoord.height;
 			_updateView();
 		}
-
 	}
 
 	void TileRect::_updateView()
@@ -150,9 +137,13 @@ namespace MyGUI
 			if (!mTileSize.empty())
 			{
 				size_t count_x = mCoord.width / mTileSize.width;
-				if ((mCoord.width % mTileSize.width) > 0) count_x ++;
+				if ((mCoord.width % mTileSize.width) > 0)
+					count_x ++;
+
 				size_t count_y = mCoord.height / mTileSize.height;
-				if ((mCoord.height % mTileSize.height) > 0) count_y ++;
+				if ((mCoord.height % mTileSize.height) > 0)
+					count_y ++;
+
 				count = count_y * count_x * VertexQuad::VertexCount;
 			}
 
@@ -160,7 +151,8 @@ namespace MyGUI
 			if (count > mCountVertex)
 			{
 				mCountVertex = count + TILERECT_COUNT_VERTEX;
-				if (nullptr != mRenderItem) mRenderItem->reallockDrawItem(this, mCountVertex);
+				if (nullptr != mRenderItem)
+					mRenderItem->reallockDrawItem(this, mCountVertex);
 			}
 		}
 
@@ -174,7 +166,8 @@ namespace MyGUI
 				mIsMargin = margin;
 
 				// обновить перед выходом
-				if (nullptr != mNode) mNode->outOfDate(mRenderItem);
+				if (nullptr != mNode)
+					mNode->outOfDate(mRenderItem);
 				return;
 			}
 		}
@@ -182,20 +175,23 @@ namespace MyGUI
 		// запоминаем текущее состояние
 		mIsMargin = margin;
 
-		if (nullptr != mNode) mNode->outOfDate(mRenderItem);
+		if (nullptr != mNode)
+			mNode->outOfDate(mRenderItem);
 	}
 
 	void TileRect::_setUVSet(const FloatRect& _rect)
 	{
 		mCurrentTexture = _rect;
-		if (nullptr != mNode) mNode->outOfDate(mRenderItem);
+		if (nullptr != mNode)
+			mNode->outOfDate(mRenderItem);
 	}
 
 	void TileRect::doRender()
 	{
-		if (!mVisible || mEmptyView || mTileSize.empty()) return;
+		if (!mVisible || mEmptyView || mTileSize.empty())
+			return;
 
-		VertexQuad* quad = (VertexQuad*)mRenderItem->getCurrentVertexBuffer();
+		VertexQuad* quad = reinterpret_cast<VertexQuad*>(mRenderItem->getCurrentVertexBuffer());
 
 		const RenderTargetInfo& info = mRenderItem->getRenderTarget()->getInfo();
 
@@ -206,7 +202,7 @@ namespace MyGUI
 		mTextureHeightOne = (mCurrentTexture.bottom - mCurrentTexture.top) / mRealTileHeight;
 		mTextureWidthOne = (mCurrentTexture.right - mCurrentTexture.left) / mRealTileWidth;
 
-		float vertex_z = info.maximumDepth;
+		float vertex_z = mNode->getNodeDepth();
 
 		// абсолютный размер окна
 		float window_left = ((info.pixScaleX * (float)(mCoord.left + mCroppedParent->getAbsoluteLeft() - info.leftOffset) + info.hOffset) * 2) - 1;
@@ -265,7 +261,7 @@ namespace MyGUI
 
 				float vertex_left = left;
 				float vertex_right = right;
-				bool texture_crop_width  = false;
+				bool texture_crop_width = false;
 
 
 				if (vertex_left < real_left)
@@ -326,8 +322,7 @@ namespace MyGUI
 					texture_top,
 					texture_right,
 					texture_bottom,
-					mCurrentColour
-				);
+					mCurrentColour);
 
 				count ++;
 			}

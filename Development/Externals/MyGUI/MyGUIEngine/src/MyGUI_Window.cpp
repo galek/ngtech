@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		11/2007
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_Window.h"
 #include "MyGUI_Macros.h"
@@ -70,6 +55,7 @@ namespace MyGUI
 			main_move = true;
 		}
 
+		///@wskin_child{Window, Widget, Client} Клиентская зона.
 		assignWidget(mClient, "Client");
 		if (mClient != nullptr)
 		{
@@ -83,6 +69,7 @@ namespace MyGUI
 			setWidgetClient(mClient);
 		}
 
+		///@wskin_child{Window, TextBox, Caption} Caption for window.
 		assignWidget(mWidgetCaption, "Caption");
 		if (mWidgetCaption != nullptr)
 		{
@@ -104,6 +91,7 @@ namespace MyGUI
 			(*iter)->eventMouseButtonPressed += newDelegate(this, &Window::notifyMousePressed);
 			(*iter)->eventMouseButtonReleased += newDelegate(this, &Window::notifyMouseReleased);
 			(*iter)->eventMouseDrag += newDelegate(this, &Window::notifyMouseDrag);
+			(*iter)->eventMouseWheel += newDelegate(this, &Window::notifyMouseWheel);
 		}
 
 		const size_t countNames = 8;
@@ -122,6 +110,7 @@ namespace MyGUI
 				widget->eventMouseButtonPressed += newDelegate(this, &Window::notifyMousePressed);
 				widget->eventMouseButtonReleased += newDelegate(this, &Window::notifyMouseReleased);
 				widget->eventMouseDrag += newDelegate(this, &Window::notifyMouseDrag);
+				widget->eventMouseWheel += newDelegate(this, &Window::notifyMouseWheel);
 				widget->setUserString("Action", resizers[1][index]);
 			}
 		}
@@ -366,7 +355,7 @@ namespace MyGUI
 		ControllerManager::getInstance().addItem(this, controller);
 	}
 
-	void Window::animateStop(Widget* _widget)
+	void Window::animateStop(Widget* _widget, ControllerItem* _controller)
 	{
 		if (mAnimateSmooth)
 		{
@@ -468,21 +457,32 @@ namespace MyGUI
 
 	void Window::setPropertyOverride(const std::string& _key, const std::string& _value)
 	{
+		/// @wproperty{Window, AutoAlpha, bool} Режим регулировки прозрачности опираясь на фокус ввода.
 		if (_key == "AutoAlpha")
 			setAutoAlpha(utility::parseValue<bool>(_value));
+
+		/// @wproperty{Window, Snap, bool} Режим прилипания к краям экрана.
 		else if (_key == "Snap")
 			setSnap(utility::parseValue<bool>(_value));
+
+		/// @wproperty{Window, MinSize, int int} Минимальный размер окна.
 		else if (_key == "MinSize")
 			setMinSize(utility::parseValue<IntSize>(_value));
+
+		/// @wproperty{Window, MaxSize, int int} Максимальный размер окна.
 		else if (_key == "MaxSize")
 			setMaxSize(utility::parseValue<IntSize>(_value));
+
+		/// @wproperty{Window, Movable, bool} Режим движения окна мышью за любой участок.
 		else if (_key == "Movable")
 			setMovable(utility::parseValue<bool>(_value));
+
 		else
 		{
 			Base::setPropertyOverride(_key, _value);
 			return;
 		}
+
 		eventChangeProperty(this, _key, _value);
 	}
 
@@ -603,6 +603,12 @@ namespace MyGUI
 	bool Window::getMovable() const
 	{
 		return mMovable;
+	}
+
+	void Window::notifyMouseWheel(MyGUI::Widget* _sender, int _rel)
+	{
+		onMouseWheel(_rel);
+		eventMouseWheel(_sender, _rel);
 	}
 
 } // namespace MyGUI

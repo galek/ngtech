@@ -14,6 +14,9 @@
 #else
 #include <unistd.h>
 #include <dirent.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #endif
 
 #include <string>
@@ -39,16 +42,37 @@ namespace common
 		return path[0] == '/' || path[0] == '\\';
 	}
 
+	inline bool endWith(const std::wstring& _source, const std::wstring& _value)
+	{
+		size_t count = _value.size();
+		if (_source.size() < count)
+			return false;
+		size_t offset = _source.size() - count;
+		for (size_t index = 0; index < count; ++ index)
+		{
+			if (_source[index + offset] != _value[index])
+				return false;
+		}
+		return true;
+	}
+
 	inline std::wstring concatenatePath(const std::wstring& _base, const std::wstring& _name)
 	{
 		if (_base.empty() || isAbsolutePath(_name.c_str()))
+		{
 			return _name;
+		}
 		else
+		{
+			if (endWith(_base, L"\\") || endWith(_base, L"/"))
+				return _base + _name;
+
 #if MYGUI_PLATFORM == MYGUI_PLATFORM_WIN32
 			return _base + L'\\' + _name;
 #else
 			return _base + L'/' + _name;
 #endif
+		}
 	}
 
 	inline bool isReservedDir (const wchar_t* _fn)
@@ -69,24 +93,28 @@ namespace common
 		//FIXME add optional parameter?
 		bool ms_IgnoreHidden = true;
 
-		intptr_t lHandle;	int res;
+		intptr_t lHandle;
+		int res;
 		struct _wfinddata_t tagData;
+
 		// pattern can contain a directory name, separate it from mask
 		size_t pos = _mask.find_last_of(L"/\\");
 		std::wstring directory;
 		if (pos != _mask.npos)
-			directory = _mask.substr(0, pos);
+			directory = _mask.substr (0, pos);
+
 		std::wstring full_mask = concatenatePath(_folder, _mask);
+
 		lHandle = _wfindfirst(full_mask.c_str(), &tagData);
 		res = 0;
 		while (lHandle != -1 && res != -1)
 		{
-			if ((!ms_IgnoreHidden || (tagData.attrib & _A_HIDDEN) == 0) &&
+			if (( !ms_IgnoreHidden || (tagData.attrib & _A_HIDDEN) == 0 ) &&
 				!isReservedDir(tagData.name))
 			{
 				_result.push_back(FileInfo(concatenatePath(directory, tagData.name), (tagData.attrib & _A_SUBDIR) != 0));
 			}
-			res = _wfindnext(lHandle, &tagData);
+			res = _wfindnext( lHandle, &tagData );
 		}
 		// Close if we found any files
 		if (lHandle != -1)
@@ -104,8 +132,14 @@ namespace common
 
 		while ((dp = readdir (dir)) != NULL)
 		{
-			if (!isReservedDir (MyGUI::UString(dp->d_name).asWStr_c_str()))
-				_result.push_back(FileInfo(MyGUI::UString(dp->d_name).asWStr(), (dp->d_type == DT_DIR)));
+			if (!isReservedDir(MyGUI::UString(dp->d_name).asWStr_c_str()))
+			{
+				struct stat fInfo;
+				char path[NAME_MAX];
+				//snprintf(path, NAME_MAX, "%s/%s", MyGUI::UString(_folder).asUTF8_c_str(), dp->d_name);
+				if (stat(path, &fInfo) == -1)perror("stat");
+				_result.push_back(FileInfo(MyGUI::UString(dp->d_name).asWStr(), (S_ISDIR(fInfo.st_mode))));
+			}
 		}
 
 		closedir(dir);
@@ -128,7 +162,7 @@ namespace common
 	inline void scanFolder(VectorWString& _result, const std::wstring& _folder, bool _recursive, const std::wstring& _mask, bool _fullpath)
 	{
 		std::wstring folder = _folder;
-		if (!folder.empty()) folder += L"/";
+		if (!folder.empty() && *folder.rbegin() != '/' && *folder.rbegin() != '\\') folder += L"/";
 
 		VectorFileInfo result;
 		getSystemFileList(result, folder, _mask);

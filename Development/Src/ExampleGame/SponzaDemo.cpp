@@ -81,7 +81,7 @@ void ExampleGame::initialise() {
 	GetEngine()->iWindow->grabMouse(true);
 
 	MyGUI::ButtonPtr button = GetEngine()->gui->getGUI()->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
-	button->setFontName("DejaVuSansFont.15");
+	button->setFontName("DejaVuSansFont_15");
 	button->setCaption("Hello World!");
 }
 //------------------------------------------------------------

@@ -1,24 +1,8 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		03/2008
-*/
 /*
-	This file is part of MyGUI.
-
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_ActionController.h"
@@ -31,17 +15,17 @@ namespace MyGUI
 	namespace action
 	{
 
-		void actionWidgetHide(Widget* _widget)
+		void actionWidgetHide(Widget* _widget, ControllerItem* _controller)
 		{
 			_widget->setVisible(false);
 		}
 
-		void actionWidgetShow(Widget* _widget)
+		void actionWidgetShow(Widget* _widget, ControllerItem* _controller)
 		{
 			_widget->setVisible(true);
 		}
 
-		void actionWidgetDestroy(Widget* _widget)
+		void actionWidgetDestroy(Widget* _widget, ControllerItem* _controller)
 		{
 			WidgetManager::getInstance().destroyWidget(_widget);
 		}
@@ -52,8 +36,7 @@ namespace MyGUI
 				_startRect.left   - int( float(_startRect.left   - _destRect.left)   * _k ),
 				_startRect.top    - int( float(_startRect.top    - _destRect.top)    * _k ),
 				_startRect.width  - int( float(_startRect.width  - _destRect.width)  * _k ),
-				_startRect.height - int( float(_startRect.height - _destRect.height) * _k )
-			);
+				_startRect.height - int( float(_startRect.height - _destRect.height) * _k ));
 		}
 
 		void inertionalMoveFunction(const IntCoord& _startRect, const IntCoord& _destRect, IntCoord& _result, float _current_time)

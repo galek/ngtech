@@ -176,7 +176,9 @@
     <ClInclude Include="MyGUIEngine\include\MyGUI_CustomAllocator.h" />
     <ClInclude Include="MyGUIEngine\include\MyGUI_DataFileStream.h" />
     <ClInclude Include="MyGUIEngine\include\MyGUI_DataManager.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_DataMemoryStream.h" />
     <ClInclude Include="MyGUIEngine\include\MyGUI_DataStream.h" />
+    <ClInclude Include="MyGUIEngine\include\MyGUI_DataStreamHolder.h" />
     <ClInclude Include="MyGUIEngine\include\MyGUI_DDContainer.h" />
     <ClInclude Include="MyGUIEngine\include\MyGUI_DDItemInfo.h" />
     <ClInclude Include="MyGUIEngine\include\MyGUI_Delegate.h" />
@@ -349,6 +351,7 @@
     <ClCompile Include="MyGUIEngine\src\MyGUI_ControllerPosition.cpp" />
     <ClCompile Include="MyGUIEngine\src\MyGUI_DataFileStream.cpp" />
     <ClCompile Include="MyGUIEngine\src\MyGUI_DataManager.cpp" />
+    <ClCompile Include="MyGUIEngine\src\MyGUI_DataMemoryStream.cpp" />
     <ClCompile Include="MyGUIEngine\src\MyGUI_DataStream.cpp" />
     <ClCompile Include="MyGUIEngine\src\MyGUI_DDContainer.cpp" />
     <ClCompile Include="MyGUIEngine\src\MyGUI_DynLib.cpp" />

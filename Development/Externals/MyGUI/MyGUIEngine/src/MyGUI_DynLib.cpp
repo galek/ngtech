@@ -1,47 +1,29 @@
-/*!
-	@file
-	@author		Denis Koronchik
-	@author		Georgiy Evmenov
-	@date		09/2007
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_DynLib.h"
 
 #if MYGUI_PLATFORM == MYGUI_PLATFORM_WIN32
-#	include <Windows.h>
+#	include <windows.h>
 #elif MYGUI_PLATFORM == MYGUI_PLATFORM_LINUX
-#       include <dlfcn.h>
+#	include <dlfcn.h>
 #endif
 
 namespace MyGUI
 {
-	DynLib::DynLib( const std::string& name )
+	DynLib::DynLib(const std::string& name) :
+		mName(name),
+		mInstance(nullptr)
 	{
-		mName = name;
-		mInstance = nullptr;
 	}
-
 
 	DynLib::~DynLib()
 	{
 	}
-
 
 	bool DynLib::load()
 	{
@@ -95,8 +77,7 @@ namespace MyGUI
 			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
 			(LPTSTR) &lpMsgBuf,
 			0,
-			NULL
-		);
+			NULL);
 		std::string ret = (char*)lpMsgBuf;
 		// Free the buffer.
 		LocalFree( lpMsgBuf );

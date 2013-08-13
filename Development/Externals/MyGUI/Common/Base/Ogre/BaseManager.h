@@ -9,8 +9,6 @@
 
 #include <Ogre.h>
 #include <MyGUI.h>
-#include "Base/StatisticInfo.h"
-#include "Base/InputFocusInfo.h"
 
 #include "InputManager.h"
 #include "PointerManager.h"
@@ -35,21 +33,21 @@ namespace base
 		virtual ~BaseManager();
 
 		virtual void prepare();
-		bool create();
+		bool create(int _width = 1024, int _height = 768);
 		void destroy();
 		void run();
 		void quit();
 
 		void setWindowCaption(const std::wstring& _text);
-		void createDefaultScene();
 		void makeScreenShot();
 
 		const std::string& getRootMedia();
 		void setResourceFilename(const std::string& _flename);
 		void addResourceLocation(const std::string& _name, bool _recursive = false);
 
-		diagnostic::StatisticInfo* getStatisticInfo();
-		diagnostic::InputFocusInfo* getFocusInput();
+		size_t getWindowHandle();
+
+		MyGUI::MapString getStatistic();
 
 	/*internal:*/
 		Ogre::SceneManager* getSceneManager();
@@ -67,10 +65,10 @@ namespace base
 		virtual void injectKeyPress(MyGUI::KeyCode _key, MyGUI::Char _text);
 		virtual void injectKeyRelease(MyGUI::KeyCode _key);
 
-	private:
-		void createGui();
-		void destroyGui();
+		virtual void createGui();
+		virtual void destroyGui();
 
+	private:
 		virtual bool frameStarted(const Ogre::FrameEvent& _evt);
 		virtual bool frameEnded(const Ogre::FrameEvent& _evt);
 		virtual void windowResized(Ogre::RenderWindow* _rw);
@@ -81,8 +79,6 @@ namespace base
 	private:
 		MyGUI::Gui* mGUI;
 		MyGUI::OgrePlatform* mPlatform;
-		diagnostic::StatisticInfo* mInfo;
-		diagnostic::InputFocusInfo* mFocusInfo;
 
 		Ogre::Root* mRoot;
 		Ogre::Camera* mCamera;
@@ -96,8 +92,6 @@ namespace base
 		std::string mResourceXMLName;
 		std::string mResourceFileName;
 		std::string mRootMedia;
-
-		Ogre::SceneNode* mNode;
 	};
 
 } // namespace base

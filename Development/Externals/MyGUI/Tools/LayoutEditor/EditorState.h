@@ -1,18 +1,19 @@
-#ifndef __EDITOR_STATE_H__
-#define __EDITOR_STATE_H__
+#ifndef _fb654ad0_db5f_4387_ba52_53c0a5f3b023_
+#define _fb654ad0_db5f_4387_ba52_53c0a5f3b023_
 
 #include "SettingsWindow.h"
-#include "Tools/OpenSaveFileDialog.h"
-#include "BackgroundControl.h"
+#include "OpenSaveFileDialog.h"
 #include "CodeGenerator.h"
-#include "MessageBoxFadeControl.h"
 #include "StateController.h"
 #include "MainPaneControl.h"
+#include "sigslot.h"
 
 namespace tools
 {
+
 	class EditorState :
-		public StateController
+		public StateController,
+		public sigslot::has_slots<>
 	{
 	public:
 		EditorState();
@@ -39,7 +40,6 @@ namespace tools
 		void command_Save(const MyGUI::UString& _commandName, bool& _result);
 		void command_SaveAs(const MyGUI::UString& _commandName, bool& _result);
 		void command_Clear(const MyGUI::UString& _commandName, bool& _result);
-		void command_Test(const MyGUI::UString& _commandName, bool& _result);
 		void command_Quit(const MyGUI::UString& _commandName, bool& _result);
 		void command_Settings(const MyGUI::UString& _commandName, bool& _result);
 		void command_CodeGenerator(const MyGUI::UString& _commandName, bool& _result);
@@ -71,8 +71,6 @@ namespace tools
 		CodeGenerator* mCodeGenerator;
 		OpenSaveFileDialog* mOpenSaveFileDialog;
 
-		MessageBoxFadeControl* mMessageBoxFadeControl;
-		BackgroundControl* mBackgroundControl;
 		MainPaneControl* mMainPaneControl;
 
 		MyGUI::UString mFileName;
@@ -80,6 +78,6 @@ namespace tools
 		MyGUI::UString mDropFileName;
 	};
 
-} // namespace tools
+}
 
-#endif // __EDITOR_STATE_H__
+#endif

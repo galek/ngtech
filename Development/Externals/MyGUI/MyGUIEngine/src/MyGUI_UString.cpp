@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		08/2009
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_UString.h"
 
@@ -1730,7 +1715,9 @@ namespace MyGUI
 		if (( cp & ~_lead3_mask ) == _lead3 ) return 4;
 		if (( cp & ~_lead4_mask ) == _lead4 ) return 5;
 		if (( cp & ~_lead5_mask ) == _lead5 ) return 6;
-		throw invalid_data( "invalid UTF-8 sequence header value" );
+
+		return 1;
+		//throw invalid_data( "invalid UTF-8 sequence header value" );
 	}
 
 	size_t UString::_utf8_char_length( unicode_char uc )
@@ -1749,7 +1736,9 @@ namespace MyGUI
 		if ( !( uc & ~0x001FFFFF ) ) return 4;
 		if ( !( uc & ~0x03FFFFFF ) ) return 5;
 		if ( !( uc & ~0x7FFFFFFF ) ) return 6;
-		throw invalid_data( "invalid UTF-32 value" );
+
+		return 1;
+		//throw invalid_data( "invalid UTF-32 value" );
 	}
 
 	size_t UString::_utf8_to_utf32( const unsigned char in_cp[6], unicode_char& out_uc )
@@ -1780,9 +1769,15 @@ namespace MyGUI
 				break;
 		}
 
-		for ( ++i; i < len; i++ ) { // load each continuation byte
+		// load each continuation byte
+		for ( ++i; i < len; i++ )
+		{
 			if (( in_cp[i] & ~_cont_mask ) != _cont )
-				throw invalid_data( "bad UTF-8 continuation byte" );
+			{
+				//throw invalid_data( "bad UTF-8 continuation byte" );
+				out_uc = in_cp[0];
+				return 1;
+			}
 			c <<= 6;
 			c |= ( in_cp[i] & _cont_mask );
 		}
@@ -1849,35 +1844,55 @@ namespace MyGUI
 
 				// get continuation byte count and test for overlong sequences
 				if (( c & ~_lead1_mask ) == _lead1 ) { // 1 additional byte
-					if ( c == _lead1 ) throw invalid_data( "overlong UTF-8 sequence" );
+					if ( c == _lead1 )
+					{
+						//throw invalid_data( "overlong UTF-8 sequence" );
+						return str.size();
+					}
 					contBytes = 1;
 
 				} else if (( c & ~_lead2_mask ) == _lead2 ) { // 2 additional bytes
 					contBytes = 2;
 					if ( c == _lead2 ) { // possible overlong UTF-8 sequence
 						c = ( *( i + 1 ) ); // look ahead to next byte in sequence
-						if (( c & _lead2 ) == _cont ) throw invalid_data( "overlong UTF-8 sequence" );
+						if (( c & _lead2 ) == _cont )
+						{
+							//throw invalid_data( "overlong UTF-8 sequence" );
+							return str.size();
+						}
 					}
 
 				} else if (( c & ~_lead3_mask ) == _lead3 ) { // 3 additional bytes
 					contBytes = 3;
 					if ( c == _lead3 ) { // possible overlong UTF-8 sequence
 						c = ( *( i + 1 ) ); // look ahead to next byte in sequence
-						if (( c & _lead3 ) == _cont ) throw invalid_data( "overlong UTF-8 sequence" );
+						if (( c & _lead3 ) == _cont )
+						{
+							//throw invalid_data( "overlong UTF-8 sequence" );
+							return str.size();
+						}
 					}
 
 				} else if (( c & ~_lead4_mask ) == _lead4 ) { // 4 additional bytes
 					contBytes = 4;
 					if ( c == _lead4 ) { // possible overlong UTF-8 sequence
 						c = ( *( i + 1 ) ); // look ahead to next byte in sequence
-						if (( c & _lead4 ) == _cont ) throw invalid_data( "overlong UTF-8 sequence" );
+						if (( c & _lead4 ) == _cont )
+						{
+							//throw invalid_data( "overlong UTF-8 sequence" );
+							return str.size();
+						}
 					}
 
 				} else if (( c & ~_lead5_mask ) == _lead5 ) { // 5 additional bytes
 					contBytes = 5;
 					if ( c == _lead5 ) { // possible overlong UTF-8 sequence
 						c = ( *( i + 1 ) ); // look ahead to next byte in sequence
-						if (( c & _lead5 ) == _cont ) throw invalid_data( "overlong UTF-8 sequence" );
+						if (( c & _lead5 ) == _cont )
+						{
+							//throw invalid_data( "overlong UTF-8 sequence" );
+							return str.size();
+						}
 					}
 				}
 
@@ -1885,7 +1900,10 @@ namespace MyGUI
 				while ( contBytes-- ) {
 					c = ( *( ++i ) ); // get next byte in sequence
 					if (( c & ~_cont_mask ) != _cont )
-						throw invalid_data( "bad UTF-8 continuation byte" );
+					{
+						//throw invalid_data( "bad UTF-8 continuation byte" );
+						return str.size();
+					}
 				}
 			}
 			length++;

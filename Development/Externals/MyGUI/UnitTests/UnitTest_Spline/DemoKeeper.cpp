@@ -12,12 +12,14 @@ namespace demo
 
 	const int PointsCount = 4;
 	int bezierQuality = 16;
+	int stroke = 0;
 	MyGUI::Widget* point[PointsCount];
 
 	DemoKeeper::DemoKeeper() :
 		mClient(nullptr),
 		mPolygonalSkin(nullptr),
-		mQualityText(nullptr)
+		mQualityText(nullptr),
+		mStrokeText(nullptr)
 	{
 	}
 
@@ -31,16 +33,19 @@ namespace demo
 
 	void DemoKeeper::createScene()
 	{
-		MyGUI::ResourceManager::getInstance().load("FrameworkSkin.xml");
-		MyGUI::ResourceManager::getInstance().load("SelectionSkins.xml");
+		base::BaseDemoManager::createScene();
+		MyGUI::ResourceManager::getInstance().load("SplineSkin.xml");
 
 		const MyGUI::VectorWidgetPtr& root = MyGUI::LayoutManager::getInstance().loadLayout("HelpPanel.layout");
 		root.at(0)->findWidget("Text")->castType<MyGUI::TextBox>()->setCaption("PolygonalSkin usage. Drag white rectangles to move points for bezier curve.");
 
 		MyGUI::VectorWidgetPtr widgets = MyGUI::LayoutManager::getInstance().loadLayout("SplineWindow.layout");
 		mQualityText = widgets.at(0)->findWidget("SplineText")->castType<MyGUI::TextBox>();
+		mStrokeText = widgets.at(0)->findWidget("StrokeText")->castType<MyGUI::TextBox>();
 		MyGUI::ScrollBar* qualityScroll = widgets.at(0)->findWidget("SplineQuality")->castType<MyGUI::ScrollBar>();
 		qualityScroll->eventScrollChangePosition += MyGUI::newDelegate(this, &DemoKeeper::notifyChangeQuality);
+		MyGUI::ScrollBar* strokeScroll = widgets.at(0)->findWidget("StrokeQuality")->castType<MyGUI::ScrollBar>();
+		strokeScroll->eventScrollChangePosition += MyGUI::newDelegate(this, &DemoKeeper::notifyChangeStroke);
 		mClient = widgets.at(0)->findWidget("SplineClient");
 
 		// create widget with skin that contain specific sub skin - PolygonalSkin
@@ -52,6 +57,7 @@ namespace demo
 
 		// set PolygonalSkin properties and points
 		mPolygonalSkin->setWidth(8.0f);
+		mPolygonalSkin->setStroke(0);
 
 		for (int i = 0; i < PointsCount; ++i)
 		{
@@ -85,6 +91,7 @@ namespace demo
 		}
 		makeBezier(points, bezierQuality);
 		mPolygonalSkin->setPoints(mLinePoints);
+		mPolygonalSkin->setStroke(stroke);
 	}
 
 	void DemoKeeper::notifyPointMove(MyGUI::Widget* _sender, int _left, int _top, MyGUI::MouseButton _id)
@@ -102,6 +109,13 @@ namespace demo
 	{
 		bezierQuality = _position + 4;
 		mQualityText->setCaption(MyGUI::utility::toString("Quality: ", bezierQuality));
+		updateSpline();
+	}
+
+	void DemoKeeper::notifyChangeStroke(MyGUI::ScrollBar* _sender, size_t _position)
+	{
+		stroke = _position;
+		mStrokeText->setCaption(MyGUI::utility::toString("Stroke: ", _position));
 		updateSpline();
 	}
 

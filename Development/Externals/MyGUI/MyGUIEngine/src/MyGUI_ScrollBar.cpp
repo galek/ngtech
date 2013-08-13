@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		12/2010
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_ScrollBar.h"
 #include "MyGUI_InputManager.h"
@@ -60,6 +45,7 @@ namespace MyGUI
 		mSkinRangeStart = 0;
 		mSkinRangeEnd = 0;
 
+		///@wskin_child{ScrollBar, Button, Start} Кнопка начала диапазона.
 		assignWidget(mWidgetStart, "Start");
 		if (mWidgetStart != nullptr)
 		{
@@ -67,6 +53,7 @@ namespace MyGUI
 			mWidgetStart->eventMouseWheel += newDelegate(this, &ScrollBar::notifyMouseWheel);
 		}
 
+		///@wskin_child{ScrollBar, Button, End} Кнопка конца диапазона.
 		assignWidget(mWidgetEnd, "End");
 		if (mWidgetEnd != nullptr)
 		{
@@ -74,6 +61,7 @@ namespace MyGUI
 			mWidgetEnd->eventMouseWheel += newDelegate(this, &ScrollBar::notifyMouseWheel);
 		}
 
+		///@wskin_child{ScrollBar, Button, Track} Кнопка трекера.
 		assignWidget(mWidgetTrack, "Track");
 		if (mWidgetTrack)
 		{
@@ -84,6 +72,7 @@ namespace MyGUI
 			mWidgetTrack->setVisible(false);
 		}
 
+		///@wskin_child{ScrollBar, Widget, FirstPart} Виджет первой половины прокрутки от начала до трекера, при нажатии восприницмается как прокрутка страницы.
 		assignWidget(mWidgetFirstPart, "FirstPart");
 		if (mWidgetFirstPart != nullptr)
 		{
@@ -91,6 +80,7 @@ namespace MyGUI
 			mWidgetFirstPart->eventMouseWheel += newDelegate(this, &ScrollBar::notifyMouseWheel);
 		}
 
+		///@wskin_child{ScrollBar, Widget, SecondPart} Виджет второй половины прокрутки от трекера до конца, при нажатии восприницмается как прокрутка страницы.
 		assignWidget(mWidgetSecondPart, "SecondPart");
 		if (mWidgetSecondPart != nullptr)
 		{
@@ -100,6 +90,7 @@ namespace MyGUI
 
 		if (isUserString("MinTrackSize"))
 			mMinTrackSize = utility::parseValue<int>(getUserString("MinTrackSize"));
+
 		if (isUserString("TrackRangeMargins"))
 			utility::parseComplex<size_t>(getUserString("TrackRangeMargins"), mSkinRangeStart, mSkinRangeEnd);
 
@@ -475,23 +466,36 @@ namespace MyGUI
 
 	void ScrollBar::setPropertyOverride(const std::string& _key, const std::string& _value)
 	{
+		/// @wproperty{ScrollBar, Range, size_t} Диапазон прокрутки.
 		if (_key == "Range")
 			setScrollRange(utility::parseValue<size_t>(_value));
+
+		/// @wproperty{ScrollBar, RangePosition, size_t} Положение прокрутки.
 		else if (_key == "RangePosition")
 			setScrollPosition(utility::parseValue<size_t>(_value));
+
+		/// @wproperty{ScrollBar, Page, size_t} Размер прокрутки при нажатии на кнопку начала или конца в пикселях.
 		else if (_key == "Page")
 			setScrollPage(utility::parseValue<size_t>(_value));
+
+		/// @wproperty{ScrollBar, ViewPage, size_t} Размер прокрутки при нажатии на одну из частей от кнопки до трекера в пикселях.
 		else if (_key == "ViewPage")
 			setScrollViewPage(utility::parseValue<size_t>(_value));
+
+		/// @wproperty{ScrollBar, MoveToClick, bool} Режим перескакивания бегунка к месту клика.
 		else if (_key == "MoveToClick")
 			setMoveToClick(utility::parseValue<bool>(_value));
+
+		/// @wproperty{ScrollBar, VerticalAlignment, bool} Вертикальное выравнивание.
 		else if (_key == "VerticalAlignment")
 			setVerticalAlignment(utility::parseValue<bool>(_value));
+
 		else
 		{
 			Base::setPropertyOverride(_key, _value);
 			return;
 		}
+
 		eventChangeProperty(this, _key, _value);
 	}
 

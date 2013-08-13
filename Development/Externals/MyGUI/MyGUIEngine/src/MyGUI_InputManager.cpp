@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		11/2007
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_InputManager.h"
 #include "MyGUI_Widget.h"
@@ -29,12 +14,13 @@
 
 namespace MyGUI
 {
+
 	const unsigned long INPUT_TIME_DOUBLE_CLICK = 250; //measured in milliseconds
 	const float INPUT_DELAY_FIRST_KEY = 0.4f;
 	const float INPUT_INTERVAL_KEY = 0.05f;
 
 	template <> InputManager* Singleton<InputManager>::msInstance = nullptr;
-	template <> const char* Singleton<InputManager>::mClassTypeName("InputManager");
+	template <> const char* Singleton<InputManager>::mClassTypeName = "InputManager";
 
 	InputManager::InputManager() :
 		mWidgetMouseFocus(nullptr),
@@ -227,6 +213,8 @@ namespace MyGUI
 
 	bool InputManager::injectMousePress(int _absx, int _absy, MouseButton _id)
 	{
+		injectMouseMove(_absx, _absy, mOldAbsZ);
+
 		Widget* old_key_focus = mWidgetKeyFocus;
 
 		// если мы щелкнули не на гуй
@@ -248,12 +236,12 @@ namespace MyGUI
 		if (MouseButton::None != _id && MouseButton::MAX != _id)
 		{
 			// start capture
-			mMouseCapture[_id.toValue()] = true;
+			mMouseCapture[_id.getValue()] = true;
 			// remember last pressed position
 			if (mLayerMouseFocus != nullptr)
 			{
 				IntPoint point = mLayerMouseFocus->getPosition(_absx, _absy);
-				mLastPressed[_id.toValue()] = point;
+				mLastPressed[_id.getValue()] = point;
 			}
 		}
 
@@ -307,10 +295,10 @@ namespace MyGUI
 
 			if (_id != MouseButton::None && _id != MouseButton::MAX)
 			{
-				if (mMouseCapture[_id.toValue()])
+				if (mMouseCapture[_id.getValue()])
 				{
 					// drop capture
-					mMouseCapture[_id.toValue()] = false;
+					mMouseCapture[_id.getValue()] = false;
 				}
 			}
 
@@ -491,7 +479,7 @@ namespace MyGUI
 		// ручками сбрасываем, чтобы не менять фокусы
 		for (VectorWidgetPtr::iterator iter = mVectorModalRootWidget.begin(); iter != mVectorModalRootWidget.end(); ++iter)
 		{
-			if ((*iter == _widget))
+			if (*iter == _widget)
 			{
 				mVectorModalRootWidget.erase(iter);
 				break;
@@ -520,7 +508,7 @@ namespace MyGUI
 
 		for (VectorWidgetPtr::iterator iter = mVectorModalRootWidget.begin(); iter != mVectorModalRootWidget.end(); ++iter)
 		{
-			if ((*iter == _widget))
+			if (*iter == _widget)
 			{
 				mVectorModalRootWidget.erase(iter);
 				break;
@@ -646,7 +634,7 @@ namespace MyGUI
 	{
 		if (_id != MouseButton::None && _id != MouseButton::MAX)
 		{
-			return mLastPressed[_id.toValue()];
+			return mLastPressed[_id.getValue()];
 		}
 		return Constants::getZeroIntPoint();
 	}

@@ -1,26 +1,8 @@
-/*!
-	@file
-	@author		Denis Koronchik
-	@author		Georgiy Evmenov
-	@author		Ну и я чуть чуть =)
-	@date		09/2007
-*/
 /*
-	This file is part of MyGUI.
-
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
 #ifndef __MYGUI_PREREQUEST_H__
 #define __MYGUI_PREREQUEST_H__
@@ -37,20 +19,15 @@
 #define MYGUI_DEFINE_VERSION(major, minor, patch) ((major << 16) | (minor << 8) | patch)
 
 #ifndef MYGUI_DONT_REPLACE_NULLPTR
-	#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
-		#ifndef _MANAGED
-			#ifndef _NATIVE_NULLPTR_SUPPORTED
-				#define nullptr 0
-			#endif
-		#endif
-	#else
-		#define nullptr 0
-	#endif
-#endif
-
-//Nick
-#ifndef MYGUI_USE_FREETYPE
-#define MYGUI_USE_FREETYPE 1
+#	if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
+#		ifndef _MANAGED
+#			ifndef _NATIVE_NULLPTR_SUPPORTED
+#				define nullptr 0
+#			endif
+#		endif
+#	else
+#		define nullptr 0
+#	endif
 #endif
 
 namespace MyGUI
@@ -100,18 +77,17 @@ namespace MyGUI
 	class Canvas;
 
 	// Define version
-	#define MYGUI_VERSION_MAJOR 3
-	#define MYGUI_VERSION_MINOR 2
-	#define MYGUI_VERSION_PATCH 0
+#define MYGUI_VERSION_MAJOR 3
+#define MYGUI_VERSION_MINOR 2
+#define MYGUI_VERSION_PATCH 0
 
-	#define MYGUI_VERSION    MYGUI_DEFINE_VERSION(MYGUI_VERSION_MAJOR, MYGUI_VERSION_MINOR, MYGUI_VERSION_PATCH)
+#define MYGUI_VERSION    MYGUI_DEFINE_VERSION(MYGUI_VERSION_MAJOR, MYGUI_VERSION_MINOR, MYGUI_VERSION_PATCH)
 
 	// Disable warnings for MSVC compiler
 #if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
 
 // disable: "<type> needs to have dll-interface to be used by clients'
 // Happens on STL member variables which are not public therefore is ok
-#	pragma warning (disable : 4275)//Nick:Added
 #	pragma warning (disable : 4251)
 
 // also some warnings are disabled in CMake

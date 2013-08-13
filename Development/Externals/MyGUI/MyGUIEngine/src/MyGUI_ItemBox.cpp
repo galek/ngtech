@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		11/2007
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_ItemBox.h"
 #include "MyGUI_Button.h"
@@ -60,6 +45,7 @@ namespace MyGUI
 		if (isUserString("DragLayer"))
 			mDragLayer = getUserString("DragLayer");
 
+		///@wskin_child{ItemBox, Widget, Client} Клиентская зона.
 		assignWidget(mClient, "Client");
 		if (mClient != nullptr)
 		{
@@ -69,12 +55,14 @@ namespace MyGUI
 			setWidgetClient(mClient);
 		}
 
+		///@wskin_child{ItemBox, ScrollBar, VScroll} Вертикальная полоса прокрутки.
 		assignWidget(mVScroll, "VScroll");
 		if (mVScroll != nullptr)
 		{
 			mVScroll->eventScrollChangePosition += newDelegate(this, &ItemBox::notifyScrollChangePosition);
 		}
 
+		///@wskin_child{ItemBox, ScrollBar, HScroll} Горизонтальная полоса прокрутки.
 		assignWidget(mHScroll, "HScroll");
 		if (mHScroll != nullptr)
 		{
@@ -189,7 +177,6 @@ namespace MyGUI
 			mVectorItems[index]->setVisible(false);
 			index ++;
 		}
-
 	}
 
 	Widget* ItemBox::getItemWidget(size_t _index)
@@ -732,11 +719,14 @@ namespace MyGUI
 	{
 		if (mAlignVert)
 		{
-			if (mContentSize.height <= 0) return;
+			if (mContentSize.height <= 0)
+				return;
 
 			int offset = mContentPosition.top;
-			if (_rel < 0) offset += mSizeItem.height;
-			else offset -= mSizeItem.height;
+			if (_rel < 0)
+				offset += mSizeItem.height;
+			else
+				offset -= mSizeItem.height;
 
 			if (mContentSize.height <= _getClientWidget()->getHeight())
 				offset = 0;
@@ -745,7 +735,8 @@ namespace MyGUI
 			else if (offset < 0)
 				offset = 0;
 
-			if (mContentPosition.top == offset) return;
+			if (mContentPosition.top == offset)
+				return;
 
 			// сбрасываем старую подсветку
 			// так как при прокрутке, мышь может находиться над окном
@@ -755,11 +746,14 @@ namespace MyGUI
 		}
 		else
 		{
-			if (mContentSize.width <= 0) return;
+			if (mContentSize.width <= 0)
+				return;
 
 			int offset = mContentPosition.left;
-			if (_rel < 0) offset += mSizeItem.width;
-			else  offset -= mSizeItem.width;
+			if (_rel < 0)
+				offset += mSizeItem.width;
+			else
+				offset -= mSizeItem.width;
 
 			if (mContentSize.width <= _getClientWidget()->getWidth())
 				offset = 0;
@@ -768,7 +762,8 @@ namespace MyGUI
 			else if (offset < 0)
 				offset = 0;
 
-			if (mContentPosition.left == offset) return;
+			if (mContentPosition.left == offset)
+				return;
 
 			// сбрасываем старую подсветку
 			// так как при прокрутке, мышь может находиться над окном
@@ -783,8 +778,10 @@ namespace MyGUI
 		if (!mNeedDrop)
 			findCurrentActiveItem();
 
-		if (nullptr != mVScroll) mVScroll->setScrollPosition(mContentPosition.top);
-		if (nullptr != mHScroll) mHScroll->setScrollPosition(mContentPosition.left);
+		if (nullptr != mVScroll)
+			mVScroll->setScrollPosition(mContentPosition.top);
+		if (nullptr != mHScroll)
+			mHScroll->setScrollPosition(mContentPosition.left);
 	}
 
 	void ItemBox::setContentPosition(const IntPoint& _point)
@@ -920,14 +917,97 @@ namespace MyGUI
 
 	void ItemBox::setPropertyOverride(const std::string& _key, const std::string& _value)
 	{
+		/// @wproperty{ItemBox, VerticalAlignment, bool} Вертикальное выравнивание.
 		if (_key == "VerticalAlignment")
 			setVerticalAlignment(utility::parseValue<bool>(_value));
+
 		else
 		{
 			Base::setPropertyOverride(_key, _value);
 			return;
 		}
+
 		eventChangeProperty(this, _key, _value);
+	}
+
+	void ItemBox::setViewOffset(const IntPoint& _value)
+	{
+		if (mAlignVert)
+		{
+			if (mContentSize.height <= 0)
+				return;
+
+			int offset = _value.top;
+
+			if (mContentSize.height <= _getClientWidget()->getHeight())
+				offset = 0;
+			else if (offset >= mContentSize.height - _getClientWidget()->getHeight())
+				offset = mContentSize.height - _getClientWidget()->getHeight();
+			else if (offset < 0)
+				offset = 0;
+
+			if (mContentPosition.top == offset)
+				return;
+
+			// сбрасываем старую подсветку
+			// так как при прокрутке, мышь может находиться над окном
+			resetCurrentActiveItem();
+
+			mContentPosition.top = offset;
+		}
+		else
+		{
+			if (mContentSize.width <= 0)
+				return;
+
+			int offset = _value.left;
+
+			if (mContentSize.width <= _getClientWidget()->getWidth())
+				offset = 0;
+			else if (offset >= mContentSize.width - _getClientWidget()->getWidth())
+				offset = mContentSize.width - _getClientWidget()->getWidth();
+			else if (offset < 0)
+				offset = 0;
+
+			if (mContentPosition.left == offset)
+				return;
+
+			// сбрасываем старую подсветку
+			// так как при прокрутке, мышь может находиться над окном
+			resetCurrentActiveItem();
+
+			mContentPosition.left = offset;
+		}
+
+		setContentPosition(mContentPosition);
+
+		// заново ищем и подсвечиваем айтем
+		if (!mNeedDrop)
+			findCurrentActiveItem();
+
+		if (nullptr != mVScroll)
+			mVScroll->setScrollPosition(mContentPosition.top);
+		if (nullptr != mHScroll)
+			mHScroll->setScrollPosition(mContentPosition.left);
+	}
+
+	IntPoint ItemBox::getViewOffset()
+	{
+		return getContentPosition();
+	}
+
+	void ItemBox::onKeyButtonPressed(KeyCode _key, Char _char)
+	{
+		Base::onKeyButtonPressed(_key, _char);
+
+		eventNotifyItem(this, IBNotifyItemData(ITEM_NONE, IBNotifyItemData::KeyPressed, _key, _char));
+	}
+
+	void ItemBox::onKeyButtonReleased(KeyCode _key)
+	{
+		Base::onKeyButtonReleased(_key);
+
+		eventNotifyItem(this, IBNotifyItemData(ITEM_NONE, IBNotifyItemData::KeyReleased, _key));
 	}
 
 } // namespace MyGUI

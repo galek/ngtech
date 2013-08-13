@@ -8,11 +8,13 @@
 #include "SettingsManager.h"
 
 template <> tools::EditorWidgets* MyGUI::Singleton<tools::EditorWidgets>::msInstance = nullptr;
-template <> const char* MyGUI::Singleton<tools::EditorWidgets>::mClassTypeName("EditorWidgets");
+template <> const char* MyGUI::Singleton<tools::EditorWidgets>::mClassTypeName = "EditorWidgets";
 
 namespace tools
 {
+
 	const std::string LogSection = "LayoutEditor";
+	const std::string CodeGeneratorSettingsNodeName = "CodeGeneratorSettings";
 
 	EditorWidgets::EditorWidgets() :
 		mWidgetsChanged(false)
@@ -21,7 +23,6 @@ namespace tools
 
 	EditorWidgets::~EditorWidgets()
 	{
-		destroyAllSectors();
 	}
 
 	void EditorWidgets::initialise()
@@ -41,7 +42,8 @@ namespace tools
 		MyGUI::Gui::getInstance().eventFrameStart -= MyGUI::newDelegate(this, &EditorWidgets::notifyFrameStarted);
 
 		destroyAllWidgets();
-		destroyAllSectors();
+
+		mCodeGeneratorSettings.clear();
 	}
 
 	void EditorWidgets::destroyAllWidgets()
@@ -381,7 +383,7 @@ namespace tools
 			remove(mWidgets[mWidgets.size()-1]);
 		}
 
-		destroyAllSectors();
+		mCodeGeneratorSettings.clear();
 	}
 
 	WidgetContainer* EditorWidgets::find(MyGUI::Widget* _widget)
@@ -438,8 +440,8 @@ namespace tools
 		if (_widget->findAttribute("position_real", position))
 		{
 			container->setRelativeMode(true);
-			SettingsSector* sector = SettingsManager::getInstance().getSector("Workspace");
-			MyGUI::IntSize size = _testMode ? MyGUI::RenderManager::getInstance().getViewSize() : sector->getPropertyValue<MyGUI::IntSize>("TextureSize");
+			MyGUI::IntSize textureSize = SettingsManager::getInstance().getValue<MyGUI::IntSize>("Settings/WorkspaceTextureSize");
+			MyGUI::IntSize size = _testMode ? MyGUI::RenderManager::getInstance().getViewSize() : textureSize;
 			coord = MyGUI::CoordConverter::convertFromRelative(MyGUI::FloatCoord::parse(position), _parent == nullptr ? size : _parent->getClientCoord().size());
 		}
 
@@ -613,7 +615,7 @@ namespace tools
 		if (!_container->getStyle().empty())
 			node->addAttribute("style", _container->getStyle());
 
-		if ("" != _container->getLayerName())
+		if (!_container->getLayerName().empty())
 			node->addAttribute("layer", _container->getLayerName());
 
 		if (!_container->getName().empty())
@@ -675,42 +677,6 @@ namespace tools
 		mWidgetsChanged = true;
 	}
 
-	void EditorWidgets::loadSector(MyGUI::xml::ElementPtr _sectorNode)
-	{
-		SettingsSector* sector = new SettingsSector();
-		sector->deserialization(_sectorNode, MyGUI::Version());
-
-		mSettings.push_back(sector);
-	}
-
-	void EditorWidgets::saveSectors(MyGUI::xml::ElementPtr _rootNode)
-	{
-		for (VectorSettingsSector::iterator item = mSettings.begin(); item != mSettings.end(); ++item)
-			(*item)->serialization(_rootNode, MyGUI::Version());
-	}
-
-	void EditorWidgets::destroyAllSectors()
-	{
-		for (VectorSettingsSector::iterator item = mSettings.begin(); item != mSettings.end(); ++item)
-			delete (*item);
-		mSettings.clear();
-	}
-
-	SettingsSector* EditorWidgets::getSector(const MyGUI::UString& _sectorName)
-	{
-		for (VectorSettingsSector::iterator item = mSettings.begin(); item != mSettings.end(); ++item)
-		{
-			if ((*item)->getName() == _sectorName)
-				return (*item);
-		}
-
-		SettingsSector* sector = new SettingsSector();
-		sector->setName(_sectorName);
-
-		mSettings.push_back(sector);
-		return sector;
-	}
-
 	EnumeratorWidgetContainer EditorWidgets::getWidgets()
 	{
 		return EnumeratorWidgetContainer(mWidgets);
@@ -718,7 +684,7 @@ namespace tools
 
 	std::string EditorWidgets::getSkinReplace(const std::string& _skinName)
 	{
-		MapString::iterator item = mSkinReplaces.find(_skinName);
+		MyGUI::MapString::iterator item = mSkinReplaces.find(_skinName);
 		if (item != mSkinReplaces.end())
 			return (*item).second;
 		return _skinName;
@@ -777,6 +743,11 @@ namespace tools
 		}
 	}
 
+	MyGUI::MapString& EditorWidgets::getCodeGeneratorSettings()
+	{
+		return mCodeGeneratorSettings;
+	}
+
 	void EditorWidgets::loadWidgetsFromXmlNode(MyGUI::xml::ElementPtr _root, bool _testMode)
 	{
 		// берем детей и крутимся
@@ -785,8 +756,8 @@ namespace tools
 		{
 			if (element->getName() == "Widget")
 				parseWidget(element, nullptr, _testMode);
-			else
-				loadSector(element.current());
+			else if (element->getName() == CodeGeneratorSettingsNodeName)
+				loadCodeGeneratorSettings(element.current());
 		}
 	}
 
@@ -801,7 +772,39 @@ namespace tools
 				serialiseWidget(*iter, _root, _compatibility);
 		}
 
-		saveSectors(_root);
+		saveCodeGeneratorSettings(_root);
+	}
+
+	void EditorWidgets::loadCodeGeneratorSettings(MyGUI::xml::ElementPtr _sectorNode)
+	{
+		MyGUI::xml::ElementEnumerator widget = _sectorNode->getElementEnumerator();
+		while (widget.next())
+		{
+			std::string key, value;
+
+			if (widget->getName() == "Property")
+			{
+				// парсим атрибуты
+				if (!widget->findAttribute("key", key))
+					continue;
+				if (!widget->findAttribute("value", value))
+					continue;
+
+				mCodeGeneratorSettings[key] = value;
+			}
+		}
+	}
+
+	void EditorWidgets::saveCodeGeneratorSettings(MyGUI::xml::ElementPtr _rootNode)
+	{
+		MyGUI::xml::ElementPtr node = _rootNode->createChild(CodeGeneratorSettingsNodeName);
+
+		for (MyGUI::MapString::const_iterator iter = mCodeGeneratorSettings.begin(); iter != mCodeGeneratorSettings.end(); ++iter)
+		{
+			MyGUI::xml::ElementPtr nodeProp = node->createChild("Property");
+			nodeProp->addAttribute("key", iter->first);
+			nodeProp->addAttribute("value", iter->second);
+		}
 	}
 
 	void EditorWidgets::onSetWidgetCoord(MyGUI::Widget* _widget, const MyGUI::IntCoord& _value, const std::string& _owner)
@@ -809,4 +812,4 @@ namespace tools
 		eventChangeWidgetCoord(_widget, _value, _owner);
 	}
 
-} // namespace tools
+}

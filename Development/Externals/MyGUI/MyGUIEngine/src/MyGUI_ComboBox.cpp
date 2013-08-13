@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		12/2007
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_ComboBox.h"
 #include "MyGUI_ControllerManager.h"
@@ -54,12 +39,14 @@ namespace MyGUI
 	{
 		Base::initialiseOverride();
 
+		///@wskin_child{ComboBox, Button, Button} Кнопка для выпадающего списка.
 		assignWidget(mButton, "Button");
 		if (mButton != nullptr)
 		{
 			mButton->eventMouseButtonPressed += newDelegate(this, &ComboBox::notifyButtonPressed);
 		}
 
+		///@wskin_child{ComboBox, ListBox, List} Выпадающий список.
 		assignWidget(mList, "List");
 
 		if (mList == nullptr)
@@ -298,7 +285,7 @@ namespace MyGUI
 		InputManager::getInstance().setKeyFocusWidget(mList);
 	}
 
-	void ComboBox::actionWidgetHide(Widget* _widget)
+	void ComboBox::actionWidgetHide(Widget* _widget, ControllerItem* _controller)
 	{
 		_widget->setVisible(false);
 		_widget->setEnabled(true);
@@ -450,21 +437,32 @@ namespace MyGUI
 
 	void ComboBox::setPropertyOverride(const std::string& _key, const std::string& _value)
 	{
+		/// @wproperty{ComboBox, ModeDrop, bool} Режим выпадающего списка, в этом режиме значение в поля поменять нельзя.
 		if (_key == "ModeDrop")
 			setComboModeDrop(utility::parseValue<bool>(_value));
+
+		/// @wproperty{ComboBox, FlowDirection, FlowDirection} Направление выпадения списка.
 		else if (_key == "FlowDirection")
 			setFlowDirection(utility::parseValue<FlowDirection>(_value));
+
+		/// @wproperty{ComboBox, MaxListLength, int} Максимальная высота или ширина (зависит от направления) списка в пикселях.
 		else if (_key == "MaxListLength")
 			setMaxListLength(utility::parseValue<int>(_value));
+
+		/// @wproperty{ComboBox, SmoothShow, bool} Плавное раскрытие списка.
 		else if (_key == "SmoothShow")
 			setSmoothShow(utility::parseValue<bool>(_value));
+
+		// не коментировать
 		else if (_key == "AddItem")
 			addItem(_value);
+
 		else
 		{
 			Base::setPropertyOverride(_key, _value);
 			return;
 		}
+
 		eventChangeProperty(this, _key, _value);
 	}
 
@@ -587,6 +585,13 @@ namespace MyGUI
 		Base::_resetContainer(_update);
 		if (mList != nullptr)
 			mList->_resetContainer(_update);
+	}
+
+	void ComboBox::baseUpdateEnable()
+	{
+		Base::baseUpdateEnable();
+		if (mButton != nullptr)
+			mButton->setEnabled(getEnabled());
 	}
 
 } // namespace MyGUI

@@ -7,6 +7,12 @@
 
 #include "Precompiled.h"
 #include <windows.h>
+
+#ifdef MYGUI_CHECK_MEMORY_LEAKS
+#	undef new
+#	undef delete
+#endif
+
 #include <gdiplus.h>
 #include "BaseManager.h"
 
@@ -29,7 +35,7 @@ LRESULT CALLBACK DXWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_CREATE:
 	{
-		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG)((LPCREATESTRUCT)lParam)->lpCreateParams);
+		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)((LPCREATESTRUCT)lParam)->lpCreateParams);
 		break;
 	}
 
@@ -71,8 +77,6 @@ namespace base
 	BaseManager::BaseManager() :
 		mGUI(nullptr),
 		mPlatform(nullptr),
-		mInfo(nullptr),
-		mFocusInfo(nullptr),
 		hWnd(0),
 		hDC(0),
 		hRC(0),
@@ -97,16 +101,16 @@ namespace base
 
 		resizeRender(width, height);
 
-		//if (mPlatform)
-		//	mPlatform->getRenderManagerPtr()->setViewSize(width, height);
+		if (mPlatform)
+			mPlatform->getRenderManagerPtr()->setViewSize(width, height);
 
 		setInputViewSize(width, height);
 	}
 
-	bool BaseManager::create()
+	bool BaseManager::create(int _width, int _height)
 	{
-		const unsigned int width = 1024;
-		const unsigned int height = 768;
+		const unsigned int width = _width;
+		const unsigned int height = _height;
 		bool windowed = true;
 
 		// регистрируем класс окна
@@ -127,18 +131,15 @@ namespace base
 		}
 
 	#if MYGUI_PLATFORM == MYGUI_PLATFORM_WIN32
-		// берем имя нашего экзешника
 		char buf[MAX_PATH];
 		::GetModuleFileNameA(0, (LPCH)&buf, MAX_PATH);
-		// берем инстанс нашего модуля
 		HINSTANCE instance = ::GetModuleHandleA(buf);
-		// побыстрому грузим иконку
-		HICON hIcon = ::LoadIcon(instance, MAKEINTRESOURCE(1001));
-		if (hIcon)
-		{
-			::SendMessageA((HWND)hWnd, WM_SETICON, 1, (LPARAM)hIcon);
-			::SendMessageA((HWND)hWnd, WM_SETICON, 0, (LPARAM)hIcon);
-		}
+		HICON hIconSmall = static_cast<HICON>(LoadImage(instance, MAKEINTRESOURCE(1001), IMAGE_ICON, 32, 32, LR_DEFAULTSIZE));
+		HICON hIconBig = static_cast<HICON>(LoadImage(instance, MAKEINTRESOURCE(1001), IMAGE_ICON, 256, 256, LR_DEFAULTSIZE));
+		if (hIconSmall)
+			::SendMessageA(hWnd, WM_SETICON, 0, (LPARAM)hIconSmall);
+		if (hIconBig)
+			::SendMessageA(hWnd, WM_SETICON, 1, (LPARAM)hIconBig);
 	#endif
 
 		hInstance = wc.hInstance;
@@ -179,7 +180,6 @@ namespace base
 				break;
 
 			captureInput();
-			updateFPS();
 			drawOneFrame();
 
 			if (GetActiveWindow() != hWnd)
@@ -224,11 +224,11 @@ namespace base
 		{
 			if (node->getName() == "Path")
 			{
-				bool root = false;
 				if (node->findAttribute("root") != "")
 				{
-					root = MyGUI::utility::parseBool(node->findAttribute("root"));
-					if (root) mRootMedia = node->getContent();
+					bool root = MyGUI::utility::parseBool(node->findAttribute("root"));
+					if (root)
+						mRootMedia = node->getContent();
 				}
 				addResourceLocation(node->getContent(), false);
 			}
@@ -246,27 +246,12 @@ namespace base
 
 		mGUI = new MyGUI::Gui();
 		mGUI->initialise(mResourceFileName);
-
-		mInfo = new diagnostic::StatisticInfo();
-		mFocusInfo = new diagnostic::InputFocusInfo();
 	}
 
 	void BaseManager::destroyGui()
 	{
 		if (mGUI)
 		{
-			if (mInfo)
-			{
-				delete mInfo;
-				mInfo = nullptr;
-			}
-
-			if (mFocusInfo)
-			{
-				delete mFocusInfo;
-				mFocusInfo = nullptr;
-			}
-
 			mGUI->shutdown();
 			delete mGUI;
 			mGUI = nullptr;
@@ -278,6 +263,11 @@ namespace base
 			delete mPlatform;
 			mPlatform = nullptr;
 		}
+	}
+
+	size_t BaseManager::getWindowHandle()
+	{
+		return (size_t)hWnd;
 	}
 
 	void BaseManager::setWindowCaption(const std::wstring& _text)
@@ -306,19 +296,19 @@ namespace base
 		if (fullScreen)
 		{
 			style = WS_POPUP | WS_VISIBLE;
-			style_ex = GetWindowLong(hWnd, GWL_EXSTYLE) | (WS_EX_TOPMOST);
+			style_ex = GetWindowLongPtr(hWnd, GWL_EXSTYLE) | (WS_EX_TOPMOST);
 			hwndAfter = HWND_TOPMOST;
 		}
 		else
 		{
 			style = WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU | WS_THICKFRAME;
-			style_ex = GetWindowLong(hWnd, GWL_EXSTYLE) & (~WS_EX_TOPMOST);
+			style_ex = GetWindowLongPtr(hWnd, GWL_EXSTYLE) & (~WS_EX_TOPMOST);
 			hwndAfter = HWND_NOTOPMOST;
 			AdjustWindowRect(&rc, style, false);
 		}
 
-		SetWindowLong(hWnd, GWL_STYLE, style);
-		SetWindowLong(hWnd, GWL_EXSTYLE, style_ex);
+		SetWindowLongPtr(hWnd, GWL_STYLE, style);
+		SetWindowLongPtr(hWnd, GWL_EXSTYLE, style_ex);
 
 		int desk_width  = GetSystemMetrics(SM_CXSCREEN);
 		int desk_height = GetSystemMetrics(SM_CYSCREEN);
@@ -329,27 +319,6 @@ namespace base
 		int y = fullScreen ? 0 : (desk_height - h) / 2;
 
 		SetWindowPos(hWnd, hwndAfter, x, y, w, h, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
-	}
-
-	void BaseManager::updateFPS()
-	{
-		if (mInfo)
-		{
-			// calc FPS
-			static MyGUI::Timer timer;
-			const unsigned long interval = 1000;
-			static int count_frames = 0;
-			int accumulate = timer.getMilliseconds();
-			if (accumulate > interval)
-			{
-				mInfo->change("FPS", (int)((unsigned long)count_frames * 1000 / accumulate));
-				mInfo->update();
-
-				count_frames = 0;
-				timer.reset();
-			}
-			count_frames ++;
-		}
 	}
 
 	void BaseManager::injectMouseMove(int _absx, int _absy, int _absz)
@@ -385,11 +354,6 @@ namespace base
 		{
 			mExit = true;
 			return;
-		}
-		else if (_key == MyGUI::KeyCode::F12)
-		{
-			bool visible = mFocusInfo->getFocusVisible();
-			mFocusInfo->setFocusVisible(!visible);
 		}
 
 		MyGUI::InputManager::getInstance().injectKeyPress(_key, _text);
@@ -487,15 +451,15 @@ namespace base
 
 	void BaseManager::drawOneFrame()
 	{
-		//// First we clear the screen and depth buffer
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//// Then we reset the modelview matrix
-		//glLoadIdentity();
+		// First we clear the screen and depth buffer
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		// Then we reset the modelview matrix
+		glLoadIdentity();
 
-		//if (mPlatform)
-		//	mPlatform->getRenderManagerPtr()->drawOneFrame();
+		if (mPlatform)
+			mPlatform->getRenderManagerPtr()->drawOneFrame();
 
-		//SwapBuffers(hDC);
+		SwapBuffers(hDC);
 	}
 
 	void BaseManager::destroyRender()
@@ -517,7 +481,7 @@ namespace base
 		}
 	}
 
-	/*void convertRawData(Gdiplus::BitmapData* _out_data, void* _result, size_t _size, MyGUI::PixelFormat _format)
+	void convertRawData(Gdiplus::BitmapData* _out_data, void* _result, size_t _size, MyGUI::PixelFormat _format)
 	{
 		size_t num = 0;
 
@@ -561,11 +525,11 @@ namespace base
 				ptr_source += stride_source;
 			}
 		}
-	}*/
+	}
 
 	void* BaseManager::loadImage(int& _width, int& _height, MyGUI::PixelFormat& _format, const std::string& _filename)
 	{
-		/*std::string fullname = MyGUI::OpenGLDataManager::getInstance().getDataPath(_filename);
+		std::string fullname = MyGUI::OpenGLDataManager::getInstance().getDataPath(_filename);
 
 		void* result = 0;
 
@@ -600,12 +564,12 @@ namespace base
 			delete image;
 		}
 
-		return result;*/
+		return result;
 	}
 
 	void BaseManager::saveImage(int _width, int _height, MyGUI::PixelFormat _format, void* _texture, const std::string& _filename)
 	{
-	/*	Gdiplus::PixelFormat format;
+		Gdiplus::PixelFormat format;
 		int bpp;
 
 		if (_format == MyGUI::PixelFormat::R8G8B8A8)
@@ -629,8 +593,6 @@ namespace base
 			return;
 		}
 
-		Gdiplus::Bitmap image(_width, _height, bpp * _width, format, (BYTE*)_texture);
-
 		UINT num, size;
 		Gdiplus::GetImageEncodersSize(&num, &size);
 
@@ -653,9 +615,11 @@ namespace base
 			return;
 		}
 
+		Gdiplus::Bitmap image(_width, _height, bpp * _width, format, (BYTE*)_texture);
+
 		HRESULT res = image.Save(MyGUI::UString(_filename).asWStr_c_str(), pngClsid, NULL);
 		if (res != S_OK)
-			MYGUI_LOG(Error, "Texture saving error. result =" << res);*/
+			MYGUI_LOG(Error, "Texture saving error. result = " << res);
 	}
 
 	void BaseManager::quit()
@@ -671,16 +635,6 @@ namespace base
 	void BaseManager::setResourceFilename(const std::string& _flename)
 	{
 		mResourceFileName = _flename;
-	}
-
-	diagnostic::StatisticInfo* BaseManager::getStatisticInfo()
-	{
-		return mInfo;
-	}
-
-	diagnostic::InputFocusInfo* BaseManager::getFocusInput()
-	{
-		return mFocusInfo;
 	}
 
 } // namespace base

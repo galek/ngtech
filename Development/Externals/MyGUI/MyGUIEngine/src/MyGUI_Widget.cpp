@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		11/2007
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_Widget.h"
 #include "MyGUI_Gui.h"
@@ -651,6 +636,8 @@ namespace MyGUI
 		mCoord = _point;
 
 		_updateView();
+
+		eventChangeCoord(this);
 	}
 
 	void Widget::setSize(const IntSize& _size)
@@ -686,6 +673,8 @@ namespace MyGUI
 
 		// запоминаем текущее состояние
 		mIsMargin = margin;
+
+		eventChangeCoord(this);
 	}
 
 	void Widget::setCoord(const IntCoord& _coord)
@@ -729,6 +718,8 @@ namespace MyGUI
 
 		// запоминаем текущее состояние
 		mIsMargin = margin;
+
+		eventChangeCoord(this);
 	}
 
 	void Widget::setAlign(Align _value)
@@ -1144,35 +1135,59 @@ namespace MyGUI
 		/// @wproperty{Widget, Position, IntPoint} Set widget position.
 		if (_key == "Position")
 			setPosition(utility::parseValue<IntPoint>(_value));
+
 		/// @wproperty{Widget, Size, IntSize} Set widget size.
 		else if (_key == "Size")
 			setSize(utility::parseValue<IntSize>(_value));
+
 		/// @wproperty{Widget, Coord, IntCoord} Set widget coordinates (position and size).
 		else if (_key == "Coord")
 			setCoord(utility::parseValue<IntCoord>(_value));
+
 		/// @wproperty{Widget, Visible, bool} Show or hide widget.
 		else if (_key == "Visible")
 			setVisible(utility::parseValue<bool>(_value));
+
+		/// @wproperty{Widget, Alpha, float} Прозрачность виджета от 0 до 1.
 		else if (_key == "Alpha")
 			setAlpha(utility::parseValue<float>(_value));
+
+		/// @wproperty{Widget, Colour, Colour} Цвет виджета.
 		else if (_key == "Colour")
 			setColour(utility::parseValue<Colour>(_value));
+
+		/// @wproperty{Widget, InheritsAlpha, bool} Режим наследования прозрачности.
 		else if (_key == "InheritsAlpha")
 			setInheritsAlpha(utility::parseValue<bool>(_value));
+
+		/// @wproperty{Widget, InheritsPick, bool} Режим наследования доступности мышью.
 		else if (_key == "InheritsPick")
 			setInheritsPick(utility::parseValue<bool>(_value));
+
+		/// @wproperty{Widget, MaskPick, string} Имя файла текстуры по которому генерится маска для доступности мышью.
 		else if (_key == "MaskPick")
 			setMaskPick(_value);
+
+		/// @wproperty{Widget, NeedKey, bool} Режим доступности виджета для ввода с клавиатуры.
 		else if (_key == "NeedKey")
 			setNeedKeyFocus(utility::parseValue<bool>(_value));
+
+		/// @wproperty{Widget, NeedMouse, bool} Режим доступности виджета для ввода мышью.
 		else if (_key == "NeedMouse")
 			setNeedMouseFocus(utility::parseValue<bool>(_value));
+
+		/// @wproperty{Widget, Enabled, bool} Режим доступности виджета.
 		else if (_key == "Enabled")
 			setEnabled(utility::parseValue<bool>(_value));
+
+		/// @wproperty{Widget, NeedToolTip, bool} Режим поддержки тултипов.
 		else if (_key == "NeedToolTip")
 			setNeedToolTip(utility::parseValue<bool>(_value));
+
+		/// @wproperty{Widget, Pointer, string} Указатель мыши для этого виджета.
 		else if (_key == "Pointer")
 			setPointer(_value);
+
 		else
 		{
 			MYGUI_LOG(Warning, "Widget property '" << _key << "' not found" << " [" << LayoutManager::getInstance().getCurrentLayout() << "]");

@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		04/2008
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_MultiListBox.h"
 #include "MyGUI_MultiListItem.h"
@@ -40,7 +25,6 @@ namespace MyGUI
 		mSortUp(true),
 		mSortColumnIndex(ITEM_NONE),
 		mWidthSeparator(0),
-		mOffsetButtonSeparator(2),
 		mItemSelected(ITEM_NONE),
 		mFrameAdvise(false),
 		mClient(nullptr),
@@ -56,10 +40,13 @@ namespace MyGUI
 
 		if (isUserString("SkinButton"))
 			mSkinButton = getUserString("SkinButton");
+
 		if (isUserString("SkinList"))
 			mSkinList = getUserString("SkinList");
+
 		if (isUserString("SkinSeparator"))
 			mSkinSeparator = getUserString("SkinSeparator");
+
 		if (isUserString("WidthSeparator"))
 			mWidthSeparator = utility::parseValue<int>(getUserString("WidthSeparator"));
 
@@ -69,8 +56,10 @@ namespace MyGUI
 		if (mHeightButton < 0)
 			mHeightButton = 0;
 
+		///@wskin_child{MultiListBox, Widget, HeaderPlace} Место для заголовков колонок.
 		assignWidget(mHeaderPlace, "HeaderPlace");
 
+		///@wskin_child{MultiListBox, Widget, Client} Клиентская зона.
 		assignWidget(mClient, "Client");
 		if (mClient != nullptr)
 			setWidgetClient(mClient);
@@ -78,12 +67,14 @@ namespace MyGUI
 		if (nullptr == mClient)
 			mClient = this;
 
+		///@wskin_child{MultiListBox, Widget, Empty} Виджет для заголовка в месте где нет списков.
 		assignWidget(mWidgetEmpty, "Empty");
 
 		if (mWidgetEmpty == nullptr)
 		{
 			if (isUserString("SkinButtonEmpty"))
 				skinButtonEmpty = getUserString("SkinButtonEmpty");
+
 			if (!skinButtonEmpty.empty())
 				mWidgetEmpty = mClient->createWidget<Widget>(skinButtonEmpty, IntCoord(0, 0, mClient->getWidth(), getButtonHeight()), Align::Default);
 		}

@@ -12,9 +12,9 @@ namespace demo
 {
 
 #ifdef MYGUI_OGRE_PLATFORM
-	Ogre::RaySceneQuery* gRaySceneQuery = 0;
-	float gAngleH = 90;
-	float gAngleV = -25;
+	static Ogre::RaySceneQuery* gRaySceneQuery = 0;
+	static float gAngleH = 90;
+	static float gAngleV = -25;
 #endif
 
 	DemoKeeper::DemoKeeper() :
@@ -38,12 +38,15 @@ namespace demo
 
 	void DemoKeeper::createScene()
 	{
+		base::BaseDemoManager::createScene();
 		createEntities();
 
 		const MyGUI::VectorWidgetPtr& root = MyGUI::LayoutManager::getInstance().loadLayout("HelpPanel.layout");
-		root.at(0)->findWidget("Text")->castType<MyGUI::TextBox>()->setCaption("Implementation of custom complex cursor behaviour, interaction of system and in-game cursors.");
+		if (root.size() == 1)
+			root.at(0)->findWidget("Text")->castType<MyGUI::TextBox>()->setCaption("Implementation of custom complex cursor behaviour, interaction of system and in-game cursors.");
 
-		MyGUI::FactoryManager::getInstance().registerFactory<ResourcePointerContext>("Resource");
+		std::string resourceCategory = MyGUI::ResourceManager::getInstance().getCategoryName();
+		MyGUI::FactoryManager::getInstance().registerFactory<ResourcePointerContext>(resourceCategory);
 
 		MyGUI::ResourceManager::getInstance().load("Contexts.xml");
 
@@ -87,7 +90,8 @@ namespace demo
 		delete mPointerContextManager;
 		mPointerContextManager = nullptr;
 
-		MyGUI::FactoryManager::getInstance().unregisterFactory<ResourcePointerContext>("Resource");
+		std::string resourceCategory = MyGUI::ResourceManager::getInstance().getCategoryName();
+		MyGUI::FactoryManager::getInstance().unregisterFactory<ResourcePointerContext>(resourceCategory);
 
 		destroyEntities();
 	}

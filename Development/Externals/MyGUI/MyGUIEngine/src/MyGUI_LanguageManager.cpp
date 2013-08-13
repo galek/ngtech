@@ -1,41 +1,26 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		09/2008
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_LanguageManager.h"
 #include "MyGUI_ResourceManager.h"
 #include "MyGUI_XmlDocument.h"
 #include "MyGUI_DataManager.h"
 #include "MyGUI_FactoryManager.h"
+#include "MyGUI_DataStreamHolder.h"
 
 namespace MyGUI
 {
 
-	const std::string XML_TYPE("Language");
-
 	template <> LanguageManager* Singleton<LanguageManager>::msInstance = nullptr;
-	template <> const char* Singleton<LanguageManager>::mClassTypeName("LanguageManager");
+	template <> const char* Singleton<LanguageManager>::mClassTypeName = "LanguageManager";
 
 	LanguageManager::LanguageManager() :
-		mIsInitialise(false)
+		mIsInitialise(false),
+		mXmlLanguageTagName("Language")
 	{
 	}
 
@@ -44,7 +29,7 @@ namespace MyGUI
 		MYGUI_ASSERT(!mIsInitialise, getClassTypeName() << " initialised twice");
 		MYGUI_LOG(Info, "* Initialise: " << getClassTypeName());
 
-		ResourceManager::getInstance().registerLoadXmlDelegate(XML_TYPE) = newDelegate(this, &LanguageManager::_load);
+		ResourceManager::getInstance().registerLoadXmlDelegate(mXmlLanguageTagName) = newDelegate(this, &LanguageManager::_load);
 
 		MYGUI_LOG(Info, getClassTypeName() << " successfully initialized");
 		mIsInitialise = true;
@@ -55,7 +40,7 @@ namespace MyGUI
 		MYGUI_ASSERT(mIsInitialise, getClassTypeName() << " is not initialised");
 		MYGUI_LOG(Info, "* Shutdown: " << getClassTypeName());
 
-		ResourceManager::getInstance().unregisterLoadXmlDelegate(XML_TYPE);
+		ResourceManager::getInstance().unregisterLoadXmlDelegate(mXmlLanguageTagName);
 
 		MYGUI_LOG(Info, getClassTypeName() << " successfully shutdown");
 		mIsInitialise = false;
@@ -68,7 +53,7 @@ namespace MyGUI
 
 		// берем детей и крутимся, основной цикл
 		xml::ElementEnumerator root = _node->getElementEnumerator();
-		while (root.next(XML_TYPE))
+		while (root.next(mXmlLanguageTagName))
 		{
 			// парсим атрибуты
 			root->findAttribute("default", default_lang);

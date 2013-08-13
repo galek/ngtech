@@ -96,12 +96,15 @@ namespace demo
 
 	void DemoKeeper::createScene()
 	{
+		base::BaseDemoManager::createScene();
 		MyGUI::LayoutManager::getInstance().loadLayout("Wallpaper.layout");
 		const MyGUI::VectorWidgetPtr& root = MyGUI::LayoutManager::getInstance().loadLayout("HelpPanel.layout");
-		root.at(0)->findWidget("Text")->castType<MyGUI::TextBox>()->setCaption("You can drag and drop items from one ItemBox to another. Hold mouse over item to see tool tip. Resize windows to see vertical and horizontal ItebBox alignments.");
+		if (root.size() == 1)
+			root.at(0)->findWidget("Text")->castType<MyGUI::TextBox>()->setCaption("You can drag and drop items from one ItemBox to another. Hold mouse over item to see tool tip. Resize windows to see vertical and horizontal ItebBox alignments.");
 
 		// регестрируем тип нашего ресурса
-		MyGUI::FactoryManager::getInstance().registerFactory<ResourceItemInfo>("Resource");
+		std::string resourceCategory = MyGUI::ResourceManager::getInstance().getCategoryName();
+		MyGUI::FactoryManager::getInstance().registerFactory<ResourceItemInfo>(resourceCategory);
 
 		MyGUI::ResourceManager::getInstance().load("Resources.xml");
 		//MyGUI::ResourceManager::getInstance().load("ItemBox_skin.xml");
@@ -151,7 +154,8 @@ namespace demo
 	void DemoKeeper::destroyScene()
 	{
 		// тип нашего ресурса
-		MyGUI::FactoryManager::getInstance().unregisterFactory<ResourceItemInfo>("Resource");
+		std::string resourceCategory = MyGUI::ResourceManager::getInstance().getCategoryName();
+		MyGUI::FactoryManager::getInstance().unregisterFactory<ResourceItemInfo>(resourceCategory);
 
 		delete mItemBoxH;
 		mItemBoxH = nullptr;

@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		11/2007
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_ImageBox.h"
 #include "MyGUI_CoordConverter.h"
@@ -84,13 +69,7 @@ namespace MyGUI
 		mRectImage.right = _coord.left + _coord.width;
 		mRectImage.bottom = _coord.top + _coord.height;
 
-		// если тайл еще не установлен, то ставим тот что у координат
-		if (mSizeTile.empty()) mSizeTile = _coord.size();
-		//если индекса еще нет, то ставим 0
-		if (mIndexSelect == ITEM_NONE) mIndexSelect = 0;
-
-		recalcIndexes();
-		updateSelectIndex(mIndexSelect);
+		setImageRect(mRectImage);
 	}
 
 	void ImageBox::setImageRect(const IntRect& _rect)
@@ -472,6 +451,11 @@ namespace MyGUI
 		return getItemSelect();
 	}
 
+	IntSize ImageBox::getImageSize() const
+	{
+		return mSizeTexture;
+	}
+
 	void ImageBox::setItemSelect(size_t _index)
 	{
 		if (mIndexSelect != _index) updateSelectIndex(_index);
@@ -485,25 +469,40 @@ namespace MyGUI
 
 	void ImageBox::setPropertyOverride(const std::string& _key, const std::string& _value)
 	{
+		/// @wproperty{ImageBox, ImageTexture, string} Текстура для виджета.
 		if (_key == "ImageTexture")
 			setImageTexture(_value);
+
+		/// @wproperty{ImageBox, ImageCoord, int int int int} Координаты в текстуре.
 		else if (_key == "ImageCoord")
 			setImageCoord(utility::parseValue<IntCoord>(_value));
+
+		/// @wproperty{ImageBox, ImageTile, int int} Размер тайла текстуры.
 		else if (_key == "ImageTile")
 			setImageTile(utility::parseValue<IntSize>(_value));
+
+		/// @wproperty{ImageBox, ImageIndex, size_t} Индекс тайла в текстуре.
 		else if (_key == "ImageIndex")
 			setItemSelect(utility::parseValue<size_t>(_value));
+
+		/// @wproperty{ImageBox, ImageResource, string} Имя ресурса картинки.
 		else if (_key == "ImageResource")
 			setItemResource(_value);
+
+		/// @wproperty{ImageBox, ImageGroup, string} Имя группы картинки в ресурсе.
 		else if (_key == "ImageGroup")
 			setItemGroup(_value);
+
+		/// @wproperty{ImageBox, ImageName, string} Имя картинки в группе ресурса.
 		else if (_key == "ImageName")
 			setItemName(_value);
+
 		else
 		{
 			Base::setPropertyOverride(_key, _value);
 			return;
 		}
+
 		eventChangeProperty(this, _key, _value);
 	}
 

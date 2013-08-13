@@ -10,13 +10,13 @@
 namespace demo
 {
 
-	void notifyMouseSetFocus(MyGUI::Widget* _sender, MyGUI::Widget* _old)
+	static void notifyMouseSetFocus(MyGUI::Widget* _sender, MyGUI::Widget* _old)
 	{
 		MyGUI::ImageBox* image = _sender->castType<MyGUI::ImageBox>();
 		image->setItemName("Active");
 	}
 
-	void notifyMouseLostFocus(MyGUI::Widget* _sender, MyGUI::Widget* _new)
+	static void notifyMouseLostFocus(MyGUI::Widget* _sender, MyGUI::Widget* _new)
 	{
 		MyGUI::ImageBox* image = _sender->castType<MyGUI::ImageBox>();
 		image->setItemName("Normal");
@@ -31,9 +31,11 @@ namespace demo
 
 	void DemoKeeper::createScene()
 	{
+		base::BaseDemoManager::createScene();
 		MyGUI::LayoutManager::getInstance().loadLayout("Wallpaper.layout");
 		const MyGUI::VectorWidgetPtr& root = MyGUI::LayoutManager::getInstance().loadLayout("HelpPanel.layout");
-		root.at(0)->findWidget("Text")->castType<MyGUI::TextBox>()->setCaption("Sample of picking mask for widget.");
+		if (root.size() == 1)
+			root.at(0)->findWidget("Text")->castType<MyGUI::TextBox>()->setCaption("Sample of picking mask for widget.");
 
 		MyGUI::ResourceManager::getInstance().load("Resources.xml");
 

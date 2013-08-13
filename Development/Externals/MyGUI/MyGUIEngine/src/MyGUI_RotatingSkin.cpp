@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		George Evmenov
-	@date		05/2009
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_RotatingSkin.h"
 #include "MyGUI_RenderItem.h"
@@ -179,14 +164,12 @@ namespace MyGUI
 
 	void RotatingSkin::doRender()
 	{
-		if ((!mVisible) || mEmptyView)
+		if (!mVisible || mEmptyView)
 			return;
 
 		Vertex* verticies = mRenderItem->getCurrentVertexBuffer();
 
-		const RenderTargetInfo& info = mRenderItem->getRenderTarget()->getInfo();
-
-		float vertex_z = info.maximumDepth;
+		float vertex_z = mNode->getNodeDepth();
 
 		if (mGeometryOutdated)
 		{
@@ -249,17 +232,17 @@ namespace MyGUI
 
 		// calculate original unrotated angles of uncropped rectangle verticies: between axis and line from center of rotation to vertex)
 		float baseAngles[RECT_VERTICIES_COUNT];
-		baseAngles[0] = atan2(                (float)mCenterPos.left,                 (float)mCenterPos.top) + M_PI / 2;
-		baseAngles[1] = atan2( - width_base + (float)mCenterPos.left,                 (float)mCenterPos.top) + M_PI / 2;
-		baseAngles[2] = atan2( - width_base + (float)mCenterPos.left, - height_base + (float)mCenterPos.top) + M_PI / 2;
-		baseAngles[3] = atan2(                (float)mCenterPos.left, - height_base + (float)mCenterPos.top) + M_PI / 2;
+		baseAngles[0] = atan2((float)mCenterPos.left, (float)mCenterPos.top) + M_PI / 2;
+		baseAngles[1] = atan2(- width_base + (float)mCenterPos.left, (float)mCenterPos.top) + M_PI / 2;
+		baseAngles[2] = atan2(- width_base + (float)mCenterPos.left, - height_base + (float)mCenterPos.top) + M_PI / 2;
+		baseAngles[3] = atan2((float)mCenterPos.left, - height_base + (float)mCenterPos.top) + M_PI / 2;
 
 		// calculate original unrotated distances of uncropped rectangle verticies: between center of rotation and vertex)
 		float baseDistances[RECT_VERTICIES_COUNT];
-		baseDistances[0] = len(                (float)mCenterPos.left,                 (float)mCenterPos.top);
-		baseDistances[1] = len( - width_base + (float)mCenterPos.left,                 (float)mCenterPos.top);
-		baseDistances[2] = len( - width_base + (float)mCenterPos.left, - height_base + (float)mCenterPos.top);
-		baseDistances[3] = len(                (float)mCenterPos.left, - height_base + (float)mCenterPos.top);
+		baseDistances[0] = len((float)mCenterPos.left, (float)mCenterPos.top);
+		baseDistances[1] = len(- width_base + (float)mCenterPos.left, (float)mCenterPos.top);
+		baseDistances[2] = len(- width_base + (float)mCenterPos.left, - height_base + (float)mCenterPos.top);
+		baseDistances[3] = len((float)mCenterPos.left, - height_base + (float)mCenterPos.top);
 
 
 		// calculate rotated positions of uncropped rectangle verticies (relative to parent)
@@ -310,9 +293,7 @@ namespace MyGUI
 					parent->_getMarginLeft() - mCroppedParent->getLeft(),
 					parent->_getMarginTop() - mCroppedParent->getTop(),
 					parent->_getViewWidth(),
-					parent->_getViewHeight()
-					)
-				);
+					parent->_getViewHeight()));
 
 			for (size_t i = 0; i < resultVerticiesPos.size(); ++i)
 			{

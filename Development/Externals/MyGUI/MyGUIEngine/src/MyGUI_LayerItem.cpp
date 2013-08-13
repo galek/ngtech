@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		11/2007
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_LayerItem.h"
 #include <algorithm>
@@ -120,10 +105,11 @@ namespace MyGUI
 	void LayerItem::detachFromLayer()
 	{
 		// мы уже отдетачены в доску
-		if (nullptr == mLayer) return;
+		if (nullptr == mLayer)
+			return;
 
 		// такого быть не должно
-		MYGUI_ASSERT(mLayerNode, "_item->mLayerNode == nullptr");
+		MYGUI_ASSERT(mLayerNode, "mLayerNode == nullptr");
 
 		// отписываемся от пиккинга
 		mLayerNode->detachLayerItem(this);
@@ -142,7 +128,8 @@ namespace MyGUI
 
 	void LayerItem::upLayerItem()
 	{
-		if (mLayerNode) mLayerNode->getLayer()->upChildItemNode(mLayerNode);
+		if (mLayerNode)
+			mLayerNode->getLayer()->upChildItemNode(mLayerNode);
 	}
 
 	void LayerItem::attachToLayerItemNode(ILayerNode* _item, bool _deep)
@@ -216,6 +203,11 @@ namespace MyGUI
 	ILayer* LayerItem::getLayer() const
 	{
 		return mLayer;
+	}
+
+	ILayerNode* LayerItem::getLayerNode() const
+	{
+		return mLayerNode;
 	}
 
 } // namespace MyGUI

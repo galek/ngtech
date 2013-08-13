@@ -1,25 +1,8 @@
-/*!
-	@file
-	@author		Denis Koronchik
-	@author		Georgiy Evmenov
-	@date		09/2007
-*/
 /*
-	This file is part of MyGUI.
-
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
 #ifndef __MYGUI_DYNLIB_H__
 #define __MYGUI_DYNLIB_H__
@@ -30,7 +13,7 @@
 
 #if MYGUI_PLATFORM == MYGUI_PLATFORM_WIN32
 #    define MYGUI_DYNLIB_HANDLE hInstance
-#    define MYGUI_DYNLIB_LOAD( a ) LoadLibraryA( a )//Nick:was LoadLibrary
+#    define MYGUI_DYNLIB_LOAD( a ) LoadLibrary( a )
 #    define MYGUI_DYNLIB_GETSYM( a, b ) GetProcAddress( a, b )
 #    define MYGUI_DYNLIB_UNLOAD( a ) !FreeLibrary( a )
 

@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		01/2008
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_TabControl.h"
 #include "MyGUI_ControllerManager.h"
@@ -64,6 +49,7 @@ namespace MyGUI
 		// OBSOLETE
 		if (isUserString("OffsetBar"))
 			mOffsetTab = utility::parseValue<int>(getUserString("OffsetBar"));
+
 		// OBSOLETE
 		if (isUserString("EmptyBarSkin"))
 			mEmptySkinName = getUserString("EmptyBarSkin");
@@ -75,12 +61,14 @@ namespace MyGUI
 			mWidgetBar->setSize(mWidgetBar->getWidth() - mOffsetTab, mWidgetBar->getHeight());
 		}
 
+		///@wskin_child{TabControl, Button, Left} Кнопка прокрутки заголовков влево.
 		assignWidget(mButtonLeft, "Left");
 		if (mButtonLeft != nullptr)
 		{
 			mButtonLeft->eventMouseButtonClick += newDelegate(this, &TabControl::notifyPressedButtonEvent);
 		}
 
+		///@wskin_child{TabControl, Button, Right} Кнопка прокрутки заголовков вправо.
 		assignWidget(mButtonRight, "Right");
 		if (mButtonRight != nullptr)
 		{
@@ -94,6 +82,7 @@ namespace MyGUI
 			mButtonDecor->setVisible(false);
 		}
 
+		///@wskin_child{TabControl, Widget, TabItem} Шаблон для страницы, по которому будут создаваться клиентские зоны страниц.
 		assignWidget(mItemTemplate, "TabItem");
 		if (mItemTemplate != nullptr)
 		{
@@ -120,8 +109,13 @@ namespace MyGUI
 			showPatch->setVisible(false);
 		}
 
+		///@wskin_child{TabControl, Widget, HeaderPlace} Место для заголовоков.
 		assignWidget(mHeaderPlace, "HeaderPlace");
+
+		///@wskin_child{TabControl, Widget, Controls} Виджет на котором должны быть расположены кнопки влево и вправо для заголовоков.
 		assignWidget(mControls, "Controls");
+
+		///@wskin_child{TabControl, Widget, Empty} Виджет который будет показываться в месте где нет заголовков (справа от заголовков).
 		assignWidget(mEmpty, "Empty");
 
 		if (mEmpty == nullptr)
@@ -395,7 +389,7 @@ namespace MyGUI
 		beginToItemSelected();
 	}
 
-	void TabControl::actionWidgetHide(Widget* _widget)
+	void TabControl::actionWidgetHide(Widget* _widget, ControllerItem* _controller)
 	{
 		_widget->setVisible(false);
 		_widget->setEnabled(true);
@@ -622,19 +616,28 @@ namespace MyGUI
 
 	void TabControl::setPropertyOverride(const std::string& _key, const std::string& _value)
 	{
+		/// @wproperty{TabControl, ButtonWidth, int} Ширина кнопок в заголовках в пикселях.
 		if (_key == "ButtonWidth")
 			setButtonDefaultWidth(utility::parseValue<int>(_value));
+
+		/// @wproperty{TabControl, ButtonAutoWidth, bool} Режим автоматического вычисления ширины кнопок в заголовках.
 		else if (_key == "ButtonAutoWidth")
 			setButtonAutoWidth(utility::parseValue<bool>(_value));
+
+		/// @wproperty{TabControl, SmoothShow, bool} Плавное переключение между закладками.
 		else if (_key == "SmoothShow")
 			setSmoothShow(utility::parseValue<bool>(_value));
+
+		// не коментировать
 		else if (_key == "SelectItem")
 			setIndexSelected(utility::parseValue<size_t>(_value));
+
 		else
 		{
 			Base::setPropertyOverride(_key, _value);
 			return;
 		}
+
 		eventChangeProperty(this, _key, _value);
 	}
 
@@ -948,11 +951,11 @@ namespace MyGUI
 
 	void TabControl::updateBarNew()
 	{
-		// подстраховка
-		if (mHeaderPlace->getWidth() < 1)
+		if (mHeaderPlace == nullptr)
 			return;
 
-		if (mHeaderPlace == nullptr)
+		// подстраховка
+		if (mHeaderPlace->getWidth() < 1)
 			return;
 
 		int widthControls = 0;

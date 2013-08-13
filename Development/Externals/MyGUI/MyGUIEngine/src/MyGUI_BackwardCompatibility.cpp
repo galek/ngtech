@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		08/2010
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_BackwardCompatibility.h"
 #include "MyGUI_Button.h"
@@ -657,6 +642,128 @@ namespace MyGUI
 		return ResourceManager::getInstance().load(_file);
 	}
 
+	void MemberObsolete<FontManager>::loadOldFontFormat(xml::ElementPtr _node2, const std::string& _file, Version _version, const std::string& _tag)
+	{
+		xml::ElementEnumerator _node = _node2->getElementEnumerator();
+		while (_node.next())
+		{
+			if (_node->getName() == _tag)
+			{
+				std::string name;
+				if (!_node->findAttribute("name", name))
+					return;
+
+				std::string type;
+				if (type.empty())
+				{
+					if (_node->findAttribute("resolution").empty())
+						type = "ResourceManualFont";
+					else
+						type = "ResourceTrueTypeFont";
+				}
+
+				xml::Document doc;
+				xml::ElementPtr root = doc.createRoot("MyGUI");
+				xml::ElementPtr node = root->createChild("Resource");
+				node->addAttribute("type", type);
+				node->addAttribute("name", name);
+
+				std::string tmp;
+				if (_node->findAttribute("source", tmp))
+				{
+					xml::ElementPtr prop = node->createChild("Property");
+					prop->addAttribute("key", "Source");
+					prop->addAttribute("value", tmp);
+				}
+
+				if (_node->findAttribute("size", tmp))
+				{
+					xml::ElementPtr prop = node->createChild("Property");
+					prop->addAttribute("key", "Size");
+					prop->addAttribute("value", tmp);
+				}
+
+				if (_node->findAttribute("resolution", tmp))
+				{
+					xml::ElementPtr prop = node->createChild("Property");
+					prop->addAttribute("key", "Resolution");
+					prop->addAttribute("value", tmp);
+				}
+
+				if (_node->findAttribute("antialias_colour", tmp))
+				{
+					xml::ElementPtr prop = node->createChild("Property");
+					prop->addAttribute("key", "Antialias");
+					prop->addAttribute("value", tmp);
+				}
+
+				if (_node->findAttribute("space_width", tmp))
+				{
+					xml::ElementPtr prop = node->createChild("Property");
+					prop->addAttribute("key", "SpaceWidth");
+					prop->addAttribute("value", tmp);
+				}
+
+				if (_node->findAttribute("tab_width", tmp))
+				{
+					xml::ElementPtr prop = node->createChild("Property");
+					prop->addAttribute("key", "TabWidth");
+					prop->addAttribute("value", tmp);
+				}
+
+				if (_node->findAttribute("cursor_width", tmp))
+				{
+					xml::ElementPtr prop = node->createChild("Property");
+					prop->addAttribute("key", "CursorWidth");
+					prop->addAttribute("value", tmp);
+				}
+
+				if (_node->findAttribute("distance", tmp))
+				{
+					xml::ElementPtr prop = node->createChild("Property");
+					prop->addAttribute("key", "Distance");
+					prop->addAttribute("value", tmp);
+				}
+
+				if (_node->findAttribute("offset_height", tmp))
+				{
+					xml::ElementPtr prop = node->createChild("Property");
+					prop->addAttribute("key", "OffsetHeight");
+					prop->addAttribute("value", tmp);
+				}
+
+				if (_node->findAttribute("default_height", tmp))
+				{
+					xml::ElementPtr prop = node->createChild("Property");
+					prop->addAttribute("key", "DefaultHeight");
+					prop->addAttribute("value", tmp);
+				}
+
+				xml::ElementPtr codes = node->createChild("Codes");
+
+				xml::ElementEnumerator codeold = _node->getElementEnumerator();
+				while (codeold.next("Code"))
+				{
+					xml::ElementPtr codenew = codes->createChild("Code");
+
+					if (codeold->findAttribute("range", tmp))
+						codenew->addAttribute("range", tmp);
+
+					if (codeold->findAttribute("hide", tmp))
+						codenew->addAttribute("hide", tmp);
+
+					if (codeold->findAttribute("index", tmp))
+						codenew->addAttribute("index", tmp);
+
+					if (codeold->findAttribute("coord", tmp))
+						codenew->addAttribute("coord", tmp);
+				}
+
+				ResourceManager::getInstance().loadFromXmlNode(root, _file, _version);
+			}
+		}
+	}
+
 	void MemberObsolete<Gui>::destroyWidgetsVector(VectorWidgetPtr& _widgets)
 	{
 		static_cast<Gui*>(this)->destroyWidgets(_widgets);
@@ -783,6 +890,87 @@ namespace MyGUI
 	{
 		return ResourceManager::getInstance().load(_file);
 	}
+	void MemberObsolete<PointerManager>::loadOldPointerFormat(xml::ElementPtr _node, const std::string& _file, Version _version, const std::string& _tag)
+	{
+		std::string pointer;
+		std::string layer;
+
+		xml::ElementEnumerator node = _node->getElementEnumerator();
+		while (node.next())
+		{
+			if (node->getName() == _tag)
+			{
+				layer = node->findAttribute("layer");
+				pointer = node->findAttribute("default");
+
+				// сохраняем
+				std::string shared_text = node->findAttribute("texture");
+
+				// берем детей и крутимся, основной цикл
+				xml::ElementEnumerator info = node->getElementEnumerator();
+				while (info.next("Info"))
+				{
+					std::string name = info->findAttribute("name");
+					if (name.empty())
+						continue;
+
+					std::string texture = info->findAttribute("texture");
+
+					std::string type = (shared_text.empty() && texture.empty()) ? "ResourceImageSetPointer" : "ResourceManualPointer";
+
+					xml::Document doc;
+					xml::ElementPtr root = doc.createRoot("MyGUI");
+					xml::ElementPtr newnode = root->createChild("Resource");
+					newnode->addAttribute("type", type);
+					newnode->addAttribute("name", name);
+
+					std::string tmp;
+					if (info->findAttribute("point", tmp))
+					{
+						xml::ElementPtr prop = newnode->createChild("Property");
+						prop->addAttribute("key", "Point");
+						prop->addAttribute("value", tmp);
+					}
+
+					if (info->findAttribute("size", tmp))
+					{
+						xml::ElementPtr prop = newnode->createChild("Property");
+						prop->addAttribute("key", "Size");
+						prop->addAttribute("value", tmp);
+					}
+
+					if (info->findAttribute("resource", tmp))
+					{
+						xml::ElementPtr prop = newnode->createChild("Property");
+						prop->addAttribute("key", "Resource");
+						prop->addAttribute("value", tmp);
+					}
+
+					if (info->findAttribute("offset", tmp))
+					{
+						xml::ElementPtr prop = newnode->createChild("Property");
+						prop->addAttribute("key", "Coord");
+						prop->addAttribute("value", tmp);
+					}
+
+					if (!shared_text.empty() || !texture.empty())
+					{
+						xml::ElementPtr prop = newnode->createChild("Property");
+						prop->addAttribute("key", "Texture");
+						prop->addAttribute("value",  shared_text.empty() ? texture : shared_text);
+					}
+
+					ResourceManager::getInstance().loadFromXmlNode(root, _file, _version);
+				}
+			}
+		}
+
+		if (!layer.empty())
+			static_cast<PointerManager*>(this)->setLayerName(layer);
+
+		if (!pointer.empty())
+			static_cast<PointerManager*>(this)->setDefaultPointer(pointer);
+	}
 
 	size_t MemberObsolete<ResourceManager>::getResourceCount()
 	{
@@ -800,6 +988,28 @@ namespace MyGUI
 	bool MemberObsolete<SkinManager>::load(const std::string& _file)
 	{
 		return ResourceManager::getInstance().load(_file);
+	}
+	void MemberObsolete<SkinManager>::loadOldSkinFormat(xml::ElementPtr _node, const std::string& _file, Version _version, const std::string& _tag)
+	{
+		std::string resourceCategory = ResourceManager::getInstance().getCategoryName();
+
+		// берем детей и крутимся, основной цикл со скинами
+		xml::ElementEnumerator skin = _node->getElementEnumerator();
+		while (skin.next(_tag))
+		{
+			std::string type = skin->findAttribute("type");
+			if (type.empty())
+				type = "ResourceSkin";
+
+			IObject* object = FactoryManager::getInstance().createObject(resourceCategory, type);
+			if (object != nullptr)
+			{
+				ResourceSkin* data = object->castType<ResourceSkin>();
+				data->deserialization(skin.current(), _version);
+
+				ResourceManager::getInstance().addResource(data);
+			}
+		}
 	}
 
 
@@ -825,7 +1035,7 @@ namespace MyGUI
 
 #ifndef MYGUI_DONT_USE_OBSOLETE
 
-	std::string convertAlignToDirection(const std::string& _value)
+	static std::string convertAlignToDirection(const std::string& _value)
 	{
 		Align align = utility::parseValue<Align>(_value);
 		if (align == Align::Right)
@@ -837,7 +1047,7 @@ namespace MyGUI
 		return FlowDirection(FlowDirection::LeftToRight).print();
 	}
 
-	std::string convertRectToCoord(const std::string& _value)
+	static std::string convertRectToCoord(const std::string& _value)
 	{
 		IntRect rect = IntRect::parse(_value);
 		IntCoord coord(rect.left, rect.top, rect.width(), rect.height());
@@ -1140,18 +1350,19 @@ namespace MyGUI
 	{
 #ifndef MYGUI_DONT_USE_OBSOLETE
 		FactoryManager& factory = FactoryManager::getInstance();
-		factory.registerFactory<HScroll>("Widget");
-		factory.registerFactory<VScroll>("Widget");
-		factory.registerFactory<Canvas>("Widget", "RenderBox");
-		factory.registerFactory<TabItem>("Widget", "Sheet");
-		factory.registerFactory<ImageBox>("Widget", "StaticImage");
-		factory.registerFactory<TextBox>("Widget", "StaticText");
-		factory.registerFactory<ProgressBar>("Widget", "Progress");
-		factory.registerFactory<ListBox>("Widget", "List");
-		factory.registerFactory<EditBox>("Widget", "Edit");
-		factory.registerFactory<TabControl>("Widget", "Tab");
-		factory.registerFactory<MultiListBox>("Widget", "MultiList");
-		factory.registerFactory<MenuControl>("Widget", "MenuCtrl");
+		std::string widgetCategory = MyGUI::WidgetManager::getInstance().getCategoryName();
+		factory.registerFactory<HScroll>(widgetCategory);
+		factory.registerFactory<VScroll>(widgetCategory);
+		factory.registerFactory<Canvas>(widgetCategory, "RenderBox");
+		factory.registerFactory<TabItem>(widgetCategory, "Sheet");
+		factory.registerFactory<ImageBox>(widgetCategory, "StaticImage");
+		factory.registerFactory<TextBox>(widgetCategory, "StaticText");
+		factory.registerFactory<ProgressBar>(widgetCategory, "Progress");
+		factory.registerFactory<ListBox>(widgetCategory, "List");
+		factory.registerFactory<EditBox>(widgetCategory, "Edit");
+		factory.registerFactory<TabControl>(widgetCategory, "Tab");
+		factory.registerFactory<MultiListBox>(widgetCategory, "MultiList");
+		factory.registerFactory<MenuControl>(widgetCategory, "MenuCtrl");
 #endif // MYGUI_DONT_USE_OBSOLETE
 	}
 

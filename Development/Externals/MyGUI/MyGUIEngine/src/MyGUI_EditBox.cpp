@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Albert Semenov
-	@date		11/2007
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_EditBox.h"
 #include "MyGUI_Gui.h"
@@ -80,6 +65,7 @@ namespace MyGUI
 		// FIXME нам нужен фокус клавы
 		setNeedKeyFocus(true);
 
+		///@wskin_child{EditBox, Widget, Client} Клиентская зона.
 		assignWidget(mClient, "Client");
 		if (mClient != nullptr)
 		{
@@ -93,12 +79,14 @@ namespace MyGUI
 			setWidgetClient(mClient);
 		}
 
+		///@wskin_child{EditBox, ScrollBar, VScroll} Вертикальная полоса прокрутки.
 		assignWidget(mVScroll, "VScroll");
 		if (mVScroll != nullptr)
 		{
 			mVScroll->eventScrollChangePosition += newDelegate(this, &EditBox::notifyScrollChangePosition);
 		}
 
+		///@wskin_child{EditBox, ScrollBar, HScroll} Горизонтальная полоса прокрутки.
 		assignWidget(mHScroll, "HScroll");
 		if (mHScroll != nullptr)
 		{
@@ -642,12 +630,12 @@ namespace MyGUI
 				mStartSelect = mEndSelect = mCursorPosition;
 			}
 		}
-		else if (_char != 0)
+		else
 		{
 			// если не нажат контрл, то обрабатываем как текст
 			if (!input.isControlPressed())
 			{
-				if (!mModeReadOnly)
+				if (!mModeReadOnly && _char != 0)
 				{
 					// сбрасываем повтор
 					commandResetRedo();
@@ -2046,39 +2034,68 @@ namespace MyGUI
 
 	void EditBox::setPropertyOverride(const std::string& _key, const std::string& _value)
 	{
+		/// @wproperty{EditBox, CursorPosition, size_t} Позиция курсора.
 		if (_key == "CursorPosition")
 			setTextCursor(utility::parseValue<size_t>(_value));
+
+		/// @wproperty{EditBox, TextSelect, size_t size_t} Выделение текста.
 		else if (_key == "TextSelect")
 			setTextSelection(utility::parseValue< types::TSize<size_t> >(_value).width, utility::parseValue< types::TSize<size_t> >(_value).height);
+
+		/// @wproperty{EditBox, ReadOnly, bool} Режим только для чтения, в этом режиме нельзя изменять текст но которовать можно.
 		else if (_key == "ReadOnly")
 			setEditReadOnly(utility::parseValue<bool>(_value));
+
+		/// @wproperty{EditBox, Password, bool} Режим ввода пароля, все символы заменяются на звездочки или другие указаные символы.
 		else if (_key == "Password")
 			setEditPassword(utility::parseValue<bool>(_value));
+
+		/// @wproperty{EditBox, MultiLine, bool} Режим много строчного ввода.
 		else if (_key == "MultiLine")
 			setEditMultiLine(utility::parseValue<bool>(_value));
+
+		/// @wproperty{EditBox, PasswordChar, string} Символ для замены в режиме пароля.
 		else if (_key == "PasswordChar")
 			setPasswordChar(_value);
+
+		/// @wproperty{EditBox, MaxTextLength, size_t} Максимальное длина текста.
 		else if (_key == "MaxTextLength")
 			setMaxTextLength(utility::parseValue<size_t>(_value));
+
+		/// @wproperty{EditBox, OverflowToTheLeft, bool} Режим обрезки текста в начале, после того как его колличество достигает максимального значения.
 		else if (_key == "OverflowToTheLeft")
 			setOverflowToTheLeft(utility::parseValue<bool>(_value));
+
+		/// @wproperty{EditBox, Static, bool} Статический режим, поле ввода никак не реагирует на пользовательский ввод.
 		else if (_key == "Static")
 			setEditStatic(utility::parseValue<bool>(_value));
+
+		/// @wproperty{EditBox, VisibleVScroll, bool} Видимость вертикальной полосы прокрутки.
 		else if (_key == "VisibleVScroll")
 			setVisibleVScroll(utility::parseValue<bool>(_value));
+
+		/// @wproperty{EditBox, VisibleHScroll, bool} Видимость горизонтальной полосы прокрутки.
 		else if (_key == "VisibleHScroll")
 			setVisibleHScroll(utility::parseValue<bool>(_value));
+
+		/// @wproperty{EditBox, WordWrap, bool} Режим переноса по словам.
 		else if (_key == "WordWrap")
 			setEditWordWrap(utility::parseValue<bool>(_value));
+
+		/// @wproperty{EditBox, TabPrinting, bool} Воспринимать нажатие на Tab как символ табуляции.
 		else if (_key == "TabPrinting")
 			setTabPrinting(utility::parseValue<bool>(_value));
+
+		/// @wproperty{EditBox, InvertSelected, bool} При выделении цвета инвертируются.
 		else if (_key == "InvertSelected")
 			setInvertSelected(utility::parseValue<bool>(_value));
+
 		else
 		{
 			Base::setPropertyOverride(_key, _value);
 			return;
 		}
+
 		eventChangeProperty(this, _key, _value);
 	}
 
@@ -2202,6 +2219,14 @@ namespace MyGUI
 
 		if (mClientText != nullptr)
 			mClientText->setShadow(_value);
+	}
+
+	void EditBox::baseUpdateEnable()
+	{
+		Base::baseUpdateEnable();
+
+		if (mClient != nullptr && mClient != this)
+			mClient->setEnabled(getEnabled());
 	}
 
 } // namespace MyGUI

@@ -1,24 +1,9 @@
-/*!
-	@file
-	@author		Alexander Ptakhin
-	@date		01/2009
-*/
 /*
-	This file is part of MyGUI.
+ * This source file is part of MyGUI. For the latest info, see http://mygui.info/
+ * Distributed under the MIT License
+ * (See accompanying file COPYING.MIT or copy at http://opensource.org/licenses/MIT)
+ */
 
-	MyGUI is free software: you can redistribute it and/or modify
-	it under the terms of the GNU Lesser General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	MyGUI is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU Lesser General Public License for more details.
-
-	You should have received a copy of the GNU Lesser General Public License
-	along with MyGUI.  If not, see <http://www.gnu.org/licenses/>.
-*/
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_Canvas.h"
 #include "MyGUI_ResourceManager.h"
@@ -37,7 +22,7 @@ namespace MyGUI
 		mFrameAdvise( false ),
 		mInvalidateData(false)
 	{
-		mGenTexName = utility::toString( this, "_Canvas" );
+		mGenTexName = utility::toString((size_t)this, "_Canvas");
 	}
 
 	void Canvas::createTexture( TextureResizeMode _resizeMode, TextureUsage _usage, PixelFormat _format )
@@ -86,13 +71,19 @@ namespace MyGUI
 
 	void Canvas::createTexture( int _width, int _height, TextureResizeMode _resizeMode, TextureUsage _usage, PixelFormat _format )
 	{
+		mTexResizeMode = _resizeMode;
+
 		int width = std::max(1, _width);
 		int height = std::max(1, _height);
 
-		if ( mReqTexSize.empty() )
-			mReqTexSize = IntSize( width, height );
-
-		mTexResizeMode = _resizeMode;
+		if (_resizeMode == TRM_PT_CONST_SIZE)
+		{
+			mReqTexSize = IntSize(width, height);
+		}
+		else
+		{
+			mReqTexSize = IntSize(std::max(1, getWidth()), std::max(1, getHeight()));
+		}
 
 		bool create = checkCreate( width, height );
 
@@ -192,9 +183,7 @@ namespace MyGUI
 					0,
 					0,
 					(float) mReqTexSize.width  / (float) getTextureRealWidth(),
-					(float) mReqTexSize.height / (float) getTextureRealHeight()
-				)
-			);
+					(float) mReqTexSize.height / (float) getTextureRealHeight()));
 		}
 
 		if ( mTexResizeMode == TRM_PT_CONST_SIZE || mTexResizeMode == TRM_PT_VIEW_ALL )
