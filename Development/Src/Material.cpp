@@ -418,7 +418,7 @@ bool Material::setPass(const String &name) {
 		if(type == Pass::matSpotTransform) { p->shader->sendMat4(name, GetEngine()->scene->matSpotTransform); }
 		if(type == Pass::matViewportTransform) { p->shader->sendMat4(name, GetEngine()->scene->matViewportTransform); }
 
-		if(type == Pass::matShadowMap && (GetEngine()->config->getInt("light_shadowtype"))) { p->shader->sendInt(name, p->maxUnit); //Nick:TODO:Replace
+		if(type == Pass::matShadowMap && (GetEngine()->cvars->r_shadowtype)) { p->shader->sendInt(name, p->maxUnit); //Nick:TODO:Replace
 			GetEngine()->scene->matShadowMap->set(p->maxUnit); }
 
 		if(type == Pass::matViewportMap) { p->shader->sendInt(name, p->maxUnit+1); 
@@ -452,7 +452,7 @@ void Material::unsetPass() {
 	}
 	p->maxUnit += p->u_samplerCube.size();
 
-	if(GetEngine()->config->getInt("light_shadowtype")) 
+	if(GetEngine()->cvars->r_shadowtype) 
 		if(GetEngine()->scene->matShadowMap) GetEngine()->scene->matShadowMap->unset(p->maxUnit);
 
 	if(GetEngine()->scene->matViewportMap) GetEngine()->scene->matViewportMap->unset(p->maxUnit+1);

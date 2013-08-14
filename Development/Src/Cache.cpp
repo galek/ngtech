@@ -110,10 +110,11 @@ namespace VEGA {
 		if(it == shaders.end() || it->second.first == NULL) {
 			String defines = "";
 		if(cvars->r_reflections) defines += "#define REFLECTIONS\n";
-		if(cvars->r_specular) defines += "#define SPECULAR\n";
 		if(cvars->r_parallax) defines += "#define PARALLAX\n";
-		if(cvars->r_shadowtype == 1) defines += "#define SM_SHADOWS\n";
-		if(cvars->r_shadowtype == 2) defines += "#define VSM_SHADOWS\n";
+		if (cvars->r_specular) defines += "#define SPECULAR\n";
+			if (cvars->r_shadowtype == 1) defines += "#define SM_SHADOWS\n";
+			if (cvars->r_shadowtype == 2) defines += "#define SM_SHADOWS_PCF_2\n";
+			if (cvars->r_shadowtype == 3) defines += "#define SM_SHADOWS_PCF_3\n";
 
 			GLShader *shader= GLShader::create(path, defines);
 			shaders[path].first = shader;
@@ -127,11 +128,11 @@ namespace VEGA {
 	void Cache::reloadShaders() {
 		String defines = "";
 		if(cvars->r_reflections) defines += "#define REFLECTIONS\n";
-		if(cvars->r_specular) defines += "#define SPECULAR\n";
 		if(cvars->r_parallax) defines += "#define PARALLAX\n";
-		if(cvars->r_shadowtype == 1) defines += "#define SM_SHADOWS\n";
-		if(cvars->r_shadowtype == 2) defines += "#define VSM_SHADOWS\n";
-
+		if (cvars->r_specular) defines += "#define SPECULAR\n";
+		if (cvars->r_shadowtype == 1) defines += "#define SM_SHADOWS\n";
+		if (cvars->r_shadowtype == 2) defines += "#define SM_SHADOWS_PCF_2\n";
+		if (cvars->r_shadowtype == 3) defines += "#define SM_SHADOWS_PCF_3\n";
 
 		std::map<String, std::pair<GLShader*, int>>::iterator it;
 		for(it = shaders.begin(); it != shaders.end(); it++) {
