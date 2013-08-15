@@ -1,7 +1,19 @@
-/*!
-@file
-@author		George Evmenov
-@date		07/2009
+/* Copyright (C) 2006-2013, Dream In Gate Ltd. All rights reserved.
+*
+* File:    ALSystem.cpp
+* Desc:    OpenAL sound system.
+* Version: 1.0
+* Author:  George Evmenov <altren@mygui.info> , Nick Galko <galek@vegaengine.com>
+*
+* This file is part of the Vega engine (http://vegaengine.com/).
+*
+* Your use and or redistribution of this software in source and / or
+* binary form, with or without modification, is subject to: (i) your
+* ongoing acceptance of and compliance with the terms and conditions of
+* the VEGA License Agreement; and (ii) your inclusion of this notice
+* in any version of this software that you use or redistribute.
+* A copy of the VEGA License Agreement is available by contacting
+* Dream In Gate Ltd. at http://vegaengine.com/
 */
 #include "../EnginePrivate.h"
 #include "MyGUI_OpenGLDiagnostic.h"

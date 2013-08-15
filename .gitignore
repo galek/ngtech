@@ -23,3 +23,4 @@ Bins/Bin32/VegaEngine.dll
 TempFiles/
 Bins/Bin32/EngineLog.html
 *.exp
+Bins/Bin64/EngineLog.html

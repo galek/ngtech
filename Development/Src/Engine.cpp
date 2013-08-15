@@ -1,12 +1,20 @@
-/***************************************************************************
-*   Copyright (C) 2006 by AST   *
-*   tsyplyaev@gmail.com   *
-*   ICQ: 279-533-134                          *
-*   This is a part of work done by AST.       *
-*   If you want to use it, please contact me. *
-Changes:
-*Galek:Drawing GUI,was moved in Scene,because we won't have problems after HDR Pass
-***************************************************************************/
+/* Copyright (C) 2006-2013, Dream In Gate Ltd. All rights reserved.
+*
+* File:    Engine.cpp
+* Desc:    Engine manager impl.
+* Version: 1.01
+* Author:  Nick Galko <galek@vegaengine.com>
+*
+* This file is part of the Vega engine (http://vegaengine.com/).
+*
+* Your use and or redistribution of this software in source and / or
+* binary form, with or without modification, is subject to: (i) your
+* ongoing acceptance of and compliance with the terms and conditions of
+* the VEGA License Agreement; and (ii) your inclusion of this notice
+* in any version of this software that you use or redistribute.
+* A copy of the VEGA License Agreement is available by contacting
+* Dream In Gate Ltd. at http://vegaengine.com/
+*/
 #include "EnginePrivate.h"
 //***************************************************
 #include "Engine.h"
@@ -42,14 +50,17 @@ namespace VEGA {
 		return &engine;
 	}
 
-#define ENGINE_VERSION_NUMBER 0.3.2
-#define ENGINE_VERSION_STRING "0.3.2"
+#define ENGINE_VERSION_NUMBER 0.3.3
+#define ENGINE_VERSION_STRING "0.3.3"
 	/*
 	*/
 	Engine::Engine()
 	{
 		log = new Log();
-		Log::write("Engine Version:"ENGINE_VERSION_STRING);
+		std::string logstring = "Engine Version:"ENGINE_VERSION_STRING;
+		logstring += " Build Date : "__DATE__;
+		logstring += " : "__TIME__;
+		LogPrintf(logstring);
 		_preInit();
 	}
 
