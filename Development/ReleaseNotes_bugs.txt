@@ -13,3 +13,18 @@ Render:
 
 GUI:
 1)если нет воды,нет текста
+
+mesh_spot -нет gui
+
+
+
+
+
+
+
+MyGUI_OpenGLRTTexture.cpp:34
+[11:28:26 | Изменены 11:28:31] Николай: уверен,что там должно быть
+  glClear(GL_COLOR_BUFFER_BIT/* | GL_DEPTH_BUFFER_BIT*/);
+А не 
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+[11:28:28] Николай: ?

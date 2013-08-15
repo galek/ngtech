@@ -15,14 +15,14 @@
 
 namespace VEGA {
 
-	Cache::Cache(CVARManager*_cvars):cvars(_cvars) {}
+	Cache::Cache(CVARManager*_cvars) : cvars(_cvars) {}
 
 	Material *Cache::loadMaterial(const String &path) {
 
-		if(path=="") return NULL;
+		if (path == "") return NULL;
 		std::map<String, std::pair<Material*, int>>::iterator it = materials.find(path);
-		if(it == materials.end() || it->second.first == NULL) {
-			Debug("[Cache] loadMaterial: "+path);
+		if (it == materials.end() || it->second.first == NULL) {
+			Debug("[Cache] loadMaterial: " + path);
 			Material *material = new Material(path);
 			materials[path].first = material;
 			materials[path].second = 1;
@@ -35,9 +35,9 @@ namespace VEGA {
 
 	Model *Cache::loadModel(const String &path) {
 
-		if(path=="") return NULL;
+		if (path == "") return NULL;
 		std::map<String, std::pair<Model*, int>>::iterator it = models.find(path);
-		if(it == models.end() || it->second.first == NULL) {
+		if (it == models.end() || it->second.first == NULL) {
 			Model *model = new Model(path);
 			models[path].first = model;
 			models[path].second = 1;
@@ -49,9 +49,9 @@ namespace VEGA {
 
 	ALSound *Cache::loadSound(const String &path) {
 
-		if(path=="") return NULL;
+		if (path == "") return NULL;
 		std::map<String, std::pair<ALSound*, int>>::iterator it = sounds.find(path);
-		if(it == sounds.end() || it->second.first == NULL) {
+		if (it == sounds.end() || it->second.first == NULL) {
 			ALSound *sound = ALSound::create(path);
 			sounds[path].first = sound;
 			sounds[path].second = 1;
@@ -63,9 +63,9 @@ namespace VEGA {
 
 	GLTexture *Cache::loadTexture2d(const String &path) {
 
-		if(path=="") return NULL;
+		if (path == "") return NULL;
 		std::map<String, std::pair<GLTexture*, int>>::iterator it = textures.find(path);
-		if(it == textures.end() || it->second.first == NULL) {
+		if (it == textures.end() || it->second.first == NULL) {
 			GLTexture *texture = GLTexture::create2d(path);
 			textures[path].first = texture;
 			textures[path].second = 1;
@@ -77,9 +77,9 @@ namespace VEGA {
 
 	GLTexture *Cache::loadTexture2d(ILImage *image, const String &path) {
 
-		if(path=="") return NULL;
+		if (path == "") return NULL;
 		std::map<String, std::pair<GLTexture*, int>>::iterator it = textures.find(path);
-		if(it == textures.end() || it->second.first == NULL) {
+		if (it == textures.end() || it->second.first == NULL) {
 			GLTexture *texture = GLTexture::create2d(image);
 			textures[path].first = texture;
 			textures[path].second = 1;
@@ -91,9 +91,9 @@ namespace VEGA {
 
 	GLTexture *Cache::loadTextureCube(const String &path) {
 
-		if(path=="") return NULL;
+		if (path == "") return NULL;
 		std::map<String, std::pair<GLTexture*, int>>::iterator it = textures.find(path);
-		if(it == textures.end() || it->second.first == NULL) {
+		if (it == textures.end() || it->second.first == NULL) {
 			GLTexture *texture = GLTexture::createCube(path);
 			textures[path].first = texture;
 			textures[path].second = 1;
@@ -105,18 +105,18 @@ namespace VEGA {
 
 	GLShader *Cache::loadShader(const String &path, const String &defines) {
 
-		if(path=="") return NULL;
+		if (path == "") return NULL;
 		std::map<String, std::pair<GLShader*, int>>::iterator it = shaders.find(path);
-		if(it == shaders.end() || it->second.first == NULL) {
+		if (it == shaders.end() || it->second.first == NULL) {
 			String defines = "";
-		if(cvars->r_reflections) defines += "#define REFLECTIONS\n";
-		if(cvars->r_parallax) defines += "#define PARALLAX\n";
-		if (cvars->r_specular) defines += "#define SPECULAR\n";
+			if (cvars->r_reflections) defines += "#define REFLECTIONS\n";
+			if (cvars->r_parallax) defines += "#define PARALLAX\n";
+			if (cvars->r_specular) defines += "#define SPECULAR\n";
 			if (cvars->r_shadowtype == 1) defines += "#define SM_SHADOWS\n";
 			if (cvars->r_shadowtype == 2) defines += "#define SM_SHADOWS_PCF_2\n";
 			if (cvars->r_shadowtype == 3) defines += "#define SM_SHADOWS_PCF_3\n";
 
-			GLShader *shader= GLShader::create(path, defines);
+			GLShader *shader = GLShader::create(path, defines);
 			shaders[path].first = shader;
 			shaders[path].second = 1;
 			return shader;
@@ -127,15 +127,15 @@ namespace VEGA {
 
 	void Cache::reloadShaders() {
 		String defines = "";
-		if(cvars->r_reflections) defines += "#define REFLECTIONS\n";
-		if(cvars->r_parallax) defines += "#define PARALLAX\n";
+		if (cvars->r_reflections) defines += "#define REFLECTIONS\n";
+		if (cvars->r_parallax) defines += "#define PARALLAX\n";
 		if (cvars->r_specular) defines += "#define SPECULAR\n";
 		if (cvars->r_shadowtype == 1) defines += "#define SM_SHADOWS\n";
 		if (cvars->r_shadowtype == 2) defines += "#define SM_SHADOWS_PCF_2\n";
 		if (cvars->r_shadowtype == 3) defines += "#define SM_SHADOWS_PCF_3\n";
 
 		std::map<String, std::pair<GLShader*, int>>::iterator it;
-		for(it = shaders.begin(); it != shaders.end(); it++) {
+		for (it = shaders.begin(); it != shaders.end(); it++) {
 			delete it->second.first;
 
 			it->second.first = GLShader::create(it->first, defines);
@@ -146,8 +146,8 @@ namespace VEGA {
 
 	void Cache::deleteMaterial(Material *material) {
 		std::map<String, std::pair<Material*, int>>::iterator it;
-		for(it = materials.begin(); it != materials.end(); it++) {
-			if(it->second.first == material && it->second.second <= 1) {
+		for (it = materials.begin(); it != materials.end(); it++) {
+			if (it->second.first == material && it->second.second <= 1) {
 				delete it->second.first;
 				it->second.first = NULL;
 			}
@@ -156,8 +156,8 @@ namespace VEGA {
 
 	void Cache::deleteModel(Model *model) {
 		std::map<String, std::pair<Model*, int>>::iterator it;
-		for(it = models.begin(); it != models.end(); it++) {
-			if(it->second.first == model && it->second.second <= 1) {
+		for (it = models.begin(); it != models.end(); it++) {
+			if (it->second.first == model && it->second.second <= 1) {
 				delete it->second.first;
 				it->second.first = NULL;
 			}
@@ -166,8 +166,8 @@ namespace VEGA {
 
 	void Cache::deleteSound(ALSound *sound) {
 		std::map<String, std::pair<ALSound*, int>>::iterator it;
-		for(it = sounds.begin(); it != sounds.end(); it++) {
-			if(it->second.first == sound && it->second.second <= 1) {
+		for (it = sounds.begin(); it != sounds.end(); it++) {
+			if (it->second.first == sound && it->second.second <= 1) {
 				delete it->second.first;
 				it->second.first = NULL;
 			}
@@ -176,8 +176,8 @@ namespace VEGA {
 
 	void Cache::deleteTexture(GLTexture *texture) {
 		std::map<String, std::pair<GLTexture*, int>>::iterator it;
-		for(it = textures.begin(); it != textures.end(); it++) {
-			if(it->second.first == texture && it->second.second <= 1) {
+		for (it = textures.begin(); it != textures.end(); it++) {
+			if (it->second.first == texture && it->second.second <= 1) {
 				delete it->second.first;
 				it->second.first = NULL;
 			}
@@ -186,8 +186,8 @@ namespace VEGA {
 
 	void Cache::deleteShader(GLShader *shader) {
 		std::map<String, std::pair<GLShader*, int>>::iterator it;
-		for(it = shaders.begin(); it != shaders.end(); it++) {
-			if(it->second.first == shader && it->second.second <= 1) {
+		for (it = shaders.begin(); it != shaders.end(); it++) {
+			if (it->second.first == shader && it->second.second <= 1) {
 				delete it->second.first;
 				it->second.first = NULL;
 			}

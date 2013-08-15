@@ -9,6 +9,7 @@
 #include "EnginePrivate.h"
 //**************************************
 #include "Engine.h"
+#include "CVARMANAGER.h"
 #include "Light.h"
 #include "Frustum.h"
 #include "Config.h"
@@ -37,7 +38,7 @@ namespace VEGA {
 
 		this->castShadows = true;
 
-		int size = GetEngine()->config->getInt("light_shadowsize");
+		int size = GetEngine()->cvars->r_shadowsize;
 		shadowMap = GLTexture::createCube(size, size, GLTexture::RGBA);
 		shadowMap->setFilter(GLTexture::LINEAR);
 		shadowMap->setAniso(GLTexture::ANISO_X0);
@@ -147,7 +148,7 @@ namespace VEGA {
 
 		this->castShadows = true;
 
-		int size = GetEngine()->config->getInt("light_shadowsize");
+		int size = GetEngine()->cvars->r_shadowsize;
 
 		shadowMap = GLTexture::create2d(size, size, GLTexture::RGBA);
 		shadowMap->setFilter(GLTexture::LINEAR);

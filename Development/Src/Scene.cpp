@@ -41,7 +41,7 @@ namespace VEGA {
 		viewportFBO = GLFBO::create(512, 512);
 		viewportFBO->createDepthAttachment();
 
-		int size = GetEngine()->config->getInt("light_shadowsize");
+		int size = GetEngine()->cvars->r_shadowsize;
 		shadowFBO = GLFBO::create(size, size);
 		shadowFBO->createDepthAttachment();
 
@@ -937,7 +937,7 @@ namespace VEGA {
 		GetEngine()->iRender->depthMask(false);
 
 		//draw wireframe
-		if (GetEngine()->config->getBool("debug_wireframe")) {
+		if (GetEngine()->cvars->r_wireframe) {
 			glColor3f(1, 1, 1);//Nick:TODO:Replace
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//Nick:TODO:Replace
 
@@ -1013,7 +1013,7 @@ namespace VEGA {
 		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
 		GetEngine()->iRender->depthMask(false);
 
-		if (GetEngine()->config->getBool("debug_wireframe")) {//Nick:TODO:Replace
+		if (GetEngine()->cvars->r_wireframe) {//Nick:TODO:Replace
 			glColor3f(1, 1, 1);//Nick:TODO:Replace
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//Nick:TODO:Replace
 
@@ -1080,7 +1080,7 @@ namespace VEGA {
 			GetEngine()->gui->update();
 
 
-		if (GetEngine()->config->getBool("effect_hdr")) {
+		if (GetEngine()->cvars->r_hdr) {
 			//---------bright-pass--------------------------------
 			viewportFBO->set();
 			viewportFBO->setColorTarget(viewportCopy_brightPass);
