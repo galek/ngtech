@@ -181,7 +181,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EString.cpp" />
-    <ClCompile Include="iGame.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
