@@ -5,7 +5,6 @@
 *.obj
 *.sbr
 *.aps
-*.lib
 *.user
 *.lastbuildstate
 *.cache

@@ -7,6 +7,9 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)\..\Src\Common;$(SolutionDir)\..\Src\Core;$(SolutionDir)\..\Externals\freetype\include\;$(SolutionDir)\..\Externals\freetype\include\freetype;$(SolutionDir)\..\Externals\MyGUI\Common;$(SolutionDir)\..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;$(SolutionDir)\..\Externals\MyGUI\MyGUIEngine\include</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <MinimumRequiredVersion />
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>
