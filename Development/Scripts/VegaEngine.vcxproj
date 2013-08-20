@@ -50,15 +50,19 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Src\BuildConfig\BuildConfig.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Src\BuildConfig\BuildConfig.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Src\BuildConfig\BuildConfig.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Src\BuildConfig\BuildConfig.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -199,6 +203,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Src\EngineScriptInterp.cpp" />
     <ClCompile Include="..\Src\Engine\Console.cpp" />
     <ClCompile Include="..\Src\Engine\EngineAppBase.cpp" />
     <ClCompile Include="..\Src\GLDisplayList.cpp" />
@@ -234,6 +239,7 @@
     <ClCompile Include="..\Src\Scene.cpp" />
     <ClCompile Include="..\Src\SkinnedModel.cpp" />
     <ClCompile Include="..\Src\Terrain.cpp" />
+    <ClCompile Include="..\Src\TerrainDemo.cpp" />
     <ClCompile Include="..\Src\Water.cpp" />
     <ClCompile Include="..\Src\WindowSystem.cpp" />
   </ItemGroup>
@@ -246,6 +252,7 @@
     <ClInclude Include="..\Src\ALSystem.h" />
     <ClInclude Include="..\Src\Cache.h" />
     <ClInclude Include="..\Src\EnginePrivate.h" />
+    <ClInclude Include="..\Src\EngineScriptInterp.h" />
     <ClInclude Include="..\Src\Engine\Console.h" />
     <ClInclude Include="..\Src\Engine\DLLDef.h" />
     <ClInclude Include="..\Src\Engine\EngineAppBase.h" />
@@ -282,6 +289,9 @@
     <ClInclude Include="..\Src\WindowSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Externals\angelscriptsdk\angelscript\projects\msvc2012\angelscript.vcxproj">
+      <Project>{39e6af97-6ba3-4a72-8c61-bcebf214ebfd}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Externals\freetype\builds\win32\vc2010\freetype.vcxproj">
       <Project>{78b079bd-9fc7-4b9e-b4a6-96da0f00248b}</Project>
     </ProjectReference>

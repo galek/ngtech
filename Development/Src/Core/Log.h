@@ -9,13 +9,13 @@
 #pragma once
 
 //***************************************************************************
-#include "..\Common\EString.h"
+#include "../Common/EString.h"
 //***************************************************************************
 
 namespace VEGA {
 #define Debug(text) DebugF(text, __FILE__, __LINE__)
 	void DebugF(String text, const char* _file, int _line);
-	void Warning(String text);
+	void Warning(const TCHAR *fmt, ...);
 	void LogPrintf(String text);
 	void Error(String text, bool _fatal);
 	//---------------------------------------------------------------------------

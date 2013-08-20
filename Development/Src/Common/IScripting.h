@@ -20,17 +20,17 @@
 //Forward Declaration
 class  asIScriptEngine;
 struct asSMessageInfo;
-class  CScriptBuilder;
+class  asCJITCompiler;
 
 namespace VEGA{
 	struct IScriptInterp{
-	public:
-		IScriptInterp();
+		IScriptInterp(){}
+		virtual ~IScriptInterp(){}
 		virtual void initialise()=0;
-		virtual void runScript(const char* _name)=0;
+		virtual int runScript(const char* _name, bool debug=false)=0;
 		void addInterp(IScriptInterp*_interp){}
-	protected:
-		asIScriptEngine*mASEngine;
-		CScriptBuilder* ASScriptB;
+	private:
+		IScriptInterp(const IScriptInterp &){};
+		IScriptInterp &operator = (const IScriptInterp &){};
 	};
 };

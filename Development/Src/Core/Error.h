@@ -14,8 +14,15 @@
 
 namespace VEGA {
 
+/**
+Simple error viewing class
+*/
 	class Error {
 	public:
+	/**
+	Shows the error message box and exits
+	\param text text to show
+	*/
 		static void showAndExit(const String &text);
 	};
 

@@ -27,10 +27,11 @@
 #include "MyGUI_LogSource.h"
 #include "MyGUI_Diagnostic.h"
 #include <vector>
+#include <TCHAR.H>
 
 namespace VEGA {
 	void DebugF(std::string text, const char* _file, int _line);
-	void Warning(std::string text);
+	void Warning(const TCHAR* text, ... );
 	void LogPrintf(std::string text);
 	void Error(std::string text,bool _fatal);
 }

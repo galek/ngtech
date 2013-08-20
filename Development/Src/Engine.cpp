@@ -38,6 +38,7 @@
 #include "GUI.h"
 #include "VFS.h"
 #include "IGame.h"
+#include "EngineScriptInterp.h"
 //***************************************************
 
 
@@ -91,6 +92,9 @@ namespace VEGA {
 		//initialize SceneManager
 		scene = new Scene(cvars);
 		Debug("[Init] SceneManager Finished");
+		//initialize Script
+		scripting = new EngineScriptInterp();
+		Debug("[Init] ScriptInterp Finished");
 	}
 	/*
 	*/
@@ -134,6 +138,11 @@ namespace VEGA {
 			scene->initialise();
 			Debug("[Init] SceneManager Finished");
 		}
+
+		if(scripting){
+			scripting->initialise();
+			Debug("[Init] Scripting Finished");
+		}
 		//initialize Game
 		if (game){
 			game->initialise();
@@ -146,7 +155,7 @@ namespace VEGA {
 	/*
 	*/
 	Engine::~Engine()  {
-//		SAFE_DELETE(scripting);
+		SAFE_DELETE(scripting);
 		SAFE_DELETE(game);
 		SAFE_DELETE(gui);
 		SAFE_DELETE(scene);
@@ -169,17 +178,23 @@ namespace VEGA {
 			if ((this->physSystem) && (this->iWindow))
 				this->physSystem->update(this->iWindow->getDTime());
 
-			if (game)
-				game->runEventsCallback();
+			if (this->game->ec)
+				this->game->runEventsCallback();
+						/*
+			if (this->gui)
+				this->gui->update();*/
 
 			if (this->iRender)
 				this->iRender->clear(GLSystem::COLOR_BUFFER | GLSystem::DEPTH_BUFFER | GLSystem::STENCIL_BUFFER);
+			
+			if (this->gui)
+				this->gui->update();
 
 			if (this->scene)
 				this->scene->Update();
 
-			if (game->rc)
-				game->runRenderCallback();
+			if (this->game->rc)
+				this->game->runRenderCallback();
 
 			if (this->iRender)
 				this->iRender->flush();

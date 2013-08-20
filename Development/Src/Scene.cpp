@@ -1128,5 +1128,4 @@ namespace VEGA {
 			GetEngine()->iRender->enable3d();
 		}
 	}
-
 }

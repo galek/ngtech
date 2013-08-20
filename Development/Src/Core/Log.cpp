@@ -25,8 +25,22 @@ namespace VEGA {
 #endif	
 	}
 
-	void Warning(String text){
-		Log::warning(text);
+	void Warning(const TCHAR *fmt, ...){
+
+		TCHAR           msg[8000];
+
+        va_list         argptr;
+        va_start (argptr,fmt);
+        _vstprintf (msg,fmt,argptr);
+        va_end (argptr);
+        
+        if(TString(msg).empty())
+                return;
+
+        TString sMsg ="[WARNING]: ";
+        sMsg += msg;
+
+		Log::warning(sMsg.c_str());
 	}
 
 	void LogPrintf(String text){

@@ -10,17 +10,14 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <TCHAR.h>
 
 // определяем типы
 typedef std::map<std::string, std::string> MapString;
 typedef std::vector<std::string> VectorString;
 typedef std::pair<std::string, std::string> PairString;
 typedef std::vector<PairString> VectorStringPairs;
-
-typedef unsigned char	byte;	// 8 bits
-typedef unsigned short	word;	// 16 bits
-typedef unsigned int	dword;	// 32 bits
-typedef unsigned int	uint;
+typedef std::basic_string<TCHAR> TString;
 
 typedef signed char	int8;
 typedef unsigned char	uint8;

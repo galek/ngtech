@@ -17,11 +17,8 @@
 
 namespace VEGA {
 
-	//---------------------------------------------------------------------------
-	//Desc:    shows the error message box and exits
-	//Params:  text - text to show
-	//Returns: -
-	//---------------------------------------------------------------------------
+/*
+*/
 	void Error::showAndExit(const String &text) {
 #ifdef WIN32
 		Log::error(text);

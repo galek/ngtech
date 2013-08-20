@@ -27,5 +27,6 @@ namespace VEGA {
 		class GUI*gui;
 		class Scene*scene;
 		struct IGame*game;
+		struct IScriptInterp* scripting;
 	};
 }

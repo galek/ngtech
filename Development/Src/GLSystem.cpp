@@ -155,7 +155,7 @@ namespace VEGA {
 			if(_fatal)
 				Error::showAndExit("GLSystem::requireExtension() error: your video card does not support " + name);
 			else
-				Warning("GLSystem::requireExtension() error: your video card does not support " + name);
+				Warning("GLSystem::requireExtension() error: your video card does not support %s", name);
 	}
 
 
@@ -678,11 +678,11 @@ namespace VEGA {
 		glMatrixMode(GL_PROJECTION);
 		glPushMatrix();
 
-		if(normalized) {
+		if(normalized) 
 			loadMatrix(Mat4::ortho(0, 1, 1, 0, 0, 1));
-		} else {
+		else 
 			loadMatrix(Mat4::ortho(0, GetEngine()->iWindow->getWidth(), GetEngine()->iWindow->getHeight(), 0, 0, 1));
-		}
+		
 
 		glMatrixMode(GL_MODELVIEW);	
 		glPushMatrix();	

@@ -9,13 +9,13 @@
 #include "EnginePrivate.h"
 //**************************************
 #include "Engine.h"
-#include "CVARMANAGER.h"
 #include "Light.h"
 #include "Frustum.h"
 #include "Config.h"
 #include "WindowSystem.h"
 #include "GLSystem.h"
 #include "Scene.h"
+#include "Core/CVARManager.h"
 //**************************************
 
 namespace VEGA {

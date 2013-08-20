@@ -16,6 +16,7 @@ namespace VEGA {
 		cache(nullptr),
 		gui(nullptr),
 		scene(nullptr),
+		scripting(nullptr),
 		running(false)	{
 	}
 }

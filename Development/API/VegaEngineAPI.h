@@ -12,6 +12,7 @@
 #include "..\Src\Common\IWindow.h"
 #include "..\Src\Common\IRender.h"
 #include "..\Src\Common\IGame.h"
+#include "..\Src\Common\IScripting.h"
 #include "..\Src\Engine.h"
 
 #include "..\Src\MathLib.h"

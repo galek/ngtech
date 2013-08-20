@@ -39,7 +39,7 @@ namespace MyGUI
 		else if (_level == MyGUI::LogLevel::Warning)
 			VEGA::LogPrintf("[GUI] " + _section + " " + _message + " In: " + _file + " : " + line);
 		else if (_level == MyGUI::LogLevel::Error)
-			VEGA::Warning("[GUI] " + _section + " " + _message + " In: " + _file + " : " + line);
+			VEGA::Warning("[GUI] %s %s In:%s : %i",_section.c_str(),_message,_file,line);
 		else if (_level == MyGUI::LogLevel::Critical)
 			VEGA::Error("[GUI] " + _section + " " + _message + " In: " + _file + " : " + line, true);
 	}
