@@ -45,9 +45,6 @@
     <ClInclude Include="Scripting.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="VFS.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="WrappedScriptFunctions.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -81,9 +78,6 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Scripting.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="VFS.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="WrappedScriptFunctions.cpp">
