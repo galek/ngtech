@@ -75,8 +75,8 @@ namespace VEGA {
 	//Params:  -
 	//Returns: vendor name
 	//---------------------------------------------------------------------------
-	String ALSystem::getVendor() { 
-		return (char *)alGetString(AL_VENDOR); 
+	String ALSystem::getVendor() {
+		return (char *)alGetString(AL_VENDOR);
 	}
 
 	//---------------------------------------------------------------------------

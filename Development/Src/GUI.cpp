@@ -115,7 +115,7 @@ namespace VEGA {
 			return _data;
 		}
 		else{
-			Warning("[GUI] Failed Loading GUI image!File not found:%s" + _filename);
+			Warning("[GUI] Failed Loading GUI image!File not found:%s", _filename);
 			return NULL;
 		}
 	}
@@ -158,9 +158,10 @@ namespace VEGA {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void GUI::update() {
-		GUIRenderMtr->setPass("Ambient");
-		GUIRenderMtr->unsetPass();	
-					
+#if 0
+//		GUIRenderMtr->setPass("Ambient");
+//		GUIRenderMtr->unsetPass();	
+#endif				
 		GetEngine()->iRender->enable2d(false);
 		GetEngine()->iRender->disableCulling();
 		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE_MINUS_SRC_ALPHA);

@@ -11,3 +11,12 @@ GUI:
 Вычистить шейдера от остатоков VSM
 
 GUI.mat:8 определиться с текстурой
+
+__forceinline на __inline,и вообще по хорошему сделать макрос
+Удалить AngelScript,заменить его luabind'ом
+Удалить BugTrap
+Переписать на Bullet Physics физику
+NVGamePad
+Корректный шейдер mygui
+Вынести весь рендер в отдельную либу
+Внести mygui в Core,GLPlatform в GLDrv
