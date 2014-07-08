@@ -14,8 +14,6 @@
 //***************************************************************************
 
 namespace VEGA {
-//TODO("Перенести в дефайны")
-#define LOG_FILE "EngineLog.html"
 	void DebugF(String text, const char* _file, int _line){
 		char buf[32];
 		sprintf(buf, "%d", _line);

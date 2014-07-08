@@ -6,4 +6,9 @@
 //#define _ENGINE_DEBUG_ 1
 #endif
 
+#ifndef LOG_FILE
+#define LOG_FILE "EngineLog.html"
+#endif
+
+
 #endif
