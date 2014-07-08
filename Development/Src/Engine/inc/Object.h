@@ -26,7 +26,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: base object class
 	//---------------------------------------------------------------------------
-	class VEGA_API Object {
+	class ENGINE_API Object {
 	public:
 		Object();
 		enum ObjectType {
@@ -62,7 +62,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: class of the scene object
 	//---------------------------------------------------------------------------
-	class VEGA_API ObjectMesh : public Object{
+	class ENGINE_API ObjectMesh : public Object{
 	public:
 		ObjectMesh(const String &path);
 		~ObjectMesh();
@@ -122,7 +122,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: class of the scene object
 	//---------------------------------------------------------------------------
-	class VEGA_API ObjectSkinnedMesh : public Object {
+	class ENGINE_API ObjectSkinnedMesh : public Object {
 	public:
 		ObjectSkinnedMesh(const String &path);
 		~ObjectSkinnedMesh();

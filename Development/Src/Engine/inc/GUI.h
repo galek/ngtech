@@ -16,7 +16,7 @@ namespace NGTech {
 	//----------------------------------------------------------------------------
 	//Desc: Gui struct. Created one time
 	//---------------------------------------------------------------------------
-	class VEGA_API GUI : public MyGUI::OpenGLImageLoader {
+	class ENGINE_API GUI : public MyGUI::OpenGLImageLoader {
 	public:
 		explicit GUI(CVARManager *_cvars);
 

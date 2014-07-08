@@ -19,7 +19,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: class of the system particle system
 	//---------------------------------------------------------------------------
-	class VEGA_API ParticleSystem {
+	class ENGINE_API ParticleSystem {
 	public:
 		ParticleSystem(const String &path, int numParticles);
 		~ParticleSystem();

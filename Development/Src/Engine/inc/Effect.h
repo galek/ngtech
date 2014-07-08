@@ -10,7 +10,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: class of the effect object
 	//---------------------------------------------------------------------------
-	class VEGA_API Effect {
+	class ENGINE_API Effect {
 	public:
 		virtual void draw() {};
 

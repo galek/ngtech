@@ -17,7 +17,7 @@
 
 namespace NGTech {
 
-	class VEGA_API Terrain {
+	class ENGINE_API Terrain {
 	public:
 		Terrain(const String &path, float step, float height, int nodeSize);
 		~Terrain();

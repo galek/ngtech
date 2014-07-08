@@ -6,7 +6,7 @@
 
 namespace NGTech {
 
-	class VEGA_API Font {
+	class ENGINE_API Font {
 	public:
 		explicit Font(const String &path);
 		~Font();

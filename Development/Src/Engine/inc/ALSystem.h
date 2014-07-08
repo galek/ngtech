@@ -22,7 +22,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main sound system. Created one time
 	//---------------------------------------------------------------------------
-	class VEGA_API ALSystem : public IAudio {
+	class ENGINE_API ALSystem : public IAudio {
 	public:
 		ALSystem();
 

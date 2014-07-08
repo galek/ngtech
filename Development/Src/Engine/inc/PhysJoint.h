@@ -20,7 +20,7 @@ namespace NGTech {
 	/**
 	Class of the up vector joint
 	*/
-	class VEGA_API PhysJointUpVector {
+	class ENGINE_API PhysJointUpVector {
 	public:
 		PhysJointUpVector(const Vec3 &direction, PhysBody *body);
 		~PhysJointUpVector();

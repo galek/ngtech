@@ -11,7 +11,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: base class of the camera
 	//---------------------------------------------------------------------------
-	class VEGA_API Camera {
+	class ENGINE_API Camera {
 	public:
 		Camera();
 		enum CameraType {
@@ -54,7 +54,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: class of the FPS camera
 	//---------------------------------------------------------------------------
-	class VEGA_API CameraFPS : public Camera {
+	class ENGINE_API CameraFPS : public Camera {
 	public:
 		CameraFPS();
 		~CameraFPS();
@@ -100,7 +100,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: class of the FPS camera
 	//---------------------------------------------------------------------------
-	class VEGA_API CameraFree : public Camera {
+	class ENGINE_API CameraFree : public Camera {
 	public:
 		CameraFree();
 		~CameraFree();

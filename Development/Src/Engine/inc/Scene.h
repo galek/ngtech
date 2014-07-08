@@ -24,7 +24,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: class of the scene. Created one time
 	//---------------------------------------------------------------------------
-	class VEGA_API Scene {
+	class ENGINE_API Scene {
 	public:
 		explicit Scene(CVARManager*_cvars);
 

@@ -16,7 +16,7 @@
 
 namespace NGTech {
 
-	class VEGA_API Light {
+	class ENGINE_API Light {
 	public:
 		Light();
 		enum LightType {
@@ -35,7 +35,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: class of the light omni light
 	//---------------------------------------------------------------------------
-	class VEGA_API LightOmni : public Light {
+	class ENGINE_API LightOmni : public Light {
 	public:
 		LightOmni();
 		~LightOmni();
@@ -74,7 +74,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: class of the light spot light
 	//---------------------------------------------------------------------------
-	class VEGA_API LightSpot : public Light {
+	class ENGINE_API LightSpot : public Light {
 	public:
 		LightSpot();
 		~LightSpot();
@@ -122,7 +122,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: class of the light dir light
 	//---------------------------------------------------------------------------
-	class VEGA_API LightDirect : public Light {
+	class ENGINE_API LightDirect : public Light {
 	public:
 		LightDirect();
 		~LightDirect();

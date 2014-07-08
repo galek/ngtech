@@ -11,7 +11,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main class. Created one time
 	//---------------------------------------------------------------------------
-	class VEGA_API Engine : public CoreManager {
+	class ENGINE_API Engine : public CoreManager {
 	public:
 		Engine();
 
@@ -30,5 +30,5 @@ namespace NGTech {
 		void _preInit();
 		void _setResources();	
 	};
-	VEGA_API Engine* GetEngine();
+	ENGINE_API Engine* GetEngine();
 }

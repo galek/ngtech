@@ -18,7 +18,7 @@ namespace NGTech {
 	/**
 	Loading screen class
 	*/
-	class VEGA_API LoadingScreen {
+	class ENGINE_API LoadingScreen {
 	public:
 		LoadingScreen(const String &path);
 		~LoadingScreen();

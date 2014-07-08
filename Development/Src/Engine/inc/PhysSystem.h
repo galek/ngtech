@@ -27,7 +27,7 @@ namespace NGTech {
 	/**
 	Engine`s main physics system. Created one time
 	*/
-	class VEGA_API PhysSystem {
+	class ENGINE_API PhysSystem {
 	public:
 		PhysSystem();
 		~PhysSystem();
