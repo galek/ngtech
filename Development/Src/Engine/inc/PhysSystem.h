@@ -24,19 +24,19 @@ struct NewtonCollision;
 
 namespace NGTech {
 
-/**
-Engine`s main physics system. Created one time
-*/
+	/**
+	Engine`s main physics system. Created one time
+	*/
 	class VEGA_API PhysSystem {
 	public:
 		PhysSystem();
 		~PhysSystem();
 
 		void initialise();
-	/**
-	Updates PhysSystem engine
-	\param dTime time from the last frame in miliseconds
-	*/
+		/**
+		Updates PhysSystem engine
+		\param dTime time from the last frame in miliseconds
+		*/
 		void update(float dTime);
 
 		PhysBody *intersectWorldByRay(const Vec3 &src, const Vec3 &dst, Vec3 &normal, Vec3 &point);
@@ -65,5 +65,4 @@ Engine`s main physics system. Created one time
 		friend class PhysJoint;
 		friend class PhysJointUpVector;
 	};
-
-};
+}

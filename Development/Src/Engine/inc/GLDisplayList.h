@@ -38,5 +38,4 @@ namespace NGTech {
 	private:
 		GLuint glID;
 	};
-
-};
+}

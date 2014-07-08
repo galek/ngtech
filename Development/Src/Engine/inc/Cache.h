@@ -19,33 +19,32 @@
 
 namespace NGTech {
 
-class Cache {
-public:
-	explicit Cache(CVARManager*_cvars);
-	
-	Material *loadMaterial(const String &path);
-	Model *loadModel(const String &path);
-	ALSound *loadSound(const String &path);
-	GLTexture *loadTexture2d(const String &path);
-	GLTexture *loadTexture2d(ILImage *image, const String &path);
-	GLTexture *loadTextureCube(const String &path);
+	class Cache {
+	public:
+		explicit Cache(CVARManager*_cvars);
 
-	GLShader *loadShader(const String &path, const String &defines);
-	void reloadShaders();
+		Material *loadMaterial(const String &path);
+		Model *loadModel(const String &path);
+		ALSound *loadSound(const String &path);
+		GLTexture *loadTexture2d(const String &path);
+		GLTexture *loadTexture2d(ILImage *image, const String &path);
+		GLTexture *loadTextureCube(const String &path);
 
-	void deleteMaterial(Material *material);
-	void deleteModel(Model *model);
-	void deleteSound(ALSound *sound);
-	void deleteTexture(GLTexture *texture);
-	void deleteShader(GLShader *shader);
+		GLShader *loadShader(const String &path, const String &defines);
+		void reloadShaders();
 
-private:
-	std::map<String, std::pair<Material*, int>> materials;
-	std::map<String, std::pair<Model*, int>> models;
-	std::map<String, std::pair<ALSound*, int>> sounds;
-	std::map<String, std::pair<GLTexture*, int>> textures;
-	std::map<String, std::pair<GLShader*, int>> shaders;
-	struct CVARManager*cvars;
-};
+		void deleteMaterial(Material *material);
+		void deleteModel(Model *model);
+		void deleteSound(ALSound *sound);
+		void deleteTexture(GLTexture *texture);
+		void deleteShader(GLShader *shader);
 
-};
+	private:
+		std::map<String, std::pair<Material*, int>> materials;
+		std::map<String, std::pair<Model*, int>> models;
+		std::map<String, std::pair<ALSound*, int>> sounds;
+		std::map<String, std::pair<GLTexture*, int>> textures;
+		std::map<String, std::pair<GLShader*, int>> shaders;
+		struct CVARManager*cvars;
+	};
+}

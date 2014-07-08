@@ -23,144 +23,143 @@
 
 namespace NGTech {
 
-//---------------------------------------------------------------------------
-//Desc: base object class
-//---------------------------------------------------------------------------
-class VEGA_API Object {
-public:
-	Object();
-	enum ObjectType {
-		OBJECT,
-		OBJECT_MESH,
-		OBJECT_SKINNED_MESH,
-		OBJECT_PARTICLE_SYSTEM,
+	//---------------------------------------------------------------------------
+	//Desc: base object class
+	//---------------------------------------------------------------------------
+	class VEGA_API Object {
+	public:
+		Object();
+		enum ObjectType {
+			OBJECT,
+			OBJECT_MESH,
+			OBJECT_SKINNED_MESH,
+			OBJECT_PARTICLE_SYSTEM,
+		};
+
+		virtual void drawSubset(int s) {};
+		virtual int getNumSubsets() { return 0; };
+
+		virtual Vec3 &getMax() { return Vec3(); };
+		virtual Vec3 &getMin() { return Vec3(); };
+		virtual Vec3 &getCenter() { return Vec3(); };
+		virtual float getRadius() { return 0; };
+
+		virtual Vec3 &getMax(int s) { return Vec3(); };
+		virtual Vec3 &getMin(int s) { return Vec3(); };
+		virtual Vec3 &getCenter(int s) { return Vec3(); };
+		virtual float getRadius(int s) { return 0; };
+
+		virtual Material *getMaterial(int s) { return NULL; };
+
+		virtual void setTransform(const Mat4 &trans) {};
+		virtual Mat4 getTransform() { return Mat4(); };
+
+		virtual PhysBody *getPhysBody() { return NULL; };
+
+		virtual ObjectType getType() { return OBJECT; };
 	};
 
-	virtual void drawSubset(int s) {};
-	virtual int getNumSubsets() { return 0; };
+	//---------------------------------------------------------------------------
+	//Desc: class of the scene object
+	//---------------------------------------------------------------------------
+	class VEGA_API ObjectMesh : public Object{
+	public:
+		ObjectMesh(const String &path);
+		~ObjectMesh();
 
-	virtual Vec3 &getMax() { return Vec3(); };
-	virtual Vec3 &getMin() { return Vec3(); };
-	virtual Vec3 &getCenter() { return Vec3(); };
-	virtual float getRadius() { return 0; };
+		virtual void drawSubset(int s);
+		virtual int getNumSubsets() { return model->getNumSubsets(); };
 
-	virtual Vec3 &getMax(int s) { return Vec3(); };
-	virtual Vec3 &getMin(int s) { return Vec3(); };
-	virtual Vec3 &getCenter(int s) { return Vec3(); };
-	virtual float getRadius(int s) { return 0; };
+		virtual Vec3 &getMax() { return model->max; };
+		virtual Vec3 &getMin() { return model->min; };
+		virtual Vec3 &getCenter() { return model->center; };
+		virtual float getRadius() { return model->radius; };
 
-	virtual Material *getMaterial(int s) { return NULL; };
-	
-	virtual void setTransform(const Mat4 &trans) {};
-	virtual Mat4 getTransform() { return Mat4(); };
+		virtual Vec3 &getMax(int s) { return model->subsets[s]->max; };
+		virtual Vec3 &getMin(int s) { return model->subsets[s]->min; };
+		virtual Vec3 &getCenter(int s) { return model->subsets[s]->center; };
+		virtual float getRadius(int s) { return model->subsets[s]->radius; };
 
-	virtual PhysBody *getPhysBody() { return NULL; };
+		virtual Material *getMaterial(int s);
 
-	virtual ObjectType getType() { return OBJECT; };
-};
+		void setMaterial(const String &name, const String &path);
+		void setMaterialList(const String &path);
 
-//---------------------------------------------------------------------------
-//Desc: class of the scene object
-//---------------------------------------------------------------------------
-class VEGA_API ObjectMesh : public Object{
-public:
-	ObjectMesh(const String &path);
-	~ObjectMesh();
+		virtual void setTransform(const Mat4 &trans);
+		virtual Mat4 getTransform();
 
-	virtual void drawSubset(int s);
-	virtual int getNumSubsets() { return model->getNumSubsets(); };
+		//---physics---------------------------
+	public:
+		void setPhysicsBox(const Vec3 &size, float mass = 0);
+		void setPhysicsSphere(const Vec3 &size, float mass = 0);
 
-	virtual Vec3 &getMax() { return model->max; };
-	virtual Vec3 &getMin() { return model->min; };
-	virtual Vec3 &getCenter() { return model->center; };
-	virtual float getRadius() { return model->radius; };
+		void setPhysicsCylinder(float radius, float height, float mass = 0);
+		void setPhysicsCone(float radius, float height, float mass = 0);
+		void setPhysicsCapsule(float radius, float height, float mass = 0);
+		void setPhysicsChampferCylinder(float radius, float height, float mass = 0);
 
-	virtual Vec3 &getMax(int s) { return model->subsets[s]->max; };
-	virtual Vec3 &getMin(int s) { return model->subsets[s]->min; };
-	virtual Vec3 &getCenter(int s) { return model->subsets[s]->center; };
-	virtual float getRadius(int s) { return model->subsets[s]->radius; };
+		void setPhysicsConvexHull(float mass = 0);
+		void setPhysicsStaticMesh();
+		virtual PhysBody *getPhysBody() { return pBody; };
 
-	virtual Material *getMaterial(int s);
-	
-	void setMaterial(const String &name, const String &path);
-	void setMaterialList(const String &path);
-	
-	virtual void setTransform(const Mat4 &trans);
-	virtual Mat4 getTransform();
+		void setImpactSound(const String &path);
+		virtual ObjectType getType() { return OBJECT_MESH; };
 
-//---physics---------------------------
-public:
-	void setPhysicsBox(const Vec3 &size, float mass = 0);
-	void setPhysicsSphere(const Vec3 &size, float mass = 0);
+	private:
+		Model *model;
 
-	void setPhysicsCylinder(float radius, float height, float mass = 0);
-	void setPhysicsCone(float radius, float height, float mass = 0);
-	void setPhysicsCapsule(float radius, float height, float mass = 0);
-	void setPhysicsChampferCylinder(float radius, float height, float mass = 0);
+		PhysBody *pBody;
+		ALSound *impactSound;
+		std::vector<Material*> materials;
 
-	void setPhysicsConvexHull(float mass = 0);
-	void setPhysicsStaticMesh();
-	virtual PhysBody *getPhysBody() { return pBody; };
+		Mat4 transform;
 
-	void setImpactSound(const String &path);
-	virtual ObjectType getType() { return OBJECT_MESH; };
-	
-private:
-	Model *model;
+		bool visible;
 
-	PhysBody *pBody;
-	ALSound *impactSound;
-	std::vector<Material*> materials;
-	
-	Mat4 transform;
+		friend class Scene;
+	};
 
-	bool visible;
+	//---------------------------------------------------------------------------
+	//Desc: class of the scene object
+	//---------------------------------------------------------------------------
+	class VEGA_API ObjectSkinnedMesh : public Object {
+	public:
+		ObjectSkinnedMesh(const String &path);
+		~ObjectSkinnedMesh();
 
-	friend class Scene;
-};
+		virtual void drawSubset(int s);
+		virtual int getNumSubsets() { return model->getNumSubsets(); };
 
-//---------------------------------------------------------------------------
-//Desc: class of the scene object
-//---------------------------------------------------------------------------
-class VEGA_API ObjectSkinnedMesh : public Object {
-public:
-	ObjectSkinnedMesh(const String &path);
-	~ObjectSkinnedMesh();
+		virtual Vec3 &getMax() { return model->max; };
+		virtual Vec3 &getMin() { return model->min; };
+		virtual Vec3 &getCenter() { return model->center; };
+		virtual float getRadius() { return model->radius; };
 
-	virtual void drawSubset(int s);
-	virtual int getNumSubsets() { return model->getNumSubsets(); };
+		virtual Vec3 &getMax(int s) { return model->subsets[s]->max; };
+		virtual Vec3 &getMin(int s) { return model->subsets[s]->min; };
+		virtual Vec3 &getCenter(int s) { return model->subsets[s]->center; };
+		virtual float getRadius(int s) { return model->subsets[s]->radius; };
 
-	virtual Vec3 &getMax() { return model->max; };
-	virtual Vec3 &getMin() { return model->min; };
-	virtual Vec3 &getCenter() { return model->center; };
-	virtual float getRadius() { return model->radius; };
+		virtual Material *getMaterial(int s);
 
-	virtual Vec3 &getMax(int s) { return model->subsets[s]->max; };
-	virtual Vec3 &getMin(int s) { return model->subsets[s]->min; };
-	virtual Vec3 &getCenter(int s) { return model->subsets[s]->center; };
-	virtual float getRadius(int s) { return model->subsets[s]->radius; };
+		void setMaterial(const String &name, const String &path);
+		void setMaterialList(const String &path);
 
-	virtual Material *getMaterial(int s);
-	
-	void setMaterial(const String &name, const String &path);
-	void setMaterialList(const String &path);
-	
-	virtual void setTransform(const Mat4 &trans);
-	virtual Mat4 getTransform();
+		virtual void setTransform(const Mat4 &trans);
+		virtual Mat4 getTransform();
 
-	void setFrame(float frame) { model->setFrame(frame, -1, -1); };
+		void setFrame(float frame) { model->setFrame(frame, -1, -1); };
 
-	virtual ObjectType getType() { return OBJECT_SKINNED_MESH; };
-	
-private:
-	SkinnedModel *model;
-	
-	std::vector<Material*> materials;
+		virtual ObjectType getType() { return OBJECT_SKINNED_MESH; };
 
-	Mat4 transform;
-	bool visible;
+	private:
+		SkinnedModel *model;
 
-	friend class Scene;
-};
+		std::vector<Material*> materials;
 
-};
+		Mat4 transform;
+		bool visible;
+
+		friend class Scene;
+	};
+}

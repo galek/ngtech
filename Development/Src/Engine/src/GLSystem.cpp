@@ -66,16 +66,12 @@ namespace NGTech {
 		requireExtension("GL_ARB_gpu_shader5");
 		requireExtension("GL_ARB_geometry_shader4");
 
-		//Nick:Not Supported on intel	
-		requireExtension("GL_ARB_shading_language_400");
-		requireExtension("GL_ARB_ES2_compatibility");
-		requireExtension("GL_ARB_shading_language_include");
 
 		//4.X
 		requireExtension("GL_ARB_shading_language_packing");
 		requireExtension("GL_ARB_compute_shader");
 		requireExtension("GL_ARB_shading_language_420pack");
-		requireExtension("GL_ARB_ES3_compatibility");
+		requireExtension("GL_ARB_ES2_compatibility");
 	}
 
 	//---------------------------------------------------------------------------

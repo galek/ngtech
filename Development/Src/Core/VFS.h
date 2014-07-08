@@ -2,7 +2,7 @@
 	@file
 	@author		George Evmenov
 	@date		07/2009
-*/
+	*/
 
 #ifndef __DATA_MANAGER_H__
 #define __DATA_MANAGER_H__
@@ -33,7 +33,7 @@ namespace NGTech
 		/** @see DataManager::getDataPath(const std::string& _name) */
 		virtual const std::string& getDataPath(const std::string& _name);
 
-	/*internal:*/
+		/*internal:*/
 		void addResourceLocation(const std::string& _name, bool _recursive);
 	private:
 		struct ArhivInfo

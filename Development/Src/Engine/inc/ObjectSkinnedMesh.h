@@ -95,4 +95,4 @@ namespace NGTech {
 
 		friend class Scene;
 	};
-	
+}

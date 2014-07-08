@@ -17,19 +17,10 @@
 struct NewtonJoint;
 
 namespace NGTech {
-
-/**
-Class of the phys joint
-*/
-class VEGA_API PhysJoint {
-
-	};
-
-
-/**
-Class of the up vector joint
-*/
-class VEGA_API PhysJointUpVector : public PhysJoint {
+	/**
+	Class of the up vector joint
+	*/
+	class VEGA_API PhysJointUpVector {
 	public:
 		PhysJointUpVector(const Vec3 &direction, PhysBody *body);
 		~PhysJointUpVector();
@@ -37,5 +28,4 @@ class VEGA_API PhysJointUpVector : public PhysJoint {
 	private:
 		NewtonJoint *nJoint;
 	};
-
-};
+}

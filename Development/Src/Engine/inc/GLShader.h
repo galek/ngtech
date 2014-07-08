@@ -17,26 +17,25 @@
 
 namespace NGTech {
 
-//---------------------------------------------------------------------------
-//Desc: GL GLShader struct    
-//---------------------------------------------------------------------------
-class GLShader {
-public:
-	static GLShader *create(const String &path, const String &defines = "");
-	~GLShader();
-			
-	void set();
-	void unset();
-	
-	void sendMat4(const String &name, const Mat4 &value);
-	void sendVec4(const String &name, const Vec4 &value);
-	void sendVec3(const String &name, const Vec3 &value);
-	void sendVec2(const String &name, const Vec2 &value);
-	void sendFloat(const String &name, float value);
-	void sendInt(const String &name, int value);
+	//---------------------------------------------------------------------------
+	//Desc: GL GLShader struct    
+	//---------------------------------------------------------------------------
+	class GLShader {
+	public:
+		static GLShader *create(const String &path, const String &defines = "");
+		~GLShader();
 
-private:
-	GLhandleARB gs,vs, fs, cs, tcs, tes, program;
-};
+		void set();
+		void unset();
 
-};
+		void sendMat4(const String &name, const Mat4 &value);
+		void sendVec4(const String &name, const Vec4 &value);
+		void sendVec3(const String &name, const Vec3 &value);
+		void sendVec2(const String &name, const Vec2 &value);
+		void sendFloat(const String &name, float value);
+		void sendInt(const String &name, int value);
+
+	private:
+		GLhandleARB gs, vs, fs, cs, tcs, tes, program;
+	};
+}

@@ -21,7 +21,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main window and input system. Created one time
 	//---------------------------------------------------------------------------
-	class WindowSystem:public IWindow {
+	class WindowSystem :public IWindow {
 	public:
 		explicit WindowSystem(CVARManager*_cvars);
 
@@ -52,5 +52,4 @@ namespace NGTech {
 
 		virtual void showOSCursor(bool _value);
 	};
-
-};
+}

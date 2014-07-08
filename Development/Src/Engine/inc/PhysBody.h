@@ -51,7 +51,7 @@ namespace NGTech {
 		void setVelocity(const Vec3 &velocity);
 		Vec3 getVelocity();
 
-		typedef void (*ContactCallback)();
+		typedef void(*ContactCallback)();
 
 		void setImpactSound(ALSound *snd) {
 			impactSrc = ALSoundSource::create(snd);
@@ -78,5 +78,4 @@ namespace NGTech {
 		friend class PhysJoint;
 		friend class PhysJointUpVector;
 	};
-
-};
+}

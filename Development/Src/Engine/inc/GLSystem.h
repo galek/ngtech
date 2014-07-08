@@ -27,21 +27,21 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main video system. Created one time
 	//---------------------------------------------------------------------------
-	class GLSystem:public IRender {
+	class GLSystem :public IRender {
 	public:
 		GLSystem();
 		~GLSystem();
 
 		String getVendor();
 		String getRenderer();
-		String getVersion(); 
-		String getExtensions(); 
+		String getVersion();
+		String getExtensions();
 
 		virtual int getNumTexUnits();
 		virtual int getMaxAniso();
 
 
-		virtual void requireExtension(const String &name,bool _fatal=false);
+		virtual void requireExtension(const String &name, bool _fatal = false);
 		virtual void initialise();
 
 		virtual void reshape(int width, int height);
@@ -135,5 +135,4 @@ namespace NGTech {
 		friend class GLShader;
 		friend class GLDisplayList;
 	};
-
-};
+}

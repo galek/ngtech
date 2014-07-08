@@ -14,43 +14,41 @@
 
 namespace NGTech {
 
-/**
-View frustum
-*/
-class Frustum {
-public:
-
 	/**
-	gets the current view frustum from Meshview and Projection matrix
+	View frustum
 	*/
-	void get();
-	float *getPlane(int n) { return plane[n]; };
-	/**
-	checks wether the point is inside of the frustum
-	\param point  point coordinates
-	\return true if inside
-	*/
-	bool isInside(const Vec3 &point);
+	class Frustum {
+	public:
 
-	/**
-	checks weather the bounding box is inside the frustum
-	\param min box`s min and max
-	\param max  sphere radius
-	\return true if inside
-	*/
-	bool isInside(const Vec3 &min, const Vec3 &max);
+		/**
+		gets the current view frustum from Meshview and Projection matrix
+		*/
+		void get();
+		float *getPlane(int n) { return plane[n]; };
+		/**
+		checks wether the point is inside of the frustum
+		\param point  point coordinates
+		\return true if inside
+		*/
+		bool isInside(const Vec3 &point);
 
-	/**
-	checks weather the bounding sphere is inside the frustum
-	\param center  sphere center
-	\param radius  sphere radius
-	\return true if inside
-	*/
-	bool isInside(const Vec3 &center, float radius);
+		/**
+		checks weather the bounding box is inside the frustum
+		\param min box`s min and max
+		\param max  sphere radius
+		\return true if inside
+		*/
+		bool isInside(const Vec3 &min, const Vec3 &max);
 
-private:
-	float plane[6][4];
-};
+		/**
+		checks weather the bounding sphere is inside the frustum
+		\param center  sphere center
+		\param radius  sphere radius
+		\return true if inside
+		*/
+		bool isInside(const Vec3 &center, float radius);
 
-};
-
+	private:
+		float plane[6][4];
+	};
+}

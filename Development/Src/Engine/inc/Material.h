@@ -7,7 +7,7 @@
  ***************************************************************************/
 
 #pragma once
- 
+
 //***************************************************************************
 #include "../Common/EString.h"
 #include "File.h"
@@ -17,80 +17,80 @@
 
 namespace NGTech {
 
-//---------------------------------------------------------------------------
-//Desc: Material struct
-//---------------------------------------------------------------------------
-class Material {
-public:
-	explicit Material(String path);
-	~Material();
+	//---------------------------------------------------------------------------
+	//Desc: Material struct
+	//---------------------------------------------------------------------------
+	class Material {
+	public:
+		explicit Material(String path);
+		~Material();
 
-	bool setPass(const String &name);
+		bool setPass(const String &name);
 
-	bool passHasBlending(const String &name);
-	void setPassBlending(const String &name);
-	void setPassAlphaTest();
+		bool passHasBlending(const String &name);
+		void setPassBlending(const String &name);
+		void setPassAlphaTest();
 
-	void unsetPassBlending();
-	void unsetPassAlphaTest();
+		void unsetPassBlending();
+		void unsetPassAlphaTest();
 
-	void unsetPass();
-		
-private:
-	struct Pass {
-		enum SceneParam {
-			matTime,
-			matLightIRadius,
+		void unsetPass();
 
-			matLightColor, 
-			matLightPosition,
-			matLightDirection,
-			matViewPosition,
-				
-			matMVP,
-			matWorld,
-			matViewportTransform,
-			matSpotTransform,
+	private:
+		struct Pass {
+			enum SceneParam {
+				matTime,
+				matLightIRadius,
 
-			matShadowMap,
-			matViewportMap,
-			matSpotMap,
+				matLightColor,
+				matLightPosition,
+				matLightDirection,
+				matViewPosition,
+
+				matMVP,
+				matWorld,
+				matViewportTransform,
+				matSpotTransform,
+
+				matShadowMap,
+				matViewportMap,
+				matSpotMap,
+			};
+
+			String name;
+
+			GLShader *shader;
+
+			std::vector<std::pair<String, GLTexture*>> u_sampler2D;
+			std::vector<std::pair<String, GLTexture*>> u_samplerCube;
+			std::vector<std::pair<String, float>> u_float;
+			std::vector<std::pair<String, Vec2>> u_Vec2;
+			std::vector<std::pair<String, Vec3>> u_Vec3;
+			std::vector<std::pair<String, Vec4>> u_Vec4;
+			std::vector<std::pair<String, Mat4>> u_Mat4;
+			std::vector<std::pair<String, SceneParam>> u_scene_params;
+
+			bool hasBlending;
+			IRender::BlendParam src, dst;
+
+			bool hasAlphaTest;
+			IRender::CompareType alphaFunc;
+			float alphaRef;
+
+			bool depthMask;
+
+			bool castShadows;
+			bool recieveShadows;
+
+			int shadowMapUnit;
+			int viewportMapUnit;
+			int spotMapUnit;
+			int maxUnit;
 		};
-		
-		String name;
+		std::vector<Pass*> passes;
+		Pass *currentPass;
 
-		GLShader *shader;
-
-		std::vector<std::pair<String, GLTexture*>> u_sampler2D;
-		std::vector<std::pair<String, GLTexture*>> u_samplerCube;
-		std::vector<std::pair<String, float>> u_float;
-		std::vector<std::pair<String, Vec2>> u_Vec2;
-		std::vector<std::pair<String, Vec3>> u_Vec3;
-		std::vector<std::pair<String, Vec4>> u_Vec4;
-		std::vector<std::pair<String, Mat4>> u_Mat4;
-		std::vector<std::pair<String, SceneParam>> u_scene_params;
-
-		bool hasBlending;
-		IRender::BlendParam src, dst;
-
-		bool hasAlphaTest;
-		IRender::CompareType alphaFunc;
-		float alphaRef;
-
-		bool depthMask;
-
-		bool castShadows;
-		bool recieveShadows;
-
-		int shadowMapUnit;
-		int viewportMapUnit;
-		int spotMapUnit;
-		int maxUnit;
+		friend class Scene;
 	};
-	std::vector<Pass*> passes;
-	Pass *currentPass;
 
-	friend class Scene;
-};
-
-};
+}

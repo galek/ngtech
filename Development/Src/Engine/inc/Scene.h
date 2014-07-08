@@ -125,6 +125,4 @@ namespace NGTech {
 
 		friend class Material;
 	};
-
-};
-
+}

@@ -88,4 +88,4 @@ namespace NGTech {
 		friend class ObjectMesh;
 	};
 
-};
+}

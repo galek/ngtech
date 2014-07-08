@@ -6,7 +6,7 @@
  *   If you want to use it, please contact me. *
  ***************************************************************************/
 #pragma once
- 
+
 //***************************************************************************
 #include "IncludesAndLibs.h"
 //***************************************************************************
@@ -16,14 +16,13 @@
 
 namespace NGTech {
 
-/**
-Engine`s main image loading system. Created one time
-*/
-class ILSystem {
-public:
-	ILSystem();
+	/**
+	Engine`s main image loading system. Created one time
+	*/
+	class ILSystem {
+	public:
+		ILSystem();
 
-	~ILSystem();
-};
-
-};
+		~ILSystem();
+	};
+}

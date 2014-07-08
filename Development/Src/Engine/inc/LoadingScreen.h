@@ -7,7 +7,7 @@
  ***************************************************************************/
 
 #pragma once
- 
+
 //***************************************************************************
 #include "../Common/EString.h"
 #include "GLSystem.h"
@@ -15,29 +15,28 @@
 
 namespace NGTech {
 
-/**
-Loading screen class
-*/
-	class VEGA_API LoadingScreen {
-public:
-	LoadingScreen(const String &path);
-	~LoadingScreen();
-	
 	/**
-	Shows the loading screen
+	Loading screen class
 	*/
-	void show();
+	class VEGA_API LoadingScreen {
+	public:
+		LoadingScreen(const String &path);
+		~LoadingScreen();
 
-private:
-	GLTexture *glLogo;
-	GLTexture *alLogo;
-	GLTexture *ilLogo;
-	GLTexture *newtonLogo;
-	GLTexture *myGUILogo;
+		/**
+		Shows the loading screen
+		*/
+		void show();
 
-	GLTexture *vegaLogo;
+	private:
+		GLTexture *glLogo;
+		GLTexture *alLogo;
+		GLTexture *ilLogo;
+		GLTexture *newtonLogo;
+		GLTexture *myGUILogo;
 
-	GLTexture *background;
-};
+		GLTexture *vegaLogo;
 
-};
+		GLTexture *background;
+	};
+}

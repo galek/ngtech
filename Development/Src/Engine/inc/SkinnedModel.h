@@ -76,8 +76,8 @@ namespace NGTech {
 		};
 
 		struct Frame {
-			Vec3 position;			
-			Quat rotation;			
+			Vec3 position;
+			Quat rotation;
 		};
 
 		int numBones;
@@ -93,7 +93,7 @@ namespace NGTech {
 				vertBuff = NULL;
 
 				numVertices = 0;
-				numIndices  = 0;
+				numIndices = 0;
 			};
 
 			int numVertices;
@@ -126,5 +126,4 @@ namespace NGTech {
 		friend class Scene;
 		friend class ObjectSkinnedMesh;
 	};
-
-};
+}

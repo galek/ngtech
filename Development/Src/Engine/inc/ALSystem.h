@@ -40,5 +40,4 @@ namespace NGTech {
 		ALCcontext *alContext;
 		ALCdevice  *alDevice;
 	};
-
-};
+}

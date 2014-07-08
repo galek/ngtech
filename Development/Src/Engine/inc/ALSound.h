@@ -16,24 +16,23 @@
 
 namespace NGTech {
 
-//---------------------------------------------------------------------------
-//Desc: Sound class 
-//---------------------------------------------------------------------------
-class ALSound {
-public:
-	static ALSound *create(const String &path);
-	~ALSound();
+	//---------------------------------------------------------------------------
+	//Desc: Sound class 
+	//---------------------------------------------------------------------------
+	class ALSound {
+	public:
+		static ALSound *create(const String &path);
+		~ALSound();
 
-private:
-	ALenum format;
-	short *samples;
-		
-	int rate;
-	int size;
+	private:
+		ALenum format;
+		short *samples;
 
-	ALuint buffID;
+		int rate;
+		int size;
 
-	friend class ALSoundSource;
-};
+		ALuint buffID;
 
-};
+		friend class ALSoundSource;
+	};
+}

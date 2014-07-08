@@ -16,31 +16,30 @@
 
 namespace NGTech {
 
-/**
-Occlusion query class
-*/
-class GLOcclusionQuery {
-public:
-	GLOcclusionQuery ();
-	~GLOcclusionQuery();
 	/**
-	Begins rendering to query
+	Occlusion query class
 	*/
-	void beginRendering();
+	class GLOcclusionQuery {
+	public:
+		GLOcclusionQuery();
+		~GLOcclusionQuery();
+		/**
+		Begins rendering to query
+		*/
+		void beginRendering();
 
-	/**
-	End rendering to query
-	*/
-	void endRendering();
+		/**
+		End rendering to query
+		*/
+		void endRendering();
 
-	/**
-	Get number of passed samples
-	\return number of passed samples
-	*/
-	unsigned int getResult();
+		/**
+		Get number of passed samples
+		\return number of passed samples
+		*/
+		unsigned int getResult();
 
-private:
-	GLuint glID;
-};
-
-};
+	private:
+		GLuint glID;
+	};
+}

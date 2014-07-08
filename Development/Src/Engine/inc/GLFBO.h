@@ -16,35 +16,34 @@
 
 namespace NGTech {
 
-class GLFBO {
-public:
-	static GLFBO *create(int width, int height);
-	void createColorAttachment();
-	void createDepthAttachment();
-	void createStencilAttachment();
+	class GLFBO {
+	public:
+		static GLFBO *create(int width, int height);
+		void createColorAttachment();
+		void createDepthAttachment();
+		void createStencilAttachment();
 
-	~GLFBO();
+		~GLFBO();
 
-	void setColorTarget(GLTexture *texture = NULL, int face = -1);
-	void setDepthTarget(GLTexture *texture = NULL);
+		void setColorTarget(GLTexture *texture = NULL, int face = -1);
+		void setDepthTarget(GLTexture *texture = NULL);
 
-	void set();
-	void unset();
+		void set();
+		void unset();
 
-	void clear();
-	void flush();
+		void clear();
+		void flush();
 
-private:
-	GLuint glID;
+	private:
+		GLuint glID;
 
-	GLuint glColorID;
-	GLuint glStencilID;
-	GLuint glDepthID;
+		GLuint glColorID;
+		GLuint glStencilID;
+		GLuint glDepthID;
 
-	GLTexture *colorTarget;
-	GLTexture *depthTarget;
+		GLTexture *colorTarget;
+		GLTexture *depthTarget;
 
-	int width, height;
-};
-
-};
+		int width, height;
+	};
+}
