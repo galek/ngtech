@@ -5,7 +5,7 @@
 * Version: 1.0
 * Author:  Alexander Tsyplyaev <tsyplyaev@gmail.com>
 *
-* This file is part of the Vega engine (http://vegaengine.com/).
+* This file is part of the NGTech (http://vegaengine.com/).
 *
 * Your use and or redistribution of this software in source and / or
 * binary form, with or without modification, is subject to: (i) your

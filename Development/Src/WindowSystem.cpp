@@ -5,7 +5,7 @@
 * Version: 1.0
 * Author:  Alexander Tsyplyaev <tsyplyaev@gmail.com> , Nick Galko <galek@vegaengine.com>
 *
-* This file is part of the Vega engine (http://vegaengine.com/).
+* This file is part of the NGTech (http://vegaengine.com/).
 *
 * Your use and or redistribution of this software in source and / or
 * binary form, with or without modification, is subject to: (i) your
@@ -107,7 +107,7 @@ namespace VEGA {
 
 		if (!(this->hWnd = CreateWindowEx(dwExStyle,			// Extended Style For The Window
 			"OpenGL",							// Class Name
-			"VEGA Engine(http://vegaengine.com)",						// Window Title
+			"NGTech(http://vegaengine.com)",						// Window Title
 			dwStyle |							// Defined Window Style
 			WS_CLIPSIBLINGS |					// Required Window Style
 			WS_CLIPCHILDREN,					// Required Window Style
