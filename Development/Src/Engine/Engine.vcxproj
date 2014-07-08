@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{422176D6-9F6C-4344-90A5-3520C7213826}</ProjectGuid>
+    <RootNamespace>NGEngine</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectName>Engine</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120_xp</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120_xp</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120_xp</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120_xp</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\BuildConfig\BuildConfig.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\BuildConfig\BuildConfig.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\BuildConfig\BuildConfig.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\BuildConfig\BuildConfig.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionPath)\..\..\..\Bins\Bin$(PlatformArchitecture)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionPath)\..\..\..\Bins\Bin$(PlatformArchitecture)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionPath)\..\..\..\Bins\Bin$(PlatformArchitecture)\</OutDir>
+    <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionPath)\..\..\..\Bins\Bin$(PlatformArchitecture)\</OutDir>
+    <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>inc\;..\Common;..\Core;..\..\Externals\freetype\include\;..\..\Externals\freetype\include\freetype;..\..\Externals\MyGUI\Common;..\..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\..\Externals\MyGUI\MyGUIEngine\include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <OutputFile>..\..\Bins\$(ProjectName)_d.exe</OutputFile>
+      <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>inc\;..\Common;..\Core;..\..\Externals\freetype\include\;..\..\Externals\freetype\include\freetype;..\..\Externals\MyGUI\Common;..\..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\..\Externals\MyGUI\MyGUIEngine\include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <OutputFile>..\..\Bins\$(ProjectName)_d.exe</OutputFile>
+      <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;VEGA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <StringPooling>true</StringPooling>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>inc\;..\Common;..\Core;..\..\Externals\freetype\include\;..\..\Externals\freetype\include\freetype;..\..\Externals\MyGUI\Common;..\..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\..\Externals\MyGUI\MyGUIEngine\include</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <ExpandAttributedSource>true</ExpandAttributedSource>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderFile>EnginePrivate.h</PrecompiledHeaderFile>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <DisableSpecificWarnings>4275</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <TargetMachine>MachineX86</TargetMachine>
+      <LargeAddressAware>true</LargeAddressAware>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenAL32.lib;opengl32.lib;ilu.lib;devil.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <ProjectReference />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;VEGA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <StringPooling>true</StringPooling>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>inc\;..\Common;..\Core;..\..\Externals\freetype\include\;..\..\Externals\freetype\include\freetype;..\..\Externals\MyGUI\Common;..\..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\..\Externals\MyGUI\MyGUIEngine\include</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <ExpandAttributedSource>true</ExpandAttributedSource>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderFile>EnginePrivate.h</PrecompiledHeaderFile>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <LargeAddressAware>true</LargeAddressAware>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenAL32.lib;opengl32.lib;ilu.lib;devil.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <ProjectReference />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\ALSound.h" />
+    <ClInclude Include="inc\ALSoundSource.h" />
+    <ClInclude Include="inc\ALSystem.h" />
+    <ClInclude Include="inc\Cache.h" />
+    <ClInclude Include="inc\Camera.h" />
+    <ClInclude Include="inc\Console.h" />
+    <ClInclude Include="inc\DLLDef.h" />
+    <ClInclude Include="inc\Effect.h" />
+    <ClInclude Include="inc\Engine.h" />
+    <ClInclude Include="inc\EngineAppBase.h" />
+    <ClInclude Include="inc\EnginePrivate.h" />
+    <ClInclude Include="inc\EngineScriptInterp.h" />
+    <ClInclude Include="inc\Flare.h" />
+    <ClInclude Include="inc\Font.h" />
+    <ClInclude Include="inc\Frustum.h" />
+    <ClInclude Include="inc\GLDisplayList.h" />
+    <ClInclude Include="inc\GLExtensions.h" />
+    <ClInclude Include="inc\GLFBO.h" />
+    <ClInclude Include="inc\GLOcclusionQuery.h" />
+    <ClInclude Include="inc\GLShader.h" />
+    <ClInclude Include="inc\GLSystem.h" />
+    <ClInclude Include="inc\GLTexture.h" />
+    <ClInclude Include="inc\GLVBO.h" />
+    <ClInclude Include="inc\GUI.h" />
+    <ClInclude Include="inc\ILImage.h" />
+    <ClInclude Include="inc\ILSystem.h" />
+    <ClInclude Include="inc\Light.h" />
+    <ClInclude Include="inc\LoadingScreen.h" />
+    <ClInclude Include="inc\Material.h" />
+    <ClInclude Include="inc\Model.h" />
+    <ClInclude Include="inc\Object.h" />
+    <ClInclude Include="inc\ObjectSkinnedMesh.h" />
+    <ClInclude Include="inc\ParticleSystem.h" />
+    <ClInclude Include="inc\PhysBody.h" />
+    <ClInclude Include="inc\PhysJoint.h" />
+    <ClInclude Include="inc\PhysSystem.h" />
+    <ClInclude Include="inc\Scene.h" />
+    <ClInclude Include="inc\SkinnedModel.h" />
+    <ClInclude Include="inc\Terrain.h" />
+    <ClInclude Include="inc\Water.h" />
+    <ClInclude Include="inc\WindowSystem.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ALSound.cpp" />
+    <ClCompile Include="src\ALSoundSource.cpp" />
+    <ClCompile Include="src\ALSystem.cpp" />
+    <ClCompile Include="src\Cache.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Console.cpp" />
+    <ClCompile Include="src\CoreFunctImpl.cpp" />
+    <ClCompile Include="src\Effect.cpp" />
+    <ClCompile Include="src\Engine.cpp" />
+    <ClCompile Include="src\EngineAppBase.cpp" />
+    <ClCompile Include="src\EnginePrivate.cpp" />
+    <ClCompile Include="src\EngineScriptInterp.cpp" />
+    <ClCompile Include="src\Flare.cpp" />
+    <ClCompile Include="src\Font.cpp" />
+    <ClCompile Include="src\Frustum.cpp" />
+    <ClCompile Include="src\GLDisplayList.cpp" />
+    <ClCompile Include="src\GLExtensions.cpp" />
+    <ClCompile Include="src\GLFBO.cpp" />
+    <ClCompile Include="src\GLOcclusionQuery.cpp" />
+    <ClCompile Include="src\GLShader.cpp" />
+    <ClCompile Include="src\GLSystem.cpp" />
+    <ClCompile Include="src\GLTexture.cpp" />
+    <ClCompile Include="src\GLVBO.cpp" />
+    <ClCompile Include="src\GUI.cpp" />
+    <ClCompile Include="src\ILImage.cpp" />
+    <ClCompile Include="src\ILSystem.cpp" />
+    <ClCompile Include="src\Light.cpp" />
+    <ClCompile Include="src\LoadingScreen.cpp" />
+    <ClCompile Include="src\MandelbrotDemo.cpp" />
+    <ClCompile Include="src\Material.cpp" />
+    <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\Object.cpp" />
+    <ClCompile Include="src\ObjectSkinnedMesh.cpp" />
+    <ClCompile Include="src\ParticleSystem.cpp" />
+    <ClCompile Include="src\PhysBody.cpp" />
+    <ClCompile Include="src\PhysJoint.cpp" />
+    <ClCompile Include="src\PhysSystem.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\SkinnedModel.cpp" />
+    <ClCompile Include="src\Terrain.cpp" />
+    <ClCompile Include="src\TerrainDemo.cpp" />
+    <ClCompile Include="src\Water.cpp" />
+    <ClCompile Include="src\WindowSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Externals\freetype\builds\win32\vc2010\freetype.vcxproj">
+      <Project>{78b079bd-9fc7-4b9e-b4a6-96da0f00248b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Externals\libogg\win32\VS2010\libogg_static.vcxproj">
+      <Project>{15cbfeff-7965-41f5-b4e2-21e8795c9159}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Externals\libvorbis\win32\VS2010\libvorbisfile\libvorbisfile_static.vcxproj">
+      <Project>{cebde98b-a6aa-46e6-bc79-faaf823db9ec}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Externals\libvorbis\win32\VS2010\libvorbis\libvorbis_static.vcxproj">
+      <Project>{3a214e06-b95e-4d61-a291-1f8df2ec10fd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Externals\MyGUI\MyGui.vcxproj">
+      <Project>{e9497471-6143-4e9a-8db2-436edad37b65}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Externals\newton\coreLibrary_300\projects\windows\projectOpencl_vs2010\ai.vcxproj">
+      <Project>{7d48cee3-5263-46ca-bd69-924881f0ea2f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Externals\newton\coreLibrary_300\projects\windows\projectOpencl_vs2010\core.vcxproj">
+      <Project>{57ac4f2d-b115-4931-8f6e-af8ad616b6aa}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Externals\newton\coreLibrary_300\projects\windows\projectOpencl_vs2010\newton.vcxproj">
+      <Project>{68d9962c-0ec7-445a-b0fd-f87b16d43901}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Externals\newton\coreLibrary_300\projects\windows\projectOpencl_vs2010\opencl.vcxproj">
+      <Project>{f82a640a-ea6f-4227-a6ce-4c9374858358}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Externals\newton\coreLibrary_300\projects\windows\projectOpencl_vs2010\physics.vcxproj">
+      <Project>{39737a8f-6151-4259-8e39-25530345d4b4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Externals\newton\packages\thirdParty\pthreads.2\VS_2012\pthread.vcxproj">
+      <Project>{03bca23c-02a5-415b-a37b-26600bc2ce96}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.vcxproj">
+      <Project>{413d151a-e7ac-419a-b9c1-e270e686f949}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Core\Core.vcxproj">
+      <Project>{a260ec1a-1997-4d03-8b91-1302498eb505}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

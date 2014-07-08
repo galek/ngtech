@@ -15,7 +15,7 @@
 #endif
 //**************************************
 
-namespace VEGA {
+namespace NGTech {
 
 /*
 */

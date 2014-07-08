@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-using namespace VEGA;
+using namespace NGTech;
 
 #ifdef TERRAIN_DEMO
 ObjectMesh *box[5];

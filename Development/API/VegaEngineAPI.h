@@ -13,21 +13,21 @@
 #include "..\Src\Common\IRender.h"
 #include "..\Src\Common\IGame.h"
 #include "..\Src\Common\IScripting.h"
-#include "..\Src\Engine.h"
+#include "..\Src\Engine\inc\Engine.h"
 
-#include "..\Src\MathLib.h"
-#include "..\Src\ALSystem.h"
-#include "..\Src\PhysSystem.h"
+#include "..\Src\Core\MathLib.h"
+#include "..\Src\Engine\inc\ALSystem.h"
+#include "..\Src\Engine\inc\PhysSystem.h"
 #include "..\Src\Core\Log.h"
 #include "..\Src\Core\Config.h"
 
-#include "..\Src\LoadingScreen.h"
+#include "..\Src\Engine\inc\LoadingScreen.h"
 
-#include "..\Src\Scene.h"
-#include "..\Src\Terrain.h"
-#include "..\Src\Light.h"
-#include "..\Src\Effect.h"
+#include "..\Src\Engine\inc\Scene.h"
+#include "..\Src\Engine\inc\Terrain.h"
+#include "..\Src\Engine\inc\Light.h"
+#include "..\Src\Engine\inc\Effect.h"
 
-#include "..\Src\Font.h"
-#include "..\Src\GUI.h"
+#include "..\Src\Engine\inc\Font.h"
+#include "..\Src\Engine\inc\GUI.h"
 //***************************************************

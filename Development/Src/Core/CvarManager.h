@@ -1,7 +1,7 @@
 #pragma once 
 
 
-namespace VEGA {
+namespace NGTech {
 
 	class Config;
 	struct CVARManager

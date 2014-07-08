@@ -9,7 +9,7 @@
 
 #include "..\Common\IDataManager.h"
 
-namespace VEGA
+namespace NGTech
 {
 
 	class FileSystem :

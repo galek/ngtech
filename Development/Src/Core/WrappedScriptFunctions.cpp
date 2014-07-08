@@ -1,7 +1,7 @@
 #include "WrappedScriptFunctions.h"
 #include "log.h"
 
-namespace VEGA
+namespace NGTech
 {
         /**
         */
@@ -11,7 +11,7 @@ namespace VEGA
         /**
         */
         void ScriptDebug(std::string str){
- //Nick:TODO               LogPrintf(str.c_str());
+                DebugF(str.c_str(),"is not avalible in script",0);
         }
         /**
         */

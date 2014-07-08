@@ -9,7 +9,7 @@
 #include "MyGUI_TextBox.h"
 #include "MyGUI_Button.h"
 using namespace MyGUI;
-using namespace VEGA;
+using namespace NGTech;
 
 
 void ExampleGame::update() {}

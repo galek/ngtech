@@ -193,7 +193,10 @@
     <ClCompile Include="TerrainDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Scripts\Engine.vcxproj">
+    <ProjectReference Include="..\Core\Core.vcxproj">
+      <Project>{a260ec1a-1997-4d03-8b91-1302498eb505}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Engine\Engine.vcxproj">
       <Project>{422176d6-9f6c-4344-90a5-3520c7213826}</Project>
     </ProjectReference>
   </ItemGroup>

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-using namespace VEGA;
+using namespace NGTech;
 
 #ifdef MANDELBROT_DEMO
 GLShader *mandelbotShader;

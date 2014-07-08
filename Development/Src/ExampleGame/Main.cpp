@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include "..\Engine\dlldef.h"
-#include "..\Engine\EngineAppBase.h"
-#include "..\ExampleGame\ExampleGame.h"
+#include "..\Engine\inc\dlldef.h"
+#include "..\Engine\inc\EngineAppBase.h"
+#include "ExampleGame.h"
 
 
 
-namespace VEGA {
+namespace NGTech {
 	struct ICallback;
 	GAME_API void EngineStart(IGame*_game = nullptr, ICallback *rc = nullptr, ICallback *ev = nullptr){
 		EngineAppBase(_game, rc, ev);

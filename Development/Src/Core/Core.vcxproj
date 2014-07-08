@@ -143,7 +143,7 @@
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_WIN64;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>CorePrivate.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -174,7 +174,9 @@
     <ClInclude Include="File.h" />
     <ClInclude Include="IncludesAndLibs.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="MathLib.h" />
     <ClInclude Include="Scripting.h" />
+    <ClInclude Include="VFS.h" />
     <ClInclude Include="WrappedScriptFunctions.h" />
   </ItemGroup>
   <ItemGroup>
@@ -192,7 +194,9 @@
     <ClCompile Include="File.cpp" />
     <ClCompile Include="IncludesAndLibs.cpp" />
     <ClCompile Include="Log.cpp" />
+    <ClCompile Include="MathLib.cpp" />
     <ClCompile Include="Scripting.cpp" />
+    <ClCompile Include="VFS.cpp" />
     <ClCompile Include="WrappedScriptFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>

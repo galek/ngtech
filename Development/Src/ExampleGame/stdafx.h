@@ -14,7 +14,7 @@
 
 
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы
-#include "..\..\API\VegaEngineAPI.h"
-#include "..\..\Src\Engine\EngineAppBase.h"
+#include "../../API/VegaEngineAPI.h"
+#include "../Engine/inc/EngineAppBase.h"
 #include "dllx.h"
 #include "ExampleGame.h"

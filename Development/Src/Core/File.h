@@ -11,7 +11,7 @@
 #include "..\Common\EString.h"
 //**************************************
 
-namespace VEGA {
+namespace NGTech {
 
 //---------------------------------------------------------------------------
 //Desc: some important File functions

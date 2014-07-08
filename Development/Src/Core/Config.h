@@ -15,7 +15,7 @@
 #include <vector>
 //**************************************
 
-namespace VEGA {
+namespace NGTech {
 
 	class Config {
 	public:

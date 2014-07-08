@@ -10,7 +10,7 @@
 #include "File.h"
 //**************************************
 
-namespace VEGA {
+namespace NGTech {
 
 #define UNKNOWN_EXT "UNKNOWN_EXT"
 	//---------------------------------------------------------------------------

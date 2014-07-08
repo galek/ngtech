@@ -29,19 +29,19 @@
 
 namespace MyGUI
 {
-	void VEGAPushToLog(const std::string& _section, LogLevel _level, const std::string& _message, const char* _file, int _line){
+	void NGTechPushToLog(const std::string& _section, LogLevel _level, const std::string& _message, const char* _file, int _line){
 		char buf[32];
 		sprintf(buf, "%d", _line);
 		std::string line = std::string(buf);
 		
 		if (_level == MyGUI::LogLevel::Info)
-			VEGA::DebugF("[GUI] " + _section + " " + _message + " In: ", _file, _line);
+			NGTech::DebugF("[GUI] " + _section + " " + _message + " In: ", _file, _line);
 		else if (_level == MyGUI::LogLevel::Warning)
-			VEGA::LogPrintf("[GUI] " + _section + " " + _message + " In: " + _file + " : " + line);
+			NGTech::LogPrintf("[GUI] " + _section + " " + _message + " In: " + _file + " : " + line);
 		else if (_level == MyGUI::LogLevel::Error)
-			VEGA::Warning("[GUI] %s %s In:%s : %i",_section.c_str(),_message,_file,line);
+			NGTech::Warning("[GUI] %s %s In:%s : %i",_section.c_str(),_message,_file,line);
 		else if (_level == MyGUI::LogLevel::Critical)
-			VEGA::Error("[GUI] " + _section + " " + _message + " In: " + _file + " : " + line, true);
+			NGTech::Error("[GUI] " + _section + " " + _message + " In: " + _file + " : " + line, true);
 	}
 
 } // namespace MyGUI

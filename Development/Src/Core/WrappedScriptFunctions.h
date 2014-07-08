@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-namespace VEGA
+namespace NGTech
 {
         void ScriptLogPrintf(std::string str);
         void ScriptDebug(std::string str);

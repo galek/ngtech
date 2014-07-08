@@ -12,7 +12,7 @@
 #include "..\Common\EString.h"
 //**************************************
 
-namespace VEGA {
+namespace NGTech {
 
 /**
 Simple error viewing class

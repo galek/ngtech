@@ -12,7 +12,7 @@
 #include "../Common/EString.h"
 //***************************************************************************
 
-namespace VEGA {
+namespace NGTech {
 #define Debug(text) DebugF(text, __FILE__, __LINE__)
 	void DebugF(String text, const char* _file, int _line);
 	void Warning(const TCHAR *fmt, ...);

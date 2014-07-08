@@ -12,9 +12,8 @@ GUI:
 
 GUI.mat:8 определиться с текстурой
 
-__forceinline на __inline,и вообще по хорошему сделать макрос
-Удалить AngelScript,заменить его luabind'ом
-Удалить BugTrap
+__forceinline на __inline,и вообще по хорошему сделать макрос 
+,заменить его Lua+luabind'ом
 Переписать на Bullet Physics физику
 NVGamePad
 Корректный шейдер mygui
@@ -22,3 +21,12 @@ NVGamePad
 Внести mygui в Core,GLPlatform в GLDrv
 Больше инфы о железке(смотри свой двиг на d3d11)
 Заменить ThreadPool на кроссплатформенный
+Портировать на OpenAL Soft
+
+
+
+
+==============================
++
+Удалить AngelScript
+Удалить BugTrap

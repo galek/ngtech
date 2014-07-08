@@ -13,7 +13,7 @@
 #include <stdarg.h>
 //***************************************************************************
 
-namespace VEGA {
+namespace NGTech {
 	void DebugF(String text, const char* _file, int _line){
 		char buf[32];
 		sprintf(buf, "%d", _line);

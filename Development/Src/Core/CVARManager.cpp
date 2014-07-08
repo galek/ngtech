@@ -3,7 +3,7 @@
 #include "..\Common\EString.h"
 #include "Config.h"
 
-namespace VEGA {
+namespace NGTech {
 	CVARManager::CVARManager(Config*_c)
 		:r_width(_c->getInt("r_width")),
 		r_height(_c->getInt("r_height")),

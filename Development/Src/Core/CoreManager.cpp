@@ -1,7 +1,7 @@
 #include "CorePrivate.h"
 #include "CoreManager.h"
 
-namespace VEGA {
+namespace NGTech {
 
 	CoreManager::CoreManager()
 		:iWindow(nullptr),

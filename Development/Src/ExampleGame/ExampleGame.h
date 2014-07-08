@@ -10,7 +10,7 @@ namespace MyGUI
 {
 	class TextBox;
 }
-namespace VEGA
+namespace NGTech
 {
 	class ObjectMesh;
 	class ObjectSkinnedMesh;
@@ -20,31 +20,31 @@ namespace VEGA
 }
 
 //------------------------------------------------------------
-class GAME_API ExampleGame : public VEGA::IGame
+class GAME_API ExampleGame : public NGTech::IGame
 {
 	virtual void initialise();
 	virtual void update();
 
 	//objects
-	class VEGA::ObjectMesh *sponza;
-	class VEGA::ObjectMesh *box[5];
-	class VEGA::ObjectMesh *sphere[5];
-	class VEGA::ObjectMesh *cylinder[5];
-	class VEGA::ObjectSkinnedMesh *chammy;
-	class VEGA::CameraFree *camera;
-	class VEGA::LightOmni *omniLight;
+	class NGTech::ObjectMesh *sponza;
+	class NGTech::ObjectMesh *box[5];
+	class NGTech::ObjectMesh *sphere[5];
+	class NGTech::ObjectMesh *cylinder[5];
+	class NGTech::ObjectSkinnedMesh *chammy;
+	class NGTech::CameraFree *camera;
+	class NGTech::LightOmni *omniLight;
 	class MyGUI::TextBox *fpsLabel;
 
-	class VEGA::ParticleSystem *particlesPink;
-	class VEGA::ParticleSystem *particlesYellow;
+	class NGTech::ParticleSystem *particlesPink;
+	class NGTech::ParticleSystem *particlesYellow;
 };
 //------------------------------------------------------------
-class GAME_API RenderCallback : public VEGA::ICallback
+class GAME_API RenderCallback : public NGTech::ICallback
 {
 	virtual void Body(){  };
 };
 //------------------------------------------------------------
-class GAME_API EventsCallback : public VEGA::ICallback
+class GAME_API EventsCallback : public NGTech::ICallback
 {
 public:
 	EventsCallback();

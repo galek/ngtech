@@ -14,7 +14,7 @@
 #include <stdarg.h>
 //**************************************
 
-namespace VEGA {
+namespace NGTech {
 
 	//---------------------------------------------------------------------------
 	//Desc:    gets words count. Words are separated by space

@@ -1,26 +1,26 @@
-/* Copyright (C) 2006-2013, Dream In Gate Ltd. All rights reserved.
+/* Copyright (C) 2006-2013, NG Games Ltd. All rights reserved.
 *
 * File:    IRender.h
 * Desc:    Render interface.
 * Version: 1.0
-* Author:  Nick Galko <galek@vegaengine.com>
+* Author:  Nick Galko <galek@nggames.com>
 *
-* This file is part of the NGTech (http://vegaengine.com/).
+* This file is part of the NGTech (http://nggames.com/).
 *
 * Your use and or redistribution of this software in source and / or
 * binary form, with or without modification, is subject to: (i) your
 * ongoing acceptance of and compliance with the terms and conditions of
-* the VEGA License Agreement; and (ii) your inclusion of this notice
+* the NGTech License Agreement; and (ii) your inclusion of this notice
 * in any version of this software that you use or redistribute.
-* A copy of the VEGA License Agreement is available by contacting
-* Dream In Gate Ltd. at http://vegaengine.com/
+* A copy of the NGTech License Agreement is available by contacting
+* NG Games Ltd. at http://nggames.com/
 */
 #ifndef __I_RENDER__H
 #define __I_RENDER__H
 
 #include <string>
 
-namespace VEGA {
+namespace NGTech {
 	class Mat4;
 	class Vec3;
 	class Vec4;
