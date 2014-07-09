@@ -12,17 +12,14 @@
 #include "PhysJoint.h"
 #include "PhysSystem.h"
 #include "PhysBody.h"
-#include "../../Externals/newton/coreLibrary_300/source/newton/newton.h"
 //**************************************
 
 namespace NGTech {
 
 	PhysJointUpVector::PhysJointUpVector(const Vec3 &direction, PhysBody *body) {
-		nJoint = NewtonConstraintCreateUpVector(GetEngine()->physSystem->nWorld, direction, body->nBody);
 	}
 
 	PhysJointUpVector::~PhysJointUpVector() {
-		NewtonDestroyJoint(GetEngine()->physSystem->nWorld, nJoint);
 	}
 
 }

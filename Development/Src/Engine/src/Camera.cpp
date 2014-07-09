@@ -265,7 +265,8 @@ namespace NGTech {
 			movement = Vec3::normalize(movement);
 		}
 
-		pBody->addTorque(movement * maxVelocity);
+		if (pBody)
+			pBody->addTorque(movement * maxVelocity);
 	}
 
 }

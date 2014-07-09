@@ -11,7 +11,6 @@
 #include "PhysSystem.h"
 #include "PhysBody.h"
 #include "Log.h"
-#include "../../Externals/newton/coreLibrary_300/source/newton/newton.h"
 //***************************************************************************
 
 namespace NGTech {
@@ -21,6 +20,7 @@ namespace NGTech {
 	//Returns: pointer to the new PhysBody
 	//---------------------------------------------------------------------------
 	PhysBody *PhysBody::createBox(const Vec3 &size, float mass) {
+#if 0
 		PhysBody *body = new PhysBody();
 
 		body->force = Vec3(0, 0, 0);
@@ -30,7 +30,7 @@ namespace NGTech {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateBox(GetEngine()->physSystem->nWorld, size.x, size.y, size.z, 0, 0);
+	/*	NewtonCollision *collision = NewtonCreateBox(GetEngine()->physSystem->nWorld, size.x, size.y, size.z, 0, 0);
 
 		Vec3 inertia, origin;
 		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
@@ -49,10 +49,13 @@ namespace NGTech {
 			NewtonBodySetCentreOfMass(body->nBody, origin);
 			NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
 		}
-
+		*/
 		body->impactSrc = NULL;
 
 		return body;
+#else
+		return NULL;
+#endif
 	}
 	//---------------------------------------------------------------------------
 	//Desc:    creates PhysBody with sphere collider
@@ -60,6 +63,7 @@ namespace NGTech {
 	//Returns: pointer to the new PhysBody
 	//---------------------------------------------------------------------------
 	PhysBody *PhysBody::createSphere(float radius, float mass) {
+#if 0
 		PhysBody *body = new PhysBody();
 
 		body->force = Vec3(0, 0, 0);
@@ -69,29 +73,32 @@ namespace NGTech {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateSphere(GetEngine()->physSystem->nWorld, radius, 0, 0);
+		//NewtonCollision *collision = NewtonCreateSphere(GetEngine()->physSystem->nWorld, radius, 0, 0);
 
-		Vec3 inertia, origin;
-		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
-		float Ixx = mass * inertia.x;
-		float Iyy = mass * inertia.y;
-		float Izz = mass * inertia.z;
+		//Vec3 inertia, origin;
+		//NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
+		//float Ixx = mass * inertia.x;
+		//float Iyy = mass * inertia.y;
+		//float Izz = mass * inertia.z;
 
-		body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
-		NewtonDestroyCollision(collision);
+		//body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
+		//NewtonDestroyCollision(collision);
 
-		NewtonBodySetUserData(body->nBody, body);
-		NewtonBodySetAutoSleep(body->nBody, 0);
+		//NewtonBodySetUserData(body->nBody, body);
+		//NewtonBodySetAutoSleep(body->nBody, 0);
 
-		if (mass > 0) {
-			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
-			NewtonBodySetCentreOfMass(body->nBody, origin);
-			NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
-		}
+		//if (mass > 0) {
+		//	NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
+		//	NewtonBodySetCentreOfMass(body->nBody, origin);
+		//	NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
+		//}
 
 		body->impactSrc = NULL;
 
 		return body;
+#else
+		return NULL;
+#endif
 	}
 	//---------------------------------------------------------------------------
 	//Desc:    creates PhysBody with cylinder collider
@@ -99,6 +106,7 @@ namespace NGTech {
 	//Returns: pointer to the new PhysBody
 	//---------------------------------------------------------------------------
 	PhysBody *PhysBody::createCylinder(float radius, float height, float mass) {
+#if 0
 		PhysBody *body = new PhysBody();
 
 		body->force = Vec3(0, 0, 0);
@@ -108,29 +116,32 @@ namespace NGTech {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateCylinder(GetEngine()->physSystem->nWorld, radius, height, 0, 0);
+		//NewtonCollision *collision = NewtonCreateCylinder(GetEngine()->physSystem->nWorld, radius, height, 0, 0);
 
-		Vec3 inertia, origin;
-		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
-		float Ixx = mass * inertia.x;
-		float Iyy = mass * inertia.y;
-		float Izz = mass * inertia.z;
+		//Vec3 inertia, origin;
+		//NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
+		//float Ixx = mass * inertia.x;
+		//float Iyy = mass * inertia.y;
+		//float Izz = mass * inertia.z;
 
-		body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
-		NewtonDestroyCollision(collision);
+		//body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
+		//NewtonDestroyCollision(collision);
 
-		NewtonBodySetUserData(body->nBody, body);
-		NewtonBodySetAutoSleep(body->nBody, 0);
+		//NewtonBodySetUserData(body->nBody, body);
+		//NewtonBodySetAutoSleep(body->nBody, 0);
 
-		if (mass > 0) {
-			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
-			NewtonBodySetCentreOfMass(body->nBody, origin);
-			NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
-		}
+		//if (mass > 0) {
+		//	NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
+		//	NewtonBodySetCentreOfMass(body->nBody, origin);
+		//	NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
+		//}
 
 		body->impactSrc = NULL;
 
 		return body;
+#else
+		return NULL;
+#endif
 	}
 	//---------------------------------------------------------------------------
 	//Desc:    creates PhysBody with cone collider
@@ -138,6 +149,7 @@ namespace NGTech {
 	//Returns: pointer to the new PhysBody
 	//---------------------------------------------------------------------------
 	PhysBody *PhysBody::createCone(float radius, float height, float mass) {
+#if 0
 		PhysBody *body = new PhysBody();
 
 		body->force = Vec3(0, 0, 0);
@@ -147,29 +159,32 @@ namespace NGTech {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateCone(GetEngine()->physSystem->nWorld, radius, height, 0, 0);
+		//NewtonCollision *collision = NewtonCreateCone(GetEngine()->physSystem->nWorld, radius, height, 0, 0);
 
-		Vec3 inertia, origin;
-		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
-		float Ixx = mass * inertia.x;
-		float Iyy = mass * inertia.y;
-		float Izz = mass * inertia.z;
+		//Vec3 inertia, origin;
+		//NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
+		//float Ixx = mass * inertia.x;
+		//float Iyy = mass * inertia.y;
+		//float Izz = mass * inertia.z;
 
-		body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
-		NewtonDestroyCollision(collision);
+		//body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
+		//NewtonDestroyCollision(collision);
 
-		NewtonBodySetUserData(body->nBody, body);
-		NewtonBodySetAutoSleep(body->nBody, 0);
+		//NewtonBodySetUserData(body->nBody, body);
+		//NewtonBodySetAutoSleep(body->nBody, 0);
 
-		if (mass > 0) {
-			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
-			NewtonBodySetCentreOfMass(body->nBody, origin);
-			NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
-		}
+		//if (mass > 0) {
+		//	NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
+		//	NewtonBodySetCentreOfMass(body->nBody, origin);
+		//	NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
+		//}
 
 		body->impactSrc = NULL;
 
 		return body;
+#else
+		return NULL;
+#endif
 	}
 	//---------------------------------------------------------------------------
 	//Desc:    creates PhysBody with capsule collider
@@ -177,6 +192,7 @@ namespace NGTech {
 	//Returns: pointer to the new PhysBody
 	//---------------------------------------------------------------------------
 	PhysBody *PhysBody::createCapsule(float radius, float height, float mass) {
+#if 0
 		PhysBody *body = new PhysBody();
 
 		body->force = Vec3(0, 0, 0);
@@ -186,29 +202,32 @@ namespace NGTech {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateCapsule(GetEngine()->physSystem->nWorld, radius, height, 0, 0);
+		//NewtonCollision *collision = NewtonCreateCapsule(GetEngine()->physSystem->nWorld, radius, height, 0, 0);
 
-		Vec3 inertia, origin;
-		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
-		float Ixx = mass * inertia.x;
-		float Iyy = mass * inertia.y;
-		float Izz = mass * inertia.z;
+		//Vec3 inertia, origin;
+		//NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
+		//float Ixx = mass * inertia.x;
+		//float Iyy = mass * inertia.y;
+		//float Izz = mass * inertia.z;
 
-		body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
-		NewtonDestroyCollision(collision);
+		//body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
+		//NewtonDestroyCollision(collision);
 
-		NewtonBodySetUserData(body->nBody, body);
-		NewtonBodySetAutoSleep(body->nBody, 0);
+		//NewtonBodySetUserData(body->nBody, body);
+		//NewtonBodySetAutoSleep(body->nBody, 0);
 
-		if (mass > 0) {
-			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
-			NewtonBodySetCentreOfMass(body->nBody, origin);
-			NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
-		}
+		//if (mass > 0) {
+		//	NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
+		//	NewtonBodySetCentreOfMass(body->nBody, origin);
+		//	NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
+		//}
 
 		body->impactSrc = NULL;
 
 		return body;
+#else
+		return NULL;
+#endif
 	}
 	//---------------------------------------------------------------------------
 	//Desc:    creates PhysBody with champfer cylinder collider
@@ -216,6 +235,7 @@ namespace NGTech {
 	//Returns: pointer to the new PhysBody
 	//---------------------------------------------------------------------------
 	PhysBody *PhysBody::createChampferCylinder(float radius, float height, float mass) {
+#if 0
 		PhysBody *body = new PhysBody();
 
 		body->force = Vec3(0, 0, 0);
@@ -225,29 +245,32 @@ namespace NGTech {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateChamferCylinder(GetEngine()->physSystem->nWorld, radius, height, 0, 0);
+		//NewtonCollision *collision = NewtonCreateChamferCylinder(GetEngine()->physSystem->nWorld, radius, height, 0, 0);
 
-		Vec3 inertia, origin;
-		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
-		float Ixx = mass * inertia.x;
-		float Iyy = mass * inertia.y;
-		float Izz = mass * inertia.z;
+		//Vec3 inertia, origin;
+		//NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
+		//float Ixx = mass * inertia.x;
+		//float Iyy = mass * inertia.y;
+		//float Izz = mass * inertia.z;
 
-		body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
-		NewtonDestroyCollision(collision);
+		//body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
+		//NewtonDestroyCollision(collision);
 
-		NewtonBodySetUserData(body->nBody, body);
-		NewtonBodySetAutoSleep(body->nBody, 0);
+		//NewtonBodySetUserData(body->nBody, body);
+		//NewtonBodySetAutoSleep(body->nBody, 0);
 
-		if (mass > 0) {
-			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
-			NewtonBodySetCentreOfMass(body->nBody, origin);
-			NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
-		}
+		//if (mass > 0) {
+		//	NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
+		//	NewtonBodySetCentreOfMass(body->nBody, origin);
+		//	NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
+		//}
 
 		body->impactSrc = NULL;
 
 		return body;
+#else
+		return NULL;
+#endif
 	}
 	//---------------------------------------------------------------------------
 	//Desc:    creates PhysBody with convex hull collider
@@ -255,6 +278,7 @@ namespace NGTech {
 	//Returns: pointer to the new PhysBody
 	//---------------------------------------------------------------------------
 	PhysBody *PhysBody::createConvexHull(Vec3 *pos, const int numPos, float mass) {
+#if 0
 		PhysBody *body = new PhysBody();
 
 		body->force = Vec3(0, 0, 0);
@@ -264,29 +288,32 @@ namespace NGTech {
 
 		body->mass = mass;
 
-		NewtonCollision *collision = NewtonCreateConvexHull(GetEngine()->physSystem->nWorld, numPos, &pos[0].x, 3 * sizeof(float) , 0, NULL, 0);
+		//NewtonCollision *collision = NewtonCreateConvexHull(GetEngine()->physSystem->nWorld, numPos, &pos[0].x, 3 * sizeof(float) , 0, NULL, 0);
 
-		Vec3 inertia, origin;
-		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
-		float Ixx = mass * inertia.x;
-		float Iyy = mass * inertia.y;
-		float Izz = mass * inertia.z;
+		//Vec3 inertia, origin;
+		//NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
+		//float Ixx = mass * inertia.x;
+		//float Iyy = mass * inertia.y;
+		//float Izz = mass * inertia.z;
 
-		body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
-		NewtonDestroyCollision(collision);
+		//body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
+		//NewtonDestroyCollision(collision);
 
-		NewtonBodySetUserData(body->nBody, body);
-		NewtonBodySetAutoSleep(body->nBody, 0);
+		//NewtonBodySetUserData(body->nBody, body);
+		//NewtonBodySetAutoSleep(body->nBody, 0);
 
-		if (mass > 0) {
-			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
-			NewtonBodySetCentreOfMass(body->nBody, origin);
-			NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
-		}
+		//if (mass > 0) {
+		//	NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
+		//	NewtonBodySetCentreOfMass(body->nBody, origin);
+		//	NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
+		//}
 
 		body->impactSrc = NULL;
 
 		return body;
+#else
+		return NULL;
+#endif
 	}
 
 	//---------------------------------------------------------------------------
@@ -295,6 +322,7 @@ namespace NGTech {
 	//Returns: pointer to the new PhysBody
 	//---------------------------------------------------------------------------
 	PhysBody *PhysBody::createStaticMesh(Vec3 *pos, const int numPos, bool optimize) {
+#if 0
 		PhysBody *body = new PhysBody();
 
 		body->force = Vec3(0, 0, 0);
@@ -302,25 +330,28 @@ namespace NGTech {
 		body->impulse = Vec3(0, 0, 0);
 		body->velocity = Vec3(0, 0, 0);
 
-		NewtonCollision const*collision = NewtonCreateTreeCollision(GetEngine()->physSystem->nWorld, 0);
-		NewtonTreeCollisionBeginBuild(collision);
-		for (int i = 0; i < numPos / 3; i++) {
-			Vec3 v[3];
-			v[0] = pos[i * 3 + 0];
-			v[1] = pos[i * 3 + 1];
-			v[2] = pos[i * 3 + 2];
+		//NewtonCollision const*collision = NewtonCreateTreeCollision(GetEngine()->physSystem->nWorld, 0);
+		//NewtonTreeCollisionBeginBuild(collision);
+		//for (int i = 0; i < numPos / 3; i++) {
+		//	Vec3 v[3];
+		//	v[0] = pos[i * 3 + 0];
+		//	v[1] = pos[i * 3 + 1];
+		//	v[2] = pos[i * 3 + 2];
 
-			NewtonTreeCollisionAddFace(collision, 3, &v[0].x, 3 * sizeof(float) , i+1);
-		}
-		NewtonTreeCollisionEndBuild(collision, 1);
-		body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, Mat4(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1));//Nick:Сомневаюсь,верно ли?
-		NewtonDestroyCollision(collision);
-		NewtonBodySetMassMatrix(body->nBody, 1.0f, 1.0f, 1.0f, 1.0f);
-		NewtonBodySetUserData(body->nBody, body);
+		//	NewtonTreeCollisionAddFace(collision, 3, &v[0].x, 3 * sizeof(float) , i+1);
+		//}
+		//NewtonTreeCollisionEndBuild(collision, 1);
+		//body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, Mat4(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1));//Nick:Сомневаюсь,верно ли?
+		//NewtonDestroyCollision(collision);
+		//NewtonBodySetMassMatrix(body->nBody, 1.0f, 1.0f, 1.0f, 1.0f);
+		//NewtonBodySetUserData(body->nBody, body);
 
 		body->impactSrc = NULL;
 
 		return body;
+#else
+		return NULL;
+#endif
 	}
 
 	//---------------------------------------------------------------------------
@@ -328,9 +359,9 @@ namespace NGTech {
 	//Params:  -
 	//Returns: -
 	//---------------------------------------------------------------------------
-	PhysBody::~PhysBody() {
-		NewtonDestroyBody(GetEngine()->physSystem->nWorld, nBody);
-		delete impactSrc;
+	PhysBody::~PhysBody() {/*
+		NewtonDestroyBody(GetEngine()->physSystem->nWorld, nBody);*/
+		SAFE_DELETE(impactSrc);
 	}
 
 	//***************************************************************************
@@ -342,7 +373,6 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void PhysBody::setTransform(const Mat4 &transform) {
-		NewtonBodySetMatrix(nBody, transform);
 	}
 
 	//---------------------------------------------------------------------------
@@ -352,7 +382,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	Mat4 PhysBody::getTransform() {
 		Mat4 out;
-		NewtonBodyGetMatrix(nBody, out);
+		out.identity();
 		return out;
 	}
 
@@ -373,11 +403,6 @@ namespace NGTech {
 		return torque;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    adds force to PhysBody
-	//Params:  force - force vector
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void PhysBody::addForce(const Vec3 &force) {
 		this->torque += force / getMass();
 		this->force += force;
@@ -388,62 +413,23 @@ namespace NGTech {
 	}
 
 	void PhysBody::addVelocity(const Vec3 &velocity) {
-		NewtonBodySetVelocity(nBody, getVelocity() + velocity);
 	}
 
 	void PhysBody::setVelocity(const Vec3 &velocity) {
-		NewtonBodySetVelocity(nBody, velocity);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    gets velocity of PhysBody
-	//Params:  -
-	//Returns: velocity vector
-	//---------------------------------------------------------------------------
 	Vec3 PhysBody::getVelocity() {
-		Vec3 velocity;
-		NewtonBodyGetVelocity(nBody, velocity);
+		Vec3 velocity(0, 0, 0);
 		return velocity;
 	}
-
-	//***************************************************************************
-	//Set and get Mass
-	//***************************************************************************
-	//---------------------------------------------------------------------------
-	//Desc:    gets mass of PhysBody
-	//Params:  -
-	//Returns: objects mass
-	//---------------------------------------------------------------------------
+	
 	float PhysBody::getMass() {
 		float Ixx, Iyy, Izz;
 		float mass;
 
-		NewtonBodyGetMassMatrix(nBody, &mass, &Ixx, &Iyy, &Izz);
-
-		return mass;
+		return 0;//mass;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets mass of PhysBody
-	//Params:  mass - new mass
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void PhysBody::setMass(float mass) {
-		NewtonBodySetMassMatrix(nBody, mass, 1, 1, 1);
-	}
-
-
-
-	//---------------------------------------------------------------------------
-	//Desc:    Newton callback
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
-	void PhysBody::applyForce_Callback(const NewtonBody* body, float timestep, int threadIndex) {
-		PhysBody *pBody = (PhysBody*) NewtonBodyGetUserData(body);
-		NewtonBodySetForce(body, pBody->force);
-
-		pBody->force = Vec3(0, 0, 0);
-		pBody->torque = Vec3(0, 0, 0);
 	}
 }

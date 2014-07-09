@@ -30,7 +30,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	Object::Object() {
-		if(GetEngine()->scene)
+		if (GetEngine()->scene)
 			GetEngine()->scene->addObject(this);
 	}
 	//**************************************************************************
@@ -43,15 +43,15 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	ObjectMesh::ObjectMesh(const String &path)
 		:Object() {
-			if(GetEngine()->cache){
-				model = GetEngine()->cache->loadModel("../data/meshes/" + path);
-				materials.resize(model->getNumSubsets());
-				for(int i = 0; i < materials.size(); i++) 
-					materials[i] = nullptr;
-			}
-			transform.identity();
-			pBody = nullptr;
-			return;
+		if (GetEngine()->cache){
+			model = GetEngine()->cache->loadModel("../data/meshes/" + path);
+			materials.resize(model->getNumSubsets());
+			for (int i = 0; i < materials.size(); i++)
+				materials[i] = nullptr;
+		}
+		transform.identity();
+		pBody = nullptr;
+		return;
 	}
 
 	//---------------------------------------------------------------------------
@@ -61,7 +61,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	ObjectMesh::~ObjectMesh() {
 		GetEngine()->cache->deleteModel(model);
-		for(int i = 0; i < materials.size(); i++) {
+		for (int i = 0; i < materials.size(); i++) {
 			GetEngine()->cache->deleteMaterial(materials[i]);
 		}
 		materials.clear();
@@ -93,10 +93,10 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void ObjectMesh::setMaterial(const String &name, const String &path) {
-		if(GetEngine()->cache){
+		if (GetEngine()->cache){
 			Material *material = GetEngine()->cache->loadMaterial(path);
-			if(name == "*")	
-				for(int s = 0; s < model->getNumSubsets(); s++) 
+			if (name == "*")
+				for (int s = 0; s < model->getNumSubsets(); s++)
 					materials[s] = material;
 			materials[model->getSubset(name)] = material;
 		}
@@ -111,12 +111,12 @@ namespace NGTech {
 		FILE *mFile = fopen(String("../data/meshes/" + path).c_str(), "rt");
 
 		//Check if exist
-		if(!mFile) {
+		if (!mFile) {
 			Error::showAndExit("ObjectMesh::setMaterialList() error: material list file '" + path + "' not found");
 			return;
 		}
 
-		while(!feof(mFile)) {
+		while (!feof(mFile)) {
 			String line = FileHelper::readString(mFile);
 			setMaterial(StringHelper::getWord(line, 1), StringHelper::getWord(line, 3));
 		}
@@ -131,9 +131,10 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void ObjectMesh::setTransform(const Mat4 &trans) {
-		if(pBody == NULL) {
+		if (pBody == NULL) {
 			transform = trans;
-		} else {
+		}
+		else {
 			pBody->setTransform(trans);
 		}
 	}
@@ -144,9 +145,9 @@ namespace NGTech {
 	//Returns: object transformation matrix
 	//---------------------------------------------------------------------------
 	Mat4 ObjectMesh::getTransform() {
-		if(pBody == NULL)
+		if (pBody == NULL)
 			return transform;
-		else 
+		else
 			return pBody->getTransform();
 	}
 
@@ -217,15 +218,15 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	void ObjectMesh::setPhysicsConvexHull(float mass) {
 		int numPos = 0;
-		for(int i = 0; i < model->getNumSubsets(); i++) {
+		for (int i = 0; i < model->getNumSubsets(); i++) {
 			numPos += model->subsets[i]->numVertices;
 		}
 		Vec3 *pos = new Vec3[numPos];
 
 		int k = 0;
-		for(int i = 0; i < model->getNumSubsets(); i++) {
+		for (int i = 0; i < model->getNumSubsets(); i++) {
 
-			for(int v = 0; v < model->subsets[i]->numVertices; v++) {
+			for (int v = 0; v < model->subsets[i]->numVertices; v++) {
 				pos[k] = model->subsets[i]->vertices[v].position;
 				k++;
 			}
@@ -234,7 +235,7 @@ namespace NGTech {
 		pBody = PhysBody::createConvexHull(pos, numPos, mass);
 		setTransform(transform);
 
-		delete [] pos;
+		delete[] pos;
 	}
 
 	//---------------------------------------------------------------------------
@@ -244,31 +245,33 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	void ObjectMesh::setPhysicsStaticMesh() {
 		int numPos = 0;
-		for(int i = 0; i < model->getNumSubsets(); i++) {
+		for (int i = 0; i < model->getNumSubsets(); i++) {
 			numPos += model->subsets[i]->numIndices;
 		}
 		Vec3 *pos = new Vec3[numPos];
 
 		int k = 0;
-		for(int i = 0; i < model->getNumSubsets(); i++) {
+		for (int i = 0; i < model->getNumSubsets(); i++) {
 
-			for(int v = 0; v < model->subsets[i]->numIndices/3; v++) {
-				pos[k*3+0] = model->subsets[i]->vertices[model->subsets[i]->indices[v*3+0]].position;
-				pos[k*3+1] = model->subsets[i]->vertices[model->subsets[i]->indices[v*3+1]].position;
-				pos[k*3+2] = model->subsets[i]->vertices[model->subsets[i]->indices[v*3+2]].position;
+			for (int v = 0; v < model->subsets[i]->numIndices / 3; v++) {
+				pos[k * 3 + 0] = model->subsets[i]->vertices[model->subsets[i]->indices[v * 3 + 0]].position;
+				pos[k * 3 + 1] = model->subsets[i]->vertices[model->subsets[i]->indices[v * 3 + 1]].position;
+				pos[k * 3 + 2] = model->subsets[i]->vertices[model->subsets[i]->indices[v * 3 + 2]].position;
 				k++;
 			}
 		}
-
-		pBody = PhysBody::createStaticMesh(pos, numPos, true);
+		
+		if (pBody)
+			pBody = PhysBody::createStaticMesh(pos, numPos, true);
 		setTransform(transform);
 
-		delete [] pos;
+		delete[] pos;
 	}
 
 	void ObjectMesh::setImpactSound(const String &path) {
 		impactSound = GetEngine()->cache->loadSound("../data/sounds/" + path);
-		pBody->setImpactSound(impactSound);
+		if (pBody)
+			pBody->setImpactSound(impactSound);
 	}
 
 	//**************************************************************************
@@ -282,7 +285,7 @@ namespace NGTech {
 	ObjectSkinnedMesh::ObjectSkinnedMesh(const String &path) {
 		model = new SkinnedModel("../data/meshes/" + path);
 		materials.resize(model->getNumSubsets());
-		for(int i = 0; i < materials.size(); i++) 
+		for (int i = 0; i < materials.size(); i++)
 			materials[i] = nullptr;
 		transform.identity();
 		return;
@@ -295,7 +298,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	ObjectSkinnedMesh::~ObjectSkinnedMesh() {
 		delete model;
-		for(int i = 0; i < materials.size(); i++) {
+		for (int i = 0; i < materials.size(); i++) {
 			GetEngine()->cache->deleteMaterial(materials[i]);
 		}
 		materials.clear();
@@ -326,8 +329,8 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	void ObjectSkinnedMesh::setMaterial(const String &name, const String &path) {
 		Material *material = GetEngine()->cache->loadMaterial(path);
-		if(name == "*")	{
-			for(int s = 0; s < model->getNumSubsets(); s++) {
+		if (name == "*")	{
+			for (int s = 0; s < model->getNumSubsets(); s++) {
 				materials[s] = material;
 			}
 		}
@@ -343,12 +346,12 @@ namespace NGTech {
 		FILE *mFile = fopen(String("../data/meshes/" + path).c_str(), "rt");
 
 		//Check if exist
-		if(!mFile) {
+		if (!mFile) {
 			Error::showAndExit("ObjectMesh::setMaterialList() error: material list file '" + path + "' not found");
 			return;
 		}
 
-		while(!feof(mFile)) {
+		while (!feof(mFile)) {
 			String line = FileHelper::readString(mFile);
 			setMaterial(StringHelper::getWord(line, 1), StringHelper::getWord(line, 3));
 		}

@@ -55,7 +55,7 @@ namespace NGTech {
 
 		void setImpactSound(ALSound *snd) {
 			impactSrc = ALSoundSource::create(snd);
-		};
+		}
 
 	private:
 		NewtonBody *nBody;
@@ -68,9 +68,7 @@ namespace NGTech {
 		Vec3 velocity;
 
 		float mass;
-
-		static void applyForce_Callback(const NewtonBody* body, float timestep, int threadIndex);
-
+		
 		ContactCallback contact;
 		bool cc;
 

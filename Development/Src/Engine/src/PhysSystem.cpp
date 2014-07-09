@@ -13,119 +13,106 @@
 #include "PhysBody.h"
 #include "Log.h"
 #include "Config.h"
-#include "../../Externals/newton/coreLibrary_300/source/newton/newton.h"
+//***************************************************************************
+
+#include "PxPhysicsAPI.h"
+#include "PxPhysXConfig.h"
+#include "PxFiltering.h"
+#include "foundation/PxMemory.h"
+
+#include "PsFile.h"
+
+#include "extensions/PxDefaultStreams.h"
+
+#include "ParticleSystem.h"
+#include "physxprofilesdk/PxProfileZoneManager.h"
+#ifdef PX_PS3
+#include "extensions/ps3/PxPS3Extension.h"
+#include "extensions/ps3/PxDefaultSpuDispatcher.h"
+//#define PRINT_BLOCK_COUNTERS
+#endif
+#include "pxtask\PxCudaContextManager.h"
 //***************************************************************************
 
 namespace NGTech {
+	using namespace physx;
 
-	//contact-callback------------------
-	int PhysSystem::playContantSound(const NewtonMaterial* material, const NewtonBody* body0, const NewtonBody* body1, int threadIndex) {
-		GetEngine()->physSystem->pBody0 = (PhysBody*) NewtonBodyGetUserData(body0);
-		GetEngine()->physSystem->pBody1 = (PhysBody*) NewtonBodyGetUserData(body1);
+	static PxDefaultErrorCallback gDefaultErrorCallback;
+	static PxDefaultAllocator gDefaultAllocatorCallback;
+	static PxSimulationFilterShader gDefaultFilterShader = PxDefaultSimulationFilterShader;
 
-		if (GetEngine()->physSystem->impactSpeed > 15) {
-			if (GetEngine()->physSystem->pBody0) {
-				if (GetEngine()->physSystem->pBody0->impactSrc) {
-					if (!GetEngine()->physSystem->pBody0->impactSrc->isPlaying()) {
-						GetEngine()->physSystem->pBody0->impactSrc->setPosition(GetEngine()->physSystem->impactPosition);
-						GetEngine()->physSystem->pBody0->impactSrc->play();
-					}
-				}
-			}
+	/*
+	*/
+	PhysSystem::PhysSystem() :accTimeSlice(0.0f),
+		mNbThreads(1)
+	{}
 
-			if (GetEngine()->physSystem->pBody1) {
-				if (GetEngine()->physSystem->pBody1->impactSrc) {
-					if (!GetEngine()->physSystem->pBody1->impactSrc->isPlaying()) {
-						GetEngine()->physSystem->pBody1->impactSrc->setPosition(GetEngine()->physSystem->impactPosition);
-						GetEngine()->physSystem->pBody1->impactSrc->play();
-					}
-				}
-			}
-		}
-		GetEngine()->physSystem->impactSpeed = 0;
-		return 1;
-	}
-	//-----------------------------------------
-	void PhysSystem::contactProcess(const NewtonJoint *pContactJoint, float fTimeStep, int ThreadIndex)
-	{
-		// Get pointer to body
-		NewtonBody* const body0 = NewtonJointGetBody0(pContactJoint);
-		for (void* contact = NewtonContactJointGetFirstContact(pContactJoint); contact; contact = NewtonContactJointGetNextContact(pContactJoint, contact)) {
-
-				NewtonMaterial* material = NewtonContactGetMaterial(contact);
-				float speed = NewtonMaterialGetContactNormalSpeed(material);
-				// play sound base of the contact speed.
-				//
-				if (speed > GetEngine()->physSystem->impactSpeed) {
-					GetEngine()->physSystem->impactSpeed = speed;
-					NewtonMaterialGetContactPositionAndNormal(material, body0, GetEngine()->physSystem->impactPosition, GetEngine()->physSystem->impactNormal);
-				}
-			}
-	}
-
-/*
-*/
-	PhysSystem::PhysSystem() : nWorld(nullptr) {}
-/*
-*/
+	/*
+	*/
 	void PhysSystem::initialise()
 	{
 		Log::writeHeader("-- PhysSystem --");
 
-		nWorld = NewtonCreate();
+		mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gDefaultErrorCallback);
+		if (!mFoundation)
+			Error("PhysSystem::initialise()-PxCreateFoundation failed!",true);
+		mProfileZoneManager = &PxProfileZoneManager::createProfileZoneManager(mFoundation);
+		if (!mProfileZoneManager)
+			Error("PxProfileZoneManager::createProfileZoneManager failed!", true);
 
-		accTimeSlice = 0.0f;
+		PxTolerancesScale scale;
+		mPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *mFoundation, scale, false, mProfileZoneManager);
+		if (!mPhysics)
+			Error("PhysSystem::initialise()-PxCreatePhysics failed!", true);
 
-		defaultID = NewtonMaterialGetDefaultGroupID(nWorld);
+		if (!PxInitExtensions(*mPhysics))
+			Error("PhysSystem::initialise()-PxInitExtensions failed!", true);
 
-		NewtonMaterialSetDefaultSoftness(nWorld, defaultID, defaultID, 0.05f);
-		NewtonMaterialSetDefaultElasticity(nWorld, defaultID, defaultID, 0.4f);
-		NewtonMaterialSetDefaultCollidable(nWorld, defaultID, defaultID, 1);
-		NewtonMaterialSetDefaultFriction(nWorld, defaultID, defaultID, 1.0f, 0.5f);
-		NewtonMaterialSetCollisionCallback(nWorld, defaultID, defaultID, NULL, playContantSound, contactProcess);
+		
+		PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
+		sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
+
+		if (!sceneDesc.cpuDispatcher)
+		{
+			mCpuDispatcher = PxDefaultCpuDispatcherCreate(mNbThreads);
+			if (!mCpuDispatcher)
+				Error("PhysSystem::initialise()-PxDefaultCpuDispatcherCreate failed!", true);
+			sceneDesc.cpuDispatcher = mCpuDispatcher;
+		}
+
+		if (!sceneDesc.filterShader)
+			sceneDesc.filterShader = gDefaultFilterShader;
+
+
+		mScene = mPhysics->createScene(sceneDesc);
+		if (!mScene)
+			Error("PhysSystem::initialise()-createScene failed!", true);
 	}
 
-/*
-*/
+	/*
+	*/
 	PhysSystem::~PhysSystem() {
-		NewtonDestroy(nWorld);
 	}
 
-/*
-*/
+	/*
+	*/
 	void PhysSystem::update(float dTime) {
 		accTimeSlice += dTime;
 
-		while (accTimeSlice > 12.0f) {
-			NewtonUpdate(nWorld, (12.0f / 1000.0f));
-			accTimeSlice -= 12.0f;
+		const float timestep = 1.0f / 60.0f;
+		while (accTimeSlice>0.0f)
+		{
+			const float dt = dTime >= timestep ? timestep : dTime;
+			if (mScene)
+				mScene->simulate(dTime);
+			accTimeSlice -= dt;
 		}
-
 		intersectionParam = 100000.0;
 	}
 
-/*
-*/
-	float PhysSystem::rayCastFilter(const NewtonBody* const body, const NewtonCollision* const shapeHit, const float* const hitContact, const float* const hitNormal, int* const collisionID, void* const userData, float iParam) {
-		if (iParam < GetEngine()->physSystem->intersectionParam) {
-			GetEngine()->physSystem->intersectionParam = iParam;
-			GetEngine()->physSystem->intersectionNormal = Vec3(hitNormal[0], hitNormal[1], hitNormal[2]);
-			GetEngine()->physSystem->intersectedBody = (PhysBody*) NewtonBodyGetUserData(body);
-		}
-		return iParam;
-	}
-
-/*
-*/
+	/*
+	*/
 	PhysBody *PhysSystem::intersectWorldByRay(const Vec3 &src, const Vec3 &dst, Vec3 &normal, Vec3 &point) {
-		NewtonWorldRayCast(nWorld, src, dst, rayCastFilter,NULL, NULL,  2);
-
-		if (intersectedBody) {
-			point = src + (dst - src) * intersectionParam;
-			normal = intersectionNormal;
-			return intersectedBody;
-		}
 		return NULL;
 	}
-
 }
