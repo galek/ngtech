@@ -83,27 +83,12 @@ namespace NGTech {
 		fclose(mFile);
 	}
 
-
-
-	//---------------------------------------------------------------------------
-	//Desc:    sets object transform
-	//Params:  trans - transform matrix
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ObjectMesh::setTransform(const Mat4 &trans) {
-		if (pBody == NULL) {
-			transform = trans;
-		}
-		else {
+		transform = trans;
+		if (pBody)
 			pBody->setTransform(trans);
-		}
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    gets object transform
-	//Params:  -
-	//Returns: object transformation matrix
-	//---------------------------------------------------------------------------
 	Mat4 ObjectMesh::getTransform() {
 		if (pBody == NULL)
 			return transform;
@@ -111,71 +96,36 @@ namespace NGTech {
 			return pBody->getTransform();
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets box object collider with mass
-	//Params:  mass - object mass
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ObjectMesh::setPhysicsBox(const Vec3 &size, float mass) {
 		pBody = PhysBody::createBox(size, mass);
 		setTransform(transform);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets sphere object collider with mass
-	//Params:  mass - object mass
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ObjectMesh::setPhysicsSphere(const Vec3 &size, float mass) {
 		pBody = PhysBody::createSphere(size.y, mass);//Nick:TODO:заменить на getRadius
 		setTransform(transform);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets cylinder object collider with mass
-	//Params:  mass - object mass
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ObjectMesh::setPhysicsCylinder(float radius, float height, float mass) {
 		pBody = PhysBody::createCylinder(radius, height, mass);
 		setTransform(transform);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets cone object collider with mass
-	//Params:  mass - object mass
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ObjectMesh::setPhysicsCone(float radius, float height, float mass) {
 		pBody = PhysBody::createCone(radius, height, mass);
 		setTransform(transform);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets capsule object collider with mass
-	//Params:  mass - object mass
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ObjectMesh::setPhysicsCapsule(float radius, float height, float mass)  {
 		pBody = PhysBody::createCapsule(radius, height, mass);
 		setTransform(transform);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets champfer cylinder object collider with mass
-	//Params:  mass - object mass
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ObjectMesh::setPhysicsChampferCylinder(float radius, float height, float mass) {
 		pBody = PhysBody::createChampferCylinder(radius, height, mass);
 		setTransform(transform);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets convex hull object collider with infinite mass (static)
-	//Params:  mass - object mass
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ObjectMesh::setPhysicsConvexHull(float mass) {
 		int numPos = 0;
 		for (int i = 0; i < model->getNumSubsets(); i++) {

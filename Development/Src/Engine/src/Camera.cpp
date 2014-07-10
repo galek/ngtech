@@ -189,8 +189,10 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	void CameraFree::setPhysics(const Vec3 &size, float mass) {
 		mass = 0.001;
+#if 0
 		pBody = PhysBody::createSphere(size.y, mass);
 		pBody->setTransform(Mat4::translate(position));
+#endif
 	}
 
 	//---------------------------------------------------------------------------

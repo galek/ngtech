@@ -1,11 +1,3 @@
-/***************************************************************************
-*   Copyright (C) 2006 by AST   *
-*   tsyplyaev@gmail.com   *
-*   ICQ: 279-533-134                          *
-*   This is a part of work done by AST.       *
-*   If you want to use it, please contact me. *
-***************************************************************************/
-
 #include "EnginePrivate.h"
 //***************************************************************************
 #include "PhysSystem.h"
@@ -13,12 +5,13 @@
 #include "Log.h"
 //***************************************************************************
 #include "PxPhysicsAPI.h"
+#include "EngineMathToPhysx.inl"
 //***************************************************************************
 
 namespace NGTech {
 	using namespace physx;
 
-	PhysBody *PhysBody::createBox(const Vec3 &size, float _mass) {
+	PhysBody *PhysBody::createBox(const Vec3 &size, float _mass){ 
 
 		PhysBody *body = new PhysBody();
 
@@ -30,12 +23,11 @@ namespace NGTech {
 		body->mass = _mass;
 
 		// Initialize Cube Actor
-		PxTransform mTransform(PxVec3(size.x, size.y, size.z));
 		PxMaterial* cubeMaterial = GetEngine()->physSystem->mPhysics->createMaterial(0.5f, 0.5f, 0.1f);
 
 		PxReal cubeDensity = 2.0f;//плотность
 		PxBoxGeometry cubeGeometry(size.x, size.y, size.z);
-		body->mActor = PxCreateDynamic(*GetEngine()->physSystem->mPhysics, mTransform, cubeGeometry, *cubeMaterial, cubeDensity);
+		body->mActor = PxCreateDynamic(*GetEngine()->physSystem->mPhysics, PxTransform(PxVec3(0, 0, 0)), cubeGeometry, *cubeMaterial, cubeDensity);
 		if (!body->mActor){
 			Warning("create actor failed!");
 			return NULL;
@@ -45,16 +37,16 @@ namespace NGTech {
 			body->mActor->setMass(body->mass);
 		body->mActor->setLinearDamping(1.0f);
 		body->mActor->setAngularDamping(1.0f);
-		body->mActor->setGlobalPose(PxTransform(10, 100, 100));//Nick
 		GetEngine()->physSystem->mScene->addActor(*body->mActor);
 
+		if (body->mActor)
+			body->mActor->setGlobalPose(physx::PxTransform(physx::PxVec3(0,100,0)));
 		body->impactSrc = NULL;
 
 		return body;
 	}
 
-	PhysBody *PhysBody::createSphere(float radius, float mass) {
-#if 0
+	PhysBody *PhysBody::createSphere(float radius, float _mass) {
 		PhysBody *body = new PhysBody();
 
 		body->force = Vec3(0, 0, 0);
@@ -62,34 +54,28 @@ namespace NGTech {
 		body->impulse = Vec3(0, 0, 0);
 		body->velocity = Vec3(0, 0, 0);
 
-		body->mass = mass;
+		body->mass = _mass;
 
-		//NewtonCollision *collision = NewtonCreateSphere(GetEngine()->physSystem->nWorld, radius, 0, 0);
+		// Initialize Cube Actor
+		PxMaterial* cubeMaterial = GetEngine()->physSystem->mPhysics->createMaterial(0.5f, 0.5f, 0.1f);
 
-		//Vec3 inertia, origin;
-		//NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
-		//float Ixx = mass * inertia.x;
-		//float Iyy = mass * inertia.y;
-		//float Izz = mass * inertia.z;
+		PxReal cubeDensity = 2.0f;//плотность
+		PxSphereGeometry sphereGeometry(radius);
+		body->mActor = PxCreateDynamic(*GetEngine()->physSystem->mPhysics, PxTransform(PxVec3(0, 0, 0)), sphereGeometry, *cubeMaterial, cubeDensity);
+		if (!body->mActor){
+			Warning("create actor failed!");
+			return NULL;
+		}
 
-		//body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
-		//NewtonDestroyCollision(collision);
-
-		//NewtonBodySetUserData(body->nBody, body);
-		//NewtonBodySetAutoSleep(body->nBody, 0);
-
-		//if (mass > 0) {
-		//	NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
-		//	NewtonBodySetCentreOfMass(body->nBody, origin);
-		//	NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
-		//}
+		if (_mass > 0)
+			body->mActor->setMass(body->mass);
+		body->mActor->setLinearDamping(1.0f);
+		body->mActor->setAngularDamping(1.0f);
+		GetEngine()->physSystem->mScene->addActor(*body->mActor);
 
 		body->impactSrc = NULL;
 
 		return body;
-#else
-		return NULL;
-#endif
 	}
 
 	PhysBody *PhysBody::createCylinder(float radius, float height, float mass) {
@@ -326,12 +312,13 @@ namespace NGTech {
 	}
 
 	void PhysBody::setTransform(const Mat4 &transform) {
+		if (mActor)
+			mActor->setGlobalPose(EngineMathToPhysX(transform));
 	}
 
 	Mat4 PhysBody::getTransform() {
-		Mat4 out;
-		out.identity();
-		return out;
+		auto pos = mActor->getGlobalPose();
+		return PhysXToEngineMath(pos);
 	}
 
 	void PhysBody::addTorque(const Vec3 &torque) {

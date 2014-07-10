@@ -19,25 +19,20 @@ void ExampleGame::initialise() {
 	LoadingScreen *lscreen = new LoadingScreen("../data/textures/logos/background.png");
 	lscreen->show();
 
-	sponza = new ObjectMesh("sponza.amdl");
-	sponza->setMaterialList("sponza.amtrlst");
-	sponza->setPhysicsStaticMesh();
-	sponza->setTransform(Mat4::translate(Vec3(0, -10, 0)));
+	//sponza = new ObjectMesh("sponza.amdl");
+	//sponza->setMaterialList("sponza.amtrlst");
+	//sponza->setPhysicsStaticMesh();
+	//sponza->setTransform(Mat4::translate(Vec3(0, -10, 0)));
 
-	//for (int i = 0; i < 5; i++) {
-	//	box[i] = new ObjectMesh("cube.amdl");
-	//	box[i]->setMaterial("*", "grid.amtr");
-	//	box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);
-	//	box[i]->setTransform(Mat4::translate(Vec3(-10 - i * 2, i * 20 + 10, i - 10)));
-	//	box[i]->setImpactSound("impact.ogg");
-	//}
-
-		auto box = new ObjectMesh("cube.amdl");
-		box->setMaterial("*", "grid.amtr");
-		box->setPhysicsBox(Vec3(10, 10, 10), 10);
-		box->setTransform(Mat4::translate(Vec3(100, 100, 100)));
-		box->setImpactSound("impact.ogg");
-
+	for (int i = 0; i < 1; i++) {
+		box[i] = new ObjectMesh("cube.amdl");
+		box[i]->setMaterial("*", "grid.amtr");
+		box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);/*
+		box[i]->setTransform(Mat4::translate(Vec3(-10 - i * 2, i * 20 + 10, i - 10)));*/
+		box[i]->setTransform(Mat4::translate(Vec3(0, 100, 0)));
+		box[i]->setImpactSound("impact.ogg");
+	}
+#if 0
 	for (int i = 0; i < 5; i++) {
 		sphere[i] = new ObjectMesh("sphere.amdl");
 		sphere[i]->setMaterial("*", "grid.amtr");
@@ -52,7 +47,7 @@ void ExampleGame::initialise() {
 		cylinder[i]->setTransform(Mat4::translate(Vec3(20 + i * 2, i * 20 + 20, i - 10)));
 		cylinder[i]->setImpactSound("impact.ogg");
 	}
-
+#endif
 	camera = new CameraFree();
 	camera->setPosition(Vec3(0, 20, 0));
 	camera->setMaxVelocity(2000);
@@ -85,7 +80,7 @@ void ExampleGame::initialise() {
 	GetEngine()->scene->setWater(1, 400);
 	GetEngine()->scene->setAmbient(Vec3(0.2, 0.2, 0.2));
 
-	GetEngine()->iWindow->grabMouse(true);
+	//GetEngine()->iWindow->grabMouse(true);
 
 	MyGUI::ButtonPtr button = GetEngine()->gui->getGUI()->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
 	button->setFontName("DejaVuSansFont_15");

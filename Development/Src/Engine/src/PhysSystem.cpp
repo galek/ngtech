@@ -101,7 +101,7 @@ namespace NGTech {
 		if (!mScene)
 			Error("PhysSystem::initialise()-createScene failed!", true);
 
-#ifdef _DEBUG
+#if defined (_DEBUG)||defined (ENABLE_PVD)||defined (DEBUG_PHYSICS)
 		// *** Create Ground-Plane *** //
 		PxTransform pose = PxTransform(PxVec3(0.0f, 0.0f, 0.0f), PxQuat(PxHalfPi, PxVec3(0.0f, 0.0f, 1.0f)));
 		PxRigidStatic* plane = mPhysics->createRigidStatic(pose);
