@@ -31,7 +31,7 @@
 
 namespace NGTech {
 	void DebugF(std::string text, const char* _file, int _line);
-	void Warning(const TCHAR* text, ... );
+	void Warning(const char* text, ... );
 	void LogPrintf(std::string text);
 	void Error(std::string text,bool _fatal);
 }

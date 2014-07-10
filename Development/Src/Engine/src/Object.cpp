@@ -21,26 +21,11 @@
 
 namespace NGTech {
 
-	//**************************************************************************
-	//Object
-	//**************************************************************************
-	//---------------------------------------------------------------------------
-	//Desc:    Base Object 
-	//Params:  
-	//Returns: -
-	//---------------------------------------------------------------------------
 	Object::Object() {
 		if (GetEngine()->scene)
 			GetEngine()->scene->addObject(this);
 	}
-	//**************************************************************************
-	//ObjectMesh
-	//**************************************************************************
-	//---------------------------------------------------------------------------
-	//Desc:    creates new ObjectMesh from file
-	//Params:  path - object file path
-	//Returns: -
-	//---------------------------------------------------------------------------
+
 	ObjectMesh::ObjectMesh(const String &path)
 		:Object() {
 		if (GetEngine()->cache){
@@ -54,11 +39,6 @@ namespace NGTech {
 		return;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    destroys object
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	ObjectMesh::~ObjectMesh() {
 		GetEngine()->cache->deleteModel(model);
 		for (int i = 0; i < materials.size(); i++) {
@@ -69,29 +49,14 @@ namespace NGTech {
 		delete pBody;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    draws object subset
-	//Params:  s - surface number
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ObjectMesh::drawSubset(int s) {
 		model->drawSubset(s);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    get subset material by number
-	//Params:  s - subset number
-	//Returns: subset`s material
-	//---------------------------------------------------------------------------
 	Material *ObjectMesh::getMaterial(int s) {
 		return materials[s];
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    set material to the subset
-	//Params:  name - subset name, path - material file path
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ObjectMesh::setMaterial(const String &name, const String &path) {
 		if (GetEngine()->cache){
 			Material *material = GetEngine()->cache->loadMaterial(path);
@@ -102,11 +67,6 @@ namespace NGTech {
 		}
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    set materials to the subsets
-	//Params:  path - material list file path
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ObjectMesh::setMaterialList(const String &path) {
 		FILE *mFile = fopen(String("../data/meshes/" + path).c_str(), "rt");
 
@@ -238,11 +198,6 @@ namespace NGTech {
 		delete[] pos;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets static object collider
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ObjectMesh::setPhysicsStaticMesh() {
 		int numPos = 0;
 		for (int i = 0; i < model->getNumSubsets(); i++) {
@@ -260,7 +215,7 @@ namespace NGTech {
 				k++;
 			}
 		}
-		
+
 		if (pBody)
 			pBody = PhysBody::createStaticMesh(pos, numPos, true);
 		setTransform(transform);
@@ -274,14 +229,6 @@ namespace NGTech {
 			pBody->setImpactSound(impactSound);
 	}
 
-	//**************************************************************************
-	//ObjectSkinnedMesh
-	//**************************************************************************
-	//---------------------------------------------------------------------------
-	//Desc:    creates new ObjectMesh from file
-	//Params:  path - object file path
-	//Returns: -
-	//---------------------------------------------------------------------------
 	ObjectSkinnedMesh::ObjectSkinnedMesh(const String &path) {
 		model = new SkinnedModel("../data/meshes/" + path);
 		materials.resize(model->getNumSubsets());
@@ -291,11 +238,6 @@ namespace NGTech {
 		return;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    destroys object
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	ObjectSkinnedMesh::~ObjectSkinnedMesh() {
 		delete model;
 		for (int i = 0; i < materials.size(); i++) {
@@ -304,29 +246,14 @@ namespace NGTech {
 		materials.clear();
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    draws object subset
-	//Params:  s - surface number
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ObjectSkinnedMesh::drawSubset(int s) {
 		model->drawSubset(s);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    get subset material by number
-	//Params:  s - subset number
-	//Returns: subset`s material
-	//---------------------------------------------------------------------------
 	Material *ObjectSkinnedMesh::getMaterial(int s) {
 		return materials[s];
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    set material to the subset
-	//Params:  name - subset name, path - material file path
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ObjectSkinnedMesh::setMaterial(const String &name, const String &path) {
 		Material *material = GetEngine()->cache->loadMaterial(path);
 		if (name == "*")	{
@@ -337,11 +264,6 @@ namespace NGTech {
 		materials[model->getSubset(name)] = material;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    set materials to the subsets
-	//Params:  path - material list file path
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ObjectSkinnedMesh::setMaterialList(const String &path) {
 		FILE *mFile = fopen(String("../data/meshes/" + path).c_str(), "rt");
 
@@ -358,22 +280,10 @@ namespace NGTech {
 		fclose(mFile);
 	}
 
-
-
-	//---------------------------------------------------------------------------
-	//Desc:    sets object transform
-	//Params:  trans - transform matrix
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ObjectSkinnedMesh::setTransform(const Mat4 &trans) {
 		transform = trans;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    gets object transform
-	//Params:  -
-	//Returns: object transformation matrix
-	//---------------------------------------------------------------------------
 	Mat4 ObjectSkinnedMesh::getTransform() {
 		return transform;
 	}
