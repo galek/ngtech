@@ -1,10 +1,3 @@
-/***************************************************************************
-*   Copyright (C) 2006 by AST   *
-*   tsyplyaev@gmail.com   *
-*   ICQ: 279-533-134                          *
-*   This is a part of work done by AST.       *
-*   If you want to use it, please contact me. *
-***************************************************************************/
 #pragma once
 
 //***************************************************************************
@@ -14,8 +7,11 @@
 #include "ALSound.h"
 #include "ALSoundSource.h"
 //***************************************************************************
-struct NewtonBody;
-
+namespace physx
+{
+	class PxShape;
+	class PxRigidDynamic;
+}
 namespace NGTech {
 
 	//---------------------------------------------------------------------------
@@ -48,7 +44,7 @@ namespace NGTech {
 		Vec3 getTorque();
 
 		void addVelocity(const Vec3 &velocity);
-		void setVelocity(const Vec3 &velocity);
+		void setLinearVelocity(const Vec3 &velocity);
 		Vec3 getVelocity();
 
 		typedef void(*ContactCallback)();
@@ -58,10 +54,9 @@ namespace NGTech {
 		}
 
 	private:
-		NewtonBody *nBody;
-
 		ALSoundSource *impactSrc;
-
+		physx::PxShape* mShape;
+		physx::PxRigidDynamic *mActor;
 		Vec3 force;
 		Vec3 torque;
 		Vec3 impulse;

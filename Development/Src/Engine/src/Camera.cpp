@@ -93,12 +93,9 @@ namespace NGTech {
 	void CameraFPS::update() {
 		if(pBody) {
 			position = pBody->getTransform().getTranslation() + Vec3(0, 7, 0);
-			pBody->setVelocity(Vec3(0, pBody->getVelocity().y, 0));//pBody->getVelocity().y, 0));
+			pBody->setLinearVelocity(Vec3(0, pBody->getVelocity().y, 0));
 		}
 
-		/*Vec3 forwardVec = Vec3::normalize(Vec3(sinf(angle[0]) * cosf(angle[1]),
-		sinf(angle[1]),
-		cosf(angle[0]) * cosf(angle[1])));*/
 		if(GetEngine()->iWindow->isMouseMoved() && GetEngine()->iWindow->isMouseGrabed()) {
 			angle[0] = -0.4 * GetEngine()->iWindow->getMouseX();
 			angle[1] = -0.4 * GetEngine()->iWindow->getMouseY();
@@ -222,12 +219,9 @@ namespace NGTech {
 	void CameraFree::update() {
 		if(pBody) {
 			position = pBody->getTransform().getTranslation();
-			pBody->setVelocity(Vec3(0, 0, 0));
+			pBody->setLinearVelocity(Vec3(0, 0, 0));
 		}
 
-		/*Vec3 forwardVec = Vec3::normalize(Vec3(sinf(angle[0]) * cosf(angle[1]),
-		sinf(angle[1]),
-		cosf(angle[0]) * cosf(angle[1])));*/
 		if(GetEngine()->iWindow->isMouseMoved() && GetEngine()->iWindow->isMouseGrabed()) {
 			angle[0] = -0.4 * GetEngine()->iWindow->getMouseX();
 			angle[1] = -0.4 * GetEngine()->iWindow->getMouseY();

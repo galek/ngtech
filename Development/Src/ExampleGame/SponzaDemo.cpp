@@ -24,13 +24,20 @@ void ExampleGame::initialise() {
 	sponza->setPhysicsStaticMesh();
 	sponza->setTransform(Mat4::translate(Vec3(0, -10, 0)));
 
-	for (int i = 0; i < 5; i++) {
-		box[i] = new ObjectMesh("cube.amdl");
-		box[i]->setMaterial("*", "grid.amtr");
-		box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);
-		box[i]->setTransform(Mat4::translate(Vec3(-10 - i * 2, i * 20 + 10, i - 10)));
-		box[i]->setImpactSound("impact.ogg");
-	}
+	//for (int i = 0; i < 5; i++) {
+	//	box[i] = new ObjectMesh("cube.amdl");
+	//	box[i]->setMaterial("*", "grid.amtr");
+	//	box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);
+	//	box[i]->setTransform(Mat4::translate(Vec3(-10 - i * 2, i * 20 + 10, i - 10)));
+	//	box[i]->setImpactSound("impact.ogg");
+	//}
+
+		auto box = new ObjectMesh("cube.amdl");
+		box->setMaterial("*", "grid.amtr");
+		box->setPhysicsBox(Vec3(10, 10, 10), 10);
+		box->setTransform(Mat4::translate(Vec3(100, 100, 100)));
+		box->setImpactSound("impact.ogg");
+
 	for (int i = 0; i < 5; i++) {
 		sphere[i] = new ObjectMesh("sphere.amdl");
 		sphere[i]->setMaterial("*", "grid.amtr");

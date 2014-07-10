@@ -45,7 +45,9 @@ namespace NGTech {
 		void update(float dTime);
 
 		PhysBody *intersectWorldByRay(const Vec3 &src, const Vec3 &dst, Vec3 &normal, Vec3 &point);
-
+	private:
+		void togglePvdConnection();
+		void createPvdConnection();
 	private:
 	
 		float accTimeSlice;

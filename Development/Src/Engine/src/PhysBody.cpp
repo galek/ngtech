@@ -12,15 +12,14 @@
 #include "PhysBody.h"
 #include "Log.h"
 //***************************************************************************
+#include "PxPhysicsAPI.h"
+//***************************************************************************
 
 namespace NGTech {
-	//---------------------------------------------------------------------------
-	//Desc:    creates PhysBody with box collider
-	//Params:  size - size of the box, mass - PhysBody mass, isStatic - is PhysBody static
-	//Returns: pointer to the new PhysBody
-	//---------------------------------------------------------------------------
-	PhysBody *PhysBody::createBox(const Vec3 &size, float mass) {
-#if 0
+	using namespace physx;
+
+	PhysBody *PhysBody::createBox(const Vec3 &size, float _mass) {
+
 		PhysBody *body = new PhysBody();
 
 		body->force = Vec3(0, 0, 0);
@@ -28,40 +27,32 @@ namespace NGTech {
 		body->impulse = Vec3(0, 0, 0);
 		body->velocity = Vec3(0, 0, 0);
 
-		body->mass = mass;
+		body->mass = _mass;
 
-	/*	NewtonCollision *collision = NewtonCreateBox(GetEngine()->physSystem->nWorld, size.x, size.y, size.z, 0, 0);
+		// Initialize Cube Actor
+		PxTransform mTransform(PxVec3(size.x, size.y, size.z));
+		PxMaterial* cubeMaterial = GetEngine()->physSystem->mPhysics->createMaterial(0.5f, 0.5f, 0.1f);
 
-		Vec3 inertia, origin;
-		NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
-		float Ixx = mass * inertia.x;
-		float Iyy = mass * inertia.y;
-		float Izz = mass * inertia.z;
-
-		body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, origin);
-		NewtonDestroyCollision(collision);
-
-		NewtonBodySetUserData(body->nBody, body);
-		NewtonBodySetAutoSleep(body->nBody, 0);
-
-		if (mass > 0) {
-			NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
-			NewtonBodySetCentreOfMass(body->nBody, origin);
-			NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
+		PxReal cubeDensity = 2.0f;//плотность
+		PxBoxGeometry cubeGeometry(size.x, size.y, size.z);
+		body->mActor = PxCreateDynamic(*GetEngine()->physSystem->mPhysics, mTransform, cubeGeometry, *cubeMaterial, cubeDensity);
+		if (!body->mActor){
+			Warning("create actor failed!");
+			return NULL;
 		}
-		*/
+		
+		if (_mass > 0)
+			body->mActor->setMass(body->mass);
+		body->mActor->setLinearDamping(1.0f);
+		body->mActor->setAngularDamping(1.0f);
+		body->mActor->setGlobalPose(PxTransform(10, 100, 100));//Nick
+		GetEngine()->physSystem->mScene->addActor(*body->mActor);
+
 		body->impactSrc = NULL;
 
 		return body;
-#else
-		return NULL;
-#endif
 	}
-	//---------------------------------------------------------------------------
-	//Desc:    creates PhysBody with sphere collider
-	//Params:  size - radius of the sphere, mass - PhysBody mass
-	//Returns: pointer to the new PhysBody
-	//---------------------------------------------------------------------------
+
 	PhysBody *PhysBody::createSphere(float radius, float mass) {
 #if 0
 		PhysBody *body = new PhysBody();
@@ -100,11 +91,7 @@ namespace NGTech {
 		return NULL;
 #endif
 	}
-	//---------------------------------------------------------------------------
-	//Desc:    creates PhysBody with cylinder collider
-	//Params:  radius - radius of the cylinder, height - cylinder height, mass - PhysBody mass
-	//Returns: pointer to the new PhysBody
-	//---------------------------------------------------------------------------
+
 	PhysBody *PhysBody::createCylinder(float radius, float height, float mass) {
 #if 0
 		PhysBody *body = new PhysBody();
@@ -143,11 +130,7 @@ namespace NGTech {
 		return NULL;
 #endif
 	}
-	//---------------------------------------------------------------------------
-	//Desc:    creates PhysBody with cone collider
-	//Params:  radius - radius of the cone, height - cone height, mass - PhysBody mass
-	//Returns: pointer to the new PhysBody
-	//---------------------------------------------------------------------------
+
 	PhysBody *PhysBody::createCone(float radius, float height, float mass) {
 #if 0
 		PhysBody *body = new PhysBody();
@@ -186,11 +169,7 @@ namespace NGTech {
 		return NULL;
 #endif
 	}
-	//---------------------------------------------------------------------------
-	//Desc:    creates PhysBody with capsule collider
-	//Params:  radius - radius of the capsule, height - capsule height, mass - PhysBody mass
-	//Returns: pointer to the new PhysBody
-	//---------------------------------------------------------------------------
+
 	PhysBody *PhysBody::createCapsule(float radius, float height, float mass) {
 #if 0
 		PhysBody *body = new PhysBody();
@@ -229,11 +208,7 @@ namespace NGTech {
 		return NULL;
 #endif
 	}
-	//---------------------------------------------------------------------------
-	//Desc:    creates PhysBody with champfer cylinder collider
-	//Params:  radius - radius of the cylinder, height - cylinder height, mass - PhysBody mass
-	//Returns: pointer to the new PhysBody
-	//---------------------------------------------------------------------------
+
 	PhysBody *PhysBody::createChampferCylinder(float radius, float height, float mass) {
 #if 0
 		PhysBody *body = new PhysBody();
@@ -272,11 +247,7 @@ namespace NGTech {
 		return NULL;
 #endif
 	}
-	//---------------------------------------------------------------------------
-	//Desc:    creates PhysBody with convex hull collider
-	//Params:  pos - array of the hull points, numPos - number of hull points, mass - PhysBody mass
-	//Returns: pointer to the new PhysBody
-	//---------------------------------------------------------------------------
+
 	PhysBody *PhysBody::createConvexHull(Vec3 *pos, const int numPos, float mass) {
 #if 0
 		PhysBody *body = new PhysBody();
@@ -316,11 +287,6 @@ namespace NGTech {
 #endif
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates PhysBody with object collider
-	//Params:  pos - array of vertices, numPos - number of vertices
-	//Returns: pointer to the new PhysBody
-	//---------------------------------------------------------------------------
 	PhysBody *PhysBody::createStaticMesh(Vec3 *pos, const int numPos, bool optimize) {
 #if 0
 		PhysBody *body = new PhysBody();
@@ -354,46 +320,20 @@ namespace NGTech {
 #endif
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    PhysBody destructor
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	PhysBody::~PhysBody() {/*
 		NewtonDestroyBody(GetEngine()->physSystem->nWorld, nBody);*/
 		SAFE_DELETE(impactSrc);
 	}
 
-	//***************************************************************************
-	//Set and get transform
-	//***************************************************************************
-	//---------------------------------------------------------------------------
-	//Desc:    sets PhysBody transform
-	//Params:  trans - transform matrix
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void PhysBody::setTransform(const Mat4 &transform) {
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    gets PhysBody transform
-	//Params:  -
-	//Returns: PhysBody transform matrix
-	//---------------------------------------------------------------------------
 	Mat4 PhysBody::getTransform() {
 		Mat4 out;
 		out.identity();
 		return out;
 	}
 
-	//***************************************************************************
-	//Set and get velocity
-	//***************************************************************************
-	//---------------------------------------------------------------------------
-	//Desc:    adds torque to PhysBody
-	//Params:  torque - torque vector
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void PhysBody::addTorque(const Vec3 &torque) {
 		this->torque += torque;
 		this->force += torque * getMass();
@@ -404,8 +344,8 @@ namespace NGTech {
 	}
 
 	void PhysBody::addForce(const Vec3 &force) {
-		this->torque += force / getMass();
-		this->force += force;
+	/*	this->torque += force / getMass();
+		this->force += force;*/
 	}
 
 	Vec3 PhysBody::getForce() {
@@ -415,21 +355,24 @@ namespace NGTech {
 	void PhysBody::addVelocity(const Vec3 &velocity) {
 	}
 
-	void PhysBody::setVelocity(const Vec3 &velocity) {
+	void PhysBody::setLinearVelocity(const Vec3 &velocity) {
+		if (mActor)
+			mActor->setLinearVelocity(physx::PxVec3(velocity.x, velocity.y, velocity.z));
 	}
 
 	Vec3 PhysBody::getVelocity() {
 		Vec3 velocity(0, 0, 0);
 		return velocity;
 	}
-	
-	float PhysBody::getMass() {
-		float Ixx, Iyy, Izz;
-		float mass;
 
-		return 0;//mass;
+	float PhysBody::getMass() {
+		if (mActor)
+			return mActor->getMass();
+		else return 0.0f;
 	}
 
 	void PhysBody::setMass(float mass) {
+		if (mActor)
+			mActor->setMass(mass);
 	}
 }

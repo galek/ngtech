@@ -7,7 +7,7 @@
 
 __declspec(dllimport) void ExampleGameStart();
 
-#ifndef _ENGINE_DEBUG_
+#if defined _ENGINE_DEBUG_ && !defined _DEBUG
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPTSTR    lpCmdLine,
