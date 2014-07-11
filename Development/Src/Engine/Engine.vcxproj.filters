@@ -264,4 +264,7 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="inc\EngineMathToPhysx.inl" />
+  </ItemGroup>
 </Project>

@@ -11,7 +11,7 @@
 namespace NGTech {
 	using namespace physx;
 
-	PhysBody *PhysBody::createBox(const Vec3 &size, float _mass){ 
+	PhysBody *PhysBody::createBox(const Vec3 &size, Mat4 *_trans, float _mass){
 
 		PhysBody *body = new PhysBody();
 
@@ -27,7 +27,7 @@ namespace NGTech {
 
 		PxReal cubeDensity = 2.0f;//плотность
 		PxBoxGeometry cubeGeometry(size.x, size.y, size.z);
-		body->mActor = PxCreateDynamic(*GetEngine()->physSystem->mPhysics, PxTransform(PxVec3(0, 0, 0)), cubeGeometry, *cubeMaterial, cubeDensity);
+		body->mActor = PxCreateDynamic(*GetEngine()->physSystem->mPhysics, EngineMathToPhysX(_trans), cubeGeometry, *cubeMaterial, cubeDensity);
 		if (!body->mActor){
 			Warning("create actor failed!");
 			return NULL;
@@ -39,14 +39,12 @@ namespace NGTech {
 		body->mActor->setAngularDamping(1.0f);
 		GetEngine()->physSystem->mScene->addActor(*body->mActor);
 
-		if (body->mActor)
-			body->mActor->setGlobalPose(physx::PxTransform(physx::PxVec3(0,100,0)));
 		body->impactSrc = NULL;
 
 		return body;
 	}
 
-	PhysBody *PhysBody::createSphere(float radius, float _mass) {
+	PhysBody *PhysBody::createSphere(float radius,Mat4 *_trans, float _mass) {
 		PhysBody *body = new PhysBody();
 
 		body->force = Vec3(0, 0, 0);
@@ -61,7 +59,7 @@ namespace NGTech {
 
 		PxReal cubeDensity = 2.0f;//плотность
 		PxSphereGeometry sphereGeometry(radius);
-		body->mActor = PxCreateDynamic(*GetEngine()->physSystem->mPhysics, PxTransform(PxVec3(0, 0, 0)), sphereGeometry, *cubeMaterial, cubeDensity);
+		body->mActor = PxCreateDynamic(*GetEngine()->physSystem->mPhysics, EngineMathToPhysX(_trans), sphereGeometry, *cubeMaterial, cubeDensity);
 		if (!body->mActor){
 			Warning("create actor failed!");
 			return NULL;
@@ -71,6 +69,7 @@ namespace NGTech {
 			body->mActor->setMass(body->mass);
 		body->mActor->setLinearDamping(1.0f);
 		body->mActor->setAngularDamping(1.0f);
+		//body->setTransform(_trans);
 		GetEngine()->physSystem->mScene->addActor(*body->mActor);
 
 		body->impactSrc = NULL;
@@ -311,9 +310,11 @@ namespace NGTech {
 		SAFE_DELETE(impactSrc);
 	}
 
-	void PhysBody::setTransform(const Mat4 &transform) {
+	void PhysBody::setTransform(const Mat4 &_transform) {
 		if (mActor)
-			mActor->setGlobalPose(EngineMathToPhysX(transform));
+			mActor->setGlobalPose(EngineMathToPhysX((NGTech::Mat4 *)&_transform));
+		else
+			Debug("PhysBody::setTransform:-mActor is not exist");
 	}
 
 	Mat4 PhysBody::getTransform() {

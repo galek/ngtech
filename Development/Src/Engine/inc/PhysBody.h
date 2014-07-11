@@ -19,8 +19,8 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	class PhysBody {
 	public:
-		static PhysBody *createBox(const Vec3 &size, float mass = 0);
-		static PhysBody *createSphere(float radius, float mass = 0);
+		static PhysBody *createBox(const Vec3 &size, Mat4 *_trans, float mass = 0);
+		static PhysBody *createSphere(float radius, Mat4 *_trans, float mass = 0);
 
 		static PhysBody *createCylinder(float radius, float height, float mass = 0);
 		static PhysBody *createCone(float radius, float height, float mass = 0);
@@ -63,8 +63,7 @@ namespace NGTech {
 		Vec3 velocity;
 
 		float mass;
-		
-		ContactCallback contact;
+
 		bool cc;
 
 		friend class PhysSystem;

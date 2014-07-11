@@ -84,9 +84,10 @@ namespace NGTech {
 	}
 
 	void ObjectMesh::setTransform(const Mat4 &trans) {
-		transform = trans;
 		if (pBody)
 			pBody->setTransform(trans);
+		else
+			transform = trans;
 	}
 
 	Mat4 ObjectMesh::getTransform() {
@@ -97,13 +98,11 @@ namespace NGTech {
 	}
 
 	void ObjectMesh::setPhysicsBox(const Vec3 &size, float mass) {
-		pBody = PhysBody::createBox(size, mass);
-		setTransform(transform);
+		pBody = PhysBody::createBox(size, &transform, mass);
 	}
 
 	void ObjectMesh::setPhysicsSphere(const Vec3 &size, float mass) {
-		pBody = PhysBody::createSphere(size.y, mass);//Nick:TODO:заменить на getRadius
-		setTransform(transform);
+		pBody = PhysBody::createSphere(size.y, &transform, mass);//Nick:TODO:заменить на getRadius
 	}
 
 	void ObjectMesh::setPhysicsCylinder(float radius, float height, float mass) {

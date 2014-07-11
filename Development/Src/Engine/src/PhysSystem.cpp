@@ -29,7 +29,7 @@
 #include "pxtask/PxCudaContextManager.h"
 //***************************************************************************
 
-#define ENABLE_PVD 1
+//#define ENABLE_PVD 1
 
 
 namespace NGTech {
@@ -100,14 +100,6 @@ namespace NGTech {
 		mScene = mPhysics->createScene(sceneDesc);
 		if (!mScene)
 			Error("PhysSystem::initialise()-createScene failed!", true);
-
-#if defined (_DEBUG)||defined (ENABLE_PVD)||defined (DEBUG_PHYSICS)
-		// *** Create Ground-Plane *** //
-		PxTransform pose = PxTransform(PxVec3(0.0f, 0.0f, 0.0f), PxQuat(PxHalfPi, PxVec3(0.0f, 0.0f, 1.0f)));
-		PxRigidStatic* plane = mPhysics->createRigidStatic(pose);
-		PxShape* shape = plane->createShape(PxPlaneGeometry(), *mMaterial);
-		mScene->addActor(*plane);
-#endif
 	}
 
 	/*
