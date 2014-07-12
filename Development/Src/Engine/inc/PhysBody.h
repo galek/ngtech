@@ -24,7 +24,7 @@ namespace NGTech {
 
 		static PhysBody *createCylinder(float radius, float height, float mass = 0);
 		static PhysBody *createCone(float radius, float height, float mass = 0);
-		static PhysBody *createCapsule(float radius, float height, float mass = 0);
+		static PhysBody *createCapsule(float radius, float height, Mat4 *_trans, float mass = 0);
 		static PhysBody *createChampferCylinder(float radius, float height, float mass = 0);
 
 		static PhysBody *createConvexHull(Vec3 *pos, const int numPos, float mass = 0);

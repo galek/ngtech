@@ -176,9 +176,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="DLLx.h" />
     <ClInclude Include="ExampleGame.h" />
     <ClInclude Include="stdafx.h" />

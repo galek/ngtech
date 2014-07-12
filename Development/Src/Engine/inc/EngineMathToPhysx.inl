@@ -6,14 +6,22 @@
 namespace NGTech {
 	__inline physx::PxTransform EngineMathToPhysX(Mat4 *_trans)
 	{
-		physx::PxVec3 vec(_trans->e[12], _trans->e[13], _trans->e[14]);
-		Warning("x:%i,y:%i,z:%i", _trans->e[12], _trans->e[13], _trans->e[14]);
-		//Nick:TODO:–азобратьс€ как переводить квартатион
-		return physx::PxTransform(vec);
+		physx::PxTransform trans;
+
+		auto r = _trans->getRotation();
+		Quat q(r);
+		trans.p = { _trans->e[12], _trans->e[13], _trans->e[14] };
+		physx::PxQuat quat(q.x,q.y,q.z,q.w);
+		trans.q = quat;
+		return trans;
 	}
 	_inline Mat4 PhysXToEngineMath(const physx::PxTransform &_trans)
 	{
-		Vec3 vec(_trans.p.x, _trans.p.y, _trans.p.z);
-		return Mat4::translate(vec);
+		Quat quat;
+		Mat4 matrix = quat.toMatrix();
+		matrix.e[12] = _trans.p.x;
+		matrix.e[13] = _trans.p.y;
+		matrix.e[14] = _trans.p.z;
+		return matrix;
 	}
 }

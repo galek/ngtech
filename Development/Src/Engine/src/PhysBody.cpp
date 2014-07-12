@@ -10,6 +10,33 @@
 
 namespace NGTech {
 	using namespace physx;
+	namespace physxUtils{
+		PX_FORCE_INLINE void SetupDefaultRigidDynamic(PxRigidDynamic& body, bool kinematic = false)
+		{
+			body.setActorFlag(PxActorFlag::eVISUALIZATION, true);
+			body.setAngularDamping(0.5f);
+			body.setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, kinematic);
+		}
+	}
+	PxConvexMesh* createConvexMesh(const PxVec3* verts, const PxU32 numVerts, PxPhysics& physics, PxCooking& cooking)
+	{
+		// Create descriptor for convex mesh
+		PxConvexMeshDesc convexDesc;
+		convexDesc.points.count = numVerts;
+		convexDesc.points.stride = sizeof(PxVec3);
+		convexDesc.points.data = verts;
+		convexDesc.flags = PxConvexFlag::eCOMPUTE_CONVEX | PxConvexFlag::eINFLATE_CONVEX;
+
+		PxConvexMesh* convexMesh = NULL;
+		PxDefaultMemoryOutputStream buf;
+		if (cooking.cookConvexMesh(convexDesc, buf))
+		{
+			PxDefaultMemoryInputData id(buf.getData(), buf.getSize());
+			convexMesh = physics.createConvexMesh(id);
+		}
+
+		return convexMesh;
+	}
 
 	PhysBody *PhysBody::createBox(const Vec3 &size, Mat4 *_trans, float _mass){
 
@@ -23,11 +50,8 @@ namespace NGTech {
 		body->mass = _mass;
 
 		// Initialize Cube Actor
-		PxMaterial* cubeMaterial = GetEngine()->physSystem->mPhysics->createMaterial(0.5f, 0.5f, 0.1f);
-
 		PxReal cubeDensity = 2.0f;//плотность
-		PxBoxGeometry cubeGeometry(size.x, size.y, size.z);
-		body->mActor = PxCreateDynamic(*GetEngine()->physSystem->mPhysics, EngineMathToPhysX(_trans), cubeGeometry, *cubeMaterial, cubeDensity);
+		body->mActor = PxCreateDynamic(*GetEngine()->physSystem->mPhysics, EngineMathToPhysX(_trans), PxBoxGeometry(size.x, size.y, size.z), *GetEngine()->physSystem->mMaterial, cubeDensity);
 		if (!body->mActor){
 			Warning("create actor failed!");
 			return NULL;
@@ -55,21 +79,19 @@ namespace NGTech {
 		body->mass = _mass;
 
 		// Initialize Cube Actor
-		PxMaterial* cubeMaterial = GetEngine()->physSystem->mPhysics->createMaterial(0.5f, 0.5f, 0.1f);
-
 		PxReal cubeDensity = 2.0f;//плотность
 		PxSphereGeometry sphereGeometry(radius);
-		body->mActor = PxCreateDynamic(*GetEngine()->physSystem->mPhysics, EngineMathToPhysX(_trans), sphereGeometry, *cubeMaterial, cubeDensity);
+		body->mActor = PxCreateDynamic(*GetEngine()->physSystem->mPhysics, EngineMathToPhysX(_trans), sphereGeometry, *GetEngine()->physSystem->mMaterial, cubeDensity);
 		if (!body->mActor){
 			Warning("create actor failed!");
 			return NULL;
 		}
 
-		if (_mass > 0)
+		if (body->mass > 0)
 			body->mActor->setMass(body->mass);
-		body->mActor->setLinearDamping(1.0f);
-		body->mActor->setAngularDamping(1.0f);
-		//body->setTransform(_trans);
+		//body->mActor->setLinearDamping(1.0f);
+		//body->mActor->setAngularDamping(1.0f);
+	
 		GetEngine()->physSystem->mScene->addActor(*body->mActor);
 
 		body->impactSrc = NULL;
@@ -155,8 +177,7 @@ namespace NGTech {
 #endif
 	}
 
-	PhysBody *PhysBody::createCapsule(float radius, float height, float mass) {
-#if 0
+	PhysBody *PhysBody::createCapsule(float radius, float height, Mat4 *_trans, float mass) {
 		PhysBody *body = new PhysBody();
 
 		body->force = Vec3(0, 0, 0);
@@ -165,33 +186,26 @@ namespace NGTech {
 		body->velocity = Vec3(0, 0, 0);
 
 		body->mass = mass;
+		PxReal density = 2.0f;//плотность
+		PxSceneWriteLock scopedLock(*GetEngine()->physSystem->mScene);
+		const PxQuat rot = PxQuat(PxIdentity);
+		PX_UNUSED(rot);
 
-		//NewtonCollision *collision = NewtonCreateCapsule(GetEngine()->physSystem->nWorld, radius, height, 0, 0);
+		PxRigidDynamic* capsule = PxCreateDynamic(*GetEngine()->physSystem->mPhysics, EngineMathToPhysX(_trans), PxCapsuleGeometry(radius, height / 2), *GetEngine()->physSystem->mMaterial, density);
+		PX_ASSERT(capsule);
 
-		//Vec3 inertia, origin;
-		//NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
-		//float Ixx = mass * inertia.x;
-		//float Iyy = mass * inertia.y;
-		//float Izz = mass * inertia.z;
+		physxUtils::SetupDefaultRigidDynamic(*capsule);
+		GetEngine()->physSystem->mScene->addActor(*capsule);
+	/*	addPhysicsActors(capsule);
 
-		//body->nBody = NewtonCreateDynamicBody(GetEngine()->physSystem->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
-		//NewtonDestroyCollision(collision);
+		if(linVel)
+			capsule->setLinearVelocity(*linVel);*/
 
-		//NewtonBodySetUserData(body->nBody, body);
-		//NewtonBodySetAutoSleep(body->nBody, 0);
-
-		//if (mass > 0) {
-		//	NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
-		//	NewtonBodySetCentreOfMass(body->nBody, origin);
-		//	NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
-		//}
+		
 
 		body->impactSrc = NULL;
 
 		return body;
-#else
-		return NULL;
-#endif
 	}
 
 	PhysBody *PhysBody::createChampferCylinder(float radius, float height, float mass) {
@@ -363,4 +377,5 @@ namespace NGTech {
 		if (mActor)
 			mActor->setMass(mass);
 	}
+
 }
