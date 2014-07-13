@@ -20,7 +20,7 @@
 
 namespace NGTech {
 	Light::Light(){
-		GetEngine()->scene->addLight(this);
+		GetScene()->addLight(this);
 	}
 
 	//**************************************************************************
@@ -38,7 +38,7 @@ namespace NGTech {
 
 		this->castShadows = true;
 
-		int size = GetEngine()->cvars->r_shadowsize;
+		int size = GetCvars()->r_shadowsize;
 		shadowMap = GLTexture::createCube(size, size, GLTexture::RGBA);
 		shadowMap->setFilter(GLTexture::LINEAR);
 		shadowMap->setAniso(GLTexture::ANISO_X0);
@@ -62,7 +62,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	void LightOmni::getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w) {
 		int viewport[4];
-		GetEngine()->iRender->getViewport(viewport);
+		GetRender()->getViewport(viewport);
 
 		if ((position - cameraPos).length() < radius*1.5) {
 			x = viewport[0];
@@ -72,8 +72,8 @@ namespace NGTech {
 			return;
 		}
 
-		Mat4 tmodelview = Mat4::transpose(GetEngine()->iRender->getMatrix_Modelview());
-		Mat4 mvp = GetEngine()->iRender->getMatrix_MVP();
+		Mat4 tmodelview = Mat4::transpose(GetRender()->getMatrix_Modelview());
+		Mat4 mvp = GetRender()->getMatrix_MVP();
 
 		Vec3 vx = tmodelview * Vec3(radius, 0, 0);
 		Vec3 vy = tmodelview * Vec3(0, radius, 0);
@@ -148,7 +148,7 @@ namespace NGTech {
 
 		this->castShadows = true;
 
-		int size = GetEngine()->cvars->r_shadowsize;
+		int size = GetCvars()->r_shadowsize;
 
 		shadowMap = GLTexture::create2d(size, size, GLTexture::RGBA);
 		shadowMap->setFilter(GLTexture::LINEAR);
@@ -175,7 +175,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	void LightSpot::getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w) {
 		int viewport[4];
-		GetEngine()->iRender->getViewport(viewport);
+		GetRender()->getViewport(viewport);
 
 		if ((position - cameraPos).length() < radius*1.5) {
 			x = viewport[0];
@@ -185,8 +185,8 @@ namespace NGTech {
 			return;
 		}
 
-		Mat4 tmodelview = Mat4::transpose(GetEngine()->iRender->getMatrix_Modelview());
-		Mat4 mvp = GetEngine()->iRender->getMatrix_MVP();
+		Mat4 tmodelview = Mat4::transpose(GetRender()->getMatrix_Modelview());
+		Mat4 mvp = GetRender()->getMatrix_MVP();
 
 		Vec3 vx = tmodelview * Vec3(radius, 0, 0);
 		Vec3 vy = tmodelview * Vec3(0, radius, 0);

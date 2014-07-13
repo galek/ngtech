@@ -263,6 +263,9 @@
     <ClCompile Include="src\WindowSystem.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="src\EngineGlobals.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="inc\EngineMathToPhysx.inl" />

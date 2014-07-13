@@ -44,7 +44,7 @@ namespace NGTech {
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-		reshape(GetEngine()->iWindow->getWidth(), GetEngine()->iWindow->getHeight());
+		reshape(GetWindow()->getWidth(), GetWindow()->getHeight());
 		GLExtensions::initExtensions();
 		Debug("[Init] Checking Render Extensions");
 
@@ -677,7 +677,7 @@ namespace NGTech {
 		if(normalized) 
 			loadMatrix(Mat4::ortho(0, 1, 1, 0, 0, 1));
 		else 
-			loadMatrix(Mat4::ortho(0, GetEngine()->iWindow->getWidth(), GetEngine()->iWindow->getHeight(), 0, 0, 1));
+			loadMatrix(Mat4::ortho(0, GetWindow()->getWidth(), GetWindow()->getHeight(), 0, 0, 1));
 		
 
 		glMatrixMode(GL_MODELVIEW);	

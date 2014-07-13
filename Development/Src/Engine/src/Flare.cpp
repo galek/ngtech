@@ -73,25 +73,25 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Flare::draw() {
-		GetEngine()->iRender->push();
-		GetEngine()->iRender->translate(position);
-		GetEngine()->iRender->scale(Vec3(radius, radius, radius));
+		GetRender()->push();
+		GetRender()->translate(position);
+		GetRender()->scale(Vec3(radius, radius, radius));
 
-		GetEngine()->iRender->rotate(GetEngine()->scene->camera->angle[0] - 180, Vec3(0, 1, 0));
-		GetEngine()->iRender->rotate(GetEngine()->scene->camera->angle[1], Vec3(1, 0, 0));
+		GetRender()->rotate(GetScene()->camera->angle[0] - 180, Vec3(0, 1, 0));
+		GetRender()->rotate(GetScene()->camera->angle[1], Vec3(1, 0, 0));
 
 		texture->set(0);
-		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
-		GetEngine()->iRender->setColor(color);
-		GetEngine()->iRender->depthMask(false);
+		GetRender()->enableBlending(GLSystem::ONE, GLSystem::ONE);
+		GetRender()->setColor(color);
+		GetRender()->depthMask(false);
 
 		flareList->call();
 
-		GetEngine()->iRender->depthMask(true);
-		GetEngine()->iRender->disableBlending();
+		GetRender()->depthMask(true);
+		GetRender()->disableBlending();
 		texture->unset(0);
 
-		GetEngine()->iRender->pop();
+		GetRender()->pop();
 	}
 
 }

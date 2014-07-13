@@ -37,9 +37,9 @@ namespace NGTech {
 	void* GUI::loadImage(int& _width, int& _height, MyGUI::PixelFormat& _format, const std::string& _filename)
 	{
 		// Load the image as a resource
-		if (GetEngine()->vfs->isDataExist(_filename))
+		if (GetVFS()->isDataExist(_filename))
 		{
-			Common::IDataStream* stream = GetEngine()->vfs->getData(_filename);
+			Common::IDataStream* stream = GetVFS()->getData(_filename);
 			if (!stream)
 				Warning("[GUI]Failed Loading GUI image!");
 			size_t lumpSize = stream->size();
@@ -162,17 +162,17 @@ namespace NGTech {
 //		GUIRenderMtr->setPass("Ambient");
 //		GUIRenderMtr->unsetPass();	
 #endif				
-		GetEngine()->iRender->enable2d(false);
-		GetEngine()->iRender->disableCulling();
-		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE_MINUS_SRC_ALPHA);
+		GetRender()->enable2d(false);
+		GetRender()->disableCulling();
+		GetRender()->enableBlending(GLSystem::ONE, GLSystem::ONE_MINUS_SRC_ALPHA);
 		if (mPlatform)
 			mPlatform->getRenderManagerPtr()->drawOneFrame();
 
 		updateDebugInfo();//Nick:TODO:Вынести все в отдельный класс
 
-		GetEngine()->iRender->disableBlending();
-		GetEngine()->iRender->enableCulling();
-		GetEngine()->iRender->enable3d();
+		GetRender()->disableBlending();
+		GetRender()->enableCulling();
+		GetRender()->enable3d();
 	}
 	//Nick:TODO:Вынести все в отдельный класс
 	void GUI::createDebugInfo(){
@@ -184,8 +184,8 @@ namespace NGTech {
 	}
 	void GUI::updateDebugInfo(){
 		if (mDebugShow)
-			if (GetEngine()->iWindow->getDTime() > EPSILON)
-				fpsLabel->setCaption("FPS: " + StringHelper::fromInt(1000 / GetEngine()->iWindow->getDTime()));
+			if (GetWindow()->getDTime() > EPSILON)
+				fpsLabel->setCaption("FPS: " + StringHelper::fromInt(1000 / GetWindow()->getDTime()));
 	}
 	void GUI::resize(int _width, int _height) {
 		mPlatform->getRenderManagerPtr()->setViewSize(_width, _height);

@@ -22,14 +22,14 @@
 namespace NGTech {
 
 	Object::Object() {
-		if (GetEngine()->scene)
-			GetEngine()->scene->addObject(this);
+		if (GetScene())
+			GetScene()->addObject(this);
 	}
 
 	ObjectMesh::ObjectMesh(const String &path)
 		:Object() {
-		if (GetEngine()->cache){
-			model = GetEngine()->cache->loadModel("../data/meshes/" + path);
+		if (GetCache()){
+			model = GetCache()->loadModel("../data/meshes/" + path);
 			materials.resize(model->getNumSubsets());
 			for (int i = 0; i < materials.size(); i++)
 				materials[i] = nullptr;
@@ -40,12 +40,12 @@ namespace NGTech {
 	}
 
 	ObjectMesh::~ObjectMesh() {
-		GetEngine()->cache->deleteModel(model);
+		GetCache()->deleteModel(model);
 		for (int i = 0; i < materials.size(); i++) {
-			GetEngine()->cache->deleteMaterial(materials[i]);
+			GetCache()->deleteMaterial(materials[i]);
 		}
 		materials.clear();
-		GetEngine()->cache->deleteSound(impactSound);
+		GetCache()->deleteSound(impactSound);
 		delete pBody;
 	}
 
@@ -58,8 +58,8 @@ namespace NGTech {
 	}
 
 	void ObjectMesh::setMaterial(const String &name, const String &path) {
-		if (GetEngine()->cache){
-			Material *material = GetEngine()->cache->loadMaterial(path);
+		if (GetCache()){
+			Material *material = GetCache()->loadMaterial(path);
 			if (name == "*")
 				for (int s = 0; s < model->getNumSubsets(); s++)
 					materials[s] = material;
@@ -172,7 +172,7 @@ namespace NGTech {
 	}
 
 	void ObjectMesh::setImpactSound(const String &path) {
-		impactSound = GetEngine()->cache->loadSound("../data/sounds/" + path);
+		impactSound = GetCache()->loadSound("../data/sounds/" + path);
 		if (pBody)
 			pBody->SetImpactSound(impactSound);
 	}
@@ -189,7 +189,7 @@ namespace NGTech {
 	ObjectSkinnedMesh::~ObjectSkinnedMesh() {
 		delete model;
 		for (int i = 0; i < materials.size(); i++) {
-			GetEngine()->cache->deleteMaterial(materials[i]);
+			GetCache()->deleteMaterial(materials[i]);
 		}
 		materials.clear();
 	}
@@ -203,7 +203,7 @@ namespace NGTech {
 	}
 
 	void ObjectSkinnedMesh::setMaterial(const String &name, const String &path) {
-		Material *material = GetEngine()->cache->loadMaterial(path);
+		Material *material = GetCache()->loadMaterial(path);
 		if (name == "*")	{
 			for (int s = 0; s < model->getNumSubsets(); s++) {
 				materials[s] = material;

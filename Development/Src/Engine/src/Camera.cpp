@@ -61,7 +61,6 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void CameraFPS::setPhysics(const Vec3 &size, float mass) {
-		pBody->SetTransform(Mat4::translate(position));
 		pBody = PhysBody::CreateCapsule(size.x, size.y, &Mat4::translate(position), mass);
 		this->size = size;
 		pJoint = new PhysJointUpVector(Vec3(0, 1, 0), pBody);
@@ -96,9 +95,9 @@ namespace NGTech {
 			pBody->SetLinearVelocity(Vec3(0, pBody->GetVelocity().y, 0));
 		}
 
-		if(GetEngine()->iWindow->isMouseMoved() && GetEngine()->iWindow->isMouseGrabed()) {
-			angle[0] = -0.4 * GetEngine()->iWindow->getMouseX();
-			angle[1] = -0.4 * GetEngine()->iWindow->getMouseY();
+		if(GetWindow()->isMouseMoved() && GetWindow()->isMouseGrabed()) {
+			angle[0] = -0.4 * GetWindow()->getMouseX();
+			angle[1] = -0.4 * GetWindow()->getMouseY();
 		}
 
 		if(angle[1] > 80) angle[1] = 75;
@@ -115,23 +114,23 @@ namespace NGTech {
 
 		bool inTheAir = false;
 		Vec3 point;
-		if(GetEngine()->physSystem->intersectWorldByRay(position - Vec3(0, size.y, 0), 
+		if(GetPhysics()->intersectWorldByRay(position - Vec3(0, size.y, 0), 
 			position - Vec3(0, size.y+10, 0), Vec3(), 
 			point)) {
 				if(point.y <= position.y - size.y - 10)
 					inTheAir = true;
 		}
 
-		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_W)) {
+		if(GetWindow()->isKeyPressed(WindowSystem::KEY_W)) {
 			movement += forwardVec;
 		}
-		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_S)) {
+		if(GetWindow()->isKeyPressed(WindowSystem::KEY_S)) {
 			movement -= forwardVec;
 		}
-		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_A)) {
+		if(GetWindow()->isKeyPressed(WindowSystem::KEY_A)) {
 			movement += leftVec;
 		}
-		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_D)) {
+		if(GetWindow()->isKeyPressed(WindowSystem::KEY_D)) {
 			movement -= leftVec;
 		}
 
@@ -143,7 +142,7 @@ namespace NGTech {
 			movement = Vec3::normalize(movement);
 		}
 
-		if(GetEngine()->iWindow->isKeyDown(WindowSystem::KEY_Q) && !inTheAir) {
+		if(GetWindow()->isKeyDown(WindowSystem::KEY_Q) && !inTheAir) {
 			movement += Vec3(0, 1.5, 0);
 		}
 
@@ -152,8 +151,8 @@ namespace NGTech {
 
 
 	Camera::Camera() {
-		if(GetEngine()->scene)
-			GetEngine()->scene->setCamera(this);
+		if(GetScene())
+			GetScene()->setCamera(this);
 	}
 
 	//***************************************************************************
@@ -224,9 +223,9 @@ namespace NGTech {
 			pBody->SetLinearVelocity(Vec3(0, 0, 0));
 		}
 
-		if(GetEngine()->iWindow->isMouseMoved() && GetEngine()->iWindow->isMouseGrabed()) {
-			angle[0] = -0.4 * GetEngine()->iWindow->getMouseX();
-			angle[1] = -0.4 * GetEngine()->iWindow->getMouseY();
+		if(GetWindow()->isMouseMoved() && GetWindow()->isMouseGrabed()) {
+			angle[0] = -0.4 * GetWindow()->getMouseX();
+			angle[1] = -0.4 * GetWindow()->getMouseY();
 		}
 
 		if(angle[1] > 80) angle[1] = 75;
@@ -244,16 +243,16 @@ namespace NGTech {
 		direction.z = cosf(DEG_TO_RAD * angle[0]) * cosf(DEG_TO_RAD * angle[1]);
 		direction = Vec3::normalize(direction);
 
-		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_W)) {
+		if(GetWindow()->isKeyPressed(WindowSystem::KEY_W)) {
 			movement += forwardVec;
 		}
-		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_S)) {
+		if(GetWindow()->isKeyPressed(WindowSystem::KEY_S)) {
 			movement -= forwardVec;
 		}
-		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_A)) {
+		if(GetWindow()->isKeyPressed(WindowSystem::KEY_A)) {
 			movement += leftVec;
 		}
-		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_D)) {
+		if(GetWindow()->isKeyPressed(WindowSystem::KEY_D)) {
 			movement -= leftVec;
 		}
 

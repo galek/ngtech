@@ -24,7 +24,7 @@ namespace NGTech {
 	}
 
 	void Water::draw() {
-		GetEngine()->iRender->disableCulling();
+		GetRender()->disableCulling();
 
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
@@ -40,7 +40,7 @@ namespace NGTech {
 		glVertex3f(size, depth, -size);
 		glEnd();
 
-		GetEngine()->iRender->enableCulling();
+		GetRender()->enableCulling();
 	}
 
 }
