@@ -5,7 +5,9 @@
 #include "Log.h"
 //***************************************************************************
 #include "PxPhysicsAPI.h"
+//***************************************************************************
 #include "EngineMathToPhysx.inl"
+#include "PhysXUtils.h"
 //***************************************************************************
 
 namespace NGTech {
@@ -23,13 +25,44 @@ namespace NGTech {
 		body->mass = _mass;
 
 		// Initialize Cube Actor
-		PxReal cubeDensity = 2.0f;//плотность
-		body->mActor = PxCreateDynamic(*GetPhysics()->mPhysics, EngineMathToPhysX(_trans), PxBoxGeometry(size.x, size.y, size.z), *GetPhysics()->mMaterial, cubeDensity);
+		body->mActor = PxCreateDynamic(*GetPhysics()->mPhysics, EngineMathToPhysX(_trans), PxBoxGeometry(size.x / 2, size.y / 2, size.z / 2), *GetPhysics()->mMaterial, 1.0f);
 		if (!body->mActor){
 			Warning("create actor failed!");
 			return NULL;
 		}
-		
+
+		if (_mass > 0)
+			body->mActor->setMass(body->mass);
+
+		body->SetMassSpaceInertiaTensor(Vec3(1.0f, 1.0f, 1.0f));
+
+		body->SetAngularDamping(0.5f);
+		body->SetLinearDamping(0.5f);
+		GetPhysics()->mScene->addActor(*body->mActor);
+
+		body->impactSrc = NULL;
+
+		return body;
+	}
+
+	PhysBody *PhysBody::CreateSphere(float radius, Mat4 *_trans, float _mass) {
+		PhysBody *body = new PhysBody();
+
+		body->force = Vec3(0, 0, 0);
+		body->torque = Vec3(0, 0, 0);
+		body->impulse = Vec3(0, 0, 0);
+		body->velocity = Vec3(0, 0, 0);
+
+		body->mass = _mass;
+
+		// Initialize Cube Actor
+		PxSphereGeometry sphereGeometry(radius);
+		body->mActor = PxCreateDynamic(*GetPhysics()->mPhysics, EngineMathToPhysX(_trans), sphereGeometry, *GetPhysics()->mMaterial, 1.0f);
+		if (!body->mActor){
+			Warning("create actor failed!");
+			return NULL;
+		}
+
 		if (_mass > 0)
 			body->mActor->setMass(body->mass);
 		body->SetMassSpaceInertiaTensor(Vec3(1.0f, 1.0f, 1.0f));
@@ -41,40 +74,8 @@ namespace NGTech {
 
 		return body;
 	}
-
-	PhysBody *PhysBody::CreateSphere(float radius,Mat4 *_trans, float _mass) {
-		PhysBody *body = new PhysBody();
-
-		body->force = Vec3(0, 0, 0);
-		body->torque = Vec3(0, 0, 0);
-		body->impulse = Vec3(0, 0, 0);
-		body->velocity = Vec3(0, 0, 0);
-
-		body->mass = _mass;
-
-		// Initialize Cube Actor
-		PxReal cubeDensity = 2.0f;//плотность
-		PxSphereGeometry sphereGeometry(radius);
-		body->mActor = PxCreateDynamic(*GetPhysics()->mPhysics, EngineMathToPhysX(_trans), sphereGeometry, *GetPhysics()->mMaterial, cubeDensity);
-		if (!body->mActor){
-			Warning("create actor failed!");
-			return NULL;
-		}
-
-		if (body->mass > 0)
-			body->mActor->setMass(body->mass);
-		body->SetMassSpaceInertiaTensor(Vec3(1.0f, 1.0f, 1.0f));
-		body->SetAngularDamping(0.5f);
-		body->SetLinearDamping(0.5f);	
-		GetPhysics()->mScene->addActor(*body->mActor);
-
-		body->impactSrc = NULL;
-
-		return body;
-	}
-
-	PhysBody *PhysBody::CreateCylinder(float radius, float height, float mass) {
-#if 0
+	//NOTE:Вроде подобрал число,что бы в дебагере было похоже на круг у основания цилиндра
+	PhysBody *PhysBody::CreateCylinder(float radius, float width, Mat4 *_trans, float mass) {
 		PhysBody *body = new PhysBody();
 
 		body->force = Vec3(0, 0, 0);
@@ -83,33 +84,22 @@ namespace NGTech {
 		body->velocity = Vec3(0, 0, 0);
 
 		body->mass = mass;
+		PxConvexMesh* mesh = createCylinderConvexMesh(width, radius, 60, *GetPhysics()->mPhysics, *GetPhysics()->mCooking);
 
-		//NewtonCollision *collision = NewtonCreateCylinder(GetPhysics()->nWorld, radius, height, 0, 0);
+		body->mActor = PxCreateDynamic(*GetPhysics()->mPhysics, EngineMathToPhysX(_trans), PxConvexMeshGeometry(mesh), *GetPhysics()->mMaterial, 1.0f);
 
-		//Vec3 inertia, origin;
-		//NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
-		//float Ixx = mass * inertia.x;
-		//float Iyy = mass * inertia.y;
-		//float Izz = mass * inertia.z;
+		SetupDefaultRigidDynamic(*body->mActor);
 
-		//body->nBody = NewtonCreateDynamicBody(GetPhysics()->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
-		//NewtonDestroyCollision(collision);
-
-		//NewtonBodySetUserData(body->nBody, body);
-		//NewtonBodySetAutoSleep(body->nBody, 0);
-
-		//if (mass > 0) {
-		//	NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
-		//	NewtonBodySetCentreOfMass(body->nBody, origin);
-		//	NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
-		//}
+		if (body->mass > 0)
+			body->mActor->setMass(body->mass);
+		body->SetMassSpaceInertiaTensor(Vec3(1.0f, 1.0f, 1.0f));
+		body->SetAngularDamping(0.5f);
+		body->SetLinearDamping(0.5f);
+		GetPhysics()->mScene->addActor(*body->mActor);
 
 		body->impactSrc = NULL;
 
 		return body;
-#else
-		return NULL;
-#endif
 	}
 
 	PhysBody *PhysBody::CreateCone(float radius, float height, float mass) {
@@ -162,8 +152,7 @@ namespace NGTech {
 		body->mass = _mass;
 
 		// Initialize Cube Actor
-		PxReal cubeDensity = 2.0f;//плотность
-		body->mActor = PxCreateDynamic(*GetPhysics()->mPhysics, EngineMathToPhysX(_trans), PxCapsuleGeometry(radius, height / 2), *GetPhysics()->mMaterial, cubeDensity);
+		body->mActor = PxCreateDynamic(*GetPhysics()->mPhysics, EngineMathToPhysX(_trans), PxCapsuleGeometry(radius, height / 2), *GetPhysics()->mMaterial, 1.0f);
 		if (!body->mActor){
 			Warning("create actor failed!");
 			return NULL;
@@ -173,7 +162,7 @@ namespace NGTech {
 			body->mActor->setMass(body->mass);
 		body->SetMassSpaceInertiaTensor(Vec3(1.0f, 1.0f, 1.0f));
 		body->SetAngularDamping(0.5f);
-		body->SetLinearDamping(0.5f);	
+		body->SetLinearDamping(0.5f);
 		GetPhysics()->mScene->addActor(*body->mActor);
 
 		body->impactSrc = NULL;
@@ -292,8 +281,8 @@ namespace NGTech {
 #endif
 	}
 
-	PhysBody::~PhysBody() {/*
-		NewtonDestroyBody(GetPhysics()->nWorld, nBody);*/
+	PhysBody::~PhysBody() {
+		GetPhysics()->mScene->removeActor(*mActor);
 		SAFE_DELETE(impactSrc);
 	}
 
@@ -319,8 +308,9 @@ namespace NGTech {
 	}
 
 	void PhysBody::AddForce(const Vec3 &force) {
-	/*	this->torque += force / GetMass();
-		this->force += force;*/
+		if (GetMass() > 0)
+			this->torque += force / GetMass();
+		this->force += force;
 	}
 
 	Vec3 PhysBody::GetForce() {

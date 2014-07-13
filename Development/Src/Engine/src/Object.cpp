@@ -105,9 +105,8 @@ namespace NGTech {
 		pBody = PhysBody::CreateSphere(size.y, &transform, mass);//Nick:TODO:заменить на getRadius
 	}
 
-	void ObjectMesh::setPhysicsCylinder(float radius, float height, float mass) {
-		pBody = PhysBody::CreateCylinder(radius, height, mass);
-		setTransform(transform);
+	void ObjectMesh::setPhysicsCylinder(float radius, float width, float mass) {
+		pBody = PhysBody::CreateCylinder(radius, width, &transform, mass);
 	}
 
 	void ObjectMesh::setPhysicsCone(float radius, float height, float mass) {

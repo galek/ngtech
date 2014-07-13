@@ -22,7 +22,7 @@ namespace NGTech {
 		static PhysBody *CreateBox(const Vec3 &size, Mat4 *_trans, float mass = 0);
 		static PhysBody *CreateSphere(float radius, Mat4 *_trans, float mass = 0);
 
-		static PhysBody *CreateCylinder(float radius, float height, float mass = 0);
+		static PhysBody *CreateCylinder(float radius, float height, Mat4 *_trans, float mass = 0);
 		static PhysBody *CreateCone(float radius, float height, float mass = 0);
 		static PhysBody *CreateCapsule(float radius, float height, Mat4 *_trans, float mass = 0);
 		static PhysBody *CreateChampferCylinder(float radius, float height, float mass = 0);
