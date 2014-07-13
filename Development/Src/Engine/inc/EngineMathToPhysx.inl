@@ -17,11 +17,7 @@ namespace NGTech {
 	}
 	_inline Mat4 PhysXToEngineMath(const physx::PxTransform &_trans)
 	{
-		Quat quat;
-		quat.x = _trans.q.x;
-		quat.y = _trans.q.y;
-		quat.z = _trans.q.z;
-		quat.w = _trans.q.w;
+		Quat quat(_trans.q.x, _trans.q.y, _trans.q.z, _trans.q.w);
 		Mat4 matrix = quat.toMatrix();
 		matrix.e[12] = _trans.p.x;
 		matrix.e[13] = _trans.p.y;

@@ -280,6 +280,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="inc\EngineMathToPhysx.inl" />
+    <None Include="inc\EngineMathToPhysx.inl">
+      <Filter>Заголовочные файлы\PhysX</Filter>
+    </None>
   </ItemGroup>
 </Project>
