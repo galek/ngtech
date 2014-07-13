@@ -193,14 +193,9 @@ namespace NGTech {
 		PX_ASSERT(capsule);
 
 		physxUtils::SetupDefaultRigidDynamic(*capsule);
+		body->SetMassSpaceInertiaTensor(Vec3(1.0f, 1.0f, 1.0f));
 		GetEngine()->physSystem->mScene->addActor(*capsule);
-	/*	addPhysicsActors(capsule);
-
-		if(linVel)
-			capsule->setLinearVelocity(*linVel);*/
-
-		
-
+	
 		body->impactSrc = NULL;
 
 		return body;
