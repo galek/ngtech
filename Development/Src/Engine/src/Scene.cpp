@@ -888,17 +888,17 @@ namespace NGTech {
 		//---------set-gravity-----------------------------------
 		for (int k = 0; k < objects.size(); k++) {
 			if (objects[k]->getPhysBody()) {
-				objects[k]->getPhysBody()->addTorque(gravity);
+				objects[k]->getPhysBody()->AddTorque(gravity);
 				if (water) {
 					if (objects[k]->getTransform().getTranslation().y < water->getDepth() - 2.5) {
 						float volume = 4 / 3 * PI * pow(objects[k]->getRadius(), 3.0f);
-						float d = objects[k]->getPhysBody()->getMass() / volume;
-						objects[k]->getPhysBody()->addTorque(-gravity / d * 0.02);
+						float d = objects[k]->getPhysBody()->GetMass() / volume;
+						objects[k]->getPhysBody()->AddTorque(-gravity / d * 0.02);
 					}
 				}
 			}
 
-			if (camera->getPhysBody()) camera->getPhysBody()->addTorque(gravity);
+			if (camera->getPhysBody()) camera->getPhysBody()->AddTorque(gravity);
 		}
 
 		//---------draw-scene--------------------------------

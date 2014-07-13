@@ -195,7 +195,7 @@ namespace NGTech {
 			}
 		}
 
-		pBody = PhysBody::createStaticMesh(pos, numPos, false);
+		pBody = PhysBody::CreateStaticMesh(pos, numPos, false);
 
 		delete [] pos;
 	}

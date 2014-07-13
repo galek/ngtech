@@ -38,7 +38,7 @@ namespace NGTech {
 		return convexMesh;
 	}
 
-	PhysBody *PhysBody::createBox(const Vec3 &size, Mat4 *_trans, float _mass){
+	PhysBody *PhysBody::CreateBox(const Vec3 &size, Mat4 *_trans, float _mass){
 
 		PhysBody *body = new PhysBody();
 
@@ -59,8 +59,7 @@ namespace NGTech {
 		
 		if (_mass > 0)
 			body->mActor->setMass(body->mass);
-		body->mActor->setLinearDamping(1.0f);
-		body->mActor->setAngularDamping(1.0f);
+		body->SetMassSpaceInertiaTensor(Vec3(1.0f, 1.0f, 1.0f));
 		GetEngine()->physSystem->mScene->addActor(*body->mActor);
 
 		body->impactSrc = NULL;
@@ -68,7 +67,7 @@ namespace NGTech {
 		return body;
 	}
 
-	PhysBody *PhysBody::createSphere(float radius,Mat4 *_trans, float _mass) {
+	PhysBody *PhysBody::CreateSphere(float radius,Mat4 *_trans, float _mass) {
 		PhysBody *body = new PhysBody();
 
 		body->force = Vec3(0, 0, 0);
@@ -89,8 +88,7 @@ namespace NGTech {
 
 		if (body->mass > 0)
 			body->mActor->setMass(body->mass);
-		//body->mActor->setLinearDamping(1.0f);
-		//body->mActor->setAngularDamping(1.0f);
+		body->SetMassSpaceInertiaTensor(Vec3(1.0f, 1.0f, 1.0f));
 	
 		GetEngine()->physSystem->mScene->addActor(*body->mActor);
 
@@ -99,7 +97,7 @@ namespace NGTech {
 		return body;
 	}
 
-	PhysBody *PhysBody::createCylinder(float radius, float height, float mass) {
+	PhysBody *PhysBody::CreateCylinder(float radius, float height, float mass) {
 #if 0
 		PhysBody *body = new PhysBody();
 
@@ -138,7 +136,7 @@ namespace NGTech {
 #endif
 	}
 
-	PhysBody *PhysBody::createCone(float radius, float height, float mass) {
+	PhysBody *PhysBody::CreateCone(float radius, float height, float mass) {
 #if 0
 		PhysBody *body = new PhysBody();
 
@@ -177,7 +175,7 @@ namespace NGTech {
 #endif
 	}
 
-	PhysBody *PhysBody::createCapsule(float radius, float height, Mat4 *_trans, float mass) {
+	PhysBody *PhysBody::CreateCapsule(float radius, float height, Mat4 *_trans, float mass) {
 		PhysBody *body = new PhysBody();
 
 		body->force = Vec3(0, 0, 0);
@@ -208,7 +206,7 @@ namespace NGTech {
 		return body;
 	}
 
-	PhysBody *PhysBody::createChampferCylinder(float radius, float height, float mass) {
+	PhysBody *PhysBody::CreateChampferCylinder(float radius, float height, float mass) {
 #if 0
 		PhysBody *body = new PhysBody();
 
@@ -247,7 +245,7 @@ namespace NGTech {
 #endif
 	}
 
-	PhysBody *PhysBody::createConvexHull(Vec3 *pos, const int numPos, float mass) {
+	PhysBody *PhysBody::CreateConvexHull(Vec3 *pos, const int numPos, float mass) {
 #if 0
 		PhysBody *body = new PhysBody();
 
@@ -286,7 +284,7 @@ namespace NGTech {
 #endif
 	}
 
-	PhysBody *PhysBody::createStaticMesh(Vec3 *pos, const int numPos, bool optimize) {
+	PhysBody *PhysBody::CreateStaticMesh(Vec3 *pos, const int numPos, bool optimize) {
 #if 0
 		PhysBody *body = new PhysBody();
 
@@ -324,58 +322,71 @@ namespace NGTech {
 		SAFE_DELETE(impactSrc);
 	}
 
-	void PhysBody::setTransform(const Mat4 &_transform) {
+	void PhysBody::SetTransform(const Mat4 &_transform) {
 		if (mActor)
 			mActor->setGlobalPose(EngineMathToPhysX((NGTech::Mat4 *)&_transform));
 		else
 			Debug("PhysBody::setTransform:-mActor is not exist");
 	}
 
-	Mat4 PhysBody::getTransform() {
+	Mat4 PhysBody::GetTransform() {
 		auto pos = mActor->getGlobalPose();
 		return PhysXToEngineMath(pos);
 	}
 
-	void PhysBody::addTorque(const Vec3 &torque) {
+	void PhysBody::AddTorque(const Vec3 &torque) {
 		this->torque += torque;
-		this->force += torque * getMass();
+		this->force += torque * GetMass();
 	}
 
-	Vec3 PhysBody::getTorque() {
+	Vec3 PhysBody::GetTorque() {
 		return torque;
 	}
 
-	void PhysBody::addForce(const Vec3 &force) {
-	/*	this->torque += force / getMass();
+	void PhysBody::AddForce(const Vec3 &force) {
+	/*	this->torque += force / GetMass();
 		this->force += force;*/
 	}
 
-	Vec3 PhysBody::getForce() {
+	Vec3 PhysBody::GetForce() {
 		return force;
 	}
 
-	void PhysBody::addVelocity(const Vec3 &velocity) {
+	void PhysBody::AddVelocity(const Vec3 &velocity) {
 	}
 
-	void PhysBody::setLinearVelocity(const Vec3 &velocity) {
+	void PhysBody::SetLinearVelocity(const Vec3 &velocity) {
 		if (mActor)
 			mActor->setLinearVelocity(physx::PxVec3(velocity.x, velocity.y, velocity.z));
 	}
 
-	Vec3 PhysBody::getVelocity() {
+	Vec3 PhysBody::GetVelocity() {
 		Vec3 velocity(0, 0, 0);
 		return velocity;
 	}
 
-	float PhysBody::getMass() {
+	float PhysBody::GetMass() {
 		if (mActor)
 			return mActor->getMass();
 		else return 0.0f;
 	}
 
-	void PhysBody::setMass(float mass) {
+	void PhysBody::SetMass(float mass) {
 		if (mActor)
 			mActor->setMass(mass);
 	}
 
+	void PhysBody::SetLinearDamping(float _v){
+		if (mActor)
+			mActor->setLinearDamping(_v);
+	}
+
+	void PhysBody::SetAngularDamping(float _v){
+		if (mActor)
+			mActor->setAngularDamping(_v);
+	}
+
+	void PhysBody::SetMassSpaceInertiaTensor(const Vec3&_vec){
+		mActor->setMassSpaceInertiaTensor(PxVec3(_vec.x, _vec.y, _vec.z));
+	}
 }

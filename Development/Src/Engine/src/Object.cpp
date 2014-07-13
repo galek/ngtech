@@ -85,7 +85,7 @@ namespace NGTech {
 
 	void ObjectMesh::setTransform(const Mat4 &trans) {
 		if (pBody)
-			pBody->setTransform(trans);
+			pBody->SetTransform(trans);
 		else
 			transform = trans;
 	}
@@ -94,34 +94,33 @@ namespace NGTech {
 		if (pBody == NULL)
 			return transform;
 		else
-			return pBody->getTransform();
+			return pBody->GetTransform();
 	}
 
 	void ObjectMesh::setPhysicsBox(const Vec3 &size, float mass) {
-		pBody = PhysBody::createBox(size, &transform, mass);
+		pBody = PhysBody::CreateBox(size, &transform, mass);
 	}
 
 	void ObjectMesh::setPhysicsSphere(const Vec3 &size, float mass) {
-		pBody = PhysBody::createSphere(size.y, &transform, mass);//Nick:TODO:заменить на getRadius
+		pBody = PhysBody::CreateSphere(size.y, &transform, mass);//Nick:TODO:заменить на getRadius
 	}
 
 	void ObjectMesh::setPhysicsCylinder(float radius, float height, float mass) {
-		pBody = PhysBody::createCylinder(radius, height, mass);
+		pBody = PhysBody::CreateCylinder(radius, height, mass);
 		setTransform(transform);
 	}
 
 	void ObjectMesh::setPhysicsCone(float radius, float height, float mass) {
-		pBody = PhysBody::createCone(radius, height, mass);
+		pBody = PhysBody::CreateCone(radius, height, mass);
 		setTransform(transform);
 	}
 
 	void ObjectMesh::setPhysicsCapsule(float radius, float height, float mass)  {
-		pBody = PhysBody::createCapsule(radius, height, mass);
-		setTransform(transform);
+		pBody = PhysBody::CreateCapsule(radius, height, &transform, mass);
 	}
 
 	void ObjectMesh::setPhysicsChampferCylinder(float radius, float height, float mass) {
-		pBody = PhysBody::createChampferCylinder(radius, height, mass);
+		pBody = PhysBody::CreateChampferCylinder(radius, height, mass);
 		setTransform(transform);
 	}
 
@@ -141,7 +140,7 @@ namespace NGTech {
 			}
 		}
 
-		pBody = PhysBody::createConvexHull(pos, numPos, mass);
+		pBody = PhysBody::CreateConvexHull(pos, numPos, mass);
 		setTransform(transform);
 
 		delete[] pos;
@@ -166,7 +165,7 @@ namespace NGTech {
 		}
 
 		if (pBody)
-			pBody = PhysBody::createStaticMesh(pos, numPos, true);
+			pBody = PhysBody::CreateStaticMesh(pos, numPos, true);
 		setTransform(transform);
 
 		delete[] pos;
@@ -175,7 +174,7 @@ namespace NGTech {
 	void ObjectMesh::setImpactSound(const String &path) {
 		impactSound = GetEngine()->cache->loadSound("../data/sounds/" + path);
 		if (pBody)
-			pBody->setImpactSound(impactSound);
+			pBody->SetImpactSound(impactSound);
 	}
 
 	ObjectSkinnedMesh::ObjectSkinnedMesh(const String &path) {

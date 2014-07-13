@@ -19,40 +19,43 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	class PhysBody {
 	public:
-		static PhysBody *createBox(const Vec3 &size, Mat4 *_trans, float mass = 0);
-		static PhysBody *createSphere(float radius, Mat4 *_trans, float mass = 0);
+		static PhysBody *CreateBox(const Vec3 &size, Mat4 *_trans, float mass = 0);
+		static PhysBody *CreateSphere(float radius, Mat4 *_trans, float mass = 0);
 
-		static PhysBody *createCylinder(float radius, float height, float mass = 0);
-		static PhysBody *createCone(float radius, float height, float mass = 0);
-		static PhysBody *createCapsule(float radius, float height, Mat4 *_trans, float mass = 0);
-		static PhysBody *createChampferCylinder(float radius, float height, float mass = 0);
+		static PhysBody *CreateCylinder(float radius, float height, float mass = 0);
+		static PhysBody *CreateCone(float radius, float height, float mass = 0);
+		static PhysBody *CreateCapsule(float radius, float height, Mat4 *_trans, float mass = 0);
+		static PhysBody *CreateChampferCylinder(float radius, float height, float mass = 0);
 
-		static PhysBody *createConvexHull(Vec3 *pos, const int numPos, float mass = 0);
-		static PhysBody *createStaticMesh(Vec3 *pos, const int numPos, bool optimize);
+		static PhysBody *CreateConvexHull(Vec3 *pos, const int numPos, float mass = 0);
+		static PhysBody *CreateStaticMesh(Vec3 *pos, const int numPos, bool optimize);
 
 		~PhysBody();
 
-		void setTransform(const Mat4 &trans);
-		Mat4 getTransform();
+		void SetTransform(const Mat4 &trans);
+		Mat4 GetTransform();
 
-		float getMass();
-		void setMass(float mass);
+		float GetMass();
+		void SetMass(float mass);
 
-		void addForce(const Vec3 &force);
-		Vec3 getForce();
-		void addTorque(const Vec3 &torque);
-		Vec3 getTorque();
+		void AddForce(const Vec3 &force);
+		Vec3 GetForce();
+		void AddTorque(const Vec3 &torque);
+		Vec3 GetTorque();
 
-		void addVelocity(const Vec3 &velocity);
-		void setLinearVelocity(const Vec3 &velocity);
-		Vec3 getVelocity();
+		void AddVelocity(const Vec3 &velocity);
+		void SetLinearVelocity(const Vec3 &velocity);
+		Vec3 GetVelocity();
 
 		typedef void(*ContactCallback)();
 
-		void setImpactSound(ALSound *snd) {
+		void SetImpactSound(ALSound *snd) {
 			impactSrc = ALSoundSource::create(snd);
 		}
-
+		
+		void SetLinearDamping(float _v);
+		void SetAngularDamping(float _v);
+		void SetMassSpaceInertiaTensor(const Vec3&);
 	private:
 		ALSoundSource *impactSrc;
 		physx::PxShape* mShape;

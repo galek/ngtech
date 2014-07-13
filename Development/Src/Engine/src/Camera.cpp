@@ -61,8 +61,8 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void CameraFPS::setPhysics(const Vec3 &size, float mass) {
-		pBody = PhysBody::createCapsule(size.x,size.y, mass);
-		pBody->setTransform(Mat4::translate(position));
+		pBody->SetTransform(Mat4::translate(position));
+		pBody = PhysBody::CreateCapsule(size.x, size.y, &Mat4::translate(position), mass);
 		this->size = size;
 		pJoint = new PhysJointUpVector(Vec3(0, 1, 0), pBody);
 	}
@@ -92,8 +92,8 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	void CameraFPS::update() {
 		if(pBody) {
-			position = pBody->getTransform().getTranslation() + Vec3(0, 7, 0);
-			pBody->setLinearVelocity(Vec3(0, pBody->getVelocity().y, 0));
+			position = pBody->GetTransform().getTranslation() + Vec3(0, 7, 0);
+			pBody->SetLinearVelocity(Vec3(0, pBody->GetVelocity().y, 0));
 		}
 
 		if(GetEngine()->iWindow->isMouseMoved() && GetEngine()->iWindow->isMouseGrabed()) {
@@ -147,7 +147,7 @@ namespace NGTech {
 			movement += Vec3(0, 1.5, 0);
 		}
 
-		pBody->addTorque(movement * maxVelocity);
+		pBody->AddTorque(movement * maxVelocity);
 	}
 
 
@@ -220,8 +220,8 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	void CameraFree::update() {
 		if(pBody) {
-			position = pBody->getTransform().getTranslation();
-			pBody->setLinearVelocity(Vec3(0, 0, 0));
+			position = pBody->GetTransform().getTranslation();
+			pBody->SetLinearVelocity(Vec3(0, 0, 0));
 		}
 
 		if(GetEngine()->iWindow->isMouseMoved() && GetEngine()->iWindow->isMouseGrabed()) {
@@ -262,7 +262,7 @@ namespace NGTech {
 		}
 
 		if (pBody)
-			pBody->addTorque(movement * maxVelocity);
+			pBody->AddTorque(movement * maxVelocity);
 	}
 
 }
