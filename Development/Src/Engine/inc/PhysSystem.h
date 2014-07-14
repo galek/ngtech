@@ -45,6 +45,13 @@ namespace NGTech {
 		void update(float dTime);
 
 		PhysBody *intersectWorldByRay(const Vec3 &src, const Vec3 &dst, Vec3 &normal, Vec3 &point);
+		ENGINE_INLINE physx::PxFoundation* GetPxFoundation(){ return mFoundation; }
+		ENGINE_INLINE physx::PxProfileZoneManager* GetPxProfileZoneManager(){ return mProfileZoneManager; }
+		ENGINE_INLINE physx::PxPhysics* GetPxPhysics(){ return mPhysics; }
+		ENGINE_INLINE physx::PxCooking* GetPxCooking(){ return mCooking; }
+		ENGINE_INLINE physx::PxScene* GetPxScene(){ return mScene; }
+		ENGINE_INLINE physx::PxMaterial* GetPxMaterial(){ return mMaterial; }
+		ENGINE_INLINE physx::PxDefaultCpuDispatcher* GetPxDefaultCpuDispatcher(){ return mCpuDispatcher; }
 	private:
 		void togglePvdConnection();
 		void createPvdConnection();
