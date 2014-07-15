@@ -68,8 +68,8 @@ namespace NGTech {
 			Error("PhysSystem::initialise()-PxInitExtensions failed!", true);
 
 		PxCookingParams params(scale);
-		params.meshWeldTolerance = 0.001f;//NICK:WTF?!
-		params.meshPreprocessParams = PxMeshPreprocessingFlags(PxMeshPreprocessingFlag::eWELD_VERTICES | PxMeshPreprocessingFlag::eREMOVE_UNREFERENCED_VERTICES | PxMeshPreprocessingFlag::eREMOVE_DUPLICATED_TRIANGLES);//NICK:WTF?!
+		params.meshWeldTolerance = 0.0f;
+		params.meshPreprocessParams = PxMeshPreprocessingFlags(PxMeshPreprocessingFlag::eWELD_VERTICES | PxMeshPreprocessingFlag::eREMOVE_UNREFERENCED_VERTICES | PxMeshPreprocessingFlag::eREMOVE_DUPLICATED_TRIANGLES | PxMeshPreprocessingFlag::eREMOVE_UNREFERENCED_VERTICES);//NICK:WTF?!
 		mCooking = PxCreateCooking(PX_PHYSICS_VERSION, *mFoundation, params);
 		if (!mCooking)
 			Error("PxCreateCooking failed!", true);
@@ -78,7 +78,7 @@ namespace NGTech {
 		togglePvdConnection();
 #endif
 		// setup default material...
-		mMaterial = mPhysics->createMaterial(0.5f, 0.5f, 0.1f);
+		mMaterial = mPhysics->createMaterial(1.0f, 1.0f, 1.0f);
 		if (!mMaterial)
 			Error("createMaterial failed!", true);
 
