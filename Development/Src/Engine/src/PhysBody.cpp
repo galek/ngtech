@@ -20,7 +20,8 @@ namespace NGTech {
 		body->force = Vec3(0, 0, 0);
 		body->torque = Vec3(0, 0, 0);
 		body->impulse = Vec3(0, 0, 0);
-		body->velocity = Vec3(0, 0, 0);
+		body->mLvelocity = Vec3(0, 0, 0);
+		body->mAvelocity = Vec3(0, 0, 0);
 
 		body->mass = _mass;
 
@@ -36,8 +37,8 @@ namespace NGTech {
 
 		body->SetMassSpaceInertiaTensor(Vec3(1.0f, 1.0f, 1.0f));
 
-		body->SetAngularDamping(0.5f);
-		body->SetLinearDamping(0.5f);
+		body->SetAngularDamping(1.0f);
+		body->SetLinearDamping(1.0f);
 		GetPhysics()->mScene->addActor(*body->mActor);
 
 		body->impactSrc = NULL;
@@ -51,7 +52,8 @@ namespace NGTech {
 		body->force = Vec3(0, 0, 0);
 		body->torque = Vec3(0, 0, 0);
 		body->impulse = Vec3(0, 0, 0);
-		body->velocity = Vec3(0, 0, 0);
+		body->mLvelocity = Vec3(0, 0, 0);
+		body->mAvelocity = Vec3(0, 0, 0);
 
 		body->mass = _mass;
 
@@ -66,8 +68,8 @@ namespace NGTech {
 		if (_mass > 0)
 			body->mActor->setMass(body->mass);
 		body->SetMassSpaceInertiaTensor(Vec3(1.0f, 1.0f, 1.0f));
-		body->SetAngularDamping(0.5f);
-		body->SetLinearDamping(0.5f);
+		body->SetAngularDamping(1.0f);
+		body->SetLinearDamping(1.0f);
 		GetPhysics()->mScene->addActor(*body->mActor);
 
 		body->impactSrc = NULL;
@@ -81,7 +83,8 @@ namespace NGTech {
 		body->force = Vec3(0, 0, 0);
 		body->torque = Vec3(0, 0, 0);
 		body->impulse = Vec3(0, 0, 0);
-		body->velocity = Vec3(0, 0, 0);
+		body->mLvelocity = Vec3(0, 0, 0);
+		body->mAvelocity = Vec3(0, 0, 0);
 
 		body->mass = mass;
 		PxConvexMesh* mesh = createCylinderConvexMesh(width, radius, 60, *GetPhysics()->mPhysics, *GetPhysics()->mCooking);
@@ -93,8 +96,8 @@ namespace NGTech {
 		if (body->mass > 0)
 			body->mActor->setMass(body->mass);
 		body->SetMassSpaceInertiaTensor(Vec3(1.0f, 1.0f, 1.0f));
-		body->SetAngularDamping(0.5f);
-		body->SetLinearDamping(0.5f);
+		body->SetAngularDamping(1.0f);
+		body->SetLinearDamping(1.0f);
 		GetPhysics()->mScene->addActor(*body->mActor);
 
 		body->impactSrc = NULL;
@@ -147,7 +150,8 @@ namespace NGTech {
 		body->force = Vec3(0, 0, 0);
 		body->torque = Vec3(0, 0, 0);
 		body->impulse = Vec3(0, 0, 0);
-		body->velocity = Vec3(0, 0, 0);
+		body->mLvelocity = Vec3(0, 0, 0);
+		body->mAvelocity = Vec3(0, 0, 0);
 
 		body->mass = _mass;
 
@@ -161,8 +165,8 @@ namespace NGTech {
 		if (body->mass > 0)
 			body->mActor->setMass(body->mass);
 		body->SetMassSpaceInertiaTensor(Vec3(1.0f, 1.0f, 1.0f));
-		body->SetAngularDamping(0.5f);
-		body->SetLinearDamping(0.5f);
+		body->SetAngularDamping(1.0f);
+		body->SetLinearDamping(1.0f);
 		GetPhysics()->mScene->addActor(*body->mActor);
 
 		body->impactSrc = NULL;
@@ -249,36 +253,17 @@ namespace NGTech {
 	}
 
 	PhysBody *PhysBody::CreateStaticMesh(Vec3 *pos, const int numPos, bool optimize) {
-#if 0
 		PhysBody *body = new PhysBody();
 
 		body->force = Vec3(0, 0, 0);
 		body->torque = Vec3(0, 0, 0);
 		body->impulse = Vec3(0, 0, 0);
-		body->velocity = Vec3(0, 0, 0);
-
-		//NewtonCollision const*collision = NewtonCreateTreeCollision(GetPhysics()->nWorld, 0);
-		//NewtonTreeCollisionBeginBuild(collision);
-		//for (int i = 0; i < numPos / 3; i++) {
-		//	Vec3 v[3];
-		//	v[0] = pos[i * 3 + 0];
-		//	v[1] = pos[i * 3 + 1];
-		//	v[2] = pos[i * 3 + 2];
-
-		//	NewtonTreeCollisionAddFace(collision, 3, &v[0].x, 3 * sizeof(float) , i+1);
-		//}
-		//NewtonTreeCollisionEndBuild(collision, 1);
-		//body->nBody = NewtonCreateDynamicBody(GetPhysics()->nWorld, collision, Mat4(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1));//Nick:Сомневаюсь,верно ли?
-		//NewtonDestroyCollision(collision);
-		//NewtonBodySetMassMatrix(body->nBody, 1.0f, 1.0f, 1.0f, 1.0f);
-		//NewtonBodySetUserData(body->nBody, body);
+		body->mLvelocity = Vec3(0, 0, 0);
+		body->mAvelocity = Vec3(0, 0, 0);
 
 		body->impactSrc = NULL;
 
 		return body;
-#else
-		return NULL;
-#endif
 	}
 
 	PhysBody::~PhysBody() {
@@ -298,12 +283,15 @@ namespace NGTech {
 		return PhysXToEngineMath(pos);
 	}
 
-	void PhysBody::AddTorque(const Vec3 &torque) {
-		this->torque += torque;
-		this->force += torque * GetMass();
+	void PhysBody::AddTorque(const Vec3 &_torque) {
+		this->torque += _torque;
+		this->force += _torque * GetMass();
+		if (mActor)
+			mActor->addTorque(PxVec3(_torque.x, _torque.y, _torque.z));
 	}
 
 	Vec3 PhysBody::GetTorque() {
+		//Nick:Not exist in Physx;
 		return torque;
 	}
 
@@ -311,23 +299,49 @@ namespace NGTech {
 		if (GetMass() > 0)
 			this->torque += force / GetMass();
 		this->force += force;
+
+		if (mActor)
+			mActor->addForce(PxVec3(force.x, force.y, force.z));
 	}
 
 	Vec3 PhysBody::GetForce() {
+		//Nick:Not exist in Physx;
 		return force;
 	}
 
 	void PhysBody::AddVelocity(const Vec3 &velocity) {
+		//Nick:Not exist in Physx;
 	}
 
 	void PhysBody::SetLinearVelocity(const Vec3 &velocity) {
+		mLvelocity = velocity;
 		if (mActor)
 			mActor->setLinearVelocity(physx::PxVec3(velocity.x, velocity.y, velocity.z));
 	}
 
-	Vec3 PhysBody::GetVelocity() {
-		Vec3 velocity(0, 0, 0);
-		return velocity;
+	Vec3 PhysBody::GetLinearVelocity() {
+		if (mActor){
+			Vec3 velocity;
+			auto mPxVec = mActor->getLinearVelocity();
+			velocity = { mPxVec.x, mPxVec.y, mPxVec.z };
+			return velocity;
+		}
+		return mLvelocity;
+	}
+
+	void PhysBody::SetAngularVelocity(const Vec3 &velocity) {
+		mAvelocity = velocity;
+		if (mActor)
+			mActor->setAngularVelocity(physx::PxVec3(velocity.x, velocity.y, velocity.z));
+	}
+
+	Vec3 PhysBody::GetAngularVelocity() {
+		if (mActor){
+			Vec3 velocity;
+			auto mPxVec = mActor->getAngularVelocity();
+			velocity = { mPxVec.x, mPxVec.y, mPxVec.z };
+		}
+		return mAvelocity;
 	}
 
 	float PhysBody::GetMass() {

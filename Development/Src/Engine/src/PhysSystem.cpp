@@ -83,7 +83,7 @@ namespace NGTech {
 			Error("createMaterial failed!", true);
 
 		PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
-		sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
+		sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
 
 		if (!sceneDesc.cpuDispatcher)
 		{
@@ -107,7 +107,6 @@ namespace NGTech {
 		PxShape* shape = plane->createShape(PxPlaneGeometry(), *mMaterial);
 		mScene->addActor(*plane);
 #endif
-
 	}
 
 	/*
@@ -147,6 +146,9 @@ namespace NGTech {
 		else
 			createPvdConnection();
 	}
+
+	/*
+	*/
 	void PhysSystem::createPvdConnection()	{
 		Debug("PhysSystem::createPvdConnection()");
 		auto mCon = PxVisualDebuggerExt::createConnection(mPhysics->getPvdConnectionManager(), "127.0.0.1", 5425, 100, PxVisualDebuggerExt::getAllConnectionFlags());
@@ -154,5 +156,23 @@ namespace NGTech {
 			mPhysics->getVisualDebugger()->setVisualizeConstraints(true);
 			mPhysics->getVisualDebugger()->setVisualDebuggerFlag(physx::PxVisualDebuggerFlag::Enum::eTRANSMIT_CONTACTS, true);
 		}
+	}
+
+	/*
+	*/
+	void PhysSystem::SetGravity(const Vec3&_vec)	{
+		if (mScene)
+			mScene->setGravity(PxVec3(_vec.x, _vec.y, _vec.z));
+	}
+
+	/*
+	*/
+	Vec3 PhysSystem::GetGravity()	{
+		Vec3 Mvec(0,0,0);
+		if (mScene){
+			PxVec3 pvec=mScene->getGravity();
+			Mvec = { pvec.x, pvec.y, pvec.z };
+		}
+		return Mvec;
 	}
 }

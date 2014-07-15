@@ -92,7 +92,7 @@ namespace NGTech {
 	void CameraFPS::update() {
 		if(pBody) {
 			position = pBody->GetTransform().getTranslation() + Vec3(0, 7, 0);
-			pBody->SetLinearVelocity(Vec3(0, pBody->GetVelocity().y, 0));
+			pBody->SetLinearVelocity(Vec3(0, pBody->GetLinearVelocity().y, 0));
 		}
 
 		if(GetWindow()->isMouseMoved() && GetWindow()->isMouseGrabed()) {

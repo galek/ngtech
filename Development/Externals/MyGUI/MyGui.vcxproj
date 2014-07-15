@@ -446,9 +446,6 @@
     <ClCompile Include="Platforms\OpenGL\OpenGLPlatform\src\MyGUI_OpenGLTexture.cpp" />
     <ClCompile Include="Platforms\OpenGL\OpenGLPlatform\src\MyGUI_OpenGLVertexBuffer.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Platforms\OpenGL\OpenGLPlatform\include\GL\GLEW-LICENSE" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

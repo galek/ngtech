@@ -45,10 +45,10 @@ namespace NGTech {
 
 		void AddVelocity(const Vec3 &velocity);
 		void SetLinearVelocity(const Vec3 &velocity);
-		Vec3 GetVelocity();
-
-		typedef void(*ContactCallback)();
-
+		Vec3 GetLinearVelocity();
+		void SetAngularVelocity(const Vec3 &velocity);
+		Vec3 GetAngularVelocity();
+		
 		void SetImpactSound(ALSound *snd) {
 			impactSrc = ALSoundSource::create(snd);
 		}
@@ -63,7 +63,7 @@ namespace NGTech {
 		Vec3 force;
 		Vec3 torque;
 		Vec3 impulse;
-		Vec3 velocity;
+		Vec3 mLvelocity, mAvelocity;
 
 		float mass;
 
