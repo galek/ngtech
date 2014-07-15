@@ -41,9 +41,7 @@ namespace NGTech {
 		void AddForce(const Vec3 &force);
 		Vec3 GetForce();
 		void AddTorque(const Vec3 &torque);
-		Vec3 GetTorque();
 
-		void AddVelocity(const Vec3 &velocity);
 		void SetLinearVelocity(const Vec3 &velocity);
 		Vec3 GetLinearVelocity();
 		void SetAngularVelocity(const Vec3 &velocity);
@@ -60,15 +58,10 @@ namespace NGTech {
 		ALSoundSource *impactSrc;
 		physx::PxShape* mShape;
 		physx::PxRigidDynamic *mActor;
-		Vec3 force;
-		Vec3 torque;
-		Vec3 impulse;
 		Vec3 mLvelocity, mAvelocity;
 
 		float mass;
-
-		bool cc;
-
+		
 		friend class PhysSystem;
 		friend class PhysJoint;
 		friend class PhysJointUpVector;

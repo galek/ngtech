@@ -17,9 +17,6 @@ namespace NGTech {
 
 		PhysBody *body = new PhysBody();
 
-		body->force = Vec3(0, 0, 0);
-		body->torque = Vec3(0, 0, 0);
-		body->impulse = Vec3(0, 0, 0);
 		body->mLvelocity = Vec3(0, 0, 0);
 		body->mAvelocity = Vec3(0, 0, 0);
 
@@ -49,9 +46,6 @@ namespace NGTech {
 	PhysBody *PhysBody::CreateSphere(float radius, Mat4 *_trans, float _mass) {
 		PhysBody *body = new PhysBody();
 
-		body->force = Vec3(0, 0, 0);
-		body->torque = Vec3(0, 0, 0);
-		body->impulse = Vec3(0, 0, 0);
 		body->mLvelocity = Vec3(0, 0, 0);
 		body->mAvelocity = Vec3(0, 0, 0);
 
@@ -80,9 +74,6 @@ namespace NGTech {
 	PhysBody *PhysBody::CreateCylinder(float radius, float width, Mat4 *_trans, float mass) {
 		PhysBody *body = new PhysBody();
 
-		body->force = Vec3(0, 0, 0);
-		body->torque = Vec3(0, 0, 0);
-		body->impulse = Vec3(0, 0, 0);
 		body->mLvelocity = Vec3(0, 0, 0);
 		body->mAvelocity = Vec3(0, 0, 0);
 
@@ -147,9 +138,6 @@ namespace NGTech {
 	PhysBody *PhysBody::CreateCapsule(float radius, float height, Mat4 *_trans, float _mass) {
 		PhysBody *body = new PhysBody();
 
-		body->force = Vec3(0, 0, 0);
-		body->torque = Vec3(0, 0, 0);
-		body->impulse = Vec3(0, 0, 0);
 		body->mLvelocity = Vec3(0, 0, 0);
 		body->mAvelocity = Vec3(0, 0, 0);
 
@@ -255,9 +243,6 @@ namespace NGTech {
 	PhysBody *PhysBody::CreateStaticMesh(Vec3 *pos, const int numPos, bool optimize) {
 		PhysBody *body = new PhysBody();
 
-		body->force = Vec3(0, 0, 0);
-		body->torque = Vec3(0, 0, 0);
-		body->impulse = Vec3(0, 0, 0);
 		body->mLvelocity = Vec3(0, 0, 0);
 		body->mAvelocity = Vec3(0, 0, 0);
 
@@ -284,34 +269,16 @@ namespace NGTech {
 	}
 
 	void PhysBody::AddTorque(const Vec3 &_torque) {
-		this->torque += _torque;
-		this->force += _torque * GetMass();
 		if (mActor)
 			mActor->addTorque(PxVec3(_torque.x, _torque.y, _torque.z));
 	}
 
-	Vec3 PhysBody::GetTorque() {
-		//Nick:Not exist in Physx;
-		return torque;
-	}
 
 	void PhysBody::AddForce(const Vec3 &force) {
-		if (GetMass() > 0)
-			this->torque += force / GetMass();
-		this->force += force;
-
 		if (mActor)
 			mActor->addForce(PxVec3(force.x, force.y, force.z));
 	}
-
-	Vec3 PhysBody::GetForce() {
-		//Nick:Not exist in Physx;
-		return force;
-	}
-
-	void PhysBody::AddVelocity(const Vec3 &velocity) {
-		//Nick:Not exist in Physx;
-	}
+	
 
 	void PhysBody::SetLinearVelocity(const Vec3 &velocity) {
 		mLvelocity = velocity;
