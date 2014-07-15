@@ -1057,7 +1057,7 @@ namespace NGTech {
 			water->draw();		
 			waterMtr->unsetPass();
 		}
-
+#pragma message("TODO:GUI:Разобраться с апдейтом GUI")
 		//Now GUI Update
 		if (GetGUI())
 			GetGUI()->update();

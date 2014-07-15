@@ -26,6 +26,7 @@ namespace NGTech {
 		void quit();
 		void initialise();
 		void setGame(IGame*_game);
+		virtual float GetLastFPS();
 	private:
 		void _preInit();
 		void _setResources();	

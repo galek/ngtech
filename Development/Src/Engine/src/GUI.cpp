@@ -158,6 +158,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void GUI::update() {
+#pragma message("TODO:GUI:Разобраться с апдейтом GUI")
 #if 0
 //		GUIRenderMtr->setPass("Ambient");
 //		GUIRenderMtr->unsetPass();	
@@ -185,7 +186,7 @@ namespace NGTech {
 	void GUI::updateDebugInfo(){
 		if (mDebugShow)
 			if (GetWindow()->getDTime() > EPSILON)
-				fpsLabel->setCaption("FPS: " + StringHelper::fromInt(1000 / GetWindow()->getDTime()));
+				fpsLabel->setCaption("FPS: " + StringHelper::fromInt(int(GetEngine()->GetLastFPS())));
 	}
 	void GUI::resize(int _width, int _height) {
 		mPlatform->getRenderManagerPtr()->setViewSize(_width, _height);
