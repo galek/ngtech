@@ -108,7 +108,6 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::setGravity(const Vec3 &_gravity) {
-//Ќет нужды в этом		this->gravity = _gravity;
 		GetPhysics()->SetGravity(_gravity);
 	}
 
@@ -885,23 +884,6 @@ namespace NGTech {
 		//---------update-camera-----------------------------------
 		camera->update();
 		GetAudio()->setListener(camera->getPosition(), camera->getDirection());
-#if 0 //Ќекорректно работает с физиксом-закручивает тела,надо смотерть,возможно есть другой способ задать поведение
-		//---------set-gravity-----------------------------------
-		for (int k = 0; k < objects.size(); k++) {
-			if (objects[k]->getPhysBody()) {
-				objects[k]->getPhysBody()->AddTorque(gravity);
-				if (water) {
-					if (objects[k]->getTransform().getTranslation().y < water->getDepth() - 2.5) {
-						float volume = 4 / 3 * PI * pow(objects[k]->getRadius(), 3.0f);
-						float d = objects[k]->getPhysBody()->GetMass() / volume;
-						objects[k]->getPhysBody()->AddTorque(-gravity / d * 0.02);
-					}
-				}
-			}
-
-			if (camera->getPhysBody()) camera->getPhysBody()->AddTorque(gravity);
-		}
-#endif
 		//---------draw-scene--------------------------------
 		GetRender()->setMatrixMode_Projection();
 		GetRender()->loadMatrix(camera->getProjection());
