@@ -170,15 +170,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CommonPrivate.h" />
     <ClInclude Include="Delegate.h" />
     <ClInclude Include="EString.h" />
     <ClInclude Include="IAudio.h" />
     <ClInclude Include="IDataManager.h" />
     <ClInclude Include="IGame.h" />
+    <ClInclude Include="IGUI.h" />
+    <ClInclude Include="IILImage.h" />
     <ClInclude Include="IRender.h" />
     <ClInclude Include="IScripting.h" />
     <ClInclude Include="IWindow.h" />
     <ClInclude Include="RunObject.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="Types.h" />
   </ItemGroup>
   <ItemGroup>

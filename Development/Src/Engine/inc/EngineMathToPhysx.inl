@@ -1,7 +1,7 @@
 #pragma once
 
 #include "PxPhysicsAPI.h"
-#include "..\..\Core\mathlib.h"
+#include "../../Core/inc/mathlib.h"
 
 namespace NGTech {
 	__inline physx::PxTransform EngineMathToPhysX(Mat4 *_trans)

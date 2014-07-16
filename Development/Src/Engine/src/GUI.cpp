@@ -39,7 +39,7 @@ namespace NGTech {
 		// Load the image as a resource
 		if (GetVFS()->isDataExist(_filename))
 		{
-			Common::IDataStream* stream = GetVFS()->getData(_filename);
+			IDataStream* stream = GetVFS()->getData(_filename);
 			if (!stream)
 				Warning("[GUI]Failed Loading GUI image!");
 			size_t lumpSize = stream->size();

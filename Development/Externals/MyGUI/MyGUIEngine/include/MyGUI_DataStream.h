@@ -8,13 +8,12 @@
 #define __MYGUI_DATA_STREAM_H__
 
 #include "MyGUI_Prerequest.h"
-#include "MyGUI_IDataStream.h"
 
 namespace MyGUI
 {
 
 	class MYGUI_EXPORT DataStream :
-		public IDataStream
+		public NGTech::IDataStream
 	{
 	public:
 		DataStream();

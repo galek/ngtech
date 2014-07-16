@@ -15,11 +15,11 @@
 #include "..\Src\Common\IScripting.h"
 #include "..\Src\Engine\inc\Engine.h"
 
-#include "..\Src\Core\MathLib.h"
+#include "..\Src\Core\inc\MathLib.h"
 #include "..\Src\Engine\inc\ALSystem.h"
 #include "..\Src\Engine\inc\PhysSystem.h"
-#include "..\Src\Core\Log.h"
-#include "..\Src\Core\Config.h"
+#include "..\Src\Core\inc\Log.h"
+#include "..\Src\Core\inc\Config.h"
 
 #include "..\Src\Engine\inc\LoadingScreen.h"
 

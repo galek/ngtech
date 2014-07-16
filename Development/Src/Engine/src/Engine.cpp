@@ -44,8 +44,6 @@
 
 
 namespace NGTech {
-	using namespace Common;
-
 #define ENGINE_VERSION_NUMBER 0.3.3
 #define ENGINE_VERSION_STRING "0.3.3"
 	/*
@@ -56,7 +54,7 @@ namespace NGTech {
 		std::string logstring = "Engine Version:"ENGINE_VERSION_STRING;
 		logstring += " Build Date : "__DATE__;
 		logstring += " : "__TIME__;
-		LogPrintf(logstring);
+		LogPrintf(logstring.c_str());
 		_preInit();
 	}
 

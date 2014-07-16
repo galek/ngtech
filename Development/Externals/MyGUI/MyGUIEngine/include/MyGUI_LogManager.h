@@ -29,13 +29,6 @@
 #include <vector>
 #include <TCHAR.H>
 
-namespace NGTech {
-	void DebugF(std::string text, const char* _file, int _line);
-	void Warning(const char* text, ... );
-	void LogPrintf(std::string text);
-	void Error(std::string text,bool _fatal);
-}
-
 namespace MyGUI
 {
 	void NGTechPushToLog(const std::string& _section, LogLevel _level, const std::string& _message, const char* _file, int _line);
