@@ -75,7 +75,6 @@ namespace NGTech {
 		Water *water;
 		Terrain *terrain;
 		Vec3 terrainLods;
-		Vec3 gravity;
 
 		std::vector<Object*> objects;
 		std::vector<Light*> lights;

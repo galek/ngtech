@@ -77,8 +77,8 @@ bool Frustum::isInside(const Vec3 &min, const Vec3 &max) {
 void Frustum::get() {
 		Mat4 modl, proj;
 
-		proj = GetEngine()->iRender->getMatrix_Projection();
-		modl = GetEngine()->iRender->getMatrix_Modelview();
+		proj = GetRender()->getMatrix_Projection();
+		modl = GetRender()->getMatrix_Modelview();
 
 		Mat4 clip = proj * modl;
 

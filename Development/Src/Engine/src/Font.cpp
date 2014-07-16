@@ -28,8 +28,8 @@ namespace NGTech {
 				list[y*16 + x] = new GLDisplayList();
 				list[y*16 + x]->beginBuild();
 
-				GetEngine()->iRender->drawRect(0, 0, 1, 1, x*cx, y*cy - 0.0625f, x*cx + 0.0625f, y*cy); 
-				GetEngine()->iRender->translate(Vec3(0.8, 0, 0));
+				GetRender()->drawRect(0, 0, 1, 1, x*cx, y*cy - 0.0625f, x*cx + 0.0625f, y*cy); 
+				GetRender()->translate(Vec3(0.8, 0, 0));
 
 				list[y*16 + x]->endBuild();
 			}
@@ -47,15 +47,15 @@ namespace NGTech {
 
 
 	void Font::print(int x, int y, int size, const String &text, const Vec3 &color, float alpha) {
-		GetEngine()->iRender->enable2d(false);
-		GetEngine()->iRender->disableCulling();
+		GetRender()->enable2d(false);
+		GetRender()->disableCulling();
 
-		GetEngine()->iRender->translate(Vec3(x, y, 0));								
-		GetEngine()->iRender->scale(Vec3(size, size, 1));
+		GetRender()->translate(Vec3(x, y, 0));								
+		GetRender()->scale(Vec3(size, size, 1));
 
-		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE_MINUS_SRC_ALPHA);
+		GetRender()->enableBlending(GLSystem::ONE, GLSystem::ONE_MINUS_SRC_ALPHA);
 
-		GetEngine()->iRender->setColor(Vec4(color * alpha, alpha));
+		GetRender()->setColor(Vec4(color * alpha, alpha));
 		fontTex->set(0);
 
 		for(int p = 0; p < text.length(); p++) {
@@ -63,12 +63,12 @@ namespace NGTech {
 		}
 
 		fontTex->unset(0);
-		GetEngine()->iRender->setColor(Vec4(1, 1, 1, 1));
+		GetRender()->setColor(Vec4(1, 1, 1, 1));
 
-		GetEngine()->iRender->disableBlending();
+		GetRender()->disableBlending();
 
-		GetEngine()->iRender->enableCulling();
-		GetEngine()->iRender->enable3d();
+		GetRender()->enableCulling();
+		GetRender()->enable3d();
 	}
 
 }

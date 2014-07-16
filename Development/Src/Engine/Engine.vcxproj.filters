@@ -7,6 +7,12 @@
     <Filter Include="Файлы исходного кода">
       <UniqueIdentifier>{9359e7c2-5f34-4aef-8e61-ce738252f271}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы исходного кода\PhysX">
+      <UniqueIdentifier>{2c87ee5b-293b-471c-bed9-0aa66abcde95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\PhysX">
+      <UniqueIdentifier>{ddff9576-7f8e-46d9-8b99-625084b7bc0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\ALSound.h">
@@ -131,6 +137,9 @@
     </ClInclude>
     <ClInclude Include="inc\WindowSystem.h">
       <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\PhysXUtils.h">
+      <Filter>Заголовочные файлы\PhysX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -263,5 +272,16 @@
     <ClCompile Include="src\WindowSystem.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="src\EngineGlobals.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PhysXUtils.cpp">
+      <Filter>Файлы исходного кода\PhysX</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="inc\EngineMathToPhysx.inl">
+      <Filter>Заголовочные файлы\PhysX</Filter>
+    </None>
   </ItemGroup>
 </Project>

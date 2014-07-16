@@ -296,6 +296,7 @@ namespace NGTech {
 		float x, y, z, w;
 
 		Quat();
+		Quat(float _x, float _y, float _z, float _w);
 		Quat(float angle, const Vec3 &axis);
 
 		Quat(const Mat3 &in);

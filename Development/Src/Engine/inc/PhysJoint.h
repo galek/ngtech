@@ -14,7 +14,6 @@
 #include "PhysBody.h"
 #include "MathLib.h"
 //**************************************
-struct NewtonJoint;
 
 namespace NGTech {
 	/**
@@ -24,8 +23,5 @@ namespace NGTech {
 	public:
 		PhysJointUpVector(const Vec3 &direction, PhysBody *body);
 		~PhysJointUpVector();
-
-	private:
-		NewtonJoint *nJoint;
 	};
 }

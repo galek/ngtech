@@ -1,10 +1,3 @@
-/***************************************************************************
-*   Copyright (C) 2006 by AST   *
-*   tsyplyaev@gmail.com   *
-*   ICQ: 279-533-134                          *
-*   This is a part of work done by AST.       *
-*   If you want to use it, please contact me. *
-***************************************************************************/
 #pragma once
 
 //***************************************************************************
@@ -14,8 +7,11 @@
 #include "ALSound.h"
 #include "ALSoundSource.h"
 //***************************************************************************
-struct NewtonBody;
-
+namespace physx
+{
+	class PxShape;
+	class PxRigidDynamic;
+}
 namespace NGTech {
 
 	//---------------------------------------------------------------------------
@@ -23,57 +19,49 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	class PhysBody {
 	public:
-		static PhysBody *createBox(const Vec3 &size, float mass = 0);
-		static PhysBody *createSphere(float radius, float mass = 0);
+		static PhysBody *CreateBox(const Vec3 &size, Mat4 *_trans, float mass = 0);
+		static PhysBody *CreateSphere(float radius, Mat4 *_trans, float mass = 0);
 
-		static PhysBody *createCylinder(float radius, float height, float mass = 0);
-		static PhysBody *createCone(float radius, float height, float mass = 0);
-		static PhysBody *createCapsule(float radius, float height, float mass = 0);
-		static PhysBody *createChampferCylinder(float radius, float height, float mass = 0);
+		static PhysBody *CreateCylinder(float radius, float height, Mat4 *_trans, float mass = 0);
+		static PhysBody *CreateCone(float radius, float height, float mass = 0);
+		static PhysBody *CreateCapsule(float radius, float height, Mat4 *_trans, float mass = 0);
+		static PhysBody *CreateChampferCylinder(float radius, float height, float mass = 0);
 
-		static PhysBody *createConvexHull(Vec3 *pos, const int numPos, float mass = 0);
-		static PhysBody *createStaticMesh(Vec3 *pos, const int numPos, bool optimize);
+		static PhysBody *CreateConvexHull(Vec3 *pos, const int numPos, float mass = 0);
+		static PhysBody *CreateStaticMesh(Vec3 *pos, const int numPos, bool optimize);
 
 		~PhysBody();
 
-		void setTransform(const Mat4 &trans);
-		Mat4 getTransform();
+		void SetTransform(const Mat4 &trans);
+		Mat4 GetTransform();
 
-		float getMass();
-		void setMass(float mass);
+		float GetMass();
+		void SetMass(float mass);
 
-		void addForce(const Vec3 &force);
-		Vec3 getForce();
-		void addTorque(const Vec3 &torque);
-		Vec3 getTorque();
+		void AddForce(const Vec3 &force);
+		Vec3 GetForce();
+		void AddTorque(const Vec3 &torque);
 
-		void addVelocity(const Vec3 &velocity);
-		void setVelocity(const Vec3 &velocity);
-		Vec3 getVelocity();
-
-		typedef void(*ContactCallback)();
-
-		void setImpactSound(ALSound *snd) {
+		void SetLinearVelocity(const Vec3 &velocity);
+		Vec3 GetLinearVelocity();
+		void SetAngularVelocity(const Vec3 &velocity);
+		Vec3 GetAngularVelocity();
+		
+		void SetImpactSound(ALSound *snd) {
 			impactSrc = ALSoundSource::create(snd);
-		};
-
+		}
+		
+		void SetLinearDamping(float _v);
+		void SetAngularDamping(float _v);
+		void SetMassSpaceInertiaTensor(const Vec3&);
 	private:
-		NewtonBody *nBody;
-
 		ALSoundSource *impactSrc;
-
-		Vec3 force;
-		Vec3 torque;
-		Vec3 impulse;
-		Vec3 velocity;
+		physx::PxShape* mShape;
+		physx::PxRigidDynamic *mActor;
+		Vec3 mLvelocity, mAvelocity;
 
 		float mass;
-
-		static void applyForce_Callback(const NewtonBody* body, float timestep, int threadIndex);
-
-		ContactCallback contact;
-		bool cc;
-
+		
 		friend class PhysSystem;
 		friend class PhysJoint;
 		friend class PhysJointUpVector;

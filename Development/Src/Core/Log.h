@@ -15,7 +15,7 @@
 namespace NGTech {
 #define Debug(text) DebugF(text, __FILE__, __LINE__)
 	void DebugF(String text, const char* _file, int _line);
-	void Warning(const TCHAR *fmt, ...);
+	void Warning(const char *fmt, ...);
 	void LogPrintf(String text);
 	void Error(String text, bool _fatal);
 	//---------------------------------------------------------------------------

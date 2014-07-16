@@ -157,7 +157,7 @@ Material::Material(String path) {
 					String name = StringHelper::getWord(line, 3);
 
 					String defines = "";
-					pass->shader = GetEngine()->cache->loadShader(name, defines);
+					pass->shader = GetCache()->loadShader(name, defines);
 				}
 
 				//sampler
@@ -177,12 +177,12 @@ Material::Material(String path) {
 						GLTexture *sampler;
 						ILImage *map = ILImage::create2d("../data/textures/" + StringHelper::getWord(line, 5));
 						map->toNormalMap(4);
-						sampler = GetEngine()->cache->loadTexture2d(map, "../data/textures/" + StringHelper::getWord(line, 5) + "_NORMAL_MAP");
+						sampler = GetCache()->loadTexture2d(map, "../data/textures/" + StringHelper::getWord(line, 5) + "_NORMAL_MAP");
 						pass->u_sampler2D.push_back(std::pair<String, GLTexture*>(name, sampler));
 						delete map;
 					} else {
 						GLTexture *sampler;
-						sampler = GetEngine()->cache->loadTexture2d("../data/textures/" + StringHelper::getWord(line, 4));
+						sampler = GetCache()->loadTexture2d("../data/textures/" + StringHelper::getWord(line, 4));
 						pass->u_sampler2D.push_back(std::pair<String, GLTexture*>(name, sampler));
 					}
 				}
@@ -198,7 +198,7 @@ Material::Material(String path) {
 					//user params
 					} else {
 						GLTexture *sampler;
-						sampler = GetEngine()->cache->loadTextureCube("../data/textures/" + StringHelper::getWord(line, 4));
+						sampler = GetCache()->loadTextureCube("../data/textures/" + StringHelper::getWord(line, 4));
 						pass->u_samplerCube.push_back(std::pair<String, GLTexture*>(name, sampler));
 					}
 				}
@@ -329,12 +329,12 @@ Material::~Material() {
 	for(int p =0; p < passes.size(); p++) {
 		Pass *pass = passes[p];
 		for(int i = 0; i < pass->u_sampler2D.size(); i++) {
-			GetEngine()->cache->deleteTexture(pass->u_sampler2D[i].second);
+			GetCache()->deleteTexture(pass->u_sampler2D[i].second);
 		}
 		pass->u_sampler2D.clear();
 
 		for(int i = 0; i < pass->u_samplerCube.size(); i++) {
-			GetEngine()->cache->deleteTexture(pass->u_samplerCube[i].second);
+			GetCache()->deleteTexture(pass->u_samplerCube[i].second);
 		}
 		pass->u_samplerCube.clear();
 
@@ -344,7 +344,7 @@ Material::~Material() {
 		pass->u_Vec4.clear();
 		pass->u_Mat4.clear();
 
-		GetEngine()->cache->deleteShader(pass->shader);
+		GetCache()->deleteShader(pass->shader);
 	}
 }
 
@@ -405,27 +405,27 @@ bool Material::setPass(const String &name) {
 		Pass::SceneParam type = p->u_scene_params[i].second;
 		String name = p->u_scene_params[i].first;
 
-		if(type == Pass::matTime)          { p->shader->sendFloat(name, GetEngine()->scene->matTime); }
-		if(type == Pass::matLightIRadius) { p->shader->sendFloat(name, GetEngine()->scene->matLightIRadius); }
+		if(type == Pass::matTime)          { p->shader->sendFloat(name, GetScene()->matTime); }
+		if(type == Pass::matLightIRadius) { p->shader->sendFloat(name, GetScene()->matLightIRadius); }
 		
-		if(type == Pass::matLightColor)    { p->shader->sendVec3(name, GetEngine()->scene->matLightColor); }
-		if(type == Pass::matLightPosition) { p->shader->sendVec3(name, GetEngine()->scene->matLightPosition); }
-		if(type == Pass::matLightDirection){ p->shader->sendVec3(name, GetEngine()->scene->matLightDirection); }
-		if(type == Pass::matViewPosition)  { p->shader->sendVec3(name, GetEngine()->scene->matViewPosition); }
+		if(type == Pass::matLightColor)    { p->shader->sendVec3(name, GetScene()->matLightColor); }
+		if(type == Pass::matLightPosition) { p->shader->sendVec3(name, GetScene()->matLightPosition); }
+		if(type == Pass::matLightDirection){ p->shader->sendVec3(name, GetScene()->matLightDirection); }
+		if(type == Pass::matViewPosition)  { p->shader->sendVec3(name, GetScene()->matViewPosition); }
 
-		if(type == Pass::matMVP) { p->shader->sendMat4(name, GetEngine()->scene->matMVP); }
-		if(type == Pass::matWorld) { p->shader->sendMat4(name, GetEngine()->scene->matWorld); }
-		if(type == Pass::matSpotTransform) { p->shader->sendMat4(name, GetEngine()->scene->matSpotTransform); }
-		if(type == Pass::matViewportTransform) { p->shader->sendMat4(name, GetEngine()->scene->matViewportTransform); }
+		if(type == Pass::matMVP) { p->shader->sendMat4(name, GetScene()->matMVP); }
+		if(type == Pass::matWorld) { p->shader->sendMat4(name, GetScene()->matWorld); }
+		if(type == Pass::matSpotTransform) { p->shader->sendMat4(name, GetScene()->matSpotTransform); }
+		if(type == Pass::matViewportTransform) { p->shader->sendMat4(name, GetScene()->matViewportTransform); }
 
-		if(type == Pass::matShadowMap && (GetEngine()->cvars->r_shadowtype)) { p->shader->sendInt(name, p->maxUnit); //Nick:TODO:Replace
-			GetEngine()->scene->matShadowMap->set(p->maxUnit); }
+		if(type == Pass::matShadowMap && (GetCvars()->r_shadowtype)) { p->shader->sendInt(name, p->maxUnit); //Nick:TODO:Replace
+			GetScene()->matShadowMap->set(p->maxUnit); }
 
 		if(type == Pass::matViewportMap) { p->shader->sendInt(name, p->maxUnit+1); 
-			GetEngine()->scene->matViewportMap->set(p->maxUnit+1); }
+			GetScene()->matViewportMap->set(p->maxUnit+1); }
 
 		if(type == Pass::matSpotMap) { p->shader->sendInt(name, p->maxUnit+2); 
-			GetEngine()->scene->matSpotMap->set(p->maxUnit+2); }
+			GetScene()->matSpotMap->set(p->maxUnit+2); }
 	}
 
 	return true;
@@ -452,11 +452,11 @@ void Material::unsetPass() {
 	}
 	p->maxUnit += p->u_samplerCube.size();
 
-	if(GetEngine()->cvars->r_shadowtype) 
-		if(GetEngine()->scene->matShadowMap) GetEngine()->scene->matShadowMap->unset(p->maxUnit);
+	if(GetCvars()->r_shadowtype) 
+		if(GetScene()->matShadowMap) GetScene()->matShadowMap->unset(p->maxUnit);
 
-	if(GetEngine()->scene->matViewportMap) GetEngine()->scene->matViewportMap->unset(p->maxUnit+1);
-	if(GetEngine()->scene->matSpotMap) GetEngine()->scene->matSpotMap->unset(p->maxUnit+2);
+	if(GetScene()->matViewportMap) GetScene()->matViewportMap->unset(p->maxUnit+1);
+	if(GetScene()->matSpotMap) GetScene()->matSpotMap->unset(p->maxUnit+2);
 }
 
 
@@ -484,8 +484,8 @@ void Material::setPassBlending(const String &name) {
 	if(!p) return;
 
 	if(p->hasBlending) {
-		GetEngine()->iRender->depthMask(false);
-		GetEngine()->iRender->enableBlending(p->src, p->dst);
+		GetRender()->depthMask(false);
+		GetRender()->enableBlending(p->src, p->dst);
 	}
 }
 
@@ -496,8 +496,8 @@ void Material::unsetPassBlending() {
 	Pass *p = currentPass;
 
 	if(p->hasBlending) {
-		GetEngine()->iRender->disableBlending();
-		GetEngine()->iRender->depthMask(true);
+		GetRender()->disableBlending();
+		GetRender()->depthMask(true);
 	}
 }
 

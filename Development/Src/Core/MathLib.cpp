@@ -1189,6 +1189,10 @@ Mat4 Mat4::reflectProjection(const Mat4 &proj, const Vec4 &plane) {
 		}
 	}
 
+	Quat::Quat(float _x, float _y, float _z, float _w)
+		:x(_x), y(_y), z(_z), w(_w)
+	{}
+
 	Quat::operator float*() { 
 		return (float*)&x; 
 	}

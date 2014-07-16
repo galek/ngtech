@@ -32,12 +32,12 @@ namespace NGTech {
 		shader->tes = NULL;
 		shader->program = NULL;
 
-		if(!GetEngine()->vfs->isDataExist(path)) {
+		if(!GetVFS()->isDataExist(path)) {
 			Error::showAndExit("GLShader::create() error: shader file '" + path + "' was not found");
 			return NULL;
 		}
 		
-		FILE *shdFile = fopen(GetEngine()->vfs->getDataPath(path).c_str(), "rt");
+		FILE *shdFile = fopen(GetVFS()->getDataPath(path).c_str(), "rt");
 		String line, vsCode, fsCode, tcsCode, tesCode, gsCode;
 
 		while(!feof(shdFile)) {

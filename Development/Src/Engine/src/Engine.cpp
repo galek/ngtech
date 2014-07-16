@@ -45,11 +45,6 @@
 
 namespace NGTech {
 	using namespace Common;
-	Engine engine;
-
-	Engine* GetEngine() {
-		return &engine;
-	}
 
 #define ENGINE_VERSION_NUMBER 0.3.3
 #define ENGINE_VERSION_STRING "0.3.3"
@@ -139,7 +134,7 @@ namespace NGTech {
 			Debug("[Init] SceneManager Finished");
 		}
 
-		if(scripting){
+		if (scripting){
 			scripting->initialise();
 			Debug("[Init] Scripting Finished");
 		}
@@ -180,15 +175,13 @@ namespace NGTech {
 
 			if (this->game->ec)
 				this->game->runEventsCallback();
-						/*
-			if (this->gui)
-				this->gui->update();*/
 
 			if (this->iRender)
 				this->iRender->clear(GLSystem::COLOR_BUFFER | GLSystem::DEPTH_BUFFER | GLSystem::STENCIL_BUFFER);
-			
-			if (this->gui)
-				this->gui->update();
+
+#pragma message("TODO:GUI:Разобраться с апдейтом GUI")
+			/*if (this->gui)
+				this->gui->update();*/
 
 			if (this->scene)
 				this->scene->Update();
@@ -209,14 +202,20 @@ namespace NGTech {
 
 
 	/*
-	*/	
+	*/
 	void Engine::quit() {
 		running = false;
 	}
+
 	/*
 	*/
 	void Engine::_setResources() {
 		vfs->addResourceLocation("../data", true);
 	}
 
+	/*
+	*/
+	float Engine::GetLastFPS() {
+		return 1000 / iWindow->getDTime();
+	}
 }

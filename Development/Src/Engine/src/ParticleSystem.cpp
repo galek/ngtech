@@ -57,7 +57,7 @@ namespace NGTech {
 			particles[i].velocity = velocity = Vec3(0, 10, 0);
 			particles[i].position = Vec3(0, 0, 0);
 		}
-		GetEngine()->scene->addParticleSystem(this);
+		GetScene()->addParticleSystem(this);
 	}
 
 	//---------------------------------------------------------------------------
@@ -75,11 +75,11 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	void ParticleSystem::draw() {
 		texture->set(0);
-		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
-		GetEngine()->iRender->setColor(color);
-		GetEngine()->iRender->depthMask(false);
+		GetRender()->enableBlending(GLSystem::ONE, GLSystem::ONE);
+		GetRender()->setColor(color);
+		GetRender()->depthMask(false);
 
-		//srand(GetEngine()->iWindow->getDTime());
+		//srand(GetWindow()->getDTime());
 		float vlength = velocity.length();
 		for(int i = 0; i < numParticles; i++) {
 
@@ -93,26 +93,26 @@ namespace NGTech {
 				particles[i].lifeTime = ((float)i/(float)numParticles) * lifeTime;
 			}
 
-			particles[i].velocity += force * GetEngine()->iWindow->getDTime() * 0.001;
-			particles[i].position += particles[i].velocity * GetEngine()->iWindow->getDTime() * 0.001;
+			particles[i].velocity += force * GetWindow()->getDTime() * 0.001;
+			particles[i].position += particles[i].velocity * GetWindow()->getDTime() * 0.001;
 
-			GetEngine()->iRender->push();
-			GetEngine()->iRender->translate(particles[i].position);
-			GetEngine()->iRender->scale(Vec3(5, 5, 5));
+			GetRender()->push();
+			GetRender()->translate(particles[i].position);
+			GetRender()->scale(Vec3(5, 5, 5));
 
-			GetEngine()->iRender->rotate(GetEngine()->scene->camera->angle[0] - 180, Vec3(0, 1, 0));
-			GetEngine()->iRender->rotate(GetEngine()->scene->camera->angle[1], Vec3(1, 0, 0));
+			GetRender()->rotate(GetScene()->camera->angle[0] - 180, Vec3(0, 1, 0));
+			GetRender()->rotate(GetScene()->camera->angle[1], Vec3(1, 0, 0));
 
 			particleList->call();
 
-			GetEngine()->iRender->pop();
+			GetRender()->pop();
 
-			particles[i].lifeTime += GetEngine()->iWindow->getDTime();
+			particles[i].lifeTime += GetWindow()->getDTime();
 		}
-		GetEngine()->iRender->depthMask(true);
-		GetEngine()->iRender->disableBlending();
+		GetRender()->depthMask(true);
+		GetRender()->disableBlending();
 		texture->unset(0);
-		GetEngine()->iRender->setColor(Vec4(1, 1, 1, 1));
+		GetRender()->setColor(Vec4(1, 1, 1, 1));
 	}
 
 }

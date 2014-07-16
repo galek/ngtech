@@ -6,6 +6,6 @@
 namespace NGTech {
 
 	FileSystem*	GetVFSPtr(){
-		return GetEngine()->vfs;
+		return GetVFS();
 	}
 }

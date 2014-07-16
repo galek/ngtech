@@ -9,7 +9,7 @@ namespace NGTech {
 		virtual void quit()=0;
 		virtual void initialise()=0;
 		virtual void mainLoop()=0;
-		
+		virtual float GetLastFPS() = 0;
 	public:
 		bool running;
 	public:

@@ -188,7 +188,7 @@ namespace NGTech {
 		st->vertBuff->setTexCoordSource(2, 3, sizeof(Vertex), 3*sizeof(Vec3) + sizeof(Vec2)); 
 		st->vertBuff->setVertexSource(3, sizeof(Vertex),0);
 
-		GetEngine()->iRender->drawIndexedGeometry(st->indices, st->numIndices);
+		GetRender()->drawIndexedGeometry(st->indices, st->numIndices);
 
 		st->vertBuff->unset(); 
 		st->vertBuff->unsetVertexSource();

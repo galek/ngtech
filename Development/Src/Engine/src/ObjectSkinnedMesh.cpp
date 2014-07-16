@@ -24,7 +24,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	ObjectMesh::ObjectMesh(const String & path) {
-		model = GetEngine()->cache->loadModel(path);
+		model = GetCache()->loadModel(path);
 		materials = new Material*[model->numSubsets];
 		transform.identity();
 		pBody = NULL;
@@ -65,7 +65,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void ObjectMesh::setMaterial(const String &name, const String &path) {
-		Material *material = GetEngine()->cache->loadMaterial(path);
+		Material *material = GetCache()->loadMaterial(path);
 		if (name == "*")	{
 			for (int s = 0; s < model->numSubsets; s++) {
 				materials[s] = material;
@@ -242,7 +242,7 @@ namespace NGTech {
 	}
 
 	void ObjectMesh::setImpactSound(const String &path) {
-		pBody->setImpactSound(GetEngine()->cache->loadSound("../data/sounds/" + path));
+		pBody->setImpactSound(GetCache()->loadSound("../data/sounds/" + path));
 	}
 
 	/*

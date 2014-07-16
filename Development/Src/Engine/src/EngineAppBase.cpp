@@ -25,9 +25,9 @@ namespace NGTech {
 		GetEngine()->setGame(_game);
 		GetEngine()->initialise();
 		if (rc)
-			GetEngine()->game->setRenderCallback(rc);
+			GetGame()->setRenderCallback(rc);
 		if (ev)
-			GetEngine()->game->setEventsCallback(ev);
+			GetGame()->setEventsCallback(ev);
 		Update();
 	}
 	/**
