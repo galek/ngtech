@@ -25,7 +25,7 @@ namespace NGTech {
 				float cx = 0.0625f;						
 				float cy = 0.0625f;						
 
-				list[y*16 + x] = new GLDisplayList();
+				list[y*16 + x] = GetRender()->GetDL();
 				list[y*16 + x]->beginBuild();
 
 				GetRender()->drawRect(0, 0, 1, 1, x*cx, y*cy - 0.0625f, x*cx + 0.0625f, y*cy); 

@@ -37,7 +37,7 @@ namespace NGTech {
 	Flare::Flare(const String &path) {
 		texture = GLTexture::create2d(path);
 
-		flareList = new GLDisplayList();
+		flareList = GetRender()->GetDL();
 		flareList->beginBuild();
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);

@@ -25,7 +25,7 @@ namespace NGTech {
 	EffectParticleSystem::EffectParticleSystem(const String &path, int numParticles) {
 		texture = GLTexture::create2d(path);
 
-		particleList = new GLDisplayList();
+		particleList = GetRender()->GetDL();
 		particleList->beginBuild();
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
@@ -118,7 +118,7 @@ namespace NGTech {
 	EffectFlare::EffectFlare(const String &path) {
 		texture = GLTexture::create2d(path);
 
-		flareList = new GLDisplayList();
+		flareList = GetRender()->GetDL();
 		flareList->beginBuild();
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);

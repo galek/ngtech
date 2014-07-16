@@ -59,7 +59,7 @@ namespace NGTech {
 		float dispersion;
 
 		GLTexture *texture;
-		GLDisplayList *particleList;
+		I_DisplayList *particleList;
 
 		Particle *particles;
 	};

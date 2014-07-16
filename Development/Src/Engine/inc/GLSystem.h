@@ -27,7 +27,9 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main video system. Created one time
 	//---------------------------------------------------------------------------
-	class GLSystem :public IRender {
+	class GLSystem :public I_Render {
+	public:
+		virtual I_DisplayList* GetDL();
 	public:
 		GLSystem();
 		~GLSystem();

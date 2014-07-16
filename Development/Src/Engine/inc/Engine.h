@@ -35,7 +35,7 @@ namespace NGTech {
 	ENGINE_API FileSystem* GetVFS();
 	ENGINE_API IWindow* GetWindow();
 	ENGINE_API CVARManager* GetCvars();
-	ENGINE_API IRender* GetRender();
+	ENGINE_API I_Render* GetRender();
 	ENGINE_API IAudio* GetAudio();
 	ENGINE_API PhysSystem* GetPhysics();
 	ENGINE_API Cache* GetCache();

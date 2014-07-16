@@ -29,7 +29,7 @@ namespace NGTech {
 		Vec3 position, color;
 
 		GLTexture *texture;
-		GLDisplayList *flareList;
+		I_DisplayList *flareList;
 
 		float radius;
 	};

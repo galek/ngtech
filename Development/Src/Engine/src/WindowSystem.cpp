@@ -98,7 +98,8 @@ namespace NGTech {
 		if (fullscreen) {
 			dwExStyle = WS_EX_APPWINDOW;
 			dwStyle = WS_POPUP;
-		} else {
+		}
+		else {
 			dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
 			dwStyle = WS_OVERLAPPEDWINDOW;
 		}
@@ -347,7 +348,8 @@ namespace NGTech {
 			mouseX += mx - width / 2;
 			mouseY += my - height / 2;
 			setMousePos(width / 2, height / 2);
-		}else {
+		}
+		else {
 			oldMouseX = mouseX;
 			oldMouseY = mouseY;
 			mouseX = mx;

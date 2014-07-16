@@ -27,7 +27,7 @@ namespace NGTech {
 	ParticleSystem::ParticleSystem(const String &path, int numParticles) {
 		texture = GLTexture::create2d(path);
 
-		particleList = new GLDisplayList();
+		particleList = GetRender()->GetDL();
 		particleList->beginBuild();
 		glBegin(GL_QUADS);//Nick:TODO:Replace
 		glTexCoord2f(0, 0);//Nick:TODO:Replace

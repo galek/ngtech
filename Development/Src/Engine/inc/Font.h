@@ -14,6 +14,6 @@ namespace NGTech {
 
 	private:
 		GLTexture *fontTex;
-		GLDisplayList *list[256];
+		I_DisplayList *list[256];
 	};
 }

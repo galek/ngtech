@@ -15,7 +15,7 @@ namespace NGTech {
 	CVARManager* GetCvars(){
 		return GetEngine()->cvars;
 	}
-	IRender* GetRender(){
+	I_Render* GetRender(){
 		return GetEngine()->iRender;
 	}
 	IAudio* GetAudio(){

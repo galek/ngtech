@@ -20,26 +20,7 @@ namespace NGTech {
 	/**
 	Texture class
 	*/
-	class GLTexture :public ITexture {
-	public:
-		/**
-		Texture target enum
-		*/
-		enum Target {
-			TEXTURE_2D = GL_TEXTURE_2D,
-			TEXTURE_3D = GL_TEXTURE_3D_EXT,
-			TEXTURE_CUBE = GL_TEXTURE_CUBE_MAP_ARB,
-		};
-
-		/**
-		Texture edge wrap enum
-		*/
-		enum Wrap {
-			REPEAT = GL_REPEAT,
-			CLAMP = GL_CLAMP,
-			CLAMP_TO_EDGE = GL_CLAMP_TO_EDGE,
-		};
-
+	class GLTexture :public I_Texture {
 	public:
 		static GLTexture *create2d(const String &path);
 		static GLTexture *createCube(const String &path);
@@ -67,21 +48,6 @@ namespace NGTech {
 
 	private:
 		static GLTexture *create(int width, int height, int depth, Target target, Format format, void **data);
-
-		GLuint glID;
-
-		GLuint target;
-
-		GLuint minFilter;
-		GLuint magFilter;
-
-		GLuint aniso;
-		GLuint wrap;
-
-		GLuint internalFormat;
-		GLuint srcFormat;
-		GLenum dataType;
-
 		friend class GLFBO;
 	};
 }

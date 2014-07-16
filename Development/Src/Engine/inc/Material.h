@@ -71,10 +71,10 @@ namespace NGTech {
 			std::vector<std::pair<String, SceneParam>> u_scene_params;
 
 			bool hasBlending;
-			IRender::BlendParam src, dst;
+			I_Render::BlendParam src, dst;
 
 			bool hasAlphaTest;
-			IRender::CompareType alphaFunc;
+			I_Render::CompareType alphaFunc;
 			float alphaRef;
 
 			bool depthMask;

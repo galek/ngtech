@@ -16,6 +16,7 @@
 
 namespace NGTech {
 
+	I_DisplayList* GLSystem::GetDL(){ return new GLDisplayList(); }
 
 	//---------------------------------------------------------------------------
 	//Desc:    creates new GLSystem
@@ -26,13 +27,13 @@ namespace NGTech {
 
 	void GLSystem::initialise()	{
 		Log::writeHeader("-- GLSystem --");
-		Log::write("Vendor:         " + getVendor()); 
+		Log::write("Vendor:         " + getVendor());
 		Log::write("Renderer:       " + getRenderer());
 		Log::write("Version:        " + getVersion());
-		Log::write("Extensions:     " + getExtensions()); 
+		Log::write("Extensions:     " + getExtensions());
 		Log::write("Texture units:  " + StringHelper::fromInt(getNumTexUnits()));
 		Log::write("Max anisotropy: " + StringHelper::fromInt(getMaxAniso()));
-		defAniso  = GLTexture::ANISO_X0;
+		defAniso = GLTexture::ANISO_X0;
 		defFilter = GLTexture::LINEAR_MIPMAP_LINEAR;
 
 		glEnable(GL_DEPTH_TEST);
@@ -40,7 +41,7 @@ namespace NGTech {
 
 		glEnable(GL_CULL_FACE);
 
-		glPixelStorei(GL_PACK_ALIGNMENT,   1);
+		glPixelStorei(GL_PACK_ALIGNMENT, 1);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
@@ -87,8 +88,8 @@ namespace NGTech {
 	//Params:  -
 	//Returns: vendor name
 	//---------------------------------------------------------------------------
-	String GLSystem::getVendor() { 
-		return (char *)glGetString(GL_VENDOR); 
+	String GLSystem::getVendor() {
+		return (char *)glGetString(GL_VENDOR);
 	}
 
 	//---------------------------------------------------------------------------
@@ -96,8 +97,8 @@ namespace NGTech {
 	//Params:  -
 	//Returns: renderer name
 	//---------------------------------------------------------------------------
-	String GLSystem::getRenderer() { 
-		return (char *)glGetString(GL_RENDERER); 
+	String GLSystem::getRenderer() {
+		return (char *)glGetString(GL_RENDERER);
 	}
 
 	//---------------------------------------------------------------------------
@@ -105,8 +106,8 @@ namespace NGTech {
 	//Params:  -
 	//Returns: version number
 	//---------------------------------------------------------------------------
-	String GLSystem::getVersion() { 
-		return (char *)glGetString(GL_VERSION); 
+	String GLSystem::getVersion() {
+		return (char *)glGetString(GL_VERSION);
 	}
 
 	//---------------------------------------------------------------------------
@@ -114,9 +115,9 @@ namespace NGTech {
 	//Params:  -
 	//Returns: extensions string
 	//---------------------------------------------------------------------------
-	String GLSystem::getExtensions() { 
-		return (char *)glGetString(GL_EXTENSIONS); 
-	} 
+	String GLSystem::getExtensions() {
+		return (char *)glGetString(GL_EXTENSIONS);
+	}
 
 	//---------------------------------------------------------------------------
 	//Desc:    gets number of video card texture units
@@ -146,9 +147,9 @@ namespace NGTech {
 	//Params:  name - extension name
 	//Returns: -
 	//---------------------------------------------------------------------------
-	void GLSystem::requireExtension(const String &name,bool _fatal) {
-		if(!GLExtensions::isExtSupported(name))
-			if(_fatal)
+	void GLSystem::requireExtension(const String &name, bool _fatal) {
+		if (!GLExtensions::isExtSupported(name))
+			if (_fatal)
 				Error::showAndExit("GLSystem::requireExtension() error: your video card does not support " + name);
 			else
 				Warning("GLSystem::requireExtension() error: your video card does not support %s", name);
@@ -163,15 +164,15 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void GLSystem::reshape(int width, int height) {
-		if(height == 0) 
+		if (height == 0)
 			height = 1;
 
 		glViewport(0, 0, width, height);
 
 		glMatrixMode(GL_PROJECTION);
-		loadMatrix(Mat4::perspective(60, (float)width/(float)height, 1, 500));
+		loadMatrix(Mat4::perspective(60, (float)width / (float)height, 1, 500));
 
-		glMatrixMode(GL_MODELVIEW);	
+		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 	}
 
@@ -181,7 +182,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void GLSystem::getViewport(int *viewport) {
-		glGetIntegerv(GL_VIEWPORT,viewport);
+		glGetIntegerv(GL_VIEWPORT, viewport);
 	}
 
 	//---------------------------------------------------------------------------
@@ -674,14 +675,14 @@ namespace NGTech {
 		glMatrixMode(GL_PROJECTION);
 		glPushMatrix();
 
-		if(normalized) 
+		if (normalized)
 			loadMatrix(Mat4::ortho(0, 1, 1, 0, 0, 1));
-		else 
+		else
 			loadMatrix(Mat4::ortho(0, GetWindow()->getWidth(), GetWindow()->getHeight(), 0, 0, 1));
-		
 
-		glMatrixMode(GL_MODELVIEW);	
-		glPushMatrix();	
+
+		glMatrixMode(GL_MODELVIEW);
+		glPushMatrix();
 		glLoadIdentity();
 	}
 
@@ -690,11 +691,11 @@ namespace NGTech {
 	//Params:  -
 	//Returns: -
 	//---------------------------------------------------------------------------
-	void GLSystem::enable3d() {	
+	void GLSystem::enable3d() {
 		glMatrixMode(GL_PROJECTION);
 		glPopMatrix();
-		glMatrixMode(GL_MODELVIEW);	
-		glPopMatrix();	
+		glMatrixMode(GL_MODELVIEW);
+		glPopMatrix();
 	}
 
 	//---------------------------------------------------------------------------
@@ -703,19 +704,19 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void GLSystem::drawRect(float x0, float y0, float x3, float y3, float tx0, float ty0, float tx3, float ty3) {
-		glBegin(GL_QUADS);							
-		glTexCoord2f(tx0, ty0);			
-		glVertex3f(x0, y0, 0);							
+		glBegin(GL_QUADS);
+		glTexCoord2f(tx0, ty0);
+		glVertex3f(x0, y0, 0);
 
-		glTexCoord2f(tx0, ty3);					
-		glVertex3f(x0, y3, 0);						
+		glTexCoord2f(tx0, ty3);
+		glVertex3f(x0, y3, 0);
 
-		glTexCoord2f(tx3, ty3);			
-		glVertex3f(x3, y3, 0);						
+		glTexCoord2f(tx3, ty3);
+		glVertex3f(x3, y3, 0);
 
 		glTexCoord2f(tx3, ty0);
 		glVertex3f(x3, y0, 0);
-		glEnd();	
+		glEnd();
 	}
 
 	//---------------------------------------------------------------------------

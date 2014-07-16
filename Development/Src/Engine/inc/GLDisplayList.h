@@ -16,7 +16,7 @@
 
 namespace NGTech {
 
-	class GLDisplayList {
+	class GLDisplayList :public I_DisplayList {
 	public:
 		GLDisplayList();
 		~GLDisplayList();
