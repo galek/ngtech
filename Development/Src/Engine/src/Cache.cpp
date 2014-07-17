@@ -85,7 +85,7 @@ namespace NGTech {
 		return it->second.first;
 	}
 
-	I_Texture *Cache::loadTexture2d(ILImage *image, const String &path) {
+	I_Texture *Cache::loadTexture2d(I_ILImage *image, const String &path) {
 
 		if (path == "") return NULL;
 		std::map<String, std::pair<I_Texture*, int>>::iterator it = textures.find(path);

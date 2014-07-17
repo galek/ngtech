@@ -57,7 +57,7 @@ namespace NGTech {
 		viewportCopy_brightPass_blured->setWrap(GLTexture::CLAMP_TO_EDGE);
 		viewportCopy_brightPass_blured->setFilter(GLTexture::LINEAR);
 
-		query = new GLOcclusionQuery();
+		query = GetRender()->GetOQ();
 
 		sphere = new ObjectMesh("sphere.amdl");
 

@@ -28,6 +28,7 @@ namespace NGTech {
 	I_Texture *GLSystem::TextureCreate2D(I_ILImage *image) { return GLTexture::create2d(image); }
 	I_Texture *GLSystem::TextureCreate3D(I_ILImage *image) { return GLTexture::create3d(image); }
 	I_Texture *GLSystem::TextureCreateCube(I_ILImage **image) { return GLTexture::createCube(image); }
+	I_OcclusionQuery* GLSystem::GetOQ() { return new GLOcclusionQuery(); }
 	//---------------------------------------------------------------------------
 	//Desc:    creates new GLSystem
 	//Params:  -

@@ -121,6 +121,7 @@ namespace NGTech {
 
 	struct I_Render{
 		virtual I_DisplayList* GetDL() = 0;
+		virtual I_OcclusionQuery* GetOQ() = 0;
 		virtual I_Texture* TextureCreate2D(const String &path) = 0;
 		virtual I_Texture* TextureCreateCube(const String &path) = 0;
 		virtual I_Texture *TextureCreate2D(I_ILImage *image) = 0;
@@ -282,6 +283,31 @@ namespace NGTech {
 		virtual void drawIndexedGeometry(void *indices, int indexCount) = 0;
 		virtual void drawGeometry(int vertexCount) = 0;
 
+	};
+
+	struct I_OcclusionQuery
+	{
+		I_OcclusionQuery(){}
+		~I_OcclusionQuery(){}
+
+		/**
+		Begins rendering to query
+		*/
+		virtual void beginRendering()=0;
+
+		/**
+		End rendering to query
+		*/
+		virtual void endRendering() = 0;
+
+		/**
+		Get number of passed samples
+		\return number of passed samples
+		*/
+		virtual unsigned int getResult()=0;
+
+	protected:
+		unsigned int glID;
 	};
 
 	struct I_DisplayList

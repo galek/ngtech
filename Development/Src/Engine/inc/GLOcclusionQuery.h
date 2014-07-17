@@ -19,7 +19,7 @@ namespace NGTech {
 	/**
 	Occlusion query class
 	*/
-	class GLOcclusionQuery {
+	class GLOcclusionQuery :public I_OcclusionQuery {
 	public:
 		GLOcclusionQuery();
 		~GLOcclusionQuery();
@@ -38,8 +38,5 @@ namespace NGTech {
 		\return number of passed samples
 		*/
 		unsigned int getResult();
-
-	private:
-		GLuint glID;
 	};
 }

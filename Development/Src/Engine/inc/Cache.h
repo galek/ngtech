@@ -27,7 +27,7 @@ namespace NGTech {
 		Model *loadModel(const String &path);
 		ALSound *loadSound(const String &path);
 		I_Texture *loadTexture2d(const String &path);
-		I_Texture *loadTexture2d(ILImage *image, const String &path);
+		I_Texture *loadTexture2d(I_ILImage *image, const String &path);
 		I_Texture *loadTextureCube(const String &path);
 
 		GLShader *loadShader(const String &path, const String &defines);

@@ -108,7 +108,7 @@ namespace NGTech {
 		I_Texture *matViewportMap;
 		I_Texture *matSpotMap;
 
-		GLOcclusionQuery *query;
+		I_OcclusionQuery *query;
 
 		ObjectMesh *sphere;
 		struct CVARManager*cvars;

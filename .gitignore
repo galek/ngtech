@@ -52,3 +52,5 @@ Development/Externals/Libs/Release/x64/freetype250.lib
 Development/Externals/Libs/Release/x64/libogg_static.lib
 Development/Externals/Libs/Release/x64/libvorbis_static.lib
 Development/Externals/Libs/Release/x64/libvorbisfile_static.lib
+Bins/Bin32_d/Core.dll
+Bins/Bin32_d/Core.lib
