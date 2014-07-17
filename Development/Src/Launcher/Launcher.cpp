@@ -1,6 +1,6 @@
 // Launcher.cpp: определяет точку входа для приложения.
 //
-#include "..\Core\BuildDefines.h"
+#include "..\Core\inc\BuildDefines.h"
 #include "stdafx.h"
 #include "Launcher.h"
 
