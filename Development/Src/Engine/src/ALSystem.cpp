@@ -39,23 +39,23 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void ALSystem::initialise() {
-			Log::writeHeader("-- ALSystem --");
+		Log::writeHeader("-- ALSystem --");
 
-			alDevice = alcOpenDevice(NULL);
-			alContext = alcCreateContext(alDevice, NULL);
-			alcMakeContextCurrent(alContext);
+		alDevice = alcOpenDevice(NULL);
+		alContext = alcCreateContext(alDevice, NULL);
+		alcMakeContextCurrent(alContext);
 
-			LogPrintf("Vendor:     ",getVendor());
-			LogPrintf("Renderer:   ", getRenderer());
-			LogPrintf("Version:    ", getVersion());
-			LogPrintf("Extensions: ", getExtensions());
+		Log::write("Vendor:     " + getVendor());
+		Log::write("Renderer:   " + getRenderer());
+		Log::write("Version:    " + getVersion());
+		Log::write("Extensions: " + getExtensions());
 
-			int error = alGetError();
-			if (error != AL_NO_ERROR) {
-				Error::showAndExit("ALSystem::create() error: error while creating");
-				return;
-			}
-			alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
+		int error = alGetError();
+		if (error != AL_NO_ERROR) {
+			Error::showAndExit("ALSystem::create() error: error while creating");
+			return;
+		}
+		alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
 	}
 
 
@@ -84,8 +84,8 @@ namespace NGTech {
 	//Params:  -
 	//Returns: renerer name
 	//---------------------------------------------------------------------------
-	String ALSystem::getRenderer() { 
-		return (char *)alGetString(AL_RENDERER); 
+	String ALSystem::getRenderer() {
+		return (char *)alGetString(AL_RENDERER);
 	}
 
 	//---------------------------------------------------------------------------
@@ -93,8 +93,8 @@ namespace NGTech {
 	//Params:  -
 	//Returns: version number
 	//---------------------------------------------------------------------------
-	String ALSystem::getVersion() { 
-		return (char *)alGetString(AL_VERSION); 
+	String ALSystem::getVersion() {
+		return (char *)alGetString(AL_VERSION);
 	}
 
 	//---------------------------------------------------------------------------
@@ -102,9 +102,9 @@ namespace NGTech {
 	//Params:  -
 	//Returns: extensions string
 	//---------------------------------------------------------------------------
-	String ALSystem::getExtensions() { 
-		return (char *)alGetString(AL_EXTENSIONS); 
-	} 
+	String ALSystem::getExtensions() {
+		return (char *)alGetString(AL_EXTENSIONS);
+	}
 
 	//---------------------------------------------------------------------------
 	//Desc:    sets the listener orientation
