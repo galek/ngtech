@@ -31,7 +31,7 @@ void ExampleGame::initialise() {
 		box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);
 		box[i]->setImpactSound("impact.ogg");
 	}
-	
+
 	for (int i = 0; i < 5; i++) {
 		sphere[i] = new ObjectMesh("sphere.amdl");
 		sphere[i]->setMaterial("*", "grid.amtr");
@@ -77,7 +77,6 @@ void ExampleGame::initialise() {
 	particlesYellow->setParticleLifeTime(10000);
 	particlesYellow->setDispersion(0.1);
 
-//Не актуально	GetScene()->setGravity(Vec3(0, -9.8, 0));
 	GetScene()->setWater(1, 400);
 	GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
 
