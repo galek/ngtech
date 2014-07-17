@@ -69,19 +69,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
-    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\$(ProjectName)\</OutDir>
+    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
-    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\$(ProjectName)\</OutDir>
+    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
-    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\$(ProjectName)\</OutDir>
+    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
-    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\$(ProjectName)\</OutDir>
+    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

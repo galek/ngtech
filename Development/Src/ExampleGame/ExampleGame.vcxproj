@@ -104,6 +104,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>$(SolutionPath)\..\..\Libs\$(Configuration)\$(PlatformName)\$(TargetName).lib</ImportLibrary>
+      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\Libs\$(Configuration)\$(PlatformName)\;$(SolutionPath)\..\..\Externals\physx\Lib\win32</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -118,6 +120,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>$(SolutionPath)\..\..\Libs\$(Configuration)\$(PlatformName)\$(TargetName).lib</ImportLibrary>
+      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\Libs\$(Configuration)\$(PlatformName)\;$(SolutionPath)\..\..\Externals\physx\Lib\win32</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -129,7 +133,6 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;GAME_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\Src\Common;..\..\Src\Core;..\..\Externals\freetype\include\;..\..\Externals\freetype\include\freetype;..\..\Externals\MyGUI\Common;..\..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\..\Externals\MyGUI\MyGUIEngine\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
       <BrowseInformation>true</BrowseInformation>
@@ -146,6 +149,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <LargeAddressAware>true</LargeAddressAware>
+      <ImportLibrary>$(SolutionPath)\..\..\Libs\$(Configuration)\$(PlatformName)\$(TargetName).lib</ImportLibrary>
+      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\Libs\$(Configuration)\$(PlatformName)\;$(SolutionPath)\..\..\Externals\physx\Lib\win32</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -157,7 +162,6 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_WIN64;WIN32;NDEBUG;_WINDOWS;_USRDLL;GAME_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\Src\Common;..\..\Src\Core;..\..\Externals\freetype\include\;..\..\Externals\freetype\include\freetype;..\..\Externals\MyGUI\Common;..\..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\..\Externals\MyGUI\MyGUIEngine\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
       <BrowseInformation>true</BrowseInformation>
@@ -173,6 +177,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <LargeAddressAware>true</LargeAddressAware>
+      <ImportLibrary>$(SolutionPath)\..\..\Libs\$(Configuration)\$(PlatformName)\$(TargetName).lib</ImportLibrary>
+      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\Libs\$(Configuration)\$(PlatformName)\;$(SolutionPath)\..\..\Externals\physx\Lib\win32</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
