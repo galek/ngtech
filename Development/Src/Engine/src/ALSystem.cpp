@@ -45,10 +45,10 @@ namespace NGTech {
 			alContext = alcCreateContext(alDevice, NULL);
 			alcMakeContextCurrent(alContext);
 
-			Log::write("Vendor:     " + getVendor());
-			Log::write("Renderer:   " + getRenderer());
-			Log::write("Version:    " + getVersion());
-			Log::write("Extensions: " + getExtensions());
+			LogPrintf("Vendor:     ",getVendor());
+			LogPrintf("Renderer:   ", getRenderer());
+			LogPrintf("Version:    ", getVersion());
+			LogPrintf("Extensions: ", getExtensions());
 
 			int error = alGetError();
 			if (error != AL_NO_ERROR) {

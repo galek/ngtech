@@ -60,7 +60,7 @@ namespace NGTech {
 
 		int numParticles;
 
-		GLTexture *texture;
+		I_Texture *texture;
 		I_DisplayList *particleList;
 
 		Particle *particles;
@@ -88,7 +88,7 @@ namespace NGTech {
 	private:
 		Vec3 position, color;
 
-		GLTexture *texture;
+		I_Texture *texture;
 		I_DisplayList *flareList;
 
 		float radius;

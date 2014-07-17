@@ -174,16 +174,16 @@ Material::Material(String path) {
 
 					//user params
 					} else if(StringHelper::getWord(line, 4) == "normal_map()") {
-						GLTexture *sampler;
+						I_Texture *sampler;
 						ILImage *map = ILImage::create2d("../data/textures/" + StringHelper::getWord(line, 5));
 						map->toNormalMap(4);
 						sampler = GetCache()->loadTexture2d(map, "../data/textures/" + StringHelper::getWord(line, 5) + "_NORMAL_MAP");
-						pass->u_sampler2D.push_back(std::pair<String, GLTexture*>(name, sampler));
+						pass->u_sampler2D.push_back(std::pair<String, I_Texture*>(name, sampler));
 						delete map;
 					} else {
-						GLTexture *sampler;
+						I_Texture *sampler;
 						sampler = GetCache()->loadTexture2d("../data/textures/" + StringHelper::getWord(line, 4));
-						pass->u_sampler2D.push_back(std::pair<String, GLTexture*>(name, sampler));
+						pass->u_sampler2D.push_back(std::pair<String, I_Texture*>(name, sampler));
 					}
 				}
 
@@ -197,9 +197,9 @@ Material::Material(String path) {
 					
 					//user params
 					} else {
-						GLTexture *sampler;
+						I_Texture *sampler;
 						sampler = GetCache()->loadTextureCube("../data/textures/" + StringHelper::getWord(line, 4));
-						pass->u_samplerCube.push_back(std::pair<String, GLTexture*>(name, sampler));
+						pass->u_samplerCube.push_back(std::pair<String, I_Texture*>(name, sampler));
 					}
 				}
 

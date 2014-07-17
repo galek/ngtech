@@ -39,7 +39,7 @@ namespace NGTech {
 		this->castShadows = true;
 
 		int size = GetCvars()->r_shadowsize;
-		shadowMap = GLTexture::createCube(size, size, GLTexture::RGBA);
+		shadowMap = GetRender()->TextureCreateCube(size, size, GLTexture::RGBA);
 		shadowMap->setFilter(GLTexture::LINEAR);
 		shadowMap->setAniso(GLTexture::ANISO_X0);
 		shadowMap->setWrap(GLTexture::CLAMP_TO_EDGE);
@@ -150,11 +150,11 @@ namespace NGTech {
 
 		int size = GetCvars()->r_shadowsize;
 
-		shadowMap = GLTexture::create2d(size, size, GLTexture::RGBA);
+		shadowMap = GetRender()->TextureCreate2D(size, size, GLTexture::RGBA);
 		shadowMap->setFilter(GLTexture::LINEAR);
 		shadowMap->setWrap(GLTexture::CLAMP);
 
-		projMap = GLTexture::create2d("../data/textures/effects/spot.jpg");
+		projMap = GetRender()->TextureCreate2D("../data/textures/effects/spot.jpg");
 		projMap->setWrap(GLTexture::CLAMP);
 	}
 

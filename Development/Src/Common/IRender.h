@@ -120,7 +120,16 @@ namespace NGTech {
 	};
 
 	struct I_Render{
-		virtual I_DisplayList* GetDL()=0;
+		virtual I_DisplayList* GetDL() = 0;
+		virtual I_Texture* TextureCreate2D(const String &path) = 0;
+		virtual I_Texture* TextureCreateCube(const String &path) = 0;
+		virtual I_Texture *TextureCreate2D(I_ILImage *image) = 0;
+		virtual I_Texture *TextureCreate3D(I_ILImage *image) = 0;
+		virtual I_Texture *TextureCreateCube(I_ILImage **image) = 0;
+
+		virtual I_Texture *TextureCreate2D(int width, int height, int format) = 0;
+		virtual I_Texture *TextureCreate3D(int width, int height, int depth, int format) = 0;
+		virtual I_Texture *TextureCreateCube(int width, int height, int format) = 0;
 	        //Nick:TODO:Здесь значения для enum'ов взяты из GL рендера
 		//---------------------------------------------------------------------------
 		//Desc: Blending type enum

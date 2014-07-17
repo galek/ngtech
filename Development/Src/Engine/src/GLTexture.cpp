@@ -83,7 +83,7 @@ namespace NGTech {
 	//Params:  image - pointer to ILImage to use, wrap - texture edges wrap
 	//Returns: pointer to new GLTexture
 	//---------------------------------------------------------------------------
-	GLTexture *GLTexture::create2d(ILImage *image) {
+	GLTexture *GLTexture::create2d(I_ILImage *image) {
 
 		GLubyte **data = new GLubyte*[1];
 		data[0] = image->getData();
@@ -107,7 +107,7 @@ namespace NGTech {
 	//Params:  image - pointer to ILImage to use, wrap - texture edges wrap
 	//Returns: pointer to new GLTexture
 	//---------------------------------------------------------------------------
-	GLTexture *GLTexture::create3d(ILImage *image) {
+	GLTexture *GLTexture::create3d(I_ILImage *image) {
 
 		GLubyte **data = new GLubyte*[1];
 		data[0] = image->getData();
@@ -130,7 +130,7 @@ namespace NGTech {
 	//Params:  image - pointer to arrray of ILImages to use, wrap - texture edges wrap
 	//Returns: pointer to new GLTexture
 	//---------------------------------------------------------------------------
-	GLTexture *GLTexture::createCube(ILImage **image) {
+	GLTexture *GLTexture::createCube(I_ILImage **image) {
 
 		GLubyte *data[6];
 		for(int i = 0; i < 6; i++) {

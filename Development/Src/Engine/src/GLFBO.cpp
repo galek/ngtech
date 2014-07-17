@@ -102,7 +102,7 @@ namespace NGTech {
 	//Params:  texture - texture to set, face - cube map face
 	//Returns: -
 	//---------------------------------------------------------------------------
-	void GLFBO::setColorTarget(GLTexture *texture, int face) {
+	void GLFBO::setColorTarget(I_Texture *texture, int face) {
 		if(texture) {
 			if(face < 0) {
 				glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, texture->target, texture->glID, 0);
@@ -120,7 +120,7 @@ namespace NGTech {
 	//Params:  texture - texture to set
 	//Returns: -
 	//---------------------------------------------------------------------------
-	void GLFBO::setDepthTarget(GLTexture *texture) {
+	void GLFBO::setDepthTarget(I_Texture *texture) {
 		if(texture) {
 			glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, texture->target, texture->glID, 0);
 			depthTarget = texture;

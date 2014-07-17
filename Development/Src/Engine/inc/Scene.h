@@ -83,9 +83,9 @@ namespace NGTech {
 		GLFBO *viewportFBO;
 		GLFBO *shadowFBO;
 
-		GLTexture *viewportCopy;
-		GLTexture *viewportCopy_brightPass;
-		GLTexture *viewportCopy_brightPass_blured;
+		I_Texture *viewportCopy;
+		I_Texture *viewportCopy_brightPass;
+		I_Texture *viewportCopy_brightPass_blured;
 
 		Material *depthPass;
 		Material *waterMtr;
@@ -104,9 +104,9 @@ namespace NGTech {
 		Mat4 matViewportTransform;
 		Mat4 matSpotTransform;
 
-		GLTexture *matShadowMap;
-		GLTexture *matViewportMap;
-		GLTexture *matSpotMap;
+		I_Texture *matShadowMap;
+		I_Texture *matViewportMap;
+		I_Texture *matSpotMap;
 
 		GLOcclusionQuery *query;
 

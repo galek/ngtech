@@ -25,7 +25,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	ParticleSystem::ParticleSystem(const String &path, int numParticles) {
-		texture = GLTexture::create2d(path);
+		texture = GetRender()->TextureCreate2D(path);
 
 		particleList = GetRender()->GetDL();
 		particleList->beginBuild();

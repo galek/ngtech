@@ -23,7 +23,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	EffectParticleSystem::EffectParticleSystem(const String &path, int numParticles) {
-		texture = GLTexture::create2d(path);
+		texture = GetRender()->TextureCreate2D(path);
 
 		particleList = GetRender()->GetDL();
 		particleList->beginBuild();
@@ -116,7 +116,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	EffectFlare::EffectFlare(const String &path) {
-		texture = GLTexture::create2d(path);
+		texture = GetRender()->TextureCreate2D(path);
 
 		flareList = GetRender()->GetDL();
 		flareList->beginBuild();

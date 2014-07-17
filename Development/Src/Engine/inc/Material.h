@@ -61,8 +61,8 @@ namespace NGTech {
 
 			GLShader *shader;
 
-			std::vector<std::pair<String, GLTexture*>> u_sampler2D;
-			std::vector<std::pair<String, GLTexture*>> u_samplerCube;
+			std::vector<std::pair<String, I_Texture*>> u_sampler2D;
+			std::vector<std::pair<String, I_Texture*>> u_samplerCube;
 			std::vector<std::pair<String, float>> u_float;
 			std::vector<std::pair<String, Vec2>> u_Vec2;
 			std::vector<std::pair<String, Vec3>> u_Vec3;

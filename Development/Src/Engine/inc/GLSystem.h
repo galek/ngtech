@@ -30,6 +30,14 @@ namespace NGTech {
 	class GLSystem :public I_Render {
 	public:
 		virtual I_DisplayList* GetDL();
+		virtual I_Texture* TextureCreate2D(const String &path);
+		virtual I_Texture* TextureCreateCube(const String &path);
+		virtual I_Texture *TextureCreate2D(int width, int height, int format);
+		virtual I_Texture *TextureCreate3D(int width, int height, int depth, int format);
+		virtual I_Texture *TextureCreateCube(int width, int height, int format);
+		virtual I_Texture *TextureCreate2D(I_ILImage *image);
+		virtual I_Texture *TextureCreate3D(I_ILImage *image);
+		virtual I_Texture *TextureCreateCube(I_ILImage **image);
 	public:
 		GLSystem();
 		~GLSystem();

@@ -18,6 +18,16 @@ namespace NGTech {
 
 	I_DisplayList* GLSystem::GetDL(){ return new GLDisplayList(); }
 
+	I_Texture* GLSystem::TextureCreate2D(const String &path){ return GLTexture::create2d(path); }
+
+	I_Texture* GLSystem::TextureCreateCube(const String &path){ return GLTexture::createCube(path); }
+
+	I_Texture* GLSystem::TextureCreate2D(int width, int height, int format) { return GLTexture::create2d(width, height, (I_Texture::Format)format); }
+	I_Texture* GLSystem::TextureCreate3D(int width, int height, int depth, int format) { return GLTexture::create3d(width, height, depth, (I_Texture::Format)format); }
+	I_Texture* GLSystem::TextureCreateCube(int width, int height, int format) { return GLTexture::createCube(width, height, (I_Texture::Format)format); }
+	I_Texture *GLSystem::TextureCreate2D(I_ILImage *image) { return GLTexture::create2d(image); }
+	I_Texture *GLSystem::TextureCreate3D(I_ILImage *image) { return GLTexture::create3d(image); }
+	I_Texture *GLSystem::TextureCreateCube(I_ILImage **image) { return GLTexture::createCube(image); }
 	//---------------------------------------------------------------------------
 	//Desc:    creates new GLSystem
 	//Params:  -

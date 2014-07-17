@@ -16,8 +16,8 @@
 namespace NGTech {
 
 	Font::Font(const String &path) {
-		fontTex = GLTexture::create2d(path);
-		fontTex->setFilter(GLTexture::LINEAR);
+		fontTex =GetRender()->TextureCreate2D(path);
+		fontTex->setFilter(I_Texture::LINEAR);
 
 		for(int x = 0; x < 16; x++) {
 			for(int y = 0; y < 16; y++) {

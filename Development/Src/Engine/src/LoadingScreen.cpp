@@ -19,25 +19,25 @@ namespace NGTech {
 	*/
 	LoadingScreen::LoadingScreen(const String &path) {
 		
-	glLogo = GLTexture::create2d("../data/textures/logos/glLogo.png");
+	glLogo = GetRender()->TextureCreate2D("../data/textures/logos/glLogo.png");
 	glLogo->setFilter(GLTexture::LINEAR);
 
-	alLogo = GLTexture::create2d("../data/textures/logos/alLogo.png");
+	alLogo = GetRender()->TextureCreate2D("../data/textures/logos/alLogo.png");
 	alLogo->setFilter(GLTexture::LINEAR);
 
-	ilLogo = GLTexture::create2d("../data/textures/logos/ilLogo.png");
+	ilLogo = GetRender()->TextureCreate2D("../data/textures/logos/ilLogo.png");
 	ilLogo->setFilter(GLTexture::LINEAR);
 
-	newtonLogo = GLTexture::create2d("../data/textures/logos/newtonLogo.png");
+	newtonLogo = GetRender()->TextureCreate2D("../data/textures/logos/newtonLogo.png");
 	newtonLogo->setFilter(GLTexture::LINEAR);
 
-	myGUILogo = GLTexture::create2d("../data/textures/logos/myguiLogo.png");
+	myGUILogo = GetRender()->TextureCreate2D("../data/textures/logos/myguiLogo.png");
 	myGUILogo->setFilter(GLTexture::LINEAR);
 
 
-	//vegaLogo = GLTexture::create2d("../data/textures/logos/vegaLogo.png");
+	//vegaLogo = GetRender()->TextureCreate2D("../data/textures/logos/vegaLogo.png");
 
-	background = GLTexture::create2d(path);
+	background = GetRender()->TextureCreate2D(path);
 	}
 
 	LoadingScreen::~LoadingScreen() {}

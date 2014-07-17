@@ -22,17 +22,6 @@ namespace NGTech {
 	*/
 	class GLTexture :public I_Texture {
 	public:
-		static GLTexture *create2d(const String &path);
-		static GLTexture *createCube(const String &path);
-
-		static GLTexture *create2d(ILImage *image);
-		static GLTexture *create3d(ILImage *image);
-		static GLTexture *createCube(ILImage **image);
-
-		static GLTexture *create2d(int width, int height, Format format);
-		static GLTexture *create3d(int width, int height, int depth, Format format);
-		static GLTexture *createCube(int width, int height, Format format);
-
 		~GLTexture();
 
 		void setWrap(Wrap wrap);
@@ -45,9 +34,21 @@ namespace NGTech {
 		void beginRenderTo();
 		void copy(int face = -1);
 		void endRenderTo();
+	private://Only For friends
+		static GLTexture *create(int width, int height, int depth, Target target, Format format, void **data);
+		static GLTexture *create2d(const String &path);
+		static GLTexture *createCube(const String &path);
+
+		static GLTexture *create2d(int width, int height, Format format);
+		static GLTexture *create3d(int width, int height, int depth, Format format);
+		static GLTexture *createCube(int width, int height, Format format);
+
+		static GLTexture *create2d(I_ILImage *image);
+		static GLTexture *create3d(I_ILImage *image);
+		static GLTexture *createCube(I_ILImage **image);
 
 	private:
-		static GLTexture *create(int width, int height, int depth, Target target, Format format, void **data);
 		friend class GLFBO;
+		friend class GLSystem;
 	};
 }

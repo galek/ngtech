@@ -25,8 +25,8 @@ namespace NGTech {
 
 		~GLFBO();
 
-		void setColorTarget(GLTexture *texture = NULL, int face = -1);
-		void setDepthTarget(GLTexture *texture = NULL);
+		void setColorTarget(I_Texture *texture = NULL, int face = -1);
+		void setDepthTarget(I_Texture *texture = NULL);
 
 		void set();
 		void unset();
@@ -41,8 +41,8 @@ namespace NGTech {
 		GLuint glStencilID;
 		GLuint glDepthID;
 
-		GLTexture *colorTarget;
-		GLTexture *depthTarget;
+		I_Texture *colorTarget;
+		I_Texture *depthTarget;
 
 		int width, height;
 	};

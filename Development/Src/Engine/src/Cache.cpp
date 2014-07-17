@@ -71,12 +71,12 @@ namespace NGTech {
 		return it->second.first;
 	}
 
-	GLTexture *Cache::loadTexture2d(const String &path) {
+	I_Texture *Cache::loadTexture2d(const String &path) {
 
 		if (path == "") return NULL;
-		std::map<String, std::pair<GLTexture*, int>>::iterator it = textures.find(path);
+		std::map<String, std::pair<I_Texture*, int>>::iterator it = textures.find(path);
 		if (it == textures.end() || it->second.first == NULL) {
-			GLTexture *texture = GLTexture::create2d(path);
+			I_Texture *texture = GetRender()->TextureCreate2D(path);
 			textures[path].first = texture;
 			textures[path].second = 1;
 			return texture;
@@ -85,12 +85,12 @@ namespace NGTech {
 		return it->second.first;
 	}
 
-	GLTexture *Cache::loadTexture2d(ILImage *image, const String &path) {
+	I_Texture *Cache::loadTexture2d(ILImage *image, const String &path) {
 
 		if (path == "") return NULL;
-		std::map<String, std::pair<GLTexture*, int>>::iterator it = textures.find(path);
+		std::map<String, std::pair<I_Texture*, int>>::iterator it = textures.find(path);
 		if (it == textures.end() || it->second.first == NULL) {
-			GLTexture *texture = GLTexture::create2d(image);
+			I_Texture *texture = GetRender()->TextureCreate2D(image);
 			textures[path].first = texture;
 			textures[path].second = 1;
 			return texture;
@@ -99,12 +99,12 @@ namespace NGTech {
 		return it->second.first;
 	}
 
-	GLTexture *Cache::loadTextureCube(const String &path) {
+	I_Texture *Cache::loadTextureCube(const String &path) {
 
 		if (path == "") return NULL;
-		std::map<String, std::pair<GLTexture*, int>>::iterator it = textures.find(path);
+		std::map<String, std::pair<I_Texture*, int>>::iterator it = textures.find(path);
 		if (it == textures.end() || it->second.first == NULL) {
-			GLTexture *texture = GLTexture::createCube(path);
+			I_Texture *texture = GetRender()->TextureCreateCube(path);
 			textures[path].first = texture;
 			textures[path].second = 1;
 			return texture;
@@ -184,8 +184,8 @@ namespace NGTech {
 		}
 	}
 
-	void Cache::deleteTexture(GLTexture *texture) {
-		std::map<String, std::pair<GLTexture*, int>>::iterator it;
+	void Cache::deleteTexture(I_Texture *texture) {
+		std::map<String, std::pair<I_Texture*, int>>::iterator it;
 		for (it = textures.begin(); it != textures.end(); it++) {
 			if (it->second.first == texture && it->second.second <= 1) {
 				delete it->second.first;

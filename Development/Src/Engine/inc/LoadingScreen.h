@@ -29,14 +29,14 @@ namespace NGTech {
 		void show();
 
 	private:
-		GLTexture *glLogo;
-		GLTexture *alLogo;
-		GLTexture *ilLogo;
-		GLTexture *newtonLogo;
-		GLTexture *myGUILogo;
+		I_Texture *glLogo;
+		I_Texture *alLogo;
+		I_Texture *ilLogo;
+		I_Texture *newtonLogo;
+		I_Texture *myGUILogo;
 
-		GLTexture *vegaLogo;
+		I_Texture *vegaLogo;
 
-		GLTexture *background;
+		I_Texture *background;
 	};
 }

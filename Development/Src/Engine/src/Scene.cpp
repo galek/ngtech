@@ -45,15 +45,15 @@ namespace NGTech {
 		shadowFBO = GLFBO::create(size, size);
 		shadowFBO->createDepthAttachment();
 
-		viewportCopy = GLTexture::create2d(512, 512, GLTexture::RGBA);
+		viewportCopy = GetRender()->TextureCreate2D(512, 512, GLTexture::RGBA);
 		viewportCopy->setWrap(GLTexture::CLAMP_TO_EDGE);
 		viewportCopy->setFilter(GLTexture::LINEAR);
 
-		viewportCopy_brightPass = GLTexture::create2d(512, 512, GLTexture::RGBA);
+		viewportCopy_brightPass = GetRender()->TextureCreate2D(512, 512, GLTexture::RGBA);
 		viewportCopy_brightPass->setWrap(GLTexture::CLAMP_TO_EDGE);
 		viewportCopy_brightPass->setFilter(GLTexture::LINEAR);
 
-		viewportCopy_brightPass_blured = GLTexture::create2d(512, 512, GLTexture::RGBA);
+		viewportCopy_brightPass_blured = GetRender()->TextureCreate2D(512, 512, GLTexture::RGBA);
 		viewportCopy_brightPass_blured->setWrap(GLTexture::CLAMP_TO_EDGE);
 		viewportCopy_brightPass_blured->setFilter(GLTexture::LINEAR);
 
