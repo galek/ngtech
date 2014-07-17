@@ -52,6 +52,7 @@ namespace NGTech {
 	*/
 	Engine::Engine()
 	{
+		SetCore(this);
 		log = new Log();
 		std::string logstring = "Engine Version:"ENGINE_VERSION_STRING;
 		logstring += " Build Date : "__DATE__;

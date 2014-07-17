@@ -27,7 +27,11 @@ namespace NGTech {
 	I_VBManager *GLSystem::CreateIBO(void *data, int numElements, int elemSize, int dataType){ return GLVBO::createIBO(data, numElements, elemSize, (I_VBManager::DataType)dataType); }
 	I_VBManager *GLSystem::CreateVBO(void *data, int numElements, int elemSize, int dataType){ return GLVBO::createVBO(data, numElements, elemSize, (I_VBManager::DataType)dataType); }
 
-
+	I_ILImage* GLSystem::CreateImage2D(const String &path){ return ILImage::create2d(path); }
+	I_ILImage* GLSystem::CreateImageEmpty2D(int width, int height, int format){ return ILImage::createEmpty2d(width, height, format); }
+	I_ILImage* GLSystem::CreateImageNoise2D(int width, int height, int format){ return ILImage::createNoise2d(width, height, format); }
+	I_ILImage* GLSystem::CreateImageEmpty3D(int width, int height, int depth, int format){ return ILImage::createEmpty3d(width, height, depth, format); }
+	I_ILImage* GLSystem::CreateImageNoise3D(int width, int height, int depth, int format){ return ILImage::createNoise3d(width, height, depth, format); }
 	//---------------------------------------------------------------------------
 	//Desc:    creates new GLSystem
 	//Params:  -

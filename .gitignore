@@ -58,3 +58,4 @@ Bins/Bin32_d/OGLDrv.lib
 Libs/Debug/Win32/Common/Common.lib
 Libs/Debug/Win32/Core/Core.lib
 Libs/Debug/Win32/OGLDrv/OGLDrv.lib
+Bins/Bin32_d/OGLDrv.dll

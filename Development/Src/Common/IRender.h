@@ -136,6 +136,11 @@ namespace NGTech {
 		virtual I_FBOManager*CreateFBO(int x, int y) = 0;
 		virtual I_VBManager *CreateIBO(void *data, int numElements, int elemSize, int dataType) = 0;
 		virtual I_VBManager *CreateVBO(void *data, int numElements, int elemSize, int dataType) = 0;
+		virtual I_ILImage* CreateImage2D(const String &path) = 0;
+		virtual I_ILImage* CreateImageEmpty2D(int width, int height, int format) = 0;
+		virtual I_ILImage* CreateImageNoise2D(int width, int height, int format) = 0;
+		virtual I_ILImage* CreateImageEmpty3D(int width, int height, int depth, int format) = 0;
+		virtual I_ILImage* CreateImageNoise3D(int width, int height, int depth, int format) = 0;
 		//Nick:TODO:Здесь значения для enum'ов взяты из GL рендера
 		//---------------------------------------------------------------------------
 		//Desc: Blending type enum

@@ -21,8 +21,8 @@ namespace NGTech {
 	public:
 		~I_ILImage(){}
 
-		void toNormalMap(int k){}
-		void toGreyScale(){}
+		virtual void toNormalMap(int k) = 0;
+		virtual void toGreyScale() = 0;
 
 		unsigned char *getData() { return data; };
 
@@ -35,11 +35,11 @@ namespace NGTech {
 		bool is3D() { return depth > 1; };
 
 	protected:
+		int getSize() { return width * height * depth * bpp; };
+	protected:
 		int width, height, depth;
 		int bpp, format;
 
 		unsigned char *data;
-
-		int getSize() { return width * height * depth * bpp; };
 	};
 }

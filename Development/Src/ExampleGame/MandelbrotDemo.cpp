@@ -1,6 +1,7 @@
-#include "EnginePrivate.h"
+#include "stdafx.h"
+#include "..\..\API\VegaEngineAPI.h"
 
-//using namespace NGTech;
+using namespace NGTech;
 
 #ifdef MANDELBROT_DEMO
 GLShader *mandelbotShader;

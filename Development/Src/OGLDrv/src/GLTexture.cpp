@@ -16,15 +16,16 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	GLTexture *GLTexture::create2d(const String &path) {
 
-		ILImage *image = ILImage::create2d(path);
+		I_ILImage *image = GetRender()->CreateImage2D(path);
 
 		GLubyte **data = new GLubyte*[1];
 		data[0] = image->getData();
 
 		Format format;
-		if(image->getFormat() == ILImage::RGB) {
+		if (image->getFormat() == I_ILImage::RGB) {
 			format = RGB;
-		} else if(image->getFormat() == ILImage::RGBA) {
+		}
+		else if (image->getFormat() == I_ILImage::RGBA) {
 			format = RGBA;
 		}
 
@@ -43,22 +44,22 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	GLTexture *GLTexture::createCube(const String &path) {
 
-		ILImage *image[6];	
+		I_ILImage *image[6];
 		const char *suffix[] = { "px", "nx",  "py", "ny",  "pz", "nz" };
 
 		for(int i = 0; i < 6; i++) {
 			char dst[1024];
 			sprintf(dst, path.c_str(), suffix[i]);
-			image[i] = ILImage::create2d(dst);
+			image[i] = GetRender()->CreateImage2D(dst);
 		}
 		GLubyte *data[6];
 		for(int i = 0; i < 6; i++) 
 			data[i] = image[i]->getData();
 		
 		Format format;
-		if(image[0]->getFormat() == ILImage::RGB) 
+		if (image[0]->getFormat() == I_ILImage::RGB)
 			format = RGB;
-		 else if(image[0]->getFormat() == ILImage::RGBA) 
+		else if (image[0]->getFormat() == I_ILImage::RGBA)
 			format = RGBA;
 
 		GLTexture *texture = create(image[0]->getWidth(), image[0]->getHeight(), image[0]->getDepth(), 

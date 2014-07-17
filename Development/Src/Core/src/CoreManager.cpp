@@ -2,7 +2,8 @@
 #include "CoreManager.h"
 
 namespace NGTech {
-
+	/**
+	*/
 	CoreManager::CoreManager()
 		:iWindow(nullptr),
 		iRender(nullptr),
@@ -17,6 +18,10 @@ namespace NGTech {
 		gui(nullptr),
 		scene(nullptr),
 		scripting(nullptr),
-		running(false)	{
+		running(false)
+	{
+		SetCore(this);
 	}
+	/**
+	*/
 }

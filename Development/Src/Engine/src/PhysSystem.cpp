@@ -39,13 +39,13 @@ namespace NGTech {
 	static PxDefaultAllocator gDefaultAllocatorCallback;
 	static PxSimulationFilterShader gDefaultFilterShader = PxDefaultSimulationFilterShader;
 
-	/*
+	/**
 	*/
 	PhysSystem::PhysSystem() :accTimeSlice(0.0f),
 		mNbThreads(1)
 	{}
 
-	/*
+	/**
 	*/
 	void PhysSystem::initialise()
 	{
@@ -109,14 +109,14 @@ namespace NGTech {
 #endif
 	}
 
-	/*
+	/**
 	*/
 	PhysSystem::~PhysSystem() {
 		Debug("PhysSystem::~PhysSystem()");
 		mScene->fetchResults(true);
 	}
 
-	/*
+	/**
 	*/
 	void PhysSystem::update(float dt) {
 		const float mStepSize = 1.0f / 60.0f;
@@ -131,7 +131,7 @@ namespace NGTech {
 		return NULL;
 	}
 
-	/*
+	/**
 	*/
 	void PhysSystem::togglePvdConnection() {
 		Debug("PhysSystem::togglePvdConnection()");
@@ -147,7 +147,7 @@ namespace NGTech {
 			createPvdConnection();
 	}
 
-	/*
+	/**
 	*/
 	void PhysSystem::createPvdConnection()	{
 		Debug("PhysSystem::createPvdConnection()");
@@ -158,14 +158,14 @@ namespace NGTech {
 		}
 	}
 
-	/*
+	/**
 	*/
 	void PhysSystem::SetGravity(const Vec3&_vec)	{
 		if (mScene)
 			mScene->setGravity(PxVec3(_vec.x, _vec.y, _vec.z));
 	}
 
-	/*
+	/**
 	*/
 	Vec3 PhysSystem::GetGravity()	{
 		Vec3 Mvec(0,0,0);

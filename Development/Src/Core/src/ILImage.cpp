@@ -5,7 +5,7 @@
 *   This is a part of work done by AST.       *
 *   If you want to use it, please contact me. *
 ***************************************************************************/
-#include "EnginePrivate.h"
+#include "CorePrivate.h"
 //***************************************************************************
 #include "ILSystem.h"
 #include "ILImage.h"
@@ -244,4 +244,3 @@ namespace NGTech {
 	}
 
 }
-

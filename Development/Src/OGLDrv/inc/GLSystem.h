@@ -28,7 +28,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main video system. Created one time
 	//---------------------------------------------------------------------------
-	class GLSystem :public I_Render {
+	class RENDER_API GLSystem :public I_Render {
 	public:
 		virtual I_DisplayList* GetDL();
 		virtual I_OcclusionQuery* GetOQ();
@@ -47,6 +47,13 @@ namespace NGTech {
 		virtual I_VBManager *CreateIBO(void *data, int numElements, int elemSize, int dataType);
 		virtual I_VBManager *CreateVBO(void *data, int numElements, int elemSize, int dataType);
 		virtual I_FBOManager*CreateFBO(int x, int y);
+
+
+		virtual I_ILImage* CreateImage2D(const String &path);
+		virtual I_ILImage* CreateImageEmpty2D(int width, int height, int format);
+		virtual I_ILImage* CreateImageNoise2D(int width, int height, int format);
+		virtual I_ILImage* CreateImageEmpty3D(int width, int height, int depth, int format);
+		virtual I_ILImage* CreateImageNoise3D(int width, int height, int depth, int format);
 public:
 		GLSystem();
 		~GLSystem();
