@@ -3,7 +3,6 @@
 //**************************************
 #include "../../Common/EString.h"
 #include "../../Core/inc/MathLib.h"
-#include "GLSystem.h"
 #include "PhysSystem.h"
 #include "Frustum.h"
 #include "Material.h"
@@ -62,7 +61,7 @@ namespace NGTech {
 			Vertex *vertices;
 			unsigned int *indices;
 
-			GLVBO *vertBuff;
+			I_VBManager *vertBuff;
 
 			Vec3 min, max;
 			Vec3 center;

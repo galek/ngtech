@@ -1,7 +1,6 @@
 #pragma once
 
 //**************************************
-#include "GLSystem.h"
 #include "DLLDef.h"
 #include "Font.h"
 #include <vector>

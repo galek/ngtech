@@ -214,14 +214,6 @@
     <ClInclude Include="inc\Flare.h" />
     <ClInclude Include="inc\Font.h" />
     <ClInclude Include="inc\Frustum.h" />
-    <ClInclude Include="inc\GLDisplayList.h" />
-    <ClInclude Include="inc\GLExtensions.h" />
-    <ClInclude Include="inc\GLFBO.h" />
-    <ClInclude Include="inc\GLOcclusionQuery.h" />
-    <ClInclude Include="inc\GLShader.h" />
-    <ClInclude Include="inc\GLSystem.h" />
-    <ClInclude Include="inc\GLTexture.h" />
-    <ClInclude Include="inc\GLVBO.h" />
     <ClInclude Include="inc\GUI.h" />
     <ClInclude Include="inc\ILImage.h" />
     <ClInclude Include="inc\ILSystem.h" />
@@ -254,25 +246,17 @@
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\EngineAppBase.cpp" />
     <ClCompile Include="src\EngineGlobals.cpp" />
+    <ClCompile Include="src\EnginePlugins.cpp" />
     <ClCompile Include="src\EnginePrivate.cpp" />
     <ClCompile Include="src\EngineScriptInterp.cpp" />
     <ClCompile Include="src\Flare.cpp" />
     <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\Frustum.cpp" />
-    <ClCompile Include="src\GLDisplayList.cpp" />
-    <ClCompile Include="src\GLExtensions.cpp" />
-    <ClCompile Include="src\GLFBO.cpp" />
-    <ClCompile Include="src\GLOcclusionQuery.cpp" />
-    <ClCompile Include="src\GLShader.cpp" />
-    <ClCompile Include="src\GLSystem.cpp" />
-    <ClCompile Include="src\GLTexture.cpp" />
-    <ClCompile Include="src\GLVBO.cpp" />
     <ClCompile Include="src\GUI.cpp" />
     <ClCompile Include="src\ILImage.cpp" />
     <ClCompile Include="src\ILSystem.cpp" />
     <ClCompile Include="src\Light.cpp" />
     <ClCompile Include="src\LoadingScreen.cpp" />
-    <ClCompile Include="src\MandelbrotDemo.cpp" />
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Object.cpp" />
@@ -310,6 +294,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{a260ec1a-1997-4d03-8b91-1302498eb505}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\OGLDrv\OGLDrv.vcxproj">
+      <Project>{2da0fbd5-be5e-4505-b7c1-de1a05027184}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

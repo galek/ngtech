@@ -54,3 +54,7 @@ Development/Externals/Libs/Release/x64/libvorbis_static.lib
 Development/Externals/Libs/Release/x64/libvorbisfile_static.lib
 Bins/Bin32_d/Core.dll
 Bins/Bin32_d/Core.lib
+Bins/Bin32_d/OGLDrv.lib
+Libs/Debug/Win32/Common/Common.lib
+Libs/Debug/Win32/Core/Core.lib
+Libs/Debug/Win32/OGLDrv/OGLDrv.lib

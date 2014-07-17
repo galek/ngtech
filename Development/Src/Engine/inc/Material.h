@@ -11,7 +11,7 @@
 //***************************************************************************
 #include "../Common/EString.h"
 #include "File.h"
-#include "GLSystem.h"
+#include "IRender.h"
 #include <vector>
 //***************************************************************************
 
@@ -59,7 +59,7 @@ namespace NGTech {
 
 			String name;
 
-			GLShader *shader;
+			I_Shader *shader;
 
 			std::vector<std::pair<String, I_Texture*>> u_sampler2D;
 			std::vector<std::pair<String, I_Texture*>> u_samplerCube;

@@ -30,21 +30,21 @@ namespace NGTech {
 		I_Texture *loadTexture2d(I_ILImage *image, const String &path);
 		I_Texture *loadTextureCube(const String &path);
 
-		GLShader *loadShader(const String &path, const String &defines);
+		I_Shader *loadShader(const String &path, const String &defines);
 		void reloadShaders();
 
 		void deleteMaterial(Material *material);
 		void deleteModel(Model *model);
 		void deleteSound(ALSound *sound);
 		void deleteTexture(I_Texture *texture);
-		void deleteShader(GLShader *shader);
+		void deleteShader(I_Shader *shader);
 
 	private:
 		std::map<String, std::pair<Material*, int>> materials;
 		std::map<String, std::pair<Model*, int>> models;
 		std::map<String, std::pair<ALSound*, int>> sounds;
 		std::map<String, std::pair<I_Texture*, int>> textures;
-		std::map<String, std::pair<GLShader*, int>> shaders;
+		std::map<String, std::pair<I_Shader*, int>> shaders;
 		struct CVARManager*cvars;
 	};
 }

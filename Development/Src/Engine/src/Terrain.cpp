@@ -141,7 +141,7 @@ namespace NGTech {
 
 		computeTBN();
 
-		vertBuff = GLVBO::createVBO(vertices, numVertices, sizeof(Vertex), GLVBO::FLOAT);
+		vertBuff = GetRender()->CreateVBO(vertices, numVertices, sizeof(Vertex), I_VBManager::FLOAT);
 	}
 
 	Terrain::~Terrain() {

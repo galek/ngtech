@@ -11,7 +11,6 @@
 //**************************************
 #include "../Common/EString.h"
 #include "MathLib.h"
-#include "GLSystem.h"
 #include "MathLib.h"
 #include "PhysSystem.h"
 #include "Frustum.h"
@@ -45,7 +44,6 @@ namespace NGTech {
 		float getRadius(int s) { return subsets[s]->radius; };
 
 		void setFrame(float frame, int from = -1, int to = -1);
-
 	private:
 		void loadASMDL(const String &path);
 
@@ -102,7 +100,7 @@ namespace NGTech {
 			Vertex *vertices;
 			unsigned int *indices;
 
-			GLVBO *vertBuff;
+			I_VBManager *vertBuff;
 
 			Vec3 min, max;
 			Vec3 center;

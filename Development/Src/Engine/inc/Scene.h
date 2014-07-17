@@ -14,7 +14,6 @@
 #include "Object.h"
 #include "Terrain.h"
 #include "Camera.h"
-#include "GLSystem.h"
 #include "Water.h"
 #include <vector>
 //**************************************
@@ -80,8 +79,8 @@ namespace NGTech {
 		std::vector<Light*> lights;
 		std::vector<ParticleSystem*> systems;
 
-		GLFBO *viewportFBO;
-		GLFBO *shadowFBO;
+		I_FBOManager *viewportFBO;
+		I_FBOManager *shadowFBO;
 
 		I_Texture *viewportCopy;
 		I_Texture *viewportCopy_brightPass;

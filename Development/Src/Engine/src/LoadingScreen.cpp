@@ -20,22 +20,19 @@ namespace NGTech {
 	LoadingScreen::LoadingScreen(const String &path) {
 		
 	glLogo = GetRender()->TextureCreate2D("../data/textures/logos/glLogo.png");
-	glLogo->setFilter(GLTexture::LINEAR);
+	glLogo->setFilter(I_Texture::LINEAR);
 
 	alLogo = GetRender()->TextureCreate2D("../data/textures/logos/alLogo.png");
-	alLogo->setFilter(GLTexture::LINEAR);
+	alLogo->setFilter(I_Texture::LINEAR);
 
 	ilLogo = GetRender()->TextureCreate2D("../data/textures/logos/ilLogo.png");
-	ilLogo->setFilter(GLTexture::LINEAR);
+	ilLogo->setFilter(I_Texture::LINEAR);
 
 	newtonLogo = GetRender()->TextureCreate2D("../data/textures/logos/newtonLogo.png");
-	newtonLogo->setFilter(GLTexture::LINEAR);
+	newtonLogo->setFilter(I_Texture::LINEAR);
 
 	myGUILogo = GetRender()->TextureCreate2D("../data/textures/logos/myguiLogo.png");
-	myGUILogo->setFilter(GLTexture::LINEAR);
-
-
-	//vegaLogo = GetRender()->TextureCreate2D("../data/textures/logos/vegaLogo.png");
+	myGUILogo->setFilter(I_Texture::LINEAR);
 
 	background = GetRender()->TextureCreate2D(path);
 	}
@@ -43,17 +40,13 @@ namespace NGTech {
 	LoadingScreen::~LoadingScreen() {}
 
 	void LoadingScreen::show() {
-		GetRender()->clear(GLSystem::COLOR_BUFFER | GLSystem::DEPTH_BUFFER);
+		GetRender()->clear(I_Render::COLOR_BUFFER | I_Render::DEPTH_BUFFER);
 		GetRender()->enable2d(true);
 
 		background->set(0);
 		GetRender()->drawRect(0, 0, 1, 1, 0, 0, 1, 1);
 		background->unset(0);
-
-		/*vegaLogo->set(0);
-		GetRender()->drawRect(0.0, 0.0, 0.3, 0.1, 0, 0, 1, 1);
-		vegaLogo->unset(0);*/
-
+	
 		glLogo->set(0);
 		GetRender()->drawRect(0.15, 0.9, 0.3,   1.0, 0, 0, 1, 1);
 		glLogo->unset(0);

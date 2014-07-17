@@ -165,7 +165,7 @@ namespace NGTech {
 #endif				
 		GetRender()->enable2d(false);
 		GetRender()->disableCulling();
-		GetRender()->enableBlending(GLSystem::ONE, GLSystem::ONE_MINUS_SRC_ALPHA);
+		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE_MINUS_SRC_ALPHA);
 		if (mPlatform)
 			mPlatform->getRenderManagerPtr()->drawOneFrame();
 

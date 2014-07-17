@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GLSystem.h"
+#include "IRender.h"
 #include "MathLib.h"
 #include <vector>
 

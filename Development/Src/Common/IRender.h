@@ -131,7 +131,12 @@ namespace NGTech {
 		virtual I_Texture *TextureCreate2D(int width, int height, int format) = 0;
 		virtual I_Texture *TextureCreate3D(int width, int height, int depth, int format) = 0;
 		virtual I_Texture *TextureCreateCube(int width, int height, int format) = 0;
-	        //Nick:TODO:Здесь значения для enum'ов взяты из GL рендера
+		
+		virtual I_Shader *ShaderCreate(const String &path, const String &defines = "") = 0;
+		virtual I_FBOManager*CreateFBO(int x, int y) = 0;
+		virtual I_VBManager *CreateIBO(void *data, int numElements, int elemSize, int dataType) = 0;
+		virtual I_VBManager *CreateVBO(void *data, int numElements, int elemSize, int dataType) = 0;
+		//Nick:TODO:Здесь значения для enum'ов взяты из GL рендера
 		//---------------------------------------------------------------------------
 		//Desc: Blending type enum
 		//---------------------------------------------------------------------------
@@ -285,15 +290,71 @@ namespace NGTech {
 
 	};
 
+	struct I_Shader
+	{
+		I_Shader(){}
+		virtual void set() = 0;
+		virtual void unset() = 0;
+
+		virtual void sendMat4(const String &name, const Mat4 &value) = 0;
+		virtual void sendVec4(const String &name, const Vec4 &value) = 0;
+		virtual void sendVec3(const String &name, const Vec3 &value) = 0;
+		virtual void sendVec2(const String &name, const Vec2 &value) = 0;
+		virtual void sendFloat(const String &name, float value) = 0;
+		virtual void sendInt(const String &name, int value) = 0;
+
+	protected:
+		unsigned int gs, vs, fs, cs, tcs, tes, program;
+	};
+
+
+	struct I_VBManager
+	{
+		//---------------------------------------------------------------------------
+		//Desc: VBO data type
+		//---------------------------------------------------------------------------
+		enum DataType {
+			FLOAT,
+			DOUBLE,
+			UNSIGNED_INT,
+			UNSIGNED_SHORT,
+		};
+
+		virtual ~I_VBManager(){}
+		
+		virtual void setVertexSource(int numComp, int stride, int offset) = 0;
+		virtual void setNormalSource(int stride, int offset) = 0;
+		virtual void setTexCoordSource(int tex_unit, int numComp, int stride, int offset) = 0;
+		virtual void setIndexSource(int stride, int offset) = 0;
+
+		virtual void unsetVertexSource() = 0;
+		virtual void unsetNormalSource() = 0;
+		virtual void unsetTexCoordSource(int tex_unit) = 0;
+		virtual void unsetIndexSource() = 0;
+
+		virtual void set() = 0;
+		virtual void unset() = 0;
+
+	protected:
+		unsigned int glID;
+		int numElements;
+		int elementSize;
+
+		unsigned int dataType;
+		unsigned int type;
+		unsigned int drawType;
+
+		unsigned int gs, vs, fs, cs, tcs, tes, program;
+	};
+
 	struct I_OcclusionQuery
 	{
-		I_OcclusionQuery(){}
-		~I_OcclusionQuery(){}
+		virtual ~I_OcclusionQuery(){}
 
 		/**
 		Begins rendering to query
 		*/
-		virtual void beginRendering()=0;
+		virtual void beginRendering() = 0;
 
 		/**
 		End rendering to query
@@ -304,7 +365,7 @@ namespace NGTech {
 		Get number of passed samples
 		\return number of passed samples
 		*/
-		virtual unsigned int getResult()=0;
+		virtual unsigned int getResult() = 0;
 
 	protected:
 		unsigned int glID;
@@ -313,25 +374,54 @@ namespace NGTech {
 	struct I_DisplayList
 	{
 	public:
-		I_DisplayList(){}
-		~I_DisplayList(){}
+		virtual ~I_DisplayList(){}
 		/**
 		Begins the display list build
 		*/
-		virtual void beginBuild(){}
+		virtual void beginBuild() = 0;
 
 		/**
 		Ends the display list build
 		*/
-		virtual void endBuild(){}
+		virtual void endBuild() = 0;
 
 		/**
 		Calls the display list
 		*/
-		virtual void call(){}
+		virtual void call() = 0;
 
 	protected:
 		unsigned int glID;
+	};
+
+	struct I_FBOManager{
+	public:
+		virtual void createColorAttachment() = 0;
+		virtual void createDepthAttachment() = 0;
+		virtual void createStencilAttachment() = 0;
+
+		~I_FBOManager(){}
+
+		virtual void setColorTarget(I_Texture *texture = NULL, int face = -1) = 0;
+		virtual void setDepthTarget(I_Texture *texture = NULL) = 0;
+
+		virtual void set() = 0;
+		virtual void unset() = 0;
+
+		virtual void clear() = 0;
+		virtual void flush() = 0;
+
+	protected:
+		unsigned int glID;
+
+		unsigned int glColorID;
+		unsigned int glStencilID;
+		unsigned int glDepthID;
+
+		I_Texture *colorTarget;
+		I_Texture *depthTarget;
+
+		int width, height;
 	};
 }
 #endif

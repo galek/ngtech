@@ -53,7 +53,7 @@ namespace NGTech {
 		GetRender()->translate(Vec3(x, y, 0));								
 		GetRender()->scale(Vec3(size, size, 1));
 
-		GetRender()->enableBlending(GLSystem::ONE, GLSystem::ONE_MINUS_SRC_ALPHA);
+		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE_MINUS_SRC_ALPHA);
 
 		GetRender()->setColor(Vec4(color * alpha, alpha));
 		fontTex->set(0);
@@ -72,5 +72,3 @@ namespace NGTech {
 	}
 
 }
-
-

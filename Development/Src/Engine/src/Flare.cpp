@@ -81,7 +81,7 @@ namespace NGTech {
 		GetRender()->rotate(GetScene()->camera->angle[1], Vec3(1, 0, 0));
 
 		texture->set(0);
-		GetRender()->enableBlending(GLSystem::ONE, GLSystem::ONE);
+		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 		GetRender()->setColor(color);
 		GetRender()->depthMask(false);
 
@@ -93,9 +93,4 @@ namespace NGTech {
 
 		GetRender()->pop();
 	}
-
 }
-
-
-
-

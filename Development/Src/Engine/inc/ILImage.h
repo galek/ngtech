@@ -27,9 +27,9 @@ namespace NGTech {
 		static ILImage *createEmpty3d(int width, int height, int depth, int format);
 		static ILImage *createNoise3d(int width, int height, int depth, int format);
 
-		~ILImage();
+		virtual ~ILImage();
 
-		void toNormalMap(int k);
-		void toGreyScale();
+		virtual void toNormalMap(int k);
+		virtual void toGreyScale();
 	};
 }

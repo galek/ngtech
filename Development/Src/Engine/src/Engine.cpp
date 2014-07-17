@@ -20,7 +20,7 @@
 #include "Engine.h"
 #include "CVARManager.h"
 #include "WindowSystem.h"
-#include "GLSystem.h"
+#include "IRender.h"
 #include "ILSystem.h"
 #include "ALSystem.h"
 #include "PhysSystem.h"
@@ -39,6 +39,8 @@
 #include "VFS.h"
 #include "IGame.h"
 #include "EngineScriptInterp.h"
+//***************************************************
+#include "../../OGLDRV/inc/GLSystem.h"
 //***************************************************
 
 
@@ -62,6 +64,7 @@ namespace NGTech {
 	*/
 	void Engine::_preInit()
 	{
+		plugins = new EnginePlugins();
 		vfs = new FileSystem();
 		Debug("[Init] FileSystem Finished");
 		config = new Config("..\\user.ltx");
@@ -175,7 +178,7 @@ namespace NGTech {
 				this->game->runEventsCallback();
 
 			if (this->iRender)
-				this->iRender->clear(GLSystem::COLOR_BUFFER | GLSystem::DEPTH_BUFFER | GLSystem::STENCIL_BUFFER);
+				this->iRender->clear(I_Render::COLOR_BUFFER | I_Render::DEPTH_BUFFER | I_Render::STENCIL_BUFFER);
 
 #pragma message("TODO:GUI:Разобраться с апдейтом GUI")
 			/*if (this->gui)
@@ -215,5 +218,10 @@ namespace NGTech {
 	*/
 	float Engine::GetLastFPS() {
 		return 1000 / iWindow->getDTime();
+	}
+	/*
+	*/
+	void Engine::LoadEngineModule(const char*_name){
+		plugins->LoadEngineModule(_name);
 	}
 }

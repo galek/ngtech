@@ -9,7 +9,7 @@
 #pragma once
 
 //************************************
-#include "GLSystem.h"
+#include "IRender.h"
 #include "ILSystem.h"
 #include "PhysSystem.h"
 #include "Material.h"
@@ -63,7 +63,7 @@ namespace NGTech {
 
 		Material *material;
 
-		GLVBO *vertBuff;
+		I_VBManager *vertBuff;
 		Vertex *vertices;
 		unsigned int numVertices;
 

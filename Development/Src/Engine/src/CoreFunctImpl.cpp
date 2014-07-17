@@ -4,8 +4,4 @@
 #include "Engine.h"
 
 namespace NGTech {
-
-	FileSystem*	GetVFSPtr(){
-		return GetVFS();
-	}
 }

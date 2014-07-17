@@ -1,6 +1,6 @@
-#include "stdafx.h"
+#include "EnginePrivate.h"
 
-using namespace NGTech;
+//using namespace NGTech;
 
 #ifdef MANDELBROT_DEMO
 GLShader *mandelbotShader;
@@ -14,8 +14,8 @@ void init() {
 	GUI::create("../data/textures/gui");
 
 	mandelbotShader = GLShader::create("../data/shaders/mandelbrot.ashd");
-	usor = GLTexture::create2d("../data/textures/usor.jpg");
-	usor->setFilter(GLTexture::LINEAR);
+	usor = GetRender()->TextureCreate2D("../data/textures/usor.jpg");
+	usor->setFilter(I_Texture::LINEAR);
 
 	GUI::get()->addWidget(scaleLabel = new WidgetLabel("Scale (mouse buttons)"));
 	scaleLabel->setPosition(0, 0);

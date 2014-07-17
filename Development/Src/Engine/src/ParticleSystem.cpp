@@ -75,7 +75,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	void ParticleSystem::draw() {
 		texture->set(0);
-		GetRender()->enableBlending(GLSystem::ONE, GLSystem::ONE);
+		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 		GetRender()->setColor(color);
 		GetRender()->depthMask(false);
 

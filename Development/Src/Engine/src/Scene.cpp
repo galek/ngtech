@@ -38,24 +38,24 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 
 	void Scene::initialise(){
-		viewportFBO = GLFBO::create(512, 512);
+		viewportFBO = GetRender()->CreateFBO(512, 512);
 		viewportFBO->createDepthAttachment();
 
 		int size = GetCvars()->r_shadowsize;
-		shadowFBO = GLFBO::create(size, size);
+		shadowFBO = GetRender()->CreateFBO(size, size);
 		shadowFBO->createDepthAttachment();
 
-		viewportCopy = GetRender()->TextureCreate2D(512, 512, GLTexture::RGBA);
-		viewportCopy->setWrap(GLTexture::CLAMP_TO_EDGE);
-		viewportCopy->setFilter(GLTexture::LINEAR);
+		viewportCopy = GetRender()->TextureCreate2D(512, 512, I_Texture::RGBA);
+		viewportCopy->setWrap(I_Texture::CLAMP_TO_EDGE);
+		viewportCopy->setFilter(I_Texture::LINEAR);
 
-		viewportCopy_brightPass = GetRender()->TextureCreate2D(512, 512, GLTexture::RGBA);
-		viewportCopy_brightPass->setWrap(GLTexture::CLAMP_TO_EDGE);
-		viewportCopy_brightPass->setFilter(GLTexture::LINEAR);
+		viewportCopy_brightPass = GetRender()->TextureCreate2D(512, 512, I_Texture::RGBA);
+		viewportCopy_brightPass->setWrap(I_Texture::CLAMP_TO_EDGE);
+		viewportCopy_brightPass->setFilter(I_Texture::LINEAR);
 
-		viewportCopy_brightPass_blured = GetRender()->TextureCreate2D(512, 512, GLTexture::RGBA);
-		viewportCopy_brightPass_blured->setWrap(GLTexture::CLAMP_TO_EDGE);
-		viewportCopy_brightPass_blured->setFilter(GLTexture::LINEAR);
+		viewportCopy_brightPass_blured = GetRender()->TextureCreate2D(512, 512, I_Texture::RGBA);
+		viewportCopy_brightPass_blured->setWrap(I_Texture::CLAMP_TO_EDGE);
+		viewportCopy_brightPass_blured->setFilter(I_Texture::LINEAR);
 
 		query = GetRender()->GetOQ();
 
@@ -916,7 +916,7 @@ namespace NGTech {
 			}
 		}
 
-		GetRender()->enableBlending(GLSystem::ONE, GLSystem::ONE);
+		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 		GetRender()->depthMask(false);
 
 		//draw wireframe
@@ -958,7 +958,7 @@ namespace NGTech {
 
 		drawAmbient(true);
 
-		/*GetRender()->enableBlending(GLSystem::ONE, GLSystem::ONE);
+		/*GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 		GetRender()->depthMask(false);
 
 		for(int i = 0; i < lights.size(); i++) {
@@ -993,7 +993,7 @@ namespace NGTech {
 
 		drawAmbient(false);
 
-		GetRender()->enableBlending(GLSystem::ONE, GLSystem::ONE);
+		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 		GetRender()->depthMask(false);
 
 		if (GetCvars()->r_wireframe) {//Nick:TODO:Replace
@@ -1100,7 +1100,7 @@ namespace NGTech {
 
 			//---------draw-bloom-------------------------------
 			GetRender()->enable2d(true);
-			GetRender()->enableBlending(GLSystem::ONE, GLSystem::ONE);
+			GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 
 			matViewportMap = viewportCopy_brightPass_blured;
 			hdr->setPass("BlurPass");

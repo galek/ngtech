@@ -11,7 +11,6 @@
 //**************************************
 #include "../Common/EString.h"
 #include "MathLib.h"
-#include "GLSystem.h"
 #include "MathLib.h"
 #include "PhysSystem.h"
 #include "Frustum.h"

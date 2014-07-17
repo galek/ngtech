@@ -1,7 +1,6 @@
 #pragma once
 
 //**************************************
-#include "GLSystem.h"
 #include "MathLib.h"
 #include <vector>
 //**************************************

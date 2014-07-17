@@ -71,7 +71,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	void EffectParticleSystem::draw() {
 		texture->set(0);
-		GetRender()->enableBlending(GLSystem::ONE, GLSystem::ONE);
+		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 		GetRender()->setColor(color);
 		GetRender()->depthMask(false);
 
@@ -162,7 +162,7 @@ namespace NGTech {
 		GetRender()->rotate(GetScene()->GetActiveCamera()->GetAngle(1), Vec3(1, 0, 0));
 
 		texture->set(0);
-		GetRender()->enableBlending(GLSystem::ONE, GLSystem::ONE);
+		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 		GetRender()->setColor(color);
 		GetRender()->depthMask(false);
 

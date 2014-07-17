@@ -13,7 +13,6 @@
 #include "Frustum.h"
 #include "Config.h"
 #include "WindowSystem.h"
-#include "GLSystem.h"
 #include "Scene.h"
 #include "../../Core/inc/CVARManager.h"
 //**************************************
@@ -39,10 +38,10 @@ namespace NGTech {
 		this->castShadows = true;
 
 		int size = GetCvars()->r_shadowsize;
-		shadowMap = GetRender()->TextureCreateCube(size, size, GLTexture::RGBA);
-		shadowMap->setFilter(GLTexture::LINEAR);
-		shadowMap->setAniso(GLTexture::ANISO_X0);
-		shadowMap->setWrap(GLTexture::CLAMP_TO_EDGE);
+		shadowMap = GetRender()->TextureCreateCube(size, size, I_Texture::RGBA);
+		shadowMap->setFilter(I_Texture::LINEAR);
+		shadowMap->setAniso(I_Texture::ANISO_X0);
+		shadowMap->setWrap(I_Texture::CLAMP_TO_EDGE);
 	}
 
 	//---------------------------------------------------------------------------
@@ -150,12 +149,12 @@ namespace NGTech {
 
 		int size = GetCvars()->r_shadowsize;
 
-		shadowMap = GetRender()->TextureCreate2D(size, size, GLTexture::RGBA);
-		shadowMap->setFilter(GLTexture::LINEAR);
-		shadowMap->setWrap(GLTexture::CLAMP);
+		shadowMap = GetRender()->TextureCreate2D(size, size, I_Texture::RGBA);
+		shadowMap->setFilter(I_Texture::LINEAR);
+		shadowMap->setWrap(I_Texture::CLAMP);
 
 		projMap = GetRender()->TextureCreate2D("../data/textures/effects/spot.jpg");
-		projMap->setWrap(GLTexture::CLAMP);
+		projMap->setWrap(I_Texture::CLAMP);
 	}
 
 	//---------------------------------------------------------------------------

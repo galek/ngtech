@@ -14,8 +14,8 @@
 namespace NGTech {
 
 
-/*
-*/
+	/*
+	*/
 	ILSystem::ILSystem() {
 		Log::writeHeader("-- ILSystem --");
 
@@ -24,8 +24,8 @@ namespace NGTech {
 	}
 
 
-/*
-*/
+	/*
+	*/
 	ILSystem::~ILSystem() {
 	}
 

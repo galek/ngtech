@@ -429,7 +429,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	void SkinnedModel::drawSubset(int s) {
 		Subset *st = subsets[s];
-
+#if 0//TODO:Пока не готово
 		glClientActiveTextureARB(GL_TEXTURE0_ARB);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(2,GL_FLOAT,sizeof(Vertex),st->vertices->texcoord);
@@ -464,6 +464,7 @@ namespace NGTech {
 
 		glClientActiveTextureARB(GL_TEXTURE2_ARB);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+#endif
 	}
 
 	//---------------------------------------------------------------------------
@@ -617,7 +618,7 @@ namespace NGTech {
 	void SkinnedModel::createVBO() {
 		for(int s = 0; s < subsets.size(); s++) {
 			Subset *st = subsets[s];
-			st->vertBuff = GLVBO::createVBO(st->vertices, st->numVertices, sizeof(Vertex), GLVBO::FLOAT);
+			st->vertBuff = GetRender()->CreateVBO(st->vertices, st->numVertices, sizeof(Vertex), I_VBManager::FLOAT);
 		}
 	}
 

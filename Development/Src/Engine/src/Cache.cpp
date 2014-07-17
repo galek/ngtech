@@ -113,10 +113,10 @@ namespace NGTech {
 		return it->second.first;
 	}
 
-	GLShader *Cache::loadShader(const String &path, const String &defines) {
+	I_Shader *Cache::loadShader(const String &path, const String &defines) {
 
 		if (path == "") return NULL;
-		std::map<String, std::pair<GLShader*, int>>::iterator it = shaders.find(path);
+		std::map<String, std::pair<I_Shader*, int>>::iterator it = shaders.find(path);
 		if (it == shaders.end() || it->second.first == NULL) {
 			String defines = "";
 			if (cvars->r_reflections) defines += "#define REFLECTIONS\n";
@@ -126,7 +126,7 @@ namespace NGTech {
 			if (cvars->r_shadowtype == 2) defines += "#define SM_SHADOWS_PCF_2\n";
 			if (cvars->r_shadowtype == 3) defines += "#define SM_SHADOWS_PCF_3\n";
 
-			GLShader *shader = GLShader::create(path, defines);
+			I_Shader *shader = GetRender()->ShaderCreate(path, defines);
 			shaders[path].first = shader;
 			shaders[path].second = 1;
 			return shader;
@@ -144,11 +144,11 @@ namespace NGTech {
 		if (cvars->r_shadowtype == 2) defines += "#define SM_SHADOWS_PCF_2\n";
 		if (cvars->r_shadowtype == 3) defines += "#define SM_SHADOWS_PCF_3\n";
 
-		std::map<String, std::pair<GLShader*, int>>::iterator it;
+		std::map<String, std::pair<I_Shader*, int>>::iterator it;
 		for (it = shaders.begin(); it != shaders.end(); it++) {
 			delete it->second.first;
 
-			it->second.first = GLShader::create(it->first, defines);
+			it->second.first = GetRender()->ShaderCreate(it->first, defines);
 		}
 	}
 
@@ -194,8 +194,8 @@ namespace NGTech {
 		}
 	}
 
-	void Cache::deleteShader(GLShader *shader) {
-		std::map<String, std::pair<GLShader*, int>>::iterator it;
+	void Cache::deleteShader(I_Shader *shader) {
+		std::map<String, std::pair<I_Shader*, int>>::iterator it;
 		for (it = shaders.begin(); it != shaders.end(); it++) {
 			if (it->second.first == shader && it->second.second <= 1) {
 				delete it->second.first;
@@ -203,5 +203,4 @@ namespace NGTech {
 			}
 		}
 	}
-
 }

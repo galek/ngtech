@@ -8,6 +8,7 @@
 
 namespace NGTech {
 	struct IGame;
+	class EnginePlugins;
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main class. Created one time
 	//---------------------------------------------------------------------------
@@ -27,9 +28,13 @@ namespace NGTech {
 		void initialise();
 		void setGame(IGame*_game);
 		virtual float GetLastFPS();
+		virtual void LoadEngineModule(const char* _name);
+		void SetRender(I_Render*_r){ iRender = _r; }
 	private:
 		void _preInit();
 		void _setResources();	
+	private:
+		EnginePlugins*plugins;
 	};
 	ENGINE_API Engine* GetEngine();
 	ENGINE_API FileSystem* GetVFS();
