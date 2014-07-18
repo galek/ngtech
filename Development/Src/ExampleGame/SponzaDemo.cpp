@@ -1,6 +1,6 @@
 //#include "EnginePrivate.h"
 #include "stdafx.h"
-#include "..\..\API\VegaEngineAPI.h"
+#include "..\..\API\NGTechEngineAPI.h"
 
 #define SPONZA_DEMO
 
