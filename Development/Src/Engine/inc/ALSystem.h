@@ -22,19 +22,19 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main sound system. Created one time
 	//---------------------------------------------------------------------------
-	class ENGINE_API ALSystem : public IAudio {
+	class ENGINE_API ALSystem : public I_Audio {
 	public:
 		ALSystem();
 
-		~ALSystem();
+		virtual ~ALSystem();
 
-		void initialise();
-		String getVendor();
-		String getRenderer();
-		String getVersion();
-		String getExtensions();
+		virtual void initialise();
+		virtual String getVendor();
+		virtual String getRenderer();
+		virtual String getVersion();
+		virtual String getExtensions();
 
-		void setListener(const Vec3 &pos, const Vec3 &dir);
+		virtual void setListener(const Vec3 &pos, const Vec3 &dir);
 
 	private:
 		ALCcontext *alContext;

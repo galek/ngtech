@@ -42,7 +42,7 @@ namespace NGTech {
 
 	/**
 	*/
-	IAudio* GetAudio(){
+	I_Audio* GetAudio(){
 		return GetCore()->alSystem;
 	}
 

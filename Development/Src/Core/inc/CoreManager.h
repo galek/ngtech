@@ -12,7 +12,7 @@ namespace NGTech {
 	struct Log;
 	class Config;
 	class FileSystem;
-	class IAudio;
+	class I_Audio;
 	class ILSystem;
 	class PhysSystem;
 	class Cache;
@@ -40,7 +40,7 @@ namespace NGTech {
 		Log* log;
 		Config *config;
 		FileSystem*vfs;
-		IAudio *alSystem;
+		I_Audio *alSystem;
 		ILSystem *ilSystem;
 		PhysSystem *physSystem;
 
@@ -58,7 +58,7 @@ namespace NGTech {
 	CORE_API IWindow* GetWindow();
 	CORE_API CVARManager* GetCvars();
 	CORE_API I_Render* GetRender();
-	CORE_API IAudio* GetAudio();
+	CORE_API I_Audio* GetAudio();
 	CORE_API PhysSystem* GetPhysics();
 	CORE_API Cache* GetCache();
 	CORE_API GUI* GetGUI();
