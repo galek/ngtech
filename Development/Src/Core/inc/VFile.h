@@ -22,6 +22,7 @@ namespace NGTech
 		String GetFileExt();
 		String CutFileExt();
 		void WriteString(const String &text);
+		void ScanF(const char * format, ...);
 	private:
 		void _OpenFile(const String&path, int _mode, bool _notSearch);
 	private:

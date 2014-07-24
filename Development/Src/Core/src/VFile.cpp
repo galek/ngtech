@@ -1,6 +1,9 @@
 #include "CorePrivate.h"
+
 #include "VFS.h"
 #include "FileHelper.h"
+
+#include <stdarg.h>
 
 namespace NGTech
 {
@@ -95,6 +98,7 @@ namespace NGTech
 		}
 		return buf;
 	}
+
 	void VFile::_OpenFile(const String&path, int _mode, bool _notSearch)
 	{
 		if (_notSearch)
@@ -113,4 +117,13 @@ namespace NGTech
 				mFile = fopen(GetDataPath(), "rb");
 		}
 	}
+
+	void VFile::ScanF(const char *format, ...)
+	{
+		va_list ap;
+		va_start(ap, format);
+		vfscanf(mFile, format, ap);
+		va_end(ap);
+	}
+
 }

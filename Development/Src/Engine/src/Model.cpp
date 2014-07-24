@@ -24,35 +24,28 @@ namespace NGTech {
 	*/
 	void Model::loadAMDL(const String &path) {
 		//begin loading
-		FILE *mFile = fopen(path.c_str(), "r");
-
-		//Check if exist
-		if (!mFile) {
-			Error::showAndExit("Model::Model() error: object file '" + path + "' not found");
-			return;
-		}
+		VFile mFile(path.c_str(), VFile::READ_BIN);
 
 		char buf[1024];
-		//number of subsets
 
-		fscanf(mFile, "%s", buf); //#AST_ENGINE_MESH
+		mFile.ScanF("%s", buf); //#AST_ENGINE_MESH
 
 		int numSubsets;
-		fscanf(mFile, "\nnum_subsets %i", &numSubsets); //num_subsets
+		mFile.ScanF("\nnum_subsets %i", &numSubsets); //num_subsets
 
 		//process subsets
 		for (int s = 0; s < numSubsets; s++) {
 			Subset *st = new Subset();
 
-			fscanf(mFile, "\nsubset %s", st->name);
+			mFile.ScanF("\nsubset %s", st->name);
 
 			//number of vertices
-			fscanf(mFile, "\nnum_vertices %i", &st->numVertices);
+			mFile.ScanF("\nnum_vertices %i", &st->numVertices);
 			st->vertices = new Vertex[st->numVertices];
 
 			//process vertices
 			for (int v = 0; v < st->numVertices; v++) {
-				fscanf(mFile, "%f %f %f %f %f %f %f %f",
+				mFile.ScanF("%f %f %f %f %f %f %f %f",
 					&st->vertices[v].position.x,
 					&st->vertices[v].position.y,
 					&st->vertices[v].position.z,
@@ -64,14 +57,13 @@ namespace NGTech {
 			}
 
 			//number of faces
-
-			fscanf(mFile, "\nnum_faces %i", &st->numIndices);
+			mFile.ScanF("\nnum_faces %i", &st->numIndices);
 			st->numIndices *= 3;
 			st->indices = new unsigned int[st->numIndices];
 
 			//process faces
 			for (int i = 0; i < st->numIndices / 3; i++) {
-				fscanf(mFile, "%i %i %i",
+				mFile.ScanF("%i %i %i",
 					&st->indices[i * 3 + 0],
 					&st->indices[i * 3 + 1],
 					&st->indices[i * 3 + 2]);
@@ -79,8 +71,6 @@ namespace NGTech {
 
 			subsets.push_back(st);
 		}
-
-		fclose(mFile);
 
 		calculateTBN();
 		createVBO();
