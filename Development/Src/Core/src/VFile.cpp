@@ -93,17 +93,17 @@ namespace NGTech
 	{
 		if (_notSearch)
 		{
-			if (_mode = READ_TEXT)
+			if (_mode == READ_TEXT)
 				mFile = fopen(path.c_str(), "rt");
-			else if (_mode = READ_BIN)
+			else if (_mode == READ_BIN)
 				mFile = fopen(path.c_str(), "rb");
 		}//»щем
 		else{
 			if (!IsDataExist())
 				return;
-			if (_mode = READ_TEXT)
+			if (_mode == READ_TEXT)
 				mFile = fopen(GetDataPath(), "rt");
-			else if (_mode = READ_BIN)
+			else if (_mode == READ_BIN)
 				mFile = fopen(GetDataPath(), "rb");
 		}
 	}

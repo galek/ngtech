@@ -19,6 +19,7 @@ namespace NGTech {
 
 		return;
 	}
+
 	/**
 	*/
 	void Model::loadAMDL(const String &path) {
@@ -85,6 +86,7 @@ namespace NGTech {
 		createVBO();
 		calcBoundings();
 	}
+
 	/**
 	*/
 	Model::~Model() {
@@ -97,6 +99,7 @@ namespace NGTech {
 			delete[] st->indices;
 		}
 	}
+
 	/**
 	*/
 	void Model::save(const String &path) {
@@ -147,6 +150,7 @@ namespace NGTech {
 
 		fclose(file);
 	}
+
 	/**
 	*/
 	void Model::drawSubset(int s) {
@@ -168,6 +172,7 @@ namespace NGTech {
 		st->vertBuff->unsetTexCoordSource(1);
 		st->vertBuff->unsetTexCoordSource(2);
 	}
+
 	/**
 	*/
 	int Model::getSubset(String name) {
@@ -177,6 +182,7 @@ namespace NGTech {
 		}
 		return 0;
 	}
+
 	/**
 	*/
 	void Model::calculateTBN() {
@@ -250,6 +256,7 @@ namespace NGTech {
 			}
 		}
 	}
+
 	/**
 	*/
 	void Model::calcBoundings() {
@@ -305,6 +312,7 @@ namespace NGTech {
 			}
 		}
 	}
+
 	/**
 	*/
 	void Model::createVBO() {
@@ -313,6 +321,4 @@ namespace NGTech {
 			st->vertBuff = GetRender()->CreateVBO(st->vertices, st->numVertices, sizeof(Vertex), I_VBManager::FLOAT);
 		}
 	}
-	/**
-	*/
 }

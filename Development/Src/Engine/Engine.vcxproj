@@ -237,7 +237,6 @@
     <ClInclude Include="inc\Material.h" />
     <ClInclude Include="inc\Model.h" />
     <ClInclude Include="inc\Object.h" />
-    <ClInclude Include="inc\ObjectSkinnedMesh.h" />
     <ClInclude Include="inc\ParticleSystem.h" />
     <ClInclude Include="inc\PhysBody.h" />
     <ClInclude Include="inc\PhysJoint.h" />
@@ -274,7 +273,6 @@
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Object.cpp" />
-    <ClCompile Include="src\ObjectSkinnedMesh.cpp" />
     <ClCompile Include="src\ParticleSystem.cpp" />
     <ClCompile Include="src\PhysBody.cpp" />
     <ClCompile Include="src\PhysJoint.cpp" />

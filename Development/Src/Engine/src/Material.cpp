@@ -20,19 +20,12 @@
 
 namespace NGTech {
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates new material from file
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	Material::Material(String path) {
 		if (path == ""){
 			Warning("[Material::Material]Material loading from blank path,automatic deletion.Check your material list");
 			return;
 			delete this;
 		}
-		path = "../data/materials/" + path;
-
 		//begin loading
 		VFile mFile(path.c_str(), VFile::READ_TEXT);
 		while (!mFile.EndOfFile()) {
@@ -199,15 +192,15 @@ namespace NGTech {
 						}
 						else if (StringHelper::getWord(line, 4) == "normal_map()") {
 							I_Texture *sampler;
-							ILImage *map = ILImage::create2d("../data/textures/" + StringHelper::getWord(line, 5));
+							ILImage *map = ILImage::create2d(StringHelper::getWord(line, 5));
 							map->toNormalMap(4);
-							sampler = GetCache()->loadTexture2d(map, "../data/textures/" + StringHelper::getWord(line, 5) + "_NORMAL_MAP");
+							sampler = GetCache()->loadTexture2d(map, StringHelper::getWord(line, 5) + "_NORMAL_MAP");
 							pass->u_sampler2D.push_back(std::pair<String, I_Texture*>(name, sampler));
 							delete map;
 						}
 						else {
 							I_Texture *sampler;
-							sampler = GetCache()->loadTexture2d("../data/textures/" + StringHelper::getWord(line, 4));
+							sampler = GetCache()->loadTexture2d(StringHelper::getWord(line, 4));
 							pass->u_sampler2D.push_back(std::pair<String, I_Texture*>(name, sampler));
 						}
 					}
@@ -224,7 +217,7 @@ namespace NGTech {
 						}
 						else {
 							I_Texture *sampler;
-							sampler = GetCache()->loadTextureCube("../data/textures/" + StringHelper::getWord(line, 4));
+							sampler = GetCache()->loadTextureCube(StringHelper::getWord(line, 4));
 							pass->u_samplerCube.push_back(std::pair<String, I_Texture*>(name, sampler));
 						}
 					}
@@ -358,11 +351,6 @@ namespace NGTech {
 //		fclose(mFile);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    destroys material
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	Material::~Material() {
 		for (int p = 0; p < passes.size(); p++) {
 			Pass *pass = passes[p];
@@ -386,11 +374,6 @@ namespace NGTech {
 		}
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets material pass
-	//Params:  name - pass name
-	//Returns: true - if pass found
-	//---------------------------------------------------------------------------
 	bool Material::setPass(const String &name) {
 		Pass *p = NULL;
 
@@ -475,11 +458,6 @@ namespace NGTech {
 		return true;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    unsets material current pass
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void Material::unsetPass() {
 		Pass *p = currentPass;
 		p->maxUnit = 0;
@@ -502,7 +480,6 @@ namespace NGTech {
 		if (GetScene()->matViewportMap) GetScene()->matViewportMap->unset(p->maxUnit + 1);
 		if (GetScene()->matSpotMap) GetScene()->matSpotMap->unset(p->maxUnit + 2);
 	}
-
 
 	bool Material::passHasBlending(const String &name) {
 		Pass *p = NULL;
@@ -534,6 +511,7 @@ namespace NGTech {
 	}
 
 	void Material::setPassAlphaTest() {
+#pragma message("не сделан Material::setPassAlphaTest")
 	}
 
 	void Material::unsetPassBlending() {
@@ -549,11 +527,3 @@ namespace NGTech {
 	}
 
 }
-
-
-
-
-
-
-
-

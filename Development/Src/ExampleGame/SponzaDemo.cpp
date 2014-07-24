@@ -16,7 +16,7 @@ void ExampleGame::update() {}
 //------------------------------------------------------------
 void ExampleGame::initialise() {
 	//initializing loading screen
-	LoadingScreen *lscreen = new LoadingScreen("../data/textures/logos/background.png");
+	LoadingScreen *lscreen = new LoadingScreen("logos/background.png");
 	lscreen->show();
 
 	sponza = new ObjectMesh("sponza.amdl");
@@ -61,7 +61,7 @@ void ExampleGame::initialise() {
 	omniLight->setPosition(Vec3(0, 60, 0));
 	omniLight->setRadius(200);
 
-	particlesPink = new ParticleSystem("../data/textures/smoke.png", 50);
+	particlesPink = new ParticleSystem("smoke.png", 50);
 	particlesPink->setPosition(Vec3(60, 60, 0));
 	particlesPink->setColor(Vec3(1, 0.5, 1));
 	particlesPink->setForce(Vec3(-0.5, 1, -0.7));
@@ -69,7 +69,7 @@ void ExampleGame::initialise() {
 	particlesPink->setParticleLifeTime(10000);
 	particlesPink->setDispersion(0.1);
 
-	particlesYellow = new ParticleSystem("../data/textures/smoke.png", 50);
+	particlesYellow = new ParticleSystem("smoke.png", 50);
 	particlesYellow->setPosition(Vec3(-60, 60, 0));
 	particlesYellow->setColor(Vec3(1, 1, 0.7));
 	particlesYellow->setForce(Vec3(0.5, 1, 0.5));

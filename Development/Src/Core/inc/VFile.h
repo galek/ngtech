@@ -7,11 +7,7 @@ namespace NGTech
 	public:
 		enum {
 			READ_BIN,
-			READ_TEXT,
-			WRITE_TEXT,
-			WRITE_BIN,
-			READ_AND_WRITE_TEXT,
-			READ_AND_WRITE_BIN
+			READ_TEXT
 		};
 	public:
 		VFile(const char* _name,int _mode,bool _notSearch=false);

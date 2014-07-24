@@ -1,10 +1,3 @@
-/***************************************************************************
- *   Copyright (C) 2006 by AST   *
- *   tsyplyaev@gmail.com   *
- *   ICQ: 279-533-134                          *
- *   This is a part of work done by AST.       *
- *   If you want to use it, please contact me. *
- ***************************************************************************/
 #include "EnginePrivate.h"
 #include "Engine.h"
 //**************************************
@@ -17,11 +10,7 @@
 //**************************************
 
 namespace NGTech {
-	//---------------------------------------------------------------------------
-	//Desc:    creates new EffectParticleSystem
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+
 	EffectParticleSystem::EffectParticleSystem(const String &path, int numParticles) {
 		texture = GetRender()->TextureCreate2D(path);
 
@@ -56,19 +45,9 @@ namespace NGTech {
 		};
 	};
 
-	//---------------------------------------------------------------------------
-	//Desc:    EffectParticleSystem destructor
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	EffectParticleSystem::~EffectParticleSystem() {
-	};
+	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    draw EffectParticleSystem
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void EffectParticleSystem::draw() {
 		texture->set(0);
 		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
@@ -105,16 +84,8 @@ namespace NGTech {
 		GetRender()->disableBlending();
 		texture->unset(0);
 		GetRender()->setColor(Vec4(1, 1, 1, 1));
-	};
+	}
 
-
-
-
-	//---------------------------------------------------------------------------
-	//Desc:    creates new EffectFlare
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	EffectFlare::EffectFlare(const String &path) {
 		texture = GetRender()->TextureCreate2D(path);
 
@@ -140,19 +111,9 @@ namespace NGTech {
 		radius = 5.0;
 	};
 
-	//---------------------------------------------------------------------------
-	//Desc:    EffectFlare destructor
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	EffectFlare::~EffectFlare() {
-	};
+	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    draw EffectFlare
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void EffectFlare::draw() {
 		GetRender()->push();
 		GetRender()->translate(position);
@@ -173,5 +134,5 @@ namespace NGTech {
 		texture->unset(0);
 
 		GetRender()->pop();
-	};
+	}
 }

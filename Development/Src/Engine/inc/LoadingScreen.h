@@ -29,12 +29,6 @@ namespace NGTech {
 		void show();
 
 	private:
-		I_Texture *glLogo;
-		I_Texture *alLogo;
-		I_Texture *ilLogo;
-		I_Texture *newtonLogo;
-		I_Texture *myGUILogo;
-
 		I_Texture *background;
 	};
 }

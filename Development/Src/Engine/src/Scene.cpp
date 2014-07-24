@@ -326,29 +326,6 @@ namespace NGTech {
 	void Scene::drawOmni(LightOmni *light, bool blended) {
 		if (!light->visible) return;
 
-		/*int x, y, z, w;
-		light->getScissorRect(camera->getPosition(), x, y, z, w);
-		GetRender()->enableScissor(x, y, z, w);
-
-		GetRender()->enable2d(false);
-		glColor3f(0, 1, 0);
-		GetRender()->disableDepth();
-		z += x;
-		w += y;
-		glBegin(GL_LINES);
-		glVertex2i(x, y);
-		glVertex2i(x, w);
-		glVertex2i(z, y);
-		glVertex2i(z, w);
-
-		glVertex2i(x, y);
-		glVertex2i(z, y);
-		glVertex2i(x, w);
-		glVertex2i(z, w);
-		glEnd();
-		GetRender()->enableDepth();
-		GetRender()->enable3d();*/
-
 		Frustum frustum;
 
 		//set material params
