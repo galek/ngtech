@@ -13,7 +13,9 @@ namespace NGTech
 		const char *LoadFile(const char* _name);
 		const char* GetDataPath(const char* _name);
 		String GetLine();
+		String GetFileExt();
 	private:
 		FILE *mFile;
+		String mName;
 	};
 }

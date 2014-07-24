@@ -33,12 +33,6 @@ namespace NGTech {
 		}
 		path = "../data/materials/" + path;
 
-		//Check if exist
-		if (!FileHelper::fileExist(path)) {
-			Error::showAndExit("Material::Material() error: material file '" + path + "' not found");
-			return;
-		}
-
 		//begin loading
 		VFile mFile(path.c_str());
 		while (!mFile.EndOfFile()) {

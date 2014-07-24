@@ -25,23 +25,17 @@ namespace NGTech {
 		shader->tes = NULL;
 		shader->program = NULL;
 
-		if(!GetVFS()->isDataExist(path)) {
-			Error::showAndExit("GLShader::create() error: shader file '" + path + "' was not found");
-			return NULL;
-		}
-		
-		FILE *shdFile = fopen(GetVFS()->getDataPath(path).c_str(), "rt");
+		VFile mFile(path.c_str());
 		String line, vsCode, fsCode, tcsCode, tesCode, gsCode;
 
-		while(!feof(shdFile)) {
-			line = FileHelper::readString(shdFile);
-
+		while (!mFile.EndOfFile()) {
+			line = mFile.GetLine();
 
 			//find GLSL vertex shader
 			if (line == "[GLSL_VERTEX_SHADER]") {
 				vsCode = "";
-				while (!feof(shdFile)) {
-					line = FileHelper::readString(shdFile);
+				while (!mFile.EndOfFile()) {
+					line = mFile.GetLine();;
 					if (line == "[GLSL_FRAGMENT_SHADER]") break;
 					else if (line == "[GLSL_COMPUTE_SHADER]") break;
 					else if (line == "[GLSL_TESSELATION_CONTROL_SHADER]") break;
@@ -53,7 +47,7 @@ namespace NGTech {
 				vsCode = defines + vsCode;
 
 				const char *vsString[1];
-				vsString[0] = (char*) vsCode.c_str();
+				vsString[0] = (char*)vsCode.c_str();
 
 				shader->vs = glCreateShaderObjectARB(GL_VERTEX_SHADER_ARB);
 				glShaderSourceARB(shader->vs, 1, vsString, NULL);
@@ -71,11 +65,11 @@ namespace NGTech {
 			}
 
 			//find GLSL fragment shader
-			if(line == "[GLSL_FRAGMENT_SHADER]") {
+			if (line == "[GLSL_FRAGMENT_SHADER]") {
 				fsCode = "";
-				while(!feof(shdFile)) {
-					line = FileHelper::readString(shdFile);
-					if(line == "[GLSL_VERTEX_SHADER]") break;
+				while (!mFile.EndOfFile()) {
+					line = mFile.GetLine();
+					if (line == "[GLSL_VERTEX_SHADER]") break;
 					else if (line == "[GLSL_COMPUTE_SHADER]") break;
 					else if (line == "[GLSL_TESSELATION_CONTROL_SHADER]") break;
 					else if (line == "[GLSL_TESSELATION_EVAL_SHADER]") break;
@@ -96,7 +90,7 @@ namespace NGTech {
 				int compiled;
 				glGetObjectParameterivARB(shader->fs, GL_OBJECT_COMPILE_STATUS_ARB, &compiled);
 
-				if(!compiled) {
+				if (!compiled) {
 					char errorString[4096];
 					glGetInfoLogARB(shader->fs, sizeof(errorString), NULL, errorString);
 					Error::showAndExit("GLShader::create() error: shader file '" + path + "' fs compiling error: " + String(errorString));
@@ -107,8 +101,8 @@ namespace NGTech {
 			//find GLSL TESSELATION EVAL SHADER
 			if (line == "[GLSL_GEOMETRY_SHADER]") {
 				gsCode = "";
-				while (!feof(shdFile)) {
-					line = FileHelper::readString(shdFile);
+				while (!mFile.EndOfFile()) {
+					line = mFile.GetLine();
 					if (line == "[GLSL_FRAGMENT_SHADER]") break;
 					else if (line == "[GLSL_COMPUTE_SHADER]") break;
 					else if (line == "[GLSL_TESSELATION_CONTROL_SHADER]") break;
@@ -120,7 +114,7 @@ namespace NGTech {
 				gsCode = defines + gsCode;
 
 				const char *gsString[1];
-				gsString[0] = (char*) gsCode.c_str();
+				gsString[0] = (char*)gsCode.c_str();
 
 				shader->gs = glCreateShaderObjectARB(GL_GEOMETRY_SHADER);
 				glShaderSourceARB(shader->gs, 1, gsString, NULL);
@@ -141,8 +135,8 @@ namespace NGTech {
 			//find GLSL TESSELATION EVAL SHADER
 			if (line == "[GLSL_TESSELATION_EVAL_SHADER]") {
 				tesCode = "";
-				while (!feof(shdFile)) {
-					line = FileHelper::readString(shdFile);
+				while (!mFile.EndOfFile()) {
+					line = mFile.GetLine();
 					if (line == "[GLSL_FRAGMENT_SHADER]") break;
 					else if (line == "[GLSL_COMPUTE_SHADER]") break;
 					else if (line == "[GLSL_TESSELATION_CONTROL_SHADER]") break;
@@ -154,7 +148,7 @@ namespace NGTech {
 				tesCode = defines + tesCode;
 
 				const char *tesString[1];
-				tesString[0] = (char*) tesCode.c_str();
+				tesString[0] = (char*)tesCode.c_str();
 
 				shader->tes = glCreateShaderObjectARB(GL_TESS_EVALUATION_SHADER);
 				glShaderSourceARB(shader->tes, 1, tesString, NULL);
@@ -174,20 +168,20 @@ namespace NGTech {
 			//find GLSL TESSELATION CONTROL SHADER
 			if (line == "[GLSL_TESSELATION_CONTROL_SHADER]") {
 				tcsCode = "";
-				while (!feof(shdFile)) {
-					line = FileHelper::readString(shdFile);
+				while (!mFile.EndOfFile()) {
+					line = mFile.GetLine();
 					if (line == "[GLSL_FRAGMENT_SHADER]") break;
 					else if (line == "[GLSL_COMPUTE_SHADER]") break;
 					else if (line == "[GLSL_TESSELATION_EVAL_SHADER]") break;
 					else if (line == "[GLSL_VERTEX_SHADER]") break;
-					else if (line == "[GLSL_GEOMETRY_SHADER]") break;					
+					else if (line == "[GLSL_GEOMETRY_SHADER]") break;
 					tcsCode = tcsCode + line + "\n";
 				}
 
 				tcsCode = defines + tcsCode;
 
 				const char *tecString[1];
-				tecString[0] = (char*) tcsCode.c_str();
+				tecString[0] = (char*)tcsCode.c_str();
 
 				shader->vs = glCreateShaderObjectARB(GL_TESS_CONTROL_SHADER);
 				glShaderSourceARB(shader->tcs, 1, tecString, NULL);
@@ -205,10 +199,8 @@ namespace NGTech {
 			}
 		}
 
-		fclose(shdFile);
-
 		//create
-		shader->program  = glCreateProgramObjectARB();
+		shader->program = glCreateProgramObjectARB();
 		if (shader->vs) glAttachObjectARB(shader->program, shader->vs);
 		if (shader->fs) glAttachObjectARB(shader->program, shader->fs);
 		if (shader->gs) glAttachObjectARB(shader->program, shader->tcs);
@@ -219,7 +211,7 @@ namespace NGTech {
 		glLinkProgramARB(shader->program);
 		glGetObjectParameterivARB(shader->program, GL_OBJECT_LINK_STATUS_ARB, &linked);
 
-		if(!linked) {
+		if (!linked) {
 			char errorString[4096];
 			glGetInfoLogARB(shader->program, sizeof(errorString), NULL, errorString);
 			Error::showAndExit("GLShader::create() error: shader file '" + path + "' shader linking error: " + String(errorString));
@@ -233,8 +225,8 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	GLShader::~GLShader() {
-		if(vs) glDeleteObjectARB(vs);
-		if(fs) glDeleteObjectARB(fs);
+		if (vs) glDeleteObjectARB(vs);
+		if (fs) glDeleteObjectARB(fs);
 		glDeleteObjectARB(program);
 	}
 
