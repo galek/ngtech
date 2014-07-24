@@ -68,7 +68,7 @@ namespace NGTech {
 		plugins = new EnginePlugins();
 		vfs = new FileSystem();
 		Debug("[Init] FileSystem Finished");
-		config = new Config("..\\user.ltx");
+		config = new Config("../user.ltx");
 		cvars = new CVARManager(config);
 
 		iWindow = new WindowSystem(cvars);

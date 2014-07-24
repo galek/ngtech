@@ -171,7 +171,7 @@ namespace NGTech {
 	}
 
 	void ObjectMesh::setImpactSound(const String &path) {
-		impactSound = GetCache()->loadSound("../data/sounds/" + path);
+		impactSound = GetCache()->loadSound(path);
 		if (pBody)
 			pBody->SetImpactSound(impactSound);
 	}

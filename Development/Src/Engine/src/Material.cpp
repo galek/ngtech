@@ -34,7 +34,7 @@ namespace NGTech {
 		path = "../data/materials/" + path;
 
 		//begin loading
-		VFile mFile(path.c_str());
+		VFile mFile(path.c_str(), VFile::READ_TEXT);
 		while (!mFile.EndOfFile()) {
 			String line = mFile.GetLine();
 

@@ -4,32 +4,37 @@
 
 namespace NGTech
 {
-	VFile::VFile(const char* _name)
+	VFile::VFile(const char* _name,int _mode)
 		:mName(_name)
 	{
-		if (!IsDataExist(_name))
+		DebugM("Loading/Search file with name: %s", _name);
+		if (!IsDataExist())
 			return;
-		mFile = fopen(GetDataPath(_name), "rt");
+		if (_mode = READ_TEXT)
+			mFile = fopen(GetDataPath(), "rt");
+		else if (_mode = READ_BIN)
+			mFile = fopen(GetDataPath(), "rb");
 	}
 
 	VFile::~VFile(){
 		fclose(mFile);
 	}
 
-	bool VFile::IsDataExist(const char* _name) {
-		bool status = GetVFS()->isDataExist(_name);
+	bool VFile::IsDataExist() {
+		bool status = GetVFS()->isDataExist(mName);
 		if (!status)
-			Warning("File %s :is not exist", _name);
+			Warning("File %s :is not exist", mName);
 		return status;
 	}
 
-	const char * VFile::LoadFile(const char* _name){
+	const char * VFile::LoadFile(){
 		String buff;
 		String line;
 		while (!EndOfFile()){
 			line = FileHelper::readString(mFile);
 			buff += line;
 		}
+		mSize = buff.size();
 		return buff.c_str();
 	}
 
@@ -38,9 +43,9 @@ namespace NGTech
 		return feof(mFile);
 	}
 
-	const char*  VFile::GetDataPath(const char* _name)
+	const char*  VFile::GetDataPath()
 	{
-		return GetVFS()->getDataPath(_name).c_str();
+		return GetVFS()->getDataPath(mName).c_str();
 	}
 
 	String VFile::GetLine()

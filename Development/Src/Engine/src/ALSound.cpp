@@ -26,25 +26,18 @@
 
 namespace NGTech {
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates ALSound from file
-	//Params:  path - sound file path
-	//Returns: -
-	//---------------------------------------------------------------------------
-	ALSound *ALSound::create(const String &path) {
+	ALSound *ALSound::create(const String &_path) {
 		ALSound *sound = new ALSound();
-
-		//#################################################
-		//This code was written by Humus
-		//#################################################
-		if(FileHelper::getFileExt(path) != "ogg") {
+#pragma message("REWRITE ON OWN FILE")
+		String path = "../data/sounds/" + _path;
+		if (FileHelper::getFileExt(path) != "ogg") {
 			Error::showAndExit("ALSound::create() error: sound file " + path + " is not a OGG file");
 			return NULL;
-		} 
+		}
 
 		FILE *file = fopen(path.c_str(), "rb");
 
-		if(file == NULL) {
+		if (file == NULL) {
 			Error::showAndExit("ALSound::create() error: sound file " + path + " not found");
 			return NULL;
 		}
@@ -52,7 +45,7 @@ namespace NGTech {
 		OggVorbis_File vf;
 		memset(&vf, 0, sizeof(vf));
 
-		if(ov_open(file, &vf, NULL, 0) < 0)	{
+		if (ov_open(file, &vf, NULL, 0) < 0)	{
 			fclose(file);
 			Error::showAndExit("ALSound::create() error: sound file " + path + " is not a valid OGG file");
 			return NULL;
@@ -63,11 +56,11 @@ namespace NGTech {
 		int numSamples = (int)ov_pcm_total(&vf, -1);
 		int numChannels = vi->channels;
 
-		if(numChannels == 1) {
+		if (numChannels == 1)
 			sound->format = AL_FORMAT_MONO16;
-		} else {
+		else
 			sound->format = AL_FORMAT_STEREO16;
-		}
+
 
 		sound->rate = vi->rate;
 		sound->size = numSamples * numChannels;
@@ -76,23 +69,21 @@ namespace NGTech {
 		sound->size *= sizeof(short);
 
 		int samplePos = 0;
-		while(samplePos < sound->size) {
-			char *dest = (char *) sound->samples + samplePos;
+		while (samplePos < sound->size) {
+			char *dest = (char *)sound->samples + samplePos;
 
 			int bitStream, readBytes = ov_read(&vf, dest, sound->size - samplePos, 0, 2, 1, &bitStream);
-			if(readBytes <= 0) 
+			if (readBytes <= 0)
 				break;
 			samplePos += readBytes;
 		}
 		ov_clear(&vf);
-		//#################################################
-		//#################################################
 
 		alGenBuffers(1, &sound->buffID);
 		alBufferData(sound->buffID, sound->format, sound->samples, sound->size, sound->rate);
 
 		int error = alGetError();
-		if(error != AL_NO_ERROR) {
+		if (error != AL_NO_ERROR) {
 			Error::showAndExit("ALSound::create() error: sound file " + path + " could not be loaded");
 			return NULL;
 		}
@@ -100,11 +91,6 @@ namespace NGTech {
 		return sound;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    ALSound destructor
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	ALSound::~ALSound() {
 		alDeleteBuffers(1, &buffID);
 		free(samples);

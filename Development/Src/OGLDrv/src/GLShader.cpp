@@ -25,7 +25,7 @@ namespace NGTech {
 		shader->tes = NULL;
 		shader->program = NULL;
 
-		VFile mFile(path.c_str());
+		VFile mFile(path.c_str(), VFile::READ_TEXT);
 		String line, vsCode, fsCode, tcsCode, tesCode, gsCode;
 
 		while (!mFile.EndOfFile()) {

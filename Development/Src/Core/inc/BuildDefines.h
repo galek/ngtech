@@ -8,7 +8,7 @@
 #endif
 
 #ifndef LOG_FILE
-#define LOG_FILE "..\\EngineLog.html"
+#define LOG_FILE "../EngineLog.html"
 #endif
 
 

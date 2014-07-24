@@ -41,6 +41,23 @@ namespace NGTech {
 		Log::warning(sMsg.c_str());
 	}
 
+	void DebugM(const char *fmt, ...){
+
+		char           msg[8000];
+
+		va_list         argptr;
+		va_start(argptr, fmt);
+		_vstprintf(msg, fmt, argptr);
+		va_end(argptr);
+
+		if (String(msg).empty())
+			return;
+
+#ifdef _ENGINE_DEBUG_
+		Log::write(msg);
+#endif
+	}
+
 	void LogPrintf(const char *fmt, ...){
 
 		char           msg[8000];

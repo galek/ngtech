@@ -17,6 +17,7 @@ namespace NGTech {
 #define Debug(text) DebugF(text, __FILE__, __LINE__)
 	void CORE_API DebugF(String text, const char* _file, int _line);
 	void CORE_API Warning(const char *fmt, ...);
+	void CORE_API DebugM(const char *fmt, ...);
 	void CORE_API LogPrintf(const char *fmt, ...);
 	void CORE_API Error(String text, bool _fatal);
 	//---------------------------------------------------------------------------
