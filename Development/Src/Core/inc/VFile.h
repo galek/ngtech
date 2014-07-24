@@ -15,7 +15,7 @@ namespace NGTech
 
 		bool IsDataExist();
 		bool EndOfFile();
-		const char *LoadFile();
+		char* LoadFile();
 		const char* GetDataPath();
 		ENGINE_INLINE size_t Size(){ return mSize; }
 		String GetLine();

@@ -22,15 +22,21 @@ namespace NGTech
 		return status;
 	}
 
-	const char * VFile::LoadFile(){
-		String buff;
-		String line;
-		while (!EndOfFile()){
-			line = GetLine();
-			buff += line;
-		}
-		mSize = buff.size();
-		return buff.c_str();
+	char* VFile::LoadFile(){
+		long lSize;
+		char * buffer;
+		// obtain file size:
+		fseek(mFile, 0, SEEK_END);
+		lSize = ftell(mFile);
+		rewind(mFile);
+
+		// allocate memory to contain the whole file:
+		buffer = new char[sizeof(char)*lSize];
+		fseek(mFile, 0, SEEK_SET);
+		fread(buffer, sizeof(char), lSize, mFile);
+
+		mSize = lSize;
+		return buffer;
 	}
 
 	bool VFile::EndOfFile()

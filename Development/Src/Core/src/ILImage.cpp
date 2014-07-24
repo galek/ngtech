@@ -17,13 +17,6 @@
 
 namespace NGTech {
 
-#define BMP "bmp"
-#define TGA "tga"
-#define JPG "jpg"
-#define PNG "png"
-#define DDS "dds"
-#define GIF "gif"
-
 	int BPP2Format(int bpp) {
 		if(bpp == 3) return ILImage::RGB;
 		if(bpp == 4) return ILImage::RGBA;
@@ -36,11 +29,6 @@ namespace NGTech {
 		return 0;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates empty ILImage
-	//Params:  width, height, depth - image sizes, format - image format(RGB/RGBA)
-	//Returns: pointer to new ILImage
-	//---------------------------------------------------------------------------
 	ILImage *ILImage::createEmpty2d(int width, int height, int format) {
 		ILImage *image = new ILImage();
 
@@ -54,11 +42,6 @@ namespace NGTech {
 		return image;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates noise ILImage
-	//Params:  width, height, depth - image sizes, format - image format(RGB/RGBA)
-	//Returns: pointer to new ILImage
-	//---------------------------------------------------------------------------
 	ILImage *ILImage::createNoise2d(int width, int height, int format) {
 		ILImage *image = new ILImage();
 
@@ -76,11 +59,6 @@ namespace NGTech {
 		return image;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates empty ILImage
-	//Params:  width, height, depth - image sizes, format - image format(RGB/RGBA)
-	//Returns: pointer to new ILImage
-	//---------------------------------------------------------------------------
 	ILImage *ILImage::createEmpty3d(int width, int height, int depth, int format) {
 		ILImage *image = new ILImage();
 
@@ -94,11 +72,6 @@ namespace NGTech {
 		return image;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates noise ILImage
-	//Params:  width, height, depth - image sizes, format - image format(RGB/RGBA)
-	//Returns: pointer to new ILImage
-	//---------------------------------------------------------------------------
 	ILImage *ILImage::createNoise3d(int width, int height, int depth, int format) {
 		ILImage *image = new ILImage();
 
@@ -116,33 +89,25 @@ namespace NGTech {
 		return image;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    loads ILImage from file
-	//Params:  path - image file path
-	//Returns: pointer to new ILImage
-	//---------------------------------------------------------------------------
-	ILImage *ILImage::create2d(const String &path) {
+	ILImage *ILImage::create2d(const String &_path) {
 		ILImage *image = new ILImage();
+		VFile mFile(_path.c_str(), VFile::READ_BIN);
+		String ext = mFile.GetFileExt();
+		unsigned char *buf = (unsigned char*)mFile.LoadFile();
+		unsigned int size = (unsigned int)mFile.Size();
 
-		if(!FileHelper::fileExist(path)) {
-			Error::showAndExit("ILImage::create2d() error: image file '" + path + "' not found");
-			return NULL;
-		}
-
-		String ext = FileHelper::getFileExt(path);
-
-		if(ext == BMP)
-			ilLoad(IL_BMP, (const ILstring) path.c_str());
-		if(ext == TGA)
-			ilLoad(IL_TGA, (const ILstring) path.c_str());
-		if(ext == JPG)
-			ilLoad(IL_JPG, (const ILstring) path.c_str());
-		if(ext == PNG)
-			ilLoad(IL_PNG, (const ILstring) path.c_str());
-		if(ext == DDS)
-			ilLoad(IL_DDS, (const ILstring) path.c_str());
-		if(ext == GIF)
-			ilLoad(IL_GIF, (const ILstring) path.c_str());
+		if (ext == "bmp")
+			ilLoadL(IL_BMP, buf, size);
+		if (ext == "tga")
+			ilLoadL(IL_TGA, buf, size);
+		if (ext == "jpg")
+			ilLoadL(IL_JPG, buf, size);
+		if(ext == "png")
+			ilLoadL(IL_PNG, buf, size);
+		if(ext == "dds")
+			ilLoadL(IL_DDS, buf, size);
+		if(ext == "gif")
+			ilLoadL(IL_GIF, buf, size);
 
 		int error = ilGetError();
 		if(error != IL_NO_ERROR) {
@@ -165,20 +130,10 @@ namespace NGTech {
 		return image;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    ILImage destructor
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	ILImage::~ILImage() {
 		free(data);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    converts ILImage to normal map
-	//Params:  k - height rescale coef
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ILImage::toNormalMap(int k) {
 		int w = width;
 		int h = height;
@@ -221,11 +176,6 @@ namespace NGTech {
 		delete [] ndata;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    converts ILImage to grey scale
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void ILImage::toGreyScale() {
 		int w = width;
 		int h = height;
