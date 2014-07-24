@@ -19,7 +19,7 @@
 //***************************************************************************
 #include "ALSystem.h"
 #include "Log.h"
-#include "File.h" 
+#include "FileHelper.h" 
 #include "Error.h"
 #include "../../Externals/libvorbis/include/vorbis/vorbisfile.h"
 //***************************************************************************

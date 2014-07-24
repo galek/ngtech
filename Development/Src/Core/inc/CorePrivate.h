@@ -6,3 +6,5 @@
 #include "Log.h"
 #include "MathLib.h"
 #include "DynLib.h"
+#include "VFile.h"
+#include "CoreManager.h"

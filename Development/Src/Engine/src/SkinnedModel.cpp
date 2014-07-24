@@ -1,7 +1,7 @@
 #include "EnginePrivate.h"
 //**************************************
 #include "SkinnedModel.h"
-#include "File.h"
+#include "FileHelper.h"
 #include "Log.h"
 #include "Frustum.h"
 #include "MathLib.h"

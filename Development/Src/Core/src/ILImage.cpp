@@ -10,7 +10,7 @@
 #include "ILSystem.h"
 #include "ILImage.h"
 #include "Log.h"
-#include "File.h"
+#include "FileHelper.h"
 #include "MathLib.h"
 #include "Error.h"
 //***************************************************************************

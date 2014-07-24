@@ -8,7 +8,7 @@
 #include "CorePrivate.h"
 //***************************************************************************
 #include "Log.h"
-#include "File.h"
+#include "FileHelper.h"
 #include "Error.h"
 #include <stdarg.h>
 //***************************************************************************

@@ -209,13 +209,14 @@
     <ClInclude Include="inc\DataStream.h" />
     <ClInclude Include="inc\DynLib.h" />
     <ClInclude Include="inc\Error.h" />
-    <ClInclude Include="inc\File.h" />
+    <ClInclude Include="inc\FileHelper.h" />
     <ClInclude Include="inc\ILImage.h" />
     <ClInclude Include="inc\IncludesAndLibs.h" />
     <ClInclude Include="inc\Log.h" />
     <ClInclude Include="inc\MathLib.h" />
     <ClInclude Include="inc\Scripting.h" />
     <ClInclude Include="inc\UString.h" />
+    <ClInclude Include="inc\VFile.h" />
     <ClInclude Include="inc\VFS.h" />
     <ClInclude Include="inc\WrappedScriptFunctions.h" />
   </ItemGroup>
@@ -288,6 +289,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\UString.cpp" />
+    <ClCompile Include="src\VFile.cpp" />
     <ClCompile Include="src\VFS.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>

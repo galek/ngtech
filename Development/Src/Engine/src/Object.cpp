@@ -10,7 +10,7 @@
 //**************************************
 #include "Engine.h"
 #include "Object.h"
-#include "File.h"
+#include "FileHelper.h"
 #include "Log.h"
 #include "Frustum.h"
 #include "MathLib.h"

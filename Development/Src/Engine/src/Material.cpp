@@ -40,10 +40,9 @@ namespace NGTech {
 		}
 
 		//begin loading
-		FILE *mFile = fopen(path.c_str(), "rt");
-
-		while (!feof(mFile)) {
-			String line = FileHelper::readString(mFile);
+		VFile mFile(path.c_str());
+		while (!mFile.EndOfFile()) {
+			String line = mFile.GetLine();
 
 			if (StringHelper::getWord(line, 1) == "pass") {
 				Pass *pass = new Pass();
@@ -57,8 +56,8 @@ namespace NGTech {
 				pass->castShadows = true;
 				pass->recieveShadows = true;
 
-				while (StringHelper::getWord(line, 1) != "}" && !feof(mFile)) {
-					line = FileHelper::readString(mFile);
+				while (StringHelper::getWord(line, 1) != "}" && !mFile.EndOfFile()) {
+					line = mFile.GetLine();
 
 					if (line[0] == '/' && line[1] == '/')
 						continue;
@@ -362,7 +361,7 @@ namespace NGTech {
 				}
 			}
 		}
-		fclose(mFile);
+//		fclose(mFile);
 	}
 
 	//---------------------------------------------------------------------------

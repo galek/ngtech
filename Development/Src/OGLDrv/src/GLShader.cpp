@@ -3,7 +3,7 @@
 #include "GLSystem.h"
 #include "GLShader.h"
 #include "Log.h"
-#include "File.h"
+#include "FileHelper.h"
 #include "Error.h"
 #include "vfs.h"
 //***************************************************************************
