@@ -14,7 +14,7 @@ namespace NGTech
 			READ_AND_WRITE_BIN
 		};
 	public:
-		VFile(const char* _name,int _mode);
+		VFile(const char* _name,int _mode,bool _notSearch=false);
 		~VFile();
 
 		bool IsDataExist();
@@ -24,6 +24,10 @@ namespace NGTech
 		ENGINE_INLINE size_t Size(){ return mSize; }
 		String GetLine();
 		String GetFileExt();
+		String CutFileExt();
+		void WriteString(const String &text);
+	private:
+		void _OpenFile(const String&path, int _mode, bool _notSearch);
 	private:
 		FILE *mFile;
 		String mName;

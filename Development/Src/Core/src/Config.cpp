@@ -15,22 +15,11 @@
 
 namespace NGTech {
 
-
-	//---------------------------------------------------------------------------
-	//Desc:    creates new Config
-	//Params:  -
-	//Returns: pointer to the new Config
-	//---------------------------------------------------------------------------
 	Config::Config(const String &path) {
+		VFile file(path.c_str(), VFile::READ_TEXT,true);
 
-		if(!FileHelper::fileExist(path)) 
-			Error::showAndExit("Config::create() error: config file '" + path + "' not found");
-
-
-		FILE *cFile = fopen(path.c_str(), "rt");
-
-		while(!feof(cFile)) {
-			String line = FileHelper::readString(cFile);
+		while (!file.EndOfFile()) {
+			String line = file.GetLine();
 			if(line[0] == '#' || StringHelper::getWordsNumber(line) < 3) { 
 				continue; 
 			}
@@ -41,16 +30,8 @@ namespace NGTech {
 
 			vars.push_back(cv);
 		}
-
-		fclose(cFile);
 	}
 
-
-	//---------------------------------------------------------------------------
-	//Desc:    saves all vars to file
-	//Params:  path - file name
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void Config::save(const String &path) {
 		FILE *cFile = fopen(path.c_str(), "wt");
 
@@ -62,11 +43,6 @@ namespace NGTech {
 		fclose(cFile);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    gets param by name
-	//Params:  name - parameter name
-	//Returns: parameter value
-	//---------------------------------------------------------------------------
 	float Config::getFloat(const String &name) {
 		for(int i = 0; i < vars.size(); i++) {
 			if(vars[i].name == name)
@@ -75,11 +51,6 @@ namespace NGTech {
 		return 0;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    gets param by name
-	//Params:  name - parameter name
-	//Returns: parameter value
-	//---------------------------------------------------------------------------
 	int Config::getInt(const String &name) {
 		for(int i = 0; i < vars.size(); i++) {
 			if(vars[i].name == name)
@@ -88,11 +59,6 @@ namespace NGTech {
 		return 0;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    gets param by name
-	//Params:  name - parameter name
-	//Returns: parameter value
-	//---------------------------------------------------------------------------
 	bool Config::getBool(const String &name) {
 		for(int i = 0; i < vars.size(); i++) {
 			if(vars[i].name == name)
@@ -101,11 +67,6 @@ namespace NGTech {
 		return false;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets param by name
-	//Params:  name - parameter name, value - new value
-	//Returns: parameter value
-	//---------------------------------------------------------------------------
 	void Config::setFloat(const String &name, float value) {
 		for(int i = 0; i < vars.size(); i++) {
 			if(vars[i].name == name) {
@@ -115,11 +76,6 @@ namespace NGTech {
 		}
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets param by name
-	//Params:  name - parameter name, value - new value
-	//Returns: parameter value
-	//---------------------------------------------------------------------------
 	void Config::setInt(const String &name, int value) {
 		for(int i = 0; i < vars.size(); i++) {
 			if(vars[i].name == name) {
@@ -129,11 +85,6 @@ namespace NGTech {
 		}
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets param by name
-	//Params:  name - parameter name, value - new value
-	//Returns: parameter value
-	//---------------------------------------------------------------------------
 	void Config::setBool(const String &name, bool value) {
 		for(int i = 0; i < vars.size(); i++) {
 			if(vars[i].name == name) {
@@ -143,11 +94,6 @@ namespace NGTech {
 		}
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets param by name
-	//Params:  name - parameter name, value - new value
-	//Returns: parameter value
-	//---------------------------------------------------------------------------
 	void Config::setString(const String &name, const String &value) {
 		for(int i = 0; i < vars.size(); i++) {
 			if(vars[i].name == name) {

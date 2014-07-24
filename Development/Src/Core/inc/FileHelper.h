@@ -17,7 +17,6 @@ namespace NGTech {
 	//Desc: some important File functions
 	//---------------------------------------------------------------------------
 	struct CORE_API FileHelper {
-		static String readString(FILE *file);
 		static void writeString(FILE *file, const String &text);
 		static String cutFileExt(const String &fName);
 		static String getFileExt(const String &fName);

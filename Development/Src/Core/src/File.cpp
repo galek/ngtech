@@ -13,26 +13,7 @@
 namespace NGTech {
 
 #define UNKNOWN_EXT "UNKNOWN_EXT"
-	//---------------------------------------------------------------------------
-	//Desc:    reads the String from text file
-	//Params:  file - pointer to file to read
-	//Returns: read String
-	//---------------------------------------------------------------------------
-	String FileHelper::readString(FILE *file) {
-		if(file == NULL) return "";
-		if(feof(file)) return "";
-
-		String output = "";
-		unsigned char h = fgetc(file);
-
-		while((h != '\n') && (!feof(file))) {
-			output += h;
-			h = fgetc(file);
-			//if(h == 9) h = ' ';
-		}
-		return output;
-	}
-
+	
 	//---------------------------------------------------------------------------
 	//Desc:    writes the String to text file
 	//Params:  file - pointer to file to write, text - text to write

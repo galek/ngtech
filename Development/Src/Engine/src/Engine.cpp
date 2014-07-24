@@ -46,18 +46,15 @@
 
 
 namespace NGTech {
-#define ENGINE_VERSION_NUMBER 0.3.3
-#define ENGINE_VERSION_STRING "0.3.3"
+#define ENGINE_VERSION_NUMBER 0.3.4
+#define ENGINE_VERSION_STRING "0.3.4"
 	/*
 	*/
 	Engine::Engine()
 	{
 		SetCore(this);
 		log = new Log();
-		std::string logstring = "Engine Version:"ENGINE_VERSION_STRING;
-		logstring += " Build Date : "__DATE__;
-		logstring += " : "__TIME__;
-		LogPrintf(logstring.c_str());
+		LogPrintf("Engine Version:"ENGINE_VERSION_STRING" Build Date : "__DATE__" : "__TIME__);
 		_preInit();
 	}
 

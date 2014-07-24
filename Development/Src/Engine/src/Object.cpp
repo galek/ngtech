@@ -68,19 +68,18 @@ namespace NGTech {
 	}
 
 	void ObjectMesh::setMaterialList(const String &path) {
-		FILE *mFile = fopen(String("../data/meshes/" + path).c_str(), "rt");
+		VFile mFile(path.c_str(), VFile::READ_TEXT);
 
 		//Check if exist
-		if (!mFile) {
+		if (!&mFile) {
 			Error::showAndExit("ObjectMesh::setMaterialList() error: material list file '" + path + "' not found");
 			return;
 		}
 
-		while (!feof(mFile)) {
-			String line = FileHelper::readString(mFile);
+		while (!mFile.EndOfFile()) {
+			String line = mFile.GetLine();
 			setMaterial(StringHelper::getWord(line, 1), StringHelper::getWord(line, 3));
 		}
-		fclose(mFile);
 	}
 
 	void ObjectMesh::setTransform(const Mat4 &trans) {
@@ -212,19 +211,18 @@ namespace NGTech {
 	}
 
 	void ObjectSkinnedMesh::setMaterialList(const String &path) {
-		FILE *mFile = fopen(String("../data/meshes/" + path).c_str(), "rt");
+		VFile mFile(path.c_str(), VFile::READ_TEXT);
 
 		//Check if exist
-		if (!mFile) {
+		if (!&mFile) {
 			Error::showAndExit("ObjectMesh::setMaterialList() error: material list file '" + path + "' not found");
 			return;
 		}
 
-		while (!feof(mFile)) {
-			String line = FileHelper::readString(mFile);
+		while (!mFile.EndOfFile()) {
+			String line = mFile.GetLine();
 			setMaterial(StringHelper::getWord(line, 1), StringHelper::getWord(line, 3));
 		}
-		fclose(mFile);
 	}
 
 	void ObjectSkinnedMesh::setTransform(const Mat4 &trans) {
