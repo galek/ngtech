@@ -14,7 +14,7 @@
 namespace MyGUI
 {
 
-	class OpenGLVertexBuffer : public IVertexBuffer
+	class MYGUI_EXPORT OpenGLVertexBuffer : public IVertexBuffer
 	{
 	public:
 		OpenGLVertexBuffer();

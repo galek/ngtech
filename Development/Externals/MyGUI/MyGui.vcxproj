@@ -21,28 +21,29 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E9497471-6143-4E9A-8DB2-436EDAD37B65}</ProjectGuid>
     <RootNamespace>MyGui</RootNamespace>
+    <ProjectName>MyGUI</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v120_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v120_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <PlatformToolset>v120_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <PlatformToolset>v120_xp</PlatformToolset>
@@ -66,18 +67,18 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
-    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\</OutDir>
+    <OutDir>$(SolutionPath)\..\..\..\Bins\Bin$(PlatformArchitecture)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\</OutDir>
+    <OutDir>$(SolutionPath)\..\..\..\Bins\Bin$(PlatformArchitecture)\</OutDir>
     <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
-    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\</OutDir>
+    <OutDir>$(SolutionPath)\..\..\..\Bins\Bin$(PlatformArchitecture)_d\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\</OutDir>
+    <OutDir>$(SolutionPath)\..\..\..\Bins\Bin$(PlatformArchitecture)_d\</OutDir>
     <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -90,9 +91,12 @@
       <AdditionalIncludeDirectories>..\freetype\include\;..\freetype\include\freetype;Common;Platforms\OpenGL\OpenGLPlatform\include;MyGUIEngine\include</AdditionalIncludeDirectories>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -106,9 +110,12 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>..\freetype\include\;..\freetype\include\freetype;Common;Platforms\OpenGL\OpenGLPlatform\include;MyGUIEngine\include</AdditionalIncludeDirectories>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -134,6 +141,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <ImportLibrary>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -156,6 +165,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <ImportLibrary>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -445,6 +456,17 @@
     <ClCompile Include="Platforms\OpenGL\OpenGLPlatform\src\MyGUI_OpenGLRTTexture.cpp" />
     <ClCompile Include="Platforms\OpenGL\OpenGLPlatform\src\MyGUI_OpenGLTexture.cpp" />
     <ClCompile Include="Platforms\OpenGL\OpenGLPlatform\src\MyGUI_OpenGLVertexBuffer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Src\Common\Common.vcxproj">
+      <Project>{413d151a-e7ac-419a-b9c1-e270e686f949}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Src\Core\Core.vcxproj">
+      <Project>{a260ec1a-1997-4d03-8b91-1302498eb505}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\freetype\builds\win32\vc2010\freetype.vcxproj">
+      <Project>{78b079bd-9fc7-4b9e-b4a6-96da0f00248b}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

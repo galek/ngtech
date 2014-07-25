@@ -122,3 +122,7 @@ Libs/Release/x64/freetype250.lib
 Libs/Release/x64/libogg_static.lib
 Libs/Release/x64/libvorbis_static.lib
 Libs/Release/x64/libvorbisfile_static.lib
+Bins/Bin32/MyGUI.dll
+Bins/Bin32_d/MyGUI.dll
+Bins/Bin64/MyGUI.dll
+Bins/Bin64_d/MyGUI.dll

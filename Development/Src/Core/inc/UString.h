@@ -7,7 +7,6 @@
 
 namespace NGTech
 {
-#define WCHAR_UTF16 1
 	class CORE_API UString {
 		// constants used in UTF-8 conversions
 		static const unsigned char _lead1 = 0xC0;      //110xxxxx

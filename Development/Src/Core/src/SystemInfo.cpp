@@ -82,10 +82,10 @@ namespace NGTech {
 
 #endif
 
-#ifdef NDEBUG
-		strcat(info," Release");
-#else
+#ifdef _DEBUG
 		strcat(info, " Debug");
+#else
+		strcat(info, " Release");
 #endif
 	
 #undef GET_NAME
@@ -477,7 +477,7 @@ namespace NGTech {
 #endif
 
 		if (info[0] == '\0') {
-			strcpy(info, "Unknown GPU");
+			strcpy(info, "Additional GPU information is not available");
 		}
 
 		return info;

@@ -15,7 +15,7 @@
 namespace MyGUI
 {
 
-	class OpenGLRTTexture :
+	class MYGUI_EXPORT OpenGLRTTexture :
 		public IRenderTarget
 	{
 	public:

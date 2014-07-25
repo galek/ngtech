@@ -31,7 +31,7 @@
 
 namespace MyGUI
 {
-	void NGTechPushToLog(const std::string& _section, LogLevel _level, const std::string& _message, const char* _file, int _line);
+	MYGUI_EXPORT void NGTechPushToLog(const std::string& _section, LogLevel _level, const std::string& _message, const char* _file, int _line);
 
 	#define MYGUI_LOGGING(section, level, text) \
 	NGTechPushToLog(section, MyGUI::LogLevel::level, MyGUI::LogStream() << text << MyGUI::LogStream::End(), __FILE__, __LINE__)

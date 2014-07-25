@@ -4,6 +4,7 @@
 
 namespace NGTech
 {
+#define WCHAR_UTF16 1
 
 	//--------------------------------------------------------------------------
 	UString::_base_iterator::_base_iterator()
