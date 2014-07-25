@@ -50,7 +50,7 @@ namespace NGTech {
 		this->fullscreen = _cvars->r_fullscreen;
 		showOSCursor(false);//Сразу скрываем курсор
 	}
-	void WindowSystem::initialise(){
+	void WindowSystem::initialise(int _hwnd){
 
 		unsigned int pixelFormat;
 		WNDCLASS wc;
@@ -105,24 +105,28 @@ namespace NGTech {
 		}
 
 		AdjustWindowRectEx(&windowRect, dwStyle, FALSE, dwExStyle);
-
-		if (!(this->hWnd = CreateWindowEx(dwExStyle,			// Extended Style For The Window
-			"OpenGL",							// Class Name
-			"NGTech(http://nggames.com)",						// Window Title
-			dwStyle |							// Defined Window Style
-			WS_CLIPSIBLINGS |					// Required Window Style
-			WS_CLIPCHILDREN,					// Required Window Style
-			0, 0,								// Window Position
-			windowRect.right - windowRect.left,	// Calculate Window Width
-			windowRect.bottom - windowRect.top,	// Calculate Window Height
-			NULL,								// No Parent Window
-			NULL,								// No Menu
-			this->hInstance,							// Instance
-			NULL)))								// Dont Pass Anything To WM_CREATE
+		if (_hwnd == 0)
 		{
-			Error::showAndExit("WindowSystem::initialise() error: window creation error");
-			return;
+			if (!(this->hWnd = CreateWindowEx(dwExStyle,			// Extended Style For The Window
+				"OpenGL",							// Class Name
+				"NGTech(http://nggames.com)",						// Window Title
+				dwStyle |							// Defined Window Style
+				WS_CLIPSIBLINGS |					// Required Window Style
+				WS_CLIPCHILDREN,					// Required Window Style
+				0, 0,								// Window Position
+				windowRect.right - windowRect.left,	// Calculate Window Width
+				windowRect.bottom - windowRect.top,	// Calculate Window Height
+				NULL,								// No Parent Window
+				NULL,								// No Menu
+				this->hInstance,							// Instance
+				NULL)))								// Dont Pass Anything To WM_CREATE
+			{
+				Error::showAndExit("WindowSystem::initialise() error: window creation error");
+				return;
+			}
 		}
+		else
+			this->hWnd = (HWND)_hwnd;
 
 		static PIXELFORMATDESCRIPTOR pfd =
 		{

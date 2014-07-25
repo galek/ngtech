@@ -106,10 +106,10 @@ namespace NGTech {
 
 	/*
 	*/
-	void Engine::initialise()
+	void Engine::initialise(int _hwnd)
 	{
 		if (iWindow){
-			iWindow->initialise();
+			iWindow->initialise(_hwnd);
 			Debug("[Init] Window Finished");
 		}
 

@@ -26,9 +26,9 @@ namespace NGTech {
 	struct CORE_API CoreManager{
 		CoreManager();
 
-		virtual void quit()=0;
-		virtual void initialise()=0;
-		virtual void mainLoop()=0;
+		virtual void quit() = 0;
+		virtual void initialise(int _hwnd) = 0;
+		virtual void mainLoop() = 0;
 		virtual float GetLastFPS() = 0;
 		virtual void LoadEngineModule(const char* _name){}
 		ENGINE_INLINE void SetRender(I_Render*_r){ iRender = _r; }
