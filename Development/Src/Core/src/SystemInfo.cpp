@@ -8,11 +8,15 @@
 #include <intrin.h>
 #pragma comment(lib,"wbemuuid.lib")
 #ifdef HAVE_NVCPL
-#include <NvCpl/NvCpl.h>
+#include "NvCpl/NvCpl.h"
 #endif
 #ifdef HAVE_ATIMGPU
-#include <atimgpud.h>
-#pragma comment(lib,"atimgpud.lib")
+#include "atimgpud/atimgpud.h"
+#if _WIN64
+#pragma comment(lib,"atimgpud/atimgpud_s_x64.lib")
+#else
+#pragma comment(lib,"atimgpud/atimgpud_s_x86.lib")
+#endif
 #endif
 #elif _LINUX
 #include <dlfcn.h>

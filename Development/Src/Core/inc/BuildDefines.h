@@ -11,5 +11,12 @@
 #define LOG_FILE "../EngineLog.html"
 #endif
 
+#ifndef HAVE_NVCPL
+#define HAVE_NVCPL 1
+#endif
+
+#ifndef HAVE_ATIMGPU
+//#define HAVE_ATIMGPU 1
+#endif
 
 #endif
