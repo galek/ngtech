@@ -6,6 +6,7 @@
 
 #include "CorePrivate.h"
 #include "DataStream.h"
+#include "Utils.h"
 #include <algorithm>
 #include <fstream>
 
@@ -54,7 +55,7 @@ namespace NGTech
 	size_t DataStream::read(void* _buf, size_t _count)
 	{
 		if (mStream == nullptr) return 0;
-		size_t count = std::min(size(), _count);
+		size_t count = NGTech::minF(size(), _count);
 		mStream->read((char*)_buf, count);
 		return count;
 	}

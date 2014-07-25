@@ -215,6 +215,8 @@
     <ClInclude Include="inc\Log.h" />
     <ClInclude Include="inc\MathLib.h" />
     <ClInclude Include="inc\Scripting.h" />
+    <ClInclude Include="inc\systeminfo.h" />
+    <ClInclude Include="inc\Thread.h" />
     <ClInclude Include="inc\UString.h" />
     <ClInclude Include="inc\VFile.h" />
     <ClInclude Include="inc\VFS.h" />
@@ -288,6 +290,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\SystemInfo.cpp" />
+    <ClCompile Include="src\Thread.cpp" />
     <ClCompile Include="src\UString.cpp" />
     <ClCompile Include="src\VFile.cpp" />
     <ClCompile Include="src\VFS.cpp">

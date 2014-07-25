@@ -41,6 +41,7 @@
 #include "EngineScriptInterp.h"
 //***************************************************
 #include "../../OGLDRV/inc/GLSystem.h"
+#include "EngineThreads.h"
 //***************************************************
 
 
@@ -62,11 +63,18 @@ namespace NGTech {
 	*/
 	void Engine::_preInit()
 	{
+		info = new SystemInfo();
+		LogPrintf(info->getBinaryInfo());
+		LogPrintf(info->getSystemInfo());
+		LogPrintf(info->getCPUInfo());
+		LogPrintf(info->getGPUInfo());
 		plugins = new EnginePlugins();
 		vfs = new FileSystem();
 		Debug("[Init] FileSystem Finished");
 		config = new Config("../user.ltx");
 		cvars = new CVARManager(config);
+		// create threads
+		threads = new EngineThreads();
 
 		iWindow = new WindowSystem(cvars);
 		Debug("[Init] Window Finished");
@@ -104,29 +112,31 @@ namespace NGTech {
 			iWindow->initialise();
 			Debug("[Init] Window Finished");
 		}
+
 		_setResources();
 		Debug("[Init] FileSystem Finished");
+
 		if (iRender){
 			iRender->initialise();
 			Debug("[Init] Render Finished");
 		}
+
 		if (alSystem){
 			alSystem->initialise();
 			Debug("[Init] Audio Finished");
 		}
-		//ilSystem->initialise();
-		//Debug("[Init]ImageCodec Finished");
+
 		if (physSystem){
 			physSystem->initialise();
 			Debug("[Init] Physics Finished");
 		}
-		//cache->initialise();
-		//Debug("[Init]FS Finished");
+
 		//initialize GUI
 		if (gui){
 			gui->initialise();
 			Debug("[Init] GUI Finished");
 		}
+
 		//initialize SceneManager
 		if (scene){
 			scene->initialise();
@@ -137,11 +147,17 @@ namespace NGTech {
 			scripting->initialise();
 			Debug("[Init] Scripting Finished");
 		}
+
 		//initialize Game
 		if (game){
 			game->initialise();
 			Debug("[Init] Game Finished");
 		}
+
+		// run threads
+		threads->runSound();
+		threads->runFileSystem();
+		Debug("[Init] Threads Finished");
 		running = true;
 		Debug("[Init] All Systems Initialised");
 	}
@@ -149,6 +165,10 @@ namespace NGTech {
 	/*
 	*/
 	Engine::~Engine()  {
+		if (threads) {
+			threads->stopSound();
+			threads->stopJobs();
+		}
 		SAFE_DELETE(scripting);
 		SAFE_DELETE(game);
 		SAFE_DELETE(gui);
@@ -158,6 +178,7 @@ namespace NGTech {
 		SAFE_DELETE(alSystem);
 		SAFE_DELETE(iRender);
 		SAFE_DELETE(iWindow);
+		SAFE_DELETE(threads);
 	}
 
 	/*
@@ -169,8 +190,8 @@ namespace NGTech {
 			if (iWindow)
 				this->iWindow->update();
 
-			if ((this->physSystem) && (this->iWindow))
-				this->physSystem->update(this->iWindow->getDTime());
+			if (this->physSystem)
+				this->physSystem->update();
 
 			if (this->game->ec)
 				this->game->runEventsCallback();
@@ -196,6 +217,7 @@ namespace NGTech {
 
 			if (this->game)
 				this->game->update();
+
 		}
 	}
 

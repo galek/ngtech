@@ -111,6 +111,13 @@
     <ClInclude Include="inc\PhysXUtils.h">
       <Filter>Заголовочные файлы\PhysX</Filter>
     </ClInclude>
+    <ClInclude Include="inc\EngineThreads.h" />
+    <ClInclude Include="inc\Callback.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\EnginePlugins.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ALSound.cpp">
@@ -218,6 +225,7 @@
     <ClCompile Include="src\EnginePlugins.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="src\EngineThreads.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="inc\EngineMathToPhysx.inl">

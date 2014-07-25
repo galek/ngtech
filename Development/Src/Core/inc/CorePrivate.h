@@ -7,4 +7,5 @@
 #include "MathLib.h"
 #include "DynLib.h"
 #include "VFile.h"
+#include "SystemInfo.h"
 #include "CoreManager.h"

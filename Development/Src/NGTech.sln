@@ -31,6 +31,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libvorbisfile", "..\Externa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{422176D6-9F6C-4344-90A5-3520C7213826}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NGExport", "..\ContentTools\Vega3DSMAX\Vega3DSMAX.vcxproj", "{85CCC90A-DC7F-460C-8D8F-FEED096E4500}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ContentTools", "ContentTools", "{BBA1921B-73D1-4EFE-B5DA-BB659B9EFE9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -127,6 +131,14 @@ Global
 		{422176D6-9F6C-4344-90A5-3520C7213826}.Release|Win32.Build.0 = Release|Win32
 		{422176D6-9F6C-4344-90A5-3520C7213826}.Release|x64.ActiveCfg = Release|x64
 		{422176D6-9F6C-4344-90A5-3520C7213826}.Release|x64.Build.0 = Release|x64
+		{85CCC90A-DC7F-460C-8D8F-FEED096E4500}.Debug|Win32.ActiveCfg = Debug|Win32
+		{85CCC90A-DC7F-460C-8D8F-FEED096E4500}.Debug|Win32.Build.0 = Debug|Win32
+		{85CCC90A-DC7F-460C-8D8F-FEED096E4500}.Debug|x64.ActiveCfg = Debug|x64
+		{85CCC90A-DC7F-460C-8D8F-FEED096E4500}.Debug|x64.Build.0 = Debug|x64
+		{85CCC90A-DC7F-460C-8D8F-FEED096E4500}.Release|Win32.ActiveCfg = Release|Win32
+		{85CCC90A-DC7F-460C-8D8F-FEED096E4500}.Release|Win32.Build.0 = Release|Win32
+		{85CCC90A-DC7F-460C-8D8F-FEED096E4500}.Release|x64.ActiveCfg = Release|x64
+		{85CCC90A-DC7F-460C-8D8F-FEED096E4500}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -142,6 +154,7 @@ Global
 		{3A214E06-B95E-4D61-A291-1F8DF2EC10FD} = {06130638-6021-4B2E-9616-5500B665DC24}
 		{CEBDE98B-A6AA-46E6-BC79-FAAF823DB9EC} = {06130638-6021-4B2E-9616-5500B665DC24}
 		{422176D6-9F6C-4344-90A5-3520C7213826} = {D273C37D-565D-4E02-9FA2-5B1E3A2C6CB5}
+		{85CCC90A-DC7F-460C-8D8F-FEED096E4500} = {BBA1921B-73D1-4EFE-B5DA-BB659B9EFE9B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		AMDCaProjectFile = C:\Newton_200\3dlib\tools\newton\CodeAnalyst\newton_2008.caw

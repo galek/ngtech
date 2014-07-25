@@ -20,6 +20,7 @@ namespace NGTech {
 	class Scene;
 	struct IGame;
 	struct IScriptInterp;
+	class SystemInfo;
 	/**
 	*/
 	struct CORE_API CoreManager{
@@ -43,6 +44,7 @@ namespace NGTech {
 		I_Audio *alSystem;
 		ILSystem *ilSystem;
 		PhysSystem *physSystem;
+		SystemInfo *info;
 
 		Cache *cache;
 		GUI*gui;

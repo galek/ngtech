@@ -9,6 +9,7 @@
 namespace NGTech {
 	struct IGame;
 	class EnginePlugins;
+	class EngineThreads;
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main class. Created one time
 	//---------------------------------------------------------------------------
@@ -34,6 +35,7 @@ namespace NGTech {
 		void _setResources();	
 	private:
 		EnginePlugins*plugins;
+		EngineThreads*threads;
 	};
 	ENGINE_API Engine* GetEngine();
 }

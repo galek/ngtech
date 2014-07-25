@@ -29,16 +29,12 @@
 
 namespace NGTech {
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates new Flare
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	Flare::Flare(const String &path) {
 		texture = GetRender()->TextureCreate2D(path);
 
 		flareList = GetRender()->GetDL();
 		flareList->beginBuild();
+#if 0
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
 		glVertex3f(-1, -1, 0);
@@ -52,6 +48,9 @@ namespace NGTech {
 		glTexCoord2f(0, 1);
 		glVertex3f(-1, 1, 0);
 		glEnd();
+#else
+		GetRender()->drawRect(-1, -1,1,1,0,0,1,0);
+#endif
 		flareList->endBuild();
 
 		position = Vec3(0, 0, 0);
@@ -59,19 +58,9 @@ namespace NGTech {
 		radius = 5.0f;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    Flare destructor
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	Flare::~Flare() {
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    draw Flare
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void Flare::draw() {
 		GetRender()->push();
 		GetRender()->translate(position);

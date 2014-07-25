@@ -68,7 +68,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: class of the effect flare
 	//---------------------------------------------------------------------------
-	class EffectFlare : public Effect {
+	class ENGINE_API EffectFlare : public Effect {
 	public:
 		EffectFlare(const String &path);
 		~EffectFlare();

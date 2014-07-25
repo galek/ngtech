@@ -184,6 +184,8 @@
     <ClInclude Include="RunObject.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Types.h" />
+    <ClInclude Include="Utils.h" />
+    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EString.cpp" />

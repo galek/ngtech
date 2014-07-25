@@ -42,7 +42,7 @@ namespace NGTech {
 		Updates PhysSystem engine
 		\param dTime time from the last frame in miliseconds
 		*/
-		void update(float dTime);
+		void update();
 		void SetGravity(const Vec3&_vec);
 		Vec3 GetGravity();
 		PhysBody *intersectWorldByRay(const Vec3 &src, const Vec3 &dst, Vec3 &normal, Vec3 &point);

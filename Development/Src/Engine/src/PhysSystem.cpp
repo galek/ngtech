@@ -1,11 +1,3 @@
-/***************************************************************************
-*   Copyright (C) 2006 by AST   *
-*   tsyplyaev@gmail.com   *
-*   ICQ: 279-533-134                          *
-*   This is a part of work done by AST.       *
-*   If you want to use it, please contact me. *
-***************************************************************************/
-
 #include "EnginePrivate.h"
 //***************************************************************************
 #include "Engine.h"
@@ -118,7 +110,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void PhysSystem::update(float dt) {
+	void PhysSystem::update() {
 		const float mStepSize = 1.0f / 60.0f;
 		mScene->simulate(mStepSize);
 		mScene->fetchResults(true);

@@ -219,14 +219,17 @@
     <ClInclude Include="inc\ALSoundSource.h" />
     <ClInclude Include="inc\ALSystem.h" />
     <ClInclude Include="inc\Cache.h" />
+    <ClInclude Include="inc\Callback.h" />
     <ClInclude Include="inc\Camera.h" />
     <ClInclude Include="inc\Console.h" />
     <ClInclude Include="inc\DLLDef.h" />
     <ClInclude Include="inc\Effect.h" />
     <ClInclude Include="inc\Engine.h" />
     <ClInclude Include="inc\EngineAppBase.h" />
+    <ClInclude Include="inc\EnginePlugins.h" />
     <ClInclude Include="inc\EnginePrivate.h" />
     <ClInclude Include="inc\EngineScriptInterp.h" />
+    <ClInclude Include="inc\EngineThreads.h" />
     <ClInclude Include="inc\Flare.h" />
     <ClInclude Include="inc\Font.h" />
     <ClInclude Include="inc\Frustum.h" />
@@ -263,6 +266,7 @@
     <ClCompile Include="src\EnginePlugins.cpp" />
     <ClCompile Include="src\EnginePrivate.cpp" />
     <ClCompile Include="src\EngineScriptInterp.cpp" />
+    <ClCompile Include="src\EngineThreads.cpp" />
     <ClCompile Include="src\Flare.cpp" />
     <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\Frustum.cpp" />
