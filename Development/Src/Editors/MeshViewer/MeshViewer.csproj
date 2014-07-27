@@ -85,29 +85,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Externals\ATF\Framework\Atf.Atgi\Atf.Atgi.vs2010.csproj">
-      <Project>{d1fa9a85-9359-4725-a50f-8a67a77d700c}</Project>
-      <Name>Atf.Atgi.vs2010</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Externals\ATF\Framework\Atf.Collada\Atf.Collada.vs2010.csproj">
-      <Project>{6f80048b-e81f-4e06-9438-26c23487777c}</Project>
-      <Name>Atf.Collada.vs2010</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Externals\ATF\Framework\Atf.Core\Atf.Core.vs2010.csproj">
       <Project>{9d1835b6-d1c2-44ba-bae1-05c6ec442d2f}</Project>
       <Name>Atf.Core.vs2010</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Externals\ATF\Framework\Atf.Gui.OpenGL\Atf.Gui.OpenGL.vs2010.csproj">
-      <Project>{52d35323-1aa1-4205-a1b0-26c5e5e8d543}</Project>
-      <Name>Atf.Gui.OpenGL.vs2010</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Externals\ATF\Framework\Atf.Gui.WinForms\Atf.Gui.WinForms.vs2010.csproj">
       <Project>{7c36a258-9102-420d-b80a-5eb5717644b6}</Project>
       <Name>Atf.Gui.WinForms.vs2010</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Externals\ATF\Framework\Atf.Gui.Wpf\Atf.Gui.Wpf.vs2010.csproj">
-      <Project>{050fc659-553f-4911-a609-5ba1be4edbf8}</Project>
-      <Name>Atf.Gui.Wpf.vs2010</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Externals\ATF\Framework\Atf.Gui\Atf.Gui.vs2010.csproj">
       <Project>{4765c2a7-f989-40db-bc12-fcd67025b93f}</Project>
