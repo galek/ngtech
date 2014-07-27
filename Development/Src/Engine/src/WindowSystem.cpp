@@ -36,8 +36,8 @@ namespace NGTech {
 
 	LRESULT	CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
 
-/*
-*/
+	/*
+	*/
 	WindowSystem::WindowSystem(CVARManager*_cvars) {
 
 		Log::writeHeader("-- WindowSystem --");
@@ -48,65 +48,66 @@ namespace NGTech {
 		this->bpp = _cvars->r_bpp;
 		this->zdepth = _cvars->r_zdepth;
 		this->fullscreen = _cvars->r_fullscreen;
-		showOSCursor(false);//Сразу скрываем курсор
 	}
 	void WindowSystem::initialise(int _hwnd){
+		showOSCursor(false);//Сразу скрываем курсор
 
 		unsigned int pixelFormat;
-		WNDCLASS wc;
-		DWORD dwExStyle;
-		DWORD dwStyle;
-		RECT windowRect;
-
-		windowRect.left = (long) 0;
-		windowRect.right = (long) width;
-		windowRect.top = (long) 0;
-		windowRect.bottom = (long) height;
-
-		this->hInstance = GetModuleHandle(NULL);
-		wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-		wc.lpfnWndProc = (WNDPROC) wndProc;
-		wc.cbClsExtra = 0;
-		wc.cbWndExtra = 0;
-		wc.hInstance = this->hInstance;
-		wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
-		wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-		wc.hbrBackground = NULL;
-		wc.lpszMenuName = NULL;
-		wc.lpszClassName = "OpenGL";
-
-		if (!RegisterClass(&wc)) {
-			Error::showAndExit("WindowSystem::initialise() error: failed to register the window class");
-			return;
-		}
-
-		if (fullscreen) {
-			DEVMODE dmScreenSettings;
-			memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
-
-			dmScreenSettings.dmSize = sizeof(dmScreenSettings);
-			dmScreenSettings.dmPelsWidth = width;
-			dmScreenSettings.dmPelsHeight = height;
-			dmScreenSettings.dmBitsPerPel = bpp;
-			dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
-
-			if (ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL) {
-				fullscreen = false;
-			}
-		}
-
-		if (fullscreen) {
-			dwExStyle = WS_EX_APPWINDOW;
-			dwStyle = WS_POPUP;
-		}
-		else {
-			dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
-			dwStyle = WS_OVERLAPPEDWINDOW;
-		}
-
-		AdjustWindowRectEx(&windowRect, dwStyle, FALSE, dwExStyle);
 		if (_hwnd == 0)
 		{
+			WNDCLASS wc;
+			DWORD dwExStyle;
+			DWORD dwStyle;
+			RECT windowRect;
+
+			windowRect.left = (long)0;
+			windowRect.right = (long)width;
+			windowRect.top = (long)0;
+			windowRect.bottom = (long)height;
+
+			this->hInstance = GetModuleHandle(NULL);
+			wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+			wc.lpfnWndProc = (WNDPROC)wndProc;
+			wc.cbClsExtra = 0;
+			wc.cbWndExtra = 0;
+			wc.hInstance = this->hInstance;
+			wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
+			wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+			wc.hbrBackground = NULL;
+			wc.lpszMenuName = NULL;
+			wc.lpszClassName = "OpenGL";
+
+			if (!RegisterClass(&wc)) {
+				Error::showAndExit("WindowSystem::initialise() error: failed to register the window class");
+				return;
+			}
+
+			if (fullscreen) {
+				DEVMODE dmScreenSettings;
+				memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
+
+				dmScreenSettings.dmSize = sizeof(dmScreenSettings);
+				dmScreenSettings.dmPelsWidth = width;
+				dmScreenSettings.dmPelsHeight = height;
+				dmScreenSettings.dmBitsPerPel = bpp;
+				dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
+
+				if (ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL) {
+					fullscreen = false;
+				}
+			}
+
+			if (fullscreen) {
+				dwExStyle = WS_EX_APPWINDOW;
+				dwStyle = WS_POPUP;
+			}
+			else {
+				dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
+				dwStyle = WS_OVERLAPPEDWINDOW;
+			}
+
+			AdjustWindowRectEx(&windowRect, dwStyle, FALSE, dwExStyle);
+
 			if (!(this->hWnd = CreateWindowEx(dwExStyle,			// Extended Style For The Window
 				"OpenGL",							// Class Name
 				"NGTech(http://nggames.com)",						// Window Title
@@ -191,8 +192,8 @@ namespace NGTech {
 	}
 
 
-/*
-*/
+	/*
+	*/
 	WindowSystem::~WindowSystem() {
 		if (fullscreen) {
 			ShowCursor(TRUE);
@@ -218,8 +219,8 @@ namespace NGTech {
 		hInstance = NULL;
 	}
 
-/*
-*/
+	/*
+	*/
 	void WindowSystem::setTitle(const String &title) {
 		SetWindowText(hWnd, title.c_str());
 	}
@@ -229,110 +230,110 @@ namespace NGTech {
 		switch (uMsg)
 		{
 		case WM_CLOSE:
-			{
-				//PostQuitMessage(0);	
-				exit(0);
-				return 0;
-			}
+		{
+			//PostQuitMessage(0);	
+			exit(0);
+			return 0;
+		}
 
 		case WM_KEYDOWN:
-			{
-				if (GetWindow())
-					GetWindow()->keys[wParam] = true;
-				//Nick:TODO: сделай ввод
+		{
+			if (GetWindow())
+				GetWindow()->keys[wParam] = true;
+			//Nick:TODO: сделай ввод
 
-				return 0;
-			}
+			return 0;
+		}
 
 		case WM_KEYUP:
-			{
-				if (GetWindow())
-					GetWindow()->keys[wParam] = false;
-				//Nick:TODO: сделай ввод
+		{
+			if (GetWindow())
+				GetWindow()->keys[wParam] = false;
+			//Nick:TODO: сделай ввод
 
-				return 0;
-			}
+			return 0;
+		}
 
 		case WM_MOUSEMOVE:
-			{
-				if (GetWindow()){
-					GetWindow()->mx = LOWORD(lParam);
-					GetWindow()->my = HIWORD(lParam);
-					GetWindow()->mousing = true;
+		{
+			if (GetWindow()){
+				GetWindow()->mx = LOWORD(lParam);
+				GetWindow()->my = HIWORD(lParam);
+				GetWindow()->mousing = true;
 
 
-					if (!GetWindow()->mouseGrabed)
-						MyGUI::InputManager::getInstancePtr()->injectMouseMove(GetWindow()->oldMouseX, GetWindow()->oldMouseY, 0);
-			
-					return 0;
-				}
+				if (!GetWindow()->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMouseMove(GetWindow()->oldMouseX, GetWindow()->oldMouseY, 0);
+
+				return 0;
 			}
+		}
 
 		case WM_LBUTTONDOWN:
-			{
-				if (GetWindow())
-					GetWindow()->mouseButtons[0] = true; 
+		{
+			if (GetWindow())
+				GetWindow()->mouseButtons[0] = true;
 
-				if (!GetWindow()->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMousePress(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)0);
-				
-				return 0;
-			}
+			if (!GetWindow()->mouseGrabed)
+				MyGUI::InputManager::getInstancePtr()->injectMousePress(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)0);
+
+			return 0;
+		}
 
 		case WM_LBUTTONUP:
-			{
-				if (GetWindow())
-					GetWindow()->mouseButtons[0] = false;
+		{
+			if (GetWindow())
+				GetWindow()->mouseButtons[0] = false;
 
-				if (!GetWindow()->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)0);
-				
-				return 0;
-			}
+			if (!GetWindow()->mouseGrabed)
+				MyGUI::InputManager::getInstancePtr()->injectMouseRelease(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)0);
+
+			return 0;
+		}
 
 		case WM_RBUTTONDOWN:
-			{
-				if (GetWindow())
-					GetWindow()->mouseButtons[1] = true;
+		{
+			if (GetWindow())
+				GetWindow()->mouseButtons[1] = true;
 
-				if (!GetWindow()->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMousePress(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)1);
-				
-				return 0;
-			}
+			if (!GetWindow()->mouseGrabed)
+				MyGUI::InputManager::getInstancePtr()->injectMousePress(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)1);
+
+			return 0;
+		}
 
 		case WM_RBUTTONUP:
-			{
-				if (GetWindow())
-					GetWindow()->mouseButtons[1] = false;
+		{
+			if (GetWindow())
+				GetWindow()->mouseButtons[1] = false;
 
-				if (!GetWindow()->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)1);
-					
-				return 0;
-			}
+			if (!GetWindow()->mouseGrabed)
+				MyGUI::InputManager::getInstancePtr()->injectMouseRelease(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)1);
+
+			return 0;
+		}
 
 		case WM_SIZE:
-			{
-				int w = LOWORD(lParam);
-				int h = HIWORD(lParam);
+		{
+			int w = LOWORD(lParam);
+			int h = HIWORD(lParam);
 
-				if (GetRender())
-					GetRender()->reshape(w, h);
-				if (GetWindow()){
-					GetWindow()->width = w;
-					GetWindow()->height = h;
-					return 0;
-				}
-				if (GetGUI())
-					GetGUI()->resize(w, h);
+			if (GetRender())
+				GetRender()->reshape(w, h);
+			if (GetWindow()){
+				GetWindow()->width = w;
+				GetWindow()->height = h;
+				return 0;
 			}
+			if (GetGUI())
+				GetGUI()->resize(w, h);
+		}
 		}
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}
 
-/*
-*/
+	/*
+	*/
 	void WindowSystem::update() {
 		updateTimer();
 
@@ -361,51 +362,51 @@ namespace NGTech {
 		}
 	}
 
-/*
-*/
+	/*
+	*/
 	bool WindowSystem::isKeyPressed(Key key) {
 		return keys[key];
 	}
 
-/*
-*/
+	/*
+	*/
 	bool WindowSystem::isKeyDown(Key key) {
 		return (keys[key] && !oldKeys[key]);
 	}
 
-/*
-*/
+	/*
+	*/
 	bool WindowSystem::isKeyUp(Key key) {
 		return (!keys[key] && oldKeys[key]);
 	}
 
-/*
-*/
+	/*
+	*/
 	bool WindowSystem::isMouseButtonPressed(MouseButton mb) {
 		return mouseButtons[mb];
 	}
 
-/*
-*/
+	/*
+	*/
 	bool WindowSystem::wasMouseButtonPressed(MouseButton mb) {
 		return (mouseButtons[mb] && !oldMouseButtons[mb]);
 	}
 
-/*
-*/
+	/*
+	*/
 	bool WindowSystem::wasMouseButtonReleased(MouseButton mb) {
 		return (!mouseButtons[mb] && oldMouseButtons[mb]);
 	}
 
-/*
-*/
+	/*
+	*/
 	void WindowSystem::showCursor(bool show) {
 		MyGUI::PointerManager::getInstance().setVisible(show);
 		cursorVisible = show;
 	}
 
-/*
-*/
+	/*
+	*/
 	void WindowSystem::setMousePos(int x, int y) {
 		POINT pt;
 		pt.x = x;
@@ -414,40 +415,41 @@ namespace NGTech {
 		SetCursorPos(pt.x, pt.y);
 	}
 
-/*
-*/
+	/*
+	*/
 	void WindowSystem::grabMouse(bool grab) {
 		mouseX = oldMouseX = width / 2;
 		mouseY = oldMouseY = height / 2;
 
-		if(grab) { setMousePos(width/2, height/2); }
+		if (grab) { setMousePos(width / 2, height / 2); }
 		showCursor(!grab);
 		mouseGrabed = grab;
 	}
 
-/*
-*/
+	/*
+	*/
 	void WindowSystem::swapBuffers() {
 		SwapBuffers(hDC);
 	}
 
-/*
-*/
+	/*
+	*/
 	void WindowSystem::updateTimer() {
 		int ticks = GetTickCount();
 		dTime = ticks - eTime;
 		eTime = ticks;
 	}
 
-/*
-*/
+	/*
+	*/
 	int WindowSystem::getTime() {
 		return GetTickCount();
 	}
 
-/*
-*/
+	/*
+	*/
 	void WindowSystem::showOSCursor(bool _value){
-		::ShowCursor(_value);	}
+		::ShowCursor(_value);
+	}
 
 }
