@@ -38,8 +38,9 @@ namespace NGTech {
 
 	/*
 	*/
-	WindowSystem::WindowSystem(CVARManager*_cvars) {
-
+	WindowSystem::WindowSystem(CVARManager*_cvars) 
+		: isExternalHwnd(false)
+	{
 		Log::writeHeader("-- WindowSystem --");
 
 		//-----read-config-values-----------------------------------
@@ -50,7 +51,9 @@ namespace NGTech {
 		this->fullscreen = _cvars->r_fullscreen;
 	}
 	void WindowSystem::initialise(int _hwnd){
-		showOSCursor(false);//Сразу скрываем курсор
+		isExternalHwnd = _hwnd != NULL;
+		if (!isExternalHwnd)
+			showOSCursor(false);
 
 		unsigned int pixelFormat;
 		if (_hwnd == 0)
@@ -176,9 +179,11 @@ namespace NGTech {
 			return;
 		}
 
+		if (!isExternalHwnd) {
 		ShowWindow(this->hWnd, SW_SHOW);
 		SetForegroundWindow(this->hWnd);
 		SetFocus(this->hWnd);
+		}
 
 		for (int i = 0; i < 3; i++)
 			this->mouseButtons[i] = false;
@@ -449,6 +454,7 @@ namespace NGTech {
 	/*
 	*/
 	void WindowSystem::showOSCursor(bool _value){
+		if (!isExternalHwnd)
 		::ShowCursor(_value);
 	}
 

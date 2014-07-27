@@ -23,7 +23,8 @@ namespace NGTech {
 
 	/**
 	*/
-	EngineAppBase::EngineAppBase(int _hwnd, IGame*_game, ICallback* rc, ICallback* ev){
+	EngineAppBase::EngineAppBase(int _hwnd, bool _isEditor, IGame*_game, ICallback* rc, ICallback* ev){
+		GetEngine()->RunEditor(_isEditor);
 		GetEngine()->setGame(_game);
 		GetEngine()->initialise(_hwnd);
 		if (rc)
@@ -35,13 +36,20 @@ namespace NGTech {
 
 	/**
 	*/
-	EngineAppBase::EngineAppBase(IGame*_game, ICallback* rc, ICallback* ev) 
-		:EngineAppBase(0, _game, rc, ev)
+	EngineAppBase::EngineAppBase(IGame*_game, ICallback* rc, ICallback* ev)
+		:EngineAppBase(0,false, _game, rc, ev)
 	{}
-	
+
 	/**
 	*/
 	void EngineAppBase::Update(){
+		if (GetEngine()->isEditor())
+			GetEngine()->updateFrame();
+		else
+			GetEngine()->mainLoop();
+	}
+
+	void EngineAppBase::Run(){
 		GetEngine()->mainLoop();
 	}
 

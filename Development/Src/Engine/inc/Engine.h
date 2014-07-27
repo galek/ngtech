@@ -22,6 +22,9 @@ namespace NGTech {
 		engines main loop
 		*/
 		void mainLoop();
+
+		void updateFrame();
+
 		/**
 		exits the main loop
 		*/

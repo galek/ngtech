@@ -33,8 +33,7 @@ namespace NGTech {
 
 	/**
 	*/
-	PhysSystem::PhysSystem() :accTimeSlice(0.0f),
-		mNbThreads(1)
+	PhysSystem::PhysSystem() :mNbThreads(1)
 	{}
 
 	/**

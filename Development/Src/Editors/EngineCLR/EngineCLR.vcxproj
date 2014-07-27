@@ -164,8 +164,17 @@
     <Image Include="app.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.vcxproj">
+      <Project>{413d151a-e7ac-419a-b9c1-e270e686f949}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Core.vcxproj">
+      <Project>{a260ec1a-1997-4d03-8b91-1302498eb505}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Engine\Engine.vcxproj">
       <Project>{422176d6-9f6c-4344-90a5-3520c7213826}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ExampleGame\ExampleGame.vcxproj">
+      <Project>{e5e11765-b5b8-4013-9098-dd7ed97e7905}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
