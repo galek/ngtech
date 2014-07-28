@@ -16,7 +16,7 @@ namespace NGTech
 		virtual size_t read(void* _buf, size_t _count) = 0;
 	};
 
-	class DataManager :public Singleton<DataManager>
+	class DataManager :public Singleton < DataManager >
 	{
 	public:
 

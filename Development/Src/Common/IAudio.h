@@ -27,7 +27,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	class I_Audio {
 	public:
-		virtual void initialise()=0;
+		virtual void initialise() = 0;
 		virtual String getVendor() = 0;
 		virtual String getRenderer() = 0;
 		virtual String getVersion() = 0;

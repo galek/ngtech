@@ -26,7 +26,7 @@ namespace NGTech {
 	struct IGame
 	{
 	protected:
-		IGame():rc(false), ec(false){}
+		IGame() :rc(false), ec(false){}
 	public:
 		virtual void initialise() = 0;
 		virtual void update() = 0;
