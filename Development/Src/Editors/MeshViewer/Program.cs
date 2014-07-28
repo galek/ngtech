@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
+
+using Sce.Atf;
 
 namespace MeshViewer
 {
@@ -17,7 +20,12 @@ namespace MeshViewer
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            using (var form = new Form1())
+            // Set up localization support early on, so that user-readable strings will be localized
+            //  during the initialization phase below. Use XML files that are embedded resources.
+            Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.CurrentCulture;
+            Localizer.SetStringLocalizer(new EmbeddedResourceStringLocalizer());
+
+            using (var form = new MainForm())
             {
                 form.Show();
                 form.Update();

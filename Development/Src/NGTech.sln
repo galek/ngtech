@@ -40,6 +40,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "depend", "depend", "{A11D3172-C37C-402B-93AC-8AB42D3A063D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeshViewer", "Editors\MeshViewer\MeshViewer.csproj", "{D6ADC845-2C1C-4C78-A094-0942F9159E60}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C7A306E0-32AE-4053-8882-E1A1E702C139} = {C7A306E0-32AE-4053-8882-E1A1E702C139}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineCLR", "Editors\EngineCLR\EngineCLR.vcxproj", "{64055D89-6A90-4A88-9FDD-C455CEA66F88}"
 EndProject
@@ -56,6 +59,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atf.Perforce.vs2010", "..\Externals\ATF\Framework\Atf.Perforce\Atf.Perforce.vs2010.csproj", "{C7A306E0-32AE-4053-8882-E1A1E702C139}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelViewer.vs2010", "..\Externals\ATF\Samples\ModelViewer\ModelViewer.vs2010.csproj", "{07553179-5151-4429-B556-6730B2B131A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEditor.vs2010", "..\Externals\ATF\Samples\CodeEditor\CodeEditor.vs2010.csproj", "{1D002C9F-0F1B-4D4C-9A83-B876895F7B30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimelineEditor.vs2010", "..\Externals\ATF\Samples\TimelineEditor\TimelineEditor.vs2010.csproj", "{6A4A39F5-2015-47DB-A8E8-FF89F40DE2A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -212,6 +219,18 @@ Global
 		{07553179-5151-4429-B556-6730B2B131A2}.Release|Win32.ActiveCfg = Release|x86
 		{07553179-5151-4429-B556-6730B2B131A2}.Release|Win32.Build.0 = Release|x86
 		{07553179-5151-4429-B556-6730B2B131A2}.Release|x64.ActiveCfg = Release|x86
+		{1D002C9F-0F1B-4D4C-9A83-B876895F7B30}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{1D002C9F-0F1B-4D4C-9A83-B876895F7B30}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1D002C9F-0F1B-4D4C-9A83-B876895F7B30}.Release|Win32.ActiveCfg = Release|Any CPU
+		{1D002C9F-0F1B-4D4C-9A83-B876895F7B30}.Release|x64.ActiveCfg = Release|Any CPU
+		{6A4A39F5-2015-47DB-A8E8-FF89F40DE2A0}.Debug|Win32.ActiveCfg = Debug|x86
+		{6A4A39F5-2015-47DB-A8E8-FF89F40DE2A0}.Debug|Win32.Build.0 = Debug|x86
+		{6A4A39F5-2015-47DB-A8E8-FF89F40DE2A0}.Debug|x64.ActiveCfg = Debug|x64
+		{6A4A39F5-2015-47DB-A8E8-FF89F40DE2A0}.Debug|x64.Build.0 = Debug|x64
+		{6A4A39F5-2015-47DB-A8E8-FF89F40DE2A0}.Release|Win32.ActiveCfg = Release|x86
+		{6A4A39F5-2015-47DB-A8E8-FF89F40DE2A0}.Release|Win32.Build.0 = Release|x86
+		{6A4A39F5-2015-47DB-A8E8-FF89F40DE2A0}.Release|x64.ActiveCfg = Release|x64
+		{6A4A39F5-2015-47DB-A8E8-FF89F40DE2A0}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -238,6 +257,8 @@ Global
 		{D1A78912-9AD2-4555-8560-B251A4D751DC} = {A11D3172-C37C-402B-93AC-8AB42D3A063D}
 		{C7A306E0-32AE-4053-8882-E1A1E702C139} = {A11D3172-C37C-402B-93AC-8AB42D3A063D}
 		{07553179-5151-4429-B556-6730B2B131A2} = {A11D3172-C37C-402B-93AC-8AB42D3A063D}
+		{1D002C9F-0F1B-4D4C-9A83-B876895F7B30} = {A11D3172-C37C-402B-93AC-8AB42D3A063D}
+		{6A4A39F5-2015-47DB-A8E8-FF89F40DE2A0} = {A11D3172-C37C-402B-93AC-8AB42D3A063D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		AMDCaProjectFile = C:\Newton_200\3dlib\tools\newton\CodeAnalyst\newton_2008.caw

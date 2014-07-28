@@ -121,12 +121,6 @@
     <EmbeddedResource Include="Resources\Wireframe24.png" />
     <EmbeddedResource Include="Resources\Wireframe32.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\..\ThirdParty\Tao.OpenGl\DevIL.dll">
-      <Link>DevIL.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -65,9 +65,6 @@ namespace ModelViewerSample
                 typeof(Outputs),                        // passes messages to all IOutputWriter components
                 typeof(ShoutOutputService),             // rich text box for displaying error and warning messages. Implements IOutputWriter
 
-                typeof(Sce.Atf.Atgi.AtgiResolver),      // loads ATGI resources from a file
-                typeof(Sce.Atf.Collada.ColladaResolver),// loads Collada resources from a file
-
                 // this sample
                 typeof(ModelViewer),                    // recognizes model file extensions and uses the above model resolvers to load models
                 typeof(RenderCommands),                 // provides commands for switching the RenderView's rendering mode, etc.

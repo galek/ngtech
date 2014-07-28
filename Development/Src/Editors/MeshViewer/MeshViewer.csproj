@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -51,16 +52,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="CodeEditor\CodeDocument.cs" />
+    <Compile Include="CodeEditor\Editor.cs" />
+    <Compile Include="CodeEditor\HelpAboutCommand.cs" />
+    <Compile Include="CodeEditor\Program.cs" />
+    <Compile Include="CodeEditor\SourceControlContext.cs" />
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -96,6 +102,14 @@
     <ProjectReference Include="..\..\..\Externals\ATF\Framework\Atf.Gui\Atf.Gui.vs2010.csproj">
       <Project>{4765c2a7-f989-40db-bc12-fcd67025b93f}</Project>
       <Name>Atf.Gui.vs2010</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Externals\ATF\Framework\Atf.IronPython\Atf.IronPython.vs2010.csproj">
+      <Project>{7f794c24-7a8d-4d21-b443-f03509669f89}</Project>
+      <Name>Atf.IronPython.vs2010</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Externals\ATF\Framework\Atf.Perforce\Atf.Perforce.vs2010.csproj">
+      <Project>{c7a306e0-32ae-4053-8882-e1a1e702c139}</Project>
+      <Name>Atf.Perforce.vs2010</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Externals\ATF\Framework\Atf.SyntaxEditorControl\Atf.SyntaxEditorControl.vs2010.csproj">
       <Project>{d1a78912-9ad2-4555-8560-b251a4d751dc}</Project>
