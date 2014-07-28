@@ -17,17 +17,18 @@ namespace NGTech {
 		vbo->numElements = numElements;
 		vbo->elementSize = elemSize;
 
-		if(dataType == FLOAT) {
+		if (dataType == FLOAT) {
 			vbo->dataType = GL_FLOAT;
-		} else if(dataType == DOUBLE) {
+		}
+		else if (dataType == DOUBLE) {
 			vbo->dataType = GL_DOUBLE;
 		}
 
 		vbo->drawType = GL_STATIC_DRAW_ARB;
 		vbo->type = GL_ARRAY_BUFFER_ARB;
 
-		glGenBuffersARB(1, &vbo->glID);							
-		glBindBufferARB(vbo->type, vbo->glID);			
+		glGenBuffersARB(1, &vbo->glID);
+		glBindBufferARB(vbo->type, vbo->glID);
 		glBufferDataARB(vbo->type, vbo->elementSize * vbo->numElements, data, vbo->drawType);
 		glBindBufferARB(vbo->type, 0);
 
@@ -45,17 +46,17 @@ namespace NGTech {
 		vbo->numElements = numElements;
 		vbo->elementSize = elemSize;
 
-		if(dataType == UNSIGNED_INT) {
-			vbo->dataType == GL_UNSIGNED_INT;
-		} else if(dataType == UNSIGNED_SHORT) {
-			vbo->dataType == GL_UNSIGNED_SHORT;
-		}
+		if (dataType == UNSIGNED_INT)
+			vbo->dataType = GL_UNSIGNED_INT;
+		else if (dataType == UNSIGNED_SHORT)
+			vbo->dataType = GL_UNSIGNED_SHORT;
+
 
 		vbo->drawType = GL_STATIC_DRAW_ARB;
 		vbo->type = GL_ELEMENT_ARRAY_BUFFER_ARB;
 
-		glGenBuffersARB(1, &vbo->glID);							
-		glBindBufferARB(vbo->type, vbo->glID);			
+		glGenBuffersARB(1, &vbo->glID);
+		glBindBufferARB(vbo->type, vbo->glID);
 		glBufferDataARB(vbo->type, vbo->elementSize * vbo->numElements, data, vbo->drawType);
 		glBindBufferARB(vbo->type, 0);
 
