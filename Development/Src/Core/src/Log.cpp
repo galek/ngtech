@@ -1,10 +1,3 @@
-/***************************************************************************
-*   Copyright (C) 2006 by AST   *
-*   tsyplyaev@gmail.com   *
-*   ICQ: 279-533-134                          *
-*   This is a part of work done by AST.       *
-*   If you want to use it, please contact me. *
-***************************************************************************/
 #include "CorePrivate.h"
 //***************************************************************************
 #include "Log.h"
@@ -77,11 +70,7 @@ namespace NGTech {
 		if (_fatal)	Error::showAndExit(text);
 		else Log::error(text);
 	}
-	//---------------------------------------------------------------------------
-	//Desc:    creates the log file
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+
 	Log::Log() {
 		FILE *fLog;
 		fLog = fopen(LOG_FILE, "wt");
@@ -96,11 +85,7 @@ namespace NGTech {
 		fputs("<body><h1>NGTech log</h1>", fLog);
 		fclose(fLog);
 	}
-	//---------------------------------------------------------------------------
-	//Desc:    writes text String to the log file
-	//Params:  text - String to write
-	//Returns: -
-	//---------------------------------------------------------------------------
+
 	void Log::write(String text) {
 		text += '\n';
 		FILE *fLog;
@@ -114,11 +99,7 @@ namespace NGTech {
 #endif
 		fclose(fLog);
 	}
-	//---------------------------------------------------------------------------
-	//Desc:    writes Header text String to the log file
-	//Params:  text - String to write
-	//Returns: -
-	//---------------------------------------------------------------------------
+
 	void Log::writeHeader(String text) {
 		text += '\n';
 		FILE *fLog;
@@ -132,11 +113,7 @@ namespace NGTech {
 #endif
 		fclose(fLog);
 	}
-	//---------------------------------------------------------------------------
-	//Desc:    writes warning to the log file
-	//Params:  text - String to write
-	//Returns: -
-	//---------------------------------------------------------------------------
+
 	void Log::warning(String text) {
 		text += '\n';
 		FILE *fLog;
@@ -150,11 +127,7 @@ namespace NGTech {
 #endif
 		fclose(fLog);
 	}
-	//---------------------------------------------------------------------------
-	//Desc:    writes error text to the log file
-	//Params:  text - String to write
-	//Returns: -
-	//---------------------------------------------------------------------------
+
 	void Log::error(String text) {
 		text += '\n';
 		FILE *fLog;
