@@ -34,6 +34,7 @@ namespace MeshViewer
             base.OnLoad(e);
             this.engine = new EngineCLR.EngineCLR(this.splitContainer1.Panel1.Handle.ToInt32());
             engine.EngineInit();
+            engine.Resize(this.Width, this.Height);
             mCF = new CodeEditor.CEForm();
         }
 
@@ -42,6 +43,11 @@ namespace MeshViewer
             if (mCF == null)
                 mCF = new CodeEditor.CEForm();
             mCF.Show();
+        }
+
+        private void splitContainer1_Panel1_Resize(object sender, EventArgs e)
+        {
+            if (this.engine != null) this.engine.Resize(this.Width, this.Height);
         }
     }
 }

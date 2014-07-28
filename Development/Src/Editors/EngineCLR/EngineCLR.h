@@ -1,5 +1,6 @@
 #pragma once
 #include "..\..\Common\IWindow.h"
+#include "..\..\Common\IRender.h"
 #include "..\..\Core\inc\CoreManager.h"
 #include "..\..\Engine\inc\dlldef.h"
 #include "..\..\Engine\inc\Engine.h"
@@ -47,6 +48,10 @@ namespace EngineCLR {
 		{
 			if (GetWindow())
 				GetWindow()->grabMouse(_val);
+		}
+
+		void Resize(int _w, int _h)	{
+			GetRender()->reshape(_w, _h);
 		}
 	private:
 		void EngineStart(int _hwnd, IGame*_game, ICallback *rc, ICallback *ev){
