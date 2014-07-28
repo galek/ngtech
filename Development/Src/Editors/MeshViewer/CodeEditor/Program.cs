@@ -46,7 +46,6 @@ namespace CodeEditor
                 typeof(TabbedControlSelector),          // enable ctrl-tab selection of documents and controls within the app
                 typeof(DefaultTabCommands),             // provides the default commands related to document tab Controls
                 typeof(Editor),                         // code editor component
-                typeof(PythonService),                  // scripting service for automated tests
                 typeof(ScriptConsole),                  // provides a dockable command console for entering Python commands
                 typeof(AtfScriptVariables),             // exposes common ATF services as script variables
                 typeof(AutomationService),              // provides facilities to run an automated script using the .NET remoting service
