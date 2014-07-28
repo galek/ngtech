@@ -14,31 +14,49 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\lib\anycpu_dotnet_clr4_debug\</OutputPath>
-    <IntermediateOutputPath>obj\Debug.vs2010\</IntermediateOutputPath>
+    <OutputPath>..\..\..\..\..\Bins\Bin64_d\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CS_4;PUBLIC</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>649</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\lib\anycpu_dotnet_clr4_release\</OutputPath>
-    <IntermediateOutputPath>obj\Release.vs2010\</IntermediateOutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\..\..\..\..\Bins\Bin64\</OutputPath>
     <DefineConstants>TRACE;CS_4;PUBLIC</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <NoWarn>649</NoWarn>
+    <Optimize>true</Optimize>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>649</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\..\..\Bins\Bin32_d\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CS_4;PUBLIC</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>649</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\..\..\..\..\Bins\Bin32\</OutputPath>
+    <DefineConstants>TRACE;CS_4;PUBLIC</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>649</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="libcrashreport_net, Version=1.1.3835.27195, Culture=neutral, processorArchitecture=MSIL">
@@ -53,11 +71,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Xml" />
-    <Reference Include="Wws.LiveConnect, Version=1.0.4329.17733, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ThirdParty\Wws.LiveConnect\clr4\x86\Wws.LiveConnect.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActiveCollection.cs" />
@@ -87,7 +100,9 @@
     <Compile Include="FileSystemResourceFolder.cs" />
     <Compile Include="ICrashLogger.cs" />
     <Compile Include="IPropertyValueValidator.cs" />
-    <Compile Include="LiveConnectService.cs" />
+    <Compile Include="LiveConnectService.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MefUtil.cs" />
     <Compile Include="NumericUtil.cs" />
     <Compile Include="Rendering\ISubMesh.cs" />

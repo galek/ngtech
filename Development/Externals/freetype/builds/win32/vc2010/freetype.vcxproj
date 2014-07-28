@@ -92,7 +92,7 @@
       <DebugInformationFormat>
       </DebugInformationFormat>
       <CompileAs>Default</CompileAs>
-      <DisableSpecificWarnings>4001</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4018;4275;4251;4800;4244;4996;4001;4100;4305;4661;4127;4706</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FloatingPointModel>Fast</FloatingPointModel>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -121,7 +121,7 @@
       <DebugInformationFormat>
       </DebugInformationFormat>
       <CompileAs>Default</CompileAs>
-      <DisableSpecificWarnings>4001</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4018;4275;4251;4800;4244;4996;4001;4100;4305;4661;4127;4706</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FloatingPointModel>Fast</FloatingPointModel>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -149,7 +149,7 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
-      <DisableSpecificWarnings>4001</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4018;4275;4251;4800;4244;4996;4001;4100;4305;4661;4127;4706</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
@@ -173,7 +173,7 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>Default</CompileAs>
-      <DisableSpecificWarnings>4001</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4018;4275;4251;4800;4244;4996;4001;4100;4305;4661;4127;4706</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>

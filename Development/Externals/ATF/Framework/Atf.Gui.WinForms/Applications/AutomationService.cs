@@ -105,10 +105,12 @@ namespace Sce.Atf.Applications
                     Application.ThreadException += Application_ThreadException;
                     //Don't start test until main form is loaded
                     m_mainWindow.Loaded += m_mainWindow_Loaded;
-
+                    
+#if NICK_INGORE_CHANGES
                     s_liveConnectService = m_liveConnectService;
                     if (s_liveConnectService != null)
                         s_liveConnectService.MessageReceived += s_liveConnectService_MessageReceived;
+#endif
                 }
                 catch { }
             }
@@ -317,15 +319,6 @@ namespace Sce.Atf.Applications
                     const int VK_RETURN = 0x0D;
                     PostMessage(win, WM_KEYDOWN, VK_RETURN, 0);
                     found = true;
-
-                    //None of these work:
-                    //const int WM_KEYUP = 0x101;
-                    //const int VK_SPACE = 0x20;
-                    //SendMessage(win, WM_KEYDOWN, VK_SPACE, 0);
-                    //SendMessage(win, WM_KEYUP, VK_SPACE, 0);
-                    //SendMessage(win, WM_KEYDOWN, VK_RETURN, 0);
-                    //SendMessage(win, WM_KEYUP, VK_RETURN, 0);
-                    //PostMessage(win, WM_KEYDOWN, VK_SPACE, 0);
                 }
             }
 
@@ -337,7 +330,9 @@ namespace Sce.Atf.Applications
         /// <param name="msg">Message</param>
         public void SendMessage(string msg)
         {
+#if NICK_INGORE_CHANGES
             s_liveConnectService.Send(msg);
+#endif
         }
 
         /// <summary>
@@ -347,7 +342,8 @@ namespace Sce.Atf.Applications
         {
             return s_lastMessage;
         }
-
+        
+#if NICK_INGORE_CHANGES
         /// <summary>
         /// Performs custom actions on Live Connect message received</summary>
         /// <param name="sender">Sender</param>
@@ -359,7 +355,10 @@ namespace Sce.Atf.Applications
             if (e.SenderName.ToLower().Contains(Environment.MachineName.ToLower()))
                 s_lastMessage = e.MessageString;
         }
-
+#else
+        void s_liveConnectService_MessageReceived(object sender)
+        { }
+#endif
         /// <summary>
         ///Scripting service</summary>
         [NonSerialized]
@@ -375,10 +374,11 @@ namespace Sce.Atf.Applications
         [NonSerialized]
         [Import(AllowDefault = true)]
         private IMainWindow m_mainWindow;
-
+        
+#if NICK_INGORE_CHANGES
         [Import(AllowDefault = true)]
         private LiveConnectService m_liveConnectService;
-        
+#endif
         /// <summary>
         /// Whether valid command line arguments were passed in to run an automated script</summary>
         protected bool m_enableAutomation;
@@ -396,7 +396,9 @@ namespace Sce.Atf.Applications
         private static bool s_unhandledException;
         private static TcpChannel s_registeredChannel;
         private static Dispatcher s_dispatcher;
+#if NICK_INGORE_CHANGES
         private static LiveConnectService s_liveConnectService;
+#endif
         private static string s_lastMessage;
         /// <summary>
         /// Indicates whether main form loaded</summary>

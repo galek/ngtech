@@ -6,6 +6,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)Common;$(SolutionDir)Core\inc;$(SolutionDir)Engine\inc;$(SolutionDir)Engine\inc\GUI;$(SolutionDir)OGLDrv\inc;$(SolutionDir)\..\Externals\;$(SolutionDir)\..\Externals\freetype\include\;$(SolutionDir)\..\Externals\freetype\include\freetype;$(SolutionDir)\..\Externals\MyGUI\Common;$(SolutionDir)\..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;$(SolutionDir)\..\Externals\MyGUI\MyGUIEngine\include</AdditionalIncludeDirectories>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <MinimumRequiredVersion />

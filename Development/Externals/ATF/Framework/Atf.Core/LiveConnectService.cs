@@ -3,6 +3,7 @@
 using System.ComponentModel.Composition;
 using System;
 using System.Text;
+#if NICK_INGORE_CHANGES
 using Wws.LiveConnect;
 
 namespace Sce.Atf
@@ -206,3 +207,4 @@ namespace Sce.Atf
         private static uint AtfStringMessageHash;
     }
 }
+#endif
