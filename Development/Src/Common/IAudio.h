@@ -25,13 +25,13 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main sound system. Created one time
 	//---------------------------------------------------------------------------
-	class IAudio {
+	class I_Audio {
 	public:
 		virtual void initialise()=0;
-		virtual std::string getVendor() = 0;
-		virtual std::string getRenderer() = 0;
-		virtual std::string getVersion() = 0;
-		virtual std::string getExtensions() = 0;
+		virtual String getVendor() = 0;
+		virtual String getRenderer() = 0;
+		virtual String getVersion() = 0;
+		virtual String getExtensions() = 0;
 
 		virtual void setListener(const Vec3 &pos, const Vec3 &dir) = 0;
 	};

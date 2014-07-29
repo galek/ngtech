@@ -9,7 +9,6 @@
 
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_Singleton.h"
-#include "MyGUI_IDataStream.h"
 #include "MyGUI_Types.h"
 
 namespace MyGUI

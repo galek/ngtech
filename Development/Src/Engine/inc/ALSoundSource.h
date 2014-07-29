@@ -5,6 +5,7 @@
 //***************************************************************************
 #include "ALSound.h"
 #include "MathLib.h"
+#include "DLLDef.h"
 //***************************************************************************
 
 namespace NGTech {
@@ -12,7 +13,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: Sound source class
 	//---------------------------------------------------------------------------
-	class ALSoundSource {
+	class ENGINE_API ALSoundSource {
 	public:
 		static ALSoundSource *create(ALSound *sound);
 		~ALSoundSource();

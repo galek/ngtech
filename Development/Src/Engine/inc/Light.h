@@ -9,7 +9,7 @@
 #pragma once
 
 //**************************************
-#include "GLSystem.h"
+#include "IRender.h"
 #include "MathLib.h"
 #include "Flare.h"
 //**************************************
@@ -64,7 +64,7 @@ namespace NGTech {
 		float radius;
 		bool castShadows;
 
-		GLTexture *shadowMap;
+		I_Texture *shadowMap;
 
 		Flare *flare;
 
@@ -111,8 +111,8 @@ namespace NGTech {
 
 		Mat4 projTransform;
 
-		GLTexture *shadowMap;
-		GLTexture *projMap;
+		I_Texture *shadowMap;
+		I_Texture *projMap;
 
 		Flare *flare;
 

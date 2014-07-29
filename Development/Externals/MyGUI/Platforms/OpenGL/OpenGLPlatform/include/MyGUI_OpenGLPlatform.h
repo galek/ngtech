@@ -17,7 +17,7 @@
 namespace MyGUI
 {
 
-	class OpenGLPlatform
+	class MYGUI_EXPORT OpenGLPlatform
 	{
 	public:
 		OpenGLPlatform();

@@ -86,7 +86,6 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
@@ -94,7 +93,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>inc\;..\Common;..\Core;..\..\Externals\freetype\include\;..\..\Externals\freetype\include\freetype;..\..\Externals\MyGUI\Common;..\..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\..\Externals\MyGUI\MyGUIEngine\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>inc\GUI;inc\;..\Common;..\Core\inc;..\..\Externals\freetype\include\;..\..\Externals\freetype\include\freetype;..\..\Externals\MyGUI\Common;..\..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\..\Externals\MyGUI\MyGUIEngine\include;..\..\Externals\PhysX\Include;..\..\Externals\PhysX\source\Common\src;..\..\Externals\PhysX\source\foundation\include;..\..\Externals\PhysX\source\GeomUtils\headers;..\..\Externals\PhysX\source\PhysXCharacterKinematic\src;..\..\Externals\PhysX\source\PhysXExtensions\src;..\..\Externals\PhysX\source\PhysXMetaData\core\include;..\..\Externals\PhysX\source\\PhysXMetaData\extensions\include;..\..\Externals\PhysX\source\PhysXProfileSDK;..\..\Externals\PhysX\source\PhysXVehicle\src;..\..\Externals\PhysX\source\PhysXVehicle\src\PhysXMetaData\include;..\..\Externals\PhysX\source\PvdRuntime\src</AdditionalIncludeDirectories>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -102,11 +101,15 @@
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>OpenAL32.lib;opengl32.lib;ilu.lib;devil.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenAL32.lib;opengl32.lib;ilu.lib;devil.lib;PhysX3DEBUG_x86.lib;PhysX3CharacterKinematicDEBUG_x86.lib;PhysX3CommonDEBUG_x86.lib;PhysX3CookingDEBUG_x86.lib;PhysX3ExtensionsDEBUG.lib;PhysX3VehicleDEBUG.lib;PhysXProfileSDKDEBUG.lib;PhysXVisualDebuggerSDKDEBUG.lib;PxTaskDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\;$(SolutionPath)\..\..\Externals\;$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\;$(SolutionPath)\..\..\Externals\physx\Lib\win$(PlatformArchitecture)</AdditionalLibraryDirectories>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <ImportLibrary>$(SolutionPath)\..\..\Libs\$(Configuration)\$(PlatformName)\$(TargetName).lib</ImportLibrary>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -122,28 +125,31 @@
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>inc\;..\Common;..\Core;..\..\Externals\freetype\include\;..\..\Externals\freetype\include\freetype;..\..\Externals\MyGUI\Common;..\..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\..\Externals\MyGUI\MyGUIEngine\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>inc\GUI;inc\;..\Common;..\Core\inc;..\..\Externals\freetype\include\;..\..\Externals\freetype\include\freetype;..\..\Externals\MyGUI\Common;..\..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\..\Externals\MyGUI\MyGUIEngine\include;..\..\Externals\PhysX\Include;..\..\Externals\PhysX\source\Common\src;..\..\Externals\PhysX\source\foundation\include;..\..\Externals\PhysX\source\GeomUtils\headers;..\..\Externals\PhysX\source\PhysXCharacterKinematic\src;..\..\Externals\PhysX\source\PhysXExtensions\src;..\..\Externals\PhysX\source\PhysXMetaData\core\include;..\..\Externals\PhysX\source\\PhysXMetaData\extensions\include;..\..\Externals\PhysX\source\PhysXProfileSDK;..\..\Externals\PhysX\source\PhysXVehicle\src;..\..\Externals\PhysX\source\PhysXVehicle\src\PhysXMetaData\include;..\..\Externals\PhysX\source\PvdRuntime\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>OpenAL32.lib;opengl32.lib;ilu.lib;devil.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenAL32.lib;opengl32.lib;ilu.lib;devil.lib;PhysX3DEBUG_x64.lib;PhysX3CharacterKinematicDEBUG_x64.lib;PhysX3CommonDEBUG_x64.lib;PhysX3CookingDEBUG_x64.lib;PhysX3ExtensionsDEBUG.lib;PhysX3VehicleDEBUG.lib;PhysXProfileSDKDEBUG.lib;PhysXVisualDebuggerSDKDEBUG.lib;PxTaskDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\;$(SolutionPath)\..\..\Externals\;$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\;$(SolutionPath)\..\..\Externals\physx\Lib\win$(PlatformArchitecture)</AdditionalLibraryDirectories>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <ImportLibrary>$(SolutionPath)\..\..\Libs\$(Configuration)\$(PlatformName)\$(TargetName).lib</ImportLibrary>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <StringPooling>true</StringPooling>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>inc\;..\Common;..\Core;..\..\Externals\freetype\include\;..\..\Externals\freetype\include\freetype;..\..\Externals\MyGUI\Common;..\..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\..\Externals\MyGUI\MyGUIEngine\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>inc\GUI;inc\;..\Common;..\Core\inc;..\..\Externals\freetype\include\;..\..\Externals\freetype\include\freetype;..\..\Externals\MyGUI\Common;..\..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\..\Externals\MyGUI\MyGUIEngine\include;..\..\Externals\PhysX\Include;..\..\Externals\PhysX\source\Common\src;..\..\Externals\PhysX\source\foundation\include;..\..\Externals\PhysX\source\GeomUtils\headers;..\..\Externals\PhysX\source\PhysXCharacterKinematic\src;..\..\Externals\PhysX\source\PhysXExtensions\src;..\..\Externals\PhysX\source\PhysXMetaData\core\include;..\..\Externals\PhysX\source\\PhysXMetaData\extensions\include;..\..\Externals\PhysX\source\PhysXProfileSDK;..\..\Externals\PhysX\source\PhysXVehicle\src;..\..\Externals\PhysX\source\PhysXVehicle\src\PhysXMetaData\include;..\..\Externals\PhysX\source\PvdRuntime\src</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -153,6 +159,7 @@
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <DisableSpecificWarnings>4275</DisableSpecificWarnings>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
@@ -161,23 +168,27 @@
       <TargetMachine>MachineX86</TargetMachine>
       <LargeAddressAware>true</LargeAddressAware>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OpenAL32.lib;opengl32.lib;ilu.lib;devil.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\;$(SolutionPath)\..\..\Externals\;$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\;$(SolutionPath)\..\..\Externals\physx\Lib\win$(PlatformArchitecture)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenAL32.lib;opengl32.lib;ilu.lib;devil.lib;PhysX3_x86.lib;PhysX3CharacterKinematic_x86.lib;PhysX3Common_x86.lib;PhysX3Cooking_x86.lib;PhysX3Extensions.lib;PhysX3Vehicle.lib;PxTask.lib;PhysXVisualDebuggerSDK.lib;PhysXProfileSDK.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>$(SolutionPath)\..\..\Libs\$(Configuration)\$(PlatformName)\$(TargetName).lib</ImportLibrary>
     </Link>
     <ProjectReference />
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FloatingPointModel>Fast</FloatingPointModel>
       <StringPooling>true</StringPooling>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>inc\;..\Common;..\Core;..\..\Externals\freetype\include\;..\..\Externals\freetype\include\freetype;..\..\Externals\MyGUI\Common;..\..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\..\Externals\MyGUI\MyGUIEngine\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>inc\GUI;inc\;..\Common;..\Core\inc;..\..\Externals\freetype\include\;..\..\Externals\freetype\include\freetype;..\..\Externals\MyGUI\Common;..\..\Externals\MyGUI\Platforms\OpenGL\OpenGLPlatform\include;..\..\Externals\MyGUI\MyGUIEngine\include;..\..\Externals\PhysX\Include;..\..\Externals\PhysX\source\Common\src;..\..\Externals\PhysX\source\foundation\include;..\..\Externals\PhysX\source\GeomUtils\headers;..\..\Externals\PhysX\source\PhysXCharacterKinematic\src;..\..\Externals\PhysX\source\PhysXExtensions\src;..\..\Externals\PhysX\source\PhysXMetaData\core\include;..\..\Externals\PhysX\source\\PhysXMetaData\extensions\include;..\..\Externals\PhysX\source\PhysXProfileSDK;..\..\Externals\PhysX\source\PhysXVehicle\src;..\..\Externals\PhysX\source\PhysXVehicle\src\PhysXMetaData\include;..\..\Externals\PhysX\source\PvdRuntime\src</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -186,6 +197,7 @@
       <PrecompiledHeaderFile>EnginePrivate.h</PrecompiledHeaderFile>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
@@ -193,49 +205,47 @@
       </IgnoreSpecificDefaultLibraries>
       <LargeAddressAware>true</LargeAddressAware>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OpenAL32.lib;opengl32.lib;ilu.lib;devil.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\;$(SolutionPath)\..\..\Externals\;$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\;$(SolutionPath)\..\..\Externals\physx\Lib\win$(PlatformArchitecture)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenAL32.lib;opengl32.lib;ilu.lib;devil.lib;PhysX3_x64.lib;PhysX3CharacterKinematic_x64.lib;PhysX3Common_x64.lib;PhysX3Cooking_x64.lib;PhysX3Extensions.lib;PhysX3Vehicle.lib;PhysXProfileSDK.lib;PhysXVisualDebuggerSDK.lib;PxTask.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>$(SolutionPath)\..\..\Libs\$(Configuration)\$(PlatformName)\$(TargetName).lib</ImportLibrary>
     </Link>
     <ProjectReference />
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="inc\ALSound.h" />
     <ClInclude Include="inc\ALSoundSource.h" />
     <ClInclude Include="inc\ALSystem.h" />
     <ClInclude Include="inc\Cache.h" />
+    <ClInclude Include="inc\Callback.h" />
     <ClInclude Include="inc\Camera.h" />
     <ClInclude Include="inc\Console.h" />
     <ClInclude Include="inc\DLLDef.h" />
     <ClInclude Include="inc\Effect.h" />
     <ClInclude Include="inc\Engine.h" />
     <ClInclude Include="inc\EngineAppBase.h" />
+    <ClInclude Include="inc\EnginePlugins.h" />
     <ClInclude Include="inc\EnginePrivate.h" />
     <ClInclude Include="inc\EngineScriptInterp.h" />
+    <ClInclude Include="inc\EngineThreads.h" />
     <ClInclude Include="inc\Flare.h" />
     <ClInclude Include="inc\Font.h" />
     <ClInclude Include="inc\Frustum.h" />
-    <ClInclude Include="inc\GLDisplayList.h" />
-    <ClInclude Include="inc\GLExtensions.h" />
-    <ClInclude Include="inc\GLFBO.h" />
-    <ClInclude Include="inc\GLOcclusionQuery.h" />
-    <ClInclude Include="inc\GLShader.h" />
-    <ClInclude Include="inc\GLSystem.h" />
-    <ClInclude Include="inc\GLTexture.h" />
-    <ClInclude Include="inc\GLVBO.h" />
     <ClInclude Include="inc\GUI.h" />
-    <ClInclude Include="inc\ILImage.h" />
     <ClInclude Include="inc\ILSystem.h" />
     <ClInclude Include="inc\Light.h" />
     <ClInclude Include="inc\LoadingScreen.h" />
     <ClInclude Include="inc\Material.h" />
     <ClInclude Include="inc\Model.h" />
     <ClInclude Include="inc\Object.h" />
-    <ClInclude Include="inc\ObjectSkinnedMesh.h" />
     <ClInclude Include="inc\ParticleSystem.h" />
     <ClInclude Include="inc\PhysBody.h" />
     <ClInclude Include="inc\PhysJoint.h" />
     <ClInclude Include="inc\PhysSystem.h" />
+    <ClInclude Include="inc\PhysXUtils.h" />
     <ClInclude Include="inc\Scene.h" />
     <ClInclude Include="inc\SkinnedModel.h" />
     <ClInclude Include="inc\Terrain.h" />
@@ -253,33 +263,26 @@
     <ClCompile Include="src\Effect.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\EngineAppBase.cpp" />
+    <ClCompile Include="src\EngineGlobals.cpp" />
+    <ClCompile Include="src\EnginePlugins.cpp" />
     <ClCompile Include="src\EnginePrivate.cpp" />
     <ClCompile Include="src\EngineScriptInterp.cpp" />
+    <ClCompile Include="src\EngineThreads.cpp" />
     <ClCompile Include="src\Flare.cpp" />
     <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\Frustum.cpp" />
-    <ClCompile Include="src\GLDisplayList.cpp" />
-    <ClCompile Include="src\GLExtensions.cpp" />
-    <ClCompile Include="src\GLFBO.cpp" />
-    <ClCompile Include="src\GLOcclusionQuery.cpp" />
-    <ClCompile Include="src\GLShader.cpp" />
-    <ClCompile Include="src\GLSystem.cpp" />
-    <ClCompile Include="src\GLTexture.cpp" />
-    <ClCompile Include="src\GLVBO.cpp" />
     <ClCompile Include="src\GUI.cpp" />
-    <ClCompile Include="src\ILImage.cpp" />
     <ClCompile Include="src\ILSystem.cpp" />
     <ClCompile Include="src\Light.cpp" />
     <ClCompile Include="src\LoadingScreen.cpp" />
-    <ClCompile Include="src\MandelbrotDemo.cpp" />
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Object.cpp" />
-    <ClCompile Include="src\ObjectSkinnedMesh.cpp" />
     <ClCompile Include="src\ParticleSystem.cpp" />
     <ClCompile Include="src\PhysBody.cpp" />
     <ClCompile Include="src\PhysJoint.cpp" />
     <ClCompile Include="src\PhysSystem.cpp" />
+    <ClCompile Include="src\PhysXUtils.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\SkinnedModel.cpp" />
     <ClCompile Include="src\Terrain.cpp" />
@@ -303,30 +306,23 @@
     <ProjectReference Include="..\..\Externals\MyGUI\MyGui.vcxproj">
       <Project>{e9497471-6143-4e9a-8db2-436edad37b65}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Externals\newton\coreLibrary_300\projects\windows\projectOpencl_vs2010\ai.vcxproj">
-      <Project>{7d48cee3-5263-46ca-bd69-924881f0ea2f}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Externals\newton\coreLibrary_300\projects\windows\projectOpencl_vs2010\core.vcxproj">
-      <Project>{57ac4f2d-b115-4931-8f6e-af8ad616b6aa}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Externals\newton\coreLibrary_300\projects\windows\projectOpencl_vs2010\newton.vcxproj">
-      <Project>{68d9962c-0ec7-445a-b0fd-f87b16d43901}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Externals\newton\coreLibrary_300\projects\windows\projectOpencl_vs2010\opencl.vcxproj">
-      <Project>{f82a640a-ea6f-4227-a6ce-4c9374858358}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Externals\newton\coreLibrary_300\projects\windows\projectOpencl_vs2010\physics.vcxproj">
-      <Project>{39737a8f-6151-4259-8e39-25530345d4b4}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Externals\newton\packages\thirdParty\pthreads.2\VS_2012\pthread.vcxproj">
-      <Project>{03bca23c-02a5-415b-a37b-26600bc2ce96}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{413d151a-e7ac-419a-b9c1-e270e686f949}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{a260ec1a-1997-4d03-8b91-1302498eb505}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
+    <ProjectReference Include="..\OGLDrv\OGLDrv.vcxproj">
+      <Project>{2da0fbd5-be5e-4505-b7c1-de1a05027184}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="inc\EngineMathToPhysx.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -13,7 +13,7 @@
 namespace MyGUI
 {
 
-	class OpenGLDataManager :
+	class MYGUI_EXPORT OpenGLDataManager :
 		public DataManager
 	{
 	public:

@@ -38,26 +38,26 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 
 	void Scene::initialise(){
-		viewportFBO = GLFBO::create(512, 512);
+		viewportFBO = GetRender()->CreateFBO(512, 512);
 		viewportFBO->createDepthAttachment();
 
-		int size = GetEngine()->cvars->r_shadowsize;
-		shadowFBO = GLFBO::create(size, size);
+		int size = GetCvars()->r_shadowsize;
+		shadowFBO = GetRender()->CreateFBO(size, size);
 		shadowFBO->createDepthAttachment();
 
-		viewportCopy = GLTexture::create2d(512, 512, GLTexture::RGBA);
-		viewportCopy->setWrap(GLTexture::CLAMP_TO_EDGE);
-		viewportCopy->setFilter(GLTexture::LINEAR);
+		viewportCopy = GetRender()->TextureCreate2D(512, 512, I_Texture::RGBA);
+		viewportCopy->setWrap(I_Texture::CLAMP_TO_EDGE);
+		viewportCopy->setFilter(I_Texture::LINEAR);
 
-		viewportCopy_brightPass = GLTexture::create2d(512, 512, GLTexture::RGBA);
-		viewportCopy_brightPass->setWrap(GLTexture::CLAMP_TO_EDGE);
-		viewportCopy_brightPass->setFilter(GLTexture::LINEAR);
+		viewportCopy_brightPass = GetRender()->TextureCreate2D(512, 512, I_Texture::RGBA);
+		viewportCopy_brightPass->setWrap(I_Texture::CLAMP_TO_EDGE);
+		viewportCopy_brightPass->setFilter(I_Texture::LINEAR);
 
-		viewportCopy_brightPass_blured = GLTexture::create2d(512, 512, GLTexture::RGBA);
-		viewportCopy_brightPass_blured->setWrap(GLTexture::CLAMP_TO_EDGE);
-		viewportCopy_brightPass_blured->setFilter(GLTexture::LINEAR);
+		viewportCopy_brightPass_blured = GetRender()->TextureCreate2D(512, 512, I_Texture::RGBA);
+		viewportCopy_brightPass_blured->setWrap(I_Texture::CLAMP_TO_EDGE);
+		viewportCopy_brightPass_blured->setFilter(I_Texture::LINEAR);
 
-		query = new GLOcclusionQuery();
+		query = GetRender()->GetOQ();
 
 		sphere = new ObjectMesh("sphere.amdl");
 
@@ -99,7 +99,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::reloadShaders() {
-		GetEngine()->cache->reloadShaders();
+		GetCache()->reloadShaders();
 	}
 
 	//---------------------------------------------------------------------------
@@ -107,8 +107,8 @@ namespace NGTech {
 	//Params:  gravity - gravity value
 	//Returns: -
 	//---------------------------------------------------------------------------
-	void Scene::setGravity(const Vec3 &gravity) {
-		this->gravity = gravity;
+	void Scene::setGravity(const Vec3 &_gravity) {
+		GetPhysics()->SetGravity(_gravity);
 	}
 
 	//---------------------------------------------------------------------------
@@ -252,7 +252,7 @@ namespace NGTech {
 			if (mtr) {
 				frustum.get();
 
-				matMVP = GetEngine()->iRender->getMatrix_MVP();
+				matMVP = GetRender()->getMatrix_MVP();
 				matLightColor = ambient;
 				if (!mtr->setPass("Ambient")) return;
 
@@ -277,12 +277,12 @@ namespace NGTech {
 			}
 			Object *object = objects[m];
 
-			GetEngine()->iRender->push();
-			GetEngine()->iRender->multMatrix(object->getTransform());
+			GetRender()->push();
+			GetRender()->multMatrix(object->getTransform());
 
 			frustum.get();
 			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
-				GetEngine()->iRender->pop();
+				GetRender()->pop();
 				continue;
 			}
 
@@ -294,7 +294,7 @@ namespace NGTech {
 				Material *mtr = object->getMaterial(s);
 				if (!mtr) continue;
 
-				matMVP = GetEngine()->iRender->getMatrix_MVP();
+				matMVP = GetRender()->getMatrix_MVP();
 				matWorld = object->getTransform();
 
 				if (blended) {
@@ -314,7 +314,7 @@ namespace NGTech {
 				mtr->unsetPass();
 			}
 
-			GetEngine()->iRender->pop();
+			GetRender()->pop();
 		}
 	}
 
@@ -325,29 +325,6 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	void Scene::drawOmni(LightOmni *light, bool blended) {
 		if (!light->visible) return;
-
-		/*int x, y, z, w;
-		light->getScissorRect(camera->getPosition(), x, y, z, w);
-		GetEngine()->iRender->enableScissor(x, y, z, w);
-
-		GetEngine()->iRender->enable2d(false);
-		glColor3f(0, 1, 0);
-		GetEngine()->iRender->disableDepth();
-		z += x;
-		w += y;
-		glBegin(GL_LINES);
-		glVertex2i(x, y);
-		glVertex2i(x, w);
-		glVertex2i(z, y);
-		glVertex2i(z, w);
-
-		glVertex2i(x, y);
-		glVertex2i(z, y);
-		glVertex2i(x, w);
-		glVertex2i(z, w);
-		glEnd();
-		GetEngine()->iRender->enableDepth();
-		GetEngine()->iRender->enable3d();*/
 
 		Frustum frustum;
 
@@ -364,7 +341,7 @@ namespace NGTech {
 			if (mtr) {
 				frustum.get();
 
-				matMVP = GetEngine()->iRender->getMatrix_MVP();
+				matMVP = GetRender()->getMatrix_MVP();
 				if (!mtr->setPass("LightOmni")) return;
 
 				for (int n = 0; n < terrain->getNumNodes(); n++)	{
@@ -391,17 +368,17 @@ namespace NGTech {
 			}
 			Object *object = objects[m];
 
-			GetEngine()->iRender->push();
-			GetEngine()->iRender->multMatrix(object->getTransform());
+			GetRender()->push();
+			GetRender()->multMatrix(object->getTransform());
 
 			frustum.get();
 			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
-				GetEngine()->iRender->pop();
+				GetRender()->pop();
 				continue;
 			}
 			if ((light->position - object->getTransform().getTranslation()).length() >
 				light->radius + object->getRadius()) {
-					GetEngine()->iRender->pop();
+					GetRender()->pop();
 					continue;
 			}
 
@@ -414,7 +391,7 @@ namespace NGTech {
 				Material *mtr = object->getMaterial(s);
 				if (!mtr) continue;
 
-				matMVP = GetEngine()->iRender->getMatrix_MVP();
+				matMVP = GetRender()->getMatrix_MVP();
 				matWorld = object->getTransform();
 
 				if (blended) {
@@ -429,11 +406,11 @@ namespace NGTech {
 
 				mtr->unsetPass();
 			}
-			GetEngine()->iRender->pop();
+			GetRender()->pop();
 		}
 
 
-		//GetEngine()->iRender->disableScissor();
+		//GetRender()->disableScissor();
 	}
 
 	//---------------------------------------------------------------------------
@@ -448,12 +425,12 @@ namespace NGTech {
 
 		Frustum frustum;
 
-		GetEngine()->iRender->setMatrixMode_Projection();
-		GetEngine()->iRender->push();
-		GetEngine()->iRender->loadMatrix(Mat4::perspective(90, 1, 1, light->radius));
+		GetRender()->setMatrixMode_Projection();
+		GetRender()->push();
+		GetRender()->loadMatrix(Mat4::perspective(90, 1, 1, light->radius));
 
-		GetEngine()->iRender->setMatrixMode_Modelview();
-		GetEngine()->iRender->push();
+		GetRender()->setMatrixMode_Modelview();
+		GetRender()->push();
 
 		matLightIRadius = light->getIRadius();
 		matLightPosition = light->position;
@@ -462,9 +439,9 @@ namespace NGTech {
 			shadowFBO->set();
 			shadowFBO->setColorTarget(light->shadowMap, f);
 			shadowFBO->clear();
-			//GetEngine()->iRender->clearColor(Vec3(1.0, 1.0, 1.0));
+			//GetRender()->clearColor(Vec3(1.0, 1.0, 1.0));
 
-			GetEngine()->iRender->loadMatrix(Mat4::cube(light->position, f));
+			GetRender()->loadMatrix(Mat4::cube(light->position, f));
 
 			//DRAW OBJECTS
 			for (int m = 0; m < objects.size(); m++) {
@@ -476,17 +453,17 @@ namespace NGTech {
 				}
 				Object *object = objects[m];
 
-				GetEngine()->iRender->push();
-				GetEngine()->iRender->multMatrix(object->getTransform());
+				GetRender()->push();
+				GetRender()->multMatrix(object->getTransform());
 
 				frustum.get();
 				if (!frustum.isInside(object->getCenter(), object->getRadius())) {
-					GetEngine()->iRender->pop();
+					GetRender()->pop();
 					continue;
 				}
 				if ((light->position - object->getTransform().getTranslation()).length() >
 					light->radius + object->getRadius()) {
-						GetEngine()->iRender->pop();
+						GetRender()->pop();
 						continue;
 				}
 
@@ -501,7 +478,7 @@ namespace NGTech {
 					}
 
 					//set material params
-					matMVP = GetEngine()->iRender->getMatrix_MVP();
+					matMVP = GetRender()->getMatrix_MVP();
 					matWorld = object->getTransform();
 					depthPass->setPass("DepthPass");
 
@@ -509,17 +486,17 @@ namespace NGTech {
 
 					depthPass->unsetPass();
 				}
-				GetEngine()->iRender->pop();
+				GetRender()->pop();
 			}
 			shadowFBO->flush();
 			shadowFBO->unset();
 		}
 
-		GetEngine()->iRender->setMatrixMode_Projection();
-		GetEngine()->iRender->pop();
+		GetRender()->setMatrixMode_Projection();
+		GetRender()->pop();
 
-		GetEngine()->iRender->setMatrixMode_Modelview();
-		GetEngine()->iRender->pop();
+		GetRender()->setMatrixMode_Modelview();
+		GetRender()->pop();
 	}
 
 	//---------------------------------------------------------------------------
@@ -553,7 +530,7 @@ namespace NGTech {
 				frustum.get();
 
 				//set material params
-				matMVP = GetEngine()->iRender->getMatrix_MVP();
+				matMVP = GetRender()->getMatrix_MVP();
 				if (!mtr->setPass("LightSpot")) return;
 
 				for (int n = 0; n < terrain->getNumNodes(); n++)	{
@@ -582,17 +559,17 @@ namespace NGTech {
 			}
 			Object *object = objects[m];
 
-			GetEngine()->iRender->push();
-			GetEngine()->iRender->multMatrix(object->getTransform());
+			GetRender()->push();
+			GetRender()->multMatrix(object->getTransform());
 
 			frustum.get();
 			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
-				GetEngine()->iRender->pop();
+				GetRender()->pop();
 				continue;
 			}
 			if ((light->position - object->getTransform().getTranslation()).length() >
 				light->radius + object->getRadius()) {
-					GetEngine()->iRender->pop();
+					GetRender()->pop();
 					continue;
 			}
 
@@ -607,7 +584,7 @@ namespace NGTech {
 				if (!mtr) continue;
 
 				//set material params
-				matMVP = GetEngine()->iRender->getMatrix_MVP();
+				matMVP = GetRender()->getMatrix_MVP();
 				matWorld = object->getTransform();
 				if (blended) {
 					if (!mtr->passHasBlending("Ambient")) continue;
@@ -621,7 +598,7 @@ namespace NGTech {
 
 				mtr->unsetPass();
 			}
-			GetEngine()->iRender->pop();
+			GetRender()->pop();
 		}
 	}
 
@@ -640,18 +617,18 @@ namespace NGTech {
 		matLightIRadius = light->getIRadius();
 		matLightPosition = light->position;
 
-		GetEngine()->iRender->setMatrixMode_Projection();
-		GetEngine()->iRender->push();
-		GetEngine()->iRender->loadMatrix(Mat4::perspective(light->fov, 1, 1, light->radius));
+		GetRender()->setMatrixMode_Projection();
+		GetRender()->push();
+		GetRender()->loadMatrix(Mat4::perspective(light->fov, 1, 1, light->radius));
 
-		GetEngine()->iRender->setMatrixMode_Modelview();
-		GetEngine()->iRender->push();
-		GetEngine()->iRender->loadMatrix(Mat4::lookAt(light->position, light->position + light->direction, Vec3(0, 1, 0)));
+		GetRender()->setMatrixMode_Modelview();
+		GetRender()->push();
+		GetRender()->loadMatrix(Mat4::lookAt(light->position, light->position + light->direction, Vec3(0, 1, 0)));
 
 		shadowFBO->set();
 		shadowFBO->setColorTarget(light->shadowMap);
 		shadowFBO->clear();
-		GetEngine()->iRender->clearColor(Vec3(1.0, 1.0, 1.0));
+		GetRender()->clearColor(Vec3(1.0, 1.0, 1.0));
 
 		//DRAW OBJECTS
 		for (int m = 0; m < objects.size(); m++) {
@@ -663,17 +640,17 @@ namespace NGTech {
 			}
 			Object *object = objects[m];
 
-			GetEngine()->iRender->push();
-			GetEngine()->iRender->multMatrix(object->getTransform());
+			GetRender()->push();
+			GetRender()->multMatrix(object->getTransform());
 
 			frustum.get();
 			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
-				GetEngine()->iRender->pop();
+				GetRender()->pop();
 				continue;
 			}
 			if ((light->position - object->getTransform().getTranslation()).length() >
 				light->radius + object->getRadius()) {
-					GetEngine()->iRender->pop();
+					GetRender()->pop();
 					continue;
 			}
 
@@ -688,7 +665,7 @@ namespace NGTech {
 					continue;
 				}
 
-				matMVP = GetEngine()->iRender->getMatrix_MVP();
+				matMVP = GetRender()->getMatrix_MVP();
 				matWorld = object->getTransform();
 				depthPass->setPass("DepthPass");
 
@@ -696,17 +673,17 @@ namespace NGTech {
 
 				depthPass->unsetPass();
 			}
-			GetEngine()->iRender->pop();
+			GetRender()->pop();
 		}
 
 		shadowFBO->flush();
 		shadowFBO->unset();
 
-		GetEngine()->iRender->setMatrixMode_Projection();
-		GetEngine()->iRender->pop();
+		GetRender()->setMatrixMode_Projection();
+		GetRender()->pop();
 
-		GetEngine()->iRender->setMatrixMode_Modelview();
-		GetEngine()->iRender->pop();
+		GetRender()->setMatrixMode_Modelview();
+		GetRender()->pop();
 	}
 
 	//---------------------------------------------------------------------------
@@ -727,7 +704,7 @@ namespace NGTech {
 			Material *mtr = terrain->getMaterial();
 			if (mtr) {
 				//set material params
-				matMVP = GetEngine()->iRender->getMatrix_MVP();
+				matMVP = GetRender()->getMatrix_MVP();
 				if (!mtr->setPass("LightDirect")) return;
 
 				frustum.get();
@@ -753,12 +730,12 @@ namespace NGTech {
 			}
 			Object *object = objects[m];
 
-			GetEngine()->iRender->push();
-			GetEngine()->iRender->multMatrix(object->getTransform());
+			GetRender()->push();
+			GetRender()->multMatrix(object->getTransform());
 
 			frustum.get();
 			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
-				GetEngine()->iRender->pop();
+				GetRender()->pop();
 				continue;
 			}
 
@@ -772,7 +749,7 @@ namespace NGTech {
 				if (!mtr) continue;
 
 				//set material params
-				matMVP = GetEngine()->iRender->getMatrix_MVP();
+				matMVP = GetRender()->getMatrix_MVP();
 				matWorld = object->getTransform();
 
 				if (blended) {
@@ -787,7 +764,7 @@ namespace NGTech {
 
 				mtr->unsetPass();
 			}
-			GetEngine()->iRender->pop();
+			GetRender()->pop();
 		}
 	}
 
@@ -807,23 +784,23 @@ namespace NGTech {
 		}
 
 		if ((light->position - camera->getPosition()).length() > light->radius) {
-			GetEngine()->iRender->colorMask(false, false, false, false);
-			GetEngine()->iRender->depthMask(false);
+			GetRender()->colorMask(false, false, false, false);
+			GetRender()->depthMask(false);
 			//glColor3f(0, 0, 1);
 			query->beginRendering();
 
-			GetEngine()->iRender->push();
-			GetEngine()->iRender->multMatrix(Mat4::translate(light->position) *
+			GetRender()->push();
+			GetRender()->multMatrix(Mat4::translate(light->position) *
 				Mat4::scale(Vec3(light->radius*0.2, light->radius*0.2, light->radius*0.2)));
 
 			sphere->drawSubset(0);
 
-			GetEngine()->iRender->pop();
+			GetRender()->pop();
 
 			query->endRendering();
 
-			GetEngine()->iRender->depthMask(true);
-			GetEngine()->iRender->colorMask(true, true, true, true);
+			GetRender()->depthMask(true);
+			GetRender()->colorMask(true, true, true, true);
 
 			if (query->getResult() < 2) {
 				light->visible = false;
@@ -848,23 +825,23 @@ namespace NGTech {
 		}
 
 		if ((light->position - camera->getPosition()).length() > light->radius) {
-			GetEngine()->iRender->colorMask(false, false, false, false);
-			GetEngine()->iRender->depthMask(false);
+			GetRender()->colorMask(false, false, false, false);
+			GetRender()->depthMask(false);
 
 			query->beginRendering();
 
-			GetEngine()->iRender->push();
-			GetEngine()->iRender->multMatrix(Mat4::translate(light->position) *
+			GetRender()->push();
+			GetRender()->multMatrix(Mat4::translate(light->position) *
 				Mat4::scale(Vec3(light->radius*0.2, light->radius*0.2, light->radius*0.2)));
 
 			sphere->drawSubset(0);
 
-			GetEngine()->iRender->pop();
+			GetRender()->pop();
 
 			query->endRendering();
 
-			GetEngine()->iRender->depthMask(true);
-			GetEngine()->iRender->colorMask(true, true, true, true);
+			GetRender()->depthMask(true);
+			GetRender()->colorMask(true, true, true, true);
 
 			if (query->getResult() < 2) {
 				light->visible = false;
@@ -883,34 +860,16 @@ namespace NGTech {
 	void Scene::Update() {
 		//---------update-camera-----------------------------------
 		camera->update();
-		GetEngine()->alSystem->setListener(camera->getPosition(), camera->getDirection());
-
-		//---------set-gravity-----------------------------------
-		for (int k = 0; k < objects.size(); k++) {
-			if (objects[k]->getPhysBody()) {
-				objects[k]->getPhysBody()->addTorque(gravity);
-				if (water) {
-					if (objects[k]->getTransform().getTranslation().y < water->getDepth() - 2.5) {
-						float volume = 4 / 3 * PI * pow(objects[k]->getRadius(), 3.0f);
-						float d = objects[k]->getPhysBody()->getMass() / volume;
-						objects[k]->getPhysBody()->addTorque(-gravity / d * 0.02);
-					}
-				}
-			}
-
-			if (camera->getPhysBody()) camera->getPhysBody()->addTorque(gravity);
-		}
-
 		//---------draw-scene--------------------------------
-		GetEngine()->iRender->setMatrixMode_Projection();
-		GetEngine()->iRender->loadMatrix(camera->getProjection());
+		GetRender()->setMatrixMode_Projection();
+		GetRender()->loadMatrix(camera->getProjection());
 
-		GetEngine()->iRender->setMatrixMode_Modelview();
-		GetEngine()->iRender->loadMatrix(camera->getTransform());
+		GetRender()->setMatrixMode_Modelview();
+		GetRender()->loadMatrix(camera->getTransform());
 
-		matTime = GetEngine()->iWindow->getETime();
+		matTime = GetWindow()->getETime();
 		matViewportMap = viewportCopy;
-		matViewportTransform = Mat4::texBias() * GetEngine()->iRender->getMatrix_MVP();
+		matViewportTransform = Mat4::texBias() * GetRender()->getMatrix_MVP();
 
 		drawAmbient(false);
 
@@ -933,21 +892,21 @@ namespace NGTech {
 			}
 		}
 
-		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
-		GetEngine()->iRender->depthMask(false);
+		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
+		GetRender()->depthMask(false);
 
 		//draw wireframe
-		if (GetEngine()->cvars->r_wireframe) {
+		if (GetCvars()->r_wireframe) {
 			glColor3f(1, 1, 1);//Nick:TODO:Replace
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//Nick:TODO:Replace
 
 			for (int i = 0; i < objects.size(); i++) {
-				GetEngine()->iRender->push();
-				GetEngine()->iRender->multMatrix(objects[i]->getTransform());
+				GetRender()->push();
+				GetRender()->multMatrix(objects[i]->getTransform());
 				for (int k = 0; k < objects[i]->getNumSubsets(); k++) {
 					objects[i]->drawSubset(k);
 				}
-				GetEngine()->iRender->pop();
+				GetRender()->pop();
 			}
 			if (terrain) {
 				for (int n = 0; n < terrain->getNumNodes(); n++) {
@@ -970,13 +929,13 @@ namespace NGTech {
 			}
 		}
 
-		GetEngine()->iRender->depthMask(true);
-		GetEngine()->iRender->disableBlending();
+		GetRender()->depthMask(true);
+		GetRender()->disableBlending();
 
 		drawAmbient(true);
 
-		/*GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
-		GetEngine()->iRender->depthMask(false);
+		/*GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
+		GetRender()->depthMask(false);
 
 		for(int i = 0; i < lights.size(); i++) {
 		if(lights[i]->getType() == Light::LIGHT_OMNI) {
@@ -988,8 +947,8 @@ namespace NGTech {
 		}
 		}
 
-		GetEngine()->iRender->depthMask(true);
-		GetEngine()->iRender->disableBlending();*/
+		GetRender()->depthMask(true);
+		GetRender()->disableBlending();*/
 
 		//draw particle systems
 		for (int k = 0; k < systems.size(); k++) {
@@ -1002,28 +961,28 @@ namespace NGTech {
 		viewportFBO->clear();
 
 		//---------set-camera--------------------------------
-		GetEngine()->iRender->setMatrixMode_Projection();
-		GetEngine()->iRender->loadMatrix(camera->getProjection());
+		GetRender()->setMatrixMode_Projection();
+		GetRender()->loadMatrix(camera->getProjection());
 
-		GetEngine()->iRender->setMatrixMode_Modelview();
-		GetEngine()->iRender->loadMatrix(camera->getTransform());
+		GetRender()->setMatrixMode_Modelview();
+		GetRender()->loadMatrix(camera->getTransform());
 
 		drawAmbient(false);
 
-		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
-		GetEngine()->iRender->depthMask(false);
+		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
+		GetRender()->depthMask(false);
 
-		if (GetEngine()->cvars->r_wireframe) {//Nick:TODO:Replace
+		if (GetCvars()->r_wireframe) {//Nick:TODO:Replace
 			glColor3f(1, 1, 1);//Nick:TODO:Replace
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//Nick:TODO:Replace
 
 			for (int i = 0; i < objects.size(); i++) {
-				GetEngine()->iRender->push();
-				GetEngine()->iRender->multMatrix(objects[i]->getTransform());
+				GetRender()->push();
+				GetRender()->multMatrix(objects[i]->getTransform());
 				for (int k = 0; k < objects[i]->getNumSubsets(); k++) {
 					objects[i]->drawSubset(k);
 				}
-				GetEngine()->iRender->pop();
+				GetRender()->pop();
 			}
 			if (terrain) {
 				for (int n = 0; n < terrain->getNumNodes(); n++) {
@@ -1058,8 +1017,8 @@ namespace NGTech {
 			}
 		}
 
-		GetEngine()->iRender->depthMask(true);
-		GetEngine()->iRender->disableBlending();
+		GetRender()->depthMask(true);
+		GetRender()->disableBlending();
 
 		for (int k = 0; k < systems.size(); k++) {
 			if (systems[k]) systems[k]->draw();
@@ -1069,31 +1028,31 @@ namespace NGTech {
 		viewportFBO->unset();
 
 		if (water) 	{
-			matMVP = GetEngine()->iRender->getMatrix_MVP();
+			matMVP = GetRender()->getMatrix_MVP();
 			waterMtr->setPass("Ambient");		
 			water->draw();		
 			waterMtr->unsetPass();
 		}
-
+#pragma message("TODO:GUI:Разобраться с апдейтом GUI")
 		//Now GUI Update
-		if (GetEngine()->gui)
-			GetEngine()->gui->update();
+		if (GetGUI())
+			GetGUI()->update();
 
 
-		if (GetEngine()->cvars->r_hdr) {
+		if (GetCvars()->r_hdr) {
 			//---------bright-pass--------------------------------
 			viewportFBO->set();
 			viewportFBO->setColorTarget(viewportCopy_brightPass);
 			viewportFBO->clear();
 
-			GetEngine()->iRender->enable2d(true);
+			GetRender()->enable2d(true);
 
 			matViewportMap = viewportCopy;
 			hdr->setPass("BrightPass");
-			GetEngine()->iRender->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
+			GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
 			hdr->unsetPass();
 
-			GetEngine()->iRender->enable3d();
+			GetRender()->enable3d();
 
 			viewportFBO->flush();
 			viewportFBO->unset();
@@ -1103,29 +1062,29 @@ namespace NGTech {
 			viewportFBO->setColorTarget(viewportCopy_brightPass_blured);
 			viewportFBO->clear();
 
-			GetEngine()->iRender->enable2d(true);
+			GetRender()->enable2d(true);
 
 			matViewportMap = viewportCopy_brightPass;
 			hdr->setPass("BlurPass");
-			GetEngine()->iRender->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
+			GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
 			hdr->unsetPass();
 
-			GetEngine()->iRender->enable3d();
+			GetRender()->enable3d();
 
 			viewportFBO->flush();
 			viewportFBO->unset();
 
 			//---------draw-bloom-------------------------------
-			GetEngine()->iRender->enable2d(true);
-			GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
+			GetRender()->enable2d(true);
+			GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 
 			matViewportMap = viewportCopy_brightPass_blured;
 			hdr->setPass("BlurPass");
-			GetEngine()->iRender->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
+			GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
 			hdr->unsetPass();
 
-			GetEngine()->iRender->disableBlending();
-			GetEngine()->iRender->enable3d();
+			GetRender()->disableBlending();
+			GetRender()->enable3d();
 		}
 	}
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 //**************************************
-#include "GLSystem.h"
+#include "IRender.h"
 //**************************************
 
 namespace NGTech {
@@ -13,7 +13,7 @@ namespace NGTech {
 		void print(int x, int y, int size, const String &text, const Vec3 &color, float alpha);
 
 	private:
-		GLTexture *fontTex;
-		GLDisplayList *list[256];
+		I_Texture *fontTex;
+		I_DisplayList *list[256];
 	};
 }

@@ -8,7 +8,6 @@
 #define __MYGUI_DATA_MEMORY_STREAM_H__
 
 #include "MyGUI_Prerequest.h"
-#include "MyGUI_IDataStream.h"
 
 namespace MyGUI
 {

@@ -10,7 +10,7 @@
 
 //***************************************************************************
 #include "../Common/EString.h"
-#include "GLSystem.h"
+#include "IRender.h"
 //***************************************************************************
 
 namespace NGTech {
@@ -29,14 +29,6 @@ namespace NGTech {
 		void show();
 
 	private:
-		GLTexture *glLogo;
-		GLTexture *alLogo;
-		GLTexture *ilLogo;
-		GLTexture *newtonLogo;
-		GLTexture *myGUILogo;
-
-		GLTexture *vegaLogo;
-
-		GLTexture *background;
+		I_Texture *background;
 	};
 }

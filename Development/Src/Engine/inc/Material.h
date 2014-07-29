@@ -10,8 +10,8 @@
 
 //***************************************************************************
 #include "../Common/EString.h"
-#include "File.h"
-#include "GLSystem.h"
+#include "FileHelper.h"
+#include "IRender.h"
 #include <vector>
 //***************************************************************************
 
@@ -59,10 +59,10 @@ namespace NGTech {
 
 			String name;
 
-			GLShader *shader;
+			I_Shader *shader;
 
-			std::vector<std::pair<String, GLTexture*>> u_sampler2D;
-			std::vector<std::pair<String, GLTexture*>> u_samplerCube;
+			std::vector<std::pair<String, I_Texture*>> u_sampler2D;
+			std::vector<std::pair<String, I_Texture*>> u_samplerCube;
 			std::vector<std::pair<String, float>> u_float;
 			std::vector<std::pair<String, Vec2>> u_Vec2;
 			std::vector<std::pair<String, Vec3>> u_Vec3;
@@ -71,10 +71,10 @@ namespace NGTech {
 			std::vector<std::pair<String, SceneParam>> u_scene_params;
 
 			bool hasBlending;
-			IRender::BlendParam src, dst;
+			I_Render::BlendParam src, dst;
 
 			bool hasAlphaTest;
-			IRender::CompareType alphaFunc;
+			I_Render::CompareType alphaFunc;
 			float alphaRef;
 
 			bool depthMask;

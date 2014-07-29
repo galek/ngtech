@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GLSystem.h"
+#include "IRender.h"
 #include "MathLib.h"
 #include <vector>
 
@@ -28,8 +28,8 @@ namespace NGTech {
 	private:
 		Vec3 position, color;
 
-		GLTexture *texture;
-		GLDisplayList *flareList;
+		I_Texture *texture;
+		I_DisplayList *flareList;
 
 		float radius;
 	};

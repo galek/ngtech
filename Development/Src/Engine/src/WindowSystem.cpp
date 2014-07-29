@@ -98,7 +98,8 @@ namespace NGTech {
 		if (fullscreen) {
 			dwExStyle = WS_EX_APPWINDOW;
 			dwStyle = WS_POPUP;
-		} else {
+		}
+		else {
 			dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
 			dwStyle = WS_OVERLAPPEDWINDOW;
 		}
@@ -232,8 +233,8 @@ namespace NGTech {
 
 		case WM_KEYDOWN:
 			{
-				if (GetEngine()->iWindow)
-					GetEngine()->iWindow->keys[wParam] = true;
+				if (GetWindow())
+					GetWindow()->keys[wParam] = true;
 				//Nick:TODO: сделай ввод
 
 				return 0;
@@ -241,8 +242,8 @@ namespace NGTech {
 
 		case WM_KEYUP:
 			{
-				if (GetEngine()->iWindow)
-					GetEngine()->iWindow->keys[wParam] = false;
+				if (GetWindow())
+					GetWindow()->keys[wParam] = false;
 				//Nick:TODO: сделай ввод
 
 				return 0;
@@ -250,14 +251,14 @@ namespace NGTech {
 
 		case WM_MOUSEMOVE:
 			{
-				if (GetEngine()->iWindow){
-					GetEngine()->iWindow->mx = LOWORD(lParam);
-					GetEngine()->iWindow->my = HIWORD(lParam);
-					GetEngine()->iWindow->mousing = true;
+				if (GetWindow()){
+					GetWindow()->mx = LOWORD(lParam);
+					GetWindow()->my = HIWORD(lParam);
+					GetWindow()->mousing = true;
 
 
-					if (!GetEngine()->iWindow->mouseGrabed)
-						MyGUI::InputManager::getInstancePtr()->injectMouseMove(GetEngine()->iWindow->oldMouseX, GetEngine()->iWindow->oldMouseY, 0);
+					if (!GetWindow()->mouseGrabed)
+						MyGUI::InputManager::getInstancePtr()->injectMouseMove(GetWindow()->oldMouseX, GetWindow()->oldMouseY, 0);
 			
 					return 0;
 				}
@@ -265,44 +266,44 @@ namespace NGTech {
 
 		case WM_LBUTTONDOWN:
 			{
-				if (GetEngine()->iWindow)
-					GetEngine()->iWindow->mouseButtons[0] = true; 
+				if (GetWindow())
+					GetWindow()->mouseButtons[0] = true; 
 
-				if (!GetEngine()->iWindow->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMousePress(GetEngine()->iWindow->oldMouseX, GetEngine()->iWindow->oldMouseY, (MyGUI::MouseButton::Enum)0);
+				if (!GetWindow()->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMousePress(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)0);
 				
 				return 0;
 			}
 
 		case WM_LBUTTONUP:
 			{
-				if (GetEngine()->iWindow)
-					GetEngine()->iWindow->mouseButtons[0] = false;
+				if (GetWindow())
+					GetWindow()->mouseButtons[0] = false;
 
-				if (!GetEngine()->iWindow->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(GetEngine()->iWindow->oldMouseX, GetEngine()->iWindow->oldMouseY, (MyGUI::MouseButton::Enum)0);
+				if (!GetWindow()->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)0);
 				
 				return 0;
 			}
 
 		case WM_RBUTTONDOWN:
 			{
-				if (GetEngine()->iWindow)
-					GetEngine()->iWindow->mouseButtons[1] = true;
+				if (GetWindow())
+					GetWindow()->mouseButtons[1] = true;
 
-				if (!GetEngine()->iWindow->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMousePress(GetEngine()->iWindow->oldMouseX, GetEngine()->iWindow->oldMouseY, (MyGUI::MouseButton::Enum)1);
+				if (!GetWindow()->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMousePress(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)1);
 				
 				return 0;
 			}
 
 		case WM_RBUTTONUP:
 			{
-				if (GetEngine()->iWindow)
-					GetEngine()->iWindow->mouseButtons[1] = false;
+				if (GetWindow())
+					GetWindow()->mouseButtons[1] = false;
 
-				if (!GetEngine()->iWindow->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(GetEngine()->iWindow->oldMouseX, GetEngine()->iWindow->oldMouseY, (MyGUI::MouseButton::Enum)1);
+				if (!GetWindow()->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)1);
 					
 				return 0;
 			}
@@ -312,15 +313,15 @@ namespace NGTech {
 				int w = LOWORD(lParam);
 				int h = HIWORD(lParam);
 
-				if (GetEngine()->iRender)
-					GetEngine()->iRender->reshape(w, h);
-				if (GetEngine()->iWindow){
-					GetEngine()->iWindow->width = w;
-					GetEngine()->iWindow->height = h;
+				if (GetRender())
+					GetRender()->reshape(w, h);
+				if (GetWindow()){
+					GetWindow()->width = w;
+					GetWindow()->height = h;
 					return 0;
 				}
-				if (GetEngine()->gui)
-					GetEngine()->gui->resize(w, h);
+				if (GetGUI())
+					GetGUI()->resize(w, h);
 			}
 		}
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
@@ -347,7 +348,8 @@ namespace NGTech {
 			mouseX += mx - width / 2;
 			mouseY += my - height / 2;
 			setMousePos(width / 2, height / 2);
-		}else {
+		}
+		else {
 			oldMouseX = mouseX;
 			oldMouseY = mouseY;
 			mouseX = mx;

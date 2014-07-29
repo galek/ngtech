@@ -12,6 +12,7 @@
 #include "IncludesAndLibs.h"
 //***************************************************************************
 #include "../Common/EString.h"
+#include "DLLDef.h"
 //***************************************************************************
 
 namespace NGTech {
@@ -19,7 +20,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: Sound class 
 	//---------------------------------------------------------------------------
-	class ALSound {
+	class ENGINE_API ALSound {
 	public:
 		static ALSound *create(const String &path);
 		~ALSound();

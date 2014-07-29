@@ -1,7 +1,6 @@
 #pragma once
 
 //**************************************
-#include "GLSystem.h"
 #include "MathLib.h"
 #include <vector>
 //**************************************
@@ -60,8 +59,8 @@ namespace NGTech {
 
 		int numParticles;
 
-		GLTexture *texture;
-		GLDisplayList *particleList;
+		I_Texture *texture;
+		I_DisplayList *particleList;
 
 		Particle *particles;
 	};
@@ -69,7 +68,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: class of the effect flare
 	//---------------------------------------------------------------------------
-	class EffectFlare : public Effect {
+	class ENGINE_API EffectFlare : public Effect {
 	public:
 		EffectFlare(const String &path);
 		~EffectFlare();
@@ -88,8 +87,8 @@ namespace NGTech {
 	private:
 		Vec3 position, color;
 
-		GLTexture *texture;
-		GLDisplayList *flareList;
+		I_Texture *texture;
+		I_DisplayList *flareList;
 
 		float radius;
 	};

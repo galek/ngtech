@@ -141,7 +141,7 @@ namespace NGTech {
 
 		computeTBN();
 
-		vertBuff = GLVBO::createVBO(vertices, numVertices, sizeof(Vertex), GLVBO::FLOAT);
+		vertBuff = GetRender()->CreateVBO(vertices, numVertices, sizeof(Vertex), I_VBManager::FLOAT);
 	}
 
 	Terrain::~Terrain() {
@@ -195,7 +195,7 @@ namespace NGTech {
 			}
 		}
 
-		pBody = PhysBody::createStaticMesh(pos, numPos, false);
+		pBody = PhysBody::CreateStaticMesh(pos, numPos, false);
 
 		delete [] pos;
 	}
@@ -212,7 +212,7 @@ namespace NGTech {
 		vertBuff->setNormalSource(sizeof(Vertex), sizeof(Vec3) + sizeof(Vec2));
 		vertBuff->setVertexSource(3, sizeof(Vertex), 0);
 
-		GetEngine()->iRender->drawIndexedGeometry(nodes[n].indices[lod], nodes[n].numIndices[lod]);
+		GetRender()->drawIndexedGeometry(nodes[n].indices[lod], nodes[n].numIndices[lod]);
 
 		vertBuff->unset();
 		vertBuff->unsetVertexSource();

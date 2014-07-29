@@ -870,7 +870,4 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Platforms\OpenGL\OpenGLPlatform\include\GL\GLEW-LICENSE" />
-  </ItemGroup>
 </Project>

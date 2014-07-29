@@ -3,11 +3,13 @@
 //***************************************************
 #include "DLLDef.h"
 //***************************************************
-#include "..\..\Core\CoreManager.h"
+#include "..\..\Core\inc\CoreManager.h"
 //***************************************************
 
 namespace NGTech {
 	struct IGame;
+	class EnginePlugins;
+	class EngineThreads;
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main class. Created one time
 	//---------------------------------------------------------------------------
@@ -26,9 +28,14 @@ namespace NGTech {
 		void quit();
 		void initialise();
 		void setGame(IGame*_game);
+		virtual float GetLastFPS();
+		virtual void LoadEngineModule(const char* _name);
 	private:
 		void _preInit();
 		void _setResources();	
+	private:
+		EnginePlugins*plugins;
+		EngineThreads*threads;
 	};
 	ENGINE_API Engine* GetEngine();
 }

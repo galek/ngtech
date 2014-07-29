@@ -9,7 +9,6 @@
 #pragma once
 
 //**************************************
-#include "GLSystem.h"
 #include "MathLib.h"
 #include <vector>
 //**************************************
@@ -58,8 +57,8 @@ namespace NGTech {
 		int numParticles;
 		float dispersion;
 
-		GLTexture *texture;
-		GLDisplayList *particleList;
+		I_Texture *texture;
+		I_DisplayList *particleList;
 
 		Particle *particles;
 	};

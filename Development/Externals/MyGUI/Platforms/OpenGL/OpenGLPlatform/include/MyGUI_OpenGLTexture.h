@@ -17,7 +17,7 @@ namespace MyGUI
 
 	class OpenGLRTTexture;
 
-	class OpenGLTexture : public ITexture
+	class MYGUI_EXPORT OpenGLTexture : public ITexture
 	{
 	public:
 		OpenGLTexture(const std::string& _name, OpenGLImageLoader* _loader);

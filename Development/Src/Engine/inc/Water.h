@@ -9,7 +9,7 @@
 #pragma once
 
 //************************************
-#include "GLSystem.h"
+#include "IRender.h"
 #include "ILSystem.h"
 //************************************
 
@@ -29,10 +29,10 @@ namespace NGTech {
 		float getDepth() { return depth; };
 
 	private:
-		GLTexture *dudvMap;
-		GLTexture *normalMap;
+		I_Texture *dudvMap;
+		I_Texture *normalMap;
 
-		GLShader *waterShader;
+		I_Shader *waterShader;
 
 		float size;
 		float depth;
