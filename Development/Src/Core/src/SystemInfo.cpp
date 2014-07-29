@@ -103,7 +103,23 @@ namespace NGTech {
 	* Return system information
 	*
 	\******************************************************************************/
+#ifdef _WIN32
+	int CompareWindowsVersion(DWORD dwMajorVersion, DWORD dwMinorVersion)
+	{
+		OSVERSIONINFOEX ver;
+		DWORDLONG dwlConditionMask = 0;
 
+		ZeroMemory(&ver, sizeof(OSVERSIONINFOEX));
+		ver.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+		ver.dwMajorVersion = dwMajorVersion;
+		ver.dwMinorVersion = dwMinorVersion;
+
+		VER_SET_CONDITION(dwlConditionMask, VER_MAJORVERSION, VER_EQUAL);
+		VER_SET_CONDITION(dwlConditionMask, VER_MINORVERSION, VER_EQUAL);
+
+		return VerifyVersionInfo(&ver, VER_MAJORVERSION | VER_MINORVERSION, dwlConditionMask);
+	}
+#endif
 	/*
 	 */
 	static const char *get_system_info(int &memory_size) {
@@ -114,51 +130,14 @@ namespace NGTech {
 		memory_size = 256;
 
 #ifdef _WIN32
-
-		OSVERSIONINFO version;
-		memset(&version, 0, sizeof(version));
-		version.dwOSVersionInfoSize = sizeof(version);
-
-		if (GetVersionEx(&version)) {
-			switch (version.dwPlatformId) {
-			case VER_PLATFORM_WIN32_NT:
-				if (version.dwMajorVersion == 5) {
-					switch (version.dwMinorVersion) {
-					case 0: sprintf(info, "Windows 2000 (build %ld", version.dwBuildNumber); break;
-					case 1: sprintf(info, "Windows XP (build %ld", version.dwBuildNumber); break;
-					case 2: sprintf(info, "Windows Server 2003 (build %ld", version.dwBuildNumber); break;
-					default: sprintf(info, "Windows NT %ld.%ld (build %ld", version.dwMajorVersion, version.dwMinorVersion, version.dwBuildNumber);
-					}
-				}
-				else if (version.dwMajorVersion == 6) {
-					switch (version.dwMinorVersion) {
-					case 0: sprintf(info, "Windows Vista (build %ld", version.dwBuildNumber); break;
-					case 1: sprintf(info, "Windows 7 (build %ld", version.dwBuildNumber); break;
-					default: sprintf(info, "Windows NT %ld.%ld (build %ld", version.dwMajorVersion, version.dwMinorVersion, version.dwBuildNumber);
-					}
-				}
-				else {
-					sprintf(info, "Windows NT %ld.%ld (build %ld", version.dwMajorVersion, version.dwMinorVersion, version.dwBuildNumber);
-				}
-				if (version.szCSDVersion[0] != '\0') {
-					strcat(info, ", ");
-					strcat(info, version.szCSDVersion);
-				}
-				strcat(info, ")");
-				break;
-			case VER_PLATFORM_WIN32_WINDOWS:
-				switch (version.dwMinorVersion) {
-				case 0:	strcpy(info, "Windows 95"); break;
-				case 10: strcpy(info, "Windows 98"); break;
-				case 90: strcpy(info, "Windows ME"); break;
-				default: sprintf(info, "Windows 9x %ld.%ld", version.dwMajorVersion, version.dwMinorVersion);
-				}
-				break;
-			default:
-				strcpy(info, "Unknown Windows OS");
-			}
-		}
-
+		if (CompareWindowsVersion(6, 0))
+			sprintf(info, "Windows Vista");
+		else if (CompareWindowsVersion(6, 1))
+			sprintf(info, "Windows 7");
+		else if (CompareWindowsVersion(6, 2))
+			sprintf(info, "Windows 8");
+		else if (CompareWindowsVersion(6, 3))
+			sprintf(info, "Windows 8.1");
 #ifdef _WIN64
 		strcat(info," 64bit");
 #else
