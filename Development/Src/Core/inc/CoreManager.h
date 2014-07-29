@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Types.h"
+#include "../../Common/Types.h"
 #include "coredll.h"
 
 namespace NGTech {
@@ -26,12 +26,14 @@ namespace NGTech {
 	struct CORE_API CoreManager{
 		CoreManager();
 
-		virtual void quit()=0;
-		virtual void initialise()=0;
-		virtual void mainLoop()=0;
+		virtual void quit() = 0;
+		virtual void initialise(int _hwnd) = 0;
+		virtual void mainLoop() = 0;
 		virtual float GetLastFPS() = 0;
 		virtual void LoadEngineModule(const char* _name){}
 		ENGINE_INLINE void SetRender(I_Render*_r){ iRender = _r; }
+		ENGINE_INLINE bool isEditor(){ return mIsEditor; }
+		ENGINE_INLINE void RunEditor(bool _ed){ mIsEditor = _ed; }
 	public:
 		bool running;
 	public:
@@ -51,6 +53,7 @@ namespace NGTech {
 		Scene*scene;
 		IGame*game;
 		IScriptInterp* scripting;
+		bool mIsEditor;
 	};
 	// For Using in Render and another libs,what not will link with Engine.dll
 	// After creation Engine pointer on Core will pointer on Engine

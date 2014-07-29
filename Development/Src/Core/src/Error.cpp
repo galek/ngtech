@@ -10,8 +10,8 @@
 
 namespace NGTech {
 
-/*
-*/
+	/*
+	*/
 	void Error::showAndExit(const String &text) {
 #ifdef WIN32
 		Log::error(text);

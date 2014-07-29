@@ -106,10 +106,10 @@ namespace NGTech {
 
 	/*
 	*/
-	void Engine::initialise()
+	void Engine::initialise(int _hwnd)
 	{
 		if (iWindow){
-			iWindow->initialise();
+			iWindow->initialise(_hwnd);
 			Debug("[Init] Window Finished");
 		}
 
@@ -158,7 +158,7 @@ namespace NGTech {
 		threads->runSound();
 		threads->runFileSystem();
 		Debug("[Init] Threads Finished");
-		running = true;
+		this->running = true;
 		Debug("[Init] All Systems Initialised");
 	}
 
@@ -187,6 +187,11 @@ namespace NGTech {
 		if (this->iWindow)	this->iWindow->update();
 		while (this->running)
 		{
+			updateFrame();
+		}
+	}
+
+	void Engine::updateFrame() {
 			if (iWindow)
 				this->iWindow->update();
 
@@ -217,8 +222,6 @@ namespace NGTech {
 
 			if (this->game)
 				this->game->update();
-
-		}
 	}
 
 

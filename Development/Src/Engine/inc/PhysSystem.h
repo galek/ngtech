@@ -57,8 +57,6 @@ namespace NGTech {
 		void togglePvdConnection();
 		void createPvdConnection();
 	private:
-	
-		float accTimeSlice;
 		
 		PhysBody *pBody0;
 		PhysBody *pBody1;

@@ -2,7 +2,8 @@
 
 #include "VFS.h"
 #include "FileHelper.h"
-
+#include <iostream>
+#include <fstream>
 #include <stdarg.h>
 
 namespace NGTech
@@ -26,19 +27,19 @@ namespace NGTech
 	}
 
 	char* VFile::LoadFile(){
-		long lSize;
-		char * buffer;
+		char * buffer = NULL;
 		// obtain file size:
 		fseek(mFile, 0, SEEK_END);
-		lSize = ftell(mFile);
+		mSize = ftell(mFile);
 		rewind(mFile);
 
 		// allocate memory to contain the whole file:
-		buffer = new char[sizeof(char)*lSize];
+		buffer = new char[sizeof(char)*mSize];
 		fseek(mFile, 0, SEEK_SET);
-		fread(buffer, sizeof(char), lSize, mFile);
+		fread(buffer, sizeof(char), mSize, mFile);
+		buffer[mSize] = '\0';
+		fclose(mFile);
 
-		mSize = lSize;
 		return buffer;
 	}
 

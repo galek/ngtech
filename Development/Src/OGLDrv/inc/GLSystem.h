@@ -1,11 +1,3 @@
-/***************************************************************************
-*   Copyright (C) 2006 by AST   *
-*   tsyplyaev@gmail.com   *
-*   ICQ: 279-533-134                          *
-*   This is a part of work done by AST.       *
-*   If you want to use it, please contact me. *
-***************************************************************************/
-
 #pragma once 
 
 //***************************************************************************
@@ -42,7 +34,7 @@ namespace NGTech {
 		virtual I_Texture *TextureCreate2D(I_ILImage *image);
 		virtual I_Texture *TextureCreate3D(I_ILImage *image);
 		virtual I_Texture *TextureCreateCube(I_ILImage **image);
-	
+
 		virtual I_Shader  *ShaderCreate(const String &path, const String &defines = "");
 		virtual I_VBManager *CreateIBO(void *data, int numElements, int elemSize, int dataType);
 		virtual I_VBManager *CreateVBO(void *data, int numElements, int elemSize, int dataType);
@@ -54,7 +46,7 @@ namespace NGTech {
 		virtual I_ILImage* CreateImageNoise2D(int width, int height, int format);
 		virtual I_ILImage* CreateImageEmpty3D(int width, int height, int depth, int format);
 		virtual I_ILImage* CreateImageNoise3D(int width, int height, int depth, int format);
-public:
+	public:
 		GLSystem();
 		~GLSystem();
 

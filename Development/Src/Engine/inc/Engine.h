@@ -22,17 +22,20 @@ namespace NGTech {
 		engines main loop
 		*/
 		void mainLoop();
+
+		void updateFrame();
+
 		/**
 		exits the main loop
 		*/
 		void quit();
-		void initialise();
+		void initialise(int _hwnd = 0);
 		void setGame(IGame*_game);
 		virtual float GetLastFPS();
 		virtual void LoadEngineModule(const char* _name);
 	private:
 		void _preInit();
-		void _setResources();	
+		void _setResources();
 	private:
 		EnginePlugins*plugins;
 		EngineThreads*threads;

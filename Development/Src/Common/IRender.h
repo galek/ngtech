@@ -131,7 +131,7 @@ namespace NGTech {
 		virtual I_Texture *TextureCreate2D(int width, int height, int format) = 0;
 		virtual I_Texture *TextureCreate3D(int width, int height, int depth, int format) = 0;
 		virtual I_Texture *TextureCreateCube(int width, int height, int format) = 0;
-		
+
 		virtual I_Shader *ShaderCreate(const String &path, const String &defines = "") = 0;
 		virtual I_FBOManager*CreateFBO(int x, int y) = 0;
 		virtual I_VBManager *CreateIBO(void *data, int numElements, int elemSize, int dataType) = 0;
@@ -199,8 +199,6 @@ namespace NGTech {
 
 		virtual void  requireExtension(const std::string &name, bool _fatal = false) = 0;
 		virtual void  initialise() = 0;
-
-
 
 		unsigned int currTextureTarget;
 		int currTextureUnit;
@@ -292,7 +290,6 @@ namespace NGTech {
 		//---Draw-Geom-Stream---------------------
 		virtual void drawIndexedGeometry(void *indices, int indexCount) = 0;
 		virtual void drawGeometry(int vertexCount) = 0;
-
 	};
 
 	struct I_Shader
@@ -326,7 +323,7 @@ namespace NGTech {
 		};
 
 		virtual ~I_VBManager(){}
-		
+
 		virtual void setVertexSource(int numComp, int stride, int offset) = 0;
 		virtual void setNormalSource(int stride, int offset) = 0;
 		virtual void setTexCoordSource(int tex_unit, int numComp, int stride, int offset) = 0;

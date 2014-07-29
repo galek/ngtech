@@ -15,8 +15,8 @@ namespace NGTech {
 		Image format
 		*/
 		enum Format {
-			RGB=0x1907,
-			RGBA=0x1908,
+			RGB = 0x1907,
+			RGBA = 0x1908,
 		};
 	public:
 		~I_ILImage(){}

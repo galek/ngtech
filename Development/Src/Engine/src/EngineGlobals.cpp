@@ -1,9 +1,17 @@
 #include "EnginePrivate.h"
 
 namespace NGTech {
-	Engine engine;
+	static Engine* engine = nullptr;
 
 	Engine* GetEngine() {
-		return &engine;
+		if (!engine) {
+			engine = new Engine;
+		}
+		return engine;
+	}
+
+	void DestroyEngine() {
+		delete engine;
+		engine = nullptr;
 	}
 }
