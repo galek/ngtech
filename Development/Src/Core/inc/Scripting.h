@@ -17,7 +17,7 @@ namespace NGTech{
 		virtual int runScript(const char* _name);
 		ENGINE_INLINE lua_State *GetLuaState(){ return mLuaState; }
 	private:
-		int doString(std::string code) const;
+		int doString(const char* code) const;
 	private:
 		void bindLogFunctions();
 		void bindCoreFunctions();

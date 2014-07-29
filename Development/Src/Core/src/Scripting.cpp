@@ -42,23 +42,33 @@ namespace NGTech{
 
 	/**
 	*/
-	int CoreScriptInterp::doString(std::string code) const {
-		DebugM("Loaded script: %s \n", code.c_str());
-		if (!luaL_loadbuffer(mLuaState, code.c_str(), code.length(), "line"))
-		{
-			if (lua_pcall(mLuaState, 0, 0, 0)){
-				Warning("[LUA]error running function: %s", lua_tostring(mLuaState, -1));
-				lua_pop(mLuaState, 1);
-				return 1;
-			}
+	int CoreScriptInterp::doString(const char* code) const {
+		DebugM("Loaded script: %s \n", code);
+		String str = code;
+		if (luaL_loadbuffer(mLuaState, code, str.size(), "line")) {
+			Warning("lua couldn't parse '%i': %s.\n",
+				str.size(), lua_tostring(mLuaState, -1));
+			lua_pop(mLuaState, 1);
+			return 1;
 		}
+		else {
+			if (lua_pcall(mLuaState, 0, 1, 0)) {
+				Warning("lua couldn't execute '%i': %s.\n",
+					str.size(), lua_tostring(mLuaState, -1));
+				lua_pop(mLuaState, 1);
+			}
+			else
+				lua_pop(mLuaState, lua_gettop(mLuaState));
+			return 1;
+		}
+
 		return 0;
 	}
 
 	/**
 	*/
 	int CoreScriptInterp::runScript(const char* _filename){
-		VFile file(_filename, VFile::READ_TEXT);
+		VFile file(_filename, VFile::READ_BIN);
 		return doString(file.LoadFile());
 	}
 
