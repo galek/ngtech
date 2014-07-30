@@ -258,3 +258,4 @@ Bins/Bin64_d/p4api.net.xml
 Bins/Bin64_d/p4bridge.dll
 Development/Src/Editors/MeshViewer/bin/x86/Release/MeshViewer.vshost.exe.config
 Development/Src/Editors/MeshViewer/bin/x86/Release/MeshViewer.exe.config
+Bins/Bin32/MeshViewer.vshost.exe.config
