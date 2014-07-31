@@ -259,3 +259,9 @@ Bins/Bin64_d/p4bridge.dll
 Development/Src/Editors/MeshViewer/bin/x86/Release/MeshViewer.vshost.exe.config
 Development/Src/Editors/MeshViewer/bin/x86/Release/MeshViewer.exe.config
 Bins/Bin32/MeshViewer.vshost.exe.config
+Libs/Release/Win32/Platform.lib
+EngineLog.html
+Bins/CrashDumps/
+Libs/Debug/Win32/Platform.lib
+Libs/Debug/x64/Platform.lib
+Libs/Release/x64/Platform.lib

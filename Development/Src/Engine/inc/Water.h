@@ -10,7 +10,6 @@
 
 //************************************
 #include "IRender.h"
-#include "ILSystem.h"
 //************************************
 
 namespace NGTech {

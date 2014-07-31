@@ -10,7 +10,6 @@
 
 //************************************
 #include "IRender.h"
-#include "ILSystem.h"
 #include "PhysSystem.h"
 #include "Material.h"
 //************************************

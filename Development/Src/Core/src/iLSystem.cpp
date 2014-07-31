@@ -1,19 +1,17 @@
-#pragma once
-
+#include "CorePrivate.h"
 //***************************************************************************
-#include "../Common/EString.h"
 #include "ILImage.h"
 //***************************************************************************
 
 namespace NGTech {
+	/**
+	*/
+	CORE_API void ILSystemInit()
+	{
+		ilInit();
+		iluInit();
+	}
 
 	/**
-	Engine`s main image loading system. Created one time
 	*/
-	class ILSystem {
-	public:
-		ILSystem();
-
-		~ILSystem();
-	};
 }

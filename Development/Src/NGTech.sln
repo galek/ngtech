@@ -56,6 +56,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atf.SyntaxEditorControl.vs2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atf.Perforce.vs2010", "..\Externals\ATF\Framework\Atf.Perforce\Atf.Perforce.vs2010.csproj", "{C7A306E0-32AE-4053-8882-E1A1E702C139}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Platform", "Platform\Platform.vcxproj", "{24B9D3ED-61BD-4EA7-B15E-F23DFD8BD247}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -216,6 +218,14 @@ Global
 		{C7A306E0-32AE-4053-8882-E1A1E702C139}.Release|Win32.Build.0 = Release|x86
 		{C7A306E0-32AE-4053-8882-E1A1E702C139}.Release|x64.ActiveCfg = Release|x64
 		{C7A306E0-32AE-4053-8882-E1A1E702C139}.Release|x64.Build.0 = Release|x64
+		{24B9D3ED-61BD-4EA7-B15E-F23DFD8BD247}.Debug|Win32.ActiveCfg = Debug|Win32
+		{24B9D3ED-61BD-4EA7-B15E-F23DFD8BD247}.Debug|Win32.Build.0 = Debug|Win32
+		{24B9D3ED-61BD-4EA7-B15E-F23DFD8BD247}.Debug|x64.ActiveCfg = Debug|x64
+		{24B9D3ED-61BD-4EA7-B15E-F23DFD8BD247}.Debug|x64.Build.0 = Debug|x64
+		{24B9D3ED-61BD-4EA7-B15E-F23DFD8BD247}.Release|Win32.ActiveCfg = Release|Win32
+		{24B9D3ED-61BD-4EA7-B15E-F23DFD8BD247}.Release|Win32.Build.0 = Release|Win32
+		{24B9D3ED-61BD-4EA7-B15E-F23DFD8BD247}.Release|x64.ActiveCfg = Release|x64
+		{24B9D3ED-61BD-4EA7-B15E-F23DFD8BD247}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

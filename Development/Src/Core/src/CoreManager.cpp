@@ -4,6 +4,10 @@
 namespace NGTech {
 	/**
 	*/
+	void DestroyAdditions();
+	bool InitAdditions();
+	/**
+	*/
 	CoreManager::CoreManager()
 		:mIsEditor(false),
 		iWindow(nullptr),
@@ -13,7 +17,6 @@ namespace NGTech {
 		config(nullptr),
 		vfs(nullptr),
 		alSystem(nullptr),
-		ilSystem(nullptr),
 		physSystem(nullptr),
 		cache(nullptr),
 		gui(nullptr),
@@ -22,7 +25,16 @@ namespace NGTech {
 		running(false)
 	{
 		SetCore(this);
+#ifndef _ENGINE_DEBUG_
+		if (!InitAdditions())
+			exit(0);
+#else
+		InitAdditions();
+#endif
 	}
 	/**
 	*/
+	CoreManager::~CoreManager(){
+		DestroyAdditions();
+	}
 }

@@ -198,6 +198,9 @@
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{413d151a-e7ac-419a-b9c1-e270e686f949}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Platform\Platform.vcxproj">
+      <Project>{24b9d3ed-61bd-4ea7-b15e-f23dfd8bd247}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\BuildDefines.h" />
@@ -345,6 +348,7 @@
     <ClInclude Include="inc\WrappedScriptFunctions.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Additions.cpp" />
     <ClCompile Include="src\Config.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
@@ -394,6 +398,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\ILImage.cpp" />
+    <ClCompile Include="src\iLSystem.cpp" />
     <ClCompile Include="src\Log.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
@@ -718,6 +723,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\steamworks.cpp" />
     <ClCompile Include="src\SystemInfo.cpp" />
     <ClCompile Include="src\Thread.cpp" />
     <ClCompile Include="src\UString.cpp" />

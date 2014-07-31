@@ -24,7 +24,6 @@
 #include "MyGUI_Button.h"
 #include "MyGUI_PointerManager.h"
 #include "GUI.h"
-#include "ILSystem.h"
 #include "WindowSystem.h"
 #include "Log.h"
 #include "Cache.h"

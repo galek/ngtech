@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\crashreport\common\windows\guid_string.cc" />
+    <ClCompile Include="src\crashreport\crashreport.cpp" />
+    <ClCompile Include="src\crashreport\windows\crash_generation\client_info.cc" />
+    <ClCompile Include="src\crashreport\windows\crash_generation\crash_generation_client.cc" />
+    <ClCompile Include="src\crashreport\windows\crash_generation\crash_generation_server.cc" />
+    <ClCompile Include="src\crashreport\windows\crash_generation\minidump_generator.cc" />
+    <ClCompile Include="src\crashreport\windows\handler\exception_handler.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\crashreport\common\breakpad_types.h" />
+    <ClInclude Include="inc\crashreport\common\minidump_cpu_amd64.h" />
+    <ClInclude Include="inc\crashreport\common\minidump_cpu_arm.h" />
+    <ClInclude Include="inc\crashreport\common\minidump_cpu_arm64.h" />
+    <ClInclude Include="inc\crashreport\common\minidump_cpu_mips.h" />
+    <ClInclude Include="inc\crashreport\common\minidump_cpu_ppc.h" />
+    <ClInclude Include="inc\crashreport\common\minidump_cpu_ppc64.h" />
+    <ClInclude Include="inc\crashreport\common\minidump_cpu_sparc.h" />
+    <ClInclude Include="inc\crashreport\common\minidump_cpu_x86.h" />
+    <ClInclude Include="inc\crashreport\common\minidump_exception_linux.h" />
+    <ClInclude Include="inc\crashreport\common\minidump_exception_mac.h" />
+    <ClInclude Include="inc\crashreport\common\minidump_exception_ps3.h" />
+    <ClInclude Include="inc\crashreport\common\minidump_exception_solaris.h" />
+    <ClInclude Include="inc\crashreport\common\minidump_exception_win32.h" />
+    <ClInclude Include="inc\crashreport\common\minidump_format.h" />
+    <ClInclude Include="inc\crashreport\common\minidump_size.h" />
+    <ClInclude Include="inc\crashreport\common\scoped_ptr.h" />
+    <ClInclude Include="inc\crashreport\common\windows\guid_string.h" />
+    <ClInclude Include="inc\crashreport\common\windows\string_utils-inl.h" />
+    <ClInclude Include="inc\crashreport\processor\basic_source_line_resolver.h" />
+    <ClInclude Include="inc\crashreport\processor\call_stack.h" />
+    <ClInclude Include="inc\crashreport\processor\code_module.h" />
+    <ClInclude Include="inc\crashreport\processor\code_modules.h" />
+    <ClInclude Include="inc\crashreport\processor\exploitability.h" />
+    <ClInclude Include="inc\crashreport\processor\fast_source_line_resolver.h" />
+    <ClInclude Include="inc\crashreport\processor\memory_region.h" />
+    <ClInclude Include="inc\crashreport\processor\minidump.h" />
+    <ClInclude Include="inc\crashreport\processor\minidump_processor.h" />
+    <ClInclude Include="inc\crashreport\processor\process_state.h" />
+    <ClInclude Include="inc\crashreport\processor\source_line_resolver_base.h" />
+    <ClInclude Include="inc\crashreport\processor\source_line_resolver_interface.h" />
+    <ClInclude Include="inc\crashreport\processor\stackwalker.h" />
+    <ClInclude Include="inc\crashreport\processor\stack_frame.h" />
+    <ClInclude Include="inc\crashreport\processor\stack_frame_cpu.h" />
+    <ClInclude Include="inc\crashreport\processor\stack_frame_symbolizer.h" />
+    <ClInclude Include="inc\crashreport\processor\symbol_supplier.h" />
+    <ClInclude Include="inc\crashreport\processor\system_info.h" />
+    <ClInclude Include="inc\crashreport\windows\common\auto_critical_section.h" />
+    <ClInclude Include="inc\crashreport\windows\common\ipc_protocol.h" />
+    <ClInclude Include="inc\crashreport\windows\crash_generation\client_info.h" />
+    <ClInclude Include="inc\crashreport\windows\crash_generation\crash_generation_client.h" />
+    <ClInclude Include="inc\crashreport\windows\crash_generation\crash_generation_server.h" />
+    <ClInclude Include="inc\crashreport\windows\crash_generation\minidump_generator.h" />
+    <ClInclude Include="inc\crashreport\windows\handler\exception_handler.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{24B9D3ED-61BD-4EA7-B15E-F23DFD8BD247}</ProjectGuid>
+    <RootNamespace>Common</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <DisableSpecificWarnings>4018;4275;4251;4800;4244;4996;4001;4100;4305;4661;4127;4706</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>inc</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <StringPooling>true</StringPooling>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <Optimization>Disabled</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <DisableSpecificWarnings>4018;4275;4251;4800;4244;4996;4001;4100;4305;4661;4127;4706</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>inc</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <PreprocessorDefinitions>_WIN64;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <DisableSpecificWarnings>4018;4275;4251;4800;4244;4996;4001;4100;4305;4661;4127;4706</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>inc</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <Optimization>Disabled</Optimization>
+      <DisableSpecificWarnings>4018;4275;4251;4800;4244;4996;4001;4100;4305;4661;4127;4706</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>inc</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

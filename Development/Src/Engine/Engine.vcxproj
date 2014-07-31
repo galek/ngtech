@@ -238,7 +238,6 @@
     <ClInclude Include="inc\Font.h" />
     <ClInclude Include="inc\Frustum.h" />
     <ClInclude Include="inc\GUI.h" />
-    <ClInclude Include="inc\ILSystem.h" />
     <ClInclude Include="inc\Light.h" />
     <ClInclude Include="inc\LoadingScreen.h" />
     <ClInclude Include="inc\Material.h" />
@@ -275,7 +274,6 @@
     <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\Frustum.cpp" />
     <ClCompile Include="src\GUI.cpp" />
-    <ClCompile Include="src\ILSystem.cpp" />
     <ClCompile Include="src\Light.cpp" />
     <ClCompile Include="src\LoadingScreen.cpp" />
     <ClCompile Include="src\Material.cpp" />

@@ -13,7 +13,6 @@ namespace NGTech {
 	class Config;
 	class FileSystem;
 	class I_Audio;
-	class ILSystem;
 	class PhysSystem;
 	class Cache;
 	class GUI;
@@ -25,6 +24,7 @@ namespace NGTech {
 	*/
 	struct CORE_API CoreManager{
 		CoreManager();
+		~CoreManager();
 
 		virtual void quit() = 0;
 		virtual void initialise(int _hwnd) = 0;
@@ -44,7 +44,6 @@ namespace NGTech {
 		Config *config;
 		FileSystem*vfs;
 		I_Audio *alSystem;
-		ILSystem *ilSystem;
 		PhysSystem *physSystem;
 		SystemInfo *info;
 

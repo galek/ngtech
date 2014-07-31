@@ -21,7 +21,6 @@
 #include "CVARManager.h"
 #include "WindowSystem.h"
 #include "IRender.h"
-#include "ILSystem.h"
 #include "ALSystem.h"
 #include "PhysSystem.h"
 #include "Cache.h"
@@ -82,8 +81,6 @@ namespace NGTech {
 		Debug("[Init] Render Finished");
 		alSystem = new ALSystem();
 		Debug("[Init] Audio Finished");
-		ilSystem = new ILSystem();
-		Debug("[Init] ImageCodec Finished");
 		physSystem = new PhysSystem();
 		Debug("[Init] Physics Finished");
 		cache = new Cache(cvars);
@@ -174,7 +171,6 @@ namespace NGTech {
 		SAFE_DELETE(gui);
 		SAFE_DELETE(scene);
 		SAFE_DELETE(physSystem);
-		SAFE_DELETE(ilSystem);
 		SAFE_DELETE(alSystem);
 		SAFE_DELETE(iRender);
 		SAFE_DELETE(iWindow);

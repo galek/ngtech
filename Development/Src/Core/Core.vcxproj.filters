@@ -674,5 +674,11 @@
     <ClCompile Include="src\lua\LuaError.cpp">
       <Filter>Файлы исходного кода\lua</Filter>
     </ClCompile>
+    <ClCompile Include="src\Additions.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\steamworks.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

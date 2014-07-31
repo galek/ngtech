@@ -19,4 +19,8 @@
 //#define HAVE_ATIMGPU 1
 #endif
 
+#ifndef USE_OWN_MINIDUMP
+#define USE_OWN_MINIDUMP 1
+#endif
+
 #endif

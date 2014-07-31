@@ -1,11 +1,3 @@
-/***************************************************************************
-*   Copyright (C) 2006 by AST   *
-*   tsyplyaev@gmail.com   *
-*   ICQ: 279-533-134                          *
-*   This is a part of work done by AST.       *
-*   If you want to use it, please contact me. *
-***************************************************************************/
-
 #include "EnginePrivate.h"
 //************************************
 #include "Engine.h"
@@ -16,7 +8,7 @@
 namespace NGTech {
 
 	Terrain::Terrain(const String &path, float step, float height, int nodeSize) {
-		ILImage *hmap = ILImage::create2d(path);
+		I_ILImage *hmap = GetRender()->CreateImage2D(path);
 
 		int W = hmap->getWidth();
 		int H = hmap->getHeight();

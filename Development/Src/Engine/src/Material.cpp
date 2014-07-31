@@ -191,17 +191,16 @@ namespace NGTech {
 							//user params
 						}
 						else if (StringHelper::getWord(line, 4) == "normal_map()") {
-							I_Texture *sampler;
-							ILImage *map = ILImage::create2d(StringHelper::getWord(line, 5));
+							I_ILImage *map = GetRender()->CreateImage2D(StringHelper::getWord(line, 5));
 							map->toNormalMap(4);
-							sampler = GetCache()->loadTexture2d(map, StringHelper::getWord(line, 5) + "_NORMAL_MAP");
+							I_Texture *sampler = GetCache()->loadTexture2d(map, StringHelper::getWord(line, 5) + "_NORMAL_MAP");
 							pass->u_sampler2D.push_back(std::pair<String, I_Texture*>(name, sampler));
 							delete map;
 						}
 						else {
-							I_Texture *sampler;
-							sampler = GetCache()->loadTexture2d(StringHelper::getWord(line, 4));
-							pass->u_sampler2D.push_back(std::pair<String, I_Texture*>(name, sampler));
+							I_Texture *	sampler = GetCache()->loadTexture2d(StringHelper::getWord(line, 4));
+							if (sampler)
+								pass->u_sampler2D.push_back(std::pair<String, I_Texture*>(name, sampler));
 						}
 					}
 
@@ -216,8 +215,7 @@ namespace NGTech {
 							//user params
 						}
 						else {
-							I_Texture *sampler;
-							sampler = GetCache()->loadTextureCube(StringHelper::getWord(line, 4));
+							I_Texture *sampler = GetCache()->loadTextureCube(StringHelper::getWord(line, 4));
 							pass->u_samplerCube.push_back(std::pair<String, I_Texture*>(name, sampler));
 						}
 					}
@@ -348,7 +346,7 @@ namespace NGTech {
 				}
 			}
 		}
-//		fclose(mFile);
+		//		fclose(mFile);
 	}
 
 	Material::~Material() {

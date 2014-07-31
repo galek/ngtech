@@ -1,6 +1,5 @@
 #include "CorePrivate.h"
 //***************************************************************************
-#include "ILSystem.h"
 #include "ILImage.h"
 #include "Log.h"
 #include "FileHelper.h"
