@@ -22,33 +22,33 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	class RENDER_API GLSystem :public I_Render {
 	public:
-		virtual I_DisplayList* GetDL();
-		virtual I_OcclusionQuery* GetOQ();
+		virtual GLDisplayList* GetDL();
+		virtual GLOcclusionQuery* GetOQ();
 
 
-		virtual I_Texture* TextureCreate2D(const String &path);
-		virtual I_Texture* TextureCreateCube(const String &path);
-		virtual I_Texture *TextureCreate2D(int width, int height, int format);
-		virtual I_Texture *TextureCreate3D(int width, int height, int depth, int format);
-		virtual I_Texture *TextureCreateCube(int width, int height, int format);
-		virtual I_Texture *TextureCreate2D(I_ILImage *image);
-		virtual I_Texture *TextureCreate3D(I_ILImage *image);
-		virtual I_Texture *TextureCreateCube(I_ILImage **image);
+		virtual GLTexture* TextureCreate2D(const String &path);
+		virtual GLTexture* TextureCreateCube(const String &path);
+		virtual GLTexture *TextureCreate2D(int width, int height, int format);
+		virtual GLTexture *TextureCreate3D(int width, int height, int depth, int format);
+		virtual GLTexture *TextureCreateCube(int width, int height, int format);
+		virtual GLTexture *TextureCreate2D(I_ILImage *image);
+		virtual GLTexture *TextureCreate3D(I_ILImage *image);
+		virtual GLTexture *TextureCreateCube(I_ILImage **image);
 
-		virtual I_Shader  *ShaderCreate(const String &path, const String &defines = "");
-		virtual I_VBManager *CreateIBO(void *data, int numElements, int elemSize, int dataType);
-		virtual I_VBManager *CreateVBO(void *data, int numElements, int elemSize, int dataType);
-		virtual I_FBOManager*CreateFBO(int x, int y);
+		virtual GLShader  *ShaderCreate(const String &path, const String &defines = "");
+		virtual GLVBO *CreateIBO(void *data, int numElements, int elemSize, int dataType);
+		virtual GLVBO *CreateVBO(void *data, int numElements, int elemSize, int dataType);
+		virtual GLFBO *CreateFBO(int x, int y);
 
 
-		virtual I_ILImage* CreateImage2D(const String &path);
-		virtual I_ILImage* CreateImageEmpty2D(int width, int height, int format);
-		virtual I_ILImage* CreateImageNoise2D(int width, int height, int format);
-		virtual I_ILImage* CreateImageEmpty3D(int width, int height, int depth, int format);
-		virtual I_ILImage* CreateImageNoise3D(int width, int height, int depth, int format);
+		virtual ILImage* CreateImage2D(const String &path);
+		virtual ILImage* CreateImageEmpty2D(int width, int height, int format);
+		virtual ILImage* CreateImageNoise2D(int width, int height, int format);
+		virtual ILImage* CreateImageEmpty3D(int width, int height, int depth, int format);
+		virtual ILImage* CreateImageNoise3D(int width, int height, int depth, int format);
 	public:
 		GLSystem();
-		~GLSystem();
+		virtual ~GLSystem();
 
 		String getVendor();
 		String getRenderer();
