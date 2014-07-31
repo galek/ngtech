@@ -108,7 +108,7 @@ namespace NGTech {
 			String errorStr = (const char *)iluErrorString(error);
 			Warning("ILImage::Create2d() error: %s" ,errorStr);
 			return NULL;
-		};
+		}
 
 		image->width = ilGetInteger(IL_IMAGE_WIDTH);
 		image->height = ilGetInteger(IL_IMAGE_HEIGHT);
@@ -120,7 +120,6 @@ namespace NGTech {
 		image->data = new ILubyte[image->getSize()];
 
 		memcpy(image->data, tempData, image->getSize());
-
 		return image;
 	}
 

@@ -9,11 +9,6 @@
 
 namespace NGTech {
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates 2d GLTexture from file
-	//Params:  path - image file path, wrap - texture edges wrap
-	//Returns: pointer to new Texture
-	//---------------------------------------------------------------------------
 	GLTexture *GLTexture::create2d(const String &path) {
 
 		I_ILImage *image = GetRender()->CreateImage2D(path);
@@ -37,11 +32,6 @@ namespace NGTech {
 		return texture;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    adds GLTexture from 6 files
-	//Params:  path - pointer to array of image file paths, wrap - texture edges wrap
-	//Returns: pointer to new GLTexture
-	//---------------------------------------------------------------------------
 	GLTexture *GLTexture::createCube(const String &path) {
 
 		I_ILImage *image[6];
@@ -65,18 +55,13 @@ namespace NGTech {
 		GLTexture *texture = create(image[0]->getWidth(), image[0]->getHeight(), image[0]->getDepth(),
 			TEXTURE_CUBE, format, (void**)data);
 
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; i++)
 			delete image[i];
-		}
+
 
 		return texture;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates 2d GLTexture from image
-	//Params:  image - pointer to ILImage to use, wrap - texture edges wrap
-	//Returns: pointer to new GLTexture
-	//---------------------------------------------------------------------------
 	GLTexture *GLTexture::create2d(I_ILImage *image) {
 
 		GLubyte **data = new GLubyte*[1];
@@ -97,11 +82,6 @@ namespace NGTech {
 		return texture;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates 3d GLTexture from image
-	//Params:  image - pointer to ILImage to use, wrap - texture edges wrap
-	//Returns: pointer to new GLTexture
-	//---------------------------------------------------------------------------
 	GLTexture *GLTexture::create3d(I_ILImage *image) {
 
 		GLubyte **data = new GLubyte*[1];
@@ -121,11 +101,6 @@ namespace NGTech {
 		return texture;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates GLTexture from 6 images
-	//Params:  image - pointer to arrray of ILImages to use, wrap - texture edges wrap
-	//Returns: pointer to new GLTexture
-	//---------------------------------------------------------------------------
 	GLTexture *GLTexture::createCube(I_ILImage **image) {
 
 		GLubyte *data[6];
@@ -147,11 +122,6 @@ namespace NGTech {
 		return texture;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates empty 2d GLTexture
-	//Params:  width, height - tex size, format - tex format, wrap - tex edge wrap
-	//Returns: pointer to new GLTexture
-	//---------------------------------------------------------------------------
 	GLTexture *GLTexture::create2d(int width, int height, Format format) {
 		GLubyte *data[1];
 		data[0] = NULL;
@@ -159,11 +129,6 @@ namespace NGTech {
 		return create(width, height, 1, TEXTURE_2D, format, (void**)data);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates empty 3d GLTexture
-	//Params:  width, height - tex size, format - tex format, wrap - tex edge wrap
-	//Returns: pointer to new GLTexture
-	//---------------------------------------------------------------------------
 	GLTexture *GLTexture::create3d(int width, int height, int depth, Format format) {
 		GLubyte *data[1];
 		data[0] = NULL;
@@ -171,11 +136,6 @@ namespace NGTech {
 		return create(width, height, depth, TEXTURE_3D, format, (void**)data);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates empty CUBE GLTexture
-	//Params:  width, height - tex size, format - tex format, wrap - tex edge wrap
-	//Returns: pointer to new GLTexture
-	//---------------------------------------------------------------------------
 	GLTexture *GLTexture::createCube(int width, int height, Format format) {
 		GLubyte *data[6];
 		for (int i = 0; i < 6; i++) {
@@ -185,20 +145,10 @@ namespace NGTech {
 		return create(width, height, 1, TEXTURE_CUBE, format, (void**)data);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    GLTexture destructor
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	GLTexture::~GLTexture() {
 		glDeleteTextures(1, &glID);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets GLTexture wrap
-	//Params:  wrap - wrap value
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void GLTexture::setWrap(Wrap wrap) {
 		this->wrap = wrap;
 
@@ -211,11 +161,6 @@ namespace NGTech {
 		glBindTexture(target, 0);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets GLTexture filter
-	//Params:  filter - filter value
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void GLTexture::setFilter(Filter filter) {
 
 		glBindTexture(target, glID);
@@ -257,11 +202,6 @@ namespace NGTech {
 		glBindTexture(target, 0);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets GLTexture aniso
-	//Params:  aniso - aniso value
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void GLTexture::setAniso(Aniso aniso) {
 		glBindTexture(target, glID);
 
@@ -273,43 +213,23 @@ namespace NGTech {
 		glBindTexture(target, 0);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets texture
-	//Params:  tex_unit - texture unit number
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void GLTexture::set(int tex_unit) {
 		glActiveTextureARB(GL_TEXTURE0_ARB + tex_unit);
 		glEnable(target);
 		glBindTexture(target, glID);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    unsets texture
-	//Params:  tex_unit - texture unit number
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void GLTexture::unset(int tex_unit) {
 		glActiveTextureARB(GL_TEXTURE0_ARB + tex_unit);
 		glBindTexture(target, 0);
 		glDisable(target);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    begins render to texture
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void GLTexture::beginRenderTo() {
 		glViewport(0, 0, width, height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    copies color buffer to CUBE texture
-	//Params:  face - texture CUBE face to copy to
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void GLTexture::copy(int face) {
 		glEnable(target);
 		glBindTexture(target, glID);
@@ -325,21 +245,11 @@ namespace NGTech {
 		glDisable(target);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    ends render to texture
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void GLTexture::endRenderTo() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glViewport(0, 0, GetWindow()->getWidth(), GetWindow()->getHeight());
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates new texture
-	//Params:  width, height, depth - tex size, target - tex type, format - tex src format, wrap - tex edges wrap, filter - tex filter, aniso - tex aniso level, data - image data
-	//Returns: pointer to new texture
-	//---------------------------------------------------------------------------
 	GLTexture *GLTexture::create(int width, int height, int depth, Target target, Format format, void **data) {
 		GLTexture *texture = new GLTexture();
 
