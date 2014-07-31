@@ -46,6 +46,7 @@ namespace NGTech {
 		virtual ILImage* CreateImageNoise2D(int width, int height, int format);
 		virtual ILImage* CreateImageEmpty3D(int width, int height, int depth, int format);
 		virtual ILImage* CreateImageNoise3D(int width, int height, int depth, int format);
+		virtual void*    GetGUIImageLoader();
 	public:
 		GLSystem();
 		virtual ~GLSystem();

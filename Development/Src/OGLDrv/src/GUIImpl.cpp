@@ -4,6 +4,7 @@
 #include "GUIImpl.h"
 //***************************************************************************
 #include "ILImage.h"
+#include "GLSystem.h"
 //***************************************************************************
 
 namespace NGTech {
@@ -103,4 +104,7 @@ namespace NGTech {
 	/*
 	*/
 	GUIImageLoader*GUI_GetImageLoader(){ return new GUIImageLoader(); }
+	/*
+	*/
+	void* GLSystem::GetGUIImageLoader(){ return GUI_GetImageLoader(); }
 }

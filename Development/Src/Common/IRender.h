@@ -141,6 +141,7 @@ namespace NGTech {
 		virtual I_ILImage* CreateImageNoise2D(int width, int height, int format) = 0;
 		virtual I_ILImage* CreateImageEmpty3D(int width, int height, int depth, int format) = 0;
 		virtual I_ILImage* CreateImageNoise3D(int width, int height, int depth, int format) = 0;
+		virtual void*    GetGUIImageLoader() = 0;
 		//Nick:TODO:Здесь значения для enum'ов взяты из GL рендера
 		//---------------------------------------------------------------------------
 		//Desc: Blending type enum

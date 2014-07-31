@@ -30,8 +30,6 @@
 #include "CVarManager.h"
 #include "VFS.h"
 //**************************************
-#pragma message("TODO:GUI:Перенести")
-#include "../../OGLDrv/inc/GUIImpl.h"
 
 namespace NGTech {
 
@@ -48,7 +46,7 @@ namespace NGTech {
 	}
 	void GUI::initialise()	{
 		Log::writeHeader("-- GUI --");
-		mPlatform->initialise(GUI_GetImageLoader());
+		mPlatform->initialise((MyGUI::OpenGLImageLoader*)GetRender()->GetGUIImageLoader());
 		mPlatform->getDataManagerPtr()->addResourceLocation("../data/gui/", true);
 		resize(cvars->r_width, cvars->r_height);
 		mGUI->initialise("MyGUI_Core.xml");

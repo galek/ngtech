@@ -13,5 +13,5 @@ namespace NGTech
 		void saveImage(int _width, int _height, MyGUI::PixelFormat _format, void* _texture, const std::string& _filename){}
 	};
 
-	RENDER_API GUIImageLoader*GUI_GetImageLoader();
+	GUIImageLoader*GUI_GetImageLoader();
 }
