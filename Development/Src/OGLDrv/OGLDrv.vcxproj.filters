@@ -45,6 +45,9 @@
     <ClCompile Include="src\dllmain.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="src\GUIImpl.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\MyGUI_OpenGLDataManager.h">
@@ -108,6 +111,9 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="inc\RenderPrivate.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GUIImpl.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
