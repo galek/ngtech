@@ -5,6 +5,10 @@
 #include "FileHelper.h"
 #include "MathLib.h"
 #include "Error.h"
+#include "VFS.h"
+//***************************************************************************
+#include "../../../Externals/ResIL/include/IL/il.h"
+#include "../../../Externals/ResIL/include/IL/ilu.h"
 //***************************************************************************
 
 namespace NGTech {
@@ -83,44 +87,79 @@ namespace NGTech {
 
 	ILImage *ILImage::create2d(const String &_path) {
 		ILImage *image = new ILImage();
+		if (GetVFS()->isDataExist(_path))
+		{
+			IDataStream* stream = GetVFS()->getData(_path);
+			if (!stream){
+				Warning("[GUI]Failed Loading GUI image!");
+				return NULL;
+			}
+			size_t lumpSize = stream->size();
+			void* lumpData = malloc(lumpSize);
+			stream->read(lumpData, lumpSize);
 
-		VFile mFile(_path.c_str(), VFile::READ_BIN);
-		String ext = mFile.GetFileExt();
-		auto path = mFile.GetDataPath();
 
-		ilOriginFunc(IL_ORIGIN_UPPER_LEFT);
+#ifdef _UNICODE
+			// Convert filename to a std::wstring
+			std::wstring filename(_path.length(), L' ');
+			std::copy(_path.begin(), _path.end(), _path.begin());
+#else
+			std::string filename = _path;
+#endif
 
-		if (ext == "bmp")
-			ilLoad(IL_BMP, (const ILstring)path);
-		if (ext == "tga")
-			ilLoad(IL_TGA, (const ILstring)path);
-		if (ext == "jpg")
-			ilLoad(IL_JPG, (const ILstring)path);
-		if (ext == "png")
-			ilLoad(IL_PNG, (const ILstring)path);
-		if (ext == "dds")
-			ilLoad(IL_DDS, (const ILstring)path);
-		if (ext == "gif")
-			ilLoad(IL_GIF, (const ILstring)path);
+			// Try to determine the image type
+			ILenum imageType = ilTypeFromExt(filename.c_str());
+			if (imageType == IL_TYPE_UNKNOWN)
+				imageType = ilDetermineTypeL(lumpData, lumpSize);
 
-		int error = ilGetError();
-		if (error != IL_NO_ERROR) {
-			String errorStr = (const char *)iluErrorString(error);
-			Warning("ILImage::Create2d() error: %s" ,errorStr);
-			return NULL;
+			// Try to load the image
+			if (ilLoadL(imageType, lumpData, lumpSize) == IL_FALSE)
+			{
+				free(lumpData);
+				return 0;
+			}
+
+			free(lumpData);
+
+			// Retrieve image information
+			image->width = ilGetInteger(IL_IMAGE_WIDTH);
+			image->height = ilGetInteger(IL_IMAGE_HEIGHT);
+			image->depth = 1;
+			image->bpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
+			image->format = BPP2Format(image->bpp);
+			ILenum type = ilGetInteger(IL_IMAGE_TYPE);
+
+
+			// If the format is not supported, convert to a supported format
+			// Also convert if the pixel type is not unsigned byte
+			ILenum convertToFormat = image->format;
+
+			switch (image->format)
+			{
+			case IL_COLOUR_INDEX: convertToFormat = IL_RGB; break;
+			case IL_ALPHA: convertToFormat = IL_LUMINANCE_ALPHA; break;
+			case IL_BGR: convertToFormat = IL_RGB; break;
+			case IL_BGRA: convertToFormat = IL_RGBA; break;
+			default: break;
+			}
+
+			if ((convertToFormat != image->format) || (type != IL_UNSIGNED_BYTE))
+			{
+				if (ilConvertImage(convertToFormat, IL_UNSIGNED_BYTE) == IL_FALSE)
+				{
+					return 0;
+				}
+			}
+
+			// Copy the image data into some new memory
+			ILint size = ilGetInteger(IL_IMAGE_SIZE_OF_DATA);
+			image->data = new unsigned char[size];
+			ILubyte* data = ilGetData();
+			memcpy(image->data, data, size);
+			return image;
 		}
-
-		image->width = ilGetInteger(IL_IMAGE_WIDTH);
-		image->height = ilGetInteger(IL_IMAGE_HEIGHT);
-		image->depth = 1;
-		image->bpp = ilGetInteger(IL_IMAGE_BYTES_PER_PIXEL);
-		image->format = BPP2Format(image->bpp);
-
-		ILubyte *tempData = ilGetData();
-		image->data = new ILubyte[image->getSize()];
-
-		memcpy(image->data, tempData, image->getSize());
-		return image;
+		Warning("[GUI] Failed Loading GUI image!File not found:%s", _path);
+		return NULL;
 	}
 
 	ILImage::~ILImage() {

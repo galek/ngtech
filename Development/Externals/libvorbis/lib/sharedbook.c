@@ -18,10 +18,10 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include <ogg/ogg.h>
+#include "../../libogg/include/ogg/ogg.h"
 #include "os.h"
 #include "misc.h"
-#include "vorbis/codec.h"
+#include "../include/vorbis/codec.h"
 #include "codebook.h"
 #include "scales.h"
 
@@ -557,23 +557,6 @@ void run_test(static_codebook *b,float *comp){
       exit(1);
     }
   }
-}
-
-int main(){
-  /* run the nine dequant tests, and compare to the hand-rolled results */
-  fprintf(stderr,"Dequant test 1... ");
-  run_test(&test1,test1_result);
-  fprintf(stderr,"OK\nDequant test 2... ");
-  run_test(&test2,test2_result);
-  fprintf(stderr,"OK\nDequant test 3... ");
-  run_test(&test3,test3_result);
-  fprintf(stderr,"OK\nDequant test 4... ");
-  run_test(&test4,test4_result);
-  fprintf(stderr,"OK\nDequant test 5... ");
-  run_test(&test5,test5_result);
-  fprintf(stderr,"OK\n\n");
-
-  return(0);
 }
 
 #endif

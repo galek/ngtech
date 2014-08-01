@@ -10,6 +10,9 @@
 #include "MyGUI_RenderManager.h"
 #include "MyGUI_DataManager.h"
 
+#include "..\..\..\src\Core\inc\VFS.h"
+#include "..\..\..\src\Core\inc\CoreManager.h"
+
 namespace MyGUI
 {
 
@@ -21,7 +24,7 @@ namespace MyGUI
 
 	bool MaskPickInfo::load(const std::string& _file)
 	{
-		if (!DataManager::getInstance().isDataExist(_file))
+		if (!NGTech::GetVFS()->isDataExist(_file))
 			return false;
 
 		RenderManager& render = RenderManager::getInstance();

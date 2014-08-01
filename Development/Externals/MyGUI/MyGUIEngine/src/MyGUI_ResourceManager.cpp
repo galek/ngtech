@@ -12,6 +12,8 @@
 #include "MyGUI_FactoryManager.h"
 #include "MyGUI_DataStreamHolder.h"
 #include "MyGUI_ResourceImageSet.h"
+#include "..\..\..\src\Core\inc\VFS.h"
+#include "..\..\..\src\Core\inc\CoreManager.h"
 
 namespace MyGUI
 {
@@ -131,7 +133,7 @@ namespace MyGUI
 
 	bool ResourceManager::_loadImplement(const std::string& _file, bool _match, const std::string& _type, const std::string& _instance)
 	{
-		DataStreamHolder data = DataManager::getInstance().getData(_file);
+		DataStreamHolder data = NGTech::GetVFS()->getData(_file);
 		if (data.getData() == nullptr)
 		{
 			MYGUI_LOG(Error, _instance << " : '" << _file << "', not found");

@@ -27,12 +27,10 @@ namespace MyGUI
 		void shutdown();
 
 		OpenGLRenderManager* getRenderManagerPtr();
-		OpenGLDataManager* getDataManagerPtr();
 
 	private:
 		bool mIsInitialise;
 		OpenGLRenderManager* mRenderManager;
-		OpenGLDataManager* mDataManager;
 	};
 
 } // namespace MyGUI

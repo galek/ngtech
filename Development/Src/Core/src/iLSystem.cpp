@@ -1,6 +1,7 @@
 #include "CorePrivate.h"
 //***************************************************************************
-#include "ILImage.h"
+#include "../../../Externals/ResIL/include/IL/il.h"
+#include "../../../Externals/ResIL/include/IL/ilu.h"
 //***************************************************************************
 
 namespace NGTech {

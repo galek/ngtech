@@ -12,6 +12,10 @@
 #include "MyGUI_FactoryManager.h"
 #include "MyGUI_DataStreamHolder.h"
 
+#include "..\..\..\src\Core\inc\VFS.h"
+#include "..\..\..\src\Core\inc\CoreManager.h"
+
+
 namespace MyGUI
 {
 
@@ -124,7 +128,7 @@ namespace MyGUI
 
 	bool LanguageManager::loadLanguage(const std::string& _file, bool _user)
 	{
-		DataStreamHolder data = DataManager::getInstance().getData(_file);
+		DataStreamHolder data = NGTech::GetVFS()->getData(_file);
 		if (data.getData() == nullptr)
 		{
 			MYGUI_LOG(Error, "file '" << _file << "' not found");

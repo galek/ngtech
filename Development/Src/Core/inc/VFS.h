@@ -35,7 +35,7 @@ namespace NGTech
 		/*internal:*/
 		void addResourceLocation(const std::string& _name, bool _recursive);
 
-		virtual void freeData(IDataStream* _data){}
+		virtual void freeData(IDataStream* _data);
 	private:
 		struct ArhivInfo
 		{

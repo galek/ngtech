@@ -1,0 +1,785 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="libogg\src\bitwise.c" />
+    <ClCompile Include="libogg\src\framing.c" />
+    <ClCompile Include="libvorbis\lib\analysis.c" />
+    <ClCompile Include="libvorbis\lib\barkmel.c" />
+    <ClCompile Include="libvorbis\lib\bitrate.c" />
+    <ClCompile Include="libvorbis\lib\block.c" />
+    <ClCompile Include="libvorbis\lib\codebook.c" />
+    <ClCompile Include="libvorbis\lib\envelope.c" />
+    <ClCompile Include="libvorbis\lib\floor0.c" />
+    <ClCompile Include="libvorbis\lib\floor1.c" />
+    <ClCompile Include="libvorbis\lib\info.c" />
+    <ClCompile Include="libvorbis\lib\lookup.c" />
+    <ClCompile Include="libvorbis\lib\lpc.c" />
+    <ClCompile Include="libvorbis\lib\lsp.c" />
+    <ClCompile Include="libvorbis\lib\mapping0.c" />
+    <ClCompile Include="libvorbis\lib\mdct.c" />
+    <ClCompile Include="libvorbis\lib\psy.c" />
+    <ClCompile Include="libvorbis\lib\registry.c" />
+    <ClCompile Include="libvorbis\lib\res0.c" />
+    <ClCompile Include="libvorbis\lib\sharedbook.c" />
+    <ClCompile Include="libvorbis\lib\smallft.c" />
+    <ClCompile Include="libvorbis\lib\synthesis.c" />
+    <ClCompile Include="libvorbis\lib\vorbisenc.c" />
+    <ClCompile Include="libvorbis\lib\vorbisfile.c" />
+    <ClCompile Include="libvorbis\lib\window.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_cm.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_debug.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_getopt.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_icc.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_iccdata.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_image.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_init.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_malloc.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_seq.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_stream.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_string.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_tmr.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_tvp.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_version.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\bmp\bmp_cod.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\bmp\bmp_dec.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\bmp\bmp_enc.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jp2\jp2_cod.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jp2\jp2_dec.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jp2\jp2_enc.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_bs.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_cs.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_dec.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_enc.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_math.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_mct.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_mqcod.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_mqdec.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_mqenc.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_qmfb.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_t1cod.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_t1dec.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_t1enc.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_t2cod.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_t2dec.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_t2enc.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_tagtree.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_tsfb.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_util.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpg\jpg_dec.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpg\jpg_enc.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpg\jpg_val.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\mif\mif_cod.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\pgx\pgx_cod.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\pgx\pgx_dec.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\pgx\pgx_enc.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\pnm\pnm_cod.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\pnm\pnm_dec.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\pnm\pnm_enc.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\ras\ras_cod.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\ras\ras_dec.c" />
+    <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\ras\ras_enc.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\cdjpeg.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\cjpeg.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\ckconfig.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\djpeg.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\example.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jaricom.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jcapimin.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jcapistd.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jcarith.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jccoefct.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jccolor.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jcdctmgr.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jchuff.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jcinit.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jcmainct.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jcmarker.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jcmaster.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jcomapi.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jcparam.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jcprepct.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jcsample.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jctrans.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jdapimin.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jdapistd.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jdarith.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jdatadst.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jdatasrc.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jdcoefct.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jdcolor.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jddctmgr.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jdhuff.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jdinput.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jdmainct.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jdmarker.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jdmaster.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jdmerge.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jdpostct.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jdsample.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jdtrans.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jerror.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jfdctflt.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jfdctfst.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jfdctint.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jidctflt.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jidctfst.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jidctint.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jmemmgr.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jmemnobs.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jpegtran.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jquant1.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jquant2.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\jutils.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\rdbmp.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\rdcolmap.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\rdgif.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\rdjpgcom.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\rdppm.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\rdrle.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\rdswitch.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\rdtarga.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\transupp.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\wrbmp.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\wrgif.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\wrjpgcom.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\wrppm.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\wrrle.c" />
+    <ClCompile Include="ResIL\Input Libs\jpegsr9a\wrtarga.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmscam02.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmscgats.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmscnvrt.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmserr.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmsgamma.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmsgmt.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmshalf.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmsintrp.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmsio0.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmsio1.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmslut.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmsmd5.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmsmtrx.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmsnamed.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmsopt.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmspack.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmspcs.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmsplugin.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmsps2.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmssamp.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmssm.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmstypes.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmsvirt.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmswtpnt.c" />
+    <ClCompile Include="ResIL\Input Libs\lcms2-2.5\src\cmsxform.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_callback_xs.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_chunk_descr.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_chunk_io.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_chunk_prc.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_chunk_xs.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_cms.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_display.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_dither.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_error.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_filter.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_hlapi.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_jpeg.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_object_prc.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_pixels.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_prop_xs.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_read.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_trace.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_write.c" />
+    <ClCompile Include="ResIL\Input Libs\libmng-2.0.2\libmng_zlib.c" />
+    <ClCompile Include="ResIL\Input Libs\libpng169\png.c" />
+    <ClCompile Include="ResIL\Input Libs\libpng169\pngerror.c" />
+    <ClCompile Include="ResIL\Input Libs\libpng169\pngget.c" />
+    <ClCompile Include="ResIL\Input Libs\libpng169\pngmem.c" />
+    <ClCompile Include="ResIL\Input Libs\libpng169\pngpread.c" />
+    <ClCompile Include="ResIL\Input Libs\libpng169\pngread.c" />
+    <ClCompile Include="ResIL\Input Libs\libpng169\pngrio.c" />
+    <ClCompile Include="ResIL\Input Libs\libpng169\pngrtran.c" />
+    <ClCompile Include="ResIL\Input Libs\libpng169\pngrutil.c" />
+    <ClCompile Include="ResIL\Input Libs\libpng169\pngset.c" />
+    <ClCompile Include="ResIL\Input Libs\libpng169\pngtest.c" />
+    <ClCompile Include="ResIL\Input Libs\libpng169\pngtrans.c" />
+    <ClCompile Include="ResIL\Input Libs\libpng169\pngwio.c" />
+    <ClCompile Include="ResIL\Input Libs\libpng169\pngwrite.c" />
+    <ClCompile Include="ResIL\Input Libs\libpng169\pngwtran.c" />
+    <ClCompile Include="ResIL\Input Libs\libpng169\pngwutil.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\mkg3states.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_aux.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_close.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_codec.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_color.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_compress.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_dir.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_dirinfo.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_dirread.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_dirwrite.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_dumpmode.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_error.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_extension.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_fax3.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_fax3sm.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_flush.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_getimage.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_jbig.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_jpeg.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_jpeg_12.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_luv.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_lzma.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_lzw.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_next.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_ojpeg.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_open.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_packbits.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_pixarlog.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_predict.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_print.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_read.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_stream.cxx" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_strip.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_swab.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_thunder.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_tile.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_unix.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_version.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_warning.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_win32.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_write.c" />
+    <ClCompile Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_zip.c" />
+    <ClCompile Include="ResIL\Input Libs\zlib-1.2.8\adler32.c" />
+    <ClCompile Include="ResIL\Input Libs\zlib-1.2.8\compress.c" />
+    <ClCompile Include="ResIL\Input Libs\zlib-1.2.8\crc32.c" />
+    <ClCompile Include="ResIL\Input Libs\zlib-1.2.8\deflate.c" />
+    <ClCompile Include="ResIL\Input Libs\zlib-1.2.8\gzclose.c" />
+    <ClCompile Include="ResIL\Input Libs\zlib-1.2.8\gzlib.c" />
+    <ClCompile Include="ResIL\Input Libs\zlib-1.2.8\gzread.c" />
+    <ClCompile Include="ResIL\Input Libs\zlib-1.2.8\gzwrite.c" />
+    <ClCompile Include="ResIL\Input Libs\zlib-1.2.8\infback.c" />
+    <ClCompile Include="ResIL\Input Libs\zlib-1.2.8\inffast.c" />
+    <ClCompile Include="ResIL\Input Libs\zlib-1.2.8\inflate.c" />
+    <ClCompile Include="ResIL\Input Libs\zlib-1.2.8\inftrees.c" />
+    <ClCompile Include="ResIL\Input Libs\zlib-1.2.8\trees.c" />
+    <ClCompile Include="ResIL\Input Libs\zlib-1.2.8\uncompr.c" />
+    <ClCompile Include="ResIL\Input Libs\zlib-1.2.8\zutil.c" />
+    <ClCompile Include="ResIL\src-ILUT\src\ilut_allegro.cpp" />
+    <ClCompile Include="ResIL\src-ILUT\src\ilut_directx.cpp" />
+    <ClCompile Include="ResIL\src-ILUT\src\ilut_directx9.cpp" />
+    <ClCompile Include="ResIL\src-ILUT\src\ilut_internal.cpp" />
+    <ClCompile Include="ResIL\src-ILUT\src\ilut_main.cpp" />
+    <ClCompile Include="ResIL\src-ILUT\src\ilut_opengl.cpp" />
+    <ClCompile Include="ResIL\src-ILUT\src\ilut_sdlsurface.cpp" />
+    <ClCompile Include="ResIL\src-ILUT\src\ilut_states.cpp" />
+    <ClCompile Include="ResIL\src-ILUT\src\ilut_win32.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_alloc.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_error.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_filter.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_filter_rcg.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_internal.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_main.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_manip.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_mipmap.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_noise.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_region.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_rotate.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_scale.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_scale2d.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_scale3d.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_scaling.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_states.cpp" />
+    <ClCompile Include="ResIL\src-ILU\src\ilu_utilities.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_alloc.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_bits.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_blp.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_bmp.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="ResIL\src-IL\src\il_convbuff.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_convert.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_cut.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_dcx.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_dds-save.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_dds.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_devil.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_dicom.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_doom.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_dpx.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_endian.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_error.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_exr.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_fastconv.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_files.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="ResIL\src-IL\src\il_fits.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_ftx.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_gif.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Default</CompileAs>
+    </ClCompile>
+    <ClCompile Include="ResIL\src-IL\src\il_hdr.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_header.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_icns.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_icon.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_iff.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_ilbm.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_internal.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_io.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="ResIL\src-IL\src\il_iwi.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_jp2.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_jpeg.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="ResIL\src-IL\src\il_lif.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_main.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_manip.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Default</CompileAs>
+    </ClCompile>
+    <ClCompile Include="ResIL\src-IL\src\il_mdl.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_mng.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="ResIL\src-IL\src\il_mp3.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="ResIL\src-IL\src\il_neuquant.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_nvidia.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_pal.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_pcd.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_pcx.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_pic.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_pix.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_png.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_pnm.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_profiles.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_psd.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_psp.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_pxr.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="ResIL\src-IL\src\il_quantizer.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_raw.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_rawdata.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_register.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_rle.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_rot.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_sgi.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_size.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_squish.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_stack.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_states.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_sun.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_targa.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_texture.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_tiff.cpp">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="ResIL\src-IL\src\il_tpl.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_utility.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_utx.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_vtf.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_wal.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_wbmp.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_wdp.cpp" />
+    <ClCompile Include="ResIL\src-IL\src\il_xpm.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="libogg\include\ogg\ogg.h" />
+    <ClInclude Include="libogg\include\ogg\os_types.h" />
+    <ClInclude Include="libvorbis\include\vorbis\codec.h" />
+    <ClInclude Include="libvorbis\include\vorbis\vorbisenc.h" />
+    <ClInclude Include="libvorbis\include\vorbis\vorbisfile.h" />
+    <ClInclude Include="libvorbis\lib\backends.h" />
+    <ClInclude Include="libvorbis\lib\bitrate.h" />
+    <ClInclude Include="libvorbis\lib\books\coupled\res_books_51.h" />
+    <ClInclude Include="libvorbis\lib\books\coupled\res_books_stereo.h" />
+    <ClInclude Include="libvorbis\lib\books\floor\floor_books.h" />
+    <ClInclude Include="libvorbis\lib\books\uncoupled\res_books_uncoupled.h" />
+    <ClInclude Include="libvorbis\lib\codebook.h" />
+    <ClInclude Include="libvorbis\lib\codec_internal.h" />
+    <ClInclude Include="libvorbis\lib\envelope.h" />
+    <ClInclude Include="libvorbis\lib\highlevel.h" />
+    <ClInclude Include="libvorbis\lib\lookup.h" />
+    <ClInclude Include="libvorbis\lib\lookup_data.h" />
+    <ClInclude Include="libvorbis\lib\lpc.h" />
+    <ClInclude Include="libvorbis\lib\lsp.h" />
+    <ClInclude Include="libvorbis\lib\masking.h" />
+    <ClInclude Include="libvorbis\lib\mdct.h" />
+    <ClInclude Include="libvorbis\lib\misc.h" />
+    <ClInclude Include="libvorbis\lib\modes\floor_all.h" />
+    <ClInclude Include="libvorbis\lib\modes\psych_11.h" />
+    <ClInclude Include="libvorbis\lib\modes\psych_16.h" />
+    <ClInclude Include="libvorbis\lib\modes\psych_44.h" />
+    <ClInclude Include="libvorbis\lib\modes\psych_8.h" />
+    <ClInclude Include="libvorbis\lib\modes\residue_16.h" />
+    <ClInclude Include="libvorbis\lib\modes\residue_44.h" />
+    <ClInclude Include="libvorbis\lib\modes\residue_44p51.h" />
+    <ClInclude Include="libvorbis\lib\modes\residue_44u.h" />
+    <ClInclude Include="libvorbis\lib\modes\residue_8.h" />
+    <ClInclude Include="libvorbis\lib\modes\setup_11.h" />
+    <ClInclude Include="libvorbis\lib\modes\setup_16.h" />
+    <ClInclude Include="libvorbis\lib\modes\setup_22.h" />
+    <ClInclude Include="libvorbis\lib\modes\setup_32.h" />
+    <ClInclude Include="libvorbis\lib\modes\setup_44.h" />
+    <ClInclude Include="libvorbis\lib\modes\setup_44p51.h" />
+    <ClInclude Include="libvorbis\lib\modes\setup_44u.h" />
+    <ClInclude Include="libvorbis\lib\modes\setup_8.h" />
+    <ClInclude Include="libvorbis\lib\modes\setup_X.h" />
+    <ClInclude Include="libvorbis\lib\os.h" />
+    <ClInclude Include="libvorbis\lib\psy.h" />
+    <ClInclude Include="libvorbis\lib\registry.h" />
+    <ClInclude Include="libvorbis\lib\scales.h" />
+    <ClInclude Include="libvorbis\lib\smallft.h" />
+    <ClInclude Include="libvorbis\lib\window.h" />
+    <ClInclude Include="ResIL\include\IL\devil_internal_exports.h" />
+    <ClInclude Include="ResIL\include\IL\il.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\bmp\bmp_cod.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\bmp\bmp_enc.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jp2\jp2_cod.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jp2\jp2_dec.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_bs.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_cod.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_cs.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_dec.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_enc.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_fix.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_flt.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_math.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_mct.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_mqcod.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_mqdec.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_mqenc.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_qmfb.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_t1cod.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_t1dec.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_t1enc.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_t2cod.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_t2dec.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_t2enc.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_tagtree.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_tsfb.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpc\jpc_util.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpg\jpg_cod.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpg\jpg_enc.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\jpg\jpg_jpeglib.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\mif\mif_cod.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\pnm\pnm_cod.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\pnm\pnm_enc.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\ras\ras_cod.h" />
+    <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\ras\ras_enc.h" />
+    <ClInclude Include="ResIL\Input Libs\jpegsr9a\cderror.h" />
+    <ClInclude Include="ResIL\Input Libs\jpegsr9a\cdjpeg.h" />
+    <ClInclude Include="ResIL\Input Libs\jpegsr9a\jconfig.h" />
+    <ClInclude Include="ResIL\Input Libs\jpegsr9a\jdct.h" />
+    <ClInclude Include="ResIL\Input Libs\jpegsr9a\jerror.h" />
+    <ClInclude Include="ResIL\Input Libs\jpegsr9a\jinclude.h" />
+    <ClInclude Include="ResIL\Input Libs\jpegsr9a\jmemsys.h" />
+    <ClInclude Include="ResIL\Input Libs\jpegsr9a\jmorecfg.h" />
+    <ClInclude Include="ResIL\Input Libs\jpegsr9a\jpegint.h" />
+    <ClInclude Include="ResIL\Input Libs\jpegsr9a\jpeglib.h" />
+    <ClInclude Include="ResIL\Input Libs\jpegsr9a\jversion.h" />
+    <ClInclude Include="ResIL\Input Libs\jpegsr9a\transupp.h" />
+    <ClInclude Include="ResIL\Input Libs\lcms2-2.5\src\lcms2_internal.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\config.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_chunks.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_chunk_descr.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_chunk_io.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_chunk_prc.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_cms.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_conf.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_data.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_display.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_dither.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_error.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_filter.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_jpeg.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_memory.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_objects.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_object_prc.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_pixels.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_read.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_trace.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_types.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_write.h" />
+    <ClInclude Include="ResIL\Input Libs\libmng-2.0.2\libmng_zlib.h" />
+    <ClInclude Include="ResIL\Input Libs\libpng169\png.h" />
+    <ClInclude Include="ResIL\Input Libs\libpng169\pngconf.h" />
+    <ClInclude Include="ResIL\Input Libs\libpng169\pngdebug.h" />
+    <ClInclude Include="ResIL\Input Libs\libpng169\pnginfo.h" />
+    <ClInclude Include="ResIL\Input Libs\libpng169\pngpriv.h" />
+    <ClInclude Include="ResIL\Input Libs\libpng169\pngstruct.h" />
+    <ClInclude Include="ResIL\Input Libs\tiff-4.0.3\libtiff\t4.h" />
+    <ClInclude Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tiff.h" />
+    <ClInclude Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tiffconf.wince.h" />
+    <ClInclude Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tiffio.h" />
+    <ClInclude Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tiffio.hxx" />
+    <ClInclude Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tiffiop.h" />
+    <ClInclude Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tiffvers.h" />
+    <ClInclude Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_config.h" />
+    <ClInclude Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_config.vc.h" />
+    <ClInclude Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_config.wince.h" />
+    <ClInclude Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_dir.h" />
+    <ClInclude Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_fax3.h" />
+    <ClInclude Include="ResIL\Input Libs\tiff-4.0.3\libtiff\tif_predict.h" />
+    <ClInclude Include="ResIL\Input Libs\tiff-4.0.3\libtiff\uvcode.h" />
+    <ClInclude Include="ResIL\Input Libs\zlib-1.2.8\crc32.h" />
+    <ClInclude Include="ResIL\Input Libs\zlib-1.2.8\deflate.h" />
+    <ClInclude Include="ResIL\Input Libs\zlib-1.2.8\gzguts.h" />
+    <ClInclude Include="ResIL\Input Libs\zlib-1.2.8\inffast.h" />
+    <ClInclude Include="ResIL\Input Libs\zlib-1.2.8\inffixed.h" />
+    <ClInclude Include="ResIL\Input Libs\zlib-1.2.8\inflate.h" />
+    <ClInclude Include="ResIL\Input Libs\zlib-1.2.8\inftrees.h" />
+    <ClInclude Include="ResIL\Input Libs\zlib-1.2.8\trees.h" />
+    <ClInclude Include="ResIL\Input Libs\zlib-1.2.8\zconf.h" />
+    <ClInclude Include="ResIL\Input Libs\zlib-1.2.8\zlib.h" />
+    <ClInclude Include="ResIL\Input Libs\zlib-1.2.8\zutil.h" />
+    <ClInclude Include="ResIL\src-ILUT\include\ilut_allegro.h" />
+    <ClInclude Include="ResIL\src-ILUT\include\ilut_internal.h" />
+    <ClInclude Include="ResIL\src-ILUT\include\ilut_opengl.h" />
+    <ClInclude Include="ResIL\src-ILUT\include\ilut_states.h" />
+    <ClInclude Include="ResIL\src-ILU\include\ilu_alloc.h" />
+    <ClInclude Include="ResIL\src-ILU\include\ilu_filter.h" />
+    <ClInclude Include="ResIL\src-ILU\include\ilu_internal.h" />
+    <ClInclude Include="ResIL\src-ILU\include\ilu_region.h" />
+    <ClInclude Include="ResIL\src-ILU\include\ilu_states.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_alloc.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_bits.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_bmp.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_dcx.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_dds.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_doompal.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_dpx.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_endian.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_exr.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_files.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_gif.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_hdr.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_icns.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_icon.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_internal.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_jp2.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_jpeg.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_lif.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_manip.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_mdl.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_pal.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_pcx.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_pic.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_pnm.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_psd.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_psp.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_q2pal.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_register.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_rle.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_sgi.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_stack.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_states.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_targa.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_utx.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_vtf.h" />
+    <ClInclude Include="ResIL\src-IL\include\il_wdp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="libvorbis\lib\lookups.pl" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{046CF915-3F2E-4444-9EE4-B6A315F5E1E9}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Externals</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>$(SolutionPath)\..\..\..\TempFiles\\$(Configuration)\$(PlatformName)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>devil/src-IL/include;devil/src-ILU/include;devil/include</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>devil/src-IL/include;devil/src-ILU/include;devil/include</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>devil/src-IL/include;devil/src-ILU/include;devil/include</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <FloatingPointModel>Fast</FloatingPointModel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>Full</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>devil/src-IL/include;devil/src-ILU/include;devil/include</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <FloatingPointModel>Fast</FloatingPointModel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -47,7 +47,6 @@ namespace NGTech {
 	void GUI::initialise()	{
 		Log::writeHeader("-- GUI --");
 		mPlatform->initialise((MyGUI::OpenGLImageLoader*)GetRender()->GetGUIImageLoader());
-		mPlatform->getDataManagerPtr()->addResourceLocation("../data/gui/", true);
 		resize(cvars->r_width, cvars->r_height);
 		mGUI->initialise("MyGUI_Core.xml");
 		showDebugInfo(cvars->r_showInfo);

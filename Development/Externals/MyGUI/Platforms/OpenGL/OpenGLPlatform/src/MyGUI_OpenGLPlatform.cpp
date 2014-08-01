@@ -14,14 +14,12 @@ namespace MyGUI
 		mIsInitialise(false)
 	{
 		mRenderManager = new OpenGLRenderManager();
-		mDataManager = new OpenGLDataManager();
 	}
 
 	OpenGLPlatform::~OpenGLPlatform()
 	{
 		assert(!mIsInitialise);
 		delete mRenderManager;
-		delete mDataManager;
 	}
 
 	void OpenGLPlatform::initialise(OpenGLImageLoader* _loader, const std::string& _logName)
@@ -30,7 +28,6 @@ namespace MyGUI
 		mIsInitialise = true;
 
 		mRenderManager->initialise(_loader);
-		mDataManager->initialise();
 	}
 
 	void OpenGLPlatform::shutdown()
@@ -39,19 +36,12 @@ namespace MyGUI
 		mIsInitialise = false;
 
 		mRenderManager->shutdown();
-		mDataManager->shutdown();
 	}
 
 	OpenGLRenderManager* OpenGLPlatform::getRenderManagerPtr()
 	{
 		assert(mIsInitialise);
 		return mRenderManager;
-	}
-
-	OpenGLDataManager* OpenGLPlatform::getDataManagerPtr()
-	{
-		assert(mIsInitialise);
-		return mDataManager;
 	}
 
 } // namespace MyGUI

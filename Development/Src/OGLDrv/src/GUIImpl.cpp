@@ -2,16 +2,20 @@
 //***************************************************************************
 #include "VFS.h"
 #include "GUIImpl.h"
-//***************************************************************************
-#include "ILImage.h"
 #include "GLSystem.h"
+//***************************************************************************
+#include "../../../Externals/ResIL/include/IL/il.h"
+#include "../../../Externals/ResIL/include/IL/ilu.h"
 //***************************************************************************
 
 namespace NGTech {
 	/*
 	*/
 	GUIImageLoader::GUIImageLoader() :
-		MyGUI::OpenGLImageLoader(){}
+		MyGUI::OpenGLImageLoader(){
+		ilInit();
+		iluInit();
+	}
 	/*
 	*/
 	void* GUIImageLoader::loadImage(int& _width, int& _height, MyGUI::PixelFormat& _format, const std::string& _filename)
@@ -38,7 +42,7 @@ namespace NGTech {
 #endif
 
 			// Try to determine the image type
-			ILenum imageType = ilTypeFromExt(filename.c_str());//ilDetermineType(filename.c_str());
+			ILenum imageType = ilTypeFromExt(filename.c_str());
 			if (imageType == IL_TYPE_UNKNOWN)
 				imageType = ilDetermineTypeL(lumpData, lumpSize);
 
@@ -96,10 +100,8 @@ namespace NGTech {
 			memcpy(_data, data, size);
 			return _data;
 		}
-		else{
-			Warning("[GUI] Failed Loading GUI image!File not found:%s", _filename);
-			return NULL;
-		}
+		Warning("[GUI] Failed Loading GUI image!File not found:%s", _filename);
+		return NULL;
 	}
 	/*
 	*/

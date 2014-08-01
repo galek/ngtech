@@ -11,6 +11,9 @@
 #include "MyGUI_Bitwise.h"
 #include "MyGUI_Constants.h"
 
+#include "..\..\..\src\Core\inc\VFS.h"
+#include "..\..\..\src\Core\inc\CoreManager.h"
+
 namespace MyGUI
 {
 
@@ -36,7 +39,7 @@ namespace MyGUI
 			ITexture* texture = render.getTexture(_texture);
 			if (texture == nullptr)
 			{
-				if (!DataManager::getInstance().isDataExist(_texture))
+				if (!NGTech::GetVFS()->isDataExist(_texture))
 				{
 					MYGUI_LOG(Error, "Texture '" + _texture + "' not found");
 					return Constants::getZeroIntSize();

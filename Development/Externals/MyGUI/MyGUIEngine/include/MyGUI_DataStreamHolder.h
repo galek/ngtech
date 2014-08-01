@@ -10,6 +10,9 @@
 #include "MyGUI_Prerequest.h"
 #include "MyGUI_DataManager.h"
 
+#include "..\..\..\src\Core\inc\VFS.h"
+#include "..\..\..\src\Core\inc\CoreManager.h"
+
 namespace MyGUI
 {
 
@@ -23,7 +26,7 @@ namespace MyGUI
 
 		~DataStreamHolder()
 		{
-			DataManager::getInstance().freeData(mData);
+			NGTech::GetVFS()->freeData(mData);
 		}
 
 		IDataStream* getData()

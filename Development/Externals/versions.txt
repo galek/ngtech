@@ -2,3 +2,4 @@ mygui 3.21
 freetype latest(07.2013)
 libvorbis-1.3.3
 libogg-1.3.1
+devil-1.7.8
