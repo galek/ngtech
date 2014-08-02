@@ -20,8 +20,7 @@ void main() {
 varying vec3 v_light_vec;
 
 void main() {
-	float depth2 = dot(v_light_vec, v_light_vec);
-	float depth = sqrt(depth2);
+	float depth = length(v_light_vec);
 	
-	gl_FragColor = vec4(depth, depth2, 1, 1);
+	gl_FragColor = vec4(depth, 0, 0, 0);
 }
