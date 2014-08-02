@@ -48,5 +48,3 @@ sampler2D u_texture_0 = TerrainMap.jpg
 sampler2D u_detail_map = detail.jpg
 float u_detail_map_scale = 50
 }
-
-

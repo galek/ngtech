@@ -7,6 +7,3 @@ float u_time = scene::time
 sampler2D u_viewport_map = scene::viewport_map
 sampler2D u_dudv_map = effects/water_dudv.jpg
 }
-
-
-

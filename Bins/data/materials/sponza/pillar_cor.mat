@@ -1,15 +1,14 @@
 pass Ambient
 {
-shader = mesh_ambient_env.ashd
+shader = mesh_ambient.ashd
 mat4 u_mvp = scene::mvp
 vec3 u_light_color = scene::light_color
 sampler2D u_texture_0 = 01_stub.jpg
 }
 pass LightOmni
 {
-shader = mesh_omni.ashd
-float u_spec_coef = 0.5
-float u_shininess = 24
+shader = mesh_point.ashd
+vec4 u_material_param_0 = 0.5 24 1
 mat4 u_mvp = scene::mvp
 mat4 u_world = scene::world
 vec3 u_light_color = scene::light_color
@@ -23,8 +22,7 @@ sampler2D u_shadow_map = scene::shadow_map
 pass LightSpot
 {
 shader = mesh_spot.ashd
-float u_spec_coef = 0.5
-float u_shininess = 24
+vec4 u_material_param_0 = 0.5 24 1
 mat4 u_mvp = scene::mvp
 mat4 u_world = scene::world
 mat4 u_spot_proj_transform = scene::spot_transform
@@ -41,8 +39,7 @@ sampler2D u_spot_proj_map = scene::spot_map
 pass LightDirect
 {
 shader = mesh_direct.ashd
-float u_specular = 0.5
-float u_shininess = 24
+vec4 u_material_param_0 = 0.5 24 1
 mat4 u_mvp = scene::mvp
 mat4 u_world = scene::world
 vec3 u_light_color = scene::light_color
