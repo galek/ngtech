@@ -16,7 +16,7 @@ void ExampleGame::update() {}
 //------------------------------------------------------------
 void ExampleGame::initialise() {
 	//initializing loading screen
-	LoadingScreen *lscreen = new LoadingScreen("logos/background.png");
+	LoadingScreen *lscreen = new LoadingScreen("sponza/background.png");
 	lscreen->show();
 
 	sponza = new ObjectMesh("sponza.amdl");

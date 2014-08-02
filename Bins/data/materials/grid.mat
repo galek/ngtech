@@ -3,6 +3,7 @@ pass Ambient
 shader = mesh_ambient.ashd
 mat4 u_mvp = scene::mvp
 mat4 u_world = scene::world
+sampler2D u_texture_0 = usor.bmp
 sampler2D u_texture_1 = normal_map() usor.bmp
 samplerCube u_env_map = cube/rock/rock_%s.jpg
 }
