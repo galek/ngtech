@@ -20,13 +20,13 @@ void ExampleGame::initialise() {
 	lscreen->show();
 
 	sponza = new ObjectMesh("sponza.amdl");
-	sponza->setMaterialList("sponza.amtrlst");
+	sponza->setMaterialList("sponza.matlst");
 	sponza->setPhysicsStaticMesh();
 	sponza->setTransform(Mat4::translate(Vec3(0, -10, 0)));
 
 	for (int i = 0; i < 5; i++) {
 		box[i] = new ObjectMesh("cube.amdl");
-		box[i]->setMaterial("*", "grid.amtr");
+		box[i]->setMaterial("*", "grid.mat");
 		box[i]->setTransform(Mat4::translate(Vec3(-10 - i * 2, i * 20 + 10, i - 10)));
 		box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);
 		box[i]->setImpactSound("impact.ogg");
@@ -34,7 +34,7 @@ void ExampleGame::initialise() {
 
 	for (int i = 0; i < 5; i++) {
 		sphere[i] = new ObjectMesh("sphere.amdl");
-		sphere[i]->setMaterial("*", "grid.amtr");
+		sphere[i]->setMaterial("*", "grid.mat");
 		sphere[i]->setTransform(Mat4::translate(Vec3(10 + i * 2, i * 20 + 10, i - 10)));
 		sphere[i]->setPhysicsSphere(Vec3(5, 5, 5), 10);
 		sphere[i]->setImpactSound("impact.ogg");
@@ -43,7 +43,7 @@ void ExampleGame::initialise() {
 #if 0
 	for (int i = 0; i < 5; i++) {
 		cylinder[i] = new ObjectMesh("torus.amdl");
-		cylinder[i]->setMaterial("*", "grid.amtr");
+		cylinder[i]->setMaterial("*", "grid.mat");
 		cylinder[i]->setPhysicsConvexHull(10);
 		cylinder[i]->setTransform(Mat4::translate(Vec3(20 + i * 2, i * 20 + 20, i - 10)));
 		cylinder[i]->setImpactSound("impact.ogg");

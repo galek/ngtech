@@ -72,21 +72,21 @@ void init() {
 	Scene::create();
 
 	chammy = new ObjectSkinnedMesh("chammy.asmdl");
-	chammy->setMaterial("*", "usor.amtr");
+	chammy->setMaterial("*", "usor.mat");
 	chammy->setTransform(Mat4::translate(Vec3(30, 120, 0)));
 	//¹(chammy);
 
 	airplane = new ObjectMesh("airplane.amdl");
-	airplane->setMaterial("box01", "box01.amtr");
-	airplane->setMaterial("object02", "object02.amtr");
-	airplane->setMaterial("object03", "object03.amtr");
+	airplane->setMaterial("box01", "box01.mat");
+	airplane->setMaterial("object02", "object02.mat");
+	airplane->setMaterial("object03", "object03.mat");
 	airplane->setTransform(Mat4::translate(Vec3(0, 120, 0)));
 	¹(airplane);
 
 
 	for(int i = 0; i < 5; i++) {
 		box[i] = new ObjectMesh("cube.amdl");
-		box[i]->setMaterial("*", "grid.amtr");
+		box[i]->setMaterial("*", "grid.mat");
 		box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);
 		box[i]->setTransform(Mat4::translate(Vec3(-80-i*2, i*20 + 50, i + 20)));
 		box[i]->setImpactSound("impact.ogg");
@@ -95,7 +95,7 @@ void init() {
 
 	for(int i = 0; i < 5; i++) {
 		sphere[i] = new ObjectMesh("sphere.amdl");
-		sphere[i]->setMaterial("*", "grid.amtr");
+		sphere[i]->setMaterial("*", "grid.mat");
 		sphere[i]->setPhysicsSphere(Vec3(5, 5, 5), 10);
 		sphere[i]->setTransform(Mat4::translate(Vec3(-90-i*2, i*20 + 50, i + 20)));
 		sphere[i]->setImpactSound("impact.ogg");
@@ -104,7 +104,7 @@ void init() {
 
 	for(int i = 0; i < 5; i++) {
 		cylinder[i] = new ObjectMesh("torus.amdl");
-		cylinder[i]->setMaterial("*", "grid.amtr");
+		cylinder[i]->setMaterial("*", "grid.mat");
 		cylinder[i]->setPhysicsConvexHull(10);
 		cylinder[i]->setTransform(Mat4::translate(Vec3(-100-i*2, i*20 + 50, i + 20)));
 		cylinder[i]->setImpactSound("impact.ogg");
@@ -132,7 +132,7 @@ void init() {
 	GetScene()->setWater(55, 1000);
 	GetScene()->setTerrain("../data/textures/HeightMap_small.tga", 1.5, 100.0, true);
 	GetScene()->setTerrainLods(Vec3(400, 600, 900));
-	GetScene()->setTerrainMaterial("terrain.amtr");
+	GetScene()->setTerrainMaterial("terrain.mat");
 	GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
 
 	GetWindow()->grabMouse(true);

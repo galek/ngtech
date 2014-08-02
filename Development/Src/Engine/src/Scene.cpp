@@ -65,9 +65,9 @@ namespace NGTech {
 		matShadowMap = NULL;
 		matSpotMap = NULL;
 
-		depthPass = new Material("engine_materials/depth_pass.amtr");
-		waterMtr = new Material("engine_materials/water.amtr");
-		hdr = new Material("engine_materials/hdr.amtr");
+		depthPass = new Material("engine_materials/depth_pass.mat");
+		waterMtr = new Material("engine_materials/water.mat");
+		hdr = new Material("engine_materials/hdr.mat");
 	}
 
 	//---------------------------------------------------------------------------

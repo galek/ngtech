@@ -152,7 +152,6 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ImportLibrary>$(SolutionPath)\..\..\Libs\$(Configuration)\$(PlatformName)\$(TargetName).lib</ImportLibrary>
@@ -181,7 +180,6 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ImportLibrary>$(SolutionPath)\..\..\Libs\$(Configuration)\$(PlatformName)\$(TargetName).lib</ImportLibrary>

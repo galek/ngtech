@@ -174,7 +174,6 @@
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <AdditionalLibraryDirectories>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\;$(SolutionPath)\..\..\Externals\;$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\;$(SolutionPath)\..\..\Externals\physx\Lib\win$(PlatformArchitecture)</AdditionalLibraryDirectories>
       <AdditionalDependencies>OpenAL32.lib;opengl32.lib;PhysX3_x86.lib;PhysX3CharacterKinematic_x86.lib;PhysX3Common_x86.lib;PhysX3Cooking_x86.lib;PhysX3Extensions.lib;PhysX3Vehicle.lib;PxTask.lib;PhysXVisualDebuggerSDK.lib;PhysXProfileSDK.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(SolutionPath)\..\..\Libs\$(Configuration)\$(PlatformName)\$(TargetName).lib</ImportLibrary>
     </Link>
     <ProjectReference />
@@ -212,7 +211,6 @@
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <AdditionalLibraryDirectories>$(SolutionPath)\..\..\..\Libs\\$(Configuration)\$(PlatformName)\;$(SolutionPath)\..\..\Externals\;$(SolutionPath)\..\..\Externals\Libs\$(Configuration)\$(PlatformName)\;$(SolutionPath)\..\..\Externals\physx\Lib\win$(PlatformArchitecture)</AdditionalLibraryDirectories>
       <AdditionalDependencies>OpenAL32.lib;opengl32.lib;PhysX3_x64.lib;PhysX3CharacterKinematic_x64.lib;PhysX3Common_x64.lib;PhysX3Cooking_x64.lib;PhysX3Extensions.lib;PhysX3Vehicle.lib;PhysXProfileSDK.lib;PhysXVisualDebuggerSDK.lib;PxTask.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(SolutionPath)\..\..\Libs\$(Configuration)\$(PlatformName)\$(TargetName).lib</ImportLibrary>
     </Link>
     <ProjectReference />
