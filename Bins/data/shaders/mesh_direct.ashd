@@ -44,16 +44,16 @@ uniform vec3 u_light_color;
 uniform float u_spec_coef;
 uniform float u_shininess;
 
-uniform sampler2D u_base_map;
-uniform sampler2D u_bump_map;
+uniform sampler2D u_texture_0;
+uniform sampler2D u_texture_1;
 
 void main() {
 
 	vec3 lVec = normalize(v_light_vec);
 	vec3 vVec = normalize(v_view_vec);
 	
-	vec4 baseColor = texture2D(u_base_map, v_tex_coord);
-	vec3 normal = 2.0 * texture2D(u_bump_map, v_tex_coord).xyz - 1.0;
+	vec4 baseColor = texture2D(u_texture_0, v_tex_coord);
+	vec3 normal = 2.0 * texture2D(u_texture_1, v_tex_coord).xyz - 1.0;
 	
     float diffuse = clamp(dot(normal, lVec), 0.0, 1.0);
 

@@ -3,7 +3,7 @@ pass Ambient
 shader = mesh_ambient_env.ashd
 mat4 u_mvp = scene::mvp
 vec3 u_light_color = scene::light_color
-sampler2D u_base_map = reljef.jpg
+sampler2D u_texture_0 = reljef.jpg
 }
 pass LightOmni
 {
@@ -16,8 +16,8 @@ vec3 u_light_color = scene::light_color
 vec3 u_light_pos = scene::light_position
 vec3 u_view_pos = scene::view_position
 float u_inv_radius = scene::light_iradius
-sampler2D u_base_map = reljef.jpg
-sampler2D u_bump_map = normal_map() reljef.jpg
+sampler2D u_texture_0 = reljef.jpg
+sampler2D u_texture_1 = normal_map() reljef.jpg
 sampler2D u_shadow_map = scene::shadow_map
 }
 pass LightSpot
@@ -33,8 +33,8 @@ vec3 u_light_pos = scene::light_position
 vec3 u_light_dir = scene::light_direction
 float u_inv_radius = scene::light_iradius
 vec3 u_view_pos = scene::view_position
-sampler2D u_base_map = reljef.jpg
-sampler2D u_bump_map = normal_map() reljef.jpg
+sampler2D u_texture_0 = reljef.jpg
+sampler2D u_texture_1 = normal_map() reljef.jpg
 sampler2D u_shadow_map = scene::shadow_map
 sampler2D u_spot_proj_map = scene::spot_map
 }
@@ -48,6 +48,6 @@ mat4 u_world = scene::world
 vec3 u_light_color = scene::light_color
 vec3 u_light_dir = scene::light_direction
 vec3 u_view_pos = scene::view_position
-sampler2D u_base_map = reljef.jpg
-sampler2D u_bump_map = normal_map() reljef.jpg
+sampler2D u_texture_0 = reljef.jpg
+sampler2D u_texture_1 = normal_map() reljef.jpg
 }

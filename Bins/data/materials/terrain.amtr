@@ -3,7 +3,7 @@ pass Ambient
 shader = terrain_ambient.ashd
 mat4 u_mvp = scene::mvp
 vec3 u_light_color = scene::light_color
-sampler2D u_base_map = TerrainMap.jpg
+sampler2D u_texture_0 = TerrainMap.jpg
 sampler2D u_detail_map = detail.jpg
 float u_detail_map_scale = 50
 }
@@ -15,7 +15,7 @@ mat4 u_mvp = scene::mvp
 vec3 u_light_color = scene::light_color
 vec3 u_light_pos = scene::light_position
 float u_inv_radius = scene::light_iradius
-sampler2D u_base_map = TerrainMap.jpg
+sampler2D u_texture_0 = TerrainMap.jpg
 sampler2D u_detail_map = detail.jpg
 float u_detail_map_scale = 50
 sampler2D u_shadow_map = scene::shadow_map
@@ -30,7 +30,7 @@ vec3 u_light_color = scene::light_color
 vec3 u_light_pos = scene::light_position
 vec3 u_light_dir = scene::light_direction
 float u_inv_radius = scene::light_iradius
-sampler2D u_base_map = TerrainMap.jpg
+sampler2D u_texture_0 = TerrainMap.jpg
 sampler2D u_detail_map = detail.jpg
 float u_detail_map_scale = 50
 sampler2D u_shadow_map = scene::shadow_map
@@ -44,7 +44,7 @@ shader = terrain_direct.ashd
 mat4 u_mvp = scene::mvp
 vec3 u_light_color = scene::light_color
 vec3 u_light_dir = scene::light_direction
-sampler2D u_base_map = TerrainMap.jpg
+sampler2D u_texture_0 = TerrainMap.jpg
 sampler2D u_detail_map = detail.jpg
 float u_detail_map_scale = 50
 }

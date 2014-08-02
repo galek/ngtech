@@ -35,7 +35,7 @@ varying vec4 v_spot_proj_coord;
 
 uniform vec3 u_light_dir;
 uniform vec3 u_light_color;
-uniform sampler2D u_base_map;
+uniform sampler2D u_texture_0;
 uniform sampler2D u_shadow_map;
 uniform sampler2D u_spot_map;
 uniform sampler2D u_detail_map;
@@ -109,7 +109,7 @@ void main() {
 
 	if(dot(v_s_vec, u_light_dir) < 0.05) shadow = 0.0;
 	
-	vec4 baseColor = texture2D(u_base_map, v_tex_coord);
+	vec4 baseColor = texture2D(u_texture_0, v_tex_coord);
 	vec4 detColor = texture2D(u_detail_map, v_tex_coord * u_detail_map_scale);
 
 	vec3 lVec = normalize(v_light_vec);
