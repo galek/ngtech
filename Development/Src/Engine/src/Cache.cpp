@@ -125,6 +125,7 @@ namespace NGTech {
 			if (cvars->r_shadowtype == 1) defines += "#define SM_SHADOWS\n";
 			if (cvars->r_shadowtype == 2) defines += "#define SM_SHADOWS_PCF_2\n";
 			if (cvars->r_shadowtype == 3) defines += "#define SM_SHADOWS_PCF_3\n";
+			if (cvars->r_shadowtype == 4) defines += "#define VSM_SHADOWS\n";
 
 			I_Shader *shader = GetRender()->ShaderCreate(path, defines);
 			shaders[path].first = shader;
@@ -143,6 +144,7 @@ namespace NGTech {
 		if (cvars->r_shadowtype == 1) defines += "#define SM_SHADOWS\n";
 		if (cvars->r_shadowtype == 2) defines += "#define SM_SHADOWS_PCF_2\n";
 		if (cvars->r_shadowtype == 3) defines += "#define SM_SHADOWS_PCF_3\n";
+		if (cvars->r_shadowtype == 4) defines += "#define VSM_SHADOWS\n";
 
 		std::map<String, std::pair<I_Shader*, int>>::iterator it;
 		for (it = shaders.begin(); it != shaders.end(); it++) {
