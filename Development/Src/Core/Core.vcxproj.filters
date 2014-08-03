@@ -25,6 +25,9 @@
     <Filter Include="Файлы исходного кода\lua">
       <UniqueIdentifier>{33e7bdcb-595e-437d-9f86-fac6370fd009}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\adl">
+      <UniqueIdentifier>{00b167ee-4656-47b7-ad8c-86ed6b7026ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\BuildDefines.h">
@@ -456,6 +459,18 @@
     <ClInclude Include="inc\lua\detail\conversion_policies\value_converter.hpp">
       <Filter>Заголовочные файлы\lua\detail\conversion_policies</Filter>
     </ClInclude>
+    <ClInclude Include="inc\ati_eyefinity.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\adl\adl_defines.h">
+      <Filter>Заголовочные файлы\adl</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\adl\adl_sdk.h">
+      <Filter>Заголовочные файлы\adl</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\adl\adl_structures.h">
+      <Filter>Заголовочные файлы\adl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Config.cpp">
@@ -681,6 +696,9 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="src\iLSystem.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ati_eyefinity.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>

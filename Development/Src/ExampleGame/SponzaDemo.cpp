@@ -78,7 +78,7 @@ void ExampleGame::initialise() {
 	particlesYellow->setDispersion(0.1);
 
 	GetScene()->setWater(1, 400);
-	GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
+	//GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
 
 	GetWindow()->grabMouse(true);
 

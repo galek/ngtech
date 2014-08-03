@@ -1,7 +1,7 @@
 #ifndef _BUILD_DEFINES_H
 #define _BUILD_DEFINES_H
 
-#ifdef _DEBUG
+#if defined (_DEBUG) || defined (_MIXED)
 #ifndef _ENGINE_DEBUG_
 #define _ENGINE_DEBUG_ 1
 #endif
@@ -21,6 +21,10 @@
 
 #ifndef USE_OWN_MINIDUMP
 #define USE_OWN_MINIDUMP 1
+#endif
+
+#ifndef EYEFINITY_SUPPORT
+#define EYEFINITY_SUPPORT 1
 #endif
 
 #endif
