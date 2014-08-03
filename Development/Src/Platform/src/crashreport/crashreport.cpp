@@ -53,7 +53,7 @@ namespace NGTech
 #ifdef _WIN32
 		MessageBoxA(NULL, ex.c_str(), "Critical Error", MB_OK);
 #endif
-#ifndef _DEBUG
+#ifdef _NDEBUG
 		exit(0);
 #endif
 		return succeeded;
