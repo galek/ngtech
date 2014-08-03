@@ -200,12 +200,11 @@ namespace NGTech {
 			if (this->iRender)
 				this->iRender->clear(I_Render::COLOR_BUFFER | I_Render::DEPTH_BUFFER | I_Render::STENCIL_BUFFER);
 
-#pragma message("TODO:GUI:Разобраться с апдейтом GUI")
-			/*if (this->gui)
-				this->gui->update();*/
-
 			if (this->scene)
 				this->scene->Update();
+
+			if (this->gui)
+				this->gui->update();
 
 			if (this->game->rc)
 				this->game->runRenderCallback();

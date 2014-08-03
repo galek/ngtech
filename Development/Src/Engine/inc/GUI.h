@@ -12,6 +12,7 @@ namespace MyGUI{
 }
 
 namespace NGTech {
+	class Material;
 	//----------------------------------------------------------------------------
 	//Desc: Gui struct. Created one time
 	//---------------------------------------------------------------------------
@@ -37,5 +38,7 @@ namespace NGTech {
 		//DebugInfo
 		bool mDebugShow;
 		MyGUI::TextBox *fpsLabel;
+		Material *guiMtr;
+		bool mInited;
 	};
 }

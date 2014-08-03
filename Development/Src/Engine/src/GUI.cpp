@@ -38,7 +38,8 @@ namespace NGTech {
 		mGUI(nullptr),
 		fpsLabel(nullptr),
 		cvars(_cvars),
-		mDebugShow(false)
+		mDebugShow(false),
+		mInited(false)
 	{
 		Debug("[GUI] Constructor");
 		mPlatform = new MyGUI::OpenGLPlatform();
@@ -50,6 +51,8 @@ namespace NGTech {
 		resize(cvars->r_width, cvars->r_height);
 		mGUI->initialise("MyGUI_Core.xml");
 		showDebugInfo(cvars->r_showInfo);
+		guiMtr = new Material("engine_materials/GUI.mat");
+		mInited = true;
 	}
 	
 	GUI::~GUI() {
@@ -58,20 +61,27 @@ namespace NGTech {
 	}
 	
 	void GUI::update() {
-#pragma message("TODO:GUI:Разобраться с апдейтом GUI")
-		GetRender()->enable2d(false);
-		GetRender()->disableCulling();
-		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE_MINUS_SRC_ALPHA);
-		if (mPlatform)
-			mPlatform->getRenderManagerPtr()->drawOneFrame();
+		if (mInited) {
+			guiMtr->setPass("Ambient");
+			GetRender()->disableCulling();
+			GetRender()->drawRect(0, 10, 0, 10, 0, 0, 1, 1);
+			GetRender()->enableCulling();
+			guiMtr->unsetPass();
 
-		updateDebugInfo();//Nick:TODO:Вынести все в отдельный класс
+			GetRender()->enable2d(false);
+			GetRender()->disableCulling();
+			GetRender()->enableBlending(I_Render::ONE, I_Render::ONE_MINUS_SRC_ALPHA);
+			if (mPlatform)
+				mPlatform->getRenderManagerPtr()->drawOneFrame();
 
-		GetRender()->disableBlending();
-		GetRender()->enableCulling();
-		GetRender()->enable3d();
+			updateDebugInfo();
+
+			GetRender()->disableBlending();
+			GetRender()->enableCulling();
+			GetRender()->enable3d();
+		}
 	}
-	//Nick:TODO:Вынести все в отдельный класс
+	
 	void GUI::createDebugInfo(){
 		fpsLabel = mGUI->createWidget<MyGUI::TextBox>("TextBox", 100, 0, 180, 180, MyGUI::Align::Default, "Statistic", "InfoTextBox");
 		fpsLabel->setTextColour(MyGUI::Colour::White);

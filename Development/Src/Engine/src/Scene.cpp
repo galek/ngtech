@@ -27,7 +27,7 @@ namespace NGTech {
 	//Params:  -
 	//Returns: -
 	//---------------------------------------------------------------------------
-	Scene::Scene(CVARManager*_cvars) : cvars(_cvars),camera(nullptr) {
+	Scene::Scene(CVARManager*_cvars) : cvars(_cvars), camera(nullptr) {
 		water = NULL;
 		terrain = NULL;
 	}
@@ -350,7 +350,7 @@ namespace NGTech {
 					}
 					if ((light->position - terrain->getCenter(n)).length() >
 						light->radius + terrain->getRadius(n)) {
-							continue;
+						continue;
 					}
 
 					terrain->drawNode(n, camera->getPosition());
@@ -378,8 +378,8 @@ namespace NGTech {
 			}
 			if ((light->position - object->getTransform().getTranslation()).length() >
 				light->radius + object->getRadius()) {
-					GetRender()->pop();
-					continue;
+				GetRender()->pop();
+				continue;
 			}
 
 			//DRAW OBJECT SUBSETS
@@ -463,8 +463,8 @@ namespace NGTech {
 				}
 				if ((light->position - object->getTransform().getTranslation()).length() >
 					light->radius + object->getRadius()) {
-						GetRender()->pop();
-						continue;
+					GetRender()->pop();
+					continue;
 				}
 
 				//DRAW OBJECT SUBSETS
@@ -540,7 +540,7 @@ namespace NGTech {
 					}
 					if ((light->position - terrain->getCenter(n)).length() >
 						light->radius + terrain->getRadius(n)) {
-							continue;
+						continue;
 					}
 
 					terrain->drawNode(n, camera->getPosition());
@@ -569,8 +569,8 @@ namespace NGTech {
 			}
 			if ((light->position - object->getTransform().getTranslation()).length() >
 				light->radius + object->getRadius()) {
-					GetRender()->pop();
-					continue;
+				GetRender()->pop();
+				continue;
 			}
 
 			//DRAW OBJECT SUBSETS
@@ -650,8 +650,8 @@ namespace NGTech {
 			}
 			if ((light->position - object->getTransform().getTranslation()).length() >
 				light->radius + object->getRadius()) {
-					GetRender()->pop();
-					continue;
+				GetRender()->pop();
+				continue;
 			}
 
 			//DRAW OBJECT SUBSETS
@@ -876,19 +876,19 @@ namespace NGTech {
 		for (int i = 0; i < lights.size(); i++) {
 			if (!lights[i]->enabled) continue;
 			if (lights[i]->getType() == Light::LIGHT_OMNI) {
-				checkOmniVisibility((LightOmni*) lights[i]);
+				checkOmniVisibility((LightOmni*)lights[i]);
 			}
 			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
-				checkSpotVisibility((LightSpot*) lights[i]);
+				checkSpotVisibility((LightSpot*)lights[i]);
 			}
 		}
 
 		for (int i = 0; i < lights.size(); i++) {
 			if (lights[i]->getType() == Light::LIGHT_OMNI) {
-				getOmniShadowMap((LightOmni*) lights[i]);
+				getOmniShadowMap((LightOmni*)lights[i]);
 			}
 			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
-				getSpotShadowMap((LightSpot*) lights[i]);
+				getSpotShadowMap((LightSpot*)lights[i]);
 			}
 		}
 
@@ -919,13 +919,13 @@ namespace NGTech {
 		//draw lighting
 		for (int i = 0; i < lights.size(); i++) {
 			if (lights[i]->getType() == Light::LIGHT_OMNI) {
-				drawOmni((LightOmni*) lights[i], false);
+				drawOmni((LightOmni*)lights[i], false);
 			}
 			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
-				drawSpot((LightSpot*) lights[i], false);
+				drawSpot((LightSpot*)lights[i], false);
 			}
 			else if (lights[i]->getType() == Light::LIGHT_DIRECT) {
-				drawDirect((LightDirect*) lights[i], false);
+				drawDirect((LightDirect*)lights[i], false);
 			}
 		}
 
@@ -994,26 +994,26 @@ namespace NGTech {
 
 		for (int i = 0; i < lights.size(); i++) {
 			if (lights[i]->getType() == Light::LIGHT_OMNI) {
-				drawOmni((LightOmni*) lights[i], false);
+				drawOmni((LightOmni*)lights[i], false);
 			}
 			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
-				drawSpot((LightSpot*) lights[i], false);
+				drawSpot((LightSpot*)lights[i], false);
 			}
 			else if (lights[i]->getType() == Light::LIGHT_DIRECT) {
-				drawDirect((LightDirect*) lights[i], false);
+				drawDirect((LightDirect*)lights[i], false);
 			}
 		}
 
 		drawAmbient(true);
 		for (int i = 0; i < lights.size(); i++) {
 			if (lights[i]->getType() == Light::LIGHT_OMNI) {
-				drawOmni((LightOmni*) lights[i], true);
+				drawOmni((LightOmni*)lights[i], true);
 			}
 			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
-				drawSpot((LightSpot*) lights[i], true);
+				drawSpot((LightSpot*)lights[i], true);
 			}
 			else if (lights[i]->getType() == Light::LIGHT_DIRECT) {
-				drawDirect((LightDirect*) lights[i], true);
+				drawDirect((LightDirect*)lights[i], true);
 			}
 		}
 
@@ -1027,17 +1027,12 @@ namespace NGTech {
 		viewportFBO->flush();
 		viewportFBO->unset();
 
+		matMVP = GetRender()->getMatrix_MVP();
 		if (water) 	{
-			matMVP = GetRender()->getMatrix_MVP();
-			waterMtr->setPass("Ambient");		
-			water->draw();		
+			waterMtr->setPass("Ambient");
+			water->draw();
 			waterMtr->unsetPass();
 		}
-#pragma message("TODO:GUI:Разобраться с апдейтом GUI")
-		//Now GUI Update
-		if (GetGUI())
-			GetGUI()->update();
-
 
 		if (GetCvars()->r_hdr) {
 			//---------bright-pass--------------------------------

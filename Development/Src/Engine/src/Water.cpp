@@ -39,7 +39,7 @@ namespace NGTech {
 		glTexCoord2f(1, 0);
 		glVertex3f(size, depth, -size);
 		glEnd();
-
+#pragma message("TODO:GetRender()->drawRect(-size, depth, size, depth, 0, 0, 1, 1); equalent");
 		GetRender()->enableCulling();
 	}
 
