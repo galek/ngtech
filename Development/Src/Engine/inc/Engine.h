@@ -17,7 +17,7 @@ namespace NGTech {
 	public:
 		Engine();
 
-		~Engine();
+		virtual ~Engine();
 		/**
 		engines main loop
 		*/

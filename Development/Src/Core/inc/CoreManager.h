@@ -8,6 +8,7 @@ namespace NGTech {
 	*/
 	struct IWindow;
 	struct I_Render;
+	struct I_Texture;
 	struct CVARManager;
 	struct Log;
 	class Config;
@@ -53,6 +54,8 @@ namespace NGTech {
 		IGame*game;
 		IScriptInterp* scripting;
 		bool mIsEditor;
+	protected:
+		I_Texture* mWatermarkTex;
 	};
 	// For Using in Render and another libs,what not will link with Engine.dll
 	// After creation Engine pointer on Core will pointer on Engine

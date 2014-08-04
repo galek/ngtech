@@ -22,6 +22,7 @@ namespace NGTech {
 		gui(nullptr),
 		scene(nullptr),
 		scripting(nullptr),
+		mWatermarkTex(nullptr),
 		running(false)
 	{
 		SetCore(this);

@@ -54,12 +54,12 @@ namespace NGTech {
 		guiMtr = new Material("engine_materials/GUI.mat");
 		mInited = true;
 	}
-	
+
 	GUI::~GUI() {
 		SAFE_DELETE(fpsLabel);
 		SAFE_DELETE(mGUI);
 	}
-	
+
 	void GUI::update() {
 		if (mInited) {
 			guiMtr->setPass("Ambient");
@@ -81,7 +81,7 @@ namespace NGTech {
 			GetRender()->enable3d();
 		}
 	}
-	
+
 	void GUI::createDebugInfo(){
 		fpsLabel = mGUI->createWidget<MyGUI::TextBox>("TextBox", 100, 0, 180, 180, MyGUI::Align::Default, "Statistic", "InfoTextBox");
 		fpsLabel->setTextColour(MyGUI::Colour::White);

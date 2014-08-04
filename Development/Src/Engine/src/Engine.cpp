@@ -57,54 +57,74 @@ namespace NGTech {
 		LogPrintf("Engine Version:"ENGINE_VERSION_STRING" Build Date : "__DATE__" : "__TIME__);
 		_preInit();
 	}
-
 	/*
 	*/
 	void Engine::_preInit()
 	{
+		Debug("[Init] Engine::_preInit()");
 		info = new SystemInfo();
+		if (info)
+			Debug("[Init] SystemInfo finished");
 		LogPrintf(info->getBinaryInfo());
 		LogPrintf(info->getSystemInfo());
 		LogPrintf(info->getCPUInfo());
 		LogPrintf(info->getGPUInfo());
 		plugins = new EnginePlugins();
+		if (!plugins)
+			Warning("[Init] EnginePlugins Failed");
 		vfs = new FileSystem();
-		Debug("[Init] FileSystem Finished");
+		if (!vfs)
+			Warning("[Init] FileSystem Failed");
 		config = new Config("../user.ltx");
+		if (!config)
+			Warning("[Init] Config Failed");
 		cvars = new CVARManager(config);
+		if (!cvars)
+			Warning("[Init] CVARManager Failed");
 		// create threads
 		threads = new EngineThreads();
+		if (!threads)
+			Warning("[Init] EngineThreads Failed");
 
 		iWindow = new WindowSystem(cvars);
-		Debug("[Init] Window Finished");
+		if (!iWindow)
+			Warning("[Init] Window Failed");
 		iRender = new GLSystem();
-		Debug("[Init] Render Finished");
+		if (!iRender)
+			Warning("[Init] Render Failed");
 		alSystem = new ALSystem();
-		Debug("[Init] Audio Finished");
+		if (!alSystem)
+			Warning("[Init] Audio Failed");
 		physSystem = new PhysSystem();
-		Debug("[Init] Physics Finished");
+		if (!physSystem)
+			Warning("[Init] Physics Failed");
 		cache = new Cache(cvars);
-		Debug("[Init] Cache Finished");
+		if (!cache)
+			Warning("[Init] Cache Failed");
 		//initialize GUI
 		gui = new GUI(cvars);
-		Debug("[Init] GUI Finished");
+		if (!gui)
+			Warning("[Init] GUI Failed");
 		//initialize SceneManager
 		scene = new Scene(cvars);
-		Debug("[Init] SceneManager Finished");
+		if (!scene)
+			Warning("[Init] SceneManager Failed");
 		//initialize Script
 		scripting = new EngineScriptInterp();
-		Debug("[Init] ScriptInterp Finished");
+		if (!scripting)
+			Warning("[Init] ScriptInterp Failed");
 	}
 	/*
 	*/
 	void Engine::setGame(IGame*_game){
+		Debug("[Init] Engine::setGame()");
 		game = _game;
 	}
-
 	/*
 	*/
 	void Engine::initialise(int _hwnd)
 	{
+		Debug("[Init] Engine::initialise()");
 		if (iWindow){
 			iWindow->initialise(_hwnd);
 			Debug("[Init] Window Finished");
@@ -157,11 +177,14 @@ namespace NGTech {
 		Debug("[Init] Threads Finished");
 		this->running = true;
 		Debug("[Init] All Systems Initialised");
+		mWatermarkTex = iRender->TextureCreate2D("logos/watermark.png");
+		if (!mWatermarkTex)
+			Warning("[Init] Watermark failed");
 	}
-
 	/*
 	*/
 	Engine::~Engine()  {
+		SAFE_DELETE(mWatermarkTex);
 		if (threads) {
 			threads->stopSound();
 			threads->stopJobs();
@@ -176,7 +199,6 @@ namespace NGTech {
 		SAFE_DELETE(iWindow);
 		SAFE_DELETE(threads);
 	}
-
 	/*
 	*/
 	void Engine::mainLoop() {
@@ -186,52 +208,55 @@ namespace NGTech {
 			updateFrame();
 		}
 	}
-
+	/*
+	*/
+	void RenderWatermark(I_Texture* _watermark);
+	/*
+	*/
 	void Engine::updateFrame() {
-			if (iWindow)
-				this->iWindow->update();
+		if (iWindow)
+			this->iWindow->update();
 
-			if (this->physSystem)
-				this->physSystem->update();
+		if (this->physSystem)
+			this->physSystem->update();
 
-			if (this->game->ec)
-				this->game->runEventsCallback();
+		if (this->game->ec)
+			this->game->runEventsCallback();
 
-			if (this->iRender)
-				this->iRender->clear(I_Render::COLOR_BUFFER | I_Render::DEPTH_BUFFER | I_Render::STENCIL_BUFFER);
+		if (this->iRender)
+			this->iRender->clear(I_Render::COLOR_BUFFER | I_Render::DEPTH_BUFFER | I_Render::STENCIL_BUFFER);
 
-			if (this->scene)
-				this->scene->Update();
+		if (this->scene)
+			this->scene->Update();
 
-			if (this->gui)
-				this->gui->update();
+		if (this->gui)
+			this->gui->update();
 
-			if (this->game->rc)
-				this->game->runRenderCallback();
+		if (this->game->rc)
+			this->game->runRenderCallback();
 
-			if (this->iRender)
-				this->iRender->flush();
+		if (this->iRender)
+			this->iRender->flush();
 
-			if (this->iWindow)
-				this->iWindow->swapBuffers();
+		if (mWatermarkTex)
+			RenderWatermark(mWatermarkTex);
 
-			if (this->game)
-				this->game->update();
+		if (this->iWindow)
+			this->iWindow->swapBuffers();
+
+		if (this->game)
+			this->game->update();
 	}
-
-
 	/*
 	*/
 	void Engine::quit() {
 		running = false;
 	}
-
 	/*
 	*/
 	void Engine::_setResources() {
 		vfs->addResourceLocation("../data/", true);
 	}
-
 	/*
 	*/
 	float Engine::GetLastFPS() {
@@ -241,5 +266,22 @@ namespace NGTech {
 	*/
 	void Engine::LoadEngineModule(const char*_name){
 		plugins->LoadEngineModule(_name);
+	}
+	/*
+	*/
+	void RenderWatermark(I_Texture* _watermark)
+	{
+		GetRender()->disableCulling();
+		GetRender()->enableBlending(I_Render::SRC_ALPHA, I_Render::ONE_MINUS_SRC_ALPHA);
+		_watermark->set(0);
+		GetRender()->setColor(Vec4(1, 1, 1, 1) * 1);
+
+		GetRender()->enable2d(false);
+		GetRender()->drawRect(10/*pos*/, 1000/*pos*/, 454/*size*/, 1000 - 46/*size*/, 0, 0, 1, 1);
+		GetRender()->enable3d();
+
+		_watermark->unset(0);
+		GetRender()->disableBlending();
+		GetRender()->enableCulling();
 	}
 }
