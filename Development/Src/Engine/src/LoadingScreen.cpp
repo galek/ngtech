@@ -25,7 +25,7 @@ namespace NGTech {
 
 		GetRender()->enable3d();
 		GetRender()->flush();
-		GetWindow()->swapBuffers();
+		GetRender()->swapBuffers();
 	}
 
 }

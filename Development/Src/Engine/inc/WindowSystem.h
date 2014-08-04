@@ -23,7 +23,6 @@ namespace NGTech {
 		virtual void setTitle(const String &title);
 
 		virtual void updateTimer();
-		virtual void swapBuffers();
 
 		virtual void update();
 

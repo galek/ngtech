@@ -38,7 +38,7 @@ namespace NGTech {
 
 	/*
 	*/
-	WindowSystem::WindowSystem(CVARManager*_cvars) 
+	WindowSystem::WindowSystem(CVARManager*_cvars)
 		: isExternalHwnd(false)
 	{
 		Log::writeHeader("-- WindowSystem --");
@@ -55,7 +55,6 @@ namespace NGTech {
 		if (!isExternalHwnd)
 			showOSCursor(false);
 
-		unsigned int pixelFormat;
 		if (_hwnd == 0)
 		{
 			WNDCLASS wc;
@@ -132,57 +131,10 @@ namespace NGTech {
 		else
 			this->hWnd = (HWND)_hwnd;
 
-		static PIXELFORMATDESCRIPTOR pfd =
-		{
-			sizeof(PIXELFORMATDESCRIPTOR),
-			1,											// Version Number
-			PFD_DRAW_TO_WINDOW |						// Format Must Support Window
-			PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
-			PFD_DOUBLEBUFFER,							// Must Support Double Buffering
-			PFD_TYPE_RGBA,								// Request An RGBA Format
-			bpp,										// Select Our Color Depth
-			0, 0, 0, 0, 0, 0,							// Color Bits Ignored
-			0,											// No Alpha Buffer
-			0,											// Shift Bit Ignored
-			0,											// No Accumulation Buffer
-			0, 0, 0, 0,									// Accumulation Bits Ignored
-			zdepth,										// Z-Buffer (Depth Buffer)  
-			0,											// No Stencil Buffer
-			0,											// No Auxiliary Buffer
-			PFD_MAIN_PLANE,								// Main Drawing Layer
-			0,											// Reserved
-			0, 0, 0										// Layer Masks Ignored
-		};
-
-		if (!(this->hDC = GetDC(this->hWnd)))	{
-			Error::showAndExit("WindowSystem::initialise() error: can't create a GL device context");
-			return;
-		}
-
-		if (!(pixelFormat = ChoosePixelFormat(this->hDC, &pfd))) {
-			Error::showAndExit("WindowSystem::initialise() error: can't find a suitable pixel format");
-			return;
-		}
-
-		if (!(SetPixelFormat(this->hDC, pixelFormat, &pfd)))	{
-			Error::showAndExit("WindowSystem::initialise() error: can't set the pixel format");
-			return;
-		}
-
-		if (!(this->hRC = wglCreateContext(this->hDC)))	{
-			Error::showAndExit("WindowSystem::initialise() error: can't create a GL rendering context");
-			return;
-		}
-
-		if (!wglMakeCurrent(this->hDC, this->hRC)) {
-			Error::showAndExit("WindowSystem::initialise() error: can't activate the GL rendering context");
-			return;
-		}
-
 		if (!isExternalHwnd) {
-		ShowWindow(this->hWnd, SW_SHOW);
-		SetForegroundWindow(this->hWnd);
-		SetFocus(this->hWnd);
+			ShowWindow(this->hWnd, SW_SHOW);
+			SetForegroundWindow(this->hWnd);
+			SetFocus(this->hWnd);
 		}
 
 		for (int i = 0; i < 3; i++)
@@ -202,12 +154,6 @@ namespace NGTech {
 	WindowSystem::~WindowSystem() {
 		if (fullscreen) {
 			ShowCursor(TRUE);
-		}
-
-		if (hRC) {
-			wglMakeCurrent(NULL, NULL);
-			wglDeleteContext(hRC);
-			hRC = NULL;
 		}
 
 		if (hDC) {
@@ -433,12 +379,6 @@ namespace NGTech {
 
 	/*
 	*/
-	void WindowSystem::swapBuffers() {
-		SwapBuffers(hDC);
-	}
-
-	/*
-	*/
 	void WindowSystem::updateTimer() {
 		int ticks = GetTickCount();
 		dTime = ticks - eTime;
@@ -455,7 +395,7 @@ namespace NGTech {
 	*/
 	void WindowSystem::showOSCursor(bool _value){
 		if (!isExternalHwnd)
-		::ShowCursor(_value);
+			::ShowCursor(_value);
 	}
 
 }

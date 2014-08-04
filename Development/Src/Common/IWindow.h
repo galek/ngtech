@@ -93,7 +93,6 @@ namespace NGTech {
 		virtual void setTitle(const std::string &title) = 0;
 
 		virtual void updateTimer() = 0;
-		virtual void swapBuffers() = 0;
 
 		virtual void update() = 0;
 
@@ -129,10 +128,11 @@ namespace NGTech {
 		virtual bool isKeyUp(Key key) = 0;
 
 		virtual void showOSCursor(bool _value) = 0;
-	protected:
+	public:
 		HDC hDC;
 		HWND hWnd;
 		HGLRC hRC;
 		HINSTANCE hInstance;
+		unsigned int pixelFormat;
 	};
 }

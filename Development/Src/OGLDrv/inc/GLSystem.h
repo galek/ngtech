@@ -149,6 +149,9 @@ namespace NGTech {
 		virtual void drawGeometry(int vertexCount);
 
 	private:
+		virtual bool createContext(IWindow*);
+		virtual void swapBuffers();
+	private:
 		friend class GLTexture;
 		friend class GLVBO;
 		friend class GLShader;

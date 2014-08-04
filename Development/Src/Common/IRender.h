@@ -291,6 +291,10 @@ namespace NGTech {
 		//---Draw-Geom-Stream---------------------
 		virtual void drawIndexedGeometry(void *indices, int indexCount) = 0;
 		virtual void drawGeometry(int vertexCount) = 0;
+
+		//--OpenGL Low Level---------------------
+		virtual bool createContext(IWindow*){ return false; }
+		virtual void swapBuffers(){}
 	};
 
 	struct I_Shader
