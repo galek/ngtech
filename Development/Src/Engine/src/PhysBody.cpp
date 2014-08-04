@@ -32,7 +32,7 @@ namespace NGTech {
 		if (_mass > 0)
 			body->mActor->setMass(body->mass);
 
-		body->SetMassSpaceInertiaTensor(Vec3(1.0f, 1.0f, 1.0f));
+		PxRigidBodyExt::updateMassAndInertia(*body->mActor, 1.0f);
 
 		body->SetAngularDamping(1.0f);
 		body->SetLinearDamping(1.0f);
@@ -61,7 +61,7 @@ namespace NGTech {
 
 		if (_mass > 0)
 			body->mActor->setMass(body->mass);
-		body->SetMassSpaceInertiaTensor(Vec3(1.0f, 1.0f, 1.0f));
+		PxRigidBodyExt::updateMassAndInertia(*body->mActor, 1.0f);
 		body->SetAngularDamping(1.0f);
 		body->SetLinearDamping(1.0f);
 		GetPhysics()->mScene->addActor(*body->mActor);
@@ -86,7 +86,7 @@ namespace NGTech {
 
 		if (body->mass > 0)
 			body->mActor->setMass(body->mass);
-		body->SetMassSpaceInertiaTensor(Vec3(1.0f, 1.0f, 1.0f));
+		PxRigidBodyExt::updateMassAndInertia(*body->mActor, 1.0f);
 		body->SetAngularDamping(1.0f);
 		body->SetLinearDamping(1.0f);
 		GetPhysics()->mScene->addActor(*body->mActor);
@@ -152,7 +152,7 @@ namespace NGTech {
 
 		if (body->mass > 0)
 			body->mActor->setMass(body->mass);
-		body->SetMassSpaceInertiaTensor(Vec3(1.0f, 1.0f, 1.0f));
+		PxRigidBodyExt::updateMassAndInertia(*body->mActor, 1.0f);
 		body->SetAngularDamping(1.0f);
 		body->SetLinearDamping(1.0f);
 		GetPhysics()->mScene->addActor(*body->mActor);
