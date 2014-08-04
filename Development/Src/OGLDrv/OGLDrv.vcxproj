@@ -329,7 +329,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\GLDisplayList.h" />
-    <ClInclude Include="inc\glew.h" />
     <ClInclude Include="inc\GLExtensions.h" />
     <ClInclude Include="inc\GLFBO.h" />
     <ClInclude Include="inc\GLOcclusionQuery.h" />
@@ -337,18 +336,7 @@
     <ClInclude Include="inc\GLSystem.h" />
     <ClInclude Include="inc\GLTexture.h" />
     <ClInclude Include="inc\GLVBO.h" />
-    <ClInclude Include="inc\GUI.h" />
-    <ClInclude Include="inc\MyGUI_OpenGLDataManager.h" />
-    <ClInclude Include="inc\MyGUI_OpenGLDiagnostic.h" />
-    <ClInclude Include="inc\MyGUI_OpenGLImageLoader.h" />
-    <ClInclude Include="inc\MyGUI_OpenGLPlatform.h" />
-    <ClInclude Include="inc\MyGUI_OpenGLRenderManager.h" />
-    <ClInclude Include="inc\MyGUI_OpenGLRTTexture.h" />
-    <ClInclude Include="inc\MyGUI_OpenGLTexture.h" />
-    <ClInclude Include="inc\MyGUI_OpenGLVertexBuffer.h" />
     <ClInclude Include="inc\RenderPrivate.h" />
-    <ClInclude Include="inc\targetver.h" />
-    <ClInclude Include="inc\wglew.h" />
     <ClInclude Include="inc\GUIImpl.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
