@@ -20,7 +20,7 @@
 #endif
 
 #ifndef USE_OWN_MINIDUMP
-#define USE_OWN_MINIDUMP 1
+//#define USE_OWN_MINIDUMP 1
 #endif
 
 #ifndef EYEFINITY_SUPPORT
