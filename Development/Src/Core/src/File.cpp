@@ -13,7 +13,7 @@
 namespace NGTech {
 
 #define UNKNOWN_EXT "UNKNOWN_EXT"
-	
+
 	//---------------------------------------------------------------------------
 	//Desc:    writes the String to text file
 	//Params:  file - pointer to file to write, text - text to write
@@ -29,13 +29,13 @@ namespace NGTech {
 	//Returns: fName without extension
 	//---------------------------------------------------------------------------
 	String FileHelper::cutFileExt(const String &fName) {
-		if(fName.size() == 0) 
+		if (fName.size() == 0)
 			return UNKNOWN_EXT;
 
 		String buf;
 
 		int i = 0;
-		while((fName[i] != '.') && (i < (int)fName.size()))	{
+		while ((fName[i] != '.') && (i < (int)fName.size()))	{
 			buf += fName[i];
 			i++;
 		}
@@ -48,13 +48,13 @@ namespace NGTech {
 	//Returns: fName`s extension
 	//---------------------------------------------------------------------------
 	String FileHelper::getFileExt(const String &fName) {
-		if(fName.size() == 0) 
+		if (fName.size() == 0)
 			return UNKNOWN_EXT;
 
 		int i = (int)fName.size() - 1;
 		String buf;
 
-		while((fName[i] != '.') && (i > 0)) {
+		while ((fName[i] != '.') && (i > 0)) {
 			buf = fName[i] + buf;
 			i--;
 		}

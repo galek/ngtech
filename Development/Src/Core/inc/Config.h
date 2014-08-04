@@ -25,7 +25,7 @@ namespace NGTech {
 		float getFloat(const String &name);
 		int getInt(const String &name);
 		bool getBool(const String &name);
-		const String &getString(const String &name); 
+		const String &getString(const String &name);
 
 		void setFloat(const String &name, float value);
 		void setInt(const String &name, int value);

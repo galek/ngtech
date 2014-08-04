@@ -6,20 +6,20 @@
 namespace NGTech {
 
 	float Math::clamp(float v, float min, float max) {
-		if(v < min) v = min;
-		if(v > max) v = max;
+		if (v < min) v = min;
+		if (v > max) v = max;
 		return v;
 	}
 
 	float Math::angleBetweenVec(const Vec3 &a, const Vec3 &b) {
 		Vec3 va = a;
 		Vec3 vb = b;
-		float dot = Vec3::dot(va, vb);				
+		float dot = Vec3::dot(va, vb);
 		float length = va.length() * vb.length();
 
 		float angle = acos(dot / length);
 
-		if(angle < EPSILON)
+		if (angle < EPSILON)
 			return 0.0f;
 
 		return angle;
@@ -28,71 +28,71 @@ namespace NGTech {
 	bool Math::intersectPlaneByRay(const Vec3 &v0, const Vec3 &v1, const Vec3 &v2, const Vec3 &src, const Vec3 &dst, Vec3 &point) {
 		Vec3 normal;
 		float distance;
-		float distance1 = 0, distance2 = 0;						
+		float distance1 = 0, distance2 = 0;
 
-		TBNComputer::computeN(normal, v0, v1, v2);						
+		TBNComputer::computeN(normal, v0, v1, v2);
 		distance = -((normal.x * v0.x) + (normal.y * v0.y) + (normal.z * v0.z));
 
-		distance1 = ((normal.x * src.x) + (normal.y * src.y) + (normal.z * src.z)) + distance;	
-		distance2 = ((normal.x * dst.x) + (normal.y * dst.y) + (normal.z * dst.z)) + distance;	
+		distance1 = ((normal.x * src.x) + (normal.y * src.y) + (normal.z * src.z)) + distance;
+		distance2 = ((normal.x * dst.x) + (normal.y * dst.y) + (normal.z * dst.z)) + distance;
 
-		if(distance1 <= 0) {			
+		if (distance1 <= 0) {
 			return false;
 		}
 
-		Vec3 lineDir;					
+		Vec3 lineDir;
 		double n = 0.0, d = 0.0, dist = 0.0;
 
-		lineDir = Vec3::normalize(dst - src);		
+		lineDir = Vec3::normalize(dst - src);
 
 		n = -(normal.x * src.x + normal.y * src.y + normal.z * src.z + distance);
-		d = Vec3::dot(normal, lineDir);		
+		d = Vec3::dot(normal, lineDir);
 
-		if(d == 0.0) {				
+		if (d == 0.0) {
 			point = src;
 		}
 
-		dist = n / d;				
+		dist = n / d;
 		point.x = (float)(src.x + (lineDir.x * dist));
 		point.y = (float)(src.y + (lineDir.y * dist));
 		point.z = (float)(src.z + (lineDir.z * dist));
 
-		return true;								
+		return true;
 	}
 
 	bool Math::insidePolygon(const Vec3 &v0, const Vec3 &v1, const Vec3 &v2, const Vec3 &point) {
-		const double MATCH_FACTOR = 0.99;		
-		double angle = 0.0;						
-		Vec3 a, b;						
+		const double MATCH_FACTOR = 0.99;
+		double angle = 0.0;
+		Vec3 a, b;
 
-		a = v0 - point;			
+		a = v0 - point;
 		b = v1 - point;
 		angle += angleBetweenVec(a, b);
 
-		a = v1 - point;			
+		a = v1 - point;
 		b = v2 - point;
-		angle += angleBetweenVec(a, b);	
+		angle += angleBetweenVec(a, b);
 
-		a = v2 - point;			
+		a = v2 - point;
 		b = v0 - point;
-		angle += angleBetweenVec(a, b);	
+		angle += angleBetweenVec(a, b);
 
-		if(angle >= (MATCH_FACTOR * (2.0 * PI))) {	
+		if (angle >= (MATCH_FACTOR * (2.0 * PI))) {
 			return true;
 		}
 
-		return false;	
+		return false;
 	}
 
 
 	bool Math::intersectPolygonByRay(const Vec3 &v0, const Vec3 &v1, const Vec3 &v2, const Vec3 &src, const Vec3 &dst, Vec3 &point) {
-		if(!intersectPlaneByRay(v0, v1, v2, src, dst, point))
+		if (!intersectPlaneByRay(v0, v1, v2, src, dst, point))
 			return false;
 
-		if(insidePolygon(v0, v1, v2, point))
-			return true;							
+		if (insidePolygon(v0, v1, v2, point))
+			return true;
 
-		return false;								
+		return false;
 	}
 
 	bool Math::intersectSphereByRay(const Vec3 &center, float radius, const Vec3 &src, const Vec3 &dst) {
@@ -102,7 +102,7 @@ namespace NGTech {
 		float d = (dst - src).length();
 		float t = Vec3::dot(v2, v1);
 
-		if (t <= 0 && (center - src).length() > radius) 
+		if (t <= 0 && (center - src).length() > radius)
 			return false;
 
 		Vec3 v3 = v2 * t;
@@ -231,17 +231,17 @@ namespace NGTech {
 
 	Vec2 Vec2::normalize(const Vec2 &a) {
 		float l = sqrt(a.x*a.x + a.y*a.y);
-		if(l < EPSILON) 
+		if (l < EPSILON)
 			return Vec2(0, 0);
-		return a/l;
+		return a / l;
 	}
 
 	ENGINE_INLINE float Vec2::dot(const Vec2 &a, const Vec2 &b) {
 		return (a.x * b.x + a.y * b.y);
 	}
 
-/*
-*/
+	/*
+	*/
 	Vec3::Vec3() {
 		x = 0.0;
 		y = 0.0;
@@ -375,9 +375,9 @@ namespace NGTech {
 
 	Vec3 Vec3::normalize(const Vec3 &a) {
 		float l = sqrt(a.x*a.x + a.y*a.y + a.z*a.z);
-		if(l < EPSILON) 
+		if (l < EPSILON)
 			return Vec3(0, 1, 0);
-		return a/l;
+		return a / l;
 	}
 
 	ENGINE_INLINE float Vec3::dot(const Vec3 &a, const Vec3 &b) {
@@ -388,8 +388,8 @@ namespace NGTech {
 		return Vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
 	}
 
-/*
-*/
+	/*
+	*/
 	Vec4::Vec4() {
 		x = y = z = w = 0.0;
 	}
@@ -535,17 +535,17 @@ namespace NGTech {
 
 	Vec4 Vec4::normalize(const Vec4 &a) {
 		float l = sqrt(a.x*a.x + a.y*a.y + a.z*a.z + a.w*a.w);
-		if(l < EPSILON) 
+		if (l < EPSILON)
 			return Vec4(0, 1, 0, 0);
-		return a/l;
+		return a / l;
 	}
 
 	ENGINE_INLINE float Vec4::dot(const Vec4 &a, const Vec4 &b) {
 		return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
 	}
 
-/*
-*/
+	/*
+	*/
 	Mat3::Mat3() {
 		identity();
 	}
@@ -553,24 +553,24 @@ namespace NGTech {
 	Mat3::~Mat3() {}
 
 	Mat3 &Mat3::identity() {
-		e[0] = 1.0f; e[3] = 0.0f; e[6] = 0.0f; 
-		e[1] = 0.0f; e[4] = 1.0f; e[7] = 0.0f; 
-		e[2] = 0.0f; e[5] = 0.0f; e[8] = 1.0f; 
+		e[0] = 1.0f; e[3] = 0.0f; e[6] = 0.0f;
+		e[1] = 0.0f; e[4] = 1.0f; e[7] = 0.0f;
+		e[2] = 0.0f; e[5] = 0.0f; e[8] = 1.0f;
 		return *this;
 	}
 
-	Mat3::Mat3(float e0, float e3, float e6, 
+	Mat3::Mat3(float e0, float e3, float e6,
 		float e1, float e4, float e7,
 		float e2, float e5, float e8) {
-			e[0] = e0; e[3] = e3; e[6] = e6; 
-			e[1] = e1; e[4] = e4; e[7] = e7;  
-			e[2] = e2; e[5] = e5; e[8] = e8; 
+		e[0] = e0; e[3] = e3; e[6] = e6;
+		e[1] = e1; e[4] = e4; e[7] = e7;
+		e[2] = e2; e[5] = e5; e[8] = e8;
 	}
 
 	Mat3::Mat3(const Mat3 &in) {
-		e[0] = in.e[0]; e[3] = in.e[3]; e[6] = in.e[6];  
-		e[1] = in.e[1]; e[4] = in.e[4]; e[7] = in.e[7];  
-		e[2] = in.e[2]; e[5] = in.e[5]; e[8] = in.e[8]; 
+		e[0] = in.e[0]; e[3] = in.e[3]; e[6] = in.e[6];
+		e[1] = in.e[1]; e[4] = in.e[4]; e[7] = in.e[7];
+		e[2] = in.e[2]; e[5] = in.e[5]; e[8] = in.e[8];
 	}
 
 	Mat3::Mat3(const Mat4 &in) {
@@ -580,8 +580,8 @@ namespace NGTech {
 	}
 
 	Mat3 &Mat3::operator=(const Mat3 &in) {
-		e[0] = in.e[0]; e[3] = in.e[3]; e[6] = in.e[6];  
-		e[1] = in.e[1]; e[4] = in.e[4]; e[7] = in.e[7];  
+		e[0] = in.e[0]; e[3] = in.e[3]; e[6] = in.e[6];
+		e[1] = in.e[1]; e[4] = in.e[4]; e[7] = in.e[7];
 		e[2] = in.e[2]; e[5] = in.e[5]; e[8] = in.e[8];
 		return *this;
 	}
@@ -619,9 +619,9 @@ namespace NGTech {
 	}
 
 	Mat3 Mat3::transpose(const Mat3 &m) {
-		return Mat3(m.e[0], m.e[1], m.e[2], 
-			m.e[3],	m.e[4], m.e[5], 
-			m.e[6], m.e[7],	m.e[8]);
+		return Mat3(m.e[0], m.e[1], m.e[2],
+			m.e[3], m.e[4], m.e[5],
+			m.e[6], m.e[7], m.e[8]);
 	}
 
 	Mat3 Mat3::inverse(const Mat3 &m) {
@@ -629,15 +629,15 @@ namespace NGTech {
 
 		float iDet = 1.0f / iMat.getDeterminant();
 
-		iMat.e[0] =  (m.e[4] * m.e[8] - m.e[7] * m.e[5]) * iDet;
+		iMat.e[0] = (m.e[4] * m.e[8] - m.e[7] * m.e[5]) * iDet;
 		iMat.e[1] = -(m.e[1] * m.e[8] - m.e[7] * m.e[2]) * iDet;
-		iMat.e[2] =  (m.e[1] * m.e[5] - m.e[4] * m.e[2]) * iDet;
+		iMat.e[2] = (m.e[1] * m.e[5] - m.e[4] * m.e[2]) * iDet;
 		iMat.e[3] = -(m.e[3] * m.e[8] - m.e[6] * m.e[5]) * iDet;
-		iMat.e[4] =  (m.e[0] * m.e[8] - m.e[6] * m.e[2]) * iDet;
+		iMat.e[4] = (m.e[0] * m.e[8] - m.e[6] * m.e[2]) * iDet;
 		iMat.e[5] = -(m.e[0] * m.e[5] - m.e[3] * m.e[2]) * iDet;
-		iMat.e[6] =  (m.e[3] * m.e[7] - m.e[6] * m.e[4]) * iDet;
+		iMat.e[6] = (m.e[3] * m.e[7] - m.e[6] * m.e[4]) * iDet;
 		iMat.e[7] = -(m.e[0] * m.e[7] - m.e[6] * m.e[1]) * iDet;
-		iMat.e[8] =  (m.e[0] * m.e[4] - m.e[3] * m.e[1]) * iDet;
+		iMat.e[8] = (m.e[0] * m.e[4] - m.e[3] * m.e[1]) * iDet;
 		return iMat;
 	}
 
@@ -651,17 +651,17 @@ namespace NGTech {
 		float uy = axis.y;
 		float uz = axis.z;
 
-		rMat.e[0] = c + (1-c) * ux;
-		rMat.e[1] = (1-c) * ux*uy + s*uz;
-		rMat.e[2] = (1-c) * ux*uz - s*uy;
+		rMat.e[0] = c + (1 - c) * ux;
+		rMat.e[1] = (1 - c) * ux*uy + s*uz;
+		rMat.e[2] = (1 - c) * ux*uz - s*uy;
 
-		rMat.e[3] = (1-c) * uy*ux - s*uz;
-		rMat.e[4] = c + (1-c) * uy * uy;
-		rMat.e[5] = (1-c) * uy*uz + s*ux;
+		rMat.e[3] = (1 - c) * uy*ux - s*uz;
+		rMat.e[4] = c + (1 - c) * uy * uy;
+		rMat.e[5] = (1 - c) * uy*uz + s*ux;
 
-		rMat.e[6] = (1-c) * uz*ux + s*uy;
-		rMat.e[7] = (1-c) * uz*uz - s*ux;
-		rMat.e[8] = c + (1-c) * uz * uz;
+		rMat.e[6] = (1 - c) * uz*ux + s*uy;
+		rMat.e[7] = (1 - c) * uz*uz - s*ux;
+		rMat.e[8] = c + (1 - c) * uz * uz;
 
 		return rMat;
 	}
@@ -727,8 +727,8 @@ namespace NGTech {
 		result.z = m.e[2] * v.x + m.e[5] * v.y + m.e[8] * v.z;
 		return result;
 	}
-/*
-*/
+	/*
+	*/
 	Mat4::Mat4() {
 		identity();
 	}
@@ -736,26 +736,26 @@ namespace NGTech {
 	Mat4::~Mat4() {}
 
 	Mat4 &Mat4::identity() {
-		e[0] = 1.0f; e[4] = 0.0f; e[8]  = 0.0f; e[12] = 0.0f;
-		e[1] = 0.0f; e[5] = 1.0f; e[9]  = 0.0f; e[13] = 0.0f;
+		e[0] = 1.0f; e[4] = 0.0f; e[8] = 0.0f; e[12] = 0.0f;
+		e[1] = 0.0f; e[5] = 1.0f; e[9] = 0.0f; e[13] = 0.0f;
 		e[2] = 0.0f; e[6] = 0.0f; e[10] = 1.0f; e[14] = 0.0f;
 		e[3] = 0.0f; e[7] = 0.0f; e[11] = 0.0f; e[15] = 1.0f;
 		return *this;
 	}
 
-	Mat4::Mat4(float e0, float e4, float e8,  float e12,
-		float e1, float e5, float e9,  float e13,
+	Mat4::Mat4(float e0, float e4, float e8, float e12,
+		float e1, float e5, float e9, float e13,
 		float e2, float e6, float e10, float e14,
 		float e3, float e7, float e11, float e15) {
-			e[0] = e0; e[4] = e4; e[8]  = e8;  e[12] = e12;
-			e[1] = e1; e[5] = e5; e[9]  = e9;  e[13] = e13;
-			e[2] = e2; e[6] = e6; e[10] = e10; e[14] = e14;
-			e[3] = e3; e[7] = e7; e[11] = e11; e[15] = e15;
+		e[0] = e0; e[4] = e4; e[8] = e8;  e[12] = e12;
+		e[1] = e1; e[5] = e5; e[9] = e9;  e[13] = e13;
+		e[2] = e2; e[6] = e6; e[10] = e10; e[14] = e14;
+		e[3] = e3; e[7] = e7; e[11] = e11; e[15] = e15;
 	}
 
 	Mat4::Mat4(const Mat4 &in) {
-		e[0] = in.e[0]; e[4] = in.e[4]; e[8]  = in.e[8];  e[12] = in.e[12];
-		e[1] = in.e[1]; e[5] = in.e[5]; e[9]  = in.e[9];  e[13] = in.e[13];
+		e[0] = in.e[0]; e[4] = in.e[4]; e[8] = in.e[8];  e[12] = in.e[12];
+		e[1] = in.e[1]; e[5] = in.e[5]; e[9] = in.e[9];  e[13] = in.e[13];
 		e[2] = in.e[2]; e[6] = in.e[6]; e[10] = in.e[10]; e[14] = in.e[14];
 		e[3] = in.e[3]; e[7] = in.e[7]; e[11] = in.e[11]; e[15] = in.e[15];
 	}
@@ -768,8 +768,8 @@ namespace NGTech {
 	}
 
 	Mat4 &Mat4::operator=(const Mat4 &in) {
-		e[0] = in.e[0]; e[4] = in.e[4]; e[8]  = in.e[8];  e[12] = in.e[12];
-		e[1] = in.e[1]; e[5] = in.e[5]; e[9]  = in.e[9];  e[13] = in.e[13];
+		e[0] = in.e[0]; e[4] = in.e[4]; e[8] = in.e[8];  e[12] = in.e[12];
+		e[1] = in.e[1]; e[5] = in.e[5]; e[9] = in.e[9];  e[13] = in.e[13];
 		e[2] = in.e[2]; e[6] = in.e[6]; e[10] = in.e[10]; e[14] = in.e[14];
 		e[3] = in.e[3]; e[7] = in.e[7]; e[11] = in.e[11]; e[15] = in.e[15];
 		return *this;
@@ -798,7 +798,7 @@ namespace NGTech {
 
 	float Mat4::getDeterminant() {
 		float d;
-		d  = e[0] * e[5] * e[10];
+		d = e[0] * e[5] * e[10];
 		d += e[4] * e[9] * e[2];
 		d += e[8] * e[1] * e[6];
 		d -= e[8] * e[5] * e[2];
@@ -812,7 +812,7 @@ namespace NGTech {
 		Vec3 t;
 
 		t.x = e[12];
-		t.y = e[13]; 
+		t.y = e[13];
 		t.z = e[14];
 
 		return t;
@@ -821,8 +821,8 @@ namespace NGTech {
 	Mat4 Mat4::getRotation() {
 		Mat4 r;
 
-		r.e[0] = e[0]; r.e[4] = e[4]; r.e[8]  = e[8];  r.e[12] = 0;
-		r.e[1] = e[1]; r.e[5] = e[5]; r.e[9]  = e[9];  r.e[13] = 0;
+		r.e[0] = e[0]; r.e[4] = e[4]; r.e[8] = e[8];  r.e[12] = 0;
+		r.e[1] = e[1]; r.e[5] = e[5]; r.e[9] = e[9];  r.e[13] = 0;
 		r.e[2] = e[2]; r.e[6] = e[6]; r.e[10] = e[10]; r.e[14] = 0;
 		r.e[3] = 0;    r.e[7] = 0;    r.e[11] = 0;     r.e[15] = 1;
 
@@ -841,19 +841,19 @@ namespace NGTech {
 
 		float iDet = 1.0f / iMat.getDeterminant();
 
-		iMat.e[0] =  (m.e[5] * m.e[10] - m.e[9] * m.e[6]) * iDet;
+		iMat.e[0] = (m.e[5] * m.e[10] - m.e[9] * m.e[6]) * iDet;
 		iMat.e[1] = -(m.e[1] * m.e[10] - m.e[9] * m.e[2]) * iDet;
-		iMat.e[2] =  (m.e[1] * m.e[6] - m.e[5] * m.e[2]) * iDet;
+		iMat.e[2] = (m.e[1] * m.e[6] - m.e[5] * m.e[2]) * iDet;
 		iMat.e[3] = 0.0;
 
 		iMat.e[4] = -(m.e[4] * m.e[10] - m.e[8] * m.e[6]) * iDet;
-		iMat.e[5] =  (m.e[0] * m.e[10] - m.e[8] * m.e[2]) * iDet;
+		iMat.e[5] = (m.e[0] * m.e[10] - m.e[8] * m.e[2]) * iDet;
 		iMat.e[6] = -(m.e[0] * m.e[6] - m.e[4] * m.e[2]) * iDet;
 		iMat.e[7] = 0.0;
 
-		iMat.e[8] =  (m.e[4] * m.e[9] - m.e[8] * m.e[5]) * iDet;
+		iMat.e[8] = (m.e[4] * m.e[9] - m.e[8] * m.e[5]) * iDet;
 		iMat.e[9] = -(m.e[0] * m.e[9] - m.e[8] * m.e[1]) * iDet;
-		iMat.e[10] =  (m.e[0] * m.e[5] - m.e[4] * m.e[1]) * iDet;
+		iMat.e[10] = (m.e[0] * m.e[5] - m.e[4] * m.e[1]) * iDet;
 		iMat.e[11] = 0.0;
 
 		iMat.e[12] = -(m.e[12] * iMat[0] + m.e[13] * iMat[4] + m.e[14] * iMat[8]);
@@ -884,19 +884,19 @@ namespace NGTech {
 		float uy = axis.y;
 		float uz = axis.z;
 
-		rMat.e[0]  = c + (1-c) * ux;
-		rMat.e[1]  = (1-c) * ux*uy + s*uz;
-		rMat.e[2]  = (1-c) * ux*uz - s*uy;
-		rMat.e[3]  = 0;
+		rMat.e[0] = c + (1 - c) * ux;
+		rMat.e[1] = (1 - c) * ux*uy + s*uz;
+		rMat.e[2] = (1 - c) * ux*uz - s*uy;
+		rMat.e[3] = 0;
 
-		rMat.e[4]  = (1-c) * uy*ux - s*uz;
-		rMat.e[5]  = c + (1-c) * pow(uy,2);
-		rMat.e[6]  = (1-c) * uy*uz + s*ux;
-		rMat.e[7]  = 0;
+		rMat.e[4] = (1 - c) * uy*ux - s*uz;
+		rMat.e[5] = c + (1 - c) * pow(uy, 2);
+		rMat.e[6] = (1 - c) * uy*uz + s*ux;
+		rMat.e[7] = 0;
 
-		rMat.e[8]  = (1-c) * uz*ux + s*uy;
-		rMat.e[9]  = (1-c) * uz*uz - s*ux;
-		rMat.e[10] = c + (1-c) * pow(uz,2);
+		rMat.e[8] = (1 - c) * uz*ux + s*uy;
+		rMat.e[9] = (1 - c) * uz*uz - s*ux;
+		rMat.e[10] = c + (1 - c) * pow(uz, 2);
 		rMat.e[11] = 0;
 
 		rMat.e[12] = 0;
@@ -910,8 +910,8 @@ namespace NGTech {
 	Mat4 Mat4::scale(const Vec3 &scale) {
 		Mat4 sMat;
 
-		sMat.e[0]  = scale.x;
-		sMat.e[5]  = scale.y;
+		sMat.e[0] = scale.x;
+		sMat.e[5] = scale.y;
 		sMat.e[10] = scale.z;
 
 		return sMat;
@@ -943,11 +943,11 @@ namespace NGTech {
 		Mat4 pMat;
 
 		float sine, cotangent, delta_z;
-		float radians = (fovy / 2.0f) * (PI/180.0f);
+		float radians = (fovy / 2.0f) * (PI / 180.0f);
 
 		delta_z = f - n;
 		sine = sinf(radians);
-		if((delta_z == 0) || (sine == 0) || (aspect == 0)) {
+		if ((delta_z == 0) || (sine == 0) || (aspect == 0)) {
 			return Mat4();
 		}
 		cotangent = cosf(radians) / sine;
@@ -957,7 +957,7 @@ namespace NGTech {
 		pMat.e[10] = -(f + n) / delta_z;
 		pMat.e[11] = -1;
 		pMat.e[14] = -2 * n * f / delta_z;
-		pMat.e[15] = 0;    
+		pMat.e[15] = 0;
 
 		return pMat;
 	}
@@ -965,15 +965,15 @@ namespace NGTech {
 	Mat4 Mat4::ortho(float left, float right, float bottom, float top, float n, float f) {
 		Mat4 oMat;
 
-		oMat.e[0]=2.0f/(right-left);
+		oMat.e[0] = 2.0f / (right - left);
 
-		oMat.e[5]=2.0f/(top-bottom);
+		oMat.e[5] = 2.0f / (top - bottom);
 
-		oMat.e[10]=-2.0f/(f-n);
+		oMat.e[10] = -2.0f / (f - n);
 
-		oMat.e[12]=-(right+left)/(right-left);
-		oMat.e[13]=-(top+bottom)/(top-bottom);
-		oMat.e[14]=-(f+n)/(f-n);
+		oMat.e[12] = -(right + left) / (right - left);
+		oMat.e[13] = -(top + bottom) / (top - bottom);
+		oMat.e[14] = -(f + n) / (f - n);
 
 		return oMat;
 	}
@@ -981,23 +981,23 @@ namespace NGTech {
 	ENGINE_INLINE Mat4 operator*(const Mat4 &a, const Mat4 &b) {
 		Mat4 result;
 
-		result.e[0]  = (a.e[0] * b.e[0]) + (a.e[4] * b.e[1]) + (a.e[8] * b.e[2])  + (a.e[12] * b.e[3]);
-		result.e[1]  = (a.e[1] * b.e[0]) + (a.e[5] * b.e[1]) + (a.e[9] * b.e[2])  + (a.e[13] * b.e[3]);
-		result.e[2]  = (a.e[2] * b.e[0]) + (a.e[6] * b.e[1]) + (a.e[10] * b.e[2]) + (a.e[14] * b.e[3]);
-		result.e[3]  = (a.e[3] * b.e[0]) + (a.e[7] * b.e[1]) + (a.e[11] * b.e[2]) + (a.e[15] * b.e[3]);
+		result.e[0] = (a.e[0] * b.e[0]) + (a.e[4] * b.e[1]) + (a.e[8] * b.e[2]) + (a.e[12] * b.e[3]);
+		result.e[1] = (a.e[1] * b.e[0]) + (a.e[5] * b.e[1]) + (a.e[9] * b.e[2]) + (a.e[13] * b.e[3]);
+		result.e[2] = (a.e[2] * b.e[0]) + (a.e[6] * b.e[1]) + (a.e[10] * b.e[2]) + (a.e[14] * b.e[3]);
+		result.e[3] = (a.e[3] * b.e[0]) + (a.e[7] * b.e[1]) + (a.e[11] * b.e[2]) + (a.e[15] * b.e[3]);
 
-		result.e[4]  = (a.e[0] * b.e[4]) + (a.e[4] * b.e[5]) + (a.e[8] * b.e[6])  + (a.e[12] * b.e[7]);
-		result.e[5]  = (a.e[1] * b.e[4]) + (a.e[5] * b.e[5]) + (a.e[9] * b.e[6])  + (a.e[13] * b.e[7]);
-		result.e[6]  = (a.e[2] * b.e[4]) + (a.e[6] * b.e[5]) + (a.e[10] * b.e[6]) + (a.e[14] * b.e[7]);
-		result.e[7]  = (a.e[3] * b.e[4]) + (a.e[7] * b.e[5]) + (a.e[11] * b.e[6]) + (a.e[15] * b.e[7]);
+		result.e[4] = (a.e[0] * b.e[4]) + (a.e[4] * b.e[5]) + (a.e[8] * b.e[6]) + (a.e[12] * b.e[7]);
+		result.e[5] = (a.e[1] * b.e[4]) + (a.e[5] * b.e[5]) + (a.e[9] * b.e[6]) + (a.e[13] * b.e[7]);
+		result.e[6] = (a.e[2] * b.e[4]) + (a.e[6] * b.e[5]) + (a.e[10] * b.e[6]) + (a.e[14] * b.e[7]);
+		result.e[7] = (a.e[3] * b.e[4]) + (a.e[7] * b.e[5]) + (a.e[11] * b.e[6]) + (a.e[15] * b.e[7]);
 
-		result.e[8]  = (a.e[0] * b.e[8]) + (a.e[4] * b.e[9]) + (a.e[8] * b.e[10])  + (a.e[12] * b.e[11]);
-		result.e[9]  = (a.e[1] * b.e[8]) + (a.e[5] * b.e[9]) + (a.e[9] * b.e[10])  + (a.e[13] * b.e[11]);
+		result.e[8] = (a.e[0] * b.e[8]) + (a.e[4] * b.e[9]) + (a.e[8] * b.e[10]) + (a.e[12] * b.e[11]);
+		result.e[9] = (a.e[1] * b.e[8]) + (a.e[5] * b.e[9]) + (a.e[9] * b.e[10]) + (a.e[13] * b.e[11]);
 		result.e[10] = (a.e[2] * b.e[8]) + (a.e[6] * b.e[9]) + (a.e[10] * b.e[10]) + (a.e[14] * b.e[11]);
 		result.e[11] = (a.e[3] * b.e[8]) + (a.e[7] * b.e[9]) + (a.e[11] * b.e[10]) + (a.e[15] * b.e[11]);
 
-		result.e[12] = (a.e[0] * b.e[12]) + (a.e[4] * b.e[13]) + (a.e[8] * b.e[14])  + (a.e[12] * b.e[15]);
-		result.e[13] = (a.e[1] * b.e[12]) + (a.e[5] * b.e[13]) + (a.e[9] * b.e[14])  + (a.e[13] * b.e[15]);
+		result.e[12] = (a.e[0] * b.e[12]) + (a.e[4] * b.e[13]) + (a.e[8] * b.e[14]) + (a.e[12] * b.e[15]);
+		result.e[13] = (a.e[1] * b.e[12]) + (a.e[5] * b.e[13]) + (a.e[9] * b.e[14]) + (a.e[13] * b.e[15]);
 		result.e[14] = (a.e[2] * b.e[12]) + (a.e[6] * b.e[13]) + (a.e[10] * b.e[14]) + (a.e[14] * b.e[15]);
 		result.e[15] = (a.e[3] * b.e[12]) + (a.e[7] * b.e[13]) + (a.e[11] * b.e[14]) + (a.e[15] * b.e[15]);
 
@@ -1040,66 +1040,66 @@ namespace NGTech {
 		return result;
 	}
 
-Mat4 Mat4::reflect(const Vec4 &plane) {
-	Mat4 out;
-	float x = plane.x;
-	float y = plane.y;
-	float z = plane.z;
-	
-	float x2 = x * 2.0f;
-	float y2 = y * 2.0f;
-	float z2 = z * 2.0f;
-	
-	out.e[0]  = 1.0f - x * x2; 
-	out.e[4]  = -y * x2; 
-	out.e[8]  = -z * x2; 
-	out.e[12] = -plane.w * x2;
-	out.e[1]  = -x * y2; 
-	out.e[5]  = 1.0f - y * y2; 
-	out.e[9]  = -z * y2; 
-	out.e[13] = -plane.w * y2;
-	out.e[2]  = -x * z2; 
-	out.e[6]  = -y * z2; 
-	out.e[10] = 1.0f - z * z2; 
-	out.e[14] = -plane.w * z2;
-	out.e[3]  = 0.0; 
-	out.e[7]  = 0.0; 
-	out.e[11] = 0.0; 
-	out.e[15] = 1.0;
+	Mat4 Mat4::reflect(const Vec4 &plane) {
+		Mat4 out;
+		float x = plane.x;
+		float y = plane.y;
+		float z = plane.z;
 
-	return out;
-}
+		float x2 = x * 2.0f;
+		float y2 = y * 2.0f;
+		float z2 = z * 2.0f;
 
-ENGINE_INLINE float sign(float a) {
-    if (a > 0.0) return 1.0;
-    if (a < 0.0) return -1.0;
-    return 0.0;
-}
+		out.e[0] = 1.0f - x * x2;
+		out.e[4] = -y * x2;
+		out.e[8] = -z * x2;
+		out.e[12] = -plane.w * x2;
+		out.e[1] = -x * y2;
+		out.e[5] = 1.0f - y * y2;
+		out.e[9] = -z * y2;
+		out.e[13] = -plane.w * y2;
+		out.e[2] = -x * z2;
+		out.e[6] = -y * z2;
+		out.e[10] = 1.0f - z * z2;
+		out.e[14] = -plane.w * z2;
+		out.e[3] = 0.0;
+		out.e[7] = 0.0;
+		out.e[11] = 0.0;
+		out.e[15] = 1.0;
 
-Mat4 Mat4::reflectProjection(const Mat4 &proj, const Vec4 &plane) {
-	Mat4 out = proj;
-	
-	Vec4 q; //= Vec4(sign(plane.x), 1.0, sign(plane.z), 1.0);
-	//q = q * Mat4::inverse(proj);
-	q.x = (sign(plane.x) + proj.e[8]) / proj.e[0];
-	q.y = (sign(plane.y) + proj.e[9]) / proj.e[5];
-    q.z = -1.0;
-    q.w = (1.0 + proj.e[10]) / proj.e[14];
-    
-	Vec4 c = plane * (2.0 / Vec3::dot(plane, q));
-    
-    out.e[2] = c.x;
-    out.e[6] = c.y;
-    out.e[10] = c.z + 1.0;
-    out.e[14] = c.w;
+		return out;
+	}
 
-	return out;
-}
+	ENGINE_INLINE float sign(float a) {
+		if (a > 0.0) return 1.0;
+		if (a < 0.0) return -1.0;
+		return 0.0;
+	}
+
+	Mat4 Mat4::reflectProjection(const Mat4 &proj, const Vec4 &plane) {
+		Mat4 out = proj;
+
+		Vec4 q; //= Vec4(sign(plane.x), 1.0, sign(plane.z), 1.0);
+		//q = q * Mat4::inverse(proj);
+		q.x = (sign(plane.x) + proj.e[8]) / proj.e[0];
+		q.y = (sign(plane.y) + proj.e[9]) / proj.e[5];
+		q.z = -1.0;
+		q.w = (1.0 + proj.e[10]) / proj.e[14];
+
+		Vec4 c = plane * (2.0 / Vec3::dot(plane, q));
+
+		out.e[2] = c.x;
+		out.e[6] = c.y;
+		out.e[10] = c.z + 1.0;
+		out.e[14] = c.w;
+
+		return out;
+	}
 
 	Mat4 Mat4::cube(const Vec3 &position, int face) {
 		Mat4 out;
 
-		switch(face)
+		switch (face)
 		{
 		case 0: out *= rotate(90.0f, Vec3(0.0f, 1.0f, 0.0f));
 			out *= rotate(180.0f, Vec3(1.0f, 0.0f, 0.0f)); break;
@@ -1121,11 +1121,11 @@ Mat4 Mat4::reflectProjection(const Mat4 &proj, const Vec4 &plane) {
 		return Mat4::translate(Vec3(0.5, 0.5, 1)) *
 			Mat4::scale(Vec3(0.5, 0.5, 0));
 	}
-/*
-*/
-	Quat::Quat() { 
+	/*
+	*/
+	Quat::Quat() {
 		x = 0;
-		y = 0; 
+		y = 0;
 		z = 0;
 		w = 1;
 	}
@@ -1134,7 +1134,7 @@ Mat4 Mat4::reflectProjection(const Mat4 &proj, const Vec4 &plane) {
 		Vec3 vdir = axis;
 		float length = vdir.length();
 
-		if(length != 0.0) {
+		if (length != 0.0) {
 			length = 1.0f / length;
 			float sinangle = sin(angle * DEG_TO_RAD / 2.0f);
 			x = vdir.x * length * sinangle;
@@ -1142,7 +1142,8 @@ Mat4 Mat4::reflectProjection(const Mat4 &proj, const Vec4 &plane) {
 			z = vdir.z * length * sinangle;
 			w = cos(angle * DEG_TO_RAD / 2.0f);
 
-		} else {
+		}
+		else {
 			x = y = z = 0.0;
 			w = 1.0;
 		}
@@ -1151,7 +1152,7 @@ Mat4 Mat4::reflectProjection(const Mat4 &proj, const Vec4 &plane) {
 	Quat::Quat(const Mat3 &in) {
 		float trace = in.e[0] + in.e[4] + in.e[8];
 
-		if(trace > 0.0) {
+		if (trace > 0.0) {
 			float s = sqrt(trace + 1.0f);
 
 			w = 0.5f * s;
@@ -1160,28 +1161,29 @@ Mat4 Mat4::reflectProjection(const Mat4 &proj, const Vec4 &plane) {
 			x = (in.e[5] - in.e[7]) * s;
 			y = (in.e[6] - in.e[2]) * s;
 			z = (in.e[1] - in.e[3]) * s;
-		} else {
+		}
+		else {
 			static int next[3] = { 1, 2, 0 };
 			float q[4];
 
 			int i = 0;
 
-			if(in.e[4] > in.e[0]) 
+			if (in.e[4] > in.e[0])
 				i = 1;
-			if(in.e[8] > in.e[3 * i + i]) 
+			if (in.e[8] > in.e[3 * i + i])
 				i = 2;
 
 			int j = next[i];
 			int k = next[j];
 
-			float s = sqrt(in.e[3*i + i] - in.e[3*j + j] - in.e[3*k + k] + 1.0f);
+			float s = sqrt(in.e[3 * i + i] - in.e[3 * j + j] - in.e[3 * k + k] + 1.0f);
 			q[i] = 0.5f * s;
 
-			if(s != 0) s = 0.5f / s;
+			if (s != 0) s = 0.5f / s;
 
-			q[3] = (in.e[3*j + k] - in.e[3*k + j]) * s;
-			q[j] = (in.e[3*i + j] + in.e[3*j + i]) * s;
-			q[k] = (in.e[3*i + k] + in.e[3*k + i]) * s;
+			q[3] = (in.e[3 * j + k] - in.e[3 * k + j]) * s;
+			q[j] = (in.e[3 * i + j] + in.e[3 * j + i]) * s;
+			q[k] = (in.e[3 * i + k] + in.e[3 * k + i]) * s;
 
 			x = q[0];
 			y = q[1];
@@ -1194,20 +1196,20 @@ Mat4 Mat4::reflectProjection(const Mat4 &proj, const Vec4 &plane) {
 		:x(_x), y(_y), z(_z), w(_w)
 	{}
 
-	Quat::operator float*() { 
-		return (float*)&x; 
+	Quat::operator float*() {
+		return (float*)&x;
 	}
 
-	Quat::operator const float*() const { 
-		return (float*)&x; 
+	Quat::operator const float*() const {
+		return (float*)&x;
 	}
 
-	float &Quat::operator[](int i) { 
+	float &Quat::operator[](int i) {
 		return ((float*)&x)[i];
 	}
 
-	const float Quat::operator[](int i) const { 
-		return ((float*)&x)[i]; 
+	const float Quat::operator[](int i) const {
+		return ((float*)&x)[i];
 	}
 
 	Quat Quat::operator*(const Quat &q) const {
@@ -1223,25 +1225,27 @@ Mat4 Mat4::reflectProjection(const Mat4 &proj, const Vec4 &plane) {
 		float k0, k1, cosomega = q0.x * q1.x + q0.y * q1.y + q0.z * q1.z + q0.w * q1.w;
 
 		Quat q;
-		if(cosomega < 0.0) {
+		if (cosomega < 0.0) {
 			cosomega = -cosomega;
 			q.x = -q1.x;
 			q.y = -q1.y;
 			q.z = -q1.z;
 			q.w = -q1.w;
-		} else {
+		}
+		else {
 			q.x = q1.x;
 			q.y = q1.y;
 			q.z = q1.z;
 			q.w = q1.w;
 		}
 
-		if(1.0 - cosomega > 1e-6) {
+		if (1.0 - cosomega > 1e-6) {
 			float omega = acos(cosomega);
 			float sinomega = sin(omega);
 			k0 = sin((1.0f - t) * omega) / sinomega;
 			k1 = sin(t * omega) / sinomega;
-		} else {
+		}
+		else {
 			k0 = 1.0f - t;
 			k1 = t;
 		}
@@ -1273,8 +1277,8 @@ Mat4 Mat4::reflectProjection(const Mat4 &proj, const Vec4 &plane) {
 		r[2] = xz - wy;          r[5] = yz + wx;          r[8] = 1.0f - (xx + yy);
 		return r;
 	}
-/*
-*/
+	/*
+	*/
 	void TBNComputer::computeN(Vec3 &n, Vec3 p0, Vec3 p1, Vec3 p2) {
 		Vec3 s = p1 - p0;
 		Vec3 t = p2 - p0;
@@ -1300,52 +1304,55 @@ Mat4 Mat4::reflectProjection(const Mat4 &proj, const Vec4 &plane) {
 		texcoords[1] = t1;
 		texcoords[2] = t2;
 
-		Vec3 e0(position[1].x - position[0].x, 
-			texcoords[1].x - texcoords[0].x, 
+		Vec3 e0(position[1].x - position[0].x,
+			texcoords[1].x - texcoords[0].x,
 			texcoords[1].y - texcoords[0].y);
-		Vec3 e1(position[2].x - position[0].x, 
-			texcoords[2].x - texcoords[0].x, 
+		Vec3 e1(position[2].x - position[0].x,
+			texcoords[2].x - texcoords[0].x,
 			texcoords[2].y - texcoords[0].y);
 
 		Vec3 cp = Vec3::cross(e0, e1);
 
-		if(fabs(cp.x) > EPSILON) {
+		if (fabs(cp.x) > EPSILON) {
 			tangent.x = -cp.y / cp.x;
 			binormal.x = -cp.z / cp.x;
-		} else {
+		}
+		else {
 			tangent.x = 0;
 			binormal.x = 0;
 		}
 
 		e0.x = position[1].y - position[0].y;
 		e1.x = position[2].y - position[0].y;
-		cp   = Vec3::cross(e0, e1);
+		cp = Vec3::cross(e0, e1);
 
-		if(fabs(cp.x) > EPSILON) {
+		if (fabs(cp.x) > EPSILON) {
 			tangent.y = -cp.y / cp.x;
 			binormal.y = -cp.z / cp.x;
-		} else {
+		}
+		else {
 			tangent.y = 0;
 			binormal.y = 0;
 		}
 
 		e0.x = position[1].z - position[0].z;
 		e1.x = position[2].z - position[0].z;
-		cp   = Vec3::cross(e0, e1);
+		cp = Vec3::cross(e0, e1);
 
-		if(fabs(cp.x) > EPSILON) {
+		if (fabs(cp.x) > EPSILON) {
 			tangent.z = -cp.y / cp.x;
 			binormal.z = -cp.z / cp.x;
-		} else {
+		}
+		else {
 			tangent.z = 0;
 			binormal.z = 0;
 		}
 
-	Vec3 temp = Vec3(tangent.y * binormal.z - tangent.z * binormal.y, 
-		tangent.z * binormal.x - tangent.x * binormal.z, 
-		tangent.x * binormal.y - tangent.y * binormal.x);
+		Vec3 temp = Vec3(tangent.y * binormal.z - tangent.z * binormal.y,
+			tangent.z * binormal.x - tangent.x * binormal.z,
+			tangent.x * binormal.y - tangent.y * binormal.x);
 		float scalar = normal.x * temp.x + normal.y * temp.y + normal.z * temp.z;
-		if(scalar < 0) tangent = -tangent;
+		if (scalar < 0) tangent = -tangent;
 
 		t = tangent;
 		b = binormal;

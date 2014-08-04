@@ -1,10 +1,10 @@
 #pragma once
 
 #ifdef _WIN32
-	#include <windows.h>
-	#include <intrin.h>
+#include <windows.h>
+#include <intrin.h>
 #elif _LINUX
-	#include <pthread.h>
+#include <pthread.h>
 #endif
 
 

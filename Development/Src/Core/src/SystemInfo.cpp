@@ -54,7 +54,7 @@ namespace NGTech {
 
 		strcpy(info, "Windows");
 #ifdef _WIN64
-		strcat(info," 64bit");
+		strcat(info, " 64bit");
 #else
 		strcat(info, " 32bit");
 #endif
@@ -91,7 +91,7 @@ namespace NGTech {
 #else
 		strcat(info, " Release");
 #endif
-	
+
 #undef GET_NAME
 #undef GET_VERSION
 
@@ -139,7 +139,7 @@ namespace NGTech {
 		else if (CompareWindowsVersion(6, 3))
 			sprintf(info, "Windows 8.1");
 #ifdef _WIN64
-		strcat(info," 64bit");
+		strcat(info, " 64bit");
 #else
 		BOOL is_wow64_process = FALSE;
 		typedef BOOL(WINAPI *ISWOW64PROCESS)(HANDLE, PBOOL);

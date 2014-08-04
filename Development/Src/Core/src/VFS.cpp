@@ -29,7 +29,7 @@
 namespace NGTech
 {
 	FileSystem::FileSystem() :
-	mIsInitialise(false)
+		mIsInitialise(false)
 	{
 	}
 
@@ -96,16 +96,16 @@ namespace NGTech
 		for (common::VectorWString::const_iterator item = wresult.begin(); item != wresult.end(); ++item)
 			result.push_back(NGTech::UString(*item).asUTF8());
 
-	//	path = result.size() == 1 ? result[0] : "";
-	if (!result.empty())
+		//	path = result.size() == 1 ? result[0] : "";
+		if (!result.empty())
 		{
 			path = result[0];
 			if (result.size() > 1)
 			{
-				Warning("There are several files with name '" ,_name , "'. '" ,path ,"' was used.");
+				Warning("There are several files with name '", _name, "'. '", path, "' was used.");
 				Warning("Other candidater are:");
-				for (size_t index = 1; index < result.size(); index ++)
-					Warning(" - '",result[index],"'");
+				for (size_t index = 1; index < result.size(); index++)
+					Warning(" - '", result[index], "'");
 			}
 		}
 		return path;

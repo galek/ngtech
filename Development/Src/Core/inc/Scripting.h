@@ -8,8 +8,8 @@
 struct lua_State;
 
 namespace NGTech{
-	
-	class CORE_API CoreScriptInterp:public IScriptInterp{
+
+	class CORE_API CoreScriptInterp :public IScriptInterp{
 	protected:
 		CoreScriptInterp();
 		virtual ~CoreScriptInterp();

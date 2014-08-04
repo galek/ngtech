@@ -4,7 +4,7 @@
 #include "../../Core/inc/mathlib.h"
 
 namespace NGTech {
-	__inline physx::PxTransform EngineMathToPhysX(Mat4 *_trans)
+	ENGINE_INLINE physx::PxTransform EngineMathToPhysX(Mat4 *_trans)
 	{
 		physx::PxTransform trans;
 
@@ -15,7 +15,7 @@ namespace NGTech {
 		trans.q = quat;
 		return trans;
 	}
-	_inline Mat4 PhysXToEngineMath(const physx::PxTransform &_trans)
+	ENGINE_INLINE Mat4 PhysXToEngineMath(const physx::PxTransform &_trans)
 	{
 		Quat quat(_trans.q.x, _trans.q.y, _trans.q.z, _trans.q.w);
 		Mat4 matrix = quat.toMatrix();

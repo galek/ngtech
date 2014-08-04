@@ -19,7 +19,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: Vertex buffer object class
 	//---------------------------------------------------------------------------
-	class GLVBO:public I_VBManager {
+	class GLVBO :public I_VBManager {
 	public:
 		static GLVBO *createIBO(void *data, int numElements, int elemSize, DataType dataType);
 		static GLVBO *createVBO(void *data, int numElements, int elemSize, DataType dataType);

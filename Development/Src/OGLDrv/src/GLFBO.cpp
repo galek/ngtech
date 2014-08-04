@@ -85,9 +85,9 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	GLFBO::~GLFBO() {
 		glDeleteFramebuffersEXT(1, &glID);
-		if(glColorID) glDeleteRenderbuffersEXT(1, &glColorID);
-		if(glDepthID) glDeleteRenderbuffersEXT(1, &glDepthID);
-		if(glStencilID) glDeleteRenderbuffersEXT(1, &glStencilID);
+		if (glColorID) glDeleteRenderbuffersEXT(1, &glColorID);
+		if (glDepthID) glDeleteRenderbuffersEXT(1, &glDepthID);
+		if (glStencilID) glDeleteRenderbuffersEXT(1, &glStencilID);
 	}
 
 	//---------------------------------------------------------------------------
@@ -96,14 +96,16 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void GLFBO::setColorTarget(I_Texture *texture, int face) {
-		if(texture) {
-			if(face < 0) {
+		if (texture) {
+			if (face < 0) {
 				glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, texture->target, texture->glID, 0);
-			} else {
+			}
+			else {
 				glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB + face, texture->glID, 0);
 			}
 			colorTarget = texture;
-		} else {
+		}
+		else {
 			glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, glColorID, 0);
 		}
 	}
@@ -114,10 +116,11 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void GLFBO::setDepthTarget(I_Texture *texture) {
-		if(texture) {
+		if (texture) {
 			glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, texture->target, texture->glID, 0);
 			depthTarget = texture;
-		} else {
+		}
+		else {
 			glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, GL_RENDERBUFFER_EXT, glDepthID);
 		}
 	}
@@ -130,12 +133,12 @@ namespace NGTech {
 	void GLFBO::set() {
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, glID);
 
-		if(glColorID && !colorTarget) glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, glColorID, 0);
-		if(glDepthID && !depthTarget) glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, glDepthID);
-		if(glStencilID) glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, glStencilID);
+		if (glColorID && !colorTarget) glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, glColorID, 0);
+		if (glDepthID && !depthTarget) glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, glDepthID);
+		if (glStencilID) glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, glStencilID);
 
 		GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-		if(status == GL_FRAMEBUFFER_UNSUPPORTED_EXT) {
+		if (status == GL_FRAMEBUFFER_UNSUPPORTED_EXT) {
 			Log::write("GLFBO::set() error: framebuffer unsupported");
 		}
 
@@ -148,7 +151,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void GLFBO::unset() {
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,0);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 		glViewport(0, 0, GetWindow()->getWidth(), GetWindow()->getHeight());
 	}
 

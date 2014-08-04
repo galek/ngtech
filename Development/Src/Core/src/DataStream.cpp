@@ -15,13 +15,13 @@ namespace NGTech
 
 	DataStream::DataStream() :
 		mStream(nullptr),
-		mSize((size_t) - 1)
+		mSize((size_t)-1)
 	{
 	}
 
 	DataStream::DataStream(std::ifstream* _stream) :
 		mStream(_stream),
-		mSize((size_t) - 1)
+		mSize((size_t)-1)
 	{
 	}
 
@@ -32,11 +32,11 @@ namespace NGTech
 	size_t DataStream::size()
 	{
 		if (mStream == nullptr) return 0;
-		if (mSize == (size_t) - 1)
+		if (mSize == (size_t)-1)
 		{
-			mStream->seekg (0, std::ios::end);
+			mStream->seekg(0, std::ios::end);
 			mSize = (size_t)mStream->tellg();
-			mStream->seekg (0, std::ios::beg);
+			mStream->seekg(0, std::ios::beg);
 		}
 		return mSize;
 	}

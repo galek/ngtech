@@ -16,7 +16,7 @@ namespace NGTech {
 		r_specular(_c->getBool("r_specular")),
 		r_hdr(_c->getBool("r_hdr")),
 		r_parallax(_c->getBool("r_parallax")),
-		r_reflections(_c->getBool("r_reflections")),		
+		r_reflections(_c->getBool("r_reflections")),
 		r_wireframe(_c->getBool("r_wireframe"))
 	{}
 }
