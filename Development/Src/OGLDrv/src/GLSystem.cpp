@@ -200,7 +200,7 @@ namespace NGTech {
 			if (_fatal)
 				Error::showAndExit("GLSystem::requireExtension() error: your video card does not support " + name);
 			else
-				Warning("GLSystem::requireExtension() error: your video card does not support %s", name);
+				Warning("GLSystem::requireExtension() error: your video card does not support %s", name.c_str());
 	}
 
 	/*
