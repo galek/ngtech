@@ -16,6 +16,9 @@
     <Filter Include="Файлы исходного кода\Script">
       <UniqueIdentifier>{88956cec-c26c-46f0-9ec9-a0c82696786c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\Script">
+      <UniqueIdentifier>{6f0b48df-2c75-450b-ac2d-cec824ed259c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\ALSound.h">
@@ -120,7 +123,9 @@
     <ClInclude Include="inc\EngineThreads.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\WrappedGameplayFunctions.h" />
+    <ClInclude Include="Inc\WrappedGameplayFunctions.h">
+      <Filter>Заголовочные файлы\Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ALSound.cpp">
