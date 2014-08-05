@@ -49,8 +49,9 @@ namespace NGTech
 
 		while (isRunning()) {
 			// update sound
-			auto camera = GetScene()->GetActiveCamera();
-			GetAudio()->setListener(camera->getPosition(), camera->getDirection());
+			//[TODO]Многопоточный апдейт еще не готов
+			/*auto camera = GetScene()->GetActiveCamera();
+			GetAudio()->setListener(camera->getPosition(), camera->getDirection());*/
 		}
 	}
 

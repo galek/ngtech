@@ -860,6 +860,7 @@ namespace NGTech {
 	void Scene::Update() {
 		//---------update-camera-----------------------------------
 		camera->update();
+		GetAudio()->setListener(camera->getPosition(), camera->getDirection());
 		//---------draw-scene--------------------------------
 		GetRender()->setMatrixMode_Projection();
 		GetRender()->loadMatrix(camera->getProjection());

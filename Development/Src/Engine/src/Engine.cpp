@@ -86,9 +86,10 @@ namespace NGTech {
 		if (!cvars)
 			Warning("[Init] CVARManager Failed");
 		// create threads
-		threads = new EngineThreads();
+		//[TODO]Многопоточный апдейт еще не готов
+		/*threads = new EngineThreads();
 		if (!threads)
-			Warning("[Init] EngineThreads Failed");
+		Warning("[Init] EngineThreads Failed");*/
 
 		iWindow = new WindowSystem(cvars);
 		if (!iWindow)
@@ -178,9 +179,10 @@ namespace NGTech {
 		}
 
 		// run threads
-		threads->runSound();
+		//[TODO]Многопоточный апдейт еще не готов
+		/*threads->runSound();
 		threads->runFileSystem();
-		Debug("[Init] Threads Finished");
+		Debug("[Init] Threads Finished");*/
 		this->running = true;
 		Debug("[Init] All Systems Initialised");
 		mWatermarkTex = iRender->TextureCreate2D("logos/watermark.png");
@@ -192,10 +194,11 @@ namespace NGTech {
 	*/
 	Engine::~Engine()  {
 		SAFE_DELETE(mWatermarkTex);
-		if (threads) {
+		//[TODO]Многопоточный апдейт еще не готов
+		/*if (threads) {
 			threads->stopSound();
 			threads->stopJobs();
-		}
+			}*/
 		SAFE_DELETE(scripting);
 		SAFE_DELETE(game);
 		SAFE_DELETE(gui);
@@ -204,7 +207,8 @@ namespace NGTech {
 		SAFE_DELETE(alSystem);
 		SAFE_DELETE(iRender);
 		SAFE_DELETE(iWindow);
-		SAFE_DELETE(threads);
+		//[TODO]Многопоточный апдейт еще не готов
+		/*SAFE_DELETE(threads);*/
 	}
 
 	/*
