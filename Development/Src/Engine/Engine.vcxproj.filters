@@ -13,6 +13,9 @@
     <Filter Include="Заголовочные файлы\PhysX">
       <UniqueIdentifier>{ddff9576-7f8e-46d9-8b99-625084b7bc0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы исходного кода\Script">
+      <UniqueIdentifier>{88956cec-c26c-46f0-9ec9-a0c82696786c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\ALSound.h">
@@ -117,6 +120,7 @@
     <ClInclude Include="inc\EngineThreads.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\WrappedGameplayFunctions.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ALSound.cpp">
@@ -223,6 +227,9 @@
     </ClCompile>
     <ClCompile Include="src\EngineThreads.cpp">
       <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WrappedGameplayFunctions.cpp">
+      <Filter>Файлы исходного кода\Script</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

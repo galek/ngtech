@@ -21,7 +21,7 @@
 #include "pxtask/PxCudaContextManager.h"
 //***************************************************************************
 
-#define ENABLE_PVD 1
+//#define ENABLE_PVD 1
 #define DEBUG_PHYSICS 1
 
 namespace NGTech {
@@ -33,7 +33,17 @@ namespace NGTech {
 
 	/**
 	*/
-	PhysSystem::PhysSystem() :mNbThreads(1)
+	PhysSystem::PhysSystem() :mNbThreads(1),
+		mFoundation(nullptr),
+		mProfileZoneManager(nullptr),
+		mPhysics(nullptr),
+		mCooking(nullptr),
+		mMaterial(nullptr),
+		mCpuDispatcher(nullptr),
+#ifdef _WIN32
+		mCudaContextManager(nullptr),
+#endif
+		mScene(nullptr)
 	{}
 
 	/**
@@ -83,10 +93,21 @@ namespace NGTech {
 				Error("PhysSystem::initialise()-PxDefaultCpuDispatcherCreate failed!", true);
 			sceneDesc.cpuDispatcher = mCpuDispatcher;
 		}
+#ifdef _WIN32
+		// create GPU dispatcher
+		if (!sceneDesc.gpuDispatcher)
+		{
+		PxCudaContextManagerDesc cudaContextManagerDesc;
+		mCudaContextManager = PxCreateCudaContextManager(*mFoundation, cudaContextManagerDesc, mProfileZoneManager);
+		if (mCudaContextManager->getGpuDispatcher())
+		sceneDesc.gpuDispatcher = mCudaContextManager->getGpuDispatcher();
+		else LogPrintf("[Physic] Hardware PhysX is not available");
+		}
+#endif
 
 		if (!sceneDesc.filterShader)
 			sceneDesc.filterShader = gDefaultFilterShader;
-		
+
 		mScene = mPhysics->createScene(sceneDesc);
 		if (!mScene)
 			Error("PhysSystem::initialise()-createScene failed!", true);
@@ -105,12 +126,60 @@ namespace NGTech {
 	PhysSystem::~PhysSystem() {
 		Debug("PhysSystem::~PhysSystem()");
 		mScene->fetchResults(true);
+
+		if (mMaterial)
+			mMaterial->release();
+		mMaterial = NULL;
+
+		if (mScene)
+		{
+			physx::PxActorTypeSelectionFlags t;
+			t |= physx::PxActorTypeSelectionFlag::eRIGID_STATIC;
+			t |= physx::PxActorTypeSelectionFlag::eRIGID_DYNAMIC;
+			t |= physx::PxActorTypeSelectionFlag::ePARTICLE_FLUID;
+			t |= physx::PxActorTypeSelectionFlag::ePARTICLE_SYSTEM;
+			t |= physx::PxActorTypeSelectionFlag::eCLOTH;
+
+
+			int n = mScene->getNbActors(t);
+			std::vector<physx::PxActor*> buffer(n);
+			mScene->getActors(t, buffer.data(), n);
+
+
+			for (int i = 0; i < buffer.size(); i++)
+			{
+				mScene->removeActor(*buffer[i]);
+				buffer[i]->release();
+			}
+
+
+			mScene->release();
+		}
+		mScene = NULL;
+
+		if (mCpuDispatcher)
+			mCpuDispatcher->release();
+		mCpuDispatcher = NULL;
+
+		if (mCudaContextManager)
+			mCudaContextManager->release();
+		mCudaContextManager = NULL;
+
+		if (mPhysics)
+			mPhysics->release();
+		mPhysics = NULL;
 	}
 
 	/**
 	*/
 	void PhysSystem::update() {
-		const float mStepSize = 1.0f / 60.0f;
+		float mStepSize = 0.0f;
+		const float _dt = 1.0f / GetEngine()->GetLastFPS();
+
+		if ((_dt < 0) || (_dt == 1.0f))
+			mStepSize = 1.0f / 60.0f;
+		else
+			mStepSize = _dt;
 		mScene->simulate(mStepSize);
 		mScene->fetchResults(true);
 	}
@@ -159,9 +228,9 @@ namespace NGTech {
 	/**
 	*/
 	Vec3 PhysSystem::GetGravity()	{
-		Vec3 Mvec(0,0,0);
+		Vec3 Mvec(0, 0, 0);
 		if (mScene){
-			PxVec3 pvec=mScene->getGravity();
+			PxVec3 pvec = mScene->getGravity();
 			Mvec = { pvec.x, pvec.y, pvec.z };
 		}
 		return Mvec;

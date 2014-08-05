@@ -35,7 +35,7 @@ namespace NGTech {
 	class ENGINE_API PhysSystem {
 	public:
 		PhysSystem();
-		~PhysSystem();
+		virtual ~PhysSystem();
 
 		void initialise();
 		/**
@@ -57,7 +57,7 @@ namespace NGTech {
 		void togglePvdConnection();
 		void createPvdConnection();
 	private:
-		
+
 		PhysBody *pBody0;
 		PhysBody *pBody1;
 		float impactSpeed;
@@ -66,7 +66,7 @@ namespace NGTech {
 		float intersectionParam;
 		Vec3 intersectionNormal;
 		PhysBody *intersectedBody;
-		
+
 		friend class PhysBody;
 		friend class PhysJoint;
 		friend class PhysJointUpVector;
@@ -78,6 +78,9 @@ namespace NGTech {
 		physx::PxScene*								    mScene;
 		physx::PxMaterial*								mMaterial;
 		physx::PxDefaultCpuDispatcher*					mCpuDispatcher;
+#ifdef _WIN32
+		physx::PxCudaContextManager*				    mCudaContextManager;
+#endif
 		int mNbThreads;
 	};
 }

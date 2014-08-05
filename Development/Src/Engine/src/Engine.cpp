@@ -273,7 +273,11 @@ namespace NGTech {
 	/*
 	*/
 	float Engine::GetLastFPS() {
-		return 1000 / iWindow->getDTime();
+		float mTime = iWindow->getDTime();
+		if (mTime > 0)
+			return 1000 / iWindow->getDTime();
+		else
+			return 1.0;
 	}
 
 	/*
@@ -292,7 +296,7 @@ namespace NGTech {
 		GetRender()->setColor(Vec4(1, 1, 1, 1) * 1);
 
 		GetRender()->enable2d(false);
-		GetRender()->drawRect(10/*pos*/, 1000/*pos*/, 454/*size*/, 1000 - 46/*size*/, 0, 0, 1, 1);
+		GetRender()->drawRect(GetCvars()->r_width - (GetCvars()->r_width - 1)/*x*/, GetCvars()->r_height - (GetCvars()->r_height / 6)/*y*/, GetCvars()->r_width - (GetCvars()->r_width - 454)/*x*/, GetCvars()->r_height - (GetCvars()->r_height / 6) + 46/*y*/, 0, 0, 1, 1);
 		GetRender()->enable3d();
 
 		_watermark->unset(0);
