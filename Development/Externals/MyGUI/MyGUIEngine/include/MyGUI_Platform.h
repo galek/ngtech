@@ -13,8 +13,9 @@
 #define MYGUI_PLATFORM_APPLE		3
 
 // Definition of compilers
-#define MYGUI_COMPILER_MSVC 1
-#define MYGUI_COMPILER_GNUC 2
+#define MYGUI_COMPILER_MSVC  1
+#define MYGUI_COMPILER_GNUC  2
+#define MYGUI_COMPILER_INTEL 3
 
 
 // Find platform
@@ -27,10 +28,13 @@
 #endif
 
 // Find compiler
-#if defined( _MSC_VER )
+#if defined( _MSC_VER ) && !defined (__INTEL_COMPILER)
 #	define MYGUI_COMPILER MYGUI_COMPILER_MSVC
 #	define MYGUI_COMP_VER _MSC_VER
 
+#elif defined( __INTEL_COMPILER )
+#	define MYGUI_COMPILER MYGUI_COMPILER_INTEL
+#	define MYGUI_COMP_VER __INTEL_COMPILER
 #elif defined( __GNUC__ )
 #	define MYGUI_COMPILER MYGUI_COMPILER_GNUC
 #	define MYGUI_COMP_VER (((__GNUC__)*100) + \
@@ -41,7 +45,7 @@
 #endif
 
 // See if we can use __forceinline or if we need to use __inline instead
-#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
+#if (MYGUI_COMPILER == MYGUI_COMPILER_MSVC) || (MYGUI_COMPILER == MYGUI_COMPILER_INTEL)
 #	if MYGUI_COMP_VER >= 1200
 #		define MYGUI_FORCEINLINE __forceinline
 #	endif

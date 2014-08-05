@@ -1515,8 +1515,9 @@
     } /* end of main interpreter loop */
 
     /* we get here if the charstring ends without cf2_cmdENDCHAR */
-    FT_TRACE4(( "cf2_interpT2CharString:"
-                "  charstring ends without ENDCHAR\n" ));
+	//NickGalko:commented
+    //FT_TRACE4(( "cf2_interpT2CharString:"
+    //            "  charstring ends without ENDCHAR\n" ));
 
   exit:
     /* check whether last error seen is also the first one */

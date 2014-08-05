@@ -19,7 +19,7 @@
 #define MYGUI_DEFINE_VERSION(major, minor, patch) ((major << 16) | (minor << 8) | patch)
 
 #ifndef MYGUI_DONT_REPLACE_NULLPTR
-#	if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
+#	if MYGUI_COMPILER == MYGUI_COMPILER_MSVC || (MYGUI_COMPILER == MYGUI_COMPILER_INTEL)
 #		ifndef _MANAGED
 #			ifndef _NATIVE_NULLPTR_SUPPORTED
 #				define nullptr 0
@@ -84,7 +84,7 @@ namespace MyGUI
 #define MYGUI_VERSION    MYGUI_DEFINE_VERSION(MYGUI_VERSION_MAJOR, MYGUI_VERSION_MINOR, MYGUI_VERSION_PATCH)
 
 	// Disable warnings for MSVC compiler
-#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
+#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC || (MYGUI_COMPILER == MYGUI_COMPILER_INTEL)
 
 // disable: "<type> needs to have dll-interface to be used by clients'
 // Happens on STL member variables which are not public therefore is ok
