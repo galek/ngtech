@@ -33,11 +33,11 @@ namespace NGTech
 	public:
 
 		EngineJobCallback() : callback(0) { }
-		virtual ~EngineJobCallback() { delete callback; }
+		ENGINE_INLINE virtual ~EngineJobCallback() { delete callback; }
 
-		void setCallback(CallbackBase *c) { callback = c; }
+		ENGINE_INLINE void setCallback(CallbackBase *c) { callback = c; }
 
-		virtual void process() { if (callback) callback->run(); }
+		ENGINE_INLINE virtual void process() { if (callback) callback->run(); }
 
 	private:
 

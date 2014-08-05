@@ -25,23 +25,23 @@ namespace NGTech {
 
 		virtual void draw();
 
-		virtual const Vec3 &getPosition() { return position; };
-		virtual void setPosition(const Vec3 &position) { this->position = position; };
+		ENGINE_INLINE virtual const Vec3 &getPosition() { return position; };
+		ENGINE_INLINE virtual void setPosition(const Vec3 &position) { this->position = position; };
 
-		virtual const Vec3 &getColor() { return color; };
-		virtual void setColor(const Vec3 &color) { this->color = color; };
+		ENGINE_INLINE virtual const Vec3 &getColor() { return color; };
+		ENGINE_INLINE virtual void setColor(const Vec3 &color) { this->color = color; };
 
-		void setParticleLifeTime(int time) { lifeTime = time; };
-		int getParticleLifeTime() { return lifeTime; };
+		ENGINE_INLINE void setParticleLifeTime(int time) { lifeTime = time; };
+		ENGINE_INLINE int getParticleLifeTime() { return lifeTime; };
 
-		void setVelocity(const Vec3 &velocity) { this->velocity = velocity; };
-		const Vec3 &getVelocity() { return velocity; };
+		ENGINE_INLINE void setVelocity(const Vec3 &velocity) { this->velocity = velocity; };
+		ENGINE_INLINE const Vec3 &getVelocity() { return velocity; };
 
-		void setForce(const Vec3 &force) { this->force = force; };
-		const Vec3 &getForce() { return force; };
+		ENGINE_INLINE void setForce(const Vec3 &force) { this->force = force; };
+		ENGINE_INLINE const Vec3 &getForce() { return force; };
 
-		void setDispersion(float dispersion) { this->dispersion = dispersion; };
-		float getDispersion() { return dispersion; };
+		ENGINE_INLINE void setDispersion(float dispersion) { this->dispersion = dispersion; };
+		ENGINE_INLINE float getDispersion() { return dispersion; };
 
 	private:
 		struct Particle {

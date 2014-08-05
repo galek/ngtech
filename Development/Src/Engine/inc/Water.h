@@ -13,11 +13,11 @@ namespace NGTech {
 
 		void draw();
 
-		void setSize(float size) { this->size = size; };
-		float getSize() { return size; };
+		ENGINE_INLINE void setSize(float size) { this->size = size; };
+		ENGINE_INLINE float getSize() { return size; };
 
-		void setDepth(float depth) { this->depth = depth; };
-		float getDepth() { return depth; };
+		ENGINE_INLINE void setDepth(float depth) { this->depth = depth; };
+		ENGINE_INLINE float getDepth() { return depth; };
 
 	private:
 		I_Texture *dudvMap;

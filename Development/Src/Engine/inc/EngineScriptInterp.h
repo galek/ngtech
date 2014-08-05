@@ -3,7 +3,7 @@
 #include "../../Core/inc/Scripting.h"
 
 namespace NGTech{
-	class ENGINE_API EngineScriptInterp:public CoreScriptInterp
+	class ENGINE_API EngineScriptInterp :public CoreScriptInterp
 	{
 	public:
 		EngineScriptInterp();

@@ -24,7 +24,7 @@ namespace NGTech {
 		gets the current view frustum from Meshview and Projection matrix
 		*/
 		void get();
-		float *getPlane(int n) { return plane[n]; };
+		ENGINE_INLINE float *getPlane(int n) { return plane[n]; };
 		/**
 		checks wether the point is inside of the frustum
 		\param point  point coordinates

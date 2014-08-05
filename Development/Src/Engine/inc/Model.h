@@ -21,18 +21,18 @@ namespace NGTech {
 
 		void save(const String &path);
 		void drawSubset(int s);
-		int getNumSubsets() { return subsets.size(); };
+		ENGINE_INLINE int getNumSubsets() { return subsets.size(); };
 		int getSubset(String name);
 
-		Vec3 &getMax() { return max; };
-		Vec3 &getMin() { return min; };
-		Vec3 &getCenter() { return center; };
-		float getRadius() { return radius; };
+		ENGINE_INLINE Vec3 &getMax() { return max; };
+		ENGINE_INLINE Vec3 &getMin() { return min; };
+		ENGINE_INLINE Vec3 &getCenter() { return center; };
+		ENGINE_INLINE float getRadius() { return radius; };
 
-		Vec3 &getMax(int s) { return subsets[s]->max; };
-		Vec3 &getMin(int s) { return subsets[s]->min; };
-		Vec3 &getCenter(int s) { return subsets[s]->center; };
-		float getRadius(int s) { return subsets[s]->radius; };
+		ENGINE_INLINE Vec3 &getMax(int s) { return subsets[s]->max; };
+		ENGINE_INLINE Vec3 &getMin(int s) { return subsets[s]->min; };
+		ENGINE_INLINE Vec3 &getCenter(int s) { return subsets[s]->center; };
+		ENGINE_INLINE float getRadius(int s) { return subsets[s]->radius; };
 
 	private:
 		void loadAMDL(const String &path);

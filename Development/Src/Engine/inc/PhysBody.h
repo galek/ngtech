@@ -47,7 +47,7 @@ namespace NGTech {
 		void SetAngularVelocity(const Vec3 &velocity);
 		Vec3 GetAngularVelocity();
 		
-		void SetImpactSound(ALSound *snd) {
+		ENGINE_INLINE void SetImpactSound(ALSound *snd) {
 			impactSrc = ALSoundSource::create(snd);
 		}
 		

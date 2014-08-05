@@ -14,9 +14,9 @@ namespace NGTech {
 		~Terrain();
 
 		void drawNode(int n, const Vec3 &cameraPos);
-		int getNumNodes() { return numNodes; };
+		ENGINE_INLINE int getNumNodes() { return numNodes; };
 
-		void setLods(const Vec3 &lods) { this->lods = lods; };
+		ENGINE_INLINE void setLods(const Vec3 &lods) { this->lods = lods; };
 
 		const Vec3 &getMin(int n);
 		const Vec3 &getMax(int n);
@@ -27,8 +27,8 @@ namespace NGTech {
 
 		void computeTBN();
 
-		void setMaterial(const String &path) { this->material = new Material(path); };
-		Material *getMaterial() { return material; };
+		ENGINE_INLINE void setMaterial(const String &path) { this->material = new Material(path); };
+		ENGINE_INLINE Material *getMaterial() { return material; };
 
 	private:
 		Vec3 lods;

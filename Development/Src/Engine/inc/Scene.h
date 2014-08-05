@@ -53,7 +53,7 @@ namespace NGTech {
 
 		void reloadShaders();
 
-		ENGINE_INLINE Camera *GetActiveCamera(){ return camera; }
+		ENGINE_INLINE Camera *GetActiveCamera() { return camera; }
 	private:
 		void drawAmbient(bool blended);
 
