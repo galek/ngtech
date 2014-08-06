@@ -12,6 +12,7 @@
 #include "Water.h"
 #include "WindowSystem.h"
 //************************************
+#include "../OGLDrv/inc/GLExtensions.h"//TODO
 
 namespace NGTech {
 

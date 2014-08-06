@@ -1,10 +1,7 @@
 #include "RenderPrivate.h"
 //***************************************************************************
-#include "Engine.h"
+#include "GLExtensions.h"
 #include "GLTexture.h"
-#include "GLSystem.h"
-#include "WindowSystem.h"
-#include "Log.h"
 //***************************************************************************
 
 namespace NGTech {

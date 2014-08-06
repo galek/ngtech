@@ -8,6 +8,7 @@
 #include "WindowSystem.h"
 #include <math.h>
 //**************************************
+#include "../OGLDrv/inc/GLExtensions.h"//TODO
 
 namespace NGTech {
 

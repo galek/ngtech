@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Файлы исходного кода\GLew">
+      <UniqueIdentifier>{cff9e6b4-9dd8-40db-a567-7b9f40d9b6fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\GLew">
+      <UniqueIdentifier>{7df6643f-6fda-43d1-8359-97e5d760b5fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GLDisplayList.cpp">
@@ -48,6 +54,9 @@
     <ClCompile Include="src\GUIImpl.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="src\GLew\glew.c">
+      <Filter>Файлы исходного кода\GLew</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\GLDisplayList.h">
@@ -79,6 +88,15 @@
     </ClInclude>
     <ClInclude Include="inc\GUIImpl.h">
       <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GLew\glew.h">
+      <Filter>Заголовочные файлы\GLew</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GLew\glxew.h">
+      <Filter>Заголовочные файлы\GLew</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GLew\wglew.h">
+      <Filter>Заголовочные файлы\GLew</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

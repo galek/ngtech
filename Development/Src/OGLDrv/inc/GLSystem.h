@@ -1,8 +1,6 @@
 #pragma once 
 
 //***************************************************************************
-#include "IncludesAndLibs.h"
-//***************************************************************************
 #include "MathLib.h"
 #include "GLExtensions.h"
 #include "GLTexture.h"
