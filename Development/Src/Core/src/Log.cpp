@@ -3,6 +3,7 @@
 #include "Log.h"
 #include "FileHelper.h"
 #include "Error.h"
+#include <tchar.h>
 #include <stdarg.h>
 //***************************************************************************
 

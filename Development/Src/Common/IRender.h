@@ -18,7 +18,7 @@
 #ifndef __I_RENDER__H
 #define __I_RENDER__H
 
-#include "EString.h"
+#include "StringHelper.h"
 
 namespace NGTech {
 	class Mat4;

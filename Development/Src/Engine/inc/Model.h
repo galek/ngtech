@@ -1,7 +1,7 @@
 #pragma once
 
 //**************************************
-#include "../../Common/EString.h"
+#include "../../Common/StringHelper.h"
 #include "../../Core/inc/MathLib.h"
 #include "PhysSystem.h"
 #include "Frustum.h"

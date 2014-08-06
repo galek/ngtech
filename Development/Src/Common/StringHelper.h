@@ -1,17 +1,7 @@
-/***************************************************************************
-*   Copyright (C) 2006 by AST   *
-*   tsyplyaev@gmail.com   *
-*   ICQ: 279-533-134                          *
-*   This is a part of work done by AST.       *
-*   If you want to use it, please contact me. *
-***************************************************************************/
-#ifndef __E_STRING_H__
-#define __E_STRING_H__
 #pragma once
 
 //**************************************
 #include <string>
-#include <TCHAR.H>
 //**************************************
 
 namespace NGTech {
@@ -42,9 +32,6 @@ namespace NGTech {
 		static String fromDouble(double i);
 		static String fromFloat(float i);
 		static String fromBool(bool i);
-
-		static String printf(const char *format,...);
 	};
 
-};
-#endif
+}

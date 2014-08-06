@@ -1,7 +1,7 @@
 #pragma once
 
 #include "glew/glew.h"
-#include "../Common/EString.h"
+#include "../Common/StringHelper.h"
 //***************************************************************************
 
 namespace NGTech {
