@@ -1,16 +1,7 @@
-/***************************************************************************
- *   Copyright (C) 2006 by AST   *
- *   tsyplyaev@gmail.com   *
- *   ICQ: 279-533-134                          *
- *   This is a part of work done by AST.       *
- *   If you want to use it, please contact me. *
- ***************************************************************************/
-
 #pragma once
 
 //************************************
-#include "GLSystem.h"
-#include "ILSystem.h"
+#include "IRender.h"
 //************************************
 
 namespace NGTech {
@@ -22,17 +13,17 @@ namespace NGTech {
 
 		void draw();
 
-		void setSize(float size) { this->size = size; };
-		float getSize() { return size; };
+		ENGINE_INLINE void setSize(float size) { this->size = size; };
+		ENGINE_INLINE float getSize() { return size; };
 
-		void setDepth(float depth) { this->depth = depth; };
-		float getDepth() { return depth; };
+		ENGINE_INLINE void setDepth(float depth) { this->depth = depth; };
+		ENGINE_INLINE float getDepth() { return depth; };
 
 	private:
-		GLTexture *dudvMap;
-		GLTexture *normalMap;
+		I_Texture *dudvMap;
+		I_Texture *normalMap;
 
-		GLShader *waterShader;
+		I_Shader *waterShader;
 
 		float size;
 		float depth;

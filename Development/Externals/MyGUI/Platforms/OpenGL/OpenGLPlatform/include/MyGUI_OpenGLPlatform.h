@@ -17,7 +17,7 @@
 namespace MyGUI
 {
 
-	class OpenGLPlatform
+	class MYGUI_EXPORT OpenGLPlatform
 	{
 	public:
 		OpenGLPlatform();
@@ -27,12 +27,10 @@ namespace MyGUI
 		void shutdown();
 
 		OpenGLRenderManager* getRenderManagerPtr();
-		OpenGLDataManager* getDataManagerPtr();
 
 	private:
 		bool mIsInitialise;
 		OpenGLRenderManager* mRenderManager;
-		OpenGLDataManager* mDataManager;
 	};
 
 } // namespace MyGUI

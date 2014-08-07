@@ -16,7 +16,7 @@
 namespace MyGUI
 {
 
-	class OpenGLRenderManager :
+	class MYGUI_EXPORT OpenGLRenderManager :
 		public RenderManager,
 		public IRenderTarget
 	{

@@ -1,17 +1,8 @@
-/***************************************************************************
- *   Copyright (C) 2006 by AST   *
- *   tsyplyaev@gmail.com   *
- *   ICQ: 279-533-134                          *
- *   This is a part of work done by AST.       *
- *   If you want to use it, please contact me. *
- ***************************************************************************/
-
 #pragma once
 
 //**************************************
-#include "../Common/EString.h"
+#include "../Common/StringHelper.h"
 #include "MathLib.h"
-#include "GLSystem.h"
 #include "MathLib.h"
 #include "PhysSystem.h"
 #include "Frustum.h"
@@ -36,27 +27,27 @@ namespace NGTech {
 			OBJECT_PARTICLE_SYSTEM,
 		};
 
-		virtual void drawSubset(int s) {};
-		virtual int getNumSubsets() { return 0; };
+		ENGINE_INLINE virtual void drawSubset(int s) {};
+		ENGINE_INLINE virtual int getNumSubsets() { return 0; };
 
-		virtual Vec3 &getMax() { return Vec3(); };
-		virtual Vec3 &getMin() { return Vec3(); };
-		virtual Vec3 &getCenter() { return Vec3(); };
-		virtual float getRadius() { return 0; };
+		ENGINE_INLINE virtual Vec3 &getMax() { return Vec3(); };
+		ENGINE_INLINE virtual Vec3 &getMin() { return Vec3(); };
+		ENGINE_INLINE virtual Vec3 &getCenter() { return Vec3(); };
+		ENGINE_INLINE virtual float getRadius() { return 0; };
 
-		virtual Vec3 &getMax(int s) { return Vec3(); };
-		virtual Vec3 &getMin(int s) { return Vec3(); };
-		virtual Vec3 &getCenter(int s) { return Vec3(); };
-		virtual float getRadius(int s) { return 0; };
+		ENGINE_INLINE virtual Vec3 &getMax(int s) { return Vec3(); };
+		ENGINE_INLINE virtual Vec3 &getMin(int s) { return Vec3(); };
+		ENGINE_INLINE virtual Vec3 &getCenter(int s) { return Vec3(); };
+		ENGINE_INLINE virtual float getRadius(int s) { return 0; };
 
-		virtual Material *getMaterial(int s) { return NULL; };
+		ENGINE_INLINE virtual Material *getMaterial(int s) { return NULL; };
 
-		virtual void setTransform(const Mat4 &trans) {};
-		virtual Mat4 getTransform() { return Mat4(); };
+		ENGINE_INLINE virtual void setTransform(const Mat4 &trans) {};
+		ENGINE_INLINE virtual Mat4 getTransform() { return Mat4(); };
 
-		virtual PhysBody *getPhysBody() { return NULL; };
+		ENGINE_INLINE virtual PhysBody *getPhysBody() { return NULL; };
 
-		virtual ObjectType getType() { return OBJECT; };
+		ENGINE_INLINE virtual ObjectType getType() { return OBJECT; };
 	};
 
 	//---------------------------------------------------------------------------
@@ -68,17 +59,17 @@ namespace NGTech {
 		~ObjectMesh();
 
 		virtual void drawSubset(int s);
-		virtual int getNumSubsets() { return model->getNumSubsets(); };
+		ENGINE_INLINE virtual int getNumSubsets() { return model->getNumSubsets(); };
 
-		virtual Vec3 &getMax() { return model->max; };
-		virtual Vec3 &getMin() { return model->min; };
-		virtual Vec3 &getCenter() { return model->center; };
-		virtual float getRadius() { return model->radius; };
+		ENGINE_INLINE virtual Vec3 &getMax() { return model->max; };
+		ENGINE_INLINE virtual Vec3 &getMin() { return model->min; };
+		ENGINE_INLINE virtual Vec3 &getCenter() { return model->center; };
+		ENGINE_INLINE virtual float getRadius() { return model->radius; };
 
-		virtual Vec3 &getMax(int s) { return model->subsets[s]->max; };
-		virtual Vec3 &getMin(int s) { return model->subsets[s]->min; };
-		virtual Vec3 &getCenter(int s) { return model->subsets[s]->center; };
-		virtual float getRadius(int s) { return model->subsets[s]->radius; };
+		ENGINE_INLINE virtual Vec3 &getMax(int s) { return model->subsets[s]->max; };
+		ENGINE_INLINE virtual Vec3 &getMin(int s) { return model->subsets[s]->min; };
+		ENGINE_INLINE virtual Vec3 &getCenter(int s) { return model->subsets[s]->center; };
+		ENGINE_INLINE virtual float getRadius(int s) { return model->subsets[s]->radius; };
 
 		virtual Material *getMaterial(int s);
 
@@ -93,17 +84,17 @@ namespace NGTech {
 		void setPhysicsBox(const Vec3 &size, float mass = 0);
 		void setPhysicsSphere(const Vec3 &size, float mass = 0);
 
-		void setPhysicsCylinder(float radius, float height, float mass = 0);
+		void setPhysicsCylinder(float radius, float width, float mass = 0);
 		void setPhysicsCone(float radius, float height, float mass = 0);
 		void setPhysicsCapsule(float radius, float height, float mass = 0);
 		void setPhysicsChampferCylinder(float radius, float height, float mass = 0);
 
 		void setPhysicsConvexHull(float mass = 0);
 		void setPhysicsStaticMesh();
-		virtual PhysBody *getPhysBody() { return pBody; };
+		ENGINE_INLINE virtual PhysBody *getPhysBody() { return pBody; };
 
 		void setImpactSound(const String &path);
-		virtual ObjectType getType() { return OBJECT_MESH; };
+		ENGINE_INLINE virtual ObjectType getType() { return OBJECT_MESH; };
 
 	private:
 		Model *model;
@@ -128,17 +119,17 @@ namespace NGTech {
 		~ObjectSkinnedMesh();
 
 		virtual void drawSubset(int s);
-		virtual int getNumSubsets() { return model->getNumSubsets(); };
+		ENGINE_INLINE virtual int getNumSubsets() { return model->getNumSubsets(); };
 
-		virtual Vec3 &getMax() { return model->max; };
-		virtual Vec3 &getMin() { return model->min; };
-		virtual Vec3 &getCenter() { return model->center; };
-		virtual float getRadius() { return model->radius; };
+		ENGINE_INLINE virtual Vec3 &getMax() { return model->max; };
+		ENGINE_INLINE virtual Vec3 &getMin() { return model->min; };
+		ENGINE_INLINE virtual Vec3 &getCenter() { return model->center; };
+		ENGINE_INLINE virtual float getRadius() { return model->radius; };
 
-		virtual Vec3 &getMax(int s) { return model->subsets[s]->max; };
-		virtual Vec3 &getMin(int s) { return model->subsets[s]->min; };
-		virtual Vec3 &getCenter(int s) { return model->subsets[s]->center; };
-		virtual float getRadius(int s) { return model->subsets[s]->radius; };
+		ENGINE_INLINE virtual Vec3 &getMax(int s) { return model->subsets[s]->max; };
+		ENGINE_INLINE virtual Vec3 &getMin(int s) { return model->subsets[s]->min; };
+		ENGINE_INLINE virtual Vec3 &getCenter(int s) { return model->subsets[s]->center; };
+		ENGINE_INLINE virtual float getRadius(int s) { return model->subsets[s]->radius; };
 
 		virtual Material *getMaterial(int s);
 
@@ -148,9 +139,9 @@ namespace NGTech {
 		virtual void setTransform(const Mat4 &trans);
 		virtual Mat4 getTransform();
 
-		void setFrame(float frame) { model->setFrame(frame, -1, -1); };
+		ENGINE_INLINE void setFrame(float frame) { model->setFrame(frame, -1, -1); };
 
-		virtual ObjectType getType() { return OBJECT_SKINNED_MESH; };
+		ENGINE_INLINE virtual ObjectType getType() { return OBJECT_SKINNED_MESH; };
 
 	private:
 		SkinnedModel *model;

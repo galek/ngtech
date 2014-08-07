@@ -13,24 +13,15 @@
 #include "Frustum.h"
 #include "Config.h"
 #include "WindowSystem.h"
-#include "GLSystem.h"
 #include "Scene.h"
-#include "../../Core/CVARManager.h"
+#include "../../Core/inc/CVARManager.h"
 //**************************************
 
 namespace NGTech {
 	Light::Light(){
-		GetEngine()->scene->addLight(this);
+		GetScene()->addLight(this);
 	}
 
-	//**************************************************************************
-	//LightOmni
-	//**************************************************************************
-	//---------------------------------------------------------------------------
-	//Desc:    creates new omni light
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	LightOmni::LightOmni() {
 		this->color = Vec3(1, 1, 1);
 		this->position = Vec3(0, 0, 0);
@@ -38,31 +29,20 @@ namespace NGTech {
 
 		this->castShadows = true;
 
-		int size = GetEngine()->cvars->r_shadowsize;
-		shadowMap = GLTexture::createCube(size, size, GLTexture::RGBA);
-		shadowMap->setFilter(GLTexture::LINEAR);
-		shadowMap->setAniso(GLTexture::ANISO_X0);
-		shadowMap->setWrap(GLTexture::CLAMP_TO_EDGE);
+		int size = GetCvars()->r_shadowsize;
+		shadowMap = GetRender()->TextureCreateCube(size, size, I_Texture::RGBA);
+		shadowMap->setFilter(I_Texture::LINEAR);
+		shadowMap->setAniso(I_Texture::ANISO_X0);
+		shadowMap->setWrap(I_Texture::CLAMP_TO_EDGE);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    destroys omni light
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	LightOmni::~LightOmni() {
 		delete shadowMap;
 	}
 
-#include "Log.h"
-	//---------------------------------------------------------------------------
-	//Desc:    gets lights scissor rectangle
-	//Params:  cameraPos - camera position, x, y, z, w - output rect coords
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void LightOmni::getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w) {
 		int viewport[4];
-		GetEngine()->iRender->getViewport(viewport);
+		GetRender()->getViewport(viewport);
 
 		if ((position - cameraPos).length() < radius*1.5) {
 			x = viewport[0];
@@ -72,8 +52,8 @@ namespace NGTech {
 			return;
 		}
 
-		Mat4 tmodelview = Mat4::transpose(GetEngine()->iRender->getMatrix_Modelview());
-		Mat4 mvp = GetEngine()->iRender->getMatrix_MVP();
+		Mat4 tmodelview = Mat4::transpose(GetRender()->getMatrix_Modelview());
+		Mat4 mvp = GetRender()->getMatrix_MVP();
 
 		Vec3 vx = tmodelview * Vec3(radius, 0, 0);
 		Vec3 vy = tmodelview * Vec3(0, radius, 0);
@@ -90,21 +70,21 @@ namespace NGTech {
 		p[3] = p[3] / p[3].w;
 
 		if (p[0].x < p[2].x) {
-			x = viewport[0] + (int) ((float) viewport[2] * (p[0].x + 1.0) / 2.0);
-			z = viewport[0] + (int) ((float) viewport[2] * (p[1].x + 1.0) / 2.0);
+			x = viewport[0] + (int)((float)viewport[2] * (p[0].x + 1.0) / 2.0);
+			z = viewport[0] + (int)((float)viewport[2] * (p[1].x + 1.0) / 2.0);
 		}
 		else {
-			x = viewport[0] + (int) ((float) viewport[2] * (p[1].x + 1.0) / 2.0);
-			z = viewport[0] + (int) ((float) viewport[2] * (p[0].x + 1.0) / 2.0);
+			x = viewport[0] + (int)((float)viewport[2] * (p[1].x + 1.0) / 2.0);
+			z = viewport[0] + (int)((float)viewport[2] * (p[0].x + 1.0) / 2.0);
 		}
 
 		if (p[1].y < p[3].y) {
-			y = viewport[1] + (int) ((float) viewport[3] * (p[2].y + 1.0) / 2.0);
-			w = viewport[1] + (int) ((float) viewport[3] * (p[3].y + 1.0) / 2.0);
+			y = viewport[1] + (int)((float)viewport[3] * (p[2].y + 1.0) / 2.0);
+			w = viewport[1] + (int)((float)viewport[3] * (p[3].y + 1.0) / 2.0);
 		}
 		else {
-			y = viewport[1] + (int) ((float) viewport[3] * (p[3].y + 1.0) / 2.0);
-			w = viewport[1] + (int) ((float) viewport[3] * (p[2].y + 1.0) / 2.0);
+			y = viewport[1] + (int)((float)viewport[3] * (p[3].y + 1.0) / 2.0);
+			w = viewport[1] + (int)((float)viewport[3] * (p[2].y + 1.0) / 2.0);
 		}
 
 		if (x < viewport[0])
@@ -131,14 +111,6 @@ namespace NGTech {
 		w -= y;
 	}
 
-	//**************************************************************************
-	//LightSpot
-	//**************************************************************************
-	//---------------------------------------------------------------------------
-	//Desc:    creates new direct light
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	LightSpot::LightSpot() {
 		this->color = Vec3(1, 1, 1);
 		this->position = Vec3(0, 0, 0);
@@ -148,34 +120,24 @@ namespace NGTech {
 
 		this->castShadows = true;
 
-		int size = GetEngine()->cvars->r_shadowsize;
+		int size = GetCvars()->r_shadowsize;
 
-		shadowMap = GLTexture::create2d(size, size, GLTexture::RGBA);
-		shadowMap->setFilter(GLTexture::LINEAR);
-		shadowMap->setWrap(GLTexture::CLAMP);
+		shadowMap = GetRender()->TextureCreate2D(size, size, I_Texture::RGBA);
+		shadowMap->setFilter(I_Texture::LINEAR);
+		shadowMap->setWrap(I_Texture::CLAMP);
 
-		projMap = GLTexture::create2d("../data/textures/effects/spot.jpg");
-		projMap->setWrap(GLTexture::CLAMP);
+		projMap = GetRender()->TextureCreate2D("effects/spot.jpg");
+		projMap->setWrap(I_Texture::CLAMP);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    destroys direct light
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	LightSpot::~LightSpot() {
 		delete shadowMap;
 		delete projMap;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    gets lights scissor rectangle
-	//Params:  cameraPos - camera position, x, y, z, w - output rect coords
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void LightSpot::getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w) {
 		int viewport[4];
-		GetEngine()->iRender->getViewport(viewport);
+		GetRender()->getViewport(viewport);
 
 		if ((position - cameraPos).length() < radius*1.5) {
 			x = viewport[0];
@@ -185,8 +147,8 @@ namespace NGTech {
 			return;
 		}
 
-		Mat4 tmodelview = Mat4::transpose(GetEngine()->iRender->getMatrix_Modelview());
-		Mat4 mvp = GetEngine()->iRender->getMatrix_MVP();
+		Mat4 tmodelview = Mat4::transpose(GetRender()->getMatrix_Modelview());
+		Mat4 mvp = GetRender()->getMatrix_MVP();
 
 		Vec3 vx = tmodelview * Vec3(radius, 0, 0);
 		Vec3 vy = tmodelview * Vec3(0, radius, 0);
@@ -203,21 +165,21 @@ namespace NGTech {
 		p[3] = p[3] / p[3].w;
 
 		if (p[0].x < p[2].x) {
-			x = viewport[0] + (int) ((float) viewport[2] * (p[0].x + 1.0) / 2.0);
-			z = viewport[0] + (int) ((float) viewport[2] * (p[1].x + 1.0) / 2.0);
+			x = viewport[0] + (int)((float)viewport[2] * (p[0].x + 1.0) / 2.0);
+			z = viewport[0] + (int)((float)viewport[2] * (p[1].x + 1.0) / 2.0);
 		}
 		else {
-			x = viewport[0] + (int) ((float) viewport[2] * (p[1].x + 1.0) / 2.0);
-			z = viewport[0] + (int) ((float) viewport[2] * (p[0].x + 1.0) / 2.0);
+			x = viewport[0] + (int)((float)viewport[2] * (p[1].x + 1.0) / 2.0);
+			z = viewport[0] + (int)((float)viewport[2] * (p[0].x + 1.0) / 2.0);
 		}
 
 		if (p[1].y < p[3].y) {
-			y = viewport[1] + (int) ((float) viewport[3] * (p[2].y + 1.0) / 2.0);
-			w = viewport[1] + (int) ((float) viewport[3] * (p[3].y + 1.0) / 2.0);
+			y = viewport[1] + (int)((float)viewport[3] * (p[2].y + 1.0) / 2.0);
+			w = viewport[1] + (int)((float)viewport[3] * (p[3].y + 1.0) / 2.0);
 		}
 		else {
-			y = viewport[1] + (int) ((float) viewport[3] * (p[3].y + 1.0) / 2.0);
-			w = viewport[1] + (int) ((float) viewport[3] * (p[2].y + 1.0) / 2.0);
+			y = viewport[1] + (int)((float)viewport[3] * (p[3].y + 1.0) / 2.0);
+			w = viewport[1] + (int)((float)viewport[3] * (p[2].y + 1.0) / 2.0);
 		}
 
 		if (x < viewport[0])
@@ -244,24 +206,11 @@ namespace NGTech {
 		w -= y;
 	}
 
-	//**************************************************************************
-	//LightDirect
-	//**************************************************************************
-	//---------------------------------------------------------------------------
-	//Desc:    creates new direct light
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	LightDirect::LightDirect() {
 		this->color = Vec3(1, 1, 1);
 		this->direction = Vec3(1, 1, 1);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    destroys direct light
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	LightDirect::~LightDirect() {
 	}
 

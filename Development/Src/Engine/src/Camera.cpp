@@ -40,7 +40,7 @@ namespace NGTech {
 		this->maxVelocity = 1500;
 		this->fov = 60;
 
-		pBody = NULL;
+		/*pBody = NULL;*/
 	}
 
 	//---------------------------------------------------------------------------
@@ -49,10 +49,10 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	CameraFPS::~CameraFPS() {
-		if(pBody) { 
-			delete pBody; 
+		/*if(pBody) {
+			delete pBody;
 			delete pJoint;
-		}
+			}*/
 	}
 
 	//---------------------------------------------------------------------------
@@ -61,10 +61,9 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void CameraFPS::setPhysics(const Vec3 &size, float mass) {
-		pBody = PhysBody::createCapsule(size.x,size.y, mass);
-		pBody->setTransform(Mat4::translate(position));
+		/*pBody = PhysBody::CreateCapsule(size.x, size.y, &Mat4::translate(position), mass);
 		this->size = size;
-		pJoint = new PhysJointUpVector(Vec3(0, 1, 0), pBody);
+		pJoint = new PhysJointUpVector(Vec3(0, 1, 0), pBody);*/
 	}
 
 	//---------------------------------------------------------------------------
@@ -82,7 +81,7 @@ namespace NGTech {
 	//Returns: projection matrix
 	//---------------------------------------------------------------------------
 	Mat4 CameraFPS::getProjection() {
-		return Mat4::perspective(fov, (float)4/(float)3, 0.1, 10000);
+		return Mat4::perspective(fov, (float)4 / (float)3, 0.1, 10000);
 	}
 
 	//---------------------------------------------------------------------------
@@ -91,24 +90,21 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void CameraFPS::update() {
-		if(pBody) {
-			position = pBody->getTransform().getTranslation() + Vec3(0, 7, 0);
-			pBody->setVelocity(Vec3(0, pBody->getVelocity().y, 0));//pBody->getVelocity().y, 0));
+		/*if(pBody) {
+			position = pBody->GetTransform().getTranslation() + Vec3(0, 7, 0);
+			pBody->SetLinearVelocity(Vec3(0, pBody->GetLinearVelocity().y, 0));
+			}*/
+
+		if (GetWindow()->isMouseMoved() && GetWindow()->isMouseGrabed()) {
+			angle[0] = -0.4 * GetWindow()->getMouseX();
+			angle[1] = -0.4 * GetWindow()->getMouseY();
 		}
 
-		/*Vec3 forwardVec = Vec3::normalize(Vec3(sinf(angle[0]) * cosf(angle[1]),
-		sinf(angle[1]),
-		cosf(angle[0]) * cosf(angle[1])));*/
-		if(GetEngine()->iWindow->isMouseMoved() && GetEngine()->iWindow->isMouseGrabed()) {
-			angle[0] = -0.4 * GetEngine()->iWindow->getMouseX();
-			angle[1] = -0.4 * GetEngine()->iWindow->getMouseY();
-		}
-
-		if(angle[1] > 80) angle[1] = 75;
-		if(angle[1] < -80) angle[1] = -75;
+		if (angle[1] > 80) angle[1] = 75;
+		if (angle[1] < -80) angle[1] = -75;
 
 		Vec3 forwardVec = Vec3(sinf(DEG_TO_RAD * angle[0]), 0, cosf(DEG_TO_RAD * angle[0]));
-		Vec3 leftVec    = Vec3(sinf(DEG_TO_RAD * (angle[0] + 90)), 0, cosf(DEG_TO_RAD * (angle[0] + 90)));
+		Vec3 leftVec = Vec3(sinf(DEG_TO_RAD * (angle[0] + 90)), 0, cosf(DEG_TO_RAD * (angle[0] + 90)));
 		Vec3 movement = Vec3(0, 0, 0);
 
 		direction.x = sinf(DEG_TO_RAD * angle[0]) * cosf(DEG_TO_RAD * angle[1]);
@@ -118,45 +114,45 @@ namespace NGTech {
 
 		bool inTheAir = false;
 		Vec3 point;
-		if(GetEngine()->physSystem->intersectWorldByRay(position - Vec3(0, size.y, 0), 
-			position - Vec3(0, size.y+10, 0), Vec3(), 
+		if (GetPhysics()->intersectWorldByRay(position - Vec3(0, size.y, 0),
+			position - Vec3(0, size.y + 10, 0), Vec3(),
 			point)) {
-				if(point.y <= position.y - size.y - 10)
-					inTheAir = true;
+			if (point.y <= position.y - size.y - 10)
+				inTheAir = true;
 		}
 
-		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_W)) {
+		if (GetWindow()->isKeyPressed(WindowSystem::KEY_W)) {
 			movement += forwardVec;
 		}
-		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_S)) {
+		if (GetWindow()->isKeyPressed(WindowSystem::KEY_S)) {
 			movement -= forwardVec;
 		}
-		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_A)) {
+		if (GetWindow()->isKeyPressed(WindowSystem::KEY_A)) {
 			movement += leftVec;
 		}
-		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_D)) {
+		if (GetWindow()->isKeyPressed(WindowSystem::KEY_D)) {
 			movement -= leftVec;
 		}
 
-		if(inTheAir) {
+		if (inTheAir) {
 			movement = movement * 0.5;
 		}
 
-		if(movement.length() > EPSILON) {
+		if (movement.length() > EPSILON) {
 			movement = Vec3::normalize(movement);
 		}
 
-		if(GetEngine()->iWindow->isKeyDown(WindowSystem::KEY_Q) && !inTheAir) {
+		if (GetWindow()->isKeyDown(WindowSystem::KEY_Q) && !inTheAir) {
 			movement += Vec3(0, 1.5, 0);
 		}
-
-		pBody->addTorque(movement * maxVelocity);
+		/*
+				pBody->AddTorque(movement * maxVelocity);*/
 	}
 
 
 	Camera::Camera() {
-		if(GetEngine()->scene)
-			GetEngine()->scene->setCamera(this);
+		if (GetScene())
+			GetScene()->setCamera(this);
 	}
 
 	//***************************************************************************
@@ -167,13 +163,13 @@ namespace NGTech {
 	//Params:  -
 	//Returns: -
 	//---------------------------------------------------------------------------
-	CameraFree::CameraFree():Camera() {
+	CameraFree::CameraFree() :Camera() {
 		this->position = Vec3(0, 0, 0);
 		this->maxVelocity = 1500;
 		this->fov = 60;
 
 		pBody = NULL;
-		setPhysics(Vec3(5, 5, 5), 0.001);
+		setPhysics(Vec3(5, 5, 5), 10.0f);
 	}
 
 	//---------------------------------------------------------------------------
@@ -182,7 +178,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	CameraFree::~CameraFree() {
-		if(pBody) { delete pBody; }
+		if (pBody) { delete pBody; }
 	}
 
 	//---------------------------------------------------------------------------
@@ -191,9 +187,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void CameraFree::setPhysics(const Vec3 &size, float mass) {
-		mass = 0.001;
-		pBody = PhysBody::createSphere(size.y, mass);
-		pBody->setTransform(Mat4::translate(position));
+		//pBody = PhysBody::CreateSphere(size.y, &Mat4::translate(position), mass);
 	}
 
 	//---------------------------------------------------------------------------
@@ -211,7 +205,7 @@ namespace NGTech {
 	//Returns: projection matrix
 	//---------------------------------------------------------------------------
 	Mat4 CameraFree::getProjection() {
-		return Mat4::perspective(fov, (float)4/(float)3, 0.1, 10000);
+		return Mat4::perspective(fov, (float)4 / (float)3, 0.1, 10000);
 	}
 
 	//---------------------------------------------------------------------------
@@ -220,27 +214,24 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void CameraFree::update() {
-		if(pBody) {
-			position = pBody->getTransform().getTranslation();
-			pBody->setVelocity(Vec3(0, 0, 0));
+		if (pBody) {
+			position = pBody->GetTransform().getTranslation();
+			pBody->SetLinearVelocity(Vec3(0, 0, 0));
 		}
 
-		/*Vec3 forwardVec = Vec3::normalize(Vec3(sinf(angle[0]) * cosf(angle[1]),
-		sinf(angle[1]),
-		cosf(angle[0]) * cosf(angle[1])));*/
-		if(GetEngine()->iWindow->isMouseMoved() && GetEngine()->iWindow->isMouseGrabed()) {
-			angle[0] = -0.4 * GetEngine()->iWindow->getMouseX();
-			angle[1] = -0.4 * GetEngine()->iWindow->getMouseY();
+		if (GetWindow()->isMouseMoved() && GetWindow()->isMouseGrabed()) {
+			angle[0] = -0.4 * GetWindow()->getMouseX();
+			angle[1] = -0.4 * GetWindow()->getMouseY();
 		}
 
-		if(angle[1] > 80) angle[1] = 75;
-		if(angle[1] < -80) angle[1] = -75;
+		if (angle[1] > 80) angle[1] = 75;
+		if (angle[1] < -80) angle[1] = -75;
 
-		Vec3 forwardVec = Vec3(sinf(DEG_TO_RAD * angle[0]) * cosf(DEG_TO_RAD * angle[1]), 
-			sinf(DEG_TO_RAD * angle[1]), 
+		Vec3 forwardVec = Vec3(sinf(DEG_TO_RAD * angle[0]) * cosf(DEG_TO_RAD * angle[1]),
+			sinf(DEG_TO_RAD * angle[1]),
 			cosf(DEG_TO_RAD * angle[0]) * cosf(DEG_TO_RAD * angle[1]));
 
-		Vec3 leftVec    = Vec3(sinf(DEG_TO_RAD * (angle[0] + 90)), 0, cosf(DEG_TO_RAD * (angle[0] + 90)));
+		Vec3 leftVec = Vec3(sinf(DEG_TO_RAD * (angle[0] + 90)), 0, cosf(DEG_TO_RAD * (angle[0] + 90)));
 		Vec3 movement = Vec3(0, 0, 0);
 
 		direction.x = sinf(DEG_TO_RAD * angle[0]) * cosf(DEG_TO_RAD * angle[1]);
@@ -248,24 +239,27 @@ namespace NGTech {
 		direction.z = cosf(DEG_TO_RAD * angle[0]) * cosf(DEG_TO_RAD * angle[1]);
 		direction = Vec3::normalize(direction);
 
-		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_W)) {
+		if (GetWindow()->isKeyPressed(WindowSystem::KEY_W)) {
 			movement += forwardVec;
 		}
-		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_S)) {
+		if (GetWindow()->isKeyPressed(WindowSystem::KEY_S)) {
 			movement -= forwardVec;
 		}
-		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_A)) {
+		if (GetWindow()->isKeyPressed(WindowSystem::KEY_A)) {
 			movement += leftVec;
 		}
-		if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_D)) {
+		if (GetWindow()->isKeyPressed(WindowSystem::KEY_D)) {
 			movement -= leftVec;
 		}
 
-		if(movement.length() > EPSILON) {
+		if (movement.length() > EPSILON) {
 			movement = Vec3::normalize(movement);
 		}
 
-		pBody->addTorque(movement * maxVelocity);
+		if (pBody)
+			pBody->AddTorque(movement * maxVelocity);
+		else
+			position += movement;
 	}
 
 }

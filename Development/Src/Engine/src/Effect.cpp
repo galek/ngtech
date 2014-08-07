@@ -1,10 +1,3 @@
-/***************************************************************************
- *   Copyright (C) 2006 by AST   *
- *   tsyplyaev@gmail.com   *
- *   ICQ: 279-533-134                          *
- *   This is a part of work done by AST.       *
- *   If you want to use it, please contact me. *
- ***************************************************************************/
 #include "EnginePrivate.h"
 #include "Engine.h"
 //**************************************
@@ -15,17 +8,14 @@
 #include "WindowSystem.h"
 #include <math.h>
 //**************************************
+#include "../OGLDrv/inc/GLExtensions.h"//TODO
 
 namespace NGTech {
-	//---------------------------------------------------------------------------
-	//Desc:    creates new EffectParticleSystem
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
-	EffectParticleSystem::EffectParticleSystem(const String &path, int numParticles) {
-		texture = GLTexture::create2d(path);
 
-		particleList = new GLDisplayList();
+	EffectParticleSystem::EffectParticleSystem(const String &path, int numParticles) {
+		texture = GetRender()->TextureCreate2D(path);
+
+		particleList = GetRender()->GetDL();
 		particleList->beginBuild();
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
@@ -56,24 +46,14 @@ namespace NGTech {
 		};
 	};
 
-	//---------------------------------------------------------------------------
-	//Desc:    EffectParticleSystem destructor
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	EffectParticleSystem::~EffectParticleSystem() {
-	};
+	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    draw EffectParticleSystem
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void EffectParticleSystem::draw() {
 		texture->set(0);
-		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
-		GetEngine()->iRender->setColor(color);
-		GetEngine()->iRender->depthMask(false);
+		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
+		GetRender()->setColor(color);
+		GetRender()->depthMask(false);
 
 		for (int i = 0; i < numParticles; i++) {
 
@@ -82,43 +62,35 @@ namespace NGTech {
 				particles[i].velocity = Vec3(velocity.x + sinf(rand()) * velocity.length(),
 					velocity.y + cosf(rand()) * velocity.length(),
 					velocity.z + sinf(rand()) * velocity.length())
-					+ force * GetEngine()->iWindow->getDTime() * 0.001;
+					+ force * GetWindow()->getDTime() * 0.001;
 				particles[i].lifeTime = i / numParticles *lifeTime;
 			};
 
-			particles[i].position += particles[i].velocity * GetEngine()->iWindow->getDTime() * 0.001;
+			particles[i].position += particles[i].velocity * GetWindow()->getDTime() * 0.001;
 
-			GetEngine()->iRender->push();
-			GetEngine()->iRender->translate(particles[i].position);
-			GetEngine()->iRender->scale(Vec3(5, 5, 5));
+			GetRender()->push();
+			GetRender()->translate(particles[i].position);
+			GetRender()->scale(Vec3(5, 5, 5));
 
-			GetEngine()->iRender->rotate(GetEngine()->scene->GetActiveCamera()->GetAngle(0) - 180, Vec3(0, 1, 0));
-			GetEngine()->iRender->rotate(GetEngine()->scene->GetActiveCamera()->GetAngle(1), Vec3(1, 0, 0));
+			GetRender()->rotate(GetScene()->GetActiveCamera()->GetAngle(0) - 180, Vec3(0, 1, 0));
+			GetRender()->rotate(GetScene()->GetActiveCamera()->GetAngle(1), Vec3(1, 0, 0));
 
 			particleList->call();
 
-			GetEngine()->iRender->pop();
+			GetRender()->pop();
 
-			particles[i].lifeTime += GetEngine()->iWindow->getDTime();
+			particles[i].lifeTime += GetWindow()->getDTime();
 		};
-		GetEngine()->iRender->depthMask(true);
-		GetEngine()->iRender->disableBlending();
+		GetRender()->depthMask(true);
+		GetRender()->disableBlending();
 		texture->unset(0);
-		GetEngine()->iRender->setColor(Vec4(1, 1, 1, 1));
-	};
+		GetRender()->setColor(Vec4(1, 1, 1, 1));
+	}
 
-
-
-
-	//---------------------------------------------------------------------------
-	//Desc:    creates new EffectFlare
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	EffectFlare::EffectFlare(const String &path) {
-		texture = GLTexture::create2d(path);
+		texture = GetRender()->TextureCreate2D(path);
 
-		flareList = new GLDisplayList();
+		flareList = GetRender()->GetDL();
 		flareList->beginBuild();
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
@@ -140,38 +112,28 @@ namespace NGTech {
 		radius = 5.0;
 	};
 
-	//---------------------------------------------------------------------------
-	//Desc:    EffectFlare destructor
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	EffectFlare::~EffectFlare() {
-	};
+	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    draw EffectFlare
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void EffectFlare::draw() {
-		GetEngine()->iRender->push();
-		GetEngine()->iRender->translate(position);
-		GetEngine()->iRender->scale(Vec3(radius, radius, radius));
+		GetRender()->push();
+		GetRender()->translate(position);
+		GetRender()->scale(Vec3(radius, radius, radius));
 
-		GetEngine()->iRender->rotate(GetEngine()->scene->GetActiveCamera()->GetAngle(0) - 180, Vec3(0, 1, 0));
-		GetEngine()->iRender->rotate(GetEngine()->scene->GetActiveCamera()->GetAngle(1), Vec3(1, 0, 0));
+		GetRender()->rotate(GetScene()->GetActiveCamera()->GetAngle(0) - 180, Vec3(0, 1, 0));
+		GetRender()->rotate(GetScene()->GetActiveCamera()->GetAngle(1), Vec3(1, 0, 0));
 
 		texture->set(0);
-		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
-		GetEngine()->iRender->setColor(color);
-		GetEngine()->iRender->depthMask(false);
+		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
+		GetRender()->setColor(color);
+		GetRender()->depthMask(false);
 
 		flareList->call();
 
-		GetEngine()->iRender->depthMask(true);
-		GetEngine()->iRender->disableBlending();
+		GetRender()->depthMask(true);
+		GetRender()->disableBlending();
 		texture->unset(0);
 
-		GetEngine()->iRender->pop();
-	};
+		GetRender()->pop();
+	}
 }

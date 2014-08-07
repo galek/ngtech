@@ -13,86 +13,692 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Заголовочные файлы\lua">
+      <UniqueIdentifier>{617749c9-0fd4-421a-be8b-37a9597ac279}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\lua\detail">
+      <UniqueIdentifier>{19e0c305-1740-41ec-81d3-fe6f993c9621}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\lua\detail\conversion_policies">
+      <UniqueIdentifier>{4da8f893-02b6-47cf-8486-b4dd7a88867b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\lua">
+      <UniqueIdentifier>{33e7bdcb-595e-437d-9f86-fac6370fd009}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\adl">
+      <UniqueIdentifier>{00b167ee-4656-47b7-ad8c-86ed6b7026ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CvarManager.h">
+    <ClInclude Include="inc\BuildDefines.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="Config.h">
+    <ClInclude Include="inc\Config.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="File.h">
+    <ClInclude Include="inc\CoreManager.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="Log.h">
+    <ClInclude Include="inc\CorePrivate.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="IncludesAndLibs.h">
+    <ClInclude Include="inc\CvarManager.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="CoreManager.h">
+    <ClInclude Include="inc\Error.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="CorePrivate.h">
+    <ClInclude Include="inc\IncludesAndLibs.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="BuildDefines.h">
+    <ClInclude Include="inc\Log.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="Error.h">
+    <ClInclude Include="inc\MathLib.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting.h">
+    <ClInclude Include="inc\Scripting.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="WrappedScriptFunctions.h">
+    <ClInclude Include="inc\VFS.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="MathLib.h">
+    <ClInclude Include="inc\WrappedScriptFunctions.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="VFS.h">
+    <ClInclude Include="inc\coredll.h">
       <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\DataFileStream.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\DataStream.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\DynLib.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\UString.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ILImage.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\VFile.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\FileHelper.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Thread.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\systeminfo.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\adopt_policy.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\back_reference.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\back_reference_fwd.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\class.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\class_info.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\config.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\container_policy.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\copy_policy.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\dependency_policy.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\discard_result_policy.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\error.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\error_callback_fun.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\exception_handler.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\from_stack.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\function.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\function_introspection.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\get_main_thread.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\handle.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\iterator_policy.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lapi.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lauxlib.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lcode.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\ldebug.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\ldo.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lfunc.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lgc.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\llex.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\llimits.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lmem.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lobject.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lopcodes.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lparser.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lstate.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lstring.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\ltable.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\ltm.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lua.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lua.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lua_argument_proxy.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lua_include.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lua_index_proxy.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lua_iterator_proxy.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lua_proxy.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lua_proxy_interface.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lua_state_fwd.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\luabind.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\luaconf.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lualib.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lundump.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lvm.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\lzio.h">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\make_function.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\nil.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\no_dependency.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\object.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\open.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\operator.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\out_value_policy.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\pointer_traits.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\prefix.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\raw_policy.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\return_reference_to_policy.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\scope.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\set_package_preload.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\shared_ptr_converter.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\tag_function.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\typeid.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\version.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\weak_ref.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\wrapper_base.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\yield_policy.hpp">
+      <Filter>Заголовочные файлы\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\call.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\call_function.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\call_member.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\call_shared.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\call_traits.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\class_registry.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\class_rep.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\constructor.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\conversion_policies.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\conversion_storage.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\convert_to_lua.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\crtp_iterator.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\debug.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\decorate_type.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\deduce_signature.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\enum_maker.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\format_signature.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\garbage_collector.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\has_get_pointer.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\inheritance.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\instance_holder.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\link_compatibility.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\make_instance.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\meta.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\most_derived.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\object.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\object_rep.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\open.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\operator_id.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\other.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\pcall.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\pointee_sizeof.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\pointee_typeid.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\policy.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\primitives.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\property.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\ref.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\signature_match.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\stack_utils.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\typetraits.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\yes_no.hpp">
+      <Filter>Заголовочные файлы\lua\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\conversion_policies\conversion_base.hpp">
+      <Filter>Заголовочные файлы\lua\detail\conversion_policies</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\conversion_policies\conversion_policies.hpp">
+      <Filter>Заголовочные файлы\lua\detail\conversion_policies</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\conversion_policies\enum_converter.hpp">
+      <Filter>Заголовочные файлы\lua\detail\conversion_policies</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\conversion_policies\function_converter.hpp">
+      <Filter>Заголовочные файлы\lua\detail\conversion_policies</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\conversion_policies\lua_proxy_converter.hpp">
+      <Filter>Заголовочные файлы\lua\detail\conversion_policies</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\conversion_policies\native_converter.hpp">
+      <Filter>Заголовочные файлы\lua\detail\conversion_policies</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\conversion_policies\pointer_converter.hpp">
+      <Filter>Заголовочные файлы\lua\detail\conversion_policies</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\conversion_policies\reference_converter.hpp">
+      <Filter>Заголовочные файлы\lua\detail\conversion_policies</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\lua\detail\conversion_policies\value_converter.hpp">
+      <Filter>Заголовочные файлы\lua\detail\conversion_policies</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ati_eyefinity.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\adl\adl_defines.h">
+      <Filter>Заголовочные файлы\adl</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\adl\adl_sdk.h">
+      <Filter>Заголовочные файлы\adl</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\adl\adl_structures.h">
+      <Filter>Заголовочные файлы\adl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CVARManager.cpp">
+    <ClCompile Include="src\Config.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Config.cpp">
+    <ClCompile Include="src\CoreBindings.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="File.cpp">
+    <ClCompile Include="src\CoreManager.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Log.cpp">
+    <ClCompile Include="src\CorePrivate.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="IncludesAndLibs.cpp">
+    <ClCompile Include="src\CVARManager.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="CoreManager.cpp">
+    <ClCompile Include="src\Error.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="CorePrivate.cpp">
+    <ClCompile Include="src\File.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Error.cpp">
+    <ClCompile Include="src\Log.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="CoreBindings.cpp">
+    <ClCompile Include="src\MathLib.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Scripting.cpp">
+    <ClCompile Include="src\Scripting.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="WrappedScriptFunctions.cpp">
+    <ClCompile Include="src\VFS.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="MathLib.cpp">
+    <ClCompile Include="src\WrappedScriptFunctions.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="VFS.cpp">
+    <ClCompile Include="src\DataFileStream.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataStream.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DynLib.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UString.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CoreGlobals.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ILImage.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VFile.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Thread.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SystemInfo.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\class.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\class_info.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\class_registry.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\class_rep.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\create_class.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\exception_handler.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\function.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\function_introspection.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\headertest.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\inheritance.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lapi.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lauxlib.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lbaselib.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lcode.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\ldblib.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\ldebug.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\ldo.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\ldump.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lfunc.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lgc.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\linit.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\link_compatibility.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\liolib.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\llex.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lmathlib.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lmem.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\loadlib.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lobject.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lopcodes.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\loslib.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lparser.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lstate.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lstring.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lstrlib.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\ltable.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\ltablib.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\ltm.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lundump.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lvm.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lzio.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\object_rep.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\open.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\operator.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\pcall.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\print.c">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\scope.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\set_package_preload.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\stack_content_by_name.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\weak_ref.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\wrapper_base.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\LuaError.cpp">
+      <Filter>Файлы исходного кода\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Additions.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\steamworks.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\iLSystem.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ati_eyefinity.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>

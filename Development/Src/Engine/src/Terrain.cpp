@@ -1,11 +1,3 @@
-/***************************************************************************
-*   Copyright (C) 2006 by AST   *
-*   tsyplyaev@gmail.com   *
-*   ICQ: 279-533-134                          *
-*   This is a part of work done by AST.       *
-*   If you want to use it, please contact me. *
-***************************************************************************/
-
 #include "EnginePrivate.h"
 //************************************
 #include "Engine.h"
@@ -16,7 +8,7 @@
 namespace NGTech {
 
 	Terrain::Terrain(const String &path, float step, float height, int nodeSize) {
-		ILImage *hmap = ILImage::create2d(path);
+		I_ILImage *hmap = GetRender()->CreateImage2D(path);
 
 		int W = hmap->getWidth();
 		int H = hmap->getHeight();
@@ -141,7 +133,7 @@ namespace NGTech {
 
 		computeTBN();
 
-		vertBuff = GLVBO::createVBO(vertices, numVertices, sizeof(Vertex), GLVBO::FLOAT);
+		vertBuff = GetRender()->CreateVBO(vertices, numVertices, sizeof(Vertex), I_VBManager::FLOAT);
 	}
 
 	Terrain::~Terrain() {
@@ -195,7 +187,7 @@ namespace NGTech {
 			}
 		}
 
-		pBody = PhysBody::createStaticMesh(pos, numPos, false);
+		pBody = PhysBody::CreateStaticMesh(pos, numPos, false);
 
 		delete [] pos;
 	}
@@ -212,7 +204,7 @@ namespace NGTech {
 		vertBuff->setNormalSource(sizeof(Vertex), sizeof(Vec3) + sizeof(Vec2));
 		vertBuff->setVertexSource(3, sizeof(Vertex), 0);
 
-		GetEngine()->iRender->drawIndexedGeometry(nodes[n].indices[lod], nodes[n].numIndices[lod]);
+		GetRender()->drawIndexedGeometry(nodes[n].indices[lod], nodes[n].numIndices[lod]);
 
 		vertBuff->unset();
 		vertBuff->unsetVertexSource();

@@ -14,7 +14,7 @@
 namespace MyGUI
 {
 
-	class OpenGLImageLoader
+	class MYGUI_EXPORT OpenGLImageLoader
 	{
 	public:
 		OpenGLImageLoader() { }

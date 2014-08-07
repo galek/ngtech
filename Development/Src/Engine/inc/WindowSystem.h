@@ -1,11 +1,3 @@
-/***************************************************************************
-*   Copyright (C) 2006 by AST   *
-*   tsyplyaev@gmail.com   *
-*   ICQ: 279-533-134                          *
-*   This is a part of work done by AST.       *
-*   If you want to use it, please contact me. *
-***************************************************************************/
-
 #pragma once
 
 //***************************************************
@@ -22,15 +14,15 @@ namespace NGTech {
 	//Desc: Engine`s main window and input system. Created one time
 	//---------------------------------------------------------------------------
 	class WindowSystem :public IWindow {
+		bool isExternalHwnd;
 	public:
 		explicit WindowSystem(CVARManager*_cvars);
 
 		~WindowSystem();
-		virtual void initialise();
+		virtual void initialise(int _hwnd = 0);
 		virtual void setTitle(const String &title);
 
 		virtual void updateTimer();
-		virtual void swapBuffers();
 
 		virtual void update();
 

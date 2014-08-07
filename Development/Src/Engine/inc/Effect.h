@@ -1,7 +1,6 @@
 #pragma once
 
 //**************************************
-#include "GLSystem.h"
 #include "MathLib.h"
 #include <vector>
 //**************************************
@@ -12,13 +11,13 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	class ENGINE_API Effect {
 	public:
-		virtual void draw() {};
+		ENGINE_INLINE virtual void draw() {};
 
-		virtual const Vec3 &getPosition() { return Vec3(0, 0, 0); };
-		virtual void setPosition(const Vec3 &position) {};
+		ENGINE_INLINE virtual const Vec3 &getPosition() { return Vec3(0, 0, 0); };
+		ENGINE_INLINE virtual void setPosition(const Vec3 &position) {};
 
-		virtual const Vec3 &getColor() { return Vec3(0, 0, 0); };
-		virtual void setColor(const Vec3 &color) {};
+		ENGINE_INLINE virtual const Vec3 &getColor() { return Vec3(0, 0, 0); };
+		ENGINE_INLINE virtual void setColor(const Vec3 &color) {};
 	};
 
 	//---------------------------------------------------------------------------
@@ -31,20 +30,20 @@ namespace NGTech {
 
 		virtual void draw();
 
-		virtual const Vec3 &getPosition() { return position; };
-		virtual void setPosition(const Vec3 &position) { this->position = position; };
+		ENGINE_INLINE virtual const Vec3 &getPosition() { return position; };
+		ENGINE_INLINE virtual void setPosition(const Vec3 &position) { this->position = position; };
 
-		virtual const Vec3 &getColor() { return color; };
-		virtual void setColor(const Vec3 &color) { this->color = color; };
+		ENGINE_INLINE virtual const Vec3 &getColor() { return color; };
+		ENGINE_INLINE virtual void setColor(const Vec3 &color) { this->color = color; };
 
-		void setParticleLifeTime(int time) { lifeTime = time; };
-		int getParticleLifeTime() { return lifeTime; };
+		ENGINE_INLINE void setParticleLifeTime(int time) { lifeTime = time; };
+		ENGINE_INLINE int getParticleLifeTime() { return lifeTime; };
 
-		void setVelocity(const Vec3 &velocity) { this->velocity = velocity; };
-		const Vec3 &getVelocity() { return velocity; };
+		ENGINE_INLINE void setVelocity(const Vec3 &velocity) { this->velocity = velocity; };
+		ENGINE_INLINE const Vec3 &getVelocity() { return velocity; };
 
-		void setForce(const Vec3 &force) { this->force = force; };
-		const Vec3 &getForce() { return force; };
+		ENGINE_INLINE void setForce(const Vec3 &force) { this->force = force; };
+		ENGINE_INLINE const Vec3 &getForce() { return force; };
 
 	private:
 		struct Particle {
@@ -60,8 +59,8 @@ namespace NGTech {
 
 		int numParticles;
 
-		GLTexture *texture;
-		GLDisplayList *particleList;
+		I_Texture *texture;
+		I_DisplayList *particleList;
 
 		Particle *particles;
 	};
@@ -69,27 +68,27 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: class of the effect flare
 	//---------------------------------------------------------------------------
-	class EffectFlare : public Effect {
+	class ENGINE_API EffectFlare : public Effect {
 	public:
 		EffectFlare(const String &path);
 		~EffectFlare();
 
 		virtual void draw();
 
-		virtual const Vec3 &getPosition() { return position; };
-		virtual void setPosition(const Vec3 &position) { this->position = position; };
+		ENGINE_INLINE virtual const Vec3 &getPosition() { return position; };
+		ENGINE_INLINE virtual void setPosition(const Vec3 &position) { this->position = position; };
 
-		virtual const Vec3 &getColor() { return color; };
-		virtual void setColor(const Vec3 &color) { this->color = color; };
+		ENGINE_INLINE virtual const Vec3 &getColor() { return color; };
+		ENGINE_INLINE virtual void setColor(const Vec3 &color) { this->color = color; };
 
-		float getRadius() { return radius; };
-		void setRadius(float radius) { this->radius = radius; };
+		ENGINE_INLINE float getRadius() { return radius; };
+		ENGINE_INLINE void setRadius(float radius) { this->radius = radius; };
 
 	private:
 		Vec3 position, color;
 
-		GLTexture *texture;
-		GLDisplayList *flareList;
+		I_Texture *texture;
+		I_DisplayList *flareList;
 
 		float radius;
 	};

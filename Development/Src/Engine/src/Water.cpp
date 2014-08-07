@@ -12,6 +12,7 @@
 #include "Water.h"
 #include "WindowSystem.h"
 //************************************
+#include "../OGLDrv/inc/GLExtensions.h"//TODO
 
 namespace NGTech {
 
@@ -24,7 +25,7 @@ namespace NGTech {
 	}
 
 	void Water::draw() {
-		GetEngine()->iRender->disableCulling();
+		GetRender()->disableCulling();
 
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
@@ -39,8 +40,8 @@ namespace NGTech {
 		glTexCoord2f(1, 0);
 		glVertex3f(size, depth, -size);
 		glEnd();
-
-		GetEngine()->iRender->enableCulling();
+#pragma message("TODO:GetRender()->drawRect(-size, depth, size, depth, 0, 0, 1, 1); equalent")
+		GetRender()->enableCulling();
 	}
 
 }

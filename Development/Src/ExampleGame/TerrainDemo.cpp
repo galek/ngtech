@@ -72,21 +72,21 @@ void init() {
 	Scene::create();
 
 	chammy = new ObjectSkinnedMesh("chammy.asmdl");
-	chammy->setMaterial("*", "usor.amtr");
+	chammy->setMaterial("*", "usor.mat");
 	chammy->setTransform(Mat4::translate(Vec3(30, 120, 0)));
 	//¹(chammy);
 
 	airplane = new ObjectMesh("airplane.amdl");
-	airplane->setMaterial("box01", "box01.amtr");
-	airplane->setMaterial("object02", "object02.amtr");
-	airplane->setMaterial("object03", "object03.amtr");
+	airplane->setMaterial("box01", "box01.mat");
+	airplane->setMaterial("object02", "object02.mat");
+	airplane->setMaterial("object03", "object03.mat");
 	airplane->setTransform(Mat4::translate(Vec3(0, 120, 0)));
 	¹(airplane);
 
 
 	for(int i = 0; i < 5; i++) {
 		box[i] = new ObjectMesh("cube.amdl");
-		box[i]->setMaterial("*", "grid.amtr");
+		box[i]->setMaterial("*", "grid.mat");
 		box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);
 		box[i]->setTransform(Mat4::translate(Vec3(-80-i*2, i*20 + 50, i + 20)));
 		box[i]->setImpactSound("impact.ogg");
@@ -95,7 +95,7 @@ void init() {
 
 	for(int i = 0; i < 5; i++) {
 		sphere[i] = new ObjectMesh("sphere.amdl");
-		sphere[i]->setMaterial("*", "grid.amtr");
+		sphere[i]->setMaterial("*", "grid.mat");
 		sphere[i]->setPhysicsSphere(Vec3(5, 5, 5), 10);
 		sphere[i]->setTransform(Mat4::translate(Vec3(-90-i*2, i*20 + 50, i + 20)));
 		sphere[i]->setImpactSound("impact.ogg");
@@ -104,7 +104,7 @@ void init() {
 
 	for(int i = 0; i < 5; i++) {
 		cylinder[i] = new ObjectMesh("torus.amdl");
-		cylinder[i]->setMaterial("*", "grid.amtr");
+		cylinder[i]->setMaterial("*", "grid.mat");
 		cylinder[i]->setPhysicsConvexHull(10);
 		cylinder[i]->setTransform(Mat4::translate(Vec3(-100-i*2, i*20 + 50, i + 20)));
 		cylinder[i]->setImpactSound("impact.ogg");
@@ -115,29 +115,29 @@ void init() {
 	camera->setPosition(Vec3(0, 100, 0));
 	camera->setMaxVelocity(20000);
 	camera->setPhysics(Vec3(5, 5, 5), 1.0);
-	GetEngine()->scene->setCamera(camera);
+	GetScene()->setCamera(camera);
 
 	LightOmni *omniLight = new LightOmni();
 	omniLight->setColor(Vec3(1, 1, 1));
 	omniLight->setPosition(Vec3(0, 250, 0));
 	omniLight->setRadius(400);
-	GetEngine()->scene->addLight(omniLight);
+	GetScene()->addLight(omniLight);
 
 	directLight = new LightDirect();
 	directLight->setDirection(Vec3(0.5, -0.8, 0.5));
 	directLight->setColor(Vec3(1.0, 1.0, 0.8));
-	GetEngine()->scene->addLight(directLight);
+	GetScene()->addLight(directLight);
 
-	GetEngine()->scene->setGravity(Vec3(0, -9.8, 0));
-	GetEngine()->scene->setWater(55, 1000);
-	GetEngine()->scene->setTerrain("../data/textures/HeightMap_small.tga", 1.5, 100.0, true);
-	GetEngine()->scene->setTerrainLods(Vec3(400, 600, 900));
-	GetEngine()->scene->setTerrainMaterial("terrain.amtr");
-	GetEngine()->scene->setAmbient(Vec3(0.2, 0.2, 0.2));
+	GetScene()->setGravity(Vec3(0, -9.8, 0));
+	GetScene()->setWater(55, 1000);
+	GetScene()->setTerrain("../data/textures/HeightMap_small.tga", 1.5, 100.0, true);
+	GetScene()->setTerrainLods(Vec3(400, 600, 900));
+	GetScene()->setTerrainMaterial("terrain.mat");
+	GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
 
-	GetEngine()->iWindow->grabMouse(true);
+	GetWindow()->grabMouse(true);
 
-	GetEngine()->iRender->clearColor(Vec3(0.5, 0.5, 1.0));
+	GetRender()->clearColor(Vec3(0.5, 0.5, 1.0));
 }
 
 //------------------------------------------------------------
@@ -147,40 +147,40 @@ void render() {
 float depth = 20;
 //------------------------------------------------------------
 void events() {
-	chammy->setFrame((int)(GetEngine()->iWindow->getETime() * 0.01)%100);
-	if(GetEngine()->iWindow->isKeyDown(WindowSystem::KEY_ESC)) {
+	chammy->setFrame((int)(GetWindow()->getETime() * 0.01)%100);
+	if(GetWindow()->isKeyDown(WindowSystem::KEY_ESC)) {
 		window->toggleActive();
-		GetEngine()->iWindow->toggleGrabMouse();
+		GetWindow()->toggleGrabMouse();
 	}
 
 	for(int i = 0; i < 4; i++) {
 		if(cb[i]->wasPressed()) {
 			GetEngine()->config->setInt("light_shadowtype", i);
-			GetEngine()->scene->reloadShaders();
+			GetScene()->reloadShaders();
 		}
 	}
 
 	if(cbSP->wasPressed()) {
 		GetEngine()->config->setBool("light_specular", cbSP->isChecked());
-		GetEngine()->scene->reloadShaders();
+		GetScene()->reloadShaders();
 	}
 
 	GetEngine()->config->setBool("system_hdr", cbHDR->isChecked());
 	GetEngine()->config->setBool("debug_wireframe", cbWire->isChecked());
 
-	if(GetEngine()->iWindow->getDTime() > EPSILON)
-		fpsLabel->setText("FPS: " + StringHelper::fromInt(1000/GetEngine()->iWindow->getDTime()));
+	if(GetWindow()->getDTime() > EPSILON)
+		fpsLabel->setText("FPS: " + StringHelper::fromInt(1000/GetWindow()->getDTime()));
 
 	if(exitButton->isPressed()) {
 		Engine::get()->quit();
 	}
 
-	if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_Z)) {
-		GetEngine()->scene->setWater(depth += 1, 500);
+	if(GetWindow()->isKeyPressed(WindowSystem::KEY_Z)) {
+		GetScene()->setWater(depth += 1, 500);
 	}
 
-	if(GetEngine()->iWindow->isKeyPressed(WindowSystem::KEY_X)) {
-		GetEngine()->scene->setWater(depth -= 1, 500);
+	if(GetWindow()->isKeyPressed(WindowSystem::KEY_X)) {
+		GetScene()->setWater(depth -= 1, 500);
 	}
 }
 #endif

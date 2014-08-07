@@ -1,0 +1,55 @@
+pass Ambient 
+{
+shader = mesh_ambient.ashd
+mat4 u_mvp = scene::mvp
+mat4 u_world = scene::world
+sampler2D u_texture_0 = usor.bmp
+sampler2D u_texture_1 = normal_map() usor.bmp
+samplerCube u_env_map = cube/rock/rock_%s.jpg
+}
+
+pass LightOmni
+{ 
+shader = mesh_point.ashd
+vec4 u_material_param_0 = 0.5 24 1
+mat4 u_mvp = scene::mvp
+mat4 u_world = scene::world
+vec3 u_light_color = scene::light_color
+vec3 u_light_pos = scene::light_position
+vec3 u_view_pos = scene::view_position
+float u_inv_radius = scene::light_iradius
+sampler2D u_texture_0 = usor.bmp
+sampler2D u_texture_1 = normal_map() usor.bmp
+sampler2D u_shadow_map = scene::shadow_map
+}
+
+pass LightSpot
+{ 
+shader = mesh_spot.ashd
+vec4 u_material_param_0 = 0.5 24 1
+mat4 u_mvp = scene::mvp
+mat4 u_world = scene::world
+mat4 u_spot_proj_transform = scene::spot_transform
+vec3 u_light_color = scene::light_color
+vec3 u_light_pos = scene::light_position
+vec3 u_light_dir = scene::light_direction
+float u_inv_radius = scene::light_iradius
+vec3 u_view_pos = scene::view_position
+sampler2D u_texture_0 = usor.bmp
+sampler2D u_texture_1 = normal_map() usor.bmp
+sampler2D u_shadow_map = scene::shadow_map
+sampler2D u_spot_proj_map = scene::spot_map
+}
+
+pass LightDirect
+{ 
+shader = mesh_direct.ashd
+vec4 u_material_param_0 = 0.5 24 1
+mat4 u_mvp = scene::mvp
+mat4 u_world = scene::world
+vec3 u_light_color = scene::light_color
+vec3 u_light_dir = scene::light_direction
+vec3 u_view_pos = scene::view_position
+sampler2D u_texture_0 = usor.bmp
+sampler2D u_texture_1 = normal_map() usor.bmp
+}

@@ -18,8 +18,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include <ogg/ogg.h>
-#include "vorbis/codec.h"
+#include "../../libogg/include/ogg/ogg.h"
+#include "../include/vorbis/codec.h"
 #include "codebook.h"
 #include "scales.h"
 #include "misc.h"
@@ -450,7 +450,7 @@ long vorbis_book_decodev_set(codebook *book,float *a,oggpack_buffer *b,int n){
       }
     }
   }else{
-    int i,j;
+    int i;
 
     for(i=0;i<n;){
       a[i++]=0.f;

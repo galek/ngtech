@@ -14,7 +14,6 @@
 #include "Object.h"
 #include "Terrain.h"
 #include "Camera.h"
-#include "GLSystem.h"
 #include "Water.h"
 #include <vector>
 //**************************************
@@ -54,7 +53,7 @@ namespace NGTech {
 
 		void reloadShaders();
 
-		ENGINE_INLINE Camera *GetActiveCamera(){ return camera; }
+		ENGINE_INLINE Camera *GetActiveCamera() { return camera; }
 	private:
 		void drawAmbient(bool blended);
 
@@ -75,18 +74,17 @@ namespace NGTech {
 		Water *water;
 		Terrain *terrain;
 		Vec3 terrainLods;
-		Vec3 gravity;
 
 		std::vector<Object*> objects;
 		std::vector<Light*> lights;
 		std::vector<ParticleSystem*> systems;
 
-		GLFBO *viewportFBO;
-		GLFBO *shadowFBO;
+		I_FBOManager *viewportFBO;
+		I_FBOManager *shadowFBO;
 
-		GLTexture *viewportCopy;
-		GLTexture *viewportCopy_brightPass;
-		GLTexture *viewportCopy_brightPass_blured;
+		I_Texture *viewportCopy;
+		I_Texture *viewportCopy_brightPass;
+		I_Texture *viewportCopy_brightPass_blured;
 
 		Material *depthPass;
 		Material *waterMtr;
@@ -105,11 +103,11 @@ namespace NGTech {
 		Mat4 matViewportTransform;
 		Mat4 matSpotTransform;
 
-		GLTexture *matShadowMap;
-		GLTexture *matViewportMap;
-		GLTexture *matSpotMap;
+		I_Texture *matShadowMap;
+		I_Texture *matViewportMap;
+		I_Texture *matSpotMap;
 
-		GLOcclusionQuery *query;
+		I_OcclusionQuery *query;
 
 		ObjectMesh *sphere;
 		struct CVARManager*cvars;

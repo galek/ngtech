@@ -29,16 +29,12 @@
 
 namespace NGTech {
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates new Flare
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	Flare::Flare(const String &path) {
-		texture = GLTexture::create2d(path);
+		texture = GetRender()->TextureCreate2D(path);
 
-		flareList = new GLDisplayList();
+		flareList = GetRender()->GetDL();
 		flareList->beginBuild();
+#if 0
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
 		glVertex3f(-1, -1, 0);
@@ -52,6 +48,9 @@ namespace NGTech {
 		glTexCoord2f(0, 1);
 		glVertex3f(-1, 1, 0);
 		glEnd();
+#else
+		GetRender()->drawRect(-1, -1,1,1,0,0,1,0);
+#endif
 		flareList->endBuild();
 
 		position = Vec3(0, 0, 0);
@@ -59,43 +58,28 @@ namespace NGTech {
 		radius = 5.0f;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    Flare destructor
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	Flare::~Flare() {
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    draw Flare
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 	void Flare::draw() {
-		GetEngine()->iRender->push();
-		GetEngine()->iRender->translate(position);
-		GetEngine()->iRender->scale(Vec3(radius, radius, radius));
+		GetRender()->push();
+		GetRender()->translate(position);
+		GetRender()->scale(Vec3(radius, radius, radius));
 
-		GetEngine()->iRender->rotate(GetEngine()->scene->camera->angle[0] - 180, Vec3(0, 1, 0));
-		GetEngine()->iRender->rotate(GetEngine()->scene->camera->angle[1], Vec3(1, 0, 0));
+		GetRender()->rotate(GetScene()->camera->angle[0] - 180, Vec3(0, 1, 0));
+		GetRender()->rotate(GetScene()->camera->angle[1], Vec3(1, 0, 0));
 
 		texture->set(0);
-		GetEngine()->iRender->enableBlending(GLSystem::ONE, GLSystem::ONE);
-		GetEngine()->iRender->setColor(color);
-		GetEngine()->iRender->depthMask(false);
+		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
+		GetRender()->setColor(color);
+		GetRender()->depthMask(false);
 
 		flareList->call();
 
-		GetEngine()->iRender->depthMask(true);
-		GetEngine()->iRender->disableBlending();
+		GetRender()->depthMask(true);
+		GetRender()->disableBlending();
 		texture->unset(0);
 
-		GetEngine()->iRender->pop();
+		GetRender()->pop();
 	}
-
 }
-
-
-
-

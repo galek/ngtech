@@ -9,7 +9,7 @@
 #pragma once
 
 //**************************************
-#include "GLSystem.h"
+#include "IRender.h"
 #include "MathLib.h"
 #include "Flare.h"
 //**************************************
@@ -26,9 +26,9 @@ namespace NGTech {
 			LIGHT_DIRECT,
 		};
 
-		virtual LightType getType() { return LIGHT; };
+		ENGINE_INLINE virtual LightType getType() { return LIGHT; };
 		bool visible;
-		void enable(bool flag) { enabled = flag; };
+		ENGINE_INLINE void enable(bool flag) { enabled = flag; };
 		bool enabled;
 	};
 
@@ -40,22 +40,22 @@ namespace NGTech {
 		LightOmni();
 		~LightOmni();
 
-		const Vec3 &getPosition() { return position; };
-		void setPosition(const Vec3 &position) { this->position = position; };
+		ENGINE_INLINE const Vec3 &getPosition() { return position; };
+		ENGINE_INLINE void setPosition(const Vec3 &position) { this->position = position; };
 
-		const Vec3 &getColor() { return color; };
-		void setColor(const Vec3 &color) { this->color = color; };
+		ENGINE_INLINE const Vec3 &getColor() { return color; };
+		ENGINE_INLINE void setColor(const Vec3 &color) { this->color = color; };
 
-		float getRadius() { return radius; };
-		float getIRadius() { return 1 / radius; };
-		void setRadius(float radius) { this->radius = radius; };
+		ENGINE_INLINE float getRadius() { return radius; };
+		ENGINE_INLINE float getIRadius() { return 1 / radius; };
+		ENGINE_INLINE void setRadius(float radius) { this->radius = radius; };
 
-		bool getShadows() { return castShadows; };
-		void setShadows(bool shadows) { castShadows = shadows; };
+		ENGINE_INLINE bool getShadows() { return castShadows; };
+		ENGINE_INLINE void setShadows(bool shadows) { castShadows = shadows; };
 
-		void setFlare(Flare *flare) { this->flare = flare; };
+		ENGINE_INLINE void setFlare(Flare *flare) { this->flare = flare; };
 
-		virtual LightType getType() { return LIGHT_OMNI; };
+		ENGINE_INLINE virtual LightType getType() { return LIGHT_OMNI; };
 
 		void getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w);
 
@@ -64,7 +64,7 @@ namespace NGTech {
 		float radius;
 		bool castShadows;
 
-		GLTexture *shadowMap;
+		I_Texture *shadowMap;
 
 		Flare *flare;
 
@@ -79,28 +79,28 @@ namespace NGTech {
 		LightSpot();
 		~LightSpot();
 
-		const Vec3 &getPosition() { return position; };
-		void setPosition(const Vec3 &position) { this->position = position; };
+		ENGINE_INLINE const Vec3 &getPosition() { return position; };
+		ENGINE_INLINE void setPosition(const Vec3 &position) { this->position = position; };
 
-		const Vec3 &getDirection() { return direction; };
-		void setDirection(const Vec3 &direction) { this->direction = direction; };
+		ENGINE_INLINE const Vec3 &getDirection() { return direction; };
+		ENGINE_INLINE void setDirection(const Vec3 &direction) { this->direction = direction; };
 
-		const Vec3 &getColor() { return color; };
-		void setColor(const Vec3 &color) { this->color = color; };
+		ENGINE_INLINE const Vec3 &getColor() { return color; };
+		ENGINE_INLINE void setColor(const Vec3 &color) { this->color = color; };
 
-		float getFOV() { return fov; };
-		void setFOV(float fov) { this->fov = fov; };
+		ENGINE_INLINE float getFOV() { return fov; };
+		ENGINE_INLINE void setFOV(float fov) { this->fov = fov; };
 
-		float getRadius() { return radius; };
-		float getIRadius() { return 1 / radius; };
-		void setRadius(float radius) { this->radius = radius; };
+		ENGINE_INLINE float getRadius() { return radius; };
+		ENGINE_INLINE float getIRadius() { return 1 / radius; };
+		ENGINE_INLINE void setRadius(float radius) { this->radius = radius; };
 
-		bool getShadows() { return castShadows; };
-		void setShadows(bool shadows) { castShadows = shadows; };
+		ENGINE_INLINE bool getShadows() { return castShadows; };
+		ENGINE_INLINE void setShadows(bool shadows) { castShadows = shadows; };
 
-		void setFlare(Flare *flare) { this->flare = flare; };
+		ENGINE_INLINE void setFlare(Flare *flare) { this->flare = flare; };
 
-		virtual LightType getType() { return LIGHT_SPOT; };
+		ENGINE_INLINE virtual LightType getType() { return LIGHT_SPOT; };
 
 		void getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w);
 
@@ -111,8 +111,8 @@ namespace NGTech {
 
 		Mat4 projTransform;
 
-		GLTexture *shadowMap;
-		GLTexture *projMap;
+		I_Texture *shadowMap;
+		I_Texture *projMap;
 
 		Flare *flare;
 
@@ -127,13 +127,13 @@ namespace NGTech {
 		LightDirect();
 		~LightDirect();
 
-		const Vec3 &getDirection() { return direction; };
-		void setDirection(const Vec3 &direction) { this->direction = direction; };
+		ENGINE_INLINE const Vec3 &getDirection() { return direction; };
+		ENGINE_INLINE void setDirection(const Vec3 &direction) { this->direction = direction; };
 
-		const Vec3 &getColor() { return color; };
-		void setColor(const Vec3 &color) { this->color = color; };
+		ENGINE_INLINE const Vec3 &getColor() { return color; };
+		ENGINE_INLINE void setColor(const Vec3 &color) { this->color = color; };
 
-		virtual LightType getType() { return LIGHT_DIRECT; };
+		ENGINE_INLINE virtual LightType getType() { return LIGHT_DIRECT; };
 
 	private:
 		Vec3 direction, color;

@@ -11,6 +11,9 @@
 #include "MyGUI_RenderManager.h"
 #include "MyGUI_Bitwise.h"
 
+#include "..\..\..\src\Core\inc\VFS.h"
+#include "..\..\..\src\Core\inc\CoreManager.h"
+
 #ifdef MYGUI_USE_FREETYPE
 
 #	include FT_GLYPH_H
@@ -785,7 +788,7 @@ namespace MyGUI
 		FT_Face result = nullptr;
 
 		// Load the font file.
-		IDataStream* datastream = DataManager::getInstance().getData(mSource);
+		IDataStream* datastream = NGTech::GetVFS()->getData(mSource);
 
 		if (datastream == nullptr)
 			return result;
@@ -794,7 +797,7 @@ namespace MyGUI
 		_fontBuffer = new uint8[fontBufferSize];
 		datastream->read(_fontBuffer, fontBufferSize);
 
-		DataManager::getInstance().freeData(datastream);
+		NGTech::GetVFS()->freeData(datastream);
 		datastream = nullptr;
 
 		// Determine how many faces the font contains.

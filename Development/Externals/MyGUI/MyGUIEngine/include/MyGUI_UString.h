@@ -36,7 +36,7 @@
 #include <string>
 #include <stdexcept>
 
-#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
+#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC || (MYGUI_COMPILER == MYGUI_COMPILER_INTEL)
 // disable: warning C4275: non dll-interface class '***' used as base for dll-interface clas '***'
 #	pragma warning (push)
 #	pragma warning (disable : 4275)
@@ -121,7 +121,7 @@ namespace MyGUI
 
 // MYGUI_IS_NATIVE_WCHAR_T means that wchar_t isn't a typedef of
 // uint16_t or uint32_t.
-#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
+#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC || (MYGUI_COMPILER == MYGUI_COMPILER_INTEL)
 
 // Don't define wchar_t related functions since it'll duplicate
 // with UString::code_point related functions when compile
@@ -1099,7 +1099,7 @@ namespace MyGUI
 
 } // namespace MyGUI
 
-#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
+#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC || (MYGUI_COMPILER == MYGUI_COMPILER_INTEL)
 #	pragma warning (pop)
 #endif
 

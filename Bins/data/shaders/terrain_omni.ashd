@@ -29,7 +29,7 @@ varying vec3 v_s_vec;
 varying vec3 v_normal;
 
 uniform vec3 u_light_color;
-uniform sampler2D u_base_map;
+uniform sampler2D u_texture_0;
 uniform samplerCube u_shadow_map;
 uniform sampler2D u_detail_map;
 uniform float u_detail_map_scale;
@@ -101,7 +101,7 @@ void main() {
 	shadow *= 0.142857;
 #endif
 
-	vec4 baseColor = texture2D(u_base_map, v_tex_coord);
+	vec4 baseColor = texture2D(u_texture_0, v_tex_coord);
 	vec4 detColor = texture2D(u_detail_map, v_tex_coord * u_detail_map_scale);
 	
 	vec3 lVec = normalize(v_light_vec);

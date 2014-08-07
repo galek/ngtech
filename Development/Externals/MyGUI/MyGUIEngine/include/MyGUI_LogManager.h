@@ -29,16 +29,9 @@
 #include <vector>
 #include <TCHAR.H>
 
-namespace NGTech {
-	void DebugF(std::string text, const char* _file, int _line);
-	void Warning(const TCHAR* text, ... );
-	void LogPrintf(std::string text);
-	void Error(std::string text,bool _fatal);
-}
-
 namespace MyGUI
 {
-	void NGTechPushToLog(const std::string& _section, LogLevel _level, const std::string& _message, const char* _file, int _line);
+	MYGUI_EXPORT void NGTechPushToLog(const std::string& _section, LogLevel _level, const std::string& _message, const char* _file, int _line);
 
 	#define MYGUI_LOGGING(section, level, text) \
 	NGTechPushToLog(section, MyGUI::LogLevel::level, MyGUI::LogStream() << text << MyGUI::LogStream::End(), __FILE__, __LINE__)

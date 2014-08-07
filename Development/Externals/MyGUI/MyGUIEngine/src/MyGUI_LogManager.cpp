@@ -37,7 +37,7 @@ namespace MyGUI
 		if (_level == MyGUI::LogLevel::Info)
 			NGTech::DebugF("[GUI] " + _section + " " + _message + " In: ", _file, _line);
 		else if (_level == MyGUI::LogLevel::Warning)
-			NGTech::LogPrintf("[GUI] " + _section + " " + _message + " In: " + _file + " : " + line);
+			NGTech::LogPrintf("[GUI] ", _section, " ",_message," In: ",_file, " : ", line);
 		else if (_level == MyGUI::LogLevel::Error)
 			NGTech::Warning("[GUI] %s %s In:%s : %i",_section.c_str(),_message,_file,line);
 		else if (_level == MyGUI::LogLevel::Critical)

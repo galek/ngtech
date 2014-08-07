@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Файлы исходного кода">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Заголовочные файлы">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Файлы исходного кода\crashreport">
+      <UniqueIdentifier>{8c4b02e4-c3f3-4f46-9d06-936b001e6dc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\crashreport\windows">
+      <UniqueIdentifier>{bbdc1bf9-b99e-4ddf-b6e6-b34d667a320b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\crashreport\windows\crash_generation">
+      <UniqueIdentifier>{20c447a4-4a55-43f7-a274-2fd51dc2a8ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\crashreport\windows\handler">
+      <UniqueIdentifier>{2165d594-3833-4260-b170-b1e2c0f2f11d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\crashreport">
+      <UniqueIdentifier>{e03a9f1c-134f-43b5-a748-506e08b1042f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\crashreport\windows">
+      <UniqueIdentifier>{98a43f9c-f001-430b-896e-2b04f43546e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\crashreport\windows\crash_generation">
+      <UniqueIdentifier>{d4ac60fd-f584-4fcf-b849-c0c2a600dba5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\crashreport\windows\handler">
+      <UniqueIdentifier>{824061bb-877d-4bc1-a303-bda62627c8ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\crashreport\windows\common">
+      <UniqueIdentifier>{e90752dd-0761-4e9e-9c63-6f4f6d91f025}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\crashreport\common">
+      <UniqueIdentifier>{caf2f638-172b-4168-a33f-02a0f274daaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\crashreport\common\windows">
+      <UniqueIdentifier>{2a85c86e-30f8-4fbf-bf9e-c290e715a54c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\crashreport\common">
+      <UniqueIdentifier>{bbad9569-29ff-46ca-b28f-3b9c75ae10f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\crashreport\common\windows">
+      <UniqueIdentifier>{5225f906-93ff-48d0-b7b4-0f842000b33b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\crashreport\processor">
+      <UniqueIdentifier>{dd438fb1-1eee-4a51-8297-74da0026312d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\crashreport\windows\handler\exception_handler.cc">
+      <Filter>Файлы исходного кода\crashreport\windows\handler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crashreport\windows\crash_generation\client_info.cc">
+      <Filter>Файлы исходного кода\crashreport\windows\crash_generation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crashreport\windows\crash_generation\crash_generation_client.cc">
+      <Filter>Файлы исходного кода\crashreport\windows\crash_generation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crashreport\windows\crash_generation\minidump_generator.cc">
+      <Filter>Файлы исходного кода\crashreport\windows\crash_generation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crashreport\common\windows\guid_string.cc">
+      <Filter>Файлы исходного кода\crashreport\common\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crashreport\crashreport.cpp">
+      <Filter>Файлы исходного кода\crashreport</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crashreport\windows\crash_generation\crash_generation_server.cc">
+      <Filter>Файлы исходного кода\crashreport\windows\crash_generation</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\crashreport\windows\crash_generation\client_info.h">
+      <Filter>Заголовочные файлы\crashreport\windows\crash_generation</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\windows\crash_generation\crash_generation_client.h">
+      <Filter>Заголовочные файлы\crashreport\windows\crash_generation</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\windows\crash_generation\crash_generation_server.h">
+      <Filter>Заголовочные файлы\crashreport\windows\crash_generation</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\windows\crash_generation\minidump_generator.h">
+      <Filter>Заголовочные файлы\crashreport\windows\crash_generation</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\windows\handler\exception_handler.h">
+      <Filter>Заголовочные файлы\crashreport\windows\handler</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\windows\common\auto_critical_section.h">
+      <Filter>Заголовочные файлы\crashreport\windows\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\windows\common\ipc_protocol.h">
+      <Filter>Заголовочные файлы\crashreport\windows\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\breakpad_types.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\minidump_cpu_amd64.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\minidump_cpu_arm.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\minidump_cpu_arm64.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\minidump_cpu_mips.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\minidump_cpu_ppc.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\minidump_cpu_ppc64.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\minidump_cpu_sparc.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\minidump_cpu_x86.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\minidump_exception_linux.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\minidump_exception_mac.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\minidump_exception_ps3.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\minidump_exception_solaris.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\minidump_exception_win32.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\minidump_format.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\minidump_size.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\scoped_ptr.h">
+      <Filter>Заголовочные файлы\crashreport\common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\windows\guid_string.h">
+      <Filter>Заголовочные файлы\crashreport\common\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\common\windows\string_utils-inl.h">
+      <Filter>Заголовочные файлы\crashreport\common\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\basic_source_line_resolver.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\call_stack.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\code_module.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\code_modules.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\exploitability.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\fast_source_line_resolver.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\memory_region.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\minidump.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\minidump_processor.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\process_state.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\source_line_resolver_base.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\source_line_resolver_interface.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\stack_frame.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\stack_frame_cpu.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\stack_frame_symbolizer.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\stackwalker.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\symbol_supplier.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\crashreport\processor\system_info.h">
+      <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

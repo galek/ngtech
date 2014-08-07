@@ -7,7 +7,7 @@
 #include "MyGUI_Precompiled.h"
 #include "MyGUI_Timer.h"
 
-#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
+#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC || (MYGUI_COMPILER == MYGUI_COMPILER_INTEL)
 #	include <windows.h>
 #	pragma comment(lib, "winmm.lib")
 #else
@@ -34,7 +34,7 @@ namespace MyGUI
 
 	unsigned long Timer::getCurrentMilliseconds()
 	{
-#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC
+#if MYGUI_COMPILER == MYGUI_COMPILER_MSVC || (MYGUI_COMPILER == MYGUI_COMPILER_INTEL)
 		/*
 		We do this because clock() is not affected by timeBeginPeriod on Win32.
 		QueryPerformanceCounter is a little overkill for the amount of precision that

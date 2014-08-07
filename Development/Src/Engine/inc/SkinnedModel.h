@@ -1,17 +1,8 @@
-/***************************************************************************
-*   Copyright (C) 2006 by AST   *
-*   tsyplyaev@gmail.com   *
-*   ICQ: 279-533-134                          *
-*   This is a part of work done by AST.       *
-*   If you want to use it, please contact me. *
-***************************************************************************/
-
 #pragma once
 
 //**************************************
-#include "../Common/EString.h"
+#include "../Common/StringHelper.h"
 #include "MathLib.h"
-#include "GLSystem.h"
 #include "MathLib.h"
 #include "PhysSystem.h"
 #include "Frustum.h"
@@ -31,21 +22,20 @@ namespace NGTech {
 
 		void save(const String &path);
 		void drawSubset(int s);
-		int getNumSubsets() { return subsets.size(); };
+		ENGINE_INLINE int getNumSubsets() { return subsets.size(); };
 		int getSubset(String name);
 
-		Vec3 &getMax() { return max; };
-		Vec3 &getMin() { return min; };
-		Vec3 &getCenter() { return center; };
-		float getRadius() { return radius; };
+		ENGINE_INLINE Vec3 &getMax() { return max; };
+		ENGINE_INLINE Vec3 &getMin() { return min; };
+		ENGINE_INLINE Vec3 &getCenter() { return center; };
+		ENGINE_INLINE float getRadius() { return radius; };
 
-		Vec3 &getMax(int s) { return subsets[s]->max; };
-		Vec3 &getMin(int s) { return subsets[s]->min; };
-		Vec3 &getCenter(int s) { return subsets[s]->center; };
-		float getRadius(int s) { return subsets[s]->radius; };
+		ENGINE_INLINE Vec3 &getMax(int s) { return subsets[s]->max; };
+		ENGINE_INLINE Vec3 &getMin(int s) { return subsets[s]->min; };
+		ENGINE_INLINE Vec3 &getCenter(int s) { return subsets[s]->center; };
+		ENGINE_INLINE float getRadius(int s) { return subsets[s]->radius; };
 
 		void setFrame(float frame, int from = -1, int to = -1);
-
 	private:
 		void loadASMDL(const String &path);
 
@@ -102,7 +92,7 @@ namespace NGTech {
 			Vertex *vertices;
 			unsigned int *indices;
 
-			GLVBO *vertBuff;
+			I_VBManager *vertBuff;
 
 			Vec3 min, max;
 			Vec3 center;

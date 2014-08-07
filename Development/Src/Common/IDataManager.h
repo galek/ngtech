@@ -1,9 +1,9 @@
-#ifndef __I_DATA_MANAGER_H__
-#define __I_DATA_MANAGER_H__
+#pragma once
 
 #include "Types.h"
+#include "Singleton.h"
 
-namespace Common
+namespace NGTech
 {
 	class IDataStream
 	{
@@ -16,7 +16,7 @@ namespace Common
 		virtual size_t read(void* _buf, size_t _count) = 0;
 	};
 
-	class DataManager
+	class DataManager :public Singleton < DataManager >
 	{
 	public:
 
@@ -24,6 +24,11 @@ namespace Common
 		@param _name Resource name (usually file name).
 		*/
 		virtual IDataStream* getData(const std::string& _name) = 0;
+
+		/** Free data stream.
+		@param _data Data stream.
+		*/
+		virtual void freeData(IDataStream* _data) = 0;
 
 		/** Is data with specified name exist.
 		@param _name Resource name.
@@ -42,7 +47,6 @@ namespace Common
 		*/
 		virtual const std::string& getDataPath(const std::string& _name) = 0;
 	};
-
+	template <> DataManager* Singleton<DataManager>::msInstance = nullptr;
+	template <> const char* Singleton<DataManager>::mClassTypeName = "DataManager";
 } // namespace Common
-
-#endif // __I_DATA_MANAGER_H__
