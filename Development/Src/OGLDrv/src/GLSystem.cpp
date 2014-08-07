@@ -615,13 +615,13 @@ namespace NGTech {
 			PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
 			PFD_DOUBLEBUFFER,							// Must Support Double Buffering
 			PFD_TYPE_RGBA,								// Request An RGBA Format
-			GetWindow()->bpp,										// Select Our Color Depth
+			_window->bpp,										// Select Our Color Depth
 			0, 0, 0, 0, 0, 0,							// Color Bits Ignored
 			0,											// No Alpha Buffer
 			0,											// Shift Bit Ignored
 			0,											// No Accumulation Buffer
 			0, 0, 0, 0,									// Accumulation Bits Ignored
-			GetWindow()->zdepth,										// Z-Buffer (Depth Buffer)  
+			_window->zdepth,										// Z-Buffer (Depth Buffer)  
 			0,											// No Stencil Buffer
 			0,											// No Auxiliary Buffer
 			PFD_MAIN_PLANE,								// Main Drawing Layer
