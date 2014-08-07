@@ -198,7 +198,7 @@ namespace NGTech {
 			STENCIL_BUFFER = 0x00000400,
 		};
 
-		virtual void  requireExtension(const std::string &name, bool _fatal = false) = 0;
+		virtual bool  requireExtension(const std::string &name, bool _fatal = false) = 0;
 		virtual void  initialise() = 0;
 
 		unsigned int currTextureTarget;

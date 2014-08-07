@@ -272,3 +272,4 @@ Libs/Release/x64/Externals.lib
 CrashDumps/
 Libs/Mixed/
 Development/Libs/Mixed/
+Bins/!production/

@@ -40,7 +40,7 @@ namespace NGTech {
 		mCooking(nullptr),
 		mMaterial(nullptr),
 		mCpuDispatcher(nullptr),
-#ifdef _WIN32
+#if defined (WIN32) && !defined (_DEBUG)
 		mCudaContextManager(nullptr),
 #endif
 		mScene(nullptr)
@@ -93,15 +93,15 @@ namespace NGTech {
 				Error("PhysSystem::initialise()-PxDefaultCpuDispatcherCreate failed!", true);
 			sceneDesc.cpuDispatcher = mCpuDispatcher;
 		}
-#ifdef _WIN32
+#if defined (WIN32) && !defined (_DEBUG)
 		// create GPU dispatcher
 		if (!sceneDesc.gpuDispatcher)
 		{
-		PxCudaContextManagerDesc cudaContextManagerDesc;
-		mCudaContextManager = PxCreateCudaContextManager(*mFoundation, cudaContextManagerDesc, mProfileZoneManager);
-		if (mCudaContextManager->getGpuDispatcher())
-		sceneDesc.gpuDispatcher = mCudaContextManager->getGpuDispatcher();
-		else LogPrintf("[Physic] Hardware PhysX is not available");
+			PxCudaContextManagerDesc cudaContextManagerDesc;
+			mCudaContextManager = PxCreateCudaContextManager(*mFoundation, cudaContextManagerDesc, mProfileZoneManager);
+			sceneDesc.gpuDispatcher = mCudaContextManager->getGpuDispatcher();
+			if (!sceneDesc.gpuDispatcher)
+				LogPrintf("[Physic] Hardware PhysX is not available");
 		}
 #endif
 
@@ -161,9 +161,11 @@ namespace NGTech {
 			mCpuDispatcher->release();
 		mCpuDispatcher = NULL;
 
+#if defined (WIN32) && !defined (_DEBUG)
 		if (mCudaContextManager)
 			mCudaContextManager->release();
 		mCudaContextManager = NULL;
+#endif
 
 		if (mPhysics)
 			mPhysics->release();
@@ -176,7 +178,7 @@ namespace NGTech {
 		float mStepSize = 0.0f;
 		const float _dt = 1.0f / GetEngine()->GetLastFPS();
 
-		if ((_dt < 0) || (_dt == 1.0f))
+		if ((_dt < 0) || (_dt >= 1.0f))
 			mStepSize = 1.0f / 60.0f;
 		else
 			mStepSize = _dt;

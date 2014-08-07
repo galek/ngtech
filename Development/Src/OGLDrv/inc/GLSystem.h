@@ -58,7 +58,7 @@ namespace NGTech {
 		virtual int getMaxAniso();
 
 
-		virtual void requireExtension(const String &name, bool _fatal = false);
+		virtual bool requireExtension(const String &name, bool _fatal = false);
 		virtual void initialise();
 
 		virtual void reshape(int width, int height);
@@ -149,6 +149,9 @@ namespace NGTech {
 	private:
 		virtual bool createContext(IWindow*);
 		virtual void swapBuffers();
+		bool _createNewContext(IWindow* _window);
+		bool _checkContextSuppoort(IWindow* _window);
+		bool _createOldContext(IWindow* _window);
 	private:
 		friend class GLTexture;
 		friend class GLVBO;

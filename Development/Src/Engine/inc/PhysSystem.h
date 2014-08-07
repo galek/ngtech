@@ -71,7 +71,7 @@ namespace NGTech {
 		physx::PxScene*								    mScene;
 		physx::PxMaterial*								mMaterial;
 		physx::PxDefaultCpuDispatcher*					mCpuDispatcher;
-#ifdef _WIN32
+#if defined (WIN32) && !defined (_DEBUG)
 		physx::PxCudaContextManager*				    mCudaContextManager;
 #endif
 		int mNbThreads;

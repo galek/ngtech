@@ -6,6 +6,7 @@
 #include "WindowSystem.h"
 #include "GLTexture.h"
 #include "Error.h"
+#include "glew/wglew.h"
 //***************************************************************************
 
 namespace NGTech {
@@ -131,20 +132,19 @@ namespace NGTech {
 		requireExtension("GL_EXT_texture_filter_anisotropic", true);
 
 		//OpenGL3 and 4
-		requireExtension("GL_ARB_tessellation_shader");
 		requireExtension("GL_ARB_occlusion_query2");
 		requireExtension("GL_ARB_compatibility");
-
-		requireExtension("GL_ARB_shader_subroutine");
-		requireExtension("GL_ARB_gpu_shader5");
+		requireExtension("GL_ARB_shading_language_420pack");
 		requireExtension("GL_ARB_geometry_shader4");
+		requireExtension("GL_ARB_shading_language_packing");
+		requireExtension("GL_ARB_ES2_compatibility");
 
 
 		//4.X
-		requireExtension("GL_ARB_shading_language_packing");
 		requireExtension("GL_ARB_compute_shader");
-		requireExtension("GL_ARB_shading_language_420pack");
-		requireExtension("GL_ARB_ES2_compatibility");
+		requireExtension("GL_ARB_gpu_shader5");
+		requireExtension("GL_ARB_tessellation_shader");
+		requireExtension("GL_ARB_shader_subroutine");
 	}
 
 	/*
@@ -195,12 +195,16 @@ namespace NGTech {
 
 	/*
 	*/
-	void GLSystem::requireExtension(const String &name, bool _fatal) {
+	bool GLSystem::requireExtension(const String &name, bool _fatal) {
 		if (!GLExtensions::isExtSupported(name))
+		{
 			if (_fatal)
 				Error::showAndExit("GLSystem::requireExtension() error: your video card does not support " + name);
 			else
 				Warning("GLSystem::requireExtension() error: your video card does not support %s", name.c_str());
+			return false;
+		}
+		return true;
 	}
 
 	/*
@@ -605,8 +609,9 @@ namespace NGTech {
 
 	/*
 	*/
-	bool GLSystem::createContext(IWindow* _window)
+	bool GLSystem::_createOldContext(IWindow* _window)
 	{
+		Debug("[Render]GLSystem::_createOldContext");
 		static PIXELFORMATDESCRIPTOR pfd =
 		{
 			sizeof(PIXELFORMATDESCRIPTOR),
@@ -621,8 +626,8 @@ namespace NGTech {
 			0,											// Shift Bit Ignored
 			0,											// No Accumulation Buffer
 			0, 0, 0, 0,									// Accumulation Bits Ignored
-			_window->zdepth,										// Z-Buffer (Depth Buffer)  
-			0,											// No Stencil Buffer
+			_window->zdepth,							// Z-Buffer (Depth Buffer)  
+			0,											// Stencil Buffer
 			0,											// No Auxiliary Buffer
 			PFD_MAIN_PLANE,								// Main Drawing Layer
 			0,											// Reserved
@@ -654,6 +659,145 @@ namespace NGTech {
 			return false;
 		}
 		return true;
+	}
+
+	/*
+	*/
+#ifdef _WIN32
+	/* WGL function pointers for OpenGL 3.x/4.x context creation */
+	static PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB;
+	static PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatARB;
+#endif
+	
+	/*
+	*/
+	bool GLSystem::_checkContextSuppoort(IWindow* _window)
+	{
+		Debug("[Render]GLSystem::_checkContextSuppoort");
+
+		// получим адрес функции создания расширенного контекста OpenGL
+		wglCreateContextAttribsARB = (PFNWGLCREATECONTEXTATTRIBSARBPROC)wglGetProcAddress("wglCreateContextAttribsARB");
+		wglChoosePixelFormatARB = (PFNWGLCHOOSEPIXELFORMATARBPROC)wglGetProcAddress("wglChoosePixelFormatARB");
+
+		// временный контекст OpenGL нам больше не нужен, удаляем его
+		wglMakeCurrent(NULL, NULL);
+		wglDeleteContext(_window->hRC);
+
+		// если драйвер видеокарты не предоставил нам адрес этой функции
+		if (!wglCreateContextAttribsARB)
+		{
+			Warning("wglCreateContextAttribsARB fail (%d)\n", GetLastError());
+			return false;
+		}
+		return true;
+	}
+
+	/*
+	*/
+	bool GLSystem::_createNewContext(IWindow* _window)
+	{
+		Debug("[Render]GLSystem::_createNewContext");
+		int pixfmt[8];
+		unsigned int numpf;
+		static PIXELFORMATDESCRIPTOR pfd =
+		{
+			sizeof(PIXELFORMATDESCRIPTOR),
+			1,											// Version Number
+			PFD_DRAW_TO_WINDOW |						// Format Must Support Window
+			PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
+			PFD_DOUBLEBUFFER,							// Must Support Double Buffering
+			PFD_TYPE_RGBA,								// Request An RGBA Format
+			_window->bpp,								// Select Our Color Depth
+			0, 0, 0, 0, 0, 0,							// Color Bits Ignored
+			0,											// No Alpha Buffer
+			0,											// Shift Bit Ignored
+			0,											// No Accumulation Buffer
+			0, 0, 0, 0,									// Accumulation Bits Ignored
+			_window->zdepth,							// Z-Buffer (Depth Buffer)  
+			0,											// Stencil Buffer
+			0,											// No Auxiliary Buffer
+			PFD_MAIN_PLANE,								// Main Drawing Layer
+			0,											// Reserved
+			0, 0, 0										// Layer Masks Ignored
+		};
+
+		const int piAttribIList[] = {
+			WGL_DRAW_TO_WINDOW_ARB, TRUE,
+			WGL_ACCELERATION_ARB, WGL_FULL_ACCELERATION_ARB,
+			WGL_SUPPORT_OPENGL_ARB, TRUE,
+			WGL_DOUBLE_BUFFER_ARB, TRUE,
+			WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
+			WGL_COLOR_BITS_ARB, 24,
+			WGL_DEPTH_BITS_ARB, 24,
+			WGL_STENCIL_BITS_ARB, 8,
+			0, 0
+		};
+		// укажем атрибуты для создания расширенного контекста OpenGL 3.3
+		// атрибуты установлены согласно спецификации расширения:
+
+		// WGL_CONTEXT_MAJOR_VERSION_ARB - старшая цифра необходимой версии
+
+		// WGL_CONTEXT_MINOR_VERSION_ARB - младшая цифра необходимой версии
+
+		// WGL_CONTEXT_FLAGS_ARB - флаги контекста, для нас это контекст с поддержкой
+		//    нового функционала WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB
+
+		// WGL_CONTEXT_PROFILE_MASK_ARB - профиль создаваемого контекста, выбираем
+		//    WGL_CONTEXT_CORE_PROFILE_BIT_ARB, все устройства с OpenGL 3.2 и старше
+		//    должны поддерживать профиль CORE, этот профиль позволяет получить доступ
+		//    к новому функционалу и говорит об отказе от устаревшего функционала
+
+		int attribs[] =
+		{
+			WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
+			WGL_CONTEXT_MINOR_VERSION_ARB, 3,
+			WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+			WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,//Nick:TODO:WGL_CONTEXT_CORE_PROFILE_BIT_ARB support
+			0, 0
+		};
+
+		// если драйвер видеокарты не предоставил нам адрес этой функции
+		if (!wglCreateContextAttribsARB)
+		{
+			Warning("wglCreateContextAttribsARB fail (%d)\n", GetLastError());
+			return false;
+		}
+
+		wglChoosePixelFormatARB(_window->hDC, piAttribIList, NULL, 8, pixfmt, &numpf);
+
+		SetPixelFormat(_window->hDC, pixfmt[0], &pfd);
+		// пробуем создать контекст с поддержкой OpenGL 3.3
+		_window->hRC = wglCreateContextAttribsARB(_window->hDC, 0, attribs);
+
+		// если создать контекст не получилось или он не устанавливается для нашего окна
+		if (!_window->hRC || !wglMakeCurrent(_window->hDC, _window->hRC))
+		{
+			Warning("Creating render context fail (%d)\n", GetLastError());
+			return false;
+		}
+		Debug("[RENDER] OpenGL 3 is available");
+		return true;
+	}
+
+	/*
+	*/
+	bool GLSystem::createContext(IWindow* _window)
+	{
+		//Create temporary context
+		bool status = _createOldContext(_window);
+		if (!status)
+			return false;
+		//Checking OGL3 Extension
+		status = _checkContextSuppoort(_window);
+		LogPrintf("[Render]is new OGL %i", status);
+		if (status)
+		{
+			if (!_createNewContext(_window))
+				return _createOldContext(_window);
+			return true;
+		}
+
+		return _createOldContext(_window);
 	}
 
 	/*
