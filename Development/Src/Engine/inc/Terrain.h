@@ -1,7 +1,7 @@
 #pragma once
 
 //************************************
-#include "IRender.h"
+#include "../../Common/IRender.h"
 #include "PhysSystem.h"
 #include "Material.h"
 //************************************

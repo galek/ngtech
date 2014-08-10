@@ -394,8 +394,7 @@ namespace NGTech {
 	/*
 	*/
 	void WindowSystem::showOSCursor(bool _value){
-		if (!isExternalHwnd)
-			::ShowCursor(_value);
+		::ShowCursor(_value);
 	}
 
 }

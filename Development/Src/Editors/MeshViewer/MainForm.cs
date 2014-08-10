@@ -49,5 +49,42 @@ namespace MeshViewer
         {
             if (this.engine != null) this.engine.Resize(this.Width, this.Height);
         }
+
+        private void splitContainer1_Panel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            var grab = this.engine.isGrabbed();
+            this.engine.SetGrabbed(!grab);
+        }
+        private void splitContainer1_Panel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                MouseRightBActions(sender, e);
+        }
+        private void MouseRightBActions(object sender, MouseEventArgs e)
+        {
+            var grab = this.engine.isGrabbed();
+            if (grab)
+                CameraActions(1,e.X - splitContainer1.Width / 2, e.Y - splitContainer1.Height / 2);
+        
+        }
+        private void splitContainer1_Panel1_MouseUp(object sender, MouseEventArgs e)
+        {
+            this.engine.SetGrabbed(false);
+        }
+
+        private void CameraActions(int _action, int x, int y)
+        {
+            switch (_action)
+            {
+                case 1:
+                    this.engine.CameraSetDirection(x, y);
+                    break;
+                case 2:
+                    break;
+                default:
+                    Console.WriteLine("Default case");
+                    break;
+            }
+        }
     }
 }

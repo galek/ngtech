@@ -9,10 +9,10 @@
 #pragma once
 
 //***************************************************************************
-#include "IncludesAndLibs.h"
+#include "../../Core/inc/IncludesAndLibs.h"
 //***************************************************************************
 #include "PhysBody.h"
-#include "MathLib.h"
+#include "../../Core/inc/MathLib.h"
 //**************************************
 
 namespace NGTech {

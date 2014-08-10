@@ -1,7 +1,7 @@
 #pragma once
 
 //************************************
-#include "IRender.h"
+#include "../../Common/IRender.h"
 //************************************
 
 namespace NGTech {

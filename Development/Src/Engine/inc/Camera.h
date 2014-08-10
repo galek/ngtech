@@ -1,9 +1,9 @@
 #pragma once
 
 //**************************************
-#include "MathLib.h"
+#include "../../Core/inc/MathLib.h"
 #include "PhysSystem.h"
-#include "../Common/StringHelper.h"
+#include "../../Common/StringHelper.h"
 //**************************************
 
 namespace NGTech {
@@ -38,7 +38,9 @@ namespace NGTech {
 		ENGINE_INLINE virtual Mat4 getProjection() { return Mat4(); };
 
 		ENGINE_INLINE virtual void update() {};
-		ENGINE_INLINE float GetAngle(int _i) {	if (_i <= 2) return angle[_i]; else return 0;	}
+		ENGINE_INLINE float GetAngle(int _i) { if (_i <= 2) return angle[_i]; else return 0; }
+		ENGINE_INLINE void SetAngle(int _i, float _v) { if (_i <= 2) angle[_i] = _v; }
+		ENGINE_INLINE void LookAt(float _x, float _y) {	angle[0] = -0.4 * _x; angle[1] = -0.4 * _y;	}
 
 		//---physics---------------------------
 	public:

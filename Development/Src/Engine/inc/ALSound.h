@@ -1,9 +1,9 @@
 #pragma once
 
 //***************************************************************************
-#include "IncludesAndLibs.h"
+#include "../../Core/inc/IncludesAndLibs.h"
 //***************************************************************************
-#include "../Common/StringHelper.h"
+#include "../../Common/StringHelper.h"
 #include "DLLDef.h"
 //***************************************************************************
 

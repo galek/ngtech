@@ -1,13 +1,12 @@
 #pragma once
 
 //**************************************
-#include "../Common/StringHelper.h"
-#include "MathLib.h"
-#include "MathLib.h"
+#include "../../Common/StringHelper.h"
+#include "../../Core/inc/MathLib.h"
 #include "PhysSystem.h"
 #include "Frustum.h"
 #include "Material.h"
-#include "Log.h"
+#include "../../Core/inc/Log.h"
 //**************************************
 
 namespace NGTech {

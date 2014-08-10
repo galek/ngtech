@@ -1,10 +1,10 @@
 #pragma once
 
 //***************************************************************************
-#include "IncludesAndLibs.h"
+#include "../../Core/inc/IncludesAndLibs.h"
 //***************************************************************************
 #include "ALSound.h"
-#include "MathLib.h"
+#include "../../Core/inc/MathLib.h"
 #include "DLLDef.h"
 //***************************************************************************
 
