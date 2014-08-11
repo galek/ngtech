@@ -7,6 +7,7 @@
 #include "..\..\Engine\inc\Engine.h"
 #include "..\..\Engine\inc\EngineAppBase.h"
 #include "..\..\Engine\inc\Scene.h"
+#include "..\..\Engine\inc\WrappedScriptFunctions.h"
 #include "..\..\ExampleGame\ExampleGame.h"
 
 using namespace System;
@@ -34,6 +35,7 @@ namespace EngineCLR {
 			if (!engine)
 				EngineStart(hwnd, new ExampleGame(), new RenderCallback(), new EventsCallback());
 			MouseGrab(false);
+			PauseEngine(true);
 		}
 		bool isInited()
 		{
@@ -79,6 +81,8 @@ namespace EngineCLR {
 		ENGINE_INLINE void SetShowCursor(bool _s) { GetWindow()->showOSCursor(_s); }
 
 		ENGINE_INLINE void CameraPlusVector(float _x, float _y, float _z) { GetScene()->GetActiveCamera()->setPosition(GetScene()->GetActiveCamera()->getPosition() += Vec3(_x, _y, _z)); }
+
+		ENGINE_INLINE void PauseEngine(bool _s) { API_PauseEngine(_s); }
 	private:
 		void EngineStart(int _hwnd, IGame*_game, ICallback *rc, ICallback *ev){
 			if (!mInited)

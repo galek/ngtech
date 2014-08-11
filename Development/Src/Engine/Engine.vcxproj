@@ -363,7 +363,7 @@
     <ClInclude Include="inc\Terrain.h" />
     <ClInclude Include="inc\Water.h" />
     <ClInclude Include="inc\WindowSystem.h" />
-    <ClInclude Include="Inc\WrappedGameplayFunctions.h" />
+    <ClInclude Include="Inc\WrappedScriptFunctions.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ALSound.cpp" />
@@ -401,7 +401,7 @@
     <ClCompile Include="src\TerrainDemo.cpp" />
     <ClCompile Include="src\Water.cpp" />
     <ClCompile Include="src\WindowSystem.cpp" />
-    <ClCompile Include="src\WrappedGameplayFunctions.cpp" />
+    <ClCompile Include="src\WrappedScriptFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Externals\Externals.vcxproj">

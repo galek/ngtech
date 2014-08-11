@@ -788,7 +788,8 @@ namespace NGTech {
 		if (!status)
 			return false;
 		//Checking OGL3 Extension
-		status = _checkContextSuppoort(_window);
+		status = false;	//Nick:BUG:is not works on Intel
+		//Nick:BUG:was _checkContextSuppoort(_window);
 		LogPrintf("[Render]is new OGL %i", status);
 		if (status)
 		{

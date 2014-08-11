@@ -35,8 +35,11 @@ namespace NGTech {
 		ENGINE_INLINE void SetRender(I_Render*_r){ iRender = _r; }
 		ENGINE_INLINE bool isEditor(){ return mIsEditor; }
 		ENGINE_INLINE void RunEditor(bool _ed){ mIsEditor = _ed; }
+		ENGINE_INLINE void SetPause(bool _s){ paused = _s; }
 	public:
 		bool running;
+
+		bool paused;
 	public:
 		IWindow*iWindow;
 		I_Render*iRender;

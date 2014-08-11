@@ -224,38 +224,70 @@ namespace NGTech {
 	/*
 	*/
 	void Engine::updateFrame() {
-		if (iWindow)
-			this->iWindow->update();
+		if (paused)
+		{
+			if (iWindow)
+				this->iWindow->update();
 
-		if (this->physSystem)
-			this->physSystem->update();
+			if (this->game->ec)
+				this->game->runEventsCallback();
 
-		if (this->game->ec)
-			this->game->runEventsCallback();
+			if (this->iRender)
+				this->iRender->clear(I_Render::COLOR_BUFFER | I_Render::DEPTH_BUFFER | I_Render::STENCIL_BUFFER);
 
-		if (this->iRender)
-			this->iRender->clear(I_Render::COLOR_BUFFER | I_Render::DEPTH_BUFFER | I_Render::STENCIL_BUFFER);
+			if (this->scene)
+				this->scene->Update();
 
-		if (this->scene)
-			this->scene->Update();
+			if (this->gui)
+				this->gui->update();
 
-		if (this->gui)
-			this->gui->update();
+			if (this->game->rc)
+				this->game->runRenderCallback();
 
-		if (this->game->rc)
-			this->game->runRenderCallback();
+			if (this->iRender)
+				this->iRender->flush();
 
-		if (this->iRender)
-			this->iRender->flush();
+			if (mWatermarkTex)
+				RenderWatermark(mWatermarkTex);
 
-		if (mWatermarkTex)
-			RenderWatermark(mWatermarkTex);
+			if (this->iRender)
+				this->iRender->swapBuffers();
+		}
+		else
+		{
+			if (iWindow)
+				this->iWindow->update();
 
-		if (this->iRender)
-			this->iRender->swapBuffers();
+			if (this->physSystem)
+				this->physSystem->update();
 
-		if (this->game)
-			this->game->update();
+			if (this->game->ec)
+				this->game->runEventsCallback();
+
+			if (this->iRender)
+				this->iRender->clear(I_Render::COLOR_BUFFER | I_Render::DEPTH_BUFFER | I_Render::STENCIL_BUFFER);
+
+			if (this->scene)
+				this->scene->Update();
+
+			if (this->gui)
+				this->gui->update();
+
+			if (this->game->rc)
+				this->game->runRenderCallback();
+
+			if (this->iRender)
+				this->iRender->flush();
+
+			if (mWatermarkTex)
+				RenderWatermark(mWatermarkTex);
+
+			if (this->iRender)
+				this->iRender->swapBuffers();
+
+			if (this->game)
+				this->game->update();
+		}
 	}
 
 	/*

@@ -64,8 +64,8 @@ namespace MeshViewer
         {
             var grab = this.engine.isGrabbed();
             if (grab)
-                CameraActions(1,e.X - splitContainer1.Width / 2, e.Y - splitContainer1.Height / 2);
-        
+                CameraActions(1, e.X - splitContainer1.Width / 2, e.Y - splitContainer1.Height / 2);
+
         }
         private void splitContainer1_Panel1_MouseUp(object sender, MouseEventArgs e)
         {
@@ -80,11 +80,23 @@ namespace MeshViewer
                     this.engine.CameraSetDirection(x, y);
                     break;
                 case 2:
+                    //Nick:TODO("Actions")
                     break;
                 default:
-                    Console.WriteLine("Default case");
+                    //Nick:TODO("Actions")
                     break;
             }
         }
+
+        private void playStandalloneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void simulateToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            this.engine.PauseEngine(!simulateToolStripMenuItem.Checked);
+        }
+
     }
 }
