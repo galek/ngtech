@@ -99,7 +99,7 @@ namespace NGTech {
 		//-----------------------------------------------
 		//Write number of surfaces
 		//-----------------------------------------------
-		_ftprintf(fmdl, _T("#AST_ENGINE_MODEL\n\n"));
+		_ftprintf(fmdl, _T("#NG_GRAPHICS_FORMAT\n\n"));
 		_ftprintf(fmdl, _T("num_subsets %i\n\n"), nobj);
 
 		//-----------------------------------------------

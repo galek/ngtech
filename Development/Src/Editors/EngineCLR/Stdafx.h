@@ -4,4 +4,5 @@
 
 #pragma once
 
-
+#include "MarshallString.h"
+#include "EngineCLR.h"

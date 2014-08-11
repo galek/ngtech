@@ -13,22 +13,19 @@ namespace NGTech {
 	/**
 	*/
 	Model::Model(const String &path) {
-		if (FileHelper::getFileExt(path) == "amdl") {
-			loadAMDL(path);
-		}
-
-		return;
+		if (FileHelper::getFileExt(path) == "nggf")
+			_load(path);
 	}
 
 	/**
 	*/
-	void Model::loadAMDL(const String &path) {
+	void Model::_load(const String &path) {
 		//begin loading
 		VFile mFile(path.c_str(), VFile::READ_BIN);
 
 		char buf[1024];
 
-		mFile.ScanF("%s", buf); //#AST_ENGINE_MESH
+		mFile.ScanF("%s", buf); //#NG_GRAPHICS_FORMAT
 
 		int numSubsets;
 		mFile.ScanF("\nnum_subsets %i", &numSubsets); //num_subsets
@@ -98,7 +95,7 @@ namespace NGTech {
 
 		//number of subsets
 
-		fprintf(file, "#AST_ENGINE_MODEL\n\n"); //#AST_ENGINE_MESH
+		fprintf(file, "#NG_GRAPHICS_FORMAT\n\n");
 
 		fprintf(file, "num_subsets %i\n\n", subsets.size()); //num_subsets
 

@@ -98,5 +98,17 @@ namespace MeshViewer
             this.engine.PauseEngine(!simulateToolStripMenuItem.Checked);
         }
 
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.InitialDirectory = "../";
+            openFileDialog1.Filter = "Mesh files (*.nggf)|*.nggf|All files (*.*)|*.*";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                this.engine.LoadEngineFormat(openFileDialog1.SafeFileName); 
+            }
+        }
     }
 }

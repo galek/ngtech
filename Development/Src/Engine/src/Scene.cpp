@@ -52,7 +52,7 @@ namespace NGTech {
 
 		query = GetRender()->GetOQ();
 
-		sphere = new ObjectMesh("sphere.amdl");
+		sphere = new ObjectMesh("sphere.nggf");
 
 		matViewportMap = NULL;
 		matShadowMap = NULL;

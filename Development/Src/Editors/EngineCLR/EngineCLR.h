@@ -10,7 +10,6 @@
 #include "..\..\Engine\inc\WrappedScriptFunctions.h"
 #include "..\..\ExampleGame\ExampleGame.h"
 
-using namespace System;
 using namespace NGTech;
 
 namespace EngineCLR {
@@ -83,6 +82,12 @@ namespace EngineCLR {
 		ENGINE_INLINE void CameraPlusVector(float _x, float _y, float _z) { GetScene()->GetActiveCamera()->setPosition(GetScene()->GetActiveCamera()->getPosition() += Vec3(_x, _y, _z)); }
 
 		ENGINE_INLINE void PauseEngine(bool _s) { API_PauseEngine(_s); }
+
+		ENGINE_INLINE void LoadEngineFormat(System::String ^  _p) {
+			std::string _a = "Empty";
+			MarshalString(_p, _a);
+			API_LoadEngineFormat(_a.c_str());
+		}
 	private:
 		void EngineStart(int _hwnd, IGame*_game, ICallback *rc, ICallback *ev){
 			if (!mInited)

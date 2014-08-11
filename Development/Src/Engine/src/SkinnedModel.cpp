@@ -207,7 +207,7 @@ namespace NGTech {
 
 		//number of subsets
 
-		fprintf(file, "#AST_ENGINE_SKINNED_MODEL\n\n"); //#AST_ENGINE_MESH
+		fprintf(file, "#NG_GRAPHICS_FORMAT_SKINNED\n\n"); //#NG_GRAPHICS_FORMAT
 
 		fprintf(file, "num_bones %i\n", numBones); //num_bones
 		for (int i = 0; i < numBones; i++) {

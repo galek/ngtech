@@ -35,7 +35,7 @@ namespace NGTech {
 		ENGINE_INLINE float getRadius(int s) { return subsets[s]->radius; };
 
 	private:
-		void loadAMDL(const String &path);
+		void _load(const String &path);
 
 		struct Vertex {
 			Vec3 position;
