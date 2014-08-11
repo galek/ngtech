@@ -8,7 +8,7 @@
 #endif
 
 #ifndef LOG_FILE
-#define LOG_FILE "../EngineLog.html"
+#define LOG_FILE "../Logs/EngineLog.html"
 #endif
 
 #ifndef HAVE_NVCPL

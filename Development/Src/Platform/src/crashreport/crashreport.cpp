@@ -14,7 +14,7 @@ namespace NGTech
 			return;
 		}
 
-		std::wstring dump_path = L"../CrashDumps/";
+		std::wstring dump_path = L"../logs/";
 
 		_wmkdir(dump_path.c_str());
 
@@ -68,7 +68,7 @@ namespace NGTech
 		// failures and instead let the code handle it.
 		_CrtSetReportMode(_CRT_ASSERT, 0);
 
-		handler = new ExceptionHandler(L"../CrashDumps/",
+		handler = new ExceptionHandler(L"../logs/",
 			NULL,
 			ShowDumpResults,
 			NULL,
