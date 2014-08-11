@@ -291,10 +291,12 @@
   <ItemGroup>
     <ClInclude Include="DLLx.h" />
     <ClInclude Include="ExampleGame.h" />
+    <ClInclude Include="GameGUI.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameGui.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MandelbrotDemo.cpp" />
     <ClCompile Include="SponzaDemo.cpp" />

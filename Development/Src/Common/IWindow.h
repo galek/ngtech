@@ -34,42 +34,6 @@ namespace NGTech {
 			MOUSE_RIGHT_BUTTON = 1,
 		};
 
-		//---------------------------------------------------------------------------
-		//Desc: Keyboard keys enum
-		//---------------------------------------------------------------------------
-		enum Key {
-			KEY_ESC = VK_ESCAPE,
-			KEY_SPACE = VK_SPACE,
-
-			KEY_UP = VK_UP,
-			KEY_DOWN = VK_DOWN,
-			KEY_LEFT = VK_LEFT,
-			KEY_RIGHT = VK_RIGHT,
-
-			KEY_0 = VK_NUMPAD0,
-			KEY_1,
-			KEY_2, KEY_3,
-			KEY_4, KEY_5,
-			KEY_6, KEY_7,
-			KEY_8, KEY_9,
-
-			KEY_A = 65,
-			KEY_B,
-			KEY_C, KEY_D,
-			KEY_E, KEY_F,
-			KEY_G, KEY_H,
-			KEY_I, KEY_J,
-			KEY_K, KEY_L,
-			KEY_M, KEY_N,
-			KEY_O, KEY_P,
-			KEY_Q, KEY_R,
-			KEY_S, KEY_T,
-			KEY_U, KEY_V,
-			KEY_W, KEY_X,
-			KEY_Y, KEY_Z,
-		};
-
-
 		int width, height, bpp, zdepth;
 		bool fullscreen;
 
@@ -123,9 +87,9 @@ namespace NGTech {
 		virtual bool wasMouseButtonPressed(MouseButton mb) = 0;
 		virtual bool wasMouseButtonReleased(MouseButton mb) = 0;
 
-		virtual bool isKeyPressed(Key key) = 0;
-		virtual bool isKeyDown(Key key) = 0;
-		virtual bool isKeyUp(Key key) = 0;
+		virtual bool isKeyPressed(const char* key) = 0;
+		virtual bool isKeyDown(const char* key) = 0;
+		virtual bool isKeyUp(const char* key) = 0;
 
 		virtual void showOSCursor(bool _value) = 0;
 	public:
@@ -135,4 +99,11 @@ namespace NGTech {
 		HINSTANCE hInstance;
 		unsigned int pixelFormat;
 	};
+
+	/*
+	*/
+	int Input_GetKeyValueByChar(const char* _p);
+	/*
+	*/
+	char* Input_GetKeyValueByInt(int _p);
 }

@@ -315,19 +315,22 @@ namespace NGTech {
 
 	/*
 	*/
-	bool WindowSystem::isKeyPressed(Key key) {
+	bool WindowSystem::isKeyPressed(const char* _key) {
+		const int key = Input_GetKeyValueByChar(_key);
 		return keys[key];
 	}
 
 	/*
 	*/
-	bool WindowSystem::isKeyDown(Key key) {
+	bool WindowSystem::isKeyDown(const char* _key) {
+		const int key = Input_GetKeyValueByChar(_key);
 		return (keys[key] && !oldKeys[key]);
 	}
 
 	/*
 	*/
-	bool WindowSystem::isKeyUp(Key key) {
+	bool WindowSystem::isKeyUp(const char* _key) {
+		const int key = Input_GetKeyValueByChar(_key);
 		return (!keys[key] && oldKeys[key]);
 	}
 

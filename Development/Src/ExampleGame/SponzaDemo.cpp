@@ -1,4 +1,3 @@
-//#include "EnginePrivate.h"
 #include "stdafx.h"
 #include "..\..\API\NGTechEngineAPI.h"
 
@@ -11,10 +10,12 @@
 using namespace MyGUI;
 using namespace NGTech;
 
+#include "GameGUI.h"
 
 void ExampleGame::update() {}
 //------------------------------------------------------------
 void ExampleGame::initialise() {
+	events = new GameGUIEvents();
 	//initializing loading screen
 	LoadingScreen *lscreen = new LoadingScreen("sponza/background.png");
 	lscreen->show();
@@ -84,21 +85,22 @@ void ExampleGame::initialise() {
 
 	MyGUI::ButtonPtr button = GetGUI()->getGUI()->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
 	button->setFontName("DejaVuSansFont_15");
-	button->setCaption("Hello World!");
+	button->setCaption("Exit");
+	button->eventMouseButtonClick = MyGUI::newDelegate(events, &GameGUIEvents::ExitEvent);
 }
 //------------------------------------------------------------
 EventsCallback::EventsCallback() : depth(10.0f){}
 //------------------------------------------------------------
 void EventsCallback::Body(){
 
-	if (GetWindow()->isKeyDown(IWindow::KEY_ESC))
+	if (GetWindow()->isKeyDown("esc"))
 		GetWindow()->toggleGrabMouse();
 
-	if (GetWindow()->isKeyPressed(IWindow::KEY_Z))
+	if (GetWindow()->isKeyPressed("z"))
 		GetScene()->setWater(depth += 1, 500);
 
 
-	if (GetWindow()->isKeyPressed(IWindow::KEY_X))
+	if (GetWindow()->isKeyPressed("x"))
 		GetScene()->setWater(depth -= 1, 500);
 
 }

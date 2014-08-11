@@ -38,9 +38,9 @@ namespace NGTech {
 		virtual bool wasMouseButtonPressed(MouseButton mb);
 		virtual bool wasMouseButtonReleased(MouseButton mb);
 
-		virtual bool isKeyPressed(Key key);
-		virtual bool isKeyDown(Key key);
-		virtual bool isKeyUp(Key key);
+		virtual bool isKeyPressed(const char* key);
+		virtual bool isKeyDown(const char* key);
+		virtual bool isKeyUp(const char* key);
 
 		virtual void showOSCursor(bool _value);
 	};

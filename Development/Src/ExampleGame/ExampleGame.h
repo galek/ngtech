@@ -38,6 +38,8 @@ class GAME_API ExampleGame : public NGTech::IGame
 
 	class NGTech::ParticleSystem *particlesPink;
 	class NGTech::ParticleSystem *particlesYellow;
+private:
+	class GameGUIEvents*events;
 };
 //------------------------------------------------------------
 class GAME_API RenderCallback : public NGTech::ICallback
