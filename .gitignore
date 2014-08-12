@@ -273,3 +273,7 @@ CrashDumps/
 Libs/Mixed/
 Development/Libs/Mixed/
 Bins/!production/
+Bins/Bin64/Graph.dll
+Bins/Bin64/GraphNodes.dll
+Bins/Bin64/NGed.exe.config
+Bins/Bin64/NGed.vshost.exe.config

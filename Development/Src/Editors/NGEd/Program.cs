@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 
-namespace MeshViewer
+namespace NGEd
 {
     static class Program
     {

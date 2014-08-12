@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 
 
-namespace MeshViewer
+namespace NGEd
 {
     public partial class MainForm : Form
     {
         private EngineCLR.EngineCLR engine = null;
-        //private CodeEditor.CEForm mCF = null;
+        private GraphNodes.LogicEditorForm mLogicEditor = null;
 
         public MainForm()
         {
@@ -35,14 +35,11 @@ namespace MeshViewer
             this.engine = new EngineCLR.EngineCLR(this.splitContainer1.Panel1.Handle.ToInt32());
             engine.EngineInit();
             engine.Resize(this.Width, this.Height);
-          //  mCF = new CodeEditor.CEForm();
+            mLogicEditor = new GraphNodes.LogicEditorForm();
         }
 
         private void codeEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (mCF == null)
-            //    mCF = new CodeEditor.CEForm();
-            //mCF.Show();
         }
 
         private void splitContainer1_Panel1_Resize(object sender, EventArgs e)
@@ -109,6 +106,13 @@ namespace MeshViewer
             {
                 this.engine.LoadEngineFormat(openFileDialog1.SafeFileName); 
             }
+        }
+
+        private void logicEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (mLogicEditor == null)
+                mLogicEditor = new GraphNodes.LogicEditorForm();
+            mLogicEditor.ShowDialog();
         }
     }
 }
