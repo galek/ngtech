@@ -54,15 +54,10 @@
     <Reference Include="System.Xml" />
     <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.3.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Externals\ATF\ThirdParty\DockPanelSuite\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <HintPath>..\3dparty\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeEditor\CodeDocument.cs" />
-    <Compile Include="CodeEditor\Editor.cs" />
-    <Compile Include="CodeEditor\HelpAboutCommand.cs" />
-    <Compile Include="CodeEditor\Program.cs" />
-    <Compile Include="CodeEditor\SourceControlContext.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,26 +92,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Externals\ATF\Framework\Atf.Core\Atf.Core.vs2010.csproj">
-      <Project>{9d1835b6-d1c2-44ba-bae1-05c6ec442d2f}</Project>
-      <Name>Atf.Core.vs2010</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Externals\ATF\Framework\Atf.Gui.WinForms\Atf.Gui.WinForms.vs2010.csproj">
-      <Project>{7c36a258-9102-420d-b80a-5eb5717644b6}</Project>
-      <Name>Atf.Gui.WinForms.vs2010</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Externals\ATF\Framework\Atf.Gui\Atf.Gui.vs2010.csproj">
-      <Project>{4765c2a7-f989-40db-bc12-fcd67025b93f}</Project>
-      <Name>Atf.Gui.vs2010</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Externals\ATF\Framework\Atf.Perforce\Atf.Perforce.vs2010.csproj">
-      <Project>{c7a306e0-32ae-4053-8882-e1a1e702c139}</Project>
-      <Name>Atf.Perforce.vs2010</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Externals\ATF\Framework\Atf.SyntaxEditorControl\Atf.SyntaxEditorControl.vs2010.csproj">
-      <Project>{d1a78912-9ad2-4555-8560-b251a4d751dc}</Project>
-      <Name>Atf.SyntaxEditorControl.vs2010</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EngineCLR\EngineCLR.vcxproj">
       <Project>{64055d89-6a90-4a88-9fdd-c455cea66f88}</Project>
       <Name>EngineCLR</Name>

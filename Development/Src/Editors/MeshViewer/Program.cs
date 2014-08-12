@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 
-using Sce.Atf;
-
 namespace MeshViewer
 {
     static class Program
@@ -23,8 +21,7 @@ namespace MeshViewer
             // Set up localization support early on, so that user-readable strings will be localized
             //  during the initialization phase below. Use XML files that are embedded resources.
             Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.CurrentCulture;
-            Localizer.SetStringLocalizer(new EmbeddedResourceStringLocalizer());
-
+          
             using (var form = new MainForm())
             {
                 form.Show();
