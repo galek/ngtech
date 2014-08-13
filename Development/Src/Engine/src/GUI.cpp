@@ -74,7 +74,8 @@ namespace NGTech {
 			if (mPlatform)
 				mPlatform->getRenderManagerPtr()->drawOneFrame();
 
-			updateDebugInfo();
+			if (mDebugShow)
+				updateDebugInfo();
 
 			GetRender()->disableBlending();
 			GetRender()->enableCulling();
@@ -89,11 +90,11 @@ namespace NGTech {
 		fpsLabel->setVisible(true);
 		fpsLabel->setCaption("FPS: ");
 	}
+
 	void GUI::updateDebugInfo(){
-		if (mDebugShow)
-			if (GetWindow()->getDTime() > EPSILON)
-				fpsLabel->setCaption("FPS: " + StringHelper::fromInt(int(GetEngine()->GetLastFPS())));
+		fpsLabel->setCaption("FPS: " + std::to_string((int)GetEngine()->GetLastFPS()));
 	}
+
 	void GUI::resize(int _width, int _height) {
 		mPlatform->getRenderManagerPtr()->setViewSize(_width, _height);
 	}

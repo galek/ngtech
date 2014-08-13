@@ -43,5 +43,11 @@ namespace NGTech {
 		virtual bool isKeyUp(const char* key);
 
 		virtual void showOSCursor(bool _value);
+
+		virtual float getLastFPS();
+	private:
+		virtual void _updateFPSCounter();
+	private:
+		float fps;
 	};
 }

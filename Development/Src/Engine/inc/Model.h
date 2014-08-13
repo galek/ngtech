@@ -35,6 +35,9 @@ namespace NGTech {
 		ENGINE_INLINE float getRadius(int s) { return subsets[s]->radius; };
 
 	private:
+		/**
+		Loads Mesh from file
+		*/
 		void _load(const String &path);
 
 		struct Vertex {
@@ -55,8 +58,8 @@ namespace NGTech {
 				numIndices = 0;
 			};
 
-			int numVertices;
-			int numIndices;
+			unsigned int numVertices;
+			unsigned int numIndices;
 
 			Vertex *vertices;
 			unsigned int *indices;
@@ -77,7 +80,9 @@ namespace NGTech {
 		float radius;
 
 		void calcBoundings();
+
 		void calculateTBN();
+
 		void createVBO();
 
 		bool visible;

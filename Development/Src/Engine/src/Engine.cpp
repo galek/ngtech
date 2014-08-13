@@ -305,13 +305,18 @@ namespace NGTech {
 	/*
 	*/
 	float Engine::GetLastFPS() {
+		return iWindow->getLastFPS();
+	}
+
+	/*
+	*/
+	float Engine::GetTimePerFrame()
+	{
 		float mTime = iWindow->getDTime();
 		if (mTime > 0)
 			return 1000 / iWindow->getDTime();
-		else
-			return 1.0;
+		return 1.0f;
 	}
-
 	/*
 	*/
 	void Engine::LoadEngineModule(const char*_name){

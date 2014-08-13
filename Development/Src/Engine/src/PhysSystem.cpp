@@ -176,7 +176,7 @@ namespace NGTech {
 	*/
 	void PhysSystem::update() {
 		float mStepSize = 0.0f;
-		const float _dt = 1.0f / GetEngine()->GetLastFPS();
+		const float _dt = 1.0f / GetEngine()->GetTimePerFrame();
 
 		if ((_dt < 0) || (_dt >= 1.0f))
 			mStepSize = 1.0f / 60.0f;

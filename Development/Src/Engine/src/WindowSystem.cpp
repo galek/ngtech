@@ -33,13 +33,18 @@
 //***************************************************
 
 namespace NGTech {
+	//параметры, относящиеся к расчету FPS
+	static LARGE_INTEGER CounterFrequency;
+	static LARGE_INTEGER FPSCount;
 
+	/*
+	*/
 	LRESULT	CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
 
 	/*
 	*/
 	WindowSystem::WindowSystem(CVARManager*_cvars)
-		: isExternalHwnd(false)
+		: isExternalHwnd(false), fps(0.0f)
 	{
 		Log::writeHeader("-- WindowSystem --");
 
@@ -50,6 +55,9 @@ namespace NGTech {
 		this->zdepth = _cvars->r_zdepth;
 		this->fullscreen = _cvars->r_fullscreen;
 	}
+
+	/*
+	*/
 	void WindowSystem::initialise(int _hwnd){
 		isExternalHwnd = _hwnd != NULL;
 		if (!isExternalHwnd)
@@ -146,8 +154,10 @@ namespace NGTech {
 
 
 		this->mouseGrabed = false;
+		//инициализация таймеров
+		QueryPerformanceFrequency(&CounterFrequency);
+		QueryPerformanceCounter(&FPSCount);
 	}
-
 
 	/*
 	*/
@@ -286,6 +296,7 @@ namespace NGTech {
 	/*
 	*/
 	void WindowSystem::update() {
+		_updateFPSCounter();
 		updateTimer();
 
 		memcpy(oldKeys, keys, sizeof(keys));
@@ -390,6 +401,27 @@ namespace NGTech {
 
 	/*
 	*/
+	void WindowSystem::_updateFPSCounter()
+	{
+		//периодический расчет частоты смены кадров (каждые 50 кадров)
+		static int iFrames = 0;    //счетчик кадров
+		//fps = 0.0f;   //частота смены кадров (количество кадров в секунду)
+		iFrames++;      //увеличение числа кадров на единицу при рендеринге
+		if (iFrames == 50){
+			float fTime;
+			LARGE_INTEGER lCurrent;
+			QueryPerformanceCounter(&lCurrent);   //получение текущего счетчика
+			fTime = (float)(lCurrent.QuadPart - FPSCount.QuadPart) /
+				(float)CounterFrequency.QuadPart;    //вычисление времени, за которое 50 раз перерисовалась форма
+			fps = (float)iFrames / fTime;            //вычисление частоты смены кадров
+			//обновление счетчика кадров и таймера
+			iFrames = 0;
+			QueryPerformanceCounter(&FPSCount);
+		}
+	}
+
+	/*
+	*/
 	int WindowSystem::getTime() {
 		return GetTickCount();
 	}
@@ -400,4 +432,10 @@ namespace NGTech {
 		::ShowCursor(_value);
 	}
 
+	/*
+	*/
+	float WindowSystem::getLastFPS()
+	{
+		return fps;
+	}
 }

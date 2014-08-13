@@ -92,6 +92,10 @@ namespace NGTech {
 		virtual bool isKeyUp(const char* key) = 0;
 
 		virtual void showOSCursor(bool _value) = 0;
+
+		virtual float getLastFPS() = 0;
+	protected:
+		virtual void _updateFPSCounter() = 0;
 	public:
 		HDC hDC;
 		HWND hWnd;

@@ -31,6 +31,7 @@ namespace NGTech {
 		virtual void initialise(int _hwnd) = 0;
 		virtual void mainLoop() = 0;
 		virtual float GetLastFPS() = 0;
+		virtual float GetTimePerFrame() = 0;
 		virtual void LoadEngineModule(const char* _name){}
 		ENGINE_INLINE void SetRender(I_Render*_r){ iRender = _r; }
 		ENGINE_INLINE bool isEditor(){ return mIsEditor; }

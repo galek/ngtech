@@ -32,6 +32,7 @@ namespace NGTech {
 		void initialise(int _hwnd = 0);
 		void setGame(IGame*_game);
 		virtual float GetLastFPS();
+		virtual float GetTimePerFrame();
 		virtual void LoadEngineModule(const char* _name);
 	private:
 		void _preInit();
