@@ -68,7 +68,7 @@ namespace NGTech{
 	/**
 	*/
 	int CoreScriptInterp::runScript(const char* _filename){
-		VFile file(_filename, VFile::READ_BIN);
+		VFile file(_filename);
 		return doString(file.LoadFile());
 	}
 

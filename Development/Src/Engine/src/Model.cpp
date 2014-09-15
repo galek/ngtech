@@ -21,7 +21,7 @@ namespace NGTech {
 	*/
 	void Model::_load(const String &path) {
 		//begin loading
-		VFile mFile(path.c_str(), VFile::READ_BIN);
+		VFile mFile(path.c_str());
 
 		char buf[1024];
 
