@@ -22,9 +22,8 @@ void ExampleGame::initialise() {
 
 	sponza = new ObjectMesh("sponza.nggf");
 	sponza->setMaterialList("sponza.matlst");
-//	sponza->setTransform(Mat4::translate(Vec3(0, -10, 0)));
-	sponza->setPhysicsStaticMesh();
 	sponza->setTransform(Mat4::translate(Vec3(0, -10, 0)));
+	sponza->setPhysicsStaticMesh();
 
 	for (int i = 0; i < 5; i++) {
 		box[i] = new ObjectMesh("cube.nggf");

@@ -167,7 +167,7 @@ namespace NGTech {
 			pb[i] = *PhysBody::CreateStaticMesh(model->subsets[i]->numVertices, model->subsets[i]->numIndices, &transform, model->subsets[i]->vertices, model->subsets[i]->indices);
 
 
-		//Nick:BUG:Меш собирается в реалтайме,и часть тел пролетает
+		//Nick:BUG:Меш собирается в реалтайме,и часть тел пролетает,если сначала создать физику,и потом задать коллизию
 		pBody = pb;
 		setTransform(transform);
 	}
