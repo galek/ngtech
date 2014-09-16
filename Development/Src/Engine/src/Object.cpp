@@ -115,25 +115,42 @@ namespace NGTech {
 	}
 
 	void ObjectMesh::setPhysicsConvexHull(float mass) {
-		int numPos = 0;
+//#if 0
+//		int numPos = 0;
+//		for (int i = 0; i < model->getNumSubsets(); i++) {
+//			numPos += model->subsets[i]->numVertices;
+//		}
+//		Vec3 *pos = new Vec3[numPos];
+//
+//		int k = 0;
+//		for (int i = 0; i < model->getNumSubsets(); i++) {
+//
+//			for (int v = 0; v < model->subsets[i]->numVertices; v++) {
+//				pos[k] = model->subsets[i]->vertices[v].position;
+//				k++;
+//			}
+//		}
+//
+//		pBody = PhysBody::CreateConvexHull(pos, numPos, mass);
+//		setTransform(transform);
+//
+//		delete[] pos;
+//#else
+
+		int numVertices = 0;
 		for (int i = 0; i < model->getNumSubsets(); i++) {
-			numPos += model->subsets[i]->numVertices;
-		}
-		Vec3 *pos = new Vec3[numPos];
-
-		int k = 0;
-		for (int i = 0; i < model->getNumSubsets(); i++) {
-
-			for (int v = 0; v < model->subsets[i]->numVertices; v++) {
-				pos[k] = model->subsets[i]->vertices[v].position;
-				k++;
-			}
+			numVertices += model->subsets[i]->numVertices;
 		}
 
-		pBody = PhysBody::CreateConvexHull(pos, numPos, mass);
+		PhysBody*pb = new PhysBody[model->getNumSubsets()];
+		for (int i = 0; i < model->getNumSubsets(); i++)
+			pb[i] = *PhysBody::CreateConvexHull(model->subsets[i]->numVertices, model->subsets[i]->numIndices, &transform, model->subsets[i]->vertices, model->subsets[i]->indices, mass);
+
+
+		pBody = pb;
 		setTransform(transform);
-
-		delete[] pos;
+		//Nick:Not Tested
+//#endif
 	}
 
 	void ObjectMesh::setPhysicsStaticMesh() {
@@ -150,6 +167,7 @@ namespace NGTech {
 			pb[i] = *PhysBody::CreateStaticMesh(model->subsets[i]->numVertices, model->subsets[i]->numIndices, &transform, model->subsets[i]->vertices, model->subsets[i]->indices);
 
 
+		//Nick:BUG:Меш собирается в реалтайме,и часть тел пролетает
 		pBody = pb;
 		setTransform(transform);
 	}

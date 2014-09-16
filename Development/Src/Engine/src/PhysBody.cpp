@@ -202,7 +202,16 @@ namespace NGTech {
 #endif
 	}
 
-	PhysBody *PhysBody::CreateConvexHull(Vec3 *pos, const int numPos, float mass) {
+	PhysBody *PhysBody::CreateConvexHull(int _numVert, int _numFaces, Mat4 *_trans, void*_vertices, unsigned int*_indices,float _mass) {
+		PhysBody *body = new PhysBody();
+
+		body->mLvelocity = Vec3(0, 0, 0);
+		body->mAvelocity = Vec3(0, 0, 0);
+
+		body->impactSrc = NULL;
+		body->mActor = NULL;
+		body->mShape = NULL;
+		body->mass = _mass;
 #if 0
 		PhysBody *body = new PhysBody();
 
@@ -237,7 +246,28 @@ namespace NGTech {
 
 		return body;
 #else
-		return NULL;
+		PxConvexMeshDesc convexDesc;
+		convexDesc.points.count = _numVert;
+		convexDesc.points.stride = sizeof(Model::Vertex);
+		convexDesc.points.data = ((Model::Vertex*)_vertices);
+		convexDesc.flags = PxConvexFlag::eCOMPUTE_CONVEX;
+		convexDesc.vertexLimit = 256;
+
+		PxDefaultMemoryOutputStream  buffer;
+		bool status = GetPhysics()->GetPxCooking()->cookConvexMesh(convexDesc, buffer);
+		if (!status){
+			Warning("[Physics]Cooking failed");
+			return NULL;
+		}
+		PxDefaultMemoryInputData input(buffer.getData(), buffer.getSize());
+
+		PxConvexMesh* triangleMesh = GetPhysics()->GetPxPhysics()->createConvexMesh(input);
+
+		body->mActor = GetPhysics()->GetPxPhysics()->createRigidStatic(EngineMathToPhysX(_trans));
+		body->mShape = body->mActor->createShape(PxConvexMeshGeometry(triangleMesh), *GetPhysics()->mMaterial);
+		GetPhysics()->mScene->addActor(*body->mActor);
+
+		return body;
 #endif
 	}
 

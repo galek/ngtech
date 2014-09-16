@@ -27,7 +27,7 @@ namespace NGTech {
 		static PhysBody *CreateCapsule(float radius, float height, Mat4 *_trans, float mass = 0);
 		static PhysBody *CreateChampferCylinder(float radius, float height, float mass = 0);
 
-		static PhysBody *CreateConvexHull(Vec3 *pos, const int numPos, float mass = 0);
+		static PhysBody *CreateConvexHull(int _numVert, int _numFaces, Mat4 *_trans, void*_vertices, unsigned int*_indices, float);
 		static PhysBody *CreateStaticMesh(int _numVert, int _numFaces, Mat4 *_trans, void*, unsigned int*);
 
 		~PhysBody();
@@ -46,11 +46,11 @@ namespace NGTech {
 		Vec3 GetLinearVelocity();
 		void SetAngularVelocity(const Vec3 &velocity);
 		Vec3 GetAngularVelocity();
-		
+
 		ENGINE_INLINE void SetImpactSound(ALSound *snd) {
 			impactSrc = ALSoundSource::create(snd);
 		}
-		
+
 		void SetLinearDamping(float _v);
 		void SetAngularDamping(float _v);
 		void SetMassSpaceInertiaTensor(const Vec3&);
@@ -61,7 +61,7 @@ namespace NGTech {
 		Vec3 mLvelocity, mAvelocity;
 
 		float mass;
-		
+
 		friend class PhysSystem;
 		friend class PhysJoint;
 		friend class PhysJointUpVector;
