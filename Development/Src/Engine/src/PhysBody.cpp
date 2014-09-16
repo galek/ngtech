@@ -2,6 +2,7 @@
 //***************************************************************************
 #include "PhysSystem.h"
 #include "PhysBody.h"
+#include "Model.h"
 #include "Log.h"
 //***************************************************************************
 #include "PxPhysicsAPI.h"
@@ -30,9 +31,9 @@ namespace NGTech {
 		}
 
 		if (_mass > 0)
-			body->mActor->setMass(body->mass);
+			((PxRigidBody*)body->mActor)->setMass(body->mass);
 
-		PxRigidBodyExt::updateMassAndInertia(*body->mActor, 1.0f);
+		PxRigidBodyExt::updateMassAndInertia(*((PxRigidBody*)body->mActor), 1.0f);
 
 		body->SetAngularDamping(1.0f);
 		body->SetLinearDamping(1.0f);
@@ -60,8 +61,8 @@ namespace NGTech {
 		}
 
 		if (_mass > 0)
-			body->mActor->setMass(body->mass);
-		PxRigidBodyExt::updateMassAndInertia(*body->mActor, 1.0f);
+			((PxRigidBody*)body->mActor)->setMass(body->mass);
+		PxRigidBodyExt::updateMassAndInertia(*((PxRigidBody*)body->mActor), 1.0f);
 		body->SetAngularDamping(1.0f);
 		body->SetLinearDamping(1.0f);
 		GetPhysics()->mScene->addActor(*body->mActor);
@@ -82,11 +83,11 @@ namespace NGTech {
 
 		body->mActor = PxCreateDynamic(*GetPhysics()->mPhysics, EngineMathToPhysX(_trans), PxConvexMeshGeometry(mesh), *GetPhysics()->mMaterial, 1.0f);
 
-		SetupDefaultRigidDynamic(*body->mActor);
+		SetupDefaultRigidDynamic(*(PxRigidDynamic*)body->mActor);
 
 		if (body->mass > 0)
-			body->mActor->setMass(body->mass);
-		PxRigidBodyExt::updateMassAndInertia(*body->mActor, 1.0f);
+			((PxRigidBody*)body->mActor)->setMass(body->mass);
+		PxRigidBodyExt::updateMassAndInertia(*((PxRigidBody*)body->mActor), 1.0f);
 		body->SetAngularDamping(1.0f);
 		body->SetLinearDamping(1.0f);
 		GetPhysics()->mScene->addActor(*body->mActor);
@@ -151,8 +152,8 @@ namespace NGTech {
 		}
 
 		if (body->mass > 0)
-			body->mActor->setMass(body->mass);
-		PxRigidBodyExt::updateMassAndInertia(*body->mActor, 1.0f);
+			((PxRigidBody*)body->mActor)->setMass(body->mass);
+		PxRigidBodyExt::updateMassAndInertia(*((PxRigidBody*)body->mActor), 1.0f);
 		body->SetAngularDamping(1.0f);
 		body->SetLinearDamping(1.0f);
 		GetPhysics()->mScene->addActor(*body->mActor);
@@ -240,15 +241,47 @@ namespace NGTech {
 #endif
 	}
 
-	PhysBody *PhysBody::CreateStaticMesh(Vec3 *pos, const int numPos, bool optimize) {
+	PhysBody *PhysBody::CreateStaticMesh(int _numVert, int _numFaces, Mat4 *_trans, void*_vertices, unsigned int*_indices) {
 		PhysBody *body = new PhysBody();
 
 		body->mLvelocity = Vec3(0, 0, 0);
 		body->mAvelocity = Vec3(0, 0, 0);
 
 		body->impactSrc = NULL;
+		body->mActor = NULL;
+		body->mShape = NULL;
 
-		
+		PxTriangleMeshDesc description;
+
+		description.points.count = _numVert;
+		description.points.stride = sizeof(Model::Vertex);
+		description.points.data = ((Model::Vertex*)_vertices);
+
+		description.triangles.count = _numFaces / 3;
+		description.triangles.stride = sizeof(unsigned int) * 3;
+		description.triangles.data = _indices;
+
+
+		Warning(" nbVertices %i", description.points.count);
+		Warning(" nbTriangles %i", description.triangles.count);
+
+		if (!GetPhysics()->GetPxCooking()->validateTriangleMesh(description)){
+			Debug("[Physics]Is not valid triangle mesh");
+		}
+
+		PxDefaultMemoryOutputStream  buffer;
+		bool status = GetPhysics()->GetPxCooking()->cookTriangleMesh(description, buffer);
+		if (!status){
+			Warning("[Physics]Cooking failed");
+			return NULL;
+		}
+		PxDefaultMemoryInputData input(buffer.getData(), buffer.getSize());
+
+		PxTriangleMesh* triangleMesh = GetPhysics()->GetPxPhysics()->createTriangleMesh(input);
+
+		body->mActor = GetPhysics()->GetPxPhysics()->createRigidStatic(EngineMathToPhysX(_trans));
+		body->mShape = body->mActor->createShape(PxTriangleMeshGeometry(triangleMesh), *GetPhysics()->mMaterial);
+		GetPhysics()->mScene->addActor(*body->mActor);
 
 		return body;
 	}
@@ -266,32 +299,39 @@ namespace NGTech {
 	}
 
 	Mat4 PhysBody::GetTransform() {
-		auto pos = mActor->getGlobalPose();
-		return PhysXToEngineMath(pos);
+		if (mActor){
+			auto pos = mActor->getGlobalPose();
+			return PhysXToEngineMath(pos);
+		}
+		else
+		{
+			Mat4 t;
+			return t.identity();
+		}
 	}
 
 	void PhysBody::AddTorque(const Vec3 &_torque) {
 		if (mActor)
-			mActor->addTorque(PxVec3(_torque.x, _torque.y, _torque.z));
+			((PxRigidBody*)mActor)->addTorque(PxVec3(_torque.x, _torque.y, _torque.z));
 	}
 
 
 	void PhysBody::AddForce(const Vec3 &force) {
 		if (mActor)
-			mActor->addForce(PxVec3(force.x, force.y, force.z));
+			((PxRigidBody*)mActor)->addForce(PxVec3(force.x, force.y, force.z));
 	}
-	
+
 
 	void PhysBody::SetLinearVelocity(const Vec3 &velocity) {
 		mLvelocity = velocity;
 		if (mActor)
-			mActor->setLinearVelocity(physx::PxVec3(velocity.x, velocity.y, velocity.z));
+			((PxRigidBody*)mActor)->setLinearVelocity(physx::PxVec3(velocity.x, velocity.y, velocity.z));
 	}
 
 	Vec3 PhysBody::GetLinearVelocity() {
 		if (mActor){
 			Vec3 velocity;
-			auto mPxVec = mActor->getLinearVelocity();
+			auto mPxVec = ((PxRigidBody*)mActor)->getLinearVelocity();
 			velocity = { mPxVec.x, mPxVec.y, mPxVec.z };
 			return velocity;
 		}
@@ -301,13 +341,13 @@ namespace NGTech {
 	void PhysBody::SetAngularVelocity(const Vec3 &velocity) {
 		mAvelocity = velocity;
 		if (mActor)
-			mActor->setAngularVelocity(physx::PxVec3(velocity.x, velocity.y, velocity.z));
+			((PxRigidBody*)mActor)->setAngularVelocity(physx::PxVec3(velocity.x, velocity.y, velocity.z));
 	}
 
 	Vec3 PhysBody::GetAngularVelocity() {
 		if (mActor){
 			Vec3 velocity;
-			auto mPxVec = mActor->getAngularVelocity();
+			auto mPxVec = ((PxRigidBody*)mActor)->getAngularVelocity();
 			velocity = { mPxVec.x, mPxVec.y, mPxVec.z };
 		}
 		return mAvelocity;
@@ -315,27 +355,31 @@ namespace NGTech {
 
 	float PhysBody::GetMass() {
 		if (mActor)
-			return mActor->getMass();
+			return ((PxRigidBody*)mActor)->getMass();
 		else return 0.0f;
 	}
 
 	void PhysBody::SetMass(float mass) {
 		if (mActor)
-			mActor->setMass(mass);
+			((PxRigidBody*)mActor)->setMass(mass);
 	}
 
 	void PhysBody::SetLinearDamping(float _v){
-		if (mActor)
-			mActor->setLinearDamping(_v);
+		if (mActor) {
+			PxRigidDynamic* mNActor = (PxRigidDynamic*)mActor;
+			mNActor->setLinearDamping(_v);
+		}
 	}
 
 	void PhysBody::SetAngularDamping(float _v){
-		if (mActor)
-			mActor->setAngularDamping(_v);
+		if (mActor) {
+			PxRigidDynamic* mNActor = (PxRigidDynamic*)mActor;
+			mNActor->setAngularDamping(_v);
+		}
 	}
 
 	void PhysBody::SetMassSpaceInertiaTensor(const Vec3&_vec){
 		if (mActor)
-			mActor->setMassSpaceInertiaTensor(PxVec3(_vec.x, _vec.y, _vec.z));
+			((PxRigidBody*)mActor)->setMassSpaceInertiaTensor(PxVec3(_vec.x, _vec.y, _vec.z));
 	}
 }

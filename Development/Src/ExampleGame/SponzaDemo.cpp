@@ -22,6 +22,7 @@ void ExampleGame::initialise() {
 
 	sponza = new ObjectMesh("sponza.nggf");
 	sponza->setMaterialList("sponza.matlst");
+//	sponza->setTransform(Mat4::translate(Vec3(0, -10, 0)));
 	sponza->setPhysicsStaticMesh();
 	sponza->setTransform(Mat4::translate(Vec3(0, -10, 0)));
 
@@ -32,7 +33,7 @@ void ExampleGame::initialise() {
 		box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);
 		box[i]->setImpactSound("impact.ogg");
 	}
-
+	
 	for (int i = 0; i < 5; i++) {
 		sphere[i] = new ObjectMesh("sphere.nggf");
 		sphere[i]->setMaterial("*", "grid.mat");
@@ -81,7 +82,7 @@ void ExampleGame::initialise() {
 	GetScene()->setWater(1, 400);
 	//GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
 
-	GetWindow()->grabMouse(true);
+	GetWindow()->grabMouse(false/*true*/);
 
 	MyGUI::ButtonPtr button = GetGUI()->getGUI()->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
 	button->setFontName("DejaVuSansFont_15");

@@ -34,12 +34,6 @@ namespace NGTech {
 		ENGINE_INLINE Vec3 &getCenter(int s) { return subsets[s]->center; };
 		ENGINE_INLINE float getRadius(int s) { return subsets[s]->radius; };
 
-	private:
-		/**
-		Loads Mesh from file
-		*/
-		void _load(const String &path);
-
 		struct Vertex {
 			Vec3 position;
 			Vec2 texcoord;
@@ -47,6 +41,12 @@ namespace NGTech {
 			Vec3 tangent;
 			Vec3 binormal;
 		};
+
+	private:
+		/**
+		Loads Mesh from file
+		*/
+		void _load(const String &path);
 
 		struct Subset {
 			char name[32];

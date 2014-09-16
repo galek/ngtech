@@ -10,7 +10,7 @@
 namespace physx
 {
 	class PxShape;
-	class PxRigidDynamic;
+	class PxRigidActor;
 }
 namespace NGTech {
 
@@ -28,7 +28,7 @@ namespace NGTech {
 		static PhysBody *CreateChampferCylinder(float radius, float height, float mass = 0);
 
 		static PhysBody *CreateConvexHull(Vec3 *pos, const int numPos, float mass = 0);
-		static PhysBody *CreateStaticMesh(Vec3 *pos, const int numPos, bool optimize);
+		static PhysBody *CreateStaticMesh(int _numVert, int _numFaces, Mat4 *_trans, void*, unsigned int*);
 
 		~PhysBody();
 
@@ -57,7 +57,7 @@ namespace NGTech {
 	private:
 		ALSoundSource *impactSrc;
 		physx::PxShape* mShape;
-		physx::PxRigidDynamic *mActor;
+		physx::PxRigidActor *mActor;
 		Vec3 mLvelocity, mAvelocity;
 
 		float mass;

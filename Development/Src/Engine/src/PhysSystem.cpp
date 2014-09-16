@@ -21,8 +21,8 @@
 #include "pxtask/PxCudaContextManager.h"
 //***************************************************************************
 
-//#define ENABLE_PVD 1
-#define DEBUG_PHYSICS 1
+#define ENABLE_PVD 1
+//#define DEBUG_PHYSICS 1
 
 namespace NGTech {
 	using namespace physx;

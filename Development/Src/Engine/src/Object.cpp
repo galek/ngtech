@@ -137,28 +137,21 @@ namespace NGTech {
 	}
 
 	void ObjectMesh::setPhysicsStaticMesh() {
-		int numPos = 0;
+		int numIndices = 0;
+		int numVertices = 0;
 		for (int i = 0; i < model->getNumSubsets(); i++) {
-			numPos += model->subsets[i]->numIndices;
-		}
-		Vec3 *pos = new Vec3[numPos];
-
-		int k = 0;
-		for (int i = 0; i < model->getNumSubsets(); i++) {
-
-			for (int v = 0; v < model->subsets[i]->numIndices / 3; v++) {
-				pos[k * 3 + 0] = model->subsets[i]->vertices[model->subsets[i]->indices[v * 3 + 0]].position;
-				pos[k * 3 + 1] = model->subsets[i]->vertices[model->subsets[i]->indices[v * 3 + 1]].position;
-				pos[k * 3 + 2] = model->subsets[i]->vertices[model->subsets[i]->indices[v * 3 + 2]].position;
-				k++;
-			}
+			numIndices += model->subsets[i]->numIndices;
+			numVertices += model->subsets[i]->numVertices;
 		}
 
-		if (pBody)
-			pBody = PhysBody::CreateStaticMesh(pos, numPos, true);
+		PhysBody*pb = new PhysBody[model->getNumSubsets()];
+
+		for (int i = 0; i < model->getNumSubsets(); i++)
+			pb[i] = *PhysBody::CreateStaticMesh(model->subsets[i]->numVertices, model->subsets[i]->numIndices, &transform, model->subsets[i]->vertices, model->subsets[i]->indices);
+
+
+		pBody = pb;
 		setTransform(transform);
-
-		delete[] pos;
 	}
 
 	void ObjectMesh::setImpactSound(const String &path) {

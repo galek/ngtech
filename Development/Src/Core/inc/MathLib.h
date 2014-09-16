@@ -72,7 +72,9 @@ namespace NGTech {
 		friend Vec2 CORE_API operator/(float c, const Vec2 &v);
 
 		static Vec2 normalize(const Vec2 &a);
-		static ENGINE_INLINE float dot(const Vec2 &a, const Vec2 &b);
+		static ENGINE_INLINE float dot(const Vec2 &a, const Vec2 &b) {
+			return (a.x * b.x + a.y * b.y);
+		}
 	};
 
 	extern ENGINE_INLINE Vec2 CORE_API operator+(const Vec2 &a, const Vec2 &b);
@@ -125,7 +127,9 @@ namespace NGTech {
 		friend Vec3 CORE_API operator/(float c, const Vec3 &v);
 
 		static Vec3 normalize(const Vec3 &a);
-		static ENGINE_INLINE float dot(const Vec3 &a, const Vec3 &b);
+		static ENGINE_INLINE float dot(const Vec3 &a, const Vec3 &b) {
+			return (a.x * b.x + a.y * b.y + a.z * b.z);
+		}
 		static ENGINE_INLINE Vec3 cross(const Vec3 &a, const Vec3 &b);
 	};
 
@@ -182,7 +186,9 @@ namespace NGTech {
 		friend Vec4 CORE_API operator/(float c, const Vec4 &v);
 
 		static Vec4 normalize(const Vec4 &a);
-		static ENGINE_INLINE float dot(const Vec4 &a, const Vec4 &b);
+		static ENGINE_INLINE float dot(const Vec4 &a, const Vec4 &b) {
+			return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
+		}
 	};
 
 	extern ENGINE_INLINE Vec4 CORE_API operator+(const Vec4 &a, const Vec4 &b);
