@@ -212,40 +212,7 @@ namespace NGTech {
 		body->mActor = NULL;
 		body->mShape = NULL;
 		body->mass = _mass;
-#if 0
-		PhysBody *body = new PhysBody();
 
-		body->force = Vec3(0, 0, 0);
-		body->torque = Vec3(0, 0, 0);
-		body->impulse = Vec3(0, 0, 0);
-		body->velocity = Vec3(0, 0, 0);
-
-		body->mass = mass;
-
-		//NewtonCollision *collision = NewtonCreateConvexHull(GetPhysics()->nWorld, numPos, &pos[0].x, 3 * sizeof(float) , 0, NULL, 0);
-
-		//Vec3 inertia, origin;
-		//NewtonConvexCollisionCalculateInertialMatrix(collision, inertia, origin);
-		//float Ixx = mass * inertia.x;
-		//float Iyy = mass * inertia.y;
-		//float Izz = mass * inertia.z;
-
-		//body->nBody = NewtonCreateDynamicBody(GetPhysics()->nWorld, collision, origin);//Nick:Сомневаюсь,верно ли?
-		//NewtonDestroyCollision(collision);
-
-		//NewtonBodySetUserData(body->nBody, body);
-		//NewtonBodySetAutoSleep(body->nBody, 0);
-
-		//if (mass > 0) {
-		//	NewtonBodySetMassMatrix(body->nBody, mass, Ixx, Iyy, Izz);
-		//	NewtonBodySetCentreOfMass(body->nBody, origin);
-		//	NewtonBodySetForceAndTorqueCallback(body->nBody, applyForce_Callback);
-		//}
-
-		body->impactSrc = NULL;
-
-		return body;
-#else
 		PxConvexMeshDesc convexDesc;
 		convexDesc.points.count = _numVert;
 		convexDesc.points.stride = sizeof(Model::Vertex);
@@ -263,12 +230,24 @@ namespace NGTech {
 
 		PxConvexMesh* triangleMesh = GetPhysics()->GetPxPhysics()->createConvexMesh(input);
 
-		body->mActor = GetPhysics()->GetPxPhysics()->createRigidStatic(EngineMathToPhysX(_trans));
-		body->mShape = body->mActor->createShape(PxConvexMeshGeometry(triangleMesh), *GetPhysics()->mMaterial);
+		
+		// Initialize Convex Actor
+		body->mActor = PxCreateDynamic(*GetPhysics()->mPhysics, EngineMathToPhysX(_trans), PxConvexMeshGeometry(triangleMesh), *GetPhysics()->mMaterial, 1.0f);
+		if (!body->mActor){
+			Warning("create actor failed!");
+			return NULL;
+		}
+
+		if (body->mass > 0)
+			((PxRigidBody*)body->mActor)->setMass(body->mass);
+		PxRigidBodyExt::updateMassAndInertia(*((PxRigidBody*)body->mActor), 1.0f);
+		body->SetAngularDamping(1.0f);
+		body->SetLinearDamping(1.0f);
 		GetPhysics()->mScene->addActor(*body->mActor);
 
+		body->impactSrc = NULL;
+		
 		return body;
-#endif
 	}
 
 	PhysBody *PhysBody::CreateStaticMesh(int _numVert, int _numFaces, Mat4 *_trans, void*_vertices, unsigned int*_indices) {

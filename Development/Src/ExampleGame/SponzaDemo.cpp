@@ -41,15 +41,14 @@ void ExampleGame::initialise() {
 		sphere[i]->setImpactSound("impact.ogg");
 	}
 
-#if 0
 	for (int i = 0; i < 5; i++) {
 		cylinder[i] = new ObjectMesh("torus.nggf");
 		cylinder[i]->setMaterial("*", "grid.mat");
-		cylinder[i]->setPhysicsConvexHull(10);
 		cylinder[i]->setTransform(Mat4::translate(Vec3(20 + i * 2, i * 20 + 20, i - 10)));
+		cylinder[i]->setPhysicsConvexHull(10.0f);
 		cylinder[i]->setImpactSound("impact.ogg");
 	}
-#endif
+
 	camera = new CameraFree();
 	camera->setPosition(Vec3(0, 20, 0));
 	camera->setMaxVelocity(2000);
