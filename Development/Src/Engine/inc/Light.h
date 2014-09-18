@@ -34,7 +34,7 @@ namespace NGTech {
 	class ENGINE_API LightOmni : public Light {
 	public:
 		LightOmni();
-		~LightOmni();
+		virtual ~LightOmni();
 
 		ENGINE_INLINE const Vec3 &getPosition() { return position; };
 		ENGINE_INLINE void setPosition(const Vec3 &position) { this->position = position; };
@@ -73,7 +73,7 @@ namespace NGTech {
 	class ENGINE_API LightSpot : public Light {
 	public:
 		LightSpot();
-		~LightSpot();
+		virtual ~LightSpot();
 
 		ENGINE_INLINE const Vec3 &getPosition() { return position; };
 		ENGINE_INLINE void setPosition(const Vec3 &position) { this->position = position; };
@@ -121,7 +121,7 @@ namespace NGTech {
 	class ENGINE_API LightDirect : public Light {
 	public:
 		LightDirect();
-		~LightDirect();
+		virtual ~LightDirect();
 
 		ENGINE_INLINE const Vec3 &getDirection() { return direction; };
 		ENGINE_INLINE void setDirection(const Vec3 &direction) { this->direction = direction; };

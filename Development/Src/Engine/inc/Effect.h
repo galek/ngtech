@@ -26,7 +26,7 @@ namespace NGTech {
 	class EffectParticleSystem : public Effect {
 	public:
 		explicit EffectParticleSystem(const String &path, int numParticles);
-		~EffectParticleSystem();
+		virtual ~EffectParticleSystem();
 
 		virtual void draw();
 
@@ -71,7 +71,7 @@ namespace NGTech {
 	class ENGINE_API EffectFlare : public Effect {
 	public:
 		explicit EffectFlare(const String &path);
-		~EffectFlare();
+		virtual ~EffectFlare();
 
 		virtual void draw();
 

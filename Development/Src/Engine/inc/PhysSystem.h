@@ -27,7 +27,7 @@ namespace NGTech {
 	*/
 	class ENGINE_API PhysSystem {
 	public:
-		PhysSystem();
+		PhysSystem(SystemInfo*);
 		virtual ~PhysSystem();
 
 		void initialise();

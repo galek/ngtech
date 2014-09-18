@@ -10,7 +10,7 @@ namespace NGTech
 			READ_TEXT
 		};
 	public:
-		VFile(const char* _name, int _mode = READ_BIN, bool _notSearch = false);
+		explicit VFile(const char* _name, int _mode = READ_BIN, bool _notSearch = false);
 		~VFile();
 
 		bool IsDataExist();

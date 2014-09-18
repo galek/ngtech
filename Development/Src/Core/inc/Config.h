@@ -38,6 +38,4 @@ namespace NGTech {
 		std::vector<ConfigVar> vars;
 	};
 
-};
-
-
+}

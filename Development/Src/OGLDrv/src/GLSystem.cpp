@@ -620,7 +620,7 @@ namespace NGTech {
 			PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
 			PFD_DOUBLEBUFFER,							// Must Support Double Buffering
 			PFD_TYPE_RGBA,								// Request An RGBA Format
-			_window->bpp,										// Select Our Color Depth
+			_window->bpp,								// Select Our Color Depth
 			0, 0, 0, 0, 0, 0,							// Color Bits Ignored
 			0,											// No Alpha Buffer
 			0,											// Shift Bit Ignored
@@ -668,7 +668,7 @@ namespace NGTech {
 	static PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB;
 	static PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatARB;
 #endif
-	
+
 	/*
 	*/
 	bool GLSystem::_checkContextSuppoort(IWindow* _window)
@@ -788,9 +788,10 @@ namespace NGTech {
 		if (!status)
 			return false;
 		//Checking OGL3 Extension
-		status = false;	//Nick:BUG:is not works on Intel
-		//Nick:BUG:was _checkContextSuppoort(_window);
-		LogPrintf("[Render]is new OGL %i", status);
+		status = 0;//_checkContextSuppoort(_window);
+		if (status)
+			LogPrintf("[Render]is new OGL %i", status);
+
 		if (status)
 		{
 			if (!_createNewContext(_window))

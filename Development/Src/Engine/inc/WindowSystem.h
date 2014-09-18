@@ -18,7 +18,7 @@ namespace NGTech {
 	public:
 		explicit WindowSystem(CVARManager*_cvars);
 
-		~WindowSystem();
+		virtual ~WindowSystem();
 		virtual void initialise(int _hwnd = 0);
 		virtual void setTitle(const String &title);
 

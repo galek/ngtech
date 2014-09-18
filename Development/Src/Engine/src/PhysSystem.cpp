@@ -20,9 +20,10 @@
 #include "physxprofilesdk/PxProfileZoneManager.h"
 #include "pxtask/PxCudaContextManager.h"
 //***************************************************************************
-
+#ifdef _DEBUG
 #define ENABLE_PVD 1
 //#define DEBUG_PHYSICS 1
+#endif
 
 namespace NGTech {
 	using namespace physx;
@@ -33,7 +34,7 @@ namespace NGTech {
 
 	/**
 	*/
-	PhysSystem::PhysSystem() :mNbThreads(1),
+	PhysSystem::PhysSystem(SystemInfo*info) :mNbThreads(info->getCPUCount()),
 		mFoundation(nullptr),
 		mProfileZoneManager(nullptr),
 		mPhysics(nullptr),

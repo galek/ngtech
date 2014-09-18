@@ -270,10 +270,6 @@ namespace NGTech {
 		description.triangles.stride = sizeof(unsigned int) * 3;
 		description.triangles.data = _indices;
 
-
-		Warning(" nbVertices %i", description.points.count);
-		Warning(" nbTriangles %i", description.triangles.count);
-
 		if (!GetPhysics()->GetPxCooking()->validateTriangleMesh(description)){
 			Debug("[Physics]Is not valid triangle mesh");
 		}

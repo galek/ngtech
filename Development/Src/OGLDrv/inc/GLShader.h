@@ -13,7 +13,7 @@ namespace NGTech {
 	class GLShader :public I_Shader {
 	public:
 		static GLShader *create(const String &path, const String &defines = "");
-		virtual~GLShader();
+		virtual ~GLShader();
 
 		void set();
 		void unset();

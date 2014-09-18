@@ -53,7 +53,7 @@ namespace NGTech {
 	class ENGINE_API ObjectMesh : public Object{
 	public:
 		explicit ObjectMesh(const String &path);
-		~ObjectMesh();
+		virtual ~ObjectMesh();
 
 		virtual void drawSubset(int s);
 		ENGINE_INLINE virtual int getNumSubsets() { return model->getNumSubsets(); };

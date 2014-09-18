@@ -100,7 +100,7 @@ namespace NGTech {
 		alSystem = new ALSystem();
 		if (!alSystem)
 			Warning("[Init] Audio Failed");
-		physSystem = new PhysSystem();
+		physSystem = new PhysSystem(info);
 		if (!physSystem)
 			Warning("[Init] Physics Failed");
 		cache = new Cache(cvars);
