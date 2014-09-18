@@ -1,6 +1,6 @@
 pass DepthPass
 {
-shader = depth.ashd
+shader = depth.glsl
 mat4 u_mvp = scene::mvp
 mat4 u_world = scene::world
 vec3 u_light_pos = scene::light_position

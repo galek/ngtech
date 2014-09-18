@@ -1,11 +1,11 @@
 pass BlurPass
 {
-shader = blur.ashd
+shader = blur.glsl
 sampler2D u_viewport_map = scene::viewport_map
 }
 
 pass BrightPass
 {
-shader = bright_pass.ashd
+shader = bright_pass.glsl
 sampler2D u_viewport_map = scene::viewport_map
 }
