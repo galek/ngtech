@@ -90,6 +90,7 @@ namespace NGTech {
 
 		void setPhysicsConvexHull(float mass = 0);
 		void setPhysicsStaticMesh();
+		void setPhysicsCloth();
 		ENGINE_INLINE virtual PhysBody *getPhysBody() { return pBody; };
 
 		void setImpactSound(const String &path);

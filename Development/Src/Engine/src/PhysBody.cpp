@@ -202,7 +202,7 @@ namespace NGTech {
 #endif
 	}
 
-	PhysBody *PhysBody::CreateConvexHull(int _numVert, int _numFaces, Mat4 *_trans, void*_vertices, unsigned int*_indices,float _mass) {
+	PhysBody *PhysBody::CreateConvexHull(int _numVert, int _numFaces, Mat4 *_trans, void*_vertices, unsigned int*_indices, float _mass) {
 		PhysBody *body = new PhysBody();
 
 		body->mLvelocity = Vec3(0, 0, 0);
@@ -230,7 +230,7 @@ namespace NGTech {
 
 		PxConvexMesh* triangleMesh = GetPhysics()->GetPxPhysics()->createConvexMesh(input);
 
-		
+
 		// Initialize Convex Actor
 		body->mActor = PxCreateDynamic(*GetPhysics()->mPhysics, EngineMathToPhysX(_trans), PxConvexMeshGeometry(triangleMesh), *GetPhysics()->mMaterial, 1.0f);
 		if (!body->mActor){
@@ -246,7 +246,7 @@ namespace NGTech {
 		GetPhysics()->mScene->addActor(*body->mActor);
 
 		body->impactSrc = NULL;
-		
+
 		return body;
 	}
 
@@ -293,6 +293,51 @@ namespace NGTech {
 		GetPhysics()->mScene->addActor(*body->mActor);
 
 		return body;
+	}
+
+	PhysBody *PhysBody::CreateCloth(int _numVert, int _numFaces, Mat4 *_trans, void*_vertices, unsigned int*_indices) {
+		/*PhysBody *body = new PhysBody();
+
+		body->mLvelocity = Vec3(0, 0, 0);
+		body->mAvelocity = Vec3(0, 0, 0);
+
+		body->impactSrc = NULL;
+		body->mActor = NULL;
+		body->mShape = NULL;
+
+		PxClothParticle vertices[] = {
+			PxClothParticle(PxVec3(0.0f, 0.0f, 0.0f), 0.0f),
+			PxClothParticle(PxVec3(0.0f, 1.0f, 0.0f), 1.0f),
+			PxClothParticle(PxVec3(1.0f, 0.0f, 0.0f), 1.0f),
+			PxClothParticle(PxVec3(1.0f, 1.0f, 0.0f), 1.0f)
+		};
+		PxU32 primitives[] = { 0, 1, 3, 2 };
+
+		PxClothMeshDesc  description;
+
+		description.points.data = vertices;
+		description.points.count = 4;
+		description.points.stride = sizeof(PxClothParticle);
+
+		description.invMasses.data = &vertices->invWeight;
+		description.invMasses.count = 4;
+		description.invMasses.stride = sizeof(PxClothParticle);
+
+		description.quads.data = primitives;
+		description.quads.count = 1;
+		description.quads.stride = sizeof(PxU32) * 4;
+
+		Vec3 engrav = GetPhysics()->GetGravity();
+		PxVec3 grav = { engrav.x, engrav.y, engrav.z };
+		PxClothFabric* fabric = PxClothFabricCreate(*GetPhysics()->GetPxPhysics(), description, grav);
+
+
+	
+		auto mCloth = GetPhysics()->GetPxPhysics()->createCloth(EngineMathToPhysX(_trans), *fabric, vertices, PxClothFlags());
+		GetPhysics()->mScene->addActor(*mCloth);
+
+		return body;*/
+		return NULL;
 	}
 
 	PhysBody::~PhysBody() {

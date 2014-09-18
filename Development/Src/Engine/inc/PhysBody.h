@@ -29,6 +29,7 @@ namespace NGTech {
 
 		static PhysBody *CreateConvexHull(int _numVert, int _numFaces, Mat4 *_trans, void*_vertices, unsigned int*_indices, float);
 		static PhysBody *CreateStaticMesh(int _numVert, int _numFaces, Mat4 *_trans, void*, unsigned int*);
+		static PhysBody *CreateCloth(int _numVert, int _numFaces, Mat4 *_trans, void*, unsigned int*);
 
 		~PhysBody();
 

@@ -147,6 +147,23 @@ namespace NGTech {
 		setTransform(transform);
 	}
 
+	void ObjectMesh::setPhysicsCloth() {
+		int numIndices = 0;
+		int numVertices = 0;
+		for (int i = 0; i < model->getNumSubsets(); i++) {
+			numIndices += model->subsets[i]->numIndices;
+			numVertices += model->subsets[i]->numVertices;
+		}
+
+		PhysBody*pb = new PhysBody[model->getNumSubsets()];
+
+		for (int i = 0; i < model->getNumSubsets(); i++)
+			pb[i] = *PhysBody::CreateCloth(model->subsets[i]->numVertices, model->subsets[i]->numIndices, &transform, model->subsets[i]->vertices, model->subsets[i]->indices);
+
+
+		pBody = pb;
+	}
+
 	void ObjectMesh::setImpactSound(const String &path) {
 		impactSound = GetCache()->loadSound(path);
 		if (pBody)
