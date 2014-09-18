@@ -281,3 +281,6 @@ Bins/Bin32/Graph.dll
 Bins/Bin32/GraphNodes.dll
 Bins/Bin32/NGEd.exe.config
 Bins/Bin32/NGEd.vshost.exe.config
+Bins/Bin64/NGMax.dlu
+Bins/Bin64/NGMax.lib
+Bins/logs/
