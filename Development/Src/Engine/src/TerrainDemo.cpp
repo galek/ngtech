@@ -71,7 +71,7 @@ void init() {
 	//SCENE
 	Scene::create();
 
-	chammy = new ObjectSkinnedMesh("chammy.asmdl");
+	chammy = new ObjectSkinnedMesh("chammy.nggf");
 	chammy->setMaterial("*", "usor.mat");
 	chammy->setTransform(Mat4::translate(Vec3(30, 120, 0)));
 	//¹(chammy);

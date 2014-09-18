@@ -9,7 +9,6 @@
 #include "WindowSystem.h"
 #include "Cache.h"
 #include "CvarManager.h"
-#include "SkinnedModel.h"
 //**************************************
 #include "../OGLDrv/inc/GLExtensions.h"//TODO
 
@@ -317,7 +316,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::drawOmni(LightOmni *light, bool blended) {
-		if (!light->visible) return;
+		if (!light->isVisible()) return;
 
 		Frustum frustum;
 
@@ -412,7 +411,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::getOmniShadowMap(LightOmni *light) {
-		if (!light->visible || !light->castShadows || !cvars->r_shadowtype) {
+		if (!light->isVisible() || !light->castShadows || !cvars->r_shadowtype) {
 			return;
 		}
 
@@ -498,7 +497,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::drawSpot(LightSpot *light, bool blended) {
-		if (!light->visible) return;
+		if (!light->isVisible()) return;
 
 		Frustum frustum;
 
@@ -601,7 +600,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::getSpotShadowMap(LightSpot *light) {
-		if (!light->visible || !light->castShadows || !cvars->r_shadowtype) {
+		if (!light->isVisible() || !light->castShadows || !cvars->r_shadowtype) {
 			return;
 		}
 
@@ -772,7 +771,7 @@ namespace NGTech {
 
 		frustum.get();
 		if (!frustum.isInside(light->position, light->radius)) {
-			light->visible = false;
+			light->setVisible(false);
 			return;
 		}
 
@@ -796,11 +795,11 @@ namespace NGTech {
 			GetRender()->colorMask(true, true, true, true);
 
 			if (query->getResult() < 2) {
-				light->visible = false;
+				light->setVisible(false);
 				return;
 			}
 		}
-		light->visible = true;
+		light->setVisible(true);
 	}
 
 	//---------------------------------------------------------------------------
@@ -813,7 +812,7 @@ namespace NGTech {
 
 		frustum.get();
 		if (!frustum.isInside(light->position, light->radius)) {
-			light->visible = false;
+			light->setVisible(false);
 			return;
 		}
 
@@ -837,11 +836,11 @@ namespace NGTech {
 			GetRender()->colorMask(true, true, true, true);
 
 			if (query->getResult() < 2) {
-				light->visible = false;
+				light->setVisible(false);
 				return;
 			}
 		}
-		light->visible = true;
+		light->setVisible(true);
 	}
 
 
@@ -868,7 +867,7 @@ namespace NGTech {
 		drawAmbient(false);
 
 		for (int i = 0; i < lights.size(); i++) {
-			if (!lights[i]->enabled) continue;
+			if (!lights[i]->isEnable()) continue;
 			if (lights[i]->getType() == Light::LIGHT_OMNI) {
 				checkOmniVisibility((LightOmni*)lights[i]);
 			}

@@ -21,7 +21,7 @@ namespace NGTech {
 	*/
 	class ENGINE_API PhysJointUpVector {
 	public:
-		PhysJointUpVector(const Vec3 &direction, PhysBody *body);
+		explicit PhysJointUpVector(const Vec3 &direction, PhysBody *body);
 		~PhysJointUpVector();
 	};
 }

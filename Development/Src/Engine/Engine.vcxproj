@@ -352,7 +352,6 @@
     <ClInclude Include="inc\PhysSystem.h" />
     <ClInclude Include="inc\PhysXUtils.h" />
     <ClInclude Include="inc\Scene.h" />
-    <ClInclude Include="inc\SkinnedModel.h" />
     <ClInclude Include="inc\Terrain.h" />
     <ClInclude Include="inc\Water.h" />
     <ClInclude Include="inc\WindowSystem.h" />
@@ -389,7 +388,6 @@
     <ClCompile Include="src\PhysSystem.cpp" />
     <ClCompile Include="src\PhysXUtils.cpp" />
     <ClCompile Include="src\Scene.cpp" />
-    <ClCompile Include="src\SkinnedModel.cpp" />
     <ClCompile Include="src\Terrain.cpp" />
     <ClCompile Include="src\TerrainDemo.cpp" />
     <ClCompile Include="src\Water.cpp" />

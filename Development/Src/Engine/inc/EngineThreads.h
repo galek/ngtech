@@ -17,9 +17,7 @@ namespace NGTech
 	/*
 	 */
 	class EngineJobBase {
-
 	public:
-
 		EngineJobBase() { }
 		virtual ~EngineJobBase() { }
 
@@ -29,9 +27,7 @@ namespace NGTech
 	/*
 	 */
 	class EngineJobCallback : public EngineJobBase {
-
 	public:
-
 		EngineJobCallback() : callback(0) { }
 		ENGINE_INLINE virtual ~EngineJobCallback() { delete callback; }
 
@@ -47,9 +43,7 @@ namespace NGTech
 	/*
 	 */
 	class EngineThreads {
-
 	public:
-
 		EngineThreads();
 		virtual ~EngineThreads();
 

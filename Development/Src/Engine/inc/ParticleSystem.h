@@ -12,7 +12,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	class ENGINE_API ParticleSystem {
 	public:
-		ParticleSystem(const String &path, int numParticles);
+		explicit ParticleSystem(const String &path, int numParticles);
 		~ParticleSystem();
 
 		virtual void draw();

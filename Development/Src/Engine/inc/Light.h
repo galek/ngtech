@@ -18,10 +18,14 @@ namespace NGTech {
 			LIGHT_DIRECT,
 		};
 
-		ENGINE_INLINE virtual LightType getType() { return LIGHT; };
-		bool visible;
-		ENGINE_INLINE void enable(bool flag) { enabled = flag; };
+		ENGINE_INLINE virtual LightType getType() { return LIGHT; }
+		ENGINE_INLINE void setEnable(bool flag) { enabled = flag; }
+		ENGINE_INLINE bool isVisible() { return visible; }
+		ENGINE_INLINE bool isEnable() { return enabled; }
+		ENGINE_INLINE void setVisible(bool _s) { visible = _s; }
+	private:
 		bool enabled;
+		bool visible;
 	};
 
 	//---------------------------------------------------------------------------

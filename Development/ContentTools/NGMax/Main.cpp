@@ -290,7 +290,7 @@ namespace NGTech {
 
 					_ftprintf(fmtr, _T("pass Ambient\n"));
 					_ftprintf(fmtr, _T("{\n"));
-					_ftprintf(fmtr, _T("shader = mesh_ambient.ashd\n"));
+					_ftprintf(fmtr, _T("shader = mesh_ambient.glsl\n"));
 					_ftprintf(fmtr, _T("mat4 u_mvp = scene::mvp\n"));
 					_ftprintf(fmtr, _T("vec3 u_light_color = scene::light_color\n"));
 					_ftprintf(fmtr, _T("sampler2D u_base_map = %s\n"), tex0.c_str());
@@ -298,7 +298,7 @@ namespace NGTech {
 
 					_ftprintf(fmtr, _T("pass LightOmni\n"));
 					_ftprintf(fmtr, _T("{\n"));
-					_ftprintf(fmtr, _T("shader = mesh_omni.ashd\n"));
+					_ftprintf(fmtr, _T("shader = mesh_omni.glsl\n"));
 					_ftprintf(fmtr, _T("float u_spec_coef = 0.5\n"));
 					_ftprintf(fmtr, _T("float u_shininess = 24\n"));
 					_ftprintf(fmtr, _T("mat4 u_mvp = scene::mvp\n"));
@@ -314,7 +314,7 @@ namespace NGTech {
 
 					_ftprintf(fmtr, _T("pass LightSpot\n"));
 					_ftprintf(fmtr, _T("{\n"));
-					_ftprintf(fmtr, _T("shader = mesh_spot.ashd\n"));
+					_ftprintf(fmtr, _T("shader = mesh_spot.glsl\n"));
 					_ftprintf(fmtr, _T("float u_spec_coef = 0.5\n"));
 					_ftprintf(fmtr, _T("float u_shininess = 24\n"));
 					_ftprintf(fmtr, _T("mat4 u_mvp = scene::mvp\n"));
@@ -333,7 +333,7 @@ namespace NGTech {
 
 					_ftprintf(fmtr, _T("pass LightDirect\n"));
 					_ftprintf(fmtr, _T("{\n"));
-					_ftprintf(fmtr, _T("shader = mesh_direct.ashd\n"));
+					_ftprintf(fmtr, _T("shader = mesh_direct.glsl\n"));
 					_ftprintf(fmtr, _T("float u_specular = 0.5\n"));
 					_ftprintf(fmtr, _T("float u_shininess = 24\n"));
 					_ftprintf(fmtr, _T("mat4 u_mvp = scene::mvp\n"));
@@ -388,7 +388,7 @@ namespace NGTech {
 	class NGMax : public SceneExport {
 	public:
 		int          ExtCount()   { return 1; }
-		const TCHAR* Ext(int i)   { if (i == 0) return _T("amdl"); else return _T(""); }
+		const TCHAR* Ext(int i)   { if (i == 0) return _T("nggf"); else return _T(""); }
 		const TCHAR* LongDesc()   { return _T("NGMax"); }
 		const TCHAR* ShortDesc()  { return _T("NGMax"); }
 		const TCHAR* AuthorName() { return _T("NG Games"); }

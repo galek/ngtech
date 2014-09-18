@@ -12,7 +12,7 @@ namespace NGTech {
 	*/
 	class ENGINE_API LoadingScreen {
 	public:
-		LoadingScreen(const String &path);
+		explicit LoadingScreen(const String &path);
 		~LoadingScreen();
 
 		/**

@@ -99,9 +99,6 @@
     <ClInclude Include="inc\Scene.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="inc\SkinnedModel.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="inc\Terrain.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -204,9 +201,6 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="src\Scene.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SkinnedModel.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="src\Terrain.cpp">

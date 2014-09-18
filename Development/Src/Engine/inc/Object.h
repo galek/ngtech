@@ -8,7 +8,6 @@
 #include "Material.h"
 #include "../../Core/inc/Log.h"
 #include "Model.h"
-#include "SkinnedModel.h"
 //**************************************
 
 namespace NGTech {
@@ -25,27 +24,27 @@ namespace NGTech {
 			OBJECT_PARTICLE_SYSTEM,
 		};
 
-		ENGINE_INLINE virtual void drawSubset(int s) {};
-		ENGINE_INLINE virtual int getNumSubsets() { return 0; };
+		ENGINE_INLINE virtual void drawSubset(int s) {}
+		ENGINE_INLINE virtual int getNumSubsets() { return 0; }
 
-		ENGINE_INLINE virtual Vec3 &getMax() { return Vec3(); };
-		ENGINE_INLINE virtual Vec3 &getMin() { return Vec3(); };
-		ENGINE_INLINE virtual Vec3 &getCenter() { return Vec3(); };
-		ENGINE_INLINE virtual float getRadius() { return 0; };
+		virtual Vec3 &getMax() = 0;
+		virtual Vec3 &getMin() = 0;
+		virtual Vec3 &getCenter() = 0;
+		ENGINE_INLINE virtual float getRadius() { return 0; }
 
-		ENGINE_INLINE virtual Vec3 &getMax(int s) { return Vec3(); };
-		ENGINE_INLINE virtual Vec3 &getMin(int s) { return Vec3(); };
-		ENGINE_INLINE virtual Vec3 &getCenter(int s) { return Vec3(); };
-		ENGINE_INLINE virtual float getRadius(int s) { return 0; };
+		virtual Vec3 &getMax(int s) = 0;
+		virtual Vec3 &getMin(int s) = 0;
+		virtual Vec3 &getCenter(int s) = 0;
+		ENGINE_INLINE virtual float getRadius(int s) { return 0; }
 
-		ENGINE_INLINE virtual Material *getMaterial(int s) { return NULL; };
+		ENGINE_INLINE virtual Material *getMaterial(int s) { return NULL; }
 
-		ENGINE_INLINE virtual void setTransform(const Mat4 &trans) {};
-		ENGINE_INLINE virtual Mat4 getTransform() { return Mat4(); };
+		ENGINE_INLINE virtual void setTransform(const Mat4 &trans) {}
+		ENGINE_INLINE virtual Mat4 getTransform() { return Mat4(); }
 
-		ENGINE_INLINE virtual PhysBody *getPhysBody() { return NULL; };
+		ENGINE_INLINE virtual PhysBody *getPhysBody() { return NULL; }
 
-		ENGINE_INLINE virtual ObjectType getType() { return OBJECT; };
+		ENGINE_INLINE virtual ObjectType getType() { return OBJECT; }
 	};
 
 	//---------------------------------------------------------------------------
@@ -53,7 +52,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	class ENGINE_API ObjectMesh : public Object{
 	public:
-		ObjectMesh(const String &path);
+		explicit ObjectMesh(const String &path);
 		~ObjectMesh();
 
 		virtual void drawSubset(int s);
