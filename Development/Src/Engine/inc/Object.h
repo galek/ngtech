@@ -22,7 +22,6 @@ namespace NGTech {
 		enum ObjectType {
 			OBJECT,
 			OBJECT_MESH,
-			OBJECT_SKINNED_MESH,
 			OBJECT_PARTICLE_SYSTEM,
 		};
 
@@ -105,50 +104,6 @@ namespace NGTech {
 
 		Mat4 transform;
 
-		bool visible;
-
-		friend class Scene;
-	};
-
-	//---------------------------------------------------------------------------
-	//Desc: class of the scene object
-	//---------------------------------------------------------------------------
-	class ENGINE_API ObjectSkinnedMesh : public Object {
-	public:
-		ObjectSkinnedMesh(const String &path);
-		~ObjectSkinnedMesh();
-
-		virtual void drawSubset(int s);
-		ENGINE_INLINE virtual int getNumSubsets() { return model->getNumSubsets(); };
-
-		ENGINE_INLINE virtual Vec3 &getMax() { return model->max; };
-		ENGINE_INLINE virtual Vec3 &getMin() { return model->min; };
-		ENGINE_INLINE virtual Vec3 &getCenter() { return model->center; };
-		ENGINE_INLINE virtual float getRadius() { return model->radius; };
-
-		ENGINE_INLINE virtual Vec3 &getMax(int s) { return model->subsets[s]->max; };
-		ENGINE_INLINE virtual Vec3 &getMin(int s) { return model->subsets[s]->min; };
-		ENGINE_INLINE virtual Vec3 &getCenter(int s) { return model->subsets[s]->center; };
-		ENGINE_INLINE virtual float getRadius(int s) { return model->subsets[s]->radius; };
-
-		virtual Material *getMaterial(int s);
-
-		void setMaterial(const String &name, const String &path);
-		void setMaterialList(const String &path);
-
-		virtual void setTransform(const Mat4 &trans);
-		virtual Mat4 getTransform();
-
-		ENGINE_INLINE void setFrame(float frame) { model->setFrame(frame, -1, -1); };
-
-		ENGINE_INLINE virtual ObjectType getType() { return OBJECT_SKINNED_MESH; };
-
-	private:
-		SkinnedModel *model;
-
-		std::vector<Material*> materials;
-
-		Mat4 transform;
 		bool visible;
 
 		friend class Scene;

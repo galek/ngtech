@@ -43,13 +43,11 @@ namespace NGTech
 		return buffer;
 	}
 
-	bool VFile::EndOfFile()
-	{
+	bool VFile::EndOfFile()	{
 		return feof(mFile);
 	}
 
-	const char*  VFile::GetDataPath()
-	{
+	const char*  VFile::GetDataPath() {
 		return GetVFS()->getDataPath(mName).c_str();
 	}
 

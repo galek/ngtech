@@ -102,7 +102,6 @@ namespace NGTech {
 
 	void ObjectMesh::setPhysicsCone(float radius, float height, float mass) {
 		pBody = PhysBody::CreateCone(radius, height, mass);
-		setTransform(transform);
 	}
 
 	void ObjectMesh::setPhysicsCapsule(float radius, float height, float mass)  {
@@ -111,7 +110,6 @@ namespace NGTech {
 
 	void ObjectMesh::setPhysicsChampferCylinder(float radius, float height, float mass) {
 		pBody = PhysBody::CreateChampferCylinder(radius, height, mass);
-		setTransform(transform);
 	}
 
 	void ObjectMesh::setPhysicsConvexHull(float mass) {
@@ -125,7 +123,6 @@ namespace NGTech {
 			pb[i] = *PhysBody::CreateConvexHull(model->subsets[i]->numVertices, model->subsets[i]->numIndices, &transform, model->subsets[i]->vertices, model->subsets[i]->indices, mass);
 
 		pBody = pb;
-		setTransform(transform);
 	}
 
 	void ObjectMesh::setPhysicsStaticMesh() {
@@ -140,11 +137,9 @@ namespace NGTech {
 
 		for (int i = 0; i < model->getNumSubsets(); i++)
 			pb[i] = *PhysBody::CreateStaticMesh(model->subsets[i]->numVertices, model->subsets[i]->numIndices, &transform, model->subsets[i]->vertices, model->subsets[i]->indices);
-
-
+	
 		//Nick:BUG:Меш собирается в реалтайме,и часть тел пролетает,если сначала создать физику,и потом задать коллизию
 		pBody = pb;
-		setTransform(transform);
 	}
 
 	void ObjectMesh::setPhysicsCloth() {
@@ -160,7 +155,6 @@ namespace NGTech {
 		for (int i = 0; i < model->getNumSubsets(); i++)
 			pb[i] = *PhysBody::CreateCloth(model->subsets[i]->numVertices, model->subsets[i]->numIndices, &transform, model->subsets[i]->vertices, model->subsets[i]->indices);
 
-
 		pBody = pb;
 	}
 
@@ -169,63 +163,4 @@ namespace NGTech {
 		if (pBody)
 			pBody->SetImpactSound(impactSound);
 	}
-
-	ObjectSkinnedMesh::ObjectSkinnedMesh(const String &path) {
-		model = new SkinnedModel("../data/meshes/" + path);
-		materials.resize(model->getNumSubsets());
-		for (int i = 0; i < materials.size(); i++)
-			materials[i] = nullptr;
-		transform.identity();
-		return;
-	}
-
-	ObjectSkinnedMesh::~ObjectSkinnedMesh() {
-		delete model;
-		for (int i = 0; i < materials.size(); i++) {
-			GetCache()->deleteMaterial(materials[i]);
-		}
-		materials.clear();
-	}
-
-	void ObjectSkinnedMesh::drawSubset(int s) {
-		model->drawSubset(s);
-	}
-
-	Material *ObjectSkinnedMesh::getMaterial(int s) {
-		return materials[s];
-	}
-
-	void ObjectSkinnedMesh::setMaterial(const String &name, const String &path) {
-		Material *material = GetCache()->loadMaterial(path);
-		if (name == "*")	{
-			for (int s = 0; s < model->getNumSubsets(); s++) {
-				materials[s] = material;
-			}
-		}
-		materials[model->getSubset(name)] = material;
-	}
-
-	void ObjectSkinnedMesh::setMaterialList(const String &path) {
-		VFile mFile(path.c_str(), VFile::READ_TEXT);
-
-		//Check if exist
-		if (!&mFile) {
-			Error::showAndExit("ObjectMesh::setMaterialList() error: material list file '" + path + "' not found");
-			return;
-		}
-
-		while (!mFile.EndOfFile()) {
-			String line = mFile.GetLine();
-			setMaterial(StringHelper::getWord(line, 1), StringHelper::getWord(line, 3));
-		}
-	}
-
-	void ObjectSkinnedMesh::setTransform(const Mat4 &trans) {
-		transform = trans;
-	}
-
-	Mat4 ObjectSkinnedMesh::getTransform() {
-		return transform;
-	}
-
 }
