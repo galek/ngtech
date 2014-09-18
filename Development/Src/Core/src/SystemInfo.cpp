@@ -278,6 +278,8 @@ namespace NGTech {
 		SYSTEM_INFO system;
 		GetSystemInfo(&system);
 		count = system.dwNumberOfProcessors;
+		std::string str("Supported Threads:");
+		strcpy(info, (str + std::to_string(count)).c_str());
 
 #elif _LINUX
 

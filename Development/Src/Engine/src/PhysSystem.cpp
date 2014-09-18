@@ -34,7 +34,7 @@ namespace NGTech {
 
 	/**
 	*/
-	PhysSystem::PhysSystem(SystemInfo*info) :mNbThreads(info->getCPUCount()),
+	PhysSystem::PhysSystem(SystemInfo*info) :
 		mFoundation(nullptr),
 		mProfileZoneManager(nullptr),
 		mPhysics(nullptr),
@@ -45,7 +45,13 @@ namespace NGTech {
 		mCudaContextManager(nullptr),
 #endif
 		mScene(nullptr)
-	{}
+	{
+		int count = info->getCPUCount();
+		if (count > 2)
+			mNbThreads = count-1;
+		else
+			mNbThreads = 1;
+	}
 
 	/**
 	*/
@@ -53,6 +59,7 @@ namespace NGTech {
 	{
 		Log::writeHeader("-- PhysSystem --");
 		Debug("PhysSystem::initialise");
+		LogPrintf("Physics started for %i threads", mNbThreads);
 
 		mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gDefaultErrorCallback);
 		if (!mFoundation)
