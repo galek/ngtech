@@ -14,7 +14,6 @@
 #include "Object.h"
 #include "Terrain.h"
 #include "Camera.h"
-#include "Water.h"
 #include <vector>
 //**************************************
 
@@ -38,7 +37,6 @@ namespace NGTech {
 
 		void setAmbient(const Vec3 &color);
 		void setCamera(Camera *camera);
-		void setWater(float depth, float size);
 		void setTerrain(const String &path, float step, float height, bool physics);
 		void setTerrainLods(const Vec3 &lods);
 		void setTerrainMaterial(const String &path);
@@ -67,11 +65,8 @@ namespace NGTech {
 		void checkOmniVisibility(LightOmni *light);
 		void checkSpotVisibility(LightSpot *light);
 
-		void drawWater();
-
 		Vec3 ambient;
 		Camera *camera;
-		Water *water;
 		Terrain *terrain;
 		Vec3 terrainLods;
 
@@ -87,7 +82,6 @@ namespace NGTech {
 		I_Texture *viewportCopy_brightPass_blured;
 
 		Material *depthPass;
-		Material *waterMtr;
 		Material *hdr;
 
 		float matTime;

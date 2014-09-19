@@ -102,9 +102,6 @@
     <ClInclude Include="inc\Terrain.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="inc\Water.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="inc\WindowSystem.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -207,9 +204,6 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="src\TerrainDemo.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Water.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="src\WindowSystem.cpp">

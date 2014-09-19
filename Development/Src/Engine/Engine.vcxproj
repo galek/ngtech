@@ -353,7 +353,6 @@
     <ClInclude Include="inc\PhysXUtils.h" />
     <ClInclude Include="inc\Scene.h" />
     <ClInclude Include="inc\Terrain.h" />
-    <ClInclude Include="inc\Water.h" />
     <ClInclude Include="inc\WindowSystem.h" />
     <ClInclude Include="Inc\WrappedScriptFunctions.h" />
   </ItemGroup>
@@ -390,7 +389,6 @@
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Terrain.cpp" />
     <ClCompile Include="src\TerrainDemo.cpp" />
-    <ClCompile Include="src\Water.cpp" />
     <ClCompile Include="src\WindowSystem.cpp" />
     <ClCompile Include="src\WrappedScriptFunctions.cpp" />
   </ItemGroup>

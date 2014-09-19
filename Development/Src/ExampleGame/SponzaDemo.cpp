@@ -17,8 +17,8 @@ void ExampleGame::update() {}
 void ExampleGame::initialise() {
 	events = new GameGUIEvents();
 	//initializing loading screen
-	LoadingScreen *lscreen = new LoadingScreen("sponza/background.png");
-	lscreen->show();
+	LoadingScreen lscreen("sponza/background.png");
+	lscreen.show();
 
 	sponza = new ObjectMesh("sponza.nggf");
 	sponza->setMaterialList("sponza.matlst");
@@ -43,7 +43,7 @@ void ExampleGame::initialise() {
 
 	for (int i = 0; i < 5; i++) {
 		cylinder[i] = new ObjectMesh("torus.nggf");
-		cylinder[i]->setMaterial("*", "grid.mat");
+		cylinder[i]->setMaterial("*", "water.mat");
 		cylinder[i]->setTransform(Mat4::translate(Vec3(20 + i * 2, i * 20 + 20, i - 10)));
 		cylinder[i]->setPhysicsConvexHull(10.0f);
 		cylinder[i]->setImpactSound("impact.ogg");
@@ -77,7 +77,6 @@ void ExampleGame::initialise() {
 	particlesYellow->setParticleLifeTime(10000);
 	particlesYellow->setDispersion(0.1);
 
-	GetScene()->setWater(1, 400);
 	//GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
 
 	GetWindow()->grabMouse(false/*true*/);
@@ -91,16 +90,7 @@ void ExampleGame::initialise() {
 EventsCallback::EventsCallback() : depth(10.0f){}
 //------------------------------------------------------------
 void EventsCallback::Body(){
-
 	if (GetWindow()->isKeyDown("esc"))
 		GetWindow()->toggleGrabMouse();
-
-	if (GetWindow()->isKeyPressed("z"))
-		GetScene()->setWater(depth += 1, 500);
-
-
-	if (GetWindow()->isKeyPressed("x"))
-		GetScene()->setWater(depth -= 1, 500);
-
 }
 #endif

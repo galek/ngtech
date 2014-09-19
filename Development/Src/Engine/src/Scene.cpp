@@ -20,7 +20,6 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	Scene::Scene(CVARManager*_cvars) : cvars(_cvars), camera(nullptr) {
-		water = NULL;
 		terrain = NULL;
 	}
 	//---------------------------------------------------------------------------
@@ -58,7 +57,6 @@ namespace NGTech {
 		matSpotMap = NULL;
 
 		depthPass = new Material("engine_materials/depth_pass.mat");
-		waterMtr = new Material("engine_materials/water.mat");
 		hdr = new Material("engine_materials/hdr.mat");
 	}
 
@@ -82,7 +80,6 @@ namespace NGTech {
 		lights.clear();
 
 		delete terrain;
-		delete water;
 	}
 
 	//---------------------------------------------------------------------------
@@ -120,17 +117,6 @@ namespace NGTech {
 	void Scene::setCamera(Camera *camera) {
 		delete this->camera;
 		this->camera = camera;
-	}
-
-	//---------------------------------------------------------------------------
-	//Desc:    sets water depth and size
-	//Params:  
-	//Returns: -
-	//---------------------------------------------------------------------------
-	void Scene::setWater(float depth, float size) {
-		if (!water) water = new Water();
-		water->setDepth(depth);
-		water->setSize(size);
 	}
 
 	//---------------------------------------------------------------------------
@@ -1021,12 +1007,7 @@ namespace NGTech {
 		viewportFBO->unset();
 
 		matMVP = GetRender()->getMatrix_MVP();
-		if (water) 	{
-			waterMtr->setPass("Ambient");
-			water->draw();
-			waterMtr->unsetPass();
-		}
-
+	
 		if (GetCvars()->r_hdr) {
 			//---------bright-pass--------------------------------
 			viewportFBO->set();
