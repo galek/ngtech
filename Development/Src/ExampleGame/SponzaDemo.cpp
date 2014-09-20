@@ -43,7 +43,7 @@ void ExampleGame::initialise() {
 
 	for (int i = 0; i < 5; i++) {
 		cylinder[i] = new ObjectMesh("torus.nggf");
-		cylinder[i]->setMaterial("*", "water.mat");
+		cylinder[i]->setMaterial("*", "grid.mat");
 		cylinder[i]->setTransform(Mat4::translate(Vec3(20 + i * 2, i * 20 + 20, i - 10)));
 		cylinder[i]->setPhysicsConvexHull(10.0f);
 		cylinder[i]->setImpactSound("impact.ogg");

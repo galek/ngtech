@@ -8,16 +8,6 @@
 using namespace MyGUI;
 using namespace NGTech;
 
-#if 0
-/*
-*/
-GameGUI::GameGUI()
-{}
-/*
-*/
-void GameGUI::Init()
-{}
-#endif
 /*
 */
 void GameGUIEvents::ExitEvent(MyGUI::Widget *)
