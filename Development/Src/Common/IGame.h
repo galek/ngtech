@@ -30,6 +30,7 @@ namespace NGTech {
 	public:
 		virtual void initialise() = 0;
 		virtual void update() = 0;
+		virtual void render() = 0;
 
 
 		void runRenderCallback(){ render_callback->Body(); };

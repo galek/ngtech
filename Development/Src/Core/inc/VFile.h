@@ -17,7 +17,7 @@ namespace NGTech
 		bool EndOfFile();
 		char* LoadFile();
 		const char* GetDataPath();
-		ENGINE_INLINE size_t Size(){ return mSize; }
+		size_t Size();
 		String GetLine();
 		String GetFileExt();
 		String CutFileExt();

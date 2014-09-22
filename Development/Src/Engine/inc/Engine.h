@@ -22,8 +22,11 @@ namespace NGTech {
 		engines main loop
 		*/
 		void mainLoop();
+		void editorLoop();
 
-		void updateFrame();
+		void do_update();
+		void do_render();
+		void do_swap();
 
 		/**
 		exits the main loop

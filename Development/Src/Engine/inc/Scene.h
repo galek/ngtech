@@ -31,7 +31,9 @@ namespace NGTech {
 		void clear();
 
 		void initialise();
-		void Update();
+		void update();
+		void updateSound();
+		void render();
 
 		void setGravity(const Vec3 &gravity);
 

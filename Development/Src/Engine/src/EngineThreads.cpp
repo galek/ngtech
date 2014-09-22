@@ -4,7 +4,6 @@
 //added
 #include "Utils.h"
 #include "SystemInfo.h"
-#include "ALSystem.h"
 #include "Scene.h"
 
 namespace NGTech
@@ -19,8 +18,8 @@ namespace NGTech
 	*
 	\******************************************************************************/
 
-	/*
-	 */
+	/**
+	*/
 	class SoundThread : public Thread {
 
 	public:
@@ -33,18 +32,20 @@ namespace NGTech
 		virtual void process();
 	};
 
-	/*
-	 */
+	/**
+	*/
 	SoundThread::SoundThread() {
 
 	}
-
+	
+	/**
+	*/
 	SoundThread::~SoundThread() {
 
 	}
 
-	/*
-	 */
+	/**
+	*/
 	void SoundThread::process() {
 
 		while (isRunning()) {
@@ -60,9 +61,9 @@ namespace NGTech
 	* FileSystemThread
 	*
 	\******************************************************************************/
-
-	/*
-	 */
+	
+	/**
+	*/
 	class FileSystemThread : public Thread {
 
 	public:
@@ -75,18 +76,20 @@ namespace NGTech
 		virtual void process();
 	};
 
-	/*
-	 */
+	/**
+	*/
 	FileSystemThread::FileSystemThread() {
 
 	}
 
+	/**
+	*/
 	FileSystemThread::~FileSystemThread() {
 
 	}
 
-	/*
-	 */
+	/**
+	*/
 	void FileSystemThread::process() {
 
 		while (isRunning()) {
@@ -102,9 +105,9 @@ namespace NGTech
 	* PhysicsThread
 	*
 	\******************************************************************************/
-
-	/*
-	 */
+	
+	/**
+	*/
 	class EngineJobThread : public Thread {
 
 	public:
@@ -126,18 +129,20 @@ namespace NGTech
 		Vector<EngineJobBase*> jobs;
 	};
 
-	/*
-	 */
+	/**
+	*/
 	EngineJobThread::EngineJobThread(int num) : num(num) {
 		jobs.allocate(ENGINE_THREADS_NUM_JOBS);
 	}
 
+	/**
+	*/
 	EngineJobThread::~EngineJobThread() {
 
 	}
 
-	/*
-	 */
+	/**
+	*/
 	void EngineJobThread::clearJobs() {
 		jobs.clear();
 	}
@@ -146,8 +151,8 @@ namespace NGTech
 		jobs.append(job);
 	}
 
-	/*
-	 */
+	/**
+	*/
 	void EngineJobThread::process() {
 
 #ifdef _WIN32
@@ -173,8 +178,8 @@ namespace NGTech
 	*
 	\******************************************************************************/
 
-	/*
-	 */
+	/**
+	*/
 	EngineThreads::EngineThreads() : sound_lock(0), filesystem_lock(0), job_lock(0) {
 
 		// create sound thread
@@ -244,6 +249,8 @@ namespace NGTech
 		return job_threads.size();
 	}
 
+	/*
+	*/
 	int EngineThreads::runJobs(void *jobs, int stride, int num) {
 
 		AtomicLock atomic(&job_lock);

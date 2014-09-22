@@ -829,16 +829,16 @@ namespace NGTech {
 		light->setVisible(true);
 	}
 
-
-	//---------------------------------------------------------------------------
-	//Desc:    main draw function
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
-	void Scene::Update() {
+	/*
+	*/
+	void Scene::update() {
 		//---------update-camera-----------------------------------
 		camera->update();
-		GetAudio()->setListener(camera->getPosition(), camera->getDirection());
+		//draw particle systems
+		for (int k = 0; k < systems.size(); k++) {
+			if (systems[k]) systems[k]->draw();
+		}
+
 		//---------draw-scene--------------------------------
 		GetRender()->setMatrixMode_Projection();
 		GetRender()->loadMatrix(camera->getProjection());
@@ -913,22 +913,6 @@ namespace NGTech {
 
 		drawAmbient(true);
 
-		/*GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
-		GetRender()->depthMask(false);
-
-		for(int i = 0; i < lights.size(); i++) {
-		if(lights[i]->getType() == Light::LIGHT_OMNI) {
-		drawOmni((LightOmni*)lights[i], true);
-		} else if(lights[i]->getType() == Light::LIGHT_SPOT) {
-		drawSpot((LightSpot*)lights[i], true);
-		} else if(lights[i]->getType() == Light::LIGHT_DIRECT) {
-		drawDirect((LightDirect*)lights[i], true);
-		}
-		}
-
-		GetRender()->depthMask(true);
-		GetRender()->disableBlending();*/
-
 		//draw particle systems
 		for (int k = 0; k < systems.size(); k++) {
 			if (systems[k]) systems[k]->draw();
@@ -950,7 +934,17 @@ namespace NGTech {
 
 		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 		GetRender()->depthMask(false);
+	}
 
+	/*
+	*/
+	void Scene::updateSound() {
+		GetAudio()->setListener(camera->getPosition(), camera->getDirection());
+	}
+
+	/*
+	*/
+	void Scene::render() {
 		if (GetCvars()->r_wireframe) {//Nick:TODO:Replace
 			glColor3f(1, 1, 1);//Nick:TODO:Replace
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//Nick:TODO:Replace

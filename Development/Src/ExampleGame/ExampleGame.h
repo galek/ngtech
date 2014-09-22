@@ -24,6 +24,7 @@ class GAME_API ExampleGame : public NGTech::IGame
 {
 	virtual void initialise();
 	virtual void update();
+	virtual void render(){}
 
 	//objects
 	class NGTech::ObjectMesh *sponza;

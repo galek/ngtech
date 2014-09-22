@@ -6,13 +6,8 @@
 #include "lua/lua.hpp"
 //***************************************************
 #include "../Common/IAudio.h"
-#include "../Common/IGUI.h"
-#include "../Common/IGame.h"
 #include "../Common/IDataManager.h"
-//Core
-#include "VFS.h"
-#include "CvarManager.h"
-#include "Cache.h"
+//***************************************************
 #include "WrappedScriptFunctions.h"
 //***************************************************
 
@@ -214,13 +209,13 @@ namespace NGTech{
 			[
 				//Interfaces
 				//====Audio====
-				class_<I_Audio>("I_Audio")
+				/*class_<I_Audio>("I_Audio")
 				.def("initialise", &I_Audio::initialise)
 				.def("getVendor", &I_Audio::getVendor)
 				.def("getRenderer", &I_Audio::getRenderer)
 				.def("getVersion", &I_Audio::getVersion)
 				.def("getExtensions", &I_Audio::getExtensions)
-				.def("setListener", &I_Audio::setListener),
+				.def("setListener", &I_Audio::setListener),*/
 				//====IDataStream====
 				class_<IDataStream>("IDataStream")
 				.def("eof", &IDataStream::eof)
@@ -416,7 +411,7 @@ namespace NGTech{
 				.def("set", &I_FBOManager::set)
 				.def("unset", &I_FBOManager::unset)
 				.def("clear", &I_FBOManager::clear)
-				.def("flush", &I_FBOManager::flush),
+				.def("flush", &I_FBOManager::flush)/*,
 
 				//Globals
 				def("GetCore", &GetCore),
@@ -427,11 +422,10 @@ namespace NGTech{
 				def("GetAudio", &GetAudio),
 				def("GetPhysics", &GetPhysics),
 				def("GetCache", &GetCache),
-				//def("GetGUI", &GetGUI),
-				//def("GetScene", &GetScene),
+				def("GetGUI", &GetGUI),
+				def("GetScene", &GetScene),
 				def("GetGame", &GetGame),
-				def("GetScripting", &GetScripting)
+				def("GetScripting", &GetScripting)*/
 			];
-
 	}
 }

@@ -213,81 +213,83 @@ namespace NGTech {
 
 	/*
 	*/
+	void Engine::editorLoop() {
+		do_update();
+		do_render();
+		do_swap();
+	}
+
+	/*
+	*/
 	void Engine::mainLoop() {
-		if (this->iWindow)	this->iWindow->update();
+
 		while (this->running)
 		{
-			updateFrame();
+			do_update();
+			do_render();
+			do_swap();
 		}
 	}
 
 	/*
 	*/
-	void Engine::updateFrame() {
-		if (paused)
+	void Engine::do_update()
+	{
+		if (iWindow)
+			this->iWindow->update();
+
+		if (this->game->ec)
+			this->game->runEventsCallback();
+
+		if (this->iRender)
+			this->iRender->clear(I_Render::COLOR_BUFFER | I_Render::DEPTH_BUFFER | I_Render::STENCIL_BUFFER);
+
+		if (this->scene)
+			this->scene->update();
+
+		if (this->scene)
+			this->scene->updateSound();
+
+		if (this->game)
+			this->game->update();
+	}
+
+	/*
+	*/
+	void Engine::do_render() {
+
+		if (this->scene)
+			this->scene->render();
+
+
+		if (!paused)
 		{
-			if (iWindow)
-				this->iWindow->update();
-
-			if (this->game->ec)
-				this->game->runEventsCallback();
-
-			if (this->iRender)
-				this->iRender->clear(I_Render::COLOR_BUFFER | I_Render::DEPTH_BUFFER | I_Render::STENCIL_BUFFER);
-
-			if (this->scene)
-				this->scene->Update();
-
-			if (this->gui)
-				this->gui->update();
-
-			if (this->game->rc)
-				this->game->runRenderCallback();
-
-			if (this->iRender)
-				this->iRender->flush();
-
-			if (mWatermarkTex)
-				RenderWatermark(mWatermarkTex);
-
-			if (this->iRender)
-				this->iRender->swapBuffers();
+			// update single-threaded physics
+			this->physSystem->update();
 		}
-		else
-		{
-			if (iWindow)
-				this->iWindow->update();
 
-			if (this->physSystem)
-				this->physSystem->update();
+		if (this->gui)
+			this->gui->render();
 
-			if (this->game->ec)
-				this->game->runEventsCallback();
+		if (this->game->rc)
+			this->game->runRenderCallback();
 
-			if (this->iRender)
-				this->iRender->clear(I_Render::COLOR_BUFFER | I_Render::DEPTH_BUFFER | I_Render::STENCIL_BUFFER);
+		if (mWatermarkTex)
+			RenderWatermark(mWatermarkTex);
 
-			if (this->scene)
-				this->scene->Update();
+		if (this->game)
+			this->game->render();
 
-			if (this->gui)
-				this->gui->update();
+		if (this->iRender)
+			this->iRender->flush();
+	}
 
-			if (this->game->rc)
-				this->game->runRenderCallback();
-
-			if (this->iRender)
-				this->iRender->flush();
-
-			if (mWatermarkTex)
-				RenderWatermark(mWatermarkTex);
-
-			if (this->iRender)
-				this->iRender->swapBuffers();
-
-			if (this->game)
-				this->game->update();
-		}
+	/*
+	*/
+	void Engine::do_swap()
+	{
+		if (this->iRender)
+			this->iRender->endFrame();
 	}
 
 	/*

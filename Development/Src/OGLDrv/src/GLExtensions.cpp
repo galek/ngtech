@@ -5,7 +5,7 @@
 
 namespace NGTech {
 
-	/*
+	/**
 	*/
 	bool GLExtensions::isExtSupported(const String &name) {
 		String ext = (char *)glGetString(GL_EXTENSIONS);
@@ -17,7 +17,7 @@ namespace NGTech {
 		return false;
 	}
 
-	/*
+	/**
 	*/
 	void GLExtensions::initExtensions() {
 		if (glewInit() != GLEW_OK)

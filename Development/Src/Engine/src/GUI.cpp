@@ -60,7 +60,7 @@ namespace NGTech {
 		SAFE_DELETE(mGUI);
 	}
 
-	void GUI::update() {
+	void GUI::render() {
 		if (mInited) {
 			guiMtr->setPass("Ambient");
 			GetRender()->disableCulling();

@@ -13,7 +13,7 @@ namespace NGTech {
 	struct Log;
 	class Config;
 	class FileSystem;
-	class I_Audio;
+	struct I_Audio;
 	class PhysSystem;
 	class Cache;
 	class GUI;
