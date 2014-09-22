@@ -24,9 +24,6 @@
     <ClInclude Include="Delegate.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="EString.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="IRender.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>

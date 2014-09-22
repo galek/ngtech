@@ -133,6 +133,7 @@
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <DisableSpecificWarnings>4018;4275;4251;4800;4244;4996;4001;4100;4305;4661;4127;4706</DisableSpecificWarnings>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
     </ClCompile>
     <Link>
       <IgnoreSpecificDefaultLibraries>
@@ -363,7 +364,6 @@
     <ClCompile Include="src\Cache.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Console.cpp" />
-    <ClCompile Include="src\CoreFunctImpl.cpp" />
     <ClCompile Include="src\Effect.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\EngineAppBase.cpp" />
@@ -388,7 +388,6 @@
     <ClCompile Include="src\PhysXUtils.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Terrain.cpp" />
-    <ClCompile Include="src\TerrainDemo.cpp" />
     <ClCompile Include="src\WindowSystem.cpp" />
     <ClCompile Include="src\WrappedScriptFunctions.cpp" />
   </ItemGroup>

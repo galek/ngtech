@@ -140,9 +140,6 @@
     <ClCompile Include="src\Console.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="src\CoreFunctImpl.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="src\Effect.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -201,9 +198,6 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="src\Terrain.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TerrainDemo.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="src\WindowSystem.cpp">
