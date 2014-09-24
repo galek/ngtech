@@ -33,15 +33,18 @@
 //***************************************************
 
 namespace NGTech {
-	//параметры, относящиеся к расчету FPS
+#if 0
+	/**
+	параметры, относящиеся к расчету FPS
+	*/
 	static LARGE_INTEGER CounterFrequency;
 	static LARGE_INTEGER FPSCount;
 
-	/*
+	/**
 	*/
 	LRESULT	CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
 
-	/*
+	/**
 	*/
 	WindowSystem::WindowSystem(CVARManager*_cvars)
 		: isExternalHwnd(false), fps(0.0f)
@@ -55,8 +58,8 @@ namespace NGTech {
 		this->zdepth = _cvars->r_zdepth;
 		this->fullscreen = _cvars->r_fullscreen;
 	}
-
-	/*
+	
+	/**
 	*/
 	void WindowSystem::initialise(int _hwnd){
 		isExternalHwnd = _hwnd != NULL;
@@ -159,7 +162,7 @@ namespace NGTech {
 		QueryPerformanceCounter(&FPSCount);
 	}
 
-	/*
+	/**
 	*/
 	WindowSystem::~WindowSystem() {
 		if (fullscreen) {
@@ -180,13 +183,14 @@ namespace NGTech {
 		hInstance = NULL;
 	}
 
-	/*
+	/**
 	*/
 	void WindowSystem::setTitle(const String &title) {
 		SetWindowText(hWnd, title.c_str());
 	}
 
-
+	/**
+	*/
 	LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		switch (uMsg)
 		{
@@ -293,7 +297,7 @@ namespace NGTech {
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}
 
-	/*
+	/**
 	*/
 	void WindowSystem::update() {
 		_updateFPSCounter();
@@ -324,53 +328,53 @@ namespace NGTech {
 		}
 	}
 
-	/*
+	/**
 	*/
 	bool WindowSystem::isKeyPressed(const char* _key) {
 		const int key = Input_GetKeyValueByChar(_key);
 		return keys[key];
 	}
 
-	/*
+	/**
 	*/
 	bool WindowSystem::isKeyDown(const char* _key) {
 		const int key = Input_GetKeyValueByChar(_key);
 		return (keys[key] && !oldKeys[key]);
 	}
 
-	/*
+	/**
 	*/
 	bool WindowSystem::isKeyUp(const char* _key) {
 		const int key = Input_GetKeyValueByChar(_key);
 		return (!keys[key] && oldKeys[key]);
 	}
 
-	/*
+	/**
 	*/
-	bool WindowSystem::isMouseButtonPressed(MouseButton mb) {
+	bool WindowSystem::isMouseButtonPressed(int mb) {
 		return mouseButtons[mb];
 	}
 
-	/*
+	/**
 	*/
-	bool WindowSystem::wasMouseButtonPressed(MouseButton mb) {
+	bool WindowSystem::wasMouseButtonPressed(int mb) {
 		return (mouseButtons[mb] && !oldMouseButtons[mb]);
 	}
 
-	/*
+	/**
 	*/
-	bool WindowSystem::wasMouseButtonReleased(MouseButton mb) {
+	bool WindowSystem::wasMouseButtonReleased(int mb) {
 		return (!mouseButtons[mb] && oldMouseButtons[mb]);
 	}
 
-	/*
+	/**
 	*/
 	void WindowSystem::showCursor(bool show) {
 		MyGUI::PointerManager::getInstance().setVisible(show);
 		cursorVisible = show;
 	}
 
-	/*
+	/**
 	*/
 	void WindowSystem::setMousePos(int x, int y) {
 		POINT pt;
@@ -380,7 +384,7 @@ namespace NGTech {
 		SetCursorPos(pt.x, pt.y);
 	}
 
-	/*
+	/**
 	*/
 	void WindowSystem::grabMouse(bool grab) {
 		mouseX = oldMouseX = width / 2;
@@ -391,7 +395,7 @@ namespace NGTech {
 		mouseGrabed = grab;
 	}
 
-	/*
+	/**
 	*/
 	void WindowSystem::updateTimer() {
 		int ticks = GetTickCount();
@@ -399,7 +403,7 @@ namespace NGTech {
 		eTime = ticks;
 	}
 
-	/*
+	/**
 	*/
 	void WindowSystem::_updateFPSCounter()
 	{
@@ -420,7 +424,7 @@ namespace NGTech {
 		}
 	}
 
-	/*
+	/**
 	*/
 	int WindowSystem::getTime() {
 		return GetTickCount();
@@ -432,10 +436,197 @@ namespace NGTech {
 		::ShowCursor(_value);
 	}
 
-	/*
+	/**
 	*/
 	float WindowSystem::getLastFPS()
 	{
 		return fps;
 	}
+
+	/**
+	*/
+	const int WindowSystem::Input_GetKeyValueByChar(const char*  _p)
+	{
+		if (stricmp(_p, "A") == 0)
+			return KEY_A;
+		else if (stricmp(_p, "B") == 0)
+			return KEY_B;
+		else if (stricmp(_p, "C") == 0)
+			return KEY_C;
+		else if (stricmp(_p, "D") == 0)
+			return KEY_D;
+		else if (stricmp(_p, "E") == 0)
+			return KEY_E;
+		else if (stricmp(_p, "F") == 0)
+			return KEY_F;
+		else if (stricmp(_p, "G") == 0)
+			return KEY_G;
+		else if (stricmp(_p, "H") == 0)
+			return KEY_H;
+		else if (stricmp(_p, "I") == 0)
+			return KEY_I;
+		else if (stricmp(_p, "J") == 0)
+			return KEY_J;
+		else if (stricmp(_p, "K") == 0)
+			return KEY_K;
+		else if (stricmp(_p, "L") == 0)
+			return KEY_L;
+		else if (stricmp(_p, "M") == 0)
+			return KEY_M;
+		else if (stricmp(_p, "N") == 0)
+			return KEY_N;
+		else if (stricmp(_p, "O") == 0)
+			return KEY_O;
+		else if (stricmp(_p, "P") == 0)
+			return KEY_P;
+		else if (stricmp(_p, "Q") == 0)
+			return KEY_Q;
+		else if (stricmp(_p, "R") == 0)
+			return KEY_R;
+		else if (stricmp(_p, "S") == 0)
+			return KEY_S;
+		else if (stricmp(_p, "T") == 0)
+			return KEY_T;
+		else if (stricmp(_p, "U") == 0)
+			return KEY_U;
+		else if (stricmp(_p, "V") == 0)
+			return KEY_V;
+		else if (stricmp(_p, "W") == 0)
+			return KEY_W;
+		else if (stricmp(_p, "X") == 0)
+			return KEY_X;
+		else if (stricmp(_p, "Y") == 0)
+			return KEY_Y;
+		else if (stricmp(_p, "Z") == 0)
+			return KEY_Z;
+
+		else if (_p[0] == '0')
+			return KEY_0;
+		else if (_p[0] == '1')
+			return KEY_1;
+		else if (_p[0] == '2')
+			return KEY_2;
+		else if (_p[0] == '3')
+			return KEY_3;
+		else if (_p[0] == '4')
+			return KEY_4;
+		else if (_p[0] == '5')
+			return KEY_5;
+		else if (_p[0] == '6')
+			return KEY_6;
+		else if (_p[0] == '7')
+			return KEY_7;
+		else if (_p[0] == '8')
+			return KEY_8;
+		else if (_p[0] == '9')
+			return KEY_9;
+
+		else if ((stricmp(_p, "ESC")) == 0)
+			return KEY_ESC;
+		else if ((stricmp(_p, "UP")) == 0)
+			return KEY_UP;
+		else if ((stricmp(_p, "DONW")) == 0)
+			return KEY_DOWN;
+		else if ((stricmp(_p, "LETF")) == 0)
+			return KEY_LEFT;
+		else if ((stricmp(_p, "RIGHT")) == 0)
+			return KEY_RIGHT;
+
+		return 0;
+	}
+
+	/**
+	*/
+	const char* WindowSystem::Input_GetKeyValueByInt(int _p)
+	{
+		if (_p == KEY_A)
+			return "A";
+		else if (_p == KEY_B)
+			return "B";
+		else if (_p == KEY_C)
+			return "C";
+		else if (_p == KEY_D)
+			return "D";
+		else if (_p == KEY_E)
+			return "E";
+		else if (_p == KEY_F)
+			return "F";
+		else if (_p == KEY_G)
+			return "G";
+		else if (_p == KEY_H)
+			return "H";
+		else if (_p == KEY_I)
+			return "I";
+		else if (_p == KEY_J)
+			return "J";
+		else if (_p == KEY_K)
+			return "K";
+		else if (_p == KEY_L)
+			return "L";
+		else if (_p == KEY_M)
+			return "M";
+		else if (_p == KEY_N)
+			return "N";
+		else if (_p == KEY_O)
+			return "O";
+		else if (_p == KEY_P)
+			return "P";
+		else if (_p == KEY_Q)
+			return "Q";
+		else if (_p == KEY_R)
+			return "R";
+		else if (_p == KEY_S)
+			return "S";
+		else if (_p == KEY_T)
+			return "T";
+		else if (_p == KEY_U)
+			return "U";
+		else if (_p == KEY_V)
+			return "V";
+		else if (_p == KEY_W)
+			return "W";
+		else if (_p == KEY_X)
+			return "X";
+		else if (_p == KEY_Y)
+			return "Y";
+		else if (_p == KEY_Z)
+			return "Z";
+
+		else if (_p == KEY_0)
+			return "0";
+		else if (_p == KEY_1)
+			return "1";
+		else if (_p == KEY_2)
+			return "2";
+		else if (_p == KEY_3)
+			return "3";
+		else if (_p == KEY_4)
+			return "4";
+		else if (_p == KEY_5)
+			return "5";
+		else if (_p == KEY_6)
+			return "6";
+		else if (_p == KEY_7)
+			return "7";
+		else if (_p == KEY_8)
+			return "8";
+		else if (_p == KEY_9)
+			return "9";
+
+		else if (_p == KEY_ESC)
+			return "ESC";
+		else if (_p == KEY_SPACE)
+			return "SPACE";
+		else if (_p == KEY_UP)
+			return "UP";
+		else if (_p == KEY_DOWN)
+			return "DOWN";
+		else if (_p == KEY_LEFT)
+			return "LEFT";
+		else if (_p == KEY_RIGHT)
+			return "RIGHT";
+
+		return "NULL";
+	}
+#endif
 }

@@ -26,32 +26,6 @@
 
 namespace NGTech {
 	struct IWindow {
-		//---------------------------------------------------------------------------
-		//Desc: Mouse buttons enum
-		//---------------------------------------------------------------------------
-		enum MouseButton {
-			MOUSE_LEFT_BUTTON = 0,
-			MOUSE_RIGHT_BUTTON = 1,
-		};
-
-		int width, height, bpp, zdepth;
-		bool fullscreen;
-
-		int eTime, dTime;
-		int mouseX, mouseY;
-		int oldMouseX, oldMouseY;
-
-		bool cursorVisible;
-		bool mouseGrabed;
-
-		int mx, my;
-		bool mousing;
-
-		bool mouseButtons[3];
-		bool oldMouseButtons[3];
-
-		bool keys[315];
-		bool oldKeys[315];
 	public:
 		virtual void initialise(int _hwnd) = 0;
 		virtual void setTitle(const std::string &title) = 0;
@@ -60,32 +34,32 @@ namespace NGTech {
 
 		virtual void update() = 0;
 
-		int getWidth() { return width; };
-		int getHeight() { return height; };
+		virtual int getWidth() = 0;
+		virtual int getHeight() = 0;
 
-		int getDTime() { return dTime; };
-		int getETime() { return eTime; };
+		virtual int getDTime() = 0;
+		virtual int getETime() = 0;
 		virtual int getTime() = 0;
 
-		bool isMouseMoved() { return mousing; };
-		int getMouseX() { return mouseX; };
-		int getMouseY() { return mouseY; };
-		int getMouseDX() { return mouseX - oldMouseX; };
-		int getMouseDY() { return mouseY - oldMouseY; };
+		virtual bool isMouseMoved() = 0;
+		virtual int getMouseX() = 0;
+		virtual int getMouseY() = 0;
+		virtual int getMouseDX() = 0;
+		virtual int getMouseDY() = 0;
 
 		virtual void setMousePos(int x, int y) = 0;
 
 		virtual void showCursor(bool show) = 0;
-		void toggleShowCursor() { showCursor(!cursorVisible); };
-		bool isCursorVisible() { return cursorVisible; };
+		virtual void toggleShowCursor() = 0;
+		virtual bool isCursorVisible() = 0;
 
 		virtual void grabMouse(bool grab) = 0;
-		void toggleGrabMouse() { grabMouse(!mouseGrabed); };
-		bool isMouseGrabed() { return mouseGrabed; };
+		virtual void toggleGrabMouse() = 0;
+		virtual bool isMouseGrabed() = 0;
 
-		virtual bool isMouseButtonPressed(MouseButton mb) = 0;
-		virtual bool wasMouseButtonPressed(MouseButton mb) = 0;
-		virtual bool wasMouseButtonReleased(MouseButton mb) = 0;
+		virtual bool isMouseButtonPressed(int mb) = 0;
+		virtual bool wasMouseButtonPressed(int mb) = 0;
+		virtual bool wasMouseButtonReleased(int mb) = 0;
 
 		virtual bool isKeyPressed(const char* key) = 0;
 		virtual bool isKeyDown(const char* key) = 0;
@@ -94,20 +68,11 @@ namespace NGTech {
 		virtual void showOSCursor(bool _value) = 0;
 
 		virtual float getLastFPS() = 0;
-	protected:
-		virtual void _updateFPSCounter() = 0;
-	public:
-		HDC hDC;
-		HWND hWnd;
-		HGLRC hRC;
-		HINSTANCE hInstance;
-		unsigned int pixelFormat;
+		/**
+		*/
+		virtual const int Input_GetKeyValueByChar(const char*  _p) = 0;
+		/**
+		*/
+		virtual const char* Input_GetKeyValueByInt(int _p) = 0;
 	};
-
-	/*
-	*/
-	int Input_GetKeyValueByChar(const char* _p);
-	/*
-	*/
-	char* Input_GetKeyValueByInt(int _p);
 }

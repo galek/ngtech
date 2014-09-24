@@ -94,11 +94,13 @@ namespace NGTech {
 	/**
 	*/
 	void GLSystem::initialise()	{
+#if 0
 		if (!createContext(GetWindow()))
 		{
 			Error("[GLSystem] initialise-Failed Creation OpenGL Context", true);
 			return;
 		}
+#endif
 		Log::writeHeader("-- GLSystem --");
 		Log::write("Vendor:         " + getVendor());
 		Log::write("Renderer:       " + getRenderer());
@@ -106,6 +108,7 @@ namespace NGTech {
 		Log::write("Extensions:     " + getExtensions());
 		Log::write("Texture units:  " + StringHelper::fromInt(getNumTexUnits()));
 		Log::write("Max anisotropy: " + StringHelper::fromInt(getMaxAniso()));
+
 		defAniso = GLTexture::ANISO_X0;
 		defFilter = GLTexture::LINEAR_MIPMAP_LINEAR;
 
@@ -122,29 +125,31 @@ namespace NGTech {
 		GLExtensions::initExtensions();
 		Debug("[Init] Checking Render Extensions");
 
-		requireExtension("GL_ARB_vertex_shader", true);
-		requireExtension("GL_ARB_fragment_shader", true);
-		requireExtension("GL_ARB_shader_objects", true);
-		requireExtension("GL_ARB_shading_language_100", true);
-		requireExtension("GL_ARB_vertex_buffer_object", true);
-		requireExtension("GL_EXT_framebuffer_object", true);
-		requireExtension("GL_ARB_occlusion_query", true);
-		requireExtension("GL_EXT_texture_filter_anisotropic", true);
+		//requireExtension("GL_ARB_vertex_shader", true);
+		//requireExtension("GL_ARB_fragment_shader", true);
+		//requireExtension("GL_ARB_shader_objects", true);
+		//requireExtension("GL_ARB_shading_language_100", true);
+		//requireExtension("GL_ARB_vertex_buffer_object", true);
+		//requireExtension("GL_EXT_framebuffer_object", true);
+		//requireExtension("GL_ARB_occlusion_query", true);
+		//requireExtension("GL_EXT_texture_filter_anisotropic", true);
 
-		//OpenGL3 and 4
-		requireExtension("GL_ARB_occlusion_query2");
-		requireExtension("GL_ARB_compatibility");
-		requireExtension("GL_ARB_shading_language_420pack");
-		requireExtension("GL_ARB_geometry_shader4");
-		requireExtension("GL_ARB_shading_language_packing");
-		requireExtension("GL_ARB_ES2_compatibility");
+		////OpenGL3 and 4
+		//requireExtension("GL_ARB_occlusion_query2");
+		//requireExtension("GL_ARB_compatibility");
+		//requireExtension("GL_ARB_shading_language_420pack");
+		//requireExtension("GL_ARB_geometry_shader4");
+		//requireExtension("GL_ARB_shading_language_packing");
+		//requireExtension("GL_ARB_ES2_compatibility");
 
 
-		//4.X
-		requireExtension("GL_ARB_compute_shader");
-		requireExtension("GL_ARB_gpu_shader5");
-		requireExtension("GL_ARB_tessellation_shader");
-		requireExtension("GL_ARB_shader_subroutine");
+		////4.X
+		//requireExtension("GL_ARB_compute_shader");
+		//requireExtension("GL_ARB_gpu_shader5");
+		//requireExtension("GL_ARB_tessellation_shader");
+		//requireExtension("GL_ARB_shader_subroutine");
+
+		wglSwapIntervalEXT(0);
 	}
 
 	/**
@@ -610,6 +615,7 @@ namespace NGTech {
 	*/
 	bool GLSystem::_createOldContext(IWindow* _window)
 	{
+#if 0
 		Debug("[Render]GLSystem::_createOldContext");
 		static PIXELFORMATDESCRIPTOR pfd =
 		{
@@ -657,6 +663,7 @@ namespace NGTech {
 			Error("WindowSystem::initialise() error: can't activate the GL rendering context", true);
 			return false;
 		}
+#endif
 		return true;
 	}
 
@@ -672,6 +679,7 @@ namespace NGTech {
 	*/
 	bool GLSystem::_checkContextSuppoort(IWindow* _window)
 	{
+#if 0
 		Debug("[Render]GLSystem::_checkContextSuppoort");
 
 		// получим адрес функции создания расширенного контекста OpenGL
@@ -688,6 +696,7 @@ namespace NGTech {
 			Warning("wglCreateContextAttribsARB fail (%d)\n", GetLastError());
 			return false;
 		}
+#endif
 		return true;
 	}
 
@@ -695,6 +704,7 @@ namespace NGTech {
 	*/
 	bool GLSystem::_createNewContext(IWindow* _window)
 	{
+#if 0
 		Debug("[Render]GLSystem::_createNewContext");
 		int pixfmt[8];
 		unsigned int numpf;
@@ -775,6 +785,7 @@ namespace NGTech {
 			return false;
 		}
 		Debug("[RENDER] OpenGL 3 is available");
+#endif
 		return true;
 	}
 
@@ -804,6 +815,8 @@ namespace NGTech {
 	/**
 	*/
 	void GLSystem::swapBuffers() {
+#if 0
 		SwapBuffers(GetWindow()->hDC);
+#endif
 	}
 }

@@ -19,7 +19,10 @@
 //***************************************************
 #include "Engine.h"
 #include "CVARManager.h"
-#include "WindowSystem.h"
+//
+//#include "WindowSystem.h"
+//#include "WindowSystem_GLFW.h"
+
 #include "IRender.h"
 #include "ALSystem.h"
 #include "PhysSystem.h"
@@ -42,6 +45,8 @@
 #include "../../OGLDRV/inc/GLSystem.h"
 #include "EngineThreads.h"
 //***************************************************
+#include "WindowSystem.h"
+#include "WindowSystem_GLFW.h"
 
 
 
@@ -91,7 +96,7 @@ namespace NGTech {
 		if (!threads)
 		Warning("[Init] EngineThreads Failed");*/
 
-		iWindow = new WindowSystem(cvars);
+		iWindow = new WindowSystemGLFW(cvars);
 		if (!iWindow)
 			Warning("[Init] Window Failed");
 		iRender = new GLSystem();
@@ -222,7 +227,6 @@ namespace NGTech {
 	/*
 	*/
 	void Engine::mainLoop() {
-
 		while (this->running)
 		{
 			do_update();
@@ -287,9 +291,10 @@ namespace NGTech {
 	/*
 	*/
 	void Engine::do_swap()
-	{
+	{/*
 		if (this->iRender)
-			this->iRender->endFrame();
+			this->iRender->endFrame();*/
+		((WindowSystemGLFW*)iWindow)->swapBuffers();
 	}
 
 	/*

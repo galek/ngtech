@@ -121,16 +121,16 @@ namespace NGTech {
 				inTheAir = true;
 		}
 
-		if (GetWindow()->isKeyPressed("w")) {
+		if (GetWindow()->isKeyPressed("W")) {
 			movement += forwardVec;
 		}
-		if (GetWindow()->isKeyPressed("s")) {
+		if (GetWindow()->isKeyPressed("S")) {
 			movement -= forwardVec;
 		}
-		if (GetWindow()->isKeyPressed("a")) {
+		if (GetWindow()->isKeyPressed("A")) {
 			movement += leftVec;
 		}
-		if (GetWindow()->isKeyPressed("d")) {
+		if (GetWindow()->isKeyPressed("D")) {
 			movement -= leftVec;
 		}
 
@@ -239,16 +239,16 @@ namespace NGTech {
 		direction.z = cosf(DEG_TO_RAD * angle[0]) * cosf(DEG_TO_RAD * angle[1]);
 		direction = Vec3::normalize(direction);
 
-		if (GetWindow()->isKeyPressed("w")) {
+		if (GetWindow()->isKeyPressed("W")) {
 			movement += forwardVec;
 		}
-		if (GetWindow()->isKeyPressed("s")) {
+		if (GetWindow()->isKeyPressed("S")) {
 			movement -= forwardVec;
 		}
-		if (GetWindow()->isKeyPressed("a")) {
+		if (GetWindow()->isKeyPressed("A")) {
 			movement += leftVec;
 		}
-		if (GetWindow()->isKeyPressed("d")) {
+		if (GetWindow()->isKeyPressed("D")) {
 			movement -= leftVec;
 		}
 

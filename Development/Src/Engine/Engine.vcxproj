@@ -355,6 +355,7 @@
     <ClInclude Include="inc\Scene.h" />
     <ClInclude Include="inc\Terrain.h" />
     <ClInclude Include="inc\WindowSystem.h" />
+    <ClInclude Include="inc\WindowSystem_GLFW.h" />
     <ClInclude Include="Inc\WrappedScriptFunctions.h" />
   </ItemGroup>
   <ItemGroup>
@@ -376,6 +377,7 @@
     <ClCompile Include="src\Font.cpp" />
     <ClCompile Include="src\Frustum.cpp" />
     <ClCompile Include="src\GUI.cpp" />
+    <ClCompile Include="src\API_InputConverter.cpp" />
     <ClCompile Include="src\Light.cpp" />
     <ClCompile Include="src\LoadingScreen.cpp" />
     <ClCompile Include="src\Material.cpp" />
@@ -388,7 +390,9 @@
     <ClCompile Include="src\PhysXUtils.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Terrain.cpp" />
+    <ClCompile Include="src\WindowEvents.cpp" />
     <ClCompile Include="src\WindowSystem.cpp" />
+    <ClCompile Include="src\WindowSystem_glfw.cpp" />
     <ClCompile Include="src\WrappedScriptFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -414,6 +418,9 @@
     </ProjectReference>
     <ProjectReference Include="..\OGLDrv\OGLDrv.vcxproj">
       <Project>{2da0fbd5-be5e-4505-b7c1-de1a05027184}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Platform\Platform.vcxproj">
+      <Project>{24b9d3ed-61bd-4ea7-b15e-f23dfd8bd247}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

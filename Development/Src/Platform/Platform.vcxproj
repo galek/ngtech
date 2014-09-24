@@ -34,6 +34,23 @@
     <ClCompile Include="src\crashreport\windows\crash_generation\crash_generation_server.cc" />
     <ClCompile Include="src\crashreport\windows\crash_generation\minidump_generator.cc" />
     <ClCompile Include="src\crashreport\windows\handler\exception_handler.cc" />
+    <ClCompile Include="src\glfw\clipboard.c" />
+    <ClCompile Include="src\glfw\context.c" />
+    <ClCompile Include="src\glfw\gamma.c" />
+    <ClCompile Include="src\glfw\init.c" />
+    <ClCompile Include="src\glfw\input.c" />
+    <ClCompile Include="src\glfw\joystick.c" />
+    <ClCompile Include="src\glfw\monitor.c" />
+    <ClCompile Include="src\glfw\time.c" />
+    <ClCompile Include="src\glfw\wgl_context.c" />
+    <ClCompile Include="src\glfw\win32_clipboard.c" />
+    <ClCompile Include="src\glfw\win32_gamma.c" />
+    <ClCompile Include="src\glfw\win32_init.c" />
+    <ClCompile Include="src\glfw\win32_joystick.c" />
+    <ClCompile Include="src\glfw\win32_monitor.c" />
+    <ClCompile Include="src\glfw\win32_time.c" />
+    <ClCompile Include="src\glfw\win32_window.c" />
+    <ClCompile Include="src\glfw\window.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\crashreport\common\breakpad_types.h" />
@@ -80,6 +97,8 @@
     <ClInclude Include="inc\crashreport\windows\crash_generation\crash_generation_server.h" />
     <ClInclude Include="inc\crashreport\windows\crash_generation\minidump_generator.h" />
     <ClInclude Include="inc\crashreport\windows\handler\exception_handler.h" />
+    <ClInclude Include="inc\glfw\glfw3.h" />
+    <ClInclude Include="inc\glfw\glfw3native.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{24B9D3ED-61BD-4EA7-B15E-F23DFD8BD247}</ProjectGuid>

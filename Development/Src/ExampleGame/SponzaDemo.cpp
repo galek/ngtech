@@ -79,7 +79,7 @@ void ExampleGame::initialise() {
 
 	//GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
 
-	GetWindow()->grabMouse(false/*true*/);
+	GetWindow()->grabMouse(true);
 
 	MyGUI::ButtonPtr button = GetGUI()->getGUI()->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
 	button->setFontName("DejaVuSansFont_15");
@@ -90,7 +90,7 @@ void ExampleGame::initialise() {
 EventsCallback::EventsCallback() : depth(10.0f){}
 //------------------------------------------------------------
 void EventsCallback::Body(){
-	if (GetWindow()->isKeyDown("esc"))
+	if (GetWindow()->isKeyDown("ESC"))
 		GetWindow()->toggleGrabMouse();
 }
 #endif
