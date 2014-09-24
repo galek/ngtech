@@ -482,17 +482,26 @@ namespace NGTech {
 	*/
 	void cursor_position_callback(GLFWwindow* window, double mx, double my)
 	{
-		/*auto win = GetWindow();
+		auto win = (WindowSystemGLFW*)GetWindow();
+
+		if ((win->oldMouseX == win->mouseX) && (win->oldMouseY == win->mouseY))
+			win->mousing = false;
+		else 
+			win->mousing = true;
+	
 		win->oldMouseX = win->mouseX;
 		win->oldMouseY = win->mouseY;
-		if (win->mouseGrabed) {
-		win->mouseX += mx - win->width / 2;
-		win->mouseY += my - win->height / 2;
+
+		if (win->mouseGrabed)
+		{
+			win->mouseX = mx - win->width / 2;
+			win->mouseY = my - win->height / 2;
 		}
-		else {
-		win->mouseX = mx;
-		win->mouseY = my;
-		}*/
+		else
+		{
+			win->mouseX = mx;
+			win->mouseY = my;
+		}
 	}
 
 	/**
@@ -511,5 +520,6 @@ namespace NGTech {
 	*/
 	void window_close_callback(GLFWwindow* window) {
 		exit(0);
+		//TODO:Выводить сообщение,как в DEUS EX
 	}
 }

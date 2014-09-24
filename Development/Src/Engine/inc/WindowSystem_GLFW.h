@@ -135,31 +135,31 @@ namespace NGTech {
 		Checks if mouse was moved
 		\return true if moved
 		*/
-		virtual bool isMouseMoved() { return /*mousing*/false; }
+		virtual bool isMouseMoved() { return mousing; }
 
 		/**
 		Gets mouse X coordinate
 		\return X coordinate
 		*/
-		virtual int getMouseX() { return /*mouseX*/0; }
+		virtual int getMouseX() { return mouseX; }
 
 		/**
 		Gets mouse Y coordinate
 		\return Y coordinate
 		*/
-		virtual int getMouseY() { return /*mouseY*/0; }
+		virtual int getMouseY() { return mouseY; }
 
 		/**
 		Gets mouse delta X coordinate
 		\return delta X coordinate
 		*/
-		virtual int getMouseDX() { return /*mouseX - oldMouseX*/0; }
+		virtual int getMouseDX() { return mouseX - oldMouseX; }
 
 		/**
 		Gets mouse delta Y coordinate
 		\return delta Y coordinate
 		*/
-		int getMouseDY() { return/* mouseY - oldMouseY*/0; }
+		int getMouseDY() { return mouseY - oldMouseY; }
 
 		/**
 		Sets mouse position
@@ -177,13 +177,13 @@ namespace NGTech {
 		/**
 		Toggle show/hide cursor
 		*/
-		void toggleShowCursor() { /*showCursor(!cursorVisible);*/ }
+		void toggleShowCursor() { showCursor(!cursorVisible); }
 
 		/**
 		Checks if cursor is visible
 		\return true if visible
 		*/
-		bool isCursorVisible() { return /*cursorVisible*/false; }
+		bool isCursorVisible() { return cursorVisible; }
 
 		/**
 		Grab/release cursor
@@ -194,13 +194,13 @@ namespace NGTech {
 		/**
 		Toggle grab/release cursor
 		*/
-		void toggleGrabMouse() { /*grabMouse(!mouseGrabed);*/ }
+		void toggleGrabMouse() { grabMouse(!mouseGrabed); }
 
 		/**
 		Checks if cursor is grabed
 		\return true if grabed
 		*/
-		bool isMouseGrabed() { return /*mouseGrabed*/false; }
+		bool isMouseGrabed() { return mouseGrabed; }
 
 		/**
 		Checks if the mouse button is pressed
@@ -270,14 +270,19 @@ namespace NGTech {
 		int width, height, bpp, zdepth;
 		bool fullscreen;
 
+		//Delme
 		int eTime, dTime;
 		bool tPause;
+		//.end
 
 		bool mouseButtons[3];
 		bool oldMouseButtons[3];
 
 		bool keys[315];
 		bool oldKeys[315];
+
+		int mouseX, mouseY, oldMouseX, oldMouseY;
+		bool mousing, cursorVisible, mouseGrabed;
 	private:
 		float fps;
 	private:

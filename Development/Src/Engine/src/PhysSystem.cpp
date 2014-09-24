@@ -46,10 +46,10 @@ namespace NGTech {
 #endif
 		mScene(nullptr)
 	{
-		int count = info->getCPUCount();
+	/*	int count = info->getCPUCount();
 		if (count > 2)
 			mNbThreads = count-1;
-		else
+		else*/
 			mNbThreads = 1;
 	}
 
@@ -190,8 +190,14 @@ namespace NGTech {
 			mStepSize = 1.0f / 60.0f;
 		else
 			mStepSize = _dt;
+
+		mScene->lockWrite();
 		mScene->simulate(mStepSize);
+		mScene->unlockWrite();
+
+		mScene->lockWrite();
 		mScene->fetchResults(true);
+		mScene->unlockWrite();
 	}
 
 	/*

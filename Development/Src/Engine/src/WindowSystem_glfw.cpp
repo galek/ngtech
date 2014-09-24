@@ -16,28 +16,43 @@ namespace NGTech {
 
 	/**
 	*/
-	WindowSystemGLFW::WindowSystemGLFW(CVARManager*_cvars) {
+	WindowSystemGLFW::WindowSystemGLFW(CVARManager*_cvars)
+		:mouseGrabed(false),
+		mousing(false),
+		cursorVisible(false),
+		mouseX(0),
+		mouseY(0),
+		oldMouseX(0),
+		oldMouseY(0),
+		width(_cvars->r_width),
+		height(_cvars->r_height),
+		bpp(_cvars->r_bpp),
+		zdepth(_cvars->r_zdepth),
+		fullscreen(_cvars->r_fullscreen)
+	{
 		Log::writeHeader("-- WindowSystem --");
 
-		//-----read-config-values-----------------------------------
-		this->width = _cvars->r_width;
-		this->height = _cvars->r_height;
-		this->bpp = _cvars->r_bpp;
-		this->zdepth = _cvars->r_zdepth;
-		this->fullscreen = _cvars->r_fullscreen;
+		for (int i = 0; i < 3; i++)
+			this->mouseButtons[i] = false;
+
+		for (int i = 0; i < 315; i++)
+			this->keys[i] = false;
 	}
 
 	/*
 	*/
-	void WindowSystemGLFW::initialise(int) {
-		Log::writeHeader("WindowSystem::Initialize()");
+	void WindowSystemGLFW::initialise(int) 
+	{
+		Debug("WindowSystem::Initialize()");
 
 		glfwSetErrorCallback(error_callback);
 
 		if (!glfwInit())
+		{
+			glfwTerminate();
 			Error("Failed initializing GLFW window{glfwInit}", true);
-
-
+		}
+	
 		//Request Specific Version
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
@@ -54,6 +69,8 @@ namespace NGTech {
 			Error("Failed initializing GLFW window{glfwCreateWindow}", true);
 		}
 
+		showOSCursor(false);
+
 		glfwMakeContextCurrent(window);
 
 		glfwSetKeyCallback(window, key_callback);
@@ -65,13 +82,8 @@ namespace NGTech {
 		if (!(hRC = glfwGetWGLContext(window)))
 			Error("WindowSystem::Initialize() error: can't Create a GL rendering context", true);
 
-		for (int i = 0; i < 3; i++)
-			mouseButtons[i] = false;
-
-		for (int i = 0; i < 315; i++)
-			keys[i] = false;
-
 		_updateFPSCounter();
+#pragma message("Hack!")
 		//ѕытаюсь убрать баг черного крана,до ресайза
 		window_size_callback(window, width, height);
 	}
@@ -97,18 +109,7 @@ namespace NGTech {
 
 		memcpy(oldKeys, keys, sizeof(keys));
 		memcpy(oldMouseButtons, mouseButtons, sizeof(mouseButtons));
-		
 
-		/*oldMouseX = mouseX;
-		oldMouseY = mouseY;
-		if (mouseGrabed) {
-			mouseX += mx - width / 2;
-			mouseY += my - height / 2;
-		}
-		else {
-			mouseX = mx;
-			mouseY = my;
-		}*/
 		glfwPollEvents();
 	}
 
@@ -155,7 +156,7 @@ namespace NGTech {
 	*/
 	void WindowSystemGLFW::showCursor(bool show) {
 		MyGUI::PointerManager::getInstance().setVisible(show);
-		/*cursorVisible = show;*/
+		cursorVisible = show;
 	}
 
 	/**
@@ -187,9 +188,9 @@ namespace NGTech {
 		/*mouseX = oldMouseX = width / 2;
 		mouseY = oldMouseY = height / 2;
 
-		if (grab) { setMousePos(width / 2, height / 2); }
+		if (grab) { setMousePos(width / 2, height / 2); }*/
 		showCursor(!grab);
-		mouseGrabed = grab;*/
+		mouseGrabed = grab;
 	}
 
 	/**
