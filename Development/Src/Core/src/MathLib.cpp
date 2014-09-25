@@ -235,11 +235,7 @@ namespace NGTech {
 			return Vec2(0, 0);
 		return a / l;
 	}
-
-	ENGINE_INLINE float Vec2::dot(const Vec2 &a, const Vec2 &b) {
-		return (a.x * b.x + a.y * b.y);
-	}
-
+	
 	/*
 	*/
 	Vec3::Vec3() {
@@ -379,11 +375,7 @@ namespace NGTech {
 			return Vec3(0, 1, 0);
 		return a / l;
 	}
-
-	ENGINE_INLINE float Vec3::dot(const Vec3 &a, const Vec3 &b) {
-		return (a.x * b.x + a.y * b.y + a.z * b.z);
-	}
-
+	
 	ENGINE_INLINE Vec3 Vec3::cross(const Vec3 &a, const Vec3 &b) {
 		return Vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
 	}
@@ -539,11 +531,7 @@ namespace NGTech {
 			return Vec4(0, 1, 0, 0);
 		return a / l;
 	}
-
-	ENGINE_INLINE float Vec4::dot(const Vec4 &a, const Vec4 &b) {
-		return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
-	}
-
+	
 	/*
 	*/
 	Mat3::Mat3() {

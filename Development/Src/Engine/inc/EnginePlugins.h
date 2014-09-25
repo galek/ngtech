@@ -1,8 +1,8 @@
-/* VG CONFIDENTIAL
-* VegaEngine(TM) Package 0.5.5.0
-* Copyright (C) 2009-2014 Vega Group Ltd.
+/* NG CONFIDENTIAL
+* NGEngine(TM) Package 0.5.5.0
+* Copyright (C) 2009-2014 NG Games Ltd.
 * Author: Nick Galko
-* E-mail: nick.galko@vegaengine.com
+* E-mail: nick.galko@nggames.com
 * All Rights Reserved.
 */
 #pragma once

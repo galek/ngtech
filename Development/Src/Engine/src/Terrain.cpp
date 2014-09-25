@@ -168,6 +168,7 @@ namespace NGTech {
 	}
 
 	void Terrain::setPhysics() {
+#if 0
 		int numPos = 0;
 		for(int i = 0; i < numNodes; i++) {
 			Node &nd = nodes[i];
@@ -190,6 +191,9 @@ namespace NGTech {
 		pBody = PhysBody::CreateStaticMesh(pos, numPos, false);
 
 		delete [] pos;
+#else
+		//Nick:TODO
+#endif
 	}
 
 	void Terrain::drawNode(int n, const Vec3 &cameraPos) {

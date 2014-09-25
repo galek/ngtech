@@ -1,6 +1,6 @@
 pass Ambient 
 {
-shader = terrain_ambient.ashd
+shader = terrain_ambient.glsl
 mat4 u_mvp = scene::mvp
 vec3 u_light_color = scene::light_color
 sampler2D u_texture_0 = TerrainMap.jpg
@@ -10,7 +10,7 @@ float u_detail_map_scale = 50
 
 pass LightOmni
 { 
-shader = terrain_omni.ashd
+shader = terrain_omni.glsl
 mat4 u_mvp = scene::mvp
 vec3 u_light_color = scene::light_color
 vec3 u_light_pos = scene::light_position
@@ -23,7 +23,7 @@ sampler2D u_shadow_map = scene::shadow_map
 
 pass LightSpot
 { 
-shader = mesh_spot.ashd
+shader = mesh_spot.glsl
 mat4 u_mvp = scene::mvp
 mat4 u_spot_proj_transform = scene::spot_transform
 vec3 u_light_color = scene::light_color
@@ -40,7 +40,7 @@ sampler2D u_spot_proj_map = scene::spot_map
 
 pass LightDirect
 { 
-shader = terrain_direct.ashd
+shader = terrain_direct.glsl
 mat4 u_mvp = scene::mvp
 vec3 u_light_color = scene::light_color
 vec3 u_light_dir = scene::light_direction

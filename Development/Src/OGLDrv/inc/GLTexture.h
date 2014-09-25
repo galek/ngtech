@@ -13,7 +13,7 @@ namespace NGTech {
 	*/
 	class GLTexture :public I_Texture {
 	public:
-		~GLTexture();
+		virtual ~GLTexture();
 
 		void setWrap(Wrap wrap);
 		void setFilter(Filter filter);

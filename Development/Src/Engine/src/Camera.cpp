@@ -121,16 +121,16 @@ namespace NGTech {
 				inTheAir = true;
 		}
 
-		if (GetWindow()->isKeyPressed(WindowSystem::KEY_W)) {
+		if (GetWindow()->isKeyPressed("W")) {
 			movement += forwardVec;
 		}
-		if (GetWindow()->isKeyPressed(WindowSystem::KEY_S)) {
+		if (GetWindow()->isKeyPressed("S")) {
 			movement -= forwardVec;
 		}
-		if (GetWindow()->isKeyPressed(WindowSystem::KEY_A)) {
+		if (GetWindow()->isKeyPressed("A")) {
 			movement += leftVec;
 		}
-		if (GetWindow()->isKeyPressed(WindowSystem::KEY_D)) {
+		if (GetWindow()->isKeyPressed("D")) {
 			movement -= leftVec;
 		}
 
@@ -142,7 +142,7 @@ namespace NGTech {
 			movement = Vec3::normalize(movement);
 		}
 
-		if (GetWindow()->isKeyDown(WindowSystem::KEY_Q) && !inTheAir) {
+		if (GetWindow()->isKeyDown("q") && !inTheAir) {
 			movement += Vec3(0, 1.5, 0);
 		}
 		/*
@@ -169,50 +169,34 @@ namespace NGTech {
 		this->fov = 60;
 
 		pBody = NULL;
-		setPhysics(Vec3(5, 5, 5), 10.0f);
 	}
-
-	//---------------------------------------------------------------------------
-	//Desc:    Camera destructor
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+	
+	/**
+	*/
 	CameraFree::~CameraFree() {
-		if (pBody) { delete pBody; }
+		SAFE_DELETE(pBody);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    set physics to camera
-	//Params:  size - bounding sphere size, mass - object mass
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void CameraFree::setPhysics(const Vec3 &size, float mass) {
-		//pBody = PhysBody::CreateSphere(size.y, &Mat4::translate(position), mass);
+		pBody = PhysBody::CreateSphere(size.y, &Mat4::translate(position), mass);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    get camera modelview matrix
-	//Params:  -
-	//Returns: modelview matrix
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	Mat4 CameraFree::getTransform() {
 		return Mat4::lookAt(position, position + direction, Vec3(0, 1, 0));
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    get camera projection matrix
-	//Params:  -
-	//Returns: projection matrix
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	Mat4 CameraFree::getProjection() {
 		return Mat4::perspective(fov, (float)4 / (float)3, 0.1, 10000);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    update camera
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void CameraFree::update() {
 		if (pBody) {
 			position = pBody->GetTransform().getTranslation();
@@ -239,16 +223,16 @@ namespace NGTech {
 		direction.z = cosf(DEG_TO_RAD * angle[0]) * cosf(DEG_TO_RAD * angle[1]);
 		direction = Vec3::normalize(direction);
 
-		if (GetWindow()->isKeyPressed(WindowSystem::KEY_W)) {
+		if (GetWindow()->isKeyPressed("W")) {
 			movement += forwardVec;
 		}
-		if (GetWindow()->isKeyPressed(WindowSystem::KEY_S)) {
+		if (GetWindow()->isKeyPressed("S")) {
 			movement -= forwardVec;
 		}
-		if (GetWindow()->isKeyPressed(WindowSystem::KEY_A)) {
+		if (GetWindow()->isKeyPressed("A")) {
 			movement += leftVec;
 		}
-		if (GetWindow()->isKeyPressed(WindowSystem::KEY_D)) {
+		if (GetWindow()->isKeyPressed("D")) {
 			movement -= leftVec;
 		}
 
@@ -257,7 +241,7 @@ namespace NGTech {
 		}
 
 		if (pBody)
-			pBody->AddTorque(movement * maxVelocity);
+			pBody->SetTransform(Mat4::translate(position + movement));
 		else
 			position += movement;
 	}

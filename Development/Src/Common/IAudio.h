@@ -25,7 +25,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main sound system. Created one time
 	//---------------------------------------------------------------------------
-	class I_Audio {
+	struct I_Audio {
 	public:
 		virtual void initialise() = 0;
 		virtual String getVendor() = 0;

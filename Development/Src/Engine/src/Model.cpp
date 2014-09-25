@@ -13,22 +13,19 @@ namespace NGTech {
 	/**
 	*/
 	Model::Model(const String &path) {
-		if (FileHelper::getFileExt(path) == "amdl") {
-			loadAMDL(path);
-		}
-
-		return;
+		if (FileHelper::getFileExt(path) == "nggf")
+			_load(path);
 	}
 
 	/**
 	*/
-	void Model::loadAMDL(const String &path) {
+	void Model::_load(const String &path) {
 		//begin loading
-		VFile mFile(path.c_str(), VFile::READ_BIN);
+		VFile mFile(path.c_str());
 
 		char buf[1024];
 
-		mFile.ScanF("%s", buf); //#AST_ENGINE_MESH
+		mFile.ScanF("%s", buf); //#NG_GRAPHICS_FORMAT
 
 		int numSubsets;
 		mFile.ScanF("\nnum_subsets %i", &numSubsets); //num_subsets
@@ -80,7 +77,7 @@ namespace NGTech {
 	/**
 	*/
 	Model::~Model() {
-		for (int s = 0; s < subsets.size(); s++) {
+		for (unsigned int s = 0; s < subsets.size(); s++) {
 			Subset *st = subsets[s];
 
 			delete st->vertBuff;
@@ -98,7 +95,7 @@ namespace NGTech {
 
 		//number of subsets
 
-		fprintf(file, "#AST_ENGINE_MODEL\n\n"); //#AST_ENGINE_MESH
+		fprintf(file, "#NG_GRAPHICS_FORMAT\n\n");
 
 		fprintf(file, "num_subsets %i\n\n", subsets.size()); //num_subsets
 
@@ -166,7 +163,7 @@ namespace NGTech {
 	/**
 	*/
 	int Model::getSubset(String name) {
-		for (int s = 0; s < subsets.size(); s++) {
+		for (unsigned int s = 0; s < subsets.size(); s++) {
 			if (subsets[s]->name == name)
 				return s;
 		}
@@ -179,7 +176,7 @@ namespace NGTech {
 		for (int s = 0; s < subsets.size(); s++) {
 			Subset *st = subsets[s];
 
-			for (int iLoop = 0; iLoop < st->numIndices / 3; iLoop++) {
+			for (unsigned int iLoop = 0; iLoop < st->numIndices / 3; iLoop++) {
 				int ind0 = st->indices[iLoop * 3 + 0];
 				int ind1 = st->indices[iLoop * 3 + 1];
 				int ind2 = st->indices[iLoop * 3 + 2];
@@ -194,11 +191,11 @@ namespace NGTech {
 				st->vertices[ind2].normal += n;
 			}
 
-			for (int vLoop = 0; vLoop < st->numVertices; vLoop++) {
+			for (unsigned int vLoop = 0; vLoop < st->numVertices; vLoop++) {
 				st->vertices[vLoop].normal = Vec3::normalize(st->vertices[vLoop].normal);
 			}
 
-			for (int iLoop = 0; iLoop < st->numIndices / 3; iLoop++) {
+			for (unsigned int iLoop = 0; iLoop < st->numIndices / 3; iLoop++) {
 				int ind0 = st->indices[iLoop * 3 + 0];
 				int ind1 = st->indices[iLoop * 3 + 1];
 				int ind2 = st->indices[iLoop * 3 + 2];
@@ -240,7 +237,7 @@ namespace NGTech {
 				st->vertices[ind2].binormal += b[2];
 			}
 
-			for (int vLoop = 0; vLoop < st->numVertices; vLoop++)	{
+			for (unsigned int vLoop = 0; vLoop < st->numVertices; vLoop++)	{
 				st->vertices[vLoop].tangent = Vec3::normalize(st->vertices[vLoop].tangent);
 				st->vertices[vLoop].binormal = Vec3::normalize(st->vertices[vLoop].binormal);
 			}
@@ -250,10 +247,10 @@ namespace NGTech {
 	/**
 	*/
 	void Model::calcBoundings() {
-		for (int s = 0; s < subsets.size(); s++) {
+		for (unsigned int s = 0; s < subsets.size(); s++) {
 			Subset *st = subsets[s];
 
-			for (int v = 0; v < st->numVertices; v++) {
+			for (unsigned int v = 0; v < st->numVertices; v++) {
 				//need to do so because of MSVC 2005 bug
 				if (v == 0) {
 					st->min = st->vertices[0].position;
@@ -306,7 +303,7 @@ namespace NGTech {
 	/**
 	*/
 	void Model::createVBO() {
-		for (int s = 0; s < subsets.size(); s++) {
+		for (unsigned int s = 0; s < subsets.size(); s++) {
 			Subset *st = subsets[s];
 			st->vertBuff = GetRender()->CreateVBO(st->vertices, st->numVertices, sizeof(Vertex), I_VBManager::FLOAT);
 		}

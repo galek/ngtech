@@ -9,10 +9,10 @@
 #pragma once
 
 //***************************************************************************
-#include "IncludesAndLibs.h"
+#include "../../Core/inc/IncludesAndLibs.h"
 //***************************************************************************
 #include "PhysBody.h"
-#include "MathLib.h"
+#include "../../Core/inc/MathLib.h"
 //**************************************
 
 namespace NGTech {
@@ -21,7 +21,7 @@ namespace NGTech {
 	*/
 	class ENGINE_API PhysJointUpVector {
 	public:
-		PhysJointUpVector(const Vec3 &direction, PhysBody *body);
+		explicit PhysJointUpVector(const Vec3 &direction, PhysBody *body);
 		~PhysJointUpVector();
 	};
 }

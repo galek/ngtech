@@ -1,7 +1,7 @@
 #pragma once
 
 //**************************************
-#include "../Common/StringHelper.h"
+#include "../../Common/StringHelper.h"
 //**************************************
 
 namespace NGTech {

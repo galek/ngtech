@@ -18,8 +18,9 @@
 #include "EnginePrivate.h"
 //***************************************************
 #include "Engine.h"
+
 #include "CVARManager.h"
-#include "WindowSystem.h"
+
 #include "IRender.h"
 #include "ALSystem.h"
 #include "PhysSystem.h"
@@ -42,95 +43,124 @@
 #include "../../OGLDRV/inc/GLSystem.h"
 #include "EngineThreads.h"
 //***************************************************
+#include "WindowSystem.h"
+#include "WindowSystem_GLFW.h"
 
 
 
 namespace NGTech {
-#define ENGINE_VERSION_NUMBER 0.3.4
-#define ENGINE_VERSION_STRING "0.3.4"
-	/*
+	/**
+	*/
+#define ENGINE_VERSION_NUMBER 0.3.5
+#define ENGINE_VERSION_STRING "0.3.5"
+
+	/**
 	*/
 	void RenderWatermark(I_Texture* _watermark);
-	/*
+
+	/**
 	*/
 	Engine::Engine()
 	{
 		SetCore(this);
 		log = new Log();
 		LogPrintf("Engine Version:"ENGINE_VERSION_STRING" Build Date : "__DATE__" : "__TIME__);
-		_preInit();
 	}
 
-	/*
+	/**
 	*/
 	void Engine::_preInit()
 	{
 		Debug("[Init] Engine::_preInit()");
+
 		info = new SystemInfo();
 		if (info)
 			Debug("[Init] SystemInfo finished");
+
 		LogPrintf(info->getBinaryInfo());
 		LogPrintf(info->getSystemInfo());
 		LogPrintf(info->getCPUInfo());
 		LogPrintf(info->getGPUInfo());
+
 		plugins = new EnginePlugins();
 		if (!plugins)
 			Warning("[Init] EnginePlugins Failed");
+
 		vfs = new FileSystem();
 		if (!vfs)
 			Warning("[Init] FileSystem Failed");
+
 		config = new Config("../user.ltx");
 		if (!config)
 			Warning("[Init] Config Failed");
+
 		cvars = new CVARManager(config);
 		if (!cvars)
 			Warning("[Init] CVARManager Failed");
-		// create threads
-		//[TODO]Многопоточный апдейт еще не готов
-		/*threads = new EngineThreads();
-		if (!threads)
-		Warning("[Init] EngineThreads Failed");*/
 
-		iWindow = new WindowSystem(cvars);
-		if (!iWindow)
-			Warning("[Init] Window Failed");
-		iRender = new GLSystem();
+		// create threads
+		threads = new EngineThreads();
+		if (!threads)
+			Warning("[Init] EngineThreads Failed");
+#ifndef DROP_EDITOR
+		if (mIsEditor)
+		{
+			iWindow = new WindowSystem(cvars);
+			if (!iWindow)
+				Warning("[Init] Window Failed");
+		}
+		else
+#endif
+		{
+			iWindow = new WindowSystemGLFW(cvars);
+			if (!iWindow)
+				Warning("[Init] Window Failed");
+		}
+
+		iRender = new GLSystem(this);
 		if (!iRender)
 			Warning("[Init] Render Failed");
+
 		alSystem = new ALSystem();
 		if (!alSystem)
 			Warning("[Init] Audio Failed");
-		physSystem = new PhysSystem();
+
+		physSystem = new PhysSystem(cvars);
 		if (!physSystem)
 			Warning("[Init] Physics Failed");
+
 		cache = new Cache(cvars);
 		if (!cache)
 			Warning("[Init] Cache Failed");
+
 		//initialize GUI
 		gui = new GUI(cvars);
 		if (!gui)
 			Warning("[Init] GUI Failed");
+
 		//initialize SceneManager
 		scene = new Scene(cvars);
 		if (!scene)
 			Warning("[Init] SceneManager Failed");
+
 		//initialize Script
 		scripting = new EngineScriptInterp();
 		if (!scripting)
 			Warning("[Init] ScriptInterp Failed");
 	}
 
-	/*
+	/**
 	*/
 	void Engine::setGame(IGame*_game){
 		Debug("[Init] Engine::setGame()");
 		game = _game;
 	}
 
-	/*
+	/**
 	*/
 	void Engine::initialise(int _hwnd)
 	{
+		_preInit();
 		Debug("[Init] Engine::initialise()");
 		if (iWindow){
 			iWindow->initialise(_hwnd);
@@ -179,26 +209,27 @@ namespace NGTech {
 		}
 
 		// run threads
-		//[TODO]Многопоточный апдейт еще не готов
-		/*threads->runSound();
+		threads->runSound();
 		threads->runFileSystem();
-		Debug("[Init] Threads Finished");*/
+		Debug("[Init] Threads Finished");
+
 		this->running = true;
+
 		Debug("[Init] All Systems Initialised");
+
 		mWatermarkTex = iRender->TextureCreate2D("logos/watermark.png");
 		if (!mWatermarkTex)
 			Warning("[Init] Watermark failed");
 	}
 
-	/*
+	/**
 	*/
 	Engine::~Engine()  {
 		SAFE_DELETE(mWatermarkTex);
-		//[TODO]Многопоточный апдейт еще не готов
-		/*if (threads) {
+		if (threads) {
 			threads->stopSound();
 			threads->stopJobs();
-			}*/
+		}
 		SAFE_DELETE(scripting);
 		SAFE_DELETE(game);
 		SAFE_DELETE(gui);
@@ -207,28 +238,34 @@ namespace NGTech {
 		SAFE_DELETE(alSystem);
 		SAFE_DELETE(iRender);
 		SAFE_DELETE(iWindow);
-		//[TODO]Многопоточный апдейт еще не готов
-		/*SAFE_DELETE(threads);*/
+		SAFE_DELETE(threads);
 	}
 
-	/*
+	/**
+	*/
+	void Engine::editorLoop() {
+		do_update();
+		do_render();
+		do_swap();
+	}
+
+	/**
 	*/
 	void Engine::mainLoop() {
-		if (this->iWindow)	this->iWindow->update();
 		while (this->running)
 		{
-			updateFrame();
+			do_update();
+			do_render();
+			do_swap();
 		}
 	}
 
-	/*
+	/**
 	*/
-	void Engine::updateFrame() {
+	void Engine::do_update()
+	{
 		if (iWindow)
 			this->iWindow->update();
-
-		if (this->physSystem)
-			this->physSystem->update();
 
 		if (this->game->ec)
 			this->game->runEventsCallback();
@@ -237,56 +274,102 @@ namespace NGTech {
 			this->iRender->clear(I_Render::COLOR_BUFFER | I_Render::DEPTH_BUFFER | I_Render::STENCIL_BUFFER);
 
 		if (this->scene)
-			this->scene->Update();
+			this->scene->update();
 
-		if (this->gui)
-			this->gui->update();
-
-		if (this->game->rc)
-			this->game->runRenderCallback();
-
-		if (this->iRender)
-			this->iRender->flush();
-
-		if (mWatermarkTex)
-			RenderWatermark(mWatermarkTex);
-
-		if (this->iRender)
-			this->iRender->swapBuffers();
+		if (this->scene)
+			this->scene->updateSound();
 
 		if (this->game)
 			this->game->update();
 	}
 
-	/*
+	/**
+	*/
+	void Engine::do_render() {
+
+		// run multi-threaded physics
+		if (!paused)
+		{
+			if (this->physSystem->hasUpdate() && this->cvars->ph_num_threads) {
+				this->physSystem->runUpdate();
+			}
+		}
+
+		if (this->scene)
+			this->scene->render();
+
+
+		if (!paused)
+		{
+			// update single-threaded physics
+			if (this->physSystem->hasUpdate() == 0 || this->cvars->ph_num_threads == 0) {
+				this->physSystem->update();
+			}
+		}
+
+		if (this->gui)
+			this->gui->render();
+
+		if (this->game->rc)
+			this->game->runRenderCallback();
+
+		if (mWatermarkTex)
+			RenderWatermark(mWatermarkTex);
+
+		if (this->game)
+			this->game->render();
+
+		if (this->iRender)
+			this->iRender->flush();
+	}
+
+	/**
+	*/
+	void Engine::do_swap()
+	{
+		// wait multi-threaded physics
+		if (this->physSystem->hasUpdate() && this->cvars->ph_num_threads) {
+			this->physSystem->waitUpdate();
+		}
+		if (this->iRender)
+			this->iRender->endFrame();
+	}
+
+	/**
 	*/
 	void Engine::quit() {
 		running = false;
 	}
 
-	/*
+	/**
 	*/
 	void Engine::_setResources() {
 		vfs->addResourceLocation("../data/", true);
 	}
 
-	/*
+	/**
 	*/
 	float Engine::GetLastFPS() {
+		return iWindow->getLastFPS();
+	}
+
+	/**
+	*/
+	float Engine::GetTimePerFrame()
+	{
 		float mTime = iWindow->getDTime();
 		if (mTime > 0)
 			return 1000 / iWindow->getDTime();
-		else
-			return 1.0;
+		return 1.0f;
 	}
 
-	/*
+	/**
 	*/
 	void Engine::LoadEngineModule(const char*_name){
 		plugins->LoadEngineModule(_name);
 	}
 
-	/*
+	/**
 	*/
 	void RenderWatermark(I_Texture* _watermark)
 	{

@@ -1,4 +1,3 @@
-//#include "EnginePrivate.h"
 #include "stdafx.h"
 #include "..\..\API\NGTechEngineAPI.h"
 
@@ -11,48 +10,49 @@
 using namespace MyGUI;
 using namespace NGTech;
 
+#include "GameGUI.h"
 
 void ExampleGame::update() {}
 //------------------------------------------------------------
 void ExampleGame::initialise() {
+	events = new GameGUIEvents();
 	//initializing loading screen
-	LoadingScreen *lscreen = new LoadingScreen("sponza/background.png");
-	lscreen->show();
+	LoadingScreen lscreen("sponza/background.png");
+	lscreen.show();
 
-	sponza = new ObjectMesh("sponza.amdl");
+	sponza = new ObjectMesh("sponza.nggf");
 	sponza->setMaterialList("sponza.matlst");
-	sponza->setPhysicsStaticMesh();
 	sponza->setTransform(Mat4::translate(Vec3(0, -10, 0)));
+	sponza->setPhysicsStaticMesh();
 
 	for (int i = 0; i < 5; i++) {
-		box[i] = new ObjectMesh("cube.amdl");
+		box[i] = new ObjectMesh("cube.nggf");
 		box[i]->setMaterial("*", "grid.mat");
 		box[i]->setTransform(Mat4::translate(Vec3(-10 - i * 2, i * 20 + 10, i - 10)));
 		box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);
 		box[i]->setImpactSound("impact.ogg");
 	}
-
+	
 	for (int i = 0; i < 5; i++) {
-		sphere[i] = new ObjectMesh("sphere.amdl");
+		sphere[i] = new ObjectMesh("sphere.nggf");
 		sphere[i]->setMaterial("*", "grid.mat");
 		sphere[i]->setTransform(Mat4::translate(Vec3(10 + i * 2, i * 20 + 10, i - 10)));
 		sphere[i]->setPhysicsSphere(Vec3(5, 5, 5), 10);
 		sphere[i]->setImpactSound("impact.ogg");
 	}
 
-#if 0
 	for (int i = 0; i < 5; i++) {
-		cylinder[i] = new ObjectMesh("torus.amdl");
+		cylinder[i] = new ObjectMesh("torus.nggf");
 		cylinder[i]->setMaterial("*", "grid.mat");
-		cylinder[i]->setPhysicsConvexHull(10);
 		cylinder[i]->setTransform(Mat4::translate(Vec3(20 + i * 2, i * 20 + 20, i - 10)));
+		cylinder[i]->setPhysicsConvexHull(10.0f);
 		cylinder[i]->setImpactSound("impact.ogg");
 	}
-#endif
+
 	camera = new CameraFree();
 	camera->setPosition(Vec3(0, 20, 0));
 	camera->setMaxVelocity(2000);
-	camera->setPhysics(Vec3(5, 5, 5), 1.0);
+	camera->setPhysics(Vec3(5, 5, 5), 1.0f);
 	camera->setFOV(60);
 
 
@@ -77,29 +77,20 @@ void ExampleGame::initialise() {
 	particlesYellow->setParticleLifeTime(10000);
 	particlesYellow->setDispersion(0.1);
 
-	GetScene()->setWater(1, 400);
 	//GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
 
 	GetWindow()->grabMouse(true);
 
 	MyGUI::ButtonPtr button = GetGUI()->getGUI()->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
 	button->setFontName("DejaVuSansFont_15");
-	button->setCaption("Hello World!");
+	button->setCaption("Exit");
+	button->eventMouseButtonClick = MyGUI::newDelegate(events, &GameGUIEvents::ExitEvent);
 }
 //------------------------------------------------------------
 EventsCallback::EventsCallback() : depth(10.0f){}
 //------------------------------------------------------------
 void EventsCallback::Body(){
-
-	if (GetWindow()->isKeyDown(IWindow::KEY_ESC))
+	if (GetWindow()->isKeyDown("ESC"))
 		GetWindow()->toggleGrabMouse();
-
-	if (GetWindow()->isKeyPressed(IWindow::KEY_Z))
-		GetScene()->setWater(depth += 1, 500);
-
-
-	if (GetWindow()->isKeyPressed(IWindow::KEY_X))
-		GetScene()->setWater(depth -= 1, 500);
-
 }
 #endif

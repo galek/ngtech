@@ -1,10 +1,12 @@
 #include "EnginePrivate.h"
 //***************************************************************************
 #include "Engine.h"
+#include "PhysicsUpdateJob.h"
 #include "PhysSystem.h"
 #include "PhysBody.h"
 #include "Log.h"
 #include "Config.h"
+#include "CVARManager.h"
 //***************************************************************************
 
 #include "PxPhysicsAPI.h"
@@ -20,20 +22,28 @@
 #include "physxprofilesdk/PxProfileZoneManager.h"
 #include "pxtask/PxCudaContextManager.h"
 //***************************************************************************
-
-//#define ENABLE_PVD 1
-#define DEBUG_PHYSICS 1
+#ifdef _DEBUG
+#define ENABLE_PVD 1
+//#define DEBUG_PHYSICS 1
+#endif
 
 namespace NGTech {
+	/**
+	*/
 	using namespace physx;
-
+	/**
+	*/
 	static PxDefaultErrorCallback gDefaultErrorCallback;
 	static PxDefaultAllocator gDefaultAllocatorCallback;
 	static PxSimulationFilterShader gDefaultFilterShader = PxDefaultSimulationFilterShader;
 
 	/**
 	*/
-	PhysSystem::PhysSystem() :mNbThreads(1),
+	PhysSystem::PhysSystem(CVARManager*_info) :
+		info(_info),
+		update_id(0),
+		mNbThreads(0),//PhysX Threads
+		mUpdateJob(nullptr),
 		mFoundation(nullptr),
 		mProfileZoneManager(nullptr),
 		mPhysics(nullptr),
@@ -52,6 +62,14 @@ namespace NGTech {
 	{
 		Log::writeHeader("-- PhysSystem --");
 		Debug("PhysSystem::initialise");
+
+		if (info->ph_num_threads >= 1) {
+			LogPrintf("Physics: Multi-threaded\n");
+			mUpdateJob = new PhysicsUpdateJob();
+		}
+		else {
+			LogPrintf("Physics: Single-threaded\n");
+		}
 
 		mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gDefaultErrorCallback);
 		if (!mFoundation)
@@ -170,20 +188,17 @@ namespace NGTech {
 		if (mPhysics)
 			mPhysics->release();
 		mPhysics = NULL;
+
+
+		SAFE_DELETE(mUpdateJob);
 	}
 
 	/**
 	*/
 	void PhysSystem::update() {
-		float mStepSize = 0.0f;
-		const float _dt = 1.0f / GetEngine()->GetLastFPS();
-
-		if ((_dt < 0) || (_dt >= 1.0f))
-			mStepSize = 1.0f / 60.0f;
-		else
-			mStepSize = _dt;
-		mScene->simulate(mStepSize);
-		mScene->fetchResults(true);
+		mScene->lockWrite();
+		mScene->simulate(1.0f / 15.0f);
+		mScene->unlockWrite();
 	}
 
 	/*
@@ -236,5 +251,49 @@ namespace NGTech {
 			Mvec = { pvec.x, pvec.y, pvec.z };
 		}
 		return Mvec;
+	}
+
+	/**
+	*/
+	void PhysSystem::runUpdate() {
+		if (mUpdateJob) {
+			update_id = GetEngine()->threads->runJobs(mUpdateJob, sizeof(PhysicsUpdateJob), 1);
+		}
+	}
+
+	/**
+	*/
+	void PhysSystem::waitUpdate(){
+		if (mUpdateJob) {
+			GetEngine()->threads->waitJobs(update_id);
+
+			mScene->lockWrite();
+			mScene->fetchResults(true);
+			mScene->unlockWrite();
+		}
+	}
+
+	/**
+	*/
+	void PhysSystem::LockRead(){
+		mScene->lockRead();
+	}
+
+	/**
+	*/
+	void PhysSystem::UnLockRead(){
+		mScene->unlockRead();
+	}
+
+	/**
+	*/
+	void PhysSystem::LockWrite(){
+		mScene->lockRead();
+	}
+
+	/**
+	*/
+	void PhysSystem::UnLockWrite(){
+		mScene->unlockRead();
 	}
 }

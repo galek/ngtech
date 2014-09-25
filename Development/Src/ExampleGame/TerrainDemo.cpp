@@ -71,12 +71,12 @@ void init() {
 	//SCENE
 	Scene::create();
 
-	chammy = new ObjectSkinnedMesh("chammy.asmdl");
+	chammy = new ObjectMesh("chammy.nggf");
 	chammy->setMaterial("*", "usor.mat");
 	chammy->setTransform(Mat4::translate(Vec3(30, 120, 0)));
 	//¹(chammy);
 
-	airplane = new ObjectMesh("airplane.amdl");
+	airplane = new ObjectMesh("airplane.nggf");
 	airplane->setMaterial("box01", "box01.mat");
 	airplane->setMaterial("object02", "object02.mat");
 	airplane->setMaterial("object03", "object03.mat");
@@ -85,7 +85,7 @@ void init() {
 
 
 	for(int i = 0; i < 5; i++) {
-		box[i] = new ObjectMesh("cube.amdl");
+		box[i] = new ObjectMesh("cube.nggf");
 		box[i]->setMaterial("*", "grid.mat");
 		box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);
 		box[i]->setTransform(Mat4::translate(Vec3(-80-i*2, i*20 + 50, i + 20)));
@@ -94,7 +94,7 @@ void init() {
 	}
 
 	for(int i = 0; i < 5; i++) {
-		sphere[i] = new ObjectMesh("sphere.amdl");
+		sphere[i] = new ObjectMesh("sphere.nggf");
 		sphere[i]->setMaterial("*", "grid.mat");
 		sphere[i]->setPhysicsSphere(Vec3(5, 5, 5), 10);
 		sphere[i]->setTransform(Mat4::translate(Vec3(-90-i*2, i*20 + 50, i + 20)));
@@ -103,7 +103,7 @@ void init() {
 	}
 
 	for(int i = 0; i < 5; i++) {
-		cylinder[i] = new ObjectMesh("torus.amdl");
+		cylinder[i] = new ObjectMesh("torus.nggf");
 		cylinder[i]->setMaterial("*", "grid.mat");
 		cylinder[i]->setPhysicsConvexHull(10);
 		cylinder[i]->setTransform(Mat4::translate(Vec3(-100-i*2, i*20 + 50, i + 20)));

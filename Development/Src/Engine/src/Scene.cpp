@@ -9,7 +9,6 @@
 #include "WindowSystem.h"
 #include "Cache.h"
 #include "CvarManager.h"
-#include "SkinnedModel.h"
 //**************************************
 #include "../OGLDrv/inc/GLExtensions.h"//TODO
 
@@ -21,7 +20,6 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	Scene::Scene(CVARManager*_cvars) : cvars(_cvars), camera(nullptr) {
-		water = NULL;
 		terrain = NULL;
 	}
 	//---------------------------------------------------------------------------
@@ -52,14 +50,13 @@ namespace NGTech {
 
 		query = GetRender()->GetOQ();
 
-		sphere = new ObjectMesh("sphere.amdl");
+		sphere = new ObjectMesh("sphere.nggf");
 
 		matViewportMap = NULL;
 		matShadowMap = NULL;
 		matSpotMap = NULL;
 
 		depthPass = new Material("engine_materials/depth_pass.mat");
-		waterMtr = new Material("engine_materials/water.mat");
 		hdr = new Material("engine_materials/hdr.mat");
 	}
 
@@ -83,7 +80,6 @@ namespace NGTech {
 		lights.clear();
 
 		delete terrain;
-		delete water;
 	}
 
 	//---------------------------------------------------------------------------
@@ -121,17 +117,6 @@ namespace NGTech {
 	void Scene::setCamera(Camera *camera) {
 		delete this->camera;
 		this->camera = camera;
-	}
-
-	//---------------------------------------------------------------------------
-	//Desc:    sets water depth and size
-	//Params:  
-	//Returns: -
-	//---------------------------------------------------------------------------
-	void Scene::setWater(float depth, float size) {
-		if (!water) water = new Water();
-		water->setDepth(depth);
-		water->setSize(size);
 	}
 
 	//---------------------------------------------------------------------------
@@ -317,7 +302,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::drawOmni(LightOmni *light, bool blended) {
-		if (!light->visible) return;
+		if (!light->isVisible()) return;
 
 		Frustum frustum;
 
@@ -412,7 +397,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::getOmniShadowMap(LightOmni *light) {
-		if (!light->visible || !light->castShadows || !cvars->r_shadowtype) {
+		if (!light->isVisible() || !light->castShadows || !cvars->r_shadowtype) {
 			return;
 		}
 
@@ -498,7 +483,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::drawSpot(LightSpot *light, bool blended) {
-		if (!light->visible) return;
+		if (!light->isVisible()) return;
 
 		Frustum frustum;
 
@@ -601,7 +586,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void Scene::getSpotShadowMap(LightSpot *light) {
-		if (!light->visible || !light->castShadows || !cvars->r_shadowtype) {
+		if (!light->isVisible() || !light->castShadows || !cvars->r_shadowtype) {
 			return;
 		}
 
@@ -772,7 +757,7 @@ namespace NGTech {
 
 		frustum.get();
 		if (!frustum.isInside(light->position, light->radius)) {
-			light->visible = false;
+			light->setVisible(false);
 			return;
 		}
 
@@ -796,11 +781,11 @@ namespace NGTech {
 			GetRender()->colorMask(true, true, true, true);
 
 			if (query->getResult() < 2) {
-				light->visible = false;
+				light->setVisible(false);
 				return;
 			}
 		}
-		light->visible = true;
+		light->setVisible(true);
 	}
 
 	//---------------------------------------------------------------------------
@@ -813,7 +798,7 @@ namespace NGTech {
 
 		frustum.get();
 		if (!frustum.isInside(light->position, light->radius)) {
-			light->visible = false;
+			light->setVisible(false);
 			return;
 		}
 
@@ -837,23 +822,23 @@ namespace NGTech {
 			GetRender()->colorMask(true, true, true, true);
 
 			if (query->getResult() < 2) {
-				light->visible = false;
+				light->setVisible(false);
 				return;
 			}
 		}
-		light->visible = true;
+		light->setVisible(true);
 	}
 
-
-	//---------------------------------------------------------------------------
-	//Desc:    main draw function
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
-	void Scene::Update() {
+	/*
+	*/
+	void Scene::update() {
 		//---------update-camera-----------------------------------
 		camera->update();
-		GetAudio()->setListener(camera->getPosition(), camera->getDirection());
+		//draw particle systems
+		for (int k = 0; k < systems.size(); k++) {
+			if (systems[k]) systems[k]->draw();
+		}
+
 		//---------draw-scene--------------------------------
 		GetRender()->setMatrixMode_Projection();
 		GetRender()->loadMatrix(camera->getProjection());
@@ -868,7 +853,7 @@ namespace NGTech {
 		drawAmbient(false);
 
 		for (int i = 0; i < lights.size(); i++) {
-			if (!lights[i]->enabled) continue;
+			if (!lights[i]->isEnable()) continue;
 			if (lights[i]->getType() == Light::LIGHT_OMNI) {
 				checkOmniVisibility((LightOmni*)lights[i]);
 			}
@@ -928,22 +913,6 @@ namespace NGTech {
 
 		drawAmbient(true);
 
-		/*GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
-		GetRender()->depthMask(false);
-
-		for(int i = 0; i < lights.size(); i++) {
-		if(lights[i]->getType() == Light::LIGHT_OMNI) {
-		drawOmni((LightOmni*)lights[i], true);
-		} else if(lights[i]->getType() == Light::LIGHT_SPOT) {
-		drawSpot((LightSpot*)lights[i], true);
-		} else if(lights[i]->getType() == Light::LIGHT_DIRECT) {
-		drawDirect((LightDirect*)lights[i], true);
-		}
-		}
-
-		GetRender()->depthMask(true);
-		GetRender()->disableBlending();*/
-
 		//draw particle systems
 		for (int k = 0; k < systems.size(); k++) {
 			if (systems[k]) systems[k]->draw();
@@ -965,7 +934,17 @@ namespace NGTech {
 
 		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 		GetRender()->depthMask(false);
+	}
 
+	/*
+	*/
+	void Scene::updateSound() {
+		GetAudio()->setListener(camera->getPosition(), camera->getDirection());
+	}
+
+	/*
+	*/
+	void Scene::render() {
 		if (GetCvars()->r_wireframe) {//Nick:TODO:Replace
 			glColor3f(1, 1, 1);//Nick:TODO:Replace
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//Nick:TODO:Replace
@@ -1022,12 +1001,7 @@ namespace NGTech {
 		viewportFBO->unset();
 
 		matMVP = GetRender()->getMatrix_MVP();
-		if (water) 	{
-			waterMtr->setPass("Ambient");
-			water->draw();
-			waterMtr->unsetPass();
-		}
-
+	
 		if (GetCvars()->r_hdr) {
 			//---------bright-pass--------------------------------
 			viewportFBO->set();

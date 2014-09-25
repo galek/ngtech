@@ -1,16 +1,8 @@
-/***************************************************************************
-*   Copyright (C) 2006 by AST   *
-*   tsyplyaev@gmail.com   *
-*   ICQ: 279-533-134                          *
-*   This is a part of work done by AST.       *
-*   If you want to use it, please contact me. *
-***************************************************************************/
-
 #pragma once
 
 //**************************************
-#include "IRender.h"
-#include "MathLib.h"
+#include "../../Common/IRender.h"
+#include "../../Core/inc/MathLib.h"
 #include "Flare.h"
 //**************************************
 
@@ -26,10 +18,14 @@ namespace NGTech {
 			LIGHT_DIRECT,
 		};
 
-		ENGINE_INLINE virtual LightType getType() { return LIGHT; };
-		bool visible;
-		ENGINE_INLINE void enable(bool flag) { enabled = flag; };
+		ENGINE_INLINE virtual LightType getType() { return LIGHT; }
+		ENGINE_INLINE void setEnable(bool flag) { enabled = flag; }
+		ENGINE_INLINE bool isVisible() { return visible; }
+		ENGINE_INLINE bool isEnable() { return enabled; }
+		ENGINE_INLINE void setVisible(bool _s) { visible = _s; }
+	private:
 		bool enabled;
+		bool visible;
 	};
 
 	//---------------------------------------------------------------------------
@@ -38,7 +34,7 @@ namespace NGTech {
 	class ENGINE_API LightOmni : public Light {
 	public:
 		LightOmni();
-		~LightOmni();
+		virtual ~LightOmni();
 
 		ENGINE_INLINE const Vec3 &getPosition() { return position; };
 		ENGINE_INLINE void setPosition(const Vec3 &position) { this->position = position; };
@@ -77,7 +73,7 @@ namespace NGTech {
 	class ENGINE_API LightSpot : public Light {
 	public:
 		LightSpot();
-		~LightSpot();
+		virtual ~LightSpot();
 
 		ENGINE_INLINE const Vec3 &getPosition() { return position; };
 		ENGINE_INLINE void setPosition(const Vec3 &position) { this->position = position; };
@@ -125,7 +121,7 @@ namespace NGTech {
 	class ENGINE_API LightDirect : public Light {
 	public:
 		LightDirect();
-		~LightDirect();
+		virtual ~LightDirect();
 
 		ENGINE_INLINE const Vec3 &getDirection() { return direction; };
 		ENGINE_INLINE void setDirection(const Vec3 &direction) { this->direction = direction; };

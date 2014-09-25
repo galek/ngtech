@@ -22,7 +22,7 @@ namespace NGTech {
 
 		~GUI();
 		
-		void update();
+		void render();
 		void initialise();
 		void resize(int _width, int _height);
 		void showDebugInfo(bool _show);

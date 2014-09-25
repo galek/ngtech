@@ -12,7 +12,7 @@ namespace NGTech {
 	class GLOcclusionQuery :public I_OcclusionQuery {
 	public:
 		GLOcclusionQuery();
-		~GLOcclusionQuery();
+		virtual ~GLOcclusionQuery();
 		/**
 		Begins rendering to query
 		*/

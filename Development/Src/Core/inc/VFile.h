@@ -10,14 +10,14 @@ namespace NGTech
 			READ_TEXT
 		};
 	public:
-		VFile(const char* _name, int _mode = READ_BIN, bool _notSearch = false);
+		explicit VFile(const char* _name, int _mode = READ_BIN, bool _notSearch = false);
 		~VFile();
 
 		bool IsDataExist();
 		bool EndOfFile();
 		char* LoadFile();
 		const char* GetDataPath();
-		ENGINE_INLINE size_t Size(){ return mSize; }
+		size_t Size();
 		String GetLine();
 		String GetFileExt();
 		String CutFileExt();

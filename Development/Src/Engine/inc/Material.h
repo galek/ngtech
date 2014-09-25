@@ -1,9 +1,9 @@
 #pragma once
 
 //***************************************************************************
-#include "../Common/StringHelper.h"
-#include "FileHelper.h"
-#include "IRender.h"
+#include "../../Common/StringHelper.h"
+#include "../../Core/inc/FileHelper.h"
+#include "../../Common/IRender.h"
 #include <vector>
 //***************************************************************************
 

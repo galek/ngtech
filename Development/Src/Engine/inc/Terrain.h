@@ -1,7 +1,7 @@
 #pragma once
 
 //************************************
-#include "IRender.h"
+#include "../../Common/IRender.h"
 #include "PhysSystem.h"
 #include "Material.h"
 //************************************
@@ -10,7 +10,7 @@ namespace NGTech {
 
 	class ENGINE_API Terrain {
 	public:
-		Terrain(const String &path, float step, float height, int nodeSize);
+		explicit Terrain(const String &path, float step, float height, int nodeSize);
 		~Terrain();
 
 		void drawNode(int n, const Vec3 &cameraPos);

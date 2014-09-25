@@ -13,7 +13,7 @@ namespace NGTech {
 		void createDepthAttachment();
 		void createStencilAttachment();
 
-		~GLFBO();
+		virtual ~GLFBO();
 
 		void setColorTarget(I_Texture *texture = NULL, int face = -1);
 		void setDepthTarget(I_Texture *texture = NULL);

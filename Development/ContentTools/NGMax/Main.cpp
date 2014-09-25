@@ -1,9 +1,7 @@
 #include <max.h>
 #include <stdmat.h>
 #include <vector>
-#include <TCHAR.H>
 #include "String.h"
-#include "MathLib.h"
 
 #pragma comment(lib, "core.lib") 
 #pragma comment(lib, "maxutil.lib")
@@ -12,15 +10,26 @@
 #pragma comment(lib, "comctl32.lib")
 
 namespace NGTech {
-	static void W(FILE *f, String s) { _ftprintf(f, _T("%s\n"), s.c_str()); };
-
 	struct Vertex {
 		Point3 position;
 		Point3 normal;
 		Point3 texcoord;
-		int flag;
 	};
 
+	struct Subset {
+		std::vector<Vertex> vertices;
+		std::vector<unsigned int> indices;
+		String name;
+
+		INode *node;
+
+		Point3 min;
+		Point3 max;
+	};
+
+	/**
+	NGmax ENUM PROC
+	*/
 	class NGEnumProc : public ITreeEnumProc {
 	public:
 		NGEnumProc(Interface *i) { iface = i; }
@@ -31,246 +40,217 @@ namespace NGTech {
 		TriObject *NODE2OBJ(INode *node, int &deleteIt);
 
 		Interface *iface;
+		bool selected;
 
 		std::vector<INode*> nodes;
+		std::vector<Subset> subsets;
 	};
 
-	//---------------------------------------------------------------------------
-	//MAIN EXPORT
-	//---------------------------------------------------------------------------
+	/*
+	MAIN EXPORT
+	*/
 	void NGEnumProc::exportAll(const TCHAR *name) {
-		FILE *fmdl = _tfopen(name, _T("wt"));
-
-		//-----------------------------------------------
 		//Get number of surfaces
-		//-----------------------------------------------
-		int nobj = 0;
+		int numObjects = 0;
 		for (int n = 0; n < nodes.size(); n++) {
 			INode *node = nodes[n];
-			int d; TriObject *object = NODE2OBJ(node, d);
+
+			int d;
+			TriObject *object = NODE2OBJ(node, d);
+
 			if (!object) continue;
-			nobj++;
+			numObjects++;
 		}
 
-		//-----------------------------------------------
-		//Open material list file for writing
-		//-----------------------------------------------
-		std::wstring ml = std::wstring((wchar_t*)name);
-		cutFileExt(ml);
-		ml = ml + _T(".matlst");
-		FILE *fmtrlst = _tfopen(ml.c_str(), _T("wt"));
-
-		//-----------------------------------------------
-		//get model position
-		//-----------------------------------------------
-		Point3 min, max;
-		for (int n = 0; n < nobj; n++) {
-			INode *node = nodes[n];
-			int d; TriObject *object = NODE2OBJ(node, d);
-			if (!object) continue;
-
-			object->mesh.buildBoundingBox();
-			Box3 box = object->mesh.getBoundingBox();
-
-			if (n == 0) {
-				min.x = box.Min().x;
-				min.y = box.Min().y;
-				min.z = box.Min().z;
-
-				max.x = box.Max().x;
-				max.y = box.Max().y;
-				max.z = box.Max().z;
-			}
-			else {
-				if (min.x > box.Min().x) min.x = box.Min().x;
-				if (min.y > box.Min().y) min.y = box.Min().y;
-				if (min.z > box.Min().z) min.z = box.Min().z;
-
-				if (max.x < box.Max().x) max.x = box.Max().x;
-				if (max.y < box.Max().y) max.y = box.Max().y;
-				if (max.z < box.Max().z) max.z = box.Max().z;
-			}
-		}
-		Point3 pos;
-		pos.x = (min.x + max.x) * 0.5;
-		pos.y = (min.y + max.y) * 0.5;
-		pos.z = (min.z + max.z) * 0.5;
-
-		//-----------------------------------------------
-		//Write number of surfaces
-		//-----------------------------------------------
-		_ftprintf(fmdl, _T("#AST_ENGINE_MODEL\n\n"));
-		_ftprintf(fmdl, _T("num_subsets %i\n\n"), nobj);
-
-		//-----------------------------------------------
-		//Process model
-		//-----------------------------------------------
+		/*
+		Process model
+		*/
 		for (int n = 0; n < nodes.size(); n++) {
 			INode *node = nodes[n];
-			int d; TriObject *object = NODE2OBJ(node, d);
+
+			Subset subset;
+			subset.node = node;
+
+			int d;
+			TriObject *object = NODE2OBJ(node, d);
 			if (!object) continue;
 
-			String subsetName = _tcslwr((wchar_t*)node->GetName());
-			replaceSpaces(subsetName);
+			subset.name = _tcslwr((wchar_t*)node->GetName());
+			replaceSpaces(subset.name);
 
-			//-------------------------------------------------
-			//Read model
-			//-------------------------------------------------
+			/*
+			Read model
+			*/
 			Matrix3 tm = node->GetObjTMAfterWSM(iface->GetTime());
 			Matrix3 nm = tm;
 			nm.NoScale();
 			nm.NoTrans();
 
-			object->mesh.buildNormals();
+			/*Get position*/
+			Box3 box;
+			object->mesh.buildBoundingBox();
+			box = object->mesh.getBoundingBox(&tm);
+			subset.min = box.Min();
+			subset.max = box.Max();
 
-			Vertex *m_vertices = new Vertex[object->mesh.numFaces * 3];
+			object->mesh.buildNormals();
 
 			for (int i = 0; i < object->mesh.numFaces; i++) {
 				Face *f = &object->mesh.faces[i];
 				TVFace *tf = &object->mesh.tvFace[i];
 
 				for (int j = 0; j < 3; j++) {
+					Vertex vertex;
+
 					Point3 v = tm * object->mesh.verts[f->v[j]];
-					m_vertices[3 * i + j].position.x = v.x;
-					m_vertices[3 * i + j].position.y = v.y;
-					m_vertices[3 * i + j].position.z = v.z;
 
-					m_vertices[3 * i + j].texcoord.x = object->mesh.tVerts[tf->t[j]].x;
-					m_vertices[3 * i + j].texcoord.y = object->mesh.tVerts[tf->t[j]].y;
+					vertex.position.x = v.x;
+					vertex.position.y = v.y;
+					vertex.position.z = v.z;
 
-					m_vertices[3 * i + j].flag = -1;
+					vertex.texcoord.x = object->mesh.tVerts[tf->t[j]].x;
+					vertex.texcoord.y = object->mesh.tVerts[tf->t[j]].y;
+
+					//read normal
+					bool specifiedNormal = true;
 
 					RVertex *rv = object->mesh.getRVertPtr(f->v[j]);
 					int nnormals;
 
 					if (rv->rFlags & SPECIFIED_NORMAL) {
 						Point3 normal = nm * rv->rn.getNormal();
-						m_vertices[3 * i + j].normal.x = normal.x;
-						m_vertices[3 * i + j].normal.y = normal.y;
-						m_vertices[3 * i + j].normal.z = normal.z;
+						vertex.normal.x = normal.x;
+						vertex.normal.y = normal.y;
+						vertex.normal.z = normal.z;
 					}
 					else {
 						if ((nnormals = rv->rFlags & NORCT_MASK) && f->smGroup) {
 							if (nnormals == 1) {
 								Point3 normal = nm * rv->rn.getNormal();
-								m_vertices[3 * i + j].normal.x = normal.x;
-								m_vertices[3 * i + j].normal.y = normal.y;
-								m_vertices[3 * i + j].normal.z = normal.z;
+								vertex.normal.x = normal.x;
+								vertex.normal.y = normal.y;
+								vertex.normal.z = normal.z;
 							}
 							else {
 								for (int l = 0; l < nnormals; l++) {
 									if (rv->ern[l].getSmGroup() & f->smGroup) {
 										Point3 normal = nm * rv->ern[l].getNormal();
-										m_vertices[3 * i + j].normal.x = normal.x;
-										m_vertices[3 * i + j].normal.y = normal.y;
-										m_vertices[3 * i + j].normal.z = normal.z;
+										vertex.normal.x = normal.x;
+										vertex.normal.y = normal.y;
+										vertex.normal.z = normal.z;
 									}
 								}
 							}
 						}
 						else {
-							//Point3 normal = nm * object->mesh.getFaceNormal(i);
-							m_vertices[3 * i + j].normal.x = 0;
-							m_vertices[3 * i + j].normal.y = 0;
-							m_vertices[3 * i + j].normal.z = 0;
-							m_vertices[3 * i + j].flag = f->v[j];
+							specifiedNormal = false;
+							Point3 normal = nm * object->mesh.getFaceNormal(i);
+							vertex.normal.x = normal.x;
+							vertex.normal.y = normal.y;
+							vertex.normal.z = normal.z;
 						}
 					}
 
-					//FINISHED!!
-				}
-			}
+					//make indices
+					int index = -1;
+					for (int k = 0; k < subset.vertices.size(); k++) {
+						if ((subset.vertices[k].position == vertex.position) &&
+							(subset.vertices[k].texcoord == vertex.texcoord)) {
+							if (specifiedNormal) {
+								if (subset.vertices[k].normal == vertex.normal) {
+									index = k;
+								}
+							}
+							else {
+								index = k;
+								subset.vertices[k].normal += vertex.normal;
+							}
+						}
+					}
 
-			//-------------------------------------------------
-			//Process normals
-			//-------------------------------------------------
-			for (int i = 0; i < object->mesh.numFaces; i++) {
-				Face *f = &object->mesh.faces[i];
-				Point3 normal = nm * object->mesh.getFaceNormal(i);
-
-				for (int k = 0; k < object->mesh.numFaces * 3; k++) {
-					if (m_vertices[k].flag == f->v[0] || m_vertices[k].flag == f->v[1] || m_vertices[k].flag == f->v[2]) {
-						m_vertices[k].normal.x += normal.x;
-						m_vertices[k].normal.y += normal.y;
-						m_vertices[k].normal.z += normal.z;
+					if (index > -1) {
+						subset.indices.push_back(index);
+					}
+					else {
+						subset.indices.push_back(subset.vertices.size());
+						subset.vertices.push_back(vertex);
 					}
 				}
 			}
 
-			for (int k = 0; k < object->mesh.numFaces * 3; k++) {
-				m_vertices[k].normal = m_vertices[k].normal.Normalize();
+			//normalize normals
+			for (int k = 0; k < subset.vertices.size(); k++) {
+				subset.vertices[k].normal = subset.vertices[k].normal.Normalize();
 			}
 
-			//-------------------------------------------------
-			//Build indices
-			//-------------------------------------------------
-			Vertex *vertices = new Vertex[object->mesh.numFaces * 3];
-			int *indices = new int[object->mesh.numFaces * 3];
+			subsets.push_back(subset);
+		}
 
-			int numFaces = object->mesh.numFaces;
-			int numVertices = 0;
+		//get position
+		Point3 pos;
+		Point3 smin = subsets[0].min;
+		Point3 smax = subsets[0].max;
 
-			for (int i = 0; i < numFaces * 3; i++) {
-				bool flag = false;
-				int index;
-				for (int j = 0; j < numVertices; j++) {
-					if ((vertices[j].position == m_vertices[i].position) &&
-						(vertices[j].texcoord == m_vertices[i].texcoord) &&
-						(vertices[j].normal == m_vertices[i].normal)) {
-						flag = true;
-						index = j;
-					}
-				}
+		for (int s = 1; s < subsets.size(); s++) {
+			smin.x = min(smin.x, subsets[0].min.x);
+			smin.y = min(smin.y, subsets[0].min.y);
+			smin.z = min(smin.z, subsets[0].min.z);
 
-				if (flag) {
-					indices[i] = index;
-				}
-				else {
-					vertices[numVertices].position = m_vertices[i].position;
-					vertices[numVertices].texcoord = m_vertices[i].texcoord;
-					vertices[numVertices].normal = m_vertices[i].normal;
-					indices[i] = numVertices;
-					numVertices++;
-				}
-			}
+			smax.x = max(smax.x, subsets[0].max.x);
+			smax.y = max(smax.y, subsets[0].max.y);
+			smax.z = max(smax.z, subsets[0].max.z);
+		}
 
-			//-----------------------------------------------
+		pos = (smin + smax);
+		pos.x = pos.x * 0.5;
+		pos.y = pos.y * 0.5;
+		pos.z = pos.z * 0.5;
+
+		//Open material list file for writing
+		String ml = String((TCHAR*)name);
+		cutFileExt(ml);
+		ml = ml + _T(".matlst");
+		FILE *fmtrlst = _tfopen(ml.c_str(), _T("wt"));
+
+		//Save to file
+		FILE *fmdl = _tfopen(name, _T("wt"));
+
+		//Write mesh
+		_ftprintf(fmdl, _T("#NG_GRAPHICS_FORMAT\n\n"));
+		_ftprintf(fmdl, _T("num_subsets %i\n\n"), subsets.size());
+
+		for (int s = 0; s < subsets.size(); s++) {
 			//Save subset to file
-			//-----------------------------------------------
-			_ftprintf(fmdl, _T("subset %s\n"), subsetName.c_str());
-			_ftprintf(fmdl, _T("num_vertices %i\n"), numVertices);
+			Subset &st = subsets[s];
 
-			for (int v = 0; v < numVertices; v++)	{
+			_ftprintf(fmdl, _T("subset \"%s\"\n"), st.name.c_str());
+			_ftprintf(fmdl, _T("num_vertices %i\n"), st.vertices.size());
+
+			for (int v = 0; v < st.vertices.size(); v++)	{
 				_ftprintf(fmdl, _T("%f %f %f %f %f %f %f %f\n"),
-					vertices[v].position.x - pos.x,
-					vertices[v].position.z - pos.z,
-					vertices[v].position.y - pos.y,
-					vertices[v].normal.x,
-					vertices[v].normal.z,
-					vertices[v].normal.y,
-					vertices[v].texcoord.x,
-					vertices[v].texcoord.y);
-			}
+					st.vertices[v].position.x - pos.x,
+					st.vertices[v].position.z - pos.z,
+					st.vertices[v].position.y - pos.y,
+					st.vertices[v].normal.x,
+					st.vertices[v].normal.z,
+					st.vertices[v].normal.y,
+					st.vertices[v].texcoord.x,
+					1.0 - st.vertices[v].texcoord.y);
+			};
 
-			_ftprintf(fmdl, _T("num_faces %i\n"), numFaces);
+			fprintf(fmdl, "num_faces %i\n", st.indices.size() / 3);
 
-			for (int f = 0; f < numFaces; f++)
-			{
+			for (int f = 0; f < st.indices.size() / 3; f++) {
 				_ftprintf(fmdl, _T("%i %i %i\n"),
-					indices[3 * f + 0],
-					indices[3 * f + 2],
-					indices[3 * f + 1]);
-			}
+					st.indices[3 * f + 0],
+					st.indices[3 * f + 2],
+					st.indices[3 * f + 1]);
+			};
 			_ftprintf(fmdl, _T("\n"));
 
-			delete[] m_vertices;
-			delete[] vertices;
-			delete[] indices;
+			//Save material
+			Mtl *m = st.node->GetMtl();
 
-			//-----------------------------------------------
-			//Save materials
-			//-----------------------------------------------
-			Mtl *m = node->GetMtl();
 			if (!m || m->ClassID() != Class_ID(DMTL_CLASS_ID, 0)) {
 			}
 			else {
@@ -282,15 +262,15 @@ namespace NGTech {
 				}
 				else {
 					BitmapTex *bmt = (BitmapTex *)tmap;
-					tex0 = _tcslwr((wchar_t *)bmt->GetMapName());
+					tex0 = _tcslwr((TCHAR *)bmt->GetMapName());
 					getFileName(tex0);
 					replaceSpaces(tex0);
 
-					FILE *fmtr = _tfopen(String(subsetName + _T(".mat")).c_str(), _T("wt"));
+					FILE *fmtr = _tfopen(String(st.name + _T(".mat")).c_str(), _T("wt"));
 
 					_ftprintf(fmtr, _T("pass Ambient\n"));
 					_ftprintf(fmtr, _T("{\n"));
-					_ftprintf(fmtr, _T("shader = mesh_ambient.ashd\n"));
+					_ftprintf(fmtr, _T("shader = mesh_ambient.glsl\n"));
 					_ftprintf(fmtr, _T("mat4 u_mvp = scene::mvp\n"));
 					_ftprintf(fmtr, _T("vec3 u_light_color = scene::light_color\n"));
 					_ftprintf(fmtr, _T("sampler2D u_base_map = %s\n"), tex0.c_str());
@@ -298,7 +278,7 @@ namespace NGTech {
 
 					_ftprintf(fmtr, _T("pass LightOmni\n"));
 					_ftprintf(fmtr, _T("{\n"));
-					_ftprintf(fmtr, _T("shader = mesh_omni.ashd\n"));
+					_ftprintf(fmtr, _T("shader = mesh_omni.glsl\n"));
 					_ftprintf(fmtr, _T("float u_spec_coef = 0.5\n"));
 					_ftprintf(fmtr, _T("float u_shininess = 24\n"));
 					_ftprintf(fmtr, _T("mat4 u_mvp = scene::mvp\n"));
@@ -314,7 +294,7 @@ namespace NGTech {
 
 					_ftprintf(fmtr, _T("pass LightSpot\n"));
 					_ftprintf(fmtr, _T("{\n"));
-					_ftprintf(fmtr, _T("shader = mesh_spot.ashd\n"));
+					_ftprintf(fmtr, _T("shader = mesh_spot.glsl\n"));
 					_ftprintf(fmtr, _T("float u_spec_coef = 0.5\n"));
 					_ftprintf(fmtr, _T("float u_shininess = 24\n"));
 					_ftprintf(fmtr, _T("mat4 u_mvp = scene::mvp\n"));
@@ -333,7 +313,7 @@ namespace NGTech {
 
 					_ftprintf(fmtr, _T("pass LightDirect\n"));
 					_ftprintf(fmtr, _T("{\n"));
-					_ftprintf(fmtr, _T("shader = mesh_direct.ashd\n"));
+					_ftprintf(fmtr, _T("shader = mesh_direct.glsl\n"));
 					_ftprintf(fmtr, _T("float u_specular = 0.5\n"));
 					_ftprintf(fmtr, _T("float u_shininess = 24\n"));
 					_ftprintf(fmtr, _T("mat4 u_mvp = scene::mvp\n"));
@@ -349,26 +329,29 @@ namespace NGTech {
 				}
 			}
 
-			//-----------------------------------------------
 			//Save material_list
-			//-----------------------------------------------
-			_ftprintf(fmtrlst, _T("%s = %s"), subsetName.c_str(), String(subsetName + _T(".mat \n")).c_str());
+			_ftprintf(fmtrlst, _T("\"%s\" \"%s\"\n"), st.name.c_str(), String(st.name + _T(".mat")).c_str());
 		}
+
 		fclose(fmdl);
 		fclose(fmtrlst);
 	};
 
-	//---------------------------------------------------------------------------
-	//CALLBACK
-	//---------------------------------------------------------------------------
+	/*
+	Callback
+	*/
 	int NGEnumProc::callback(INode *node) {
+		if (selected && node->Selected() == FALSE) {
+			return TREE_CONTINUE;
+		}
 		nodes.push_back(node);
 		return TREE_CONTINUE;
 	}
 
-	//---------------------------------------------------------------------------
-	//CONVERTS NODE TO TRIOBJ
-	//---------------------------------------------------------------------------
+
+	/*
+	Convert node to triobj
+	*/
 	TriObject *NGEnumProc::NODE2OBJ(INode *node, int &deleteIt) {
 		deleteIt = false;
 		Object *obj = node->EvalWorldState(iface->GetTime()).obj;
@@ -382,23 +365,24 @@ namespace NGTech {
 		else return NULL;
 	}
 
-	//---------------------------------------------------------------------------
-	//NGMax
-	//---------------------------------------------------------------------------
+
+	/*
+	NGMax
+	*/
 	class NGMax : public SceneExport {
 	public:
 		int          ExtCount()   { return 1; }
-		const TCHAR* Ext(int i)   { if (i == 0) return _T("amdl"); else return _T(""); }
+		const TCHAR* Ext(int i)   { if (i == 0) return _T("nggf"); else return _T(""); }
 		const TCHAR* LongDesc()   { return _T("NGMax"); }
 		const TCHAR* ShortDesc()  { return _T("NGMax"); }
 		const TCHAR* AuthorName() { return _T("NG Games"); }
 		const TCHAR* CopyrightMessage() { return _T("NG Games (C) 2014"); }
 		const TCHAR* OtherMessage1()    { return _T(""); }
 		const TCHAR* OtherMessage2()    { return _T(""); }
-		unsigned int Version()          { return 0.1; }
+		unsigned int Version()          { return 0.2; }
 
 		void ShowAbout(HWND hWnd) { MessageBox(hWnd, _T("About"), _T("NGExporter"), MB_OK); }
-		BOOL SupportsOptions(int ext, DWORD options) { return false; }
+		BOOL SupportsOptions(int ext, DWORD options) { return (options == SCENE_EXPORT_SELECTED) ? TRUE : FALSE; }
 
 		int DoExport(const TCHAR *name, ExpInterface *ei, Interface *i, BOOL suppressPromts = FALSE, DWORD options = 0);
 
@@ -406,19 +390,39 @@ namespace NGTech {
 		virtual ~NGMax() {}
 	};
 
-	//---------------------------------------------------------------------------
-	//DO EXPORT
-	//---------------------------------------------------------------------------
-
+	/*
+	DO EXPORT
+	*/
 	int NGMax::DoExport(const TCHAR *name, ExpInterface *ei, Interface *i, BOOL suppressPromts, DWORD options) {
-		NGEnumProc astProc(i);
+		NGEnumProc mProc(i);
+		mProc.selected = (options & SCENE_EXPORT_SELECTED) ? TRUE : FALSE;
 
-		ei->theScene->EnumTree(&astProc);
+		ei->theScene->EnumTree(&mProc);
 
-		astProc.exportAll(name);
+		mProc.exportAll(name);
+
+		MessageBox(0, _T("Mesh was succesfully exported!"), _T("Succses!"), MB_OK);
 		return 1;
 	}
 
+	/*
+	plugin entry
+	*/
+	HINSTANCE hInstance;
+	int controlsInit = FALSE;
+
+	BOOL WINAPI DllMain(HINSTANCE hinstDLL, ULONG fdwReason, LPVOID lpvReserved) {
+		hInstance = hinstDLL;
+		if (!controlsInit) {
+			controlsInit = TRUE;
+			InitCommonControls();
+		}
+		return TRUE;
+	}
+
+	/*
+	Class description
+	*/
 	class NGMaxClassDesc : public ClassDesc {
 	public:
 		int IsPublic() { return 1; }
@@ -430,37 +434,41 @@ namespace NGTech {
 		const TCHAR *Category()  { return _T(""); }
 	};
 
-	static NGMaxClassDesc astEngineDesc;
+	/*
+	NGMaxClassDesc
+	*/
+	static NGMaxClassDesc _gNGMaxDesc;
 }
+/*
+Number of plugins
+*/
 __declspec(dllexport) int LibNumberClasses() {
 	return 1;
 }
 
+/*
+LibClassDesc
+*/
 __declspec(dllexport) ClassDesc *LibClassDesc(int i) {
-	return (i == 0) ? &NGTech::astEngineDesc : 0;
+	return (i == 0) ? &NGTech::_gNGMaxDesc : 0;
 }
 
+/*
+LibDesc
+*/
 __declspec(dllexport) const TCHAR *LibDescription() {
 	return _T("NGMax");
 }
 
-__declspec(dllexport) ULONG LibVersion(void) {
+/*
+LibVersion
+*/
+__declspec(dllexport) ULONG LibVersion() {
 	return VERSION_3DSMAX;
 }
 
+/*
+*/
 __declspec(dllexport)ULONG CanAutoDefer() {
 	return 1;
-}
-
-
-HINSTANCE hInstance;
-int controlsInit = FALSE;
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, ULONG fdwReason, LPVOID lpvReserved) {
-	hInstance = hinstDLL;
-	if (!controlsInit) {
-		controlsInit = true;
-		InitCommonControls();
-	}
-	return true;
 }

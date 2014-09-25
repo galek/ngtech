@@ -22,8 +22,11 @@ namespace NGTech {
 		engines main loop
 		*/
 		void mainLoop();
+		void editorLoop();
 
-		void updateFrame();
+		void do_update();
+		void do_render();
+		void do_swap();
 
 		/**
 		exits the main loop
@@ -32,13 +35,15 @@ namespace NGTech {
 		void initialise(int _hwnd = 0);
 		void setGame(IGame*_game);
 		virtual float GetLastFPS();
+		virtual float GetTimePerFrame();
 		virtual void LoadEngineModule(const char* _name);
 	private:
 		void _preInit();
 		void _setResources();
+	public:
+		EngineThreads*threads;
 	private:
 		EnginePlugins*plugins;
-		EngineThreads*threads;
 	};
 	ENGINE_API Engine* GetEngine();
 }

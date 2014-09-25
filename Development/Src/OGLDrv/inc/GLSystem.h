@@ -46,7 +46,7 @@ namespace NGTech {
 		virtual ILImage* CreateImageNoise3D(int width, int height, int depth, int format);
 		virtual void*    GetGUIImageLoader();
 	public:
-		GLSystem();
+		GLSystem(CoreManager*);
 		virtual ~GLSystem();
 
 		String getVendor();
@@ -147,15 +147,14 @@ namespace NGTech {
 		virtual void drawGeometry(int vertexCount);
 
 	private:
-		virtual bool createContext(IWindow*);
+		virtual bool createContext(I_Window*);
 		virtual void swapBuffers();
-		bool _createNewContext(IWindow* _window);
-		bool _checkContextSuppoort(IWindow* _window);
-		bool _createOldContext(IWindow* _window);
 	private:
 		friend class GLTexture;
 		friend class GLVBO;
 		friend class GLShader;
 		friend class GLDisplayList;
+	private:
+		CoreManager* engine;
 	};
 }

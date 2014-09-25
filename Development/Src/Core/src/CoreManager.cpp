@@ -9,7 +9,8 @@ namespace NGTech {
 	/**
 	*/
 	CoreManager::CoreManager()
-		:mIsEditor(false),
+		:paused(false),
+		mIsEditor(false),
 		iWindow(nullptr),
 		iRender(nullptr),
 		cvars(nullptr),

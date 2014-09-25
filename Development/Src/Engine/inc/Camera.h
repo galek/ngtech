@@ -1,9 +1,9 @@
 #pragma once
 
 //**************************************
-#include "MathLib.h"
+#include "../../Core/inc/MathLib.h"
 #include "PhysSystem.h"
-#include "../Common/StringHelper.h"
+#include "../../Common/StringHelper.h"
 //**************************************
 
 namespace NGTech {
@@ -22,28 +22,30 @@ namespace NGTech {
 
 		ENGINE_INLINE virtual CameraType getType() { return CAMERA; };
 
-		ENGINE_INLINE virtual Vec3 &getPosition() { Vec3 v = Vec3(0, 0, 0); return v; };
-		ENGINE_INLINE virtual void setPosition(const Vec3 &position) {};
+		ENGINE_INLINE virtual Vec3 &getPosition() = 0;
+		ENGINE_INLINE virtual void setPosition(const Vec3 &position) {}
 
-		ENGINE_INLINE virtual Vec3 &getDirection() { Vec3 v = Vec3(0, 0, 0); return v; };
-		ENGINE_INLINE virtual void setDirection(const Vec3 &direction) {};
+		ENGINE_INLINE virtual Vec3 &getDirection() = 0;
+		ENGINE_INLINE virtual void setDirection(const Vec3 &direction) {}
 
-		ENGINE_INLINE virtual float getMaxVelocity() { return 0; };
-		ENGINE_INLINE virtual void setMaxVelocity(float maxVelocity) {};
+		ENGINE_INLINE virtual float getMaxVelocity() { return 0; }
+		ENGINE_INLINE virtual void setMaxVelocity(float maxVelocity) {}
 
-		ENGINE_INLINE virtual float getFOV() { return 0; };
-		ENGINE_INLINE virtual void setFOV(float fov) {};
+		ENGINE_INLINE virtual float getFOV() { return 0; }
+		ENGINE_INLINE virtual void setFOV(float fov) {}
 
-		ENGINE_INLINE virtual Mat4 getTransform() { return Mat4(); };
-		ENGINE_INLINE virtual Mat4 getProjection() { return Mat4(); };
+		ENGINE_INLINE virtual Mat4 getTransform() = 0;
+		ENGINE_INLINE virtual Mat4 getProjection() = 0;
 
-		ENGINE_INLINE virtual void update() {};
-		ENGINE_INLINE float GetAngle(int _i) {	if (_i <= 2) return angle[_i]; else return 0;	}
+		ENGINE_INLINE virtual void update() {}
+		ENGINE_INLINE float GetAngle(int _i) { if (_i <= 2) return angle[_i]; else return 0; }
+		ENGINE_INLINE void SetAngle(int _i, float _v) { if (_i <= 2) angle[_i] = _v; }
+		ENGINE_INLINE void LookAt(float _x, float _y) { angle[0] = -0.4 * _x; angle[1] = -0.4 * _y; }
 
 		//---physics---------------------------
 	public:
-		ENGINE_INLINE virtual void setPhysics(const Vec3 &size, float mass) {};
-		ENGINE_INLINE virtual PhysBody *getPhysBody() { return NULL; };
+		ENGINE_INLINE virtual void setPhysics(const Vec3 &size, float mass) {}
+		ENGINE_INLINE virtual PhysBody *getPhysBody() { return NULL; }
 
 		float angle[2];
 	};

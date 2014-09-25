@@ -1,16 +1,16 @@
 #pragma once
 
 //***************************************************************************
-#include "IncludesAndLibs.h"
+#include "../../Core/inc/IncludesAndLibs.h"
 //***************************************************************************
-#include "MathLib.h"
+#include "../../Core/inc/MathLib.h"
 #include "ALSound.h"
 #include "ALSoundSource.h"
 //***************************************************************************
 namespace physx
 {
 	class PxShape;
-	class PxRigidDynamic;
+	class PxRigidActor;
 }
 namespace NGTech {
 
@@ -27,8 +27,9 @@ namespace NGTech {
 		static PhysBody *CreateCapsule(float radius, float height, Mat4 *_trans, float mass = 0);
 		static PhysBody *CreateChampferCylinder(float radius, float height, float mass = 0);
 
-		static PhysBody *CreateConvexHull(Vec3 *pos, const int numPos, float mass = 0);
-		static PhysBody *CreateStaticMesh(Vec3 *pos, const int numPos, bool optimize);
+		static PhysBody *CreateConvexHull(int _numVert, int _numFaces, Mat4 *_trans, void*_vertices, unsigned int*_indices, float);
+		static PhysBody *CreateStaticMesh(int _numVert, int _numFaces, Mat4 *_trans, void*, unsigned int*);
+		static PhysBody *CreateCloth(int _numVert, int _numFaces, Mat4 *_trans, void*, unsigned int*);
 
 		~PhysBody();
 
@@ -46,22 +47,22 @@ namespace NGTech {
 		Vec3 GetLinearVelocity();
 		void SetAngularVelocity(const Vec3 &velocity);
 		Vec3 GetAngularVelocity();
-		
+
 		ENGINE_INLINE void SetImpactSound(ALSound *snd) {
 			impactSrc = ALSoundSource::create(snd);
 		}
-		
+
 		void SetLinearDamping(float _v);
 		void SetAngularDamping(float _v);
 		void SetMassSpaceInertiaTensor(const Vec3&);
 	private:
 		ALSoundSource *impactSrc;
 		physx::PxShape* mShape;
-		physx::PxRigidDynamic *mActor;
+		physx::PxRigidActor *mActor;
 		Vec3 mLvelocity, mAvelocity;
 
 		float mass;
-		
+
 		friend class PhysSystem;
 		friend class PhysJoint;
 		friend class PhysJointUpVector;

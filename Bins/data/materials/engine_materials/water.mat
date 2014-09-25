@@ -1,6 +1,6 @@
 pass Ambient
 {
-shader = water_ambient.ashd
+shader = water_ambient.glsl
 mat4 u_mvp = scene::mvp
 mat4 u_proj_transform = scene::viewport_transform
 float u_time = scene::time

@@ -9,7 +9,7 @@
 #pragma once 
 
 //*************************
-#include "MathLib.h"
+#include "../../Core/inc/MathLib.h"
 //*************************
 
 namespace NGTech {

@@ -14,7 +14,7 @@ Vec2 position, scale;
 void init() {
 	GUI::create("../data/textures/gui");
 
-	mandelbotShader = GLShader::create("../data/shaders/mandelbrot.ashd");
+	mandelbotShader = GLShader::create("../data/shaders/mandelbrot.glsl");
 	usor = GetRender()->TextureCreate2D("../data/textures/usor.jpg");
 	usor->setFilter(I_Texture::LINEAR);
 

@@ -213,6 +213,7 @@ namespace NGTech {
 		virtual void  clear(unsigned int buffers) = 0;
 		virtual void  flush() = 0;
 		virtual void  viewport(int x, int y) = 0;
+		virtual void  endFrame(){ swapBuffers(); }
 
 		//----------Using-textures----
 		virtual void  setColor(const Vec3 &color) = 0;
@@ -293,8 +294,8 @@ namespace NGTech {
 		virtual void drawGeometry(int vertexCount) = 0;
 
 		//--OpenGL Low Level---------------------
-		virtual bool createContext(IWindow*){ return false; }
-		virtual void swapBuffers(){}
+		virtual bool createContext(I_Window*) { return false; }
+		virtual void swapBuffers() = 0;
 	};
 
 	struct I_Shader

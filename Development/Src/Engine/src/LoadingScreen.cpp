@@ -13,7 +13,9 @@ namespace NGTech {
 		background = GetRender()->TextureCreate2D(path);
 	}
 
-	LoadingScreen::~LoadingScreen() {}
+	LoadingScreen::~LoadingScreen() {
+		SAFE_DELETE(background);
+	}
 
 	void LoadingScreen::show() {
 		GetRender()->clear(I_Render::COLOR_BUFFER | I_Render::DEPTH_BUFFER);

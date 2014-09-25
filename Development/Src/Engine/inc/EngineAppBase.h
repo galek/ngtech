@@ -5,12 +5,11 @@ namespace NGTech {
 	struct ICallback;
 
 	struct ENGINE_API EngineAppBase {
-		EngineAppBase(int _hwnd,bool _isEditor, IGame*_game, ICallback* rc, ICallback* ev);
-		EngineAppBase(IGame*_game, ICallback* rc, ICallback* ev);
+		explicit EngineAppBase(int _hwnd, bool _isEditor, IGame*_game, ICallback* rc, ICallback* ev);
+		explicit EngineAppBase(IGame*_game, ICallback* rc, ICallback* ev);
 		/**
 		*/
 		void Update();
 		void Run();
-
 	};
 }

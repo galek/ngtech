@@ -8,7 +8,7 @@
 #endif
 
 #ifndef LOG_FILE
-#define LOG_FILE "../EngineLog.html"
+#define LOG_FILE "../Logs/EngineLog.html"
 #endif
 
 #ifndef HAVE_NVCPL
@@ -25,6 +25,10 @@
 
 #ifndef EYEFINITY_SUPPORT
 #define EYEFINITY_SUPPORT 1
+#endif
+
+#ifndef DROP_EDITOR
+//#define DROP_EDITOR 1
 #endif
 
 #endif

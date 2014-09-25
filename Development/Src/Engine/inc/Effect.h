@@ -13,10 +13,10 @@ namespace NGTech {
 	public:
 		ENGINE_INLINE virtual void draw() {};
 
-		ENGINE_INLINE virtual const Vec3 &getPosition() { return Vec3(0, 0, 0); };
+		virtual const Vec3 &getPosition() = 0;
 		ENGINE_INLINE virtual void setPosition(const Vec3 &position) {};
 
-		ENGINE_INLINE virtual const Vec3 &getColor() { return Vec3(0, 0, 0); };
+		virtual const Vec3 &getColor() = 0;
 		ENGINE_INLINE virtual void setColor(const Vec3 &color) {};
 	};
 
@@ -25,8 +25,8 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	class EffectParticleSystem : public Effect {
 	public:
-		EffectParticleSystem(const String &path, int numParticles);
-		~EffectParticleSystem();
+		explicit EffectParticleSystem(const String &path, int numParticles);
+		virtual ~EffectParticleSystem();
 
 		virtual void draw();
 
@@ -70,8 +70,8 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	class ENGINE_API EffectFlare : public Effect {
 	public:
-		EffectFlare(const String &path);
-		~EffectFlare();
+		explicit EffectFlare(const String &path);
+		virtual ~EffectFlare();
 
 		virtual void draw();
 

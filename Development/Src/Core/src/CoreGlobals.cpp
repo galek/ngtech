@@ -24,7 +24,7 @@ namespace NGTech {
 
 	/**
 	*/
-	IWindow* GetWindow(){
+	I_Window* GetWindow(){
 		return GetCore()->iWindow;
 	}
 

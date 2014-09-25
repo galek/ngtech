@@ -99,13 +99,7 @@
     <ClInclude Include="inc\Scene.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="inc\SkinnedModel.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="inc\Terrain.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\Water.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="inc\WindowSystem.h">
@@ -123,8 +117,17 @@
     <ClInclude Include="inc\EngineThreads.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\WrappedGameplayFunctions.h">
+    <ClInclude Include="Inc\WrappedScriptFunctions.h">
       <Filter>Заголовочные файлы\Script</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\WindowSystem_GLFW.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\WindowEvents.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\PhysicsUpdateJob.h">
+      <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -144,9 +147,6 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="src\Console.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CoreFunctImpl.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="src\Effect.cpp">
@@ -206,16 +206,7 @@
     <ClCompile Include="src\Scene.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="src\SkinnedModel.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="src\Terrain.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TerrainDemo.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Water.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="src\WindowSystem.cpp">
@@ -233,8 +224,20 @@
     <ClCompile Include="src\EngineThreads.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="src\WrappedGameplayFunctions.cpp">
+    <ClCompile Include="src\WrappedScriptFunctions.cpp">
       <Filter>Файлы исходного кода\Script</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WindowSystem_glfw.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WindowEvents.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\API_InputConverter.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PhysicsUpdateJob.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

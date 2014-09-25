@@ -33,23 +33,58 @@
 //***************************************************
 
 namespace NGTech {
+#ifndef DROP_EDITOR
+	/**
+	параметры, относящиеся к расчету FPS
+	*/
+	static LARGE_INTEGER CounterFrequency;
+	static LARGE_INTEGER FPSCount;
+	WindowSystem*_gWindowSystem = nullptr;
 
+	/**
+	*/
 	LRESULT	CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
 
-	/*
+	/**
 	*/
 	WindowSystem::WindowSystem(CVARManager*_cvars)
-		: isExternalHwnd(false)
+		:isExternalHwnd(false),
+		fps(0.0f),
+		mouseGrabed(false),
+		mousing(false),
+		cursorVisible(false),
+		mouseX(0),
+		mouseY(0),
+		oldMouseX(0),
+		oldMouseY(0),
+		width(_cvars->r_width),
+		height(_cvars->r_height),
+		fullscreen(_cvars->r_fullscreen)
 	{
 		Log::writeHeader("-- WindowSystem --");
 
-		//-----read-config-values-----------------------------------
-		this->width = _cvars->r_width;
-		this->height = _cvars->r_height;
+		this->hWnd = 0;
 		this->bpp = _cvars->r_bpp;
 		this->zdepth = _cvars->r_zdepth;
-		this->fullscreen = _cvars->r_fullscreen;
+
+		for (int i = 0; i < 3; i++)
+			this->mouseButtons[i] = false;
+
+
+		for (int i = 0; i < 315; i++)
+			this->keys[i] = false;
+
+
+		this->mouseGrabed = false;
+		//инициализация таймеров
+		QueryPerformanceFrequency(&CounterFrequency);
+		QueryPerformanceCounter(&FPSCount);
+
+		_gWindowSystem = this;
 	}
+
+	/**
+	*/
 	void WindowSystem::initialise(int _hwnd){
 		isExternalHwnd = _hwnd != NULL;
 		if (!isExternalHwnd)
@@ -72,7 +107,7 @@ namespace NGTech {
 			wc.lpfnWndProc = (WNDPROC)wndProc;
 			wc.cbClsExtra = 0;
 			wc.cbWndExtra = 0;
-			wc.hInstance = this->hInstance;
+			wc.hInstance = (HINSTANCE)this->hInstance;
 			wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
 			wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 			wc.hbrBackground = NULL;
@@ -110,9 +145,9 @@ namespace NGTech {
 
 			AdjustWindowRectEx(&windowRect, dwStyle, FALSE, dwExStyle);
 
-			if (!(this->hWnd = CreateWindowEx(dwExStyle,			// Extended Style For The Window
+			if (!(this->hWnd = (int)CreateWindowEx(dwExStyle,			// Extended Style For The Window
 				"OpenGL",							// Class Name
-				"NGTech(http://nggames.com)",						// Window Title
+				"NG Engine",						// Window Title
 				dwStyle |							// Defined Window Style
 				WS_CLIPSIBLINGS |					// Required Window Style
 				WS_CLIPCHILDREN,					// Required Window Style
@@ -121,7 +156,7 @@ namespace NGTech {
 				windowRect.bottom - windowRect.top,	// Calculate Window Height
 				NULL,								// No Parent Window
 				NULL,								// No Menu
-				this->hInstance,							// Instance
+				(HINSTANCE)hInstance,							// Instance
 				NULL)))								// Dont Pass Anything To WM_CREATE
 			{
 				Error::showAndExit("WindowSystem::initialise() error: window creation error");
@@ -129,27 +164,16 @@ namespace NGTech {
 			}
 		}
 		else
-			this->hWnd = (HWND)_hwnd;
+			this->hWnd = _hwnd;
 
 		if (!isExternalHwnd) {
-			ShowWindow(this->hWnd, SW_SHOW);
-			SetForegroundWindow(this->hWnd);
-			SetFocus(this->hWnd);
+			ShowWindow((HWND)hWnd, SW_SHOW);
+			SetForegroundWindow((HWND)hWnd);
+			SetFocus((HWND)hWnd);
 		}
-
-		for (int i = 0; i < 3; i++)
-			this->mouseButtons[i] = false;
-
-
-		for (int i = 0; i < 315; i++)
-			this->keys[i] = false;
-
-
-		this->mouseGrabed = false;
 	}
 
-
-	/*
+	/**
 	*/
 	WindowSystem::~WindowSystem() {
 		if (fullscreen) {
@@ -157,26 +181,27 @@ namespace NGTech {
 		}
 
 		if (hDC) {
-			ReleaseDC(hWnd, hDC);
+			ReleaseDC((HWND)hWnd, (HDC)hDC);
 			hDC = NULL;
 		}
 
 		if (hWnd) {
-			DestroyWindow(hWnd);
+			DestroyWindow((HWND)hWnd);
 			hWnd = NULL;
 		}
 
-		UnregisterClass("OpenGL", hInstance);
+		UnregisterClass("OpenGL", (HINSTANCE)hInstance);
 		hInstance = NULL;
 	}
 
-	/*
+	/**
 	*/
 	void WindowSystem::setTitle(const String &title) {
-		SetWindowText(hWnd, title.c_str());
+		SetWindowText((HWND)hWnd, title.c_str());
 	}
 
-
+	/**
+	*/
 	LRESULT CALLBACK wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 		switch (uMsg)
 		{
@@ -189,8 +214,8 @@ namespace NGTech {
 
 		case WM_KEYDOWN:
 		{
-			if (GetWindow())
-				GetWindow()->keys[wParam] = true;
+			if (_gWindowSystem)
+				_gWindowSystem->keys[wParam] = true;
 			//Nick:TODO: сделай ввод
 
 			return 0;
@@ -198,8 +223,8 @@ namespace NGTech {
 
 		case WM_KEYUP:
 		{
-			if (GetWindow())
-				GetWindow()->keys[wParam] = false;
+			if (_gWindowSystem)
+				_gWindowSystem->keys[wParam] = false;
 			//Nick:TODO: сделай ввод
 
 			return 0;
@@ -207,14 +232,14 @@ namespace NGTech {
 
 		case WM_MOUSEMOVE:
 		{
-			if (GetWindow()){
-				GetWindow()->mx = LOWORD(lParam);
-				GetWindow()->my = HIWORD(lParam);
-				GetWindow()->mousing = true;
+			if (_gWindowSystem){
+				_gWindowSystem->mx = LOWORD(lParam);
+				_gWindowSystem->my = HIWORD(lParam);
+				_gWindowSystem->mousing = true;
 
 
-				if (!GetWindow()->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMouseMove(GetWindow()->oldMouseX, GetWindow()->oldMouseY, 0);
+				if (!_gWindowSystem->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMouseMove(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, 0);
 
 				return 0;
 			}
@@ -222,44 +247,44 @@ namespace NGTech {
 
 		case WM_LBUTTONDOWN:
 		{
-			if (GetWindow())
-				GetWindow()->mouseButtons[0] = true;
+			if (_gWindowSystem)
+				_gWindowSystem->mouseButtons[0] = true;
 
-			if (!GetWindow()->mouseGrabed)
-				MyGUI::InputManager::getInstancePtr()->injectMousePress(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)0);
+			if (!_gWindowSystem->mouseGrabed)
+				MyGUI::InputManager::getInstancePtr()->injectMousePress(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, (MyGUI::MouseButton::Enum)0);
 
 			return 0;
 		}
 
 		case WM_LBUTTONUP:
 		{
-			if (GetWindow())
-				GetWindow()->mouseButtons[0] = false;
+			if (_gWindowSystem)
+				_gWindowSystem->mouseButtons[0] = false;
 
-			if (!GetWindow()->mouseGrabed)
-				MyGUI::InputManager::getInstancePtr()->injectMouseRelease(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)0);
+			if (!_gWindowSystem->mouseGrabed)
+				MyGUI::InputManager::getInstancePtr()->injectMouseRelease(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, (MyGUI::MouseButton::Enum)0);
 
 			return 0;
 		}
 
 		case WM_RBUTTONDOWN:
 		{
-			if (GetWindow())
-				GetWindow()->mouseButtons[1] = true;
+			if (_gWindowSystem)
+				_gWindowSystem->mouseButtons[1] = true;
 
-			if (!GetWindow()->mouseGrabed)
-				MyGUI::InputManager::getInstancePtr()->injectMousePress(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)1);
+			if (!_gWindowSystem->mouseGrabed)
+				MyGUI::InputManager::getInstancePtr()->injectMousePress(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, (MyGUI::MouseButton::Enum)1);
 
 			return 0;
 		}
 
 		case WM_RBUTTONUP:
 		{
-			if (GetWindow())
-				GetWindow()->mouseButtons[1] = false;
+			if (_gWindowSystem)
+				_gWindowSystem->mouseButtons[1] = false;
 
-			if (!GetWindow()->mouseGrabed)
-				MyGUI::InputManager::getInstancePtr()->injectMouseRelease(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)1);
+			if (!_gWindowSystem->mouseGrabed)
+				MyGUI::InputManager::getInstancePtr()->injectMouseRelease(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, (MyGUI::MouseButton::Enum)1);
 
 			return 0;
 		}
@@ -271,9 +296,9 @@ namespace NGTech {
 
 			if (GetRender())
 				GetRender()->reshape(w, h);
-			if (GetWindow()){
-				GetWindow()->width = w;
-				GetWindow()->height = h;
+			if (_gWindowSystem){
+				_gWindowSystem->width = w;
+				_gWindowSystem->height = h;
 				return 0;
 			}
 			if (GetGUI())
@@ -283,9 +308,10 @@ namespace NGTech {
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}
 
-	/*
+	/**
 	*/
 	void WindowSystem::update() {
+		_updateFPSCounter();
 		updateTimer();
 
 		memcpy(oldKeys, keys, sizeof(keys));
@@ -313,60 +339,63 @@ namespace NGTech {
 		}
 	}
 
-	/*
+	/**
 	*/
-	bool WindowSystem::isKeyPressed(Key key) {
+	bool WindowSystem::isKeyPressed(const char* _key) {
+		const int key = Input_GetKeyValueByChar(_key);
 		return keys[key];
 	}
 
-	/*
+	/**
 	*/
-	bool WindowSystem::isKeyDown(Key key) {
+	bool WindowSystem::isKeyDown(const char* _key) {
+		const int key = Input_GetKeyValueByChar(_key);
 		return (keys[key] && !oldKeys[key]);
 	}
 
-	/*
+	/**
 	*/
-	bool WindowSystem::isKeyUp(Key key) {
+	bool WindowSystem::isKeyUp(const char* _key) {
+		const int key = Input_GetKeyValueByChar(_key);
 		return (!keys[key] && oldKeys[key]);
 	}
 
-	/*
+	/**
 	*/
-	bool WindowSystem::isMouseButtonPressed(MouseButton mb) {
+	bool WindowSystem::isMouseButtonPressed(int mb) {
 		return mouseButtons[mb];
 	}
 
-	/*
+	/**
 	*/
-	bool WindowSystem::wasMouseButtonPressed(MouseButton mb) {
+	bool WindowSystem::wasMouseButtonPressed(int mb) {
 		return (mouseButtons[mb] && !oldMouseButtons[mb]);
 	}
 
-	/*
+	/**
 	*/
-	bool WindowSystem::wasMouseButtonReleased(MouseButton mb) {
+	bool WindowSystem::wasMouseButtonReleased(int mb) {
 		return (!mouseButtons[mb] && oldMouseButtons[mb]);
 	}
 
-	/*
+	/**
 	*/
 	void WindowSystem::showCursor(bool show) {
 		MyGUI::PointerManager::getInstance().setVisible(show);
 		cursorVisible = show;
 	}
 
-	/*
+	/**
 	*/
 	void WindowSystem::setMousePos(int x, int y) {
 		POINT pt;
 		pt.x = x;
 		pt.y = y;
-		ClientToScreen(hWnd, &pt);
+		ClientToScreen((HWND)hWnd, &pt);
 		SetCursorPos(pt.x, pt.y);
 	}
 
-	/*
+	/**
 	*/
 	void WindowSystem::grabMouse(bool grab) {
 		mouseX = oldMouseX = width / 2;
@@ -377,7 +406,7 @@ namespace NGTech {
 		mouseGrabed = grab;
 	}
 
-	/*
+	/**
 	*/
 	void WindowSystem::updateTimer() {
 		int ticks = GetTickCount();
@@ -385,7 +414,28 @@ namespace NGTech {
 		eTime = ticks;
 	}
 
-	/*
+	/**
+	*/
+	void WindowSystem::_updateFPSCounter()
+	{
+		//периодический расчет частоты смены кадров (каждые 50 кадров)
+		static int iFrames = 0;    //счетчик кадров
+		//fps = 0.0f;   //частота смены кадров (количество кадров в секунду)
+		iFrames++;      //увеличение числа кадров на единицу при рендеринге
+		if (iFrames == 50){
+			float fTime;
+			LARGE_INTEGER lCurrent;
+			QueryPerformanceCounter(&lCurrent);   //получение текущего счетчика
+			fTime = (float)(lCurrent.QuadPart - FPSCount.QuadPart) /
+				(float)CounterFrequency.QuadPart;    //вычисление времени, за которое 50 раз перерисовалась форма
+			fps = (float)iFrames / fTime;            //вычисление частоты смены кадров
+			//обновление счетчика кадров и таймера
+			iFrames = 0;
+			QueryPerformanceCounter(&FPSCount);
+		}
+	}
+
+	/**
 	*/
 	int WindowSystem::getTime() {
 		return GetTickCount();
@@ -393,9 +443,203 @@ namespace NGTech {
 
 	/*
 	*/
-	void WindowSystem::showOSCursor(bool _value){
-		if (!isExternalHwnd)
-			::ShowCursor(_value);
+	void WindowSystem::showOSCursor(int _value){
+		if ((_value > 1) || (_value < 0))
+			Warning("{[WindowSystem]showOSCursor} is not available in native window system. Is valid values: 0(false),1(true)");
+		::ShowCursor(_value);
 	}
 
+	/**
+	*/
+	float WindowSystem::getLastFPS()
+	{
+		return fps;
+	}
+
+	/**
+	*/
+	const int WindowSystem::Input_GetKeyValueByChar(const char*  _p)
+	{
+		if (stricmp(_p, "A") == 0)
+			return KEY_A;
+		else if (stricmp(_p, "B") == 0)
+			return KEY_B;
+		else if (stricmp(_p, "C") == 0)
+			return KEY_C;
+		else if (stricmp(_p, "D") == 0)
+			return KEY_D;
+		else if (stricmp(_p, "E") == 0)
+			return KEY_E;
+		else if (stricmp(_p, "F") == 0)
+			return KEY_F;
+		else if (stricmp(_p, "G") == 0)
+			return KEY_G;
+		else if (stricmp(_p, "H") == 0)
+			return KEY_H;
+		else if (stricmp(_p, "I") == 0)
+			return KEY_I;
+		else if (stricmp(_p, "J") == 0)
+			return KEY_J;
+		else if (stricmp(_p, "K") == 0)
+			return KEY_K;
+		else if (stricmp(_p, "L") == 0)
+			return KEY_L;
+		else if (stricmp(_p, "M") == 0)
+			return KEY_M;
+		else if (stricmp(_p, "N") == 0)
+			return KEY_N;
+		else if (stricmp(_p, "O") == 0)
+			return KEY_O;
+		else if (stricmp(_p, "P") == 0)
+			return KEY_P;
+		else if (stricmp(_p, "Q") == 0)
+			return KEY_Q;
+		else if (stricmp(_p, "R") == 0)
+			return KEY_R;
+		else if (stricmp(_p, "S") == 0)
+			return KEY_S;
+		else if (stricmp(_p, "T") == 0)
+			return KEY_T;
+		else if (stricmp(_p, "U") == 0)
+			return KEY_U;
+		else if (stricmp(_p, "V") == 0)
+			return KEY_V;
+		else if (stricmp(_p, "W") == 0)
+			return KEY_W;
+		else if (stricmp(_p, "X") == 0)
+			return KEY_X;
+		else if (stricmp(_p, "Y") == 0)
+			return KEY_Y;
+		else if (stricmp(_p, "Z") == 0)
+			return KEY_Z;
+
+		else if (_p[0] == '0')
+			return KEY_0;
+		else if (_p[0] == '1')
+			return KEY_1;
+		else if (_p[0] == '2')
+			return KEY_2;
+		else if (_p[0] == '3')
+			return KEY_3;
+		else if (_p[0] == '4')
+			return KEY_4;
+		else if (_p[0] == '5')
+			return KEY_5;
+		else if (_p[0] == '6')
+			return KEY_6;
+		else if (_p[0] == '7')
+			return KEY_7;
+		else if (_p[0] == '8')
+			return KEY_8;
+		else if (_p[0] == '9')
+			return KEY_9;
+
+		else if ((stricmp(_p, "ESC")) == 0)
+			return KEY_ESC;
+		else if ((stricmp(_p, "UP")) == 0)
+			return KEY_UP;
+		else if ((stricmp(_p, "DONW")) == 0)
+			return KEY_DOWN;
+		else if ((stricmp(_p, "LETF")) == 0)
+			return KEY_LEFT;
+		else if ((stricmp(_p, "RIGHT")) == 0)
+			return KEY_RIGHT;
+
+		return 0;
+	}
+
+	/**
+	*/
+	const char* WindowSystem::Input_GetKeyValueByInt(int _p)
+	{
+		if (_p == KEY_A)
+			return "A";
+		else if (_p == KEY_B)
+			return "B";
+		else if (_p == KEY_C)
+			return "C";
+		else if (_p == KEY_D)
+			return "D";
+		else if (_p == KEY_E)
+			return "E";
+		else if (_p == KEY_F)
+			return "F";
+		else if (_p == KEY_G)
+			return "G";
+		else if (_p == KEY_H)
+			return "H";
+		else if (_p == KEY_I)
+			return "I";
+		else if (_p == KEY_J)
+			return "J";
+		else if (_p == KEY_K)
+			return "K";
+		else if (_p == KEY_L)
+			return "L";
+		else if (_p == KEY_M)
+			return "M";
+		else if (_p == KEY_N)
+			return "N";
+		else if (_p == KEY_O)
+			return "O";
+		else if (_p == KEY_P)
+			return "P";
+		else if (_p == KEY_Q)
+			return "Q";
+		else if (_p == KEY_R)
+			return "R";
+		else if (_p == KEY_S)
+			return "S";
+		else if (_p == KEY_T)
+			return "T";
+		else if (_p == KEY_U)
+			return "U";
+		else if (_p == KEY_V)
+			return "V";
+		else if (_p == KEY_W)
+			return "W";
+		else if (_p == KEY_X)
+			return "X";
+		else if (_p == KEY_Y)
+			return "Y";
+		else if (_p == KEY_Z)
+			return "Z";
+
+		else if (_p == KEY_0)
+			return "0";
+		else if (_p == KEY_1)
+			return "1";
+		else if (_p == KEY_2)
+			return "2";
+		else if (_p == KEY_3)
+			return "3";
+		else if (_p == KEY_4)
+			return "4";
+		else if (_p == KEY_5)
+			return "5";
+		else if (_p == KEY_6)
+			return "6";
+		else if (_p == KEY_7)
+			return "7";
+		else if (_p == KEY_8)
+			return "8";
+		else if (_p == KEY_9)
+			return "9";
+
+		else if (_p == KEY_ESC)
+			return "ESC";
+		else if (_p == KEY_SPACE)
+			return "SPACE";
+		else if (_p == KEY_UP)
+			return "UP";
+		else if (_p == KEY_DOWN)
+			return "DOWN";
+		else if (_p == KEY_LEFT)
+			return "LEFT";
+		else if (_p == KEY_RIGHT)
+			return "RIGHT";
+
+		return "NULL";
+	}
+#endif
 }

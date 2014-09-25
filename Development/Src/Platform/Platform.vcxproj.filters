@@ -55,6 +55,12 @@
     <Filter Include="Заголовочные файлы\crashreport\processor">
       <UniqueIdentifier>{dd438fb1-1eee-4a51-8297-74da0026312d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы исходного кода\glfw">
+      <UniqueIdentifier>{54f70aa1-04fd-473d-8665-3817405f5299}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\glfw">
+      <UniqueIdentifier>{1f72974d-6614-4a57-b5c8-3379bee63b1d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crashreport\windows\handler\exception_handler.cc">
@@ -77,6 +83,57 @@
     </ClCompile>
     <ClCompile Include="src\crashreport\windows\crash_generation\crash_generation_server.cc">
       <Filter>Файлы исходного кода\crashreport\windows\crash_generation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\clipboard.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\context.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\gamma.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\init.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\input.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\joystick.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\monitor.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\time.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\wgl_context.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\win32_clipboard.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\win32_gamma.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\win32_init.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\win32_joystick.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\win32_monitor.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\win32_time.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\win32_window.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glfw\window.c">
+      <Filter>Файлы исходного кода\glfw</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -211,6 +268,12 @@
     </ClInclude>
     <ClInclude Include="inc\crashreport\processor\system_info.h">
       <Filter>Заголовочные файлы\crashreport\processor</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\glfw\glfw3.h">
+      <Filter>Заголовочные файлы\glfw</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\glfw\glfw3native.h">
+      <Filter>Заголовочные файлы\glfw</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

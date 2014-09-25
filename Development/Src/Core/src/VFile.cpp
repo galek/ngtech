@@ -8,6 +8,9 @@
 
 namespace NGTech
 {
+
+	/**
+	*/
 	VFile::VFile(const char* _name, int _mode, bool _notSearch)
 		:mName(_name)
 	{
@@ -15,10 +18,14 @@ namespace NGTech
 		_OpenFile(_name, _mode, _notSearch);
 	}
 
+	/**
+	*/
 	VFile::~VFile(){
 		fclose(mFile);
 	}
 
+	/**
+	*/
 	bool VFile::IsDataExist() {
 		bool status = GetVFS()->isDataExist(mName);
 		if (!status)
@@ -26,6 +33,8 @@ namespace NGTech
 		return status;
 	}
 
+	/**
+	*/
 	char* VFile::LoadFile(){
 		char * buffer = NULL;
 		// obtain file size:
@@ -38,21 +47,33 @@ namespace NGTech
 		fseek(mFile, 0, SEEK_SET);
 		fread(buffer, sizeof(char), mSize, mFile);
 		buffer[mSize] = '\0';
-		fclose(mFile);
 
 		return buffer;
 	}
 
-	bool VFile::EndOfFile()
-	{
+	bool VFile::EndOfFile()	{
 		return feof(mFile);
 	}
 
-	const char*  VFile::GetDataPath()
-	{
+	const char*  VFile::GetDataPath() {
 		return GetVFS()->getDataPath(mName).c_str();
 	}
 
+	/**
+	*/
+	size_t VFile::Size()
+	{
+		if (mSize == 0)
+		{
+			DebugM("[FileSystem] loading file with zero size.All is correctly? Filename: %s", mName.c_str());
+			LoadFile();
+		}
+
+		return mSize;
+	}
+
+	/**
+	*/
 	String VFile::GetLine()
 	{
 		if (!mFile) return "";
@@ -68,6 +89,8 @@ namespace NGTech
 		return output;
 	}
 
+	/**
+	*/
 	String VFile::GetFileExt() {
 		if (mName.size() == 0)
 			return "UNKNOWN_EXT";
@@ -82,10 +105,14 @@ namespace NGTech
 		return buf;
 	}
 
+	/**
+	*/
 	void VFile::WriteString(const String &text) {
 		fprintf(mFile, "%s\n", text.c_str());
 	}
 
+	/**
+	*/
 	String VFile::CutFileExt() {
 		if (mName.size() == 0)
 			return "UNKNOWN_EXT";
@@ -100,6 +127,8 @@ namespace NGTech
 		return buf;
 	}
 
+	/**
+	*/
 	void VFile::_OpenFile(const String&path, int _mode, bool _notSearch)
 	{
 		if (_notSearch)
@@ -119,6 +148,8 @@ namespace NGTech
 		}
 	}
 
+	/**
+	*/
 	void VFile::ScanF(const char *format, ...)
 	{
 		va_list ap;
@@ -127,4 +158,6 @@ namespace NGTech
 		va_end(ap);
 	}
 
+	/**
+	*/
 }
