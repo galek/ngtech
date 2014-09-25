@@ -289,3 +289,8 @@ Bins/logs/
 /Development/Src/Editors/LogicEditor/bin/Release
 /Development/Src/Editors/LogicEditor/obj/x86/Release
 /Development/Src/Editors/NGEd/obj/x86/Release
+Development/Src/Editors/NGEd/obj/
+Development/Src/Editors/LogicEditor/obj/
+Development/Src/Editors/LogicEditor/bin/
+Development/Src/Editors/3dparty/Graph/obj/
+*.dll
