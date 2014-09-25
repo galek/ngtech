@@ -52,7 +52,7 @@ void ExampleGame::initialise() {
 	camera = new CameraFree();
 	camera->setPosition(Vec3(0, 20, 0));
 	camera->setMaxVelocity(2000);
-	camera->setPhysics(Vec3(5, 5, 5), 1.0);
+	camera->setPhysics(Vec3(5, 5, 5), 1.0f);
 	camera->setFOV(60);
 
 
