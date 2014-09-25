@@ -96,7 +96,7 @@ namespace NGTech {
 	/**
 	*/
 	void GLSystem::initialise()	{
-#ifdef NATIVE_OGL
+#ifndef DROP_EDITOR
 		if (!createContext(GetWindow()))
 		{
 			Error("[GLSystem] initialise-Failed Creation OpenGL Context", true);
@@ -615,216 +615,79 @@ namespace NGTech {
 
 	/**
 	*/
-	bool GLSystem::_createOldContext(I_Window* _window)
-	{
-#ifdef NATIVE_OGL
-		Debug("[Render]GLSystem::_createOldContext");
-		static PIXELFORMATDESCRIPTOR pfd =
-		{
-			sizeof(PIXELFORMATDESCRIPTOR),
-			1,											// Version Number
-			PFD_DRAW_TO_WINDOW |						// Format Must Support Window
-			PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
-			PFD_DOUBLEBUFFER,							// Must Support Double Buffering
-			PFD_TYPE_RGBA,								// Request An RGBA Format
-			_window->bpp,								// Select Our Color Depth
-			0, 0, 0, 0, 0, 0,							// Color Bits Ignored
-			0,											// No Alpha Buffer
-			0,											// Shift Bit Ignored
-			0,											// No Accumulation Buffer
-			0, 0, 0, 0,									// Accumulation Bits Ignored
-			_window->zdepth,							// Z-Buffer (Depth Buffer)  
-			0,											// Stencil Buffer
-			0,											// No Auxiliary Buffer
-			PFD_MAIN_PLANE,								// Main Drawing Layer
-			0,											// Reserved
-			0, 0, 0										// Layer Masks Ignored
-		};
-
-		if (!(_window->hDC = GetDC(_window->hWnd)))	{
-			Error("WindowSystem::initialise() error: can't create a GL device context", true);
-			return false;
-		}
-
-		if (!(_window->pixelFormat = ChoosePixelFormat(_window->hDC, &pfd))) {
-			Error("WindowSystem::initialise() error: can't find a suitable pixel format", true);
-			return false;
-		}
-
-		if (!(SetPixelFormat(_window->hDC, _window->pixelFormat, &pfd)))	{
-			Error("WindowSystem::initialise() error: can't set the pixel format", true);
-			return false;
-		}
-
-		if (!(_window->hRC = wglCreateContext(_window->hDC)))	{
-			Error("WindowSystem::initialise() error: can't create a GL rendering context", true);
-			return false;
-		}
-
-		if (!wglMakeCurrent(_window->hDC, _window->hRC)) {
-			Error("WindowSystem::initialise() error: can't activate the GL rendering context", true);
-			return false;
-		}
-#endif
-		return true;
-	}
-
-	/**
-	*/
-#ifdef _WIN32
-	/** WGL function pointers for OpenGL 3.x/4.x context creation */
-	static PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB;
-	static PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormatARB;
-#endif
-
-	/**
-	*/
-	bool GLSystem::_checkContextSuppoort(I_Window* _window)
-	{
-#ifdef NATIVE_OGL
-		Debug("[Render]GLSystem::_checkContextSuppoort");
-
-		// получим адрес функции создания расширенного контекста OpenGL
-		wglCreateContextAttribsARB = (PFNWGLCREATECONTEXTATTRIBSARBPROC)wglGetProcAddress("wglCreateContextAttribsARB");
-		wglChoosePixelFormatARB = (PFNWGLCHOOSEPIXELFORMATARBPROC)wglGetProcAddress("wglChoosePixelFormatARB");
-
-		// временный контекст OpenGL нам больше не нужен, удаляем его
-		wglMakeCurrent(NULL, NULL);
-		wglDeleteContext(_window->hRC);
-
-		// если драйвер видеокарты не предоставил нам адрес этой функции
-		if (!wglCreateContextAttribsARB)
-		{
-			Warning("wglCreateContextAttribsARB fail (%d)\n", GetLastError());
-			return false;
-		}
-#endif
-		return true;
-	}
-
-	/**
-	*/
-	bool GLSystem::_createNewContext(I_Window* _window)
-	{
-#ifdef NATIVE_OGL
-		Debug("[Render]GLSystem::_createNewContext");
-		int pixfmt[8];
-		unsigned int numpf;
-		static PIXELFORMATDESCRIPTOR pfd =
-		{
-			sizeof(PIXELFORMATDESCRIPTOR),
-			1,											// Version Number
-			PFD_DRAW_TO_WINDOW |						// Format Must Support Window
-			PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
-			PFD_DOUBLEBUFFER,							// Must Support Double Buffering
-			PFD_TYPE_RGBA,								// Request An RGBA Format
-			_window->bpp,								// Select Our Color Depth
-			0, 0, 0, 0, 0, 0,							// Color Bits Ignored
-			0,											// No Alpha Buffer
-			0,											// Shift Bit Ignored
-			0,											// No Accumulation Buffer
-			0, 0, 0, 0,									// Accumulation Bits Ignored
-			_window->zdepth,							// Z-Buffer (Depth Buffer)  
-			0,											// Stencil Buffer
-			0,											// No Auxiliary Buffer
-			PFD_MAIN_PLANE,								// Main Drawing Layer
-			0,											// Reserved
-			0, 0, 0										// Layer Masks Ignored
-		};
-
-		const int piAttribIList[] = {
-			WGL_DRAW_TO_WINDOW_ARB, TRUE,
-			WGL_ACCELERATION_ARB, WGL_FULL_ACCELERATION_ARB,
-			WGL_SUPPORT_OPENGL_ARB, TRUE,
-			WGL_DOUBLE_BUFFER_ARB, TRUE,
-			WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
-			WGL_COLOR_BITS_ARB, 24,
-			WGL_DEPTH_BITS_ARB, 24,
-			WGL_STENCIL_BITS_ARB, 8,
-			0, 0
-		};
-		// укажем атрибуты для создания расширенного контекста OpenGL 3.3
-		// атрибуты установлены согласно спецификации расширения:
-
-		// WGL_CONTEXT_MAJOR_VERSION_ARB - старшая цифра необходимой версии
-
-		// WGL_CONTEXT_MINOR_VERSION_ARB - младшая цифра необходимой версии
-
-		// WGL_CONTEXT_FLAGS_ARB - флаги контекста, для нас это контекст с поддержкой
-		//    нового функционала WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB
-
-		// WGL_CONTEXT_PROFILE_MASK_ARB - профиль создаваемого контекста, выбираем
-		//    WGL_CONTEXT_CORE_PROFILE_BIT_ARB, все устройства с OpenGL 3.2 и старше
-		//    должны поддерживать профиль CORE, этот профиль позволяет получить доступ
-		//    к новому функционалу и говорит об отказе от устаревшего функционала
-
-		int attribs[] =
-		{
-			WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
-			WGL_CONTEXT_MINOR_VERSION_ARB, 3,
-			WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
-			WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,//Nick:TODO:WGL_CONTEXT_CORE_PROFILE_BIT_ARB support
-			0, 0
-		};
-
-		// если драйвер видеокарты не предоставил нам адрес этой функции
-		if (!wglCreateContextAttribsARB)
-		{
-			Warning("wglCreateContextAttribsARB fail (%d)\n", GetLastError());
-			return false;
-		}
-
-		wglChoosePixelFormatARB(_window->hDC, piAttribIList, NULL, 8, pixfmt, &numpf);
-
-		SetPixelFormat(_window->hDC, pixfmt[0], &pfd);
-		// пробуем создать контекст с поддержкой OpenGL 3.3
-		_window->hRC = wglCreateContextAttribsARB(_window->hDC, 0, attribs);
-
-		// если создать контекст не получилось или он не устанавливается для нашего окна
-		if (!_window->hRC || !wglMakeCurrent(_window->hDC, _window->hRC))
-		{
-			Warning("Creating render context fail (%d)\n", GetLastError());
-			return false;
-		}
-		Debug("[RENDER] OpenGL 3 is available");
-#endif
-		return true;
-	}
-
-	/**
-	*/
 	bool GLSystem::createContext(I_Window* _window)
 	{
-#ifdef NATIVE_OGL
-		//Create temporary context
-		bool status = _createOldContext(_window);
-		if (!status)
-			return false;
-		//Checking OGL3 Extension
-		status = 0;//_checkContextSuppoort(_window);
-		if (status)
-			LogPrintf("[Render]is new OGL %i", status);
-
-		if (status)
+#ifndef DROP_EDITOR
+		if (engine->mIsEditor)
 		{
-			if (!_createNewContext(_window))
-				return _createOldContext(_window);
+			Debug("[Render]GLSystem::_createOldContext");
+			static PIXELFORMATDESCRIPTOR pfd =
+			{
+				sizeof(PIXELFORMATDESCRIPTOR),
+				1,											// Version Number
+				PFD_DRAW_TO_WINDOW |						// Format Must Support Window
+				PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
+				PFD_DOUBLEBUFFER,							// Must Support Double Buffering
+				PFD_TYPE_RGBA,								// Request An RGBA Format
+				_window->bpp,								// Select Our Color Depth
+				0, 0, 0, 0, 0, 0,							// Color Bits Ignored
+				0,											// No Alpha Buffer
+				0,											// Shift Bit Ignored
+				0,											// No Accumulation Buffer
+				0, 0, 0, 0,									// Accumulation Bits Ignored
+				_window->zdepth,							// Z-Buffer (Depth Buffer)  
+				0,											// Stencil Buffer
+				0,											// No Auxiliary Buffer
+				PFD_MAIN_PLANE,								// Main Drawing Layer
+				0,											// Reserved
+				0, 0, 0										// Layer Masks Ignored
+			};
+
+			if (!(_window->hDC = GetDC((HWND)_window->hWnd)))	{
+				Error("WindowSystem::initialise() error: can't create a GL device context", true);
+				return false;
+			}
+
+			if (!(_window->pixelFormat = ChoosePixelFormat((HDC)_window->hDC, &pfd))) {
+				Error("WindowSystem::initialise() error: can't find a suitable pixel format", true);
+				return false;
+			}
+
+			if (!(SetPixelFormat((HDC)_window->hDC, _window->pixelFormat, &pfd)))	{
+				Error("WindowSystem::initialise() error: can't set the pixel format", true);
+				return false;
+			}
+
+			if (!(_window->hRC = wglCreateContext((HDC)_window->hDC)))	{
+				Error("WindowSystem::initialise() error: can't create a GL rendering context", true);
+				return false;
+			}
+
+			if (!wglMakeCurrent((HDC)_window->hDC, (HGLRC)_window->hRC)) {
+				Error("WindowSystem::initialise() error: can't activate the GL rendering context", true);
+				return false;
+			}
 			return true;
 		}
 
-		return _createOldContext(_window);
-#else
-		return false;
 #endif
+		else
+		{
+			Debug("Implemented in {WindowSystemGLFW::initialise} because crossplatform");
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
 	*/
 	void GLSystem::swapBuffers() {
-#ifdef NATIVE_OGL
-		SwapBuffers(GetWindow()->hDC);
-#else
-		engine->iWindow->swapBuffers();
+#ifndef DROP_EDITOR
+		if (engine->mIsEditor)
+			SwapBuffers((HDC)engine->iWindow->hDC);
+		else
 #endif
+			engine->iWindow->swapBuffers();
 	}
 }

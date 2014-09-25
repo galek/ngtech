@@ -284,3 +284,8 @@ Bins/Bin32/NGEd.vshost.exe.config
 Bins/Bin64/NGMax.dlu
 Bins/Bin64/NGMax.lib
 Bins/logs/
+/Development/Src/Editors/3dparty/Graph/bin/x86/Release
+/Development/Src/Editors/3dparty/Graph/obj/x86/Release
+/Development/Src/Editors/LogicEditor/bin/Release
+/Development/Src/Editors/LogicEditor/obj/x86/Release
+/Development/Src/Editors/NGEd/obj/x86/Release

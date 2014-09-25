@@ -9,6 +9,7 @@
 //***************************************************
 
 namespace NGTech {
+#ifndef DROP_EDITOR
 	struct CVARManager;
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main window and input system. Created one time
@@ -59,7 +60,7 @@ namespace NGTech {
 		explicit WindowSystem(CVARManager*_cvars);
 
 		virtual ~WindowSystem();
-		virtual void initialise(int _hwnd = 0);
+		virtual void initialise(int = 0);
 		virtual void setTitle(const String &title);
 
 		virtual void updateTimer();
@@ -82,7 +83,7 @@ namespace NGTech {
 		virtual bool isKeyDown(const char* key);
 		virtual bool isKeyUp(const char* key);
 
-		virtual void showOSCursor(bool _value);
+		virtual void showOSCursor(int _value);
 
 		virtual float getLastFPS();
 		/**
@@ -114,14 +115,16 @@ namespace NGTech {
 		bool isExternalHwnd;
 		float fps;
 
-		int width, height, bpp, zdepth;
+		//int  bpp, zdepth;
 		bool fullscreen;
 
 		int eTime, dTime;
 		int mouseX, mouseY;
+		bool cursorVisible;
+	public:
+		int width, height;
 		int oldMouseX, oldMouseY;
 
-		bool cursorVisible;
 		bool mouseGrabed;
 
 		int mx, my;
@@ -133,4 +136,5 @@ namespace NGTech {
 		bool keys[315];
 		bool oldKeys[315];
 	};
+#endif
 }

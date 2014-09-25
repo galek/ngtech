@@ -67,7 +67,6 @@ namespace NGTech {
 		SetCore(this);
 		log = new Log();
 		LogPrintf("Engine Version:"ENGINE_VERSION_STRING" Build Date : "__DATE__" : "__TIME__);
-		_preInit();
 	}
 
 	/**
@@ -105,10 +104,20 @@ namespace NGTech {
 		threads = new EngineThreads();
 		if (!threads)
 			Warning("[Init] EngineThreads Failed");
-
-		iWindow = new WindowSystemGLFW(cvars);
-		if (!iWindow)
-			Warning("[Init] Window Failed");
+#ifndef DROP_EDITOR
+		if (mIsEditor)
+		{
+			iWindow = new WindowSystem(cvars);
+			if (!iWindow)
+				Warning("[Init] Window Failed");
+		}
+		else
+#endif
+		{
+			iWindow = new WindowSystemGLFW(cvars);
+			if (!iWindow)
+				Warning("[Init] Window Failed");
+		}
 
 		iRender = new GLSystem(this);
 		if (!iRender)
@@ -153,6 +162,7 @@ namespace NGTech {
 	*/
 	void Engine::initialise(int _hwnd)
 	{
+		_preInit();
 		Debug("[Init] Engine::initialise()");
 		if (iWindow){
 			iWindow->initialise(_hwnd);

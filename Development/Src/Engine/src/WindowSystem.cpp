@@ -33,12 +33,13 @@
 //***************************************************
 
 namespace NGTech {
-#if 0
+#ifndef DROP_EDITOR
 	/**
 	параметры, относящиеся к расчету FPS
 	*/
 	static LARGE_INTEGER CounterFrequency;
 	static LARGE_INTEGER FPSCount;
+	WindowSystem*_gWindowSystem = nullptr;
 
 	/**
 	*/
@@ -47,18 +48,41 @@ namespace NGTech {
 	/**
 	*/
 	WindowSystem::WindowSystem(CVARManager*_cvars)
-		: isExternalHwnd(false), fps(0.0f)
+		:isExternalHwnd(false),
+		fps(0.0f),
+		mouseGrabed(false),
+		mousing(false),
+		cursorVisible(false),
+		mouseX(0),
+		mouseY(0),
+		oldMouseX(0),
+		oldMouseY(0),
+		width(_cvars->r_width),
+		height(_cvars->r_height),
+		fullscreen(_cvars->r_fullscreen)
 	{
 		Log::writeHeader("-- WindowSystem --");
 
-		//-----read-config-values-----------------------------------
-		this->width = _cvars->r_width;
-		this->height = _cvars->r_height;
+		this->hWnd = 0;
 		this->bpp = _cvars->r_bpp;
 		this->zdepth = _cvars->r_zdepth;
-		this->fullscreen = _cvars->r_fullscreen;
+
+		for (int i = 0; i < 3; i++)
+			this->mouseButtons[i] = false;
+
+
+		for (int i = 0; i < 315; i++)
+			this->keys[i] = false;
+
+
+		this->mouseGrabed = false;
+		//инициализация таймеров
+		QueryPerformanceFrequency(&CounterFrequency);
+		QueryPerformanceCounter(&FPSCount);
+
+		_gWindowSystem = this;
 	}
-	
+
 	/**
 	*/
 	void WindowSystem::initialise(int _hwnd){
@@ -83,7 +107,7 @@ namespace NGTech {
 			wc.lpfnWndProc = (WNDPROC)wndProc;
 			wc.cbClsExtra = 0;
 			wc.cbWndExtra = 0;
-			wc.hInstance = this->hInstance;
+			wc.hInstance = (HINSTANCE)this->hInstance;
 			wc.hIcon = LoadIcon(NULL, IDI_WINLOGO);
 			wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 			wc.hbrBackground = NULL;
@@ -121,9 +145,9 @@ namespace NGTech {
 
 			AdjustWindowRectEx(&windowRect, dwStyle, FALSE, dwExStyle);
 
-			if (!(this->hWnd = CreateWindowEx(dwExStyle,			// Extended Style For The Window
+			if (!(this->hWnd = (int)CreateWindowEx(dwExStyle,			// Extended Style For The Window
 				"OpenGL",							// Class Name
-				"NGTech(http://nggames.com)",						// Window Title
+				"NG Engine",						// Window Title
 				dwStyle |							// Defined Window Style
 				WS_CLIPSIBLINGS |					// Required Window Style
 				WS_CLIPCHILDREN,					// Required Window Style
@@ -132,7 +156,7 @@ namespace NGTech {
 				windowRect.bottom - windowRect.top,	// Calculate Window Height
 				NULL,								// No Parent Window
 				NULL,								// No Menu
-				this->hInstance,							// Instance
+				(HINSTANCE)hInstance,							// Instance
 				NULL)))								// Dont Pass Anything To WM_CREATE
 			{
 				Error::showAndExit("WindowSystem::initialise() error: window creation error");
@@ -140,26 +164,13 @@ namespace NGTech {
 			}
 		}
 		else
-			this->hWnd = (HWND)_hwnd;
+			this->hWnd = _hwnd;
 
 		if (!isExternalHwnd) {
-			ShowWindow(this->hWnd, SW_SHOW);
-			SetForegroundWindow(this->hWnd);
-			SetFocus(this->hWnd);
+			ShowWindow((HWND)hWnd, SW_SHOW);
+			SetForegroundWindow((HWND)hWnd);
+			SetFocus((HWND)hWnd);
 		}
-
-		for (int i = 0; i < 3; i++)
-			this->mouseButtons[i] = false;
-
-
-		for (int i = 0; i < 315; i++)
-			this->keys[i] = false;
-
-
-		this->mouseGrabed = false;
-		//инициализация таймеров
-		QueryPerformanceFrequency(&CounterFrequency);
-		QueryPerformanceCounter(&FPSCount);
 	}
 
 	/**
@@ -170,23 +181,23 @@ namespace NGTech {
 		}
 
 		if (hDC) {
-			ReleaseDC(hWnd, hDC);
+			ReleaseDC((HWND)hWnd, (HDC)hDC);
 			hDC = NULL;
 		}
 
 		if (hWnd) {
-			DestroyWindow(hWnd);
+			DestroyWindow((HWND)hWnd);
 			hWnd = NULL;
 		}
 
-		UnregisterClass("OpenGL", hInstance);
+		UnregisterClass("OpenGL", (HINSTANCE)hInstance);
 		hInstance = NULL;
 	}
 
 	/**
 	*/
 	void WindowSystem::setTitle(const String &title) {
-		SetWindowText(hWnd, title.c_str());
+		SetWindowText((HWND)hWnd, title.c_str());
 	}
 
 	/**
@@ -203,8 +214,8 @@ namespace NGTech {
 
 		case WM_KEYDOWN:
 		{
-			if (GetWindow())
-				GetWindow()->keys[wParam] = true;
+			if (_gWindowSystem)
+				_gWindowSystem->keys[wParam] = true;
 			//Nick:TODO: сделай ввод
 
 			return 0;
@@ -212,8 +223,8 @@ namespace NGTech {
 
 		case WM_KEYUP:
 		{
-			if (GetWindow())
-				GetWindow()->keys[wParam] = false;
+			if (_gWindowSystem)
+				_gWindowSystem->keys[wParam] = false;
 			//Nick:TODO: сделай ввод
 
 			return 0;
@@ -221,14 +232,14 @@ namespace NGTech {
 
 		case WM_MOUSEMOVE:
 		{
-			if (GetWindow()){
-				GetWindow()->mx = LOWORD(lParam);
-				GetWindow()->my = HIWORD(lParam);
-				GetWindow()->mousing = true;
+			if (_gWindowSystem){
+				_gWindowSystem->mx = LOWORD(lParam);
+				_gWindowSystem->my = HIWORD(lParam);
+				_gWindowSystem->mousing = true;
 
 
-				if (!GetWindow()->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMouseMove(GetWindow()->oldMouseX, GetWindow()->oldMouseY, 0);
+				if (!_gWindowSystem->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMouseMove(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, 0);
 
 				return 0;
 			}
@@ -236,44 +247,44 @@ namespace NGTech {
 
 		case WM_LBUTTONDOWN:
 		{
-			if (GetWindow())
-				GetWindow()->mouseButtons[0] = true;
+			if (_gWindowSystem)
+				_gWindowSystem->mouseButtons[0] = true;
 
-			if (!GetWindow()->mouseGrabed)
-				MyGUI::InputManager::getInstancePtr()->injectMousePress(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)0);
+			if (!_gWindowSystem->mouseGrabed)
+				MyGUI::InputManager::getInstancePtr()->injectMousePress(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, (MyGUI::MouseButton::Enum)0);
 
 			return 0;
 		}
 
 		case WM_LBUTTONUP:
 		{
-			if (GetWindow())
-				GetWindow()->mouseButtons[0] = false;
+			if (_gWindowSystem)
+				_gWindowSystem->mouseButtons[0] = false;
 
-			if (!GetWindow()->mouseGrabed)
-				MyGUI::InputManager::getInstancePtr()->injectMouseRelease(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)0);
+			if (!_gWindowSystem->mouseGrabed)
+				MyGUI::InputManager::getInstancePtr()->injectMouseRelease(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, (MyGUI::MouseButton::Enum)0);
 
 			return 0;
 		}
 
 		case WM_RBUTTONDOWN:
 		{
-			if (GetWindow())
-				GetWindow()->mouseButtons[1] = true;
+			if (_gWindowSystem)
+				_gWindowSystem->mouseButtons[1] = true;
 
-			if (!GetWindow()->mouseGrabed)
-				MyGUI::InputManager::getInstancePtr()->injectMousePress(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)1);
+			if (!_gWindowSystem->mouseGrabed)
+				MyGUI::InputManager::getInstancePtr()->injectMousePress(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, (MyGUI::MouseButton::Enum)1);
 
 			return 0;
 		}
 
 		case WM_RBUTTONUP:
 		{
-			if (GetWindow())
-				GetWindow()->mouseButtons[1] = false;
+			if (_gWindowSystem)
+				_gWindowSystem->mouseButtons[1] = false;
 
-			if (!GetWindow()->mouseGrabed)
-				MyGUI::InputManager::getInstancePtr()->injectMouseRelease(GetWindow()->oldMouseX, GetWindow()->oldMouseY, (MyGUI::MouseButton::Enum)1);
+			if (!_gWindowSystem->mouseGrabed)
+				MyGUI::InputManager::getInstancePtr()->injectMouseRelease(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, (MyGUI::MouseButton::Enum)1);
 
 			return 0;
 		}
@@ -285,9 +296,9 @@ namespace NGTech {
 
 			if (GetRender())
 				GetRender()->reshape(w, h);
-			if (GetWindow()){
-				GetWindow()->width = w;
-				GetWindow()->height = h;
+			if (_gWindowSystem){
+				_gWindowSystem->width = w;
+				_gWindowSystem->height = h;
 				return 0;
 			}
 			if (GetGUI())
@@ -380,7 +391,7 @@ namespace NGTech {
 		POINT pt;
 		pt.x = x;
 		pt.y = y;
-		ClientToScreen(hWnd, &pt);
+		ClientToScreen((HWND)hWnd, &pt);
 		SetCursorPos(pt.x, pt.y);
 	}
 
@@ -432,7 +443,9 @@ namespace NGTech {
 
 	/*
 	*/
-	void WindowSystem::showOSCursor(bool _value){
+	void WindowSystem::showOSCursor(int _value){
+		if ((_value > 1) || (_value < 0))
+			Warning("{[WindowSystem]showOSCursor} is not available in native window system. Is valid values: 0(false),1(true)");
 		::ShowCursor(_value);
 	}
 

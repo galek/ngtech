@@ -149,9 +149,6 @@ namespace NGTech {
 	private:
 		virtual bool createContext(I_Window*);
 		virtual void swapBuffers();
-		bool _createNewContext(I_Window* _window);
-		bool _checkContextSuppoort(I_Window* _window);
-		bool _createOldContext(I_Window* _window);
 	private:
 		friend class GLTexture;
 		friend class GLVBO;

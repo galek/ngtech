@@ -235,6 +235,7 @@ namespace NGTech {
 
 		else if ((stricmp(_p, "SPACE")) == 0)
 			return KEY_SPACE;
+#pragma message("uncomment and add this code")
 		/*else if ((stricmp(_p, "MINUS")) == 0)
 			return KEY_MINUS;
 			else if ((stricmp(_p, "EQUAL")) == 0)

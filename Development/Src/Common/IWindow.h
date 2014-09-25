@@ -123,5 +123,15 @@ namespace NGTech {
 		/**
 		*/
 		virtual void swapBuffers(){}
+		//Used in all windows systems
+	public:
+		void* hRC;
+		//For Native windows opengl
+	public:
+		int  bpp, zdepth;
+		void* hInstance;
+		void* hDC;
+		int hWnd;
+		unsigned int pixelFormat;
 	};
 }

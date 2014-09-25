@@ -265,7 +265,6 @@ namespace NGTech {
 		const int _get_key_name(const char* _p);
 	public:
 		HGLRC hRC;
-		HINSTANCE hInstance;
 	public:
 		int width, height, bpp, zdepth;
 		bool fullscreen;

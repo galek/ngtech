@@ -2,6 +2,7 @@
 #include "..\..\Common\Types.h"
 #include "..\..\Common\IWindow.h"
 #include "..\..\Common\IRender.h"
+#include "..\..\Core\inc\BuildDefines.h"
 #include "..\..\Core\inc\CoreManager.h"
 #include "..\..\Engine\inc\dlldef.h"
 #include "..\..\Engine\inc\Engine.h"
