@@ -255,7 +255,7 @@ namespace NGTech {
 		ENGINE_INLINE virtual float getLastFPS() { return fps; }
 		/**
 		*/
-		virtual void showOSCursor(bool _value);
+		virtual void showOSCursor(int _value);
 	private:
 		/**
 		*/
@@ -287,5 +287,6 @@ namespace NGTech {
 		float fps;
 	private:
 		GLFWwindow* window;
+		CVARManager* cvars;
 	};
 }

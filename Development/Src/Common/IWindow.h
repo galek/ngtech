@@ -65,7 +65,7 @@ namespace NGTech {
 		virtual bool isKeyDown(const char* key) = 0;
 		virtual bool isKeyUp(const char* key) = 0;
 
-		virtual void showOSCursor(bool _value) = 0;
+		virtual void showOSCursor(int _value) = 0;
 
 		virtual float getLastFPS() = 0;
 		/**

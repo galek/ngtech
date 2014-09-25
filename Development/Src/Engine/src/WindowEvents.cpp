@@ -7,6 +7,7 @@
 #include "../../Platform/inc/glfw/glfw3.h"
 #include "mygui.h"
 //***************************************************
+#include "../Core/inc/CVARManager.h"
 #include "../inc/WindowSystem_GLFW.h"
 //***************************************************
 
@@ -509,16 +510,10 @@ namespace NGTech {
 		win->oldMouseX = win->mouseX;
 		win->oldMouseY = win->mouseY;
 
-		if (win->mouseGrabed)
-		{
-			win->mouseX = mx - win->width / 2;
-			win->mouseY = my - win->height / 2;
-		}
-		else
-		{
-			win->mouseX = mx;
-			win->mouseY = my;
-		}
+#pragma message("BUG,если сильно крутануть,то выйдет за границы ")
+
+		win->mouseX = mx;
+		win->mouseY = my;
 
 		if (!win->mouseGrabed)
 			MyGUI::InputManager::getInstancePtr()->injectMouseMove(win->oldMouseX, win->oldMouseY, 0);
@@ -528,7 +523,11 @@ namespace NGTech {
 	*/
 	void window_size_callback(GLFWwindow* window, int width, int height)
 	{
-		auto windowSystem = (WindowSystemGLFW*)GetWindow();
+		CVARManager* cvars = GetCvars();
+		cvars->r_width = width;
+		cvars->r_height = height;
+
+		WindowSystemGLFW* windowSystem = (WindowSystemGLFW*)GetWindow();
 
 		GetRender()->reshape(width, height);
 

@@ -17,7 +17,8 @@ namespace NGTech {
 	/**
 	*/
 	WindowSystemGLFW::WindowSystemGLFW(CVARManager*_cvars)
-		:mouseGrabed(false),
+		:cvars(_cvars),
+		mouseGrabed(false),
 		mousing(false),
 		cursorVisible(false),
 		mouseX(0),
@@ -158,10 +159,12 @@ namespace NGTech {
 
 	/**
 	*/
-	void WindowSystemGLFW::showOSCursor(bool show){
+	void WindowSystemGLFW::showOSCursor(int show){
 		int value = GLFW_CURSOR_NORMAL;
-		if (show)
+		if (show == 1)
 			value = GLFW_CURSOR_NORMAL;
+		else if ((show == 2) || ((cvars->r_fullscreen == false) && (cvars->i_w_mousefree == true)))
+			value = GLFW_CURSOR_HIDDEN;
 		else
 			value = GLFW_CURSOR_DISABLED;
 		glfwSetInputMode(window, GLFW_CURSOR, value);
