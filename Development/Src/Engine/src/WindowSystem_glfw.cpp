@@ -62,7 +62,7 @@ namespace NGTech {
 		GLFWmonitor *mMonitor = NULL;
 		if (fullscreen)
 			mMonitor = glfwGetPrimaryMonitor();
-		window = glfwCreateWindow(width, height, "NGTech Engine", mMonitor, NULL);
+		window = glfwCreateWindow(width, height, "NG Engine", mMonitor, NULL);
 		if (!window)
 		{
 			glfwTerminate();

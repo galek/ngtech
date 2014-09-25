@@ -5,6 +5,7 @@
 #include <iostream>
 //***************************************************
 #include "../../Platform/inc/glfw/glfw3.h"
+#include "mygui.h"
 //***************************************************
 #include "../inc/WindowSystem_GLFW.h"
 //***************************************************
@@ -438,7 +439,7 @@ namespace NGTech {
 		switch (action){
 		case GLFW_PRESS:
 		{
-				windowSystem->keys[key] = true;
+			windowSystem->keys[key] = true;
 			break;
 		}
 
@@ -461,18 +462,34 @@ namespace NGTech {
 		case GLFW_PRESS:
 		{
 			if (button == GLFW_MOUSE_BUTTON_LEFT)
+			{
 				windowSystem->mouseButtons[0] = true;
+				if (!windowSystem->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMousePress(windowSystem->oldMouseX, windowSystem->oldMouseY, (MyGUI::MouseButton::Enum)0);
+			}
 			if (button == GLFW_MOUSE_BUTTON_RIGHT)
+			{
 				windowSystem->mouseButtons[1] = true;
+				if (!windowSystem->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMousePress(windowSystem->oldMouseX, windowSystem->oldMouseY, (MyGUI::MouseButton::Enum)1);
+			}
 			break;
 		}
 
 		case GLFW_RELEASE:
 		{
 			if (button == GLFW_MOUSE_BUTTON_LEFT)
+			{
 				windowSystem->mouseButtons[0] = false;
+				if (!windowSystem->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(windowSystem->oldMouseX, windowSystem->oldMouseY, (MyGUI::MouseButton::Enum)0);
+			}
 			if (button == GLFW_MOUSE_BUTTON_RIGHT)
+			{
 				windowSystem->mouseButtons[1] = false;
+				if (!windowSystem->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(windowSystem->oldMouseX, windowSystem->oldMouseY, (MyGUI::MouseButton::Enum)1);
+			}
 			break;
 		}
 		}
@@ -486,9 +503,9 @@ namespace NGTech {
 
 		if ((win->oldMouseX == win->mouseX) && (win->oldMouseY == win->mouseY))
 			win->mousing = false;
-		else 
+		else
 			win->mousing = true;
-	
+
 		win->oldMouseX = win->mouseX;
 		win->oldMouseY = win->mouseY;
 
@@ -502,6 +519,9 @@ namespace NGTech {
 			win->mouseX = mx;
 			win->mouseY = my;
 		}
+
+		if (!win->mouseGrabed)
+			MyGUI::InputManager::getInstancePtr()->injectMouseMove(win->oldMouseX, win->oldMouseY, 0);
 	}
 
 	/**
