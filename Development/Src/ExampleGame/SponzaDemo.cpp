@@ -61,7 +61,7 @@ void ExampleGame::initialise() {
 	omniLight->setPosition(Vec3(0, 60, 0));
 	omniLight->setRadius(200);
 
-	/*particlesPink = new ParticleSystem("smoke.png", 50);
+	particlesPink = new ParticleSystem("smoke.png", 50);
 	particlesPink->setPosition(Vec3(60, 60, 0));
 	particlesPink->setColor(Vec3(1, 0.5, 1));
 	particlesPink->setForce(Vec3(-0.5, 1, -0.7));
@@ -75,7 +75,7 @@ void ExampleGame::initialise() {
 	particlesYellow->setForce(Vec3(0.5, 1, 0.5));
 	particlesYellow->setVelocity(Vec3(10, 0, 0));
 	particlesYellow->setParticleLifeTime(10000);
-	particlesYellow->setDispersion(0.1);*/
+	particlesYellow->setDispersion(0.1);
 
 	//GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
 

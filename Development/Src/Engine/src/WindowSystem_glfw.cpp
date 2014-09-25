@@ -103,7 +103,7 @@ namespace NGTech {
 	*/
 	void WindowSystemGLFW::update() {
 		_updateFPSCounter();
-		//updateTimer();
+		updateTimer();
 
 		memcpy(oldKeys, keys, sizeof(keys));
 		memcpy(oldMouseButtons, mouseButtons, sizeof(mouseButtons));
@@ -191,6 +191,9 @@ namespace NGTech {
 	/**
 	*/
 	void WindowSystemGLFW::updateTimer() {
+		int ticks = glfwGetTime()*1000;;
+		dTime = ticks - eTime;
+		eTime = ticks;
 	}
 
 	/**

@@ -28,7 +28,7 @@
 #endif
 
 #ifndef DROP_EDITOR
-#define DROP_EDITOR 1
+//#define DROP_EDITOR 1
 #endif
 
 #endif
