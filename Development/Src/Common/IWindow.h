@@ -25,48 +25,94 @@
 //***************************************************
 
 namespace NGTech {
-	struct IWindow {
+	struct I_Window {
 	public:
+		/**
+		*/
 		virtual void initialise(int _hwnd) = 0;
+		/**
+		*/
 		virtual void setTitle(const std::string &title) = 0;
-
+		/**
+		*/
 		virtual void updateTimer() = 0;
-
+		/**
+		*/
 		virtual void update() = 0;
-
+		/**
+		*/
 		virtual int getWidth() = 0;
+		/**
+		*/
 		virtual int getHeight() = 0;
-
+		/**
+		*/
 		virtual int getDTime() = 0;
+		/**
+		*/
 		virtual int getETime() = 0;
+		/**
+		*/
 		virtual int getTime() = 0;
-
+		/**
+		*/
 		virtual bool isMouseMoved() = 0;
+		/**
+		*/
 		virtual int getMouseX() = 0;
+		/**
+		*/
 		virtual int getMouseY() = 0;
+		/**
+		*/
 		virtual int getMouseDX() = 0;
+		/**
+		*/
 		virtual int getMouseDY() = 0;
-
+		/**
+		*/
 		virtual void setMousePos(int x, int y) = 0;
-
+		/**
+		*/
 		virtual void showCursor(bool show) = 0;
+		/**
+		*/
 		virtual void toggleShowCursor() = 0;
+		/**
+		*/
 		virtual bool isCursorVisible() = 0;
-
+		/**
+		*/
 		virtual void grabMouse(bool grab) = 0;
+		/**
+		*/
 		virtual void toggleGrabMouse() = 0;
+		/**
+		*/
 		virtual bool isMouseGrabed() = 0;
-
+		/**
+		*/
 		virtual bool isMouseButtonPressed(int mb) = 0;
+		/**
+		*/
 		virtual bool wasMouseButtonPressed(int mb) = 0;
+		/**
+		*/
 		virtual bool wasMouseButtonReleased(int mb) = 0;
-
+		/**
+		*/
 		virtual bool isKeyPressed(const char* key) = 0;
+		/**
+		*/
 		virtual bool isKeyDown(const char* key) = 0;
+		/**
+		*/
 		virtual bool isKeyUp(const char* key) = 0;
-
+		/**
+		*/
 		virtual void showOSCursor(int _value) = 0;
-
+		/**
+		*/
 		virtual float getLastFPS() = 0;
 		/**
 		*/
@@ -74,5 +120,8 @@ namespace NGTech {
 		/**
 		*/
 		virtual const char* Input_GetKeyValueByInt(int _p) = 0;
+		/**
+		*/
+		virtual void swapBuffers(){}
 	};
 }

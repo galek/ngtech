@@ -294,7 +294,7 @@ namespace NGTech {
 		virtual void drawGeometry(int vertexCount) = 0;
 
 		//--OpenGL Low Level---------------------
-		virtual bool createContext(IWindow*){ return false; }
+		virtual bool createContext(I_Window*) { return false; }
 		virtual void swapBuffers() = 0;
 	};
 

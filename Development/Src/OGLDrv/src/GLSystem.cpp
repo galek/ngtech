@@ -89,12 +89,14 @@ namespace NGTech {
 
 	/**
 	*/
-	GLSystem::GLSystem() {}
+	GLSystem::GLSystem(CoreManager*_engine)
+		:engine(_engine)
+	{}
 
 	/**
 	*/
 	void GLSystem::initialise()	{
-#if 0
+#ifdef NATIVE_OGL
 		if (!createContext(GetWindow()))
 		{
 			Error("[GLSystem] initialise-Failed Creation OpenGL Context", true);
@@ -613,9 +615,9 @@ namespace NGTech {
 
 	/**
 	*/
-	bool GLSystem::_createOldContext(IWindow* _window)
+	bool GLSystem::_createOldContext(I_Window* _window)
 	{
-#if 0
+#ifdef NATIVE_OGL
 		Debug("[Render]GLSystem::_createOldContext");
 		static PIXELFORMATDESCRIPTOR pfd =
 		{
@@ -677,9 +679,9 @@ namespace NGTech {
 
 	/**
 	*/
-	bool GLSystem::_checkContextSuppoort(IWindow* _window)
+	bool GLSystem::_checkContextSuppoort(I_Window* _window)
 	{
-#if 0
+#ifdef NATIVE_OGL
 		Debug("[Render]GLSystem::_checkContextSuppoort");
 
 		// получим адрес функции создания расширенного контекста OpenGL
@@ -702,9 +704,9 @@ namespace NGTech {
 
 	/**
 	*/
-	bool GLSystem::_createNewContext(IWindow* _window)
+	bool GLSystem::_createNewContext(I_Window* _window)
 	{
-#if 0
+#ifdef NATIVE_OGL
 		Debug("[Render]GLSystem::_createNewContext");
 		int pixfmt[8];
 		unsigned int numpf;
@@ -791,8 +793,9 @@ namespace NGTech {
 
 	/**
 	*/
-	bool GLSystem::createContext(IWindow* _window)
+	bool GLSystem::createContext(I_Window* _window)
 	{
+#ifdef NATIVE_OGL
 		//Create temporary context
 		bool status = _createOldContext(_window);
 		if (!status)
@@ -810,14 +813,18 @@ namespace NGTech {
 		}
 
 		return _createOldContext(_window);
+#else
+		return false;
+#endif
 	}
 
 	/**
 	*/
 	void GLSystem::swapBuffers() {
-#pragma message("Сделать вызов из окна")
-#if 0//TODO
+#ifdef NATIVE_OGL
 		SwapBuffers(GetWindow()->hDC);
+#else
+		engine->iWindow->swapBuffers();
 #endif
 	}
 }

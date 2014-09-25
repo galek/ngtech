@@ -51,12 +51,16 @@
 
 
 namespace NGTech {
-#define ENGINE_VERSION_NUMBER 0.3.4
-#define ENGINE_VERSION_STRING "0.3.4"
-	/*
+	/**
+	*/
+#define ENGINE_VERSION_NUMBER 0.3.5
+#define ENGINE_VERSION_STRING "0.3.5"
+
+	/**
 	*/
 	void RenderWatermark(I_Texture* _watermark);
-	/*
+
+	/**
 	*/
 	Engine::Engine()
 	{
@@ -66,7 +70,7 @@ namespace NGTech {
 		_preInit();
 	}
 
-	/*
+	/**
 	*/
 	void Engine::_preInit()
 	{
@@ -106,7 +110,7 @@ namespace NGTech {
 		if (!iWindow)
 			Warning("[Init] Window Failed");
 
-		iRender = new GLSystem();
+		iRender = new GLSystem(this);
 		if (!iRender)
 			Warning("[Init] Render Failed");
 
@@ -138,14 +142,14 @@ namespace NGTech {
 			Warning("[Init] ScriptInterp Failed");
 	}
 
-	/*
+	/**
 	*/
 	void Engine::setGame(IGame*_game){
 		Debug("[Init] Engine::setGame()");
 		game = _game;
 	}
 
-	/*
+	/**
 	*/
 	void Engine::initialise(int _hwnd)
 	{
@@ -210,7 +214,7 @@ namespace NGTech {
 			Warning("[Init] Watermark failed");
 	}
 
-	/*
+	/**
 	*/
 	Engine::~Engine()  {
 		SAFE_DELETE(mWatermarkTex);
@@ -229,7 +233,7 @@ namespace NGTech {
 		SAFE_DELETE(threads);
 	}
 
-	/*
+	/**
 	*/
 	void Engine::editorLoop() {
 		do_update();
@@ -237,7 +241,7 @@ namespace NGTech {
 		do_swap();
 	}
 
-	/*
+	/**
 	*/
 	void Engine::mainLoop() {
 		while (this->running)
@@ -248,7 +252,7 @@ namespace NGTech {
 		}
 	}
 
-	/*
+	/**
 	*/
 	void Engine::do_update()
 	{
@@ -271,7 +275,7 @@ namespace NGTech {
 			this->game->update();
 	}
 
-	/*
+	/**
 	*/
 	void Engine::do_render() {
 
@@ -311,38 +315,37 @@ namespace NGTech {
 			this->iRender->flush();
 	}
 
-	/*
+	/**
 	*/
 	void Engine::do_swap()
 	{
 		// wait multi-threaded physics
 		if (this->physSystem->hasUpdate() && this->cvars->ph_num_threads) {
 			this->physSystem->waitUpdate();
-		}/*
+		}
 		if (this->iRender)
-		this->iRender->endFrame();*/
-		((WindowSystemGLFW*)iWindow)->swapBuffers();
+			this->iRender->endFrame();
 	}
 
-	/*
+	/**
 	*/
 	void Engine::quit() {
 		running = false;
 	}
 
-	/*
+	/**
 	*/
 	void Engine::_setResources() {
 		vfs->addResourceLocation("../data/", true);
 	}
 
-	/*
+	/**
 	*/
 	float Engine::GetLastFPS() {
 		return iWindow->getLastFPS();
 	}
 
-	/*
+	/**
 	*/
 	float Engine::GetTimePerFrame()
 	{
@@ -351,13 +354,14 @@ namespace NGTech {
 			return 1000 / iWindow->getDTime();
 		return 1.0f;
 	}
-	/*
+
+	/**
 	*/
 	void Engine::LoadEngineModule(const char*_name){
 		plugins->LoadEngineModule(_name);
 	}
 
-	/*
+	/**
 	*/
 	void RenderWatermark(I_Texture* _watermark)
 	{

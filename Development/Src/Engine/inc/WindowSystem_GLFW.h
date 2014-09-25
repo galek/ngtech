@@ -9,7 +9,7 @@ namespace NGTech {
 	/**
 	Engine`s main window and input system. Created one time
 	*/
-	class ENGINE_API WindowSystemGLFW :public IWindow {
+	class ENGINE_API WindowSystemGLFW :public I_Window {
 	public:
 		/**
 		Mouse buttons enum

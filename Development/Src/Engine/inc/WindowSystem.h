@@ -13,7 +13,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main window and input system. Created one time
 	//---------------------------------------------------------------------------
-	struct WindowSystem :public IWindow {
+	struct WindowSystem :public I_Window {
 		/**
 		Mouse buttons enum
 		*/

@@ -6,7 +6,7 @@
 namespace NGTech {
 	/**
 	*/
-	struct IWindow;
+	struct I_Window;
 	struct I_Render;
 	struct I_Texture;
 	struct CVARManager;
@@ -42,7 +42,7 @@ namespace NGTech {
 
 		bool paused;
 	public:
-		IWindow*iWindow;
+		I_Window*iWindow;
 		I_Render*iRender;
 		CVARManager*cvars;
 		Log* log;
@@ -66,7 +66,7 @@ namespace NGTech {
 	CORE_API CoreManager* GetCore();
 	void CORE_API SetCore(CoreManager* _core);
 	CORE_API FileSystem* GetVFS();
-	CORE_API IWindow* GetWindow();
+	CORE_API I_Window* GetWindow();
 	CORE_API CVARManager* GetCvars();
 	CORE_API I_Render* GetRender();
 	CORE_API I_Audio* GetAudio();
