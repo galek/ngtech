@@ -41,7 +41,7 @@ namespace NGTech {
 
 	/*
 	*/
-	void WindowSystemGLFW::initialise(int) 
+	void WindowSystemGLFW::initialise(int)
 	{
 		Debug("WindowSystem::Initialize()");
 
@@ -52,7 +52,7 @@ namespace NGTech {
 			glfwTerminate();
 			Error("Failed initializing GLFW window{glfwInit}", true);
 		}
-	
+
 		//Request Specific Version
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
@@ -83,9 +83,6 @@ namespace NGTech {
 			Error("WindowSystem::Initialize() error: can't Create a GL rendering context", true);
 
 		_updateFPSCounter();
-#pragma message("Hack!")
-		//Пытаюсь убрать баг черного крана,до ресайза
-		window_size_callback(window, width, height);
 	}
 
 	/*
@@ -166,29 +163,18 @@ namespace NGTech {
 		if (show)
 			value = GLFW_CURSOR_NORMAL;
 		else
-			value = GLFW_CURSOR_HIDDEN;
+			value = GLFW_CURSOR_DISABLED;
 		glfwSetInputMode(window, GLFW_CURSOR, value);
 	}
 
 	/**
 	*/
 	void WindowSystemGLFW::setMousePos(int x, int y) {
-		//TODO("Replace this");
-		//Просто так не заменяется
-		/*POINT pt;
-		pt.x = x;
-		pt.y = y;
-		ClientToScreen((HWND)hWnd, &pt);
-		SetCursorPos(pt.x, pt.y);*/
 	}
 
 	/**
 	*/
 	void WindowSystemGLFW::grabMouse(bool grab) {
-		/*mouseX = oldMouseX = width / 2;
-		mouseY = oldMouseY = height / 2;
-
-		if (grab) { setMousePos(width / 2, height / 2); }*/
 		showCursor(!grab);
 		mouseGrabed = grab;
 	}
@@ -202,15 +188,6 @@ namespace NGTech {
 	/**
 	*/
 	void WindowSystemGLFW::updateTimer() {
-		////TODO("Replace me");
-		//if (!tPause) {
-		//	LARGE_INTEGER counter;
-		//	QueryPerformanceCounter(&counter);
-		//	int ticks = counter.QuadPart * 1000 / frequency;
-
-		//	dTime = ticks - eTime;
-		//	eTime = ticks;
-		//}
 	}
 
 	/**
@@ -231,11 +208,12 @@ namespace NGTech {
 		if (theTimeInterval > 10.0f)
 			theTimeInterval = 10.0f;
 
+		dTime = (currentTime - t0Value);
 		// Calculate and display the FPS every specified time interval
 		if ((currentTime - t0Value) > theTimeInterval)
 		{
 			// Calculate the FPS as the number of frames divided by the interval in seconds
-			fps = (double)fpsFrameCount / (currentTime - t0Value);
+			fps = (double)fpsFrameCount / dTime;
 
 			// Reset the FPS frame counter and set the initial time to be now
 			fpsFrameCount = 0;
@@ -248,12 +226,7 @@ namespace NGTech {
 	/**
 	*/
 	int WindowSystemGLFW::getTime() {
-		////	TODO("Replace me");
-		//LARGE_INTEGER counter;
-		//QueryPerformanceCounter(&counter);
-		//int ticks = counter.QuadPart * 1000 / frequency;
-
-		//return ticks;
+		//TODO
 		return 0;
 	}
 

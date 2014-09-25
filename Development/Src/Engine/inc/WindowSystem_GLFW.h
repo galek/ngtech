@@ -99,31 +99,31 @@ namespace NGTech {
 		Gets screen width
 		\return screen width
 		*/
-		virtual int getWidth() { return width; }
+		ENGINE_INLINE virtual int getWidth() { return width; }
 
 		/**
 		Gets screen height
 		\return screen height
 		*/
-		virtual int getHeight() { return height; }
+		ENGINE_INLINE virtual int getHeight() { return height; }
 
 		/**
 		Gets frames delta time
 		\return dTime
 		*/
-		virtual int getDTime() { return dTime; }
+		ENGINE_INLINE virtual int getDTime() { return dTime; }
 
 		/**
 		Gets elapsed time
 		\return eTime
 		*/
-		virtual int getETime() { return eTime; }
+		ENGINE_INLINE virtual int getETime() { return eTime; }//TODO
 
 		/**
 		Pauses timer
 		\param pause pause flag
 		*/
-		virtual void timerPause(bool pause) { tPause = pause; }
+		ENGINE_INLINE virtual void timerPause(bool pause) { tPause = pause; }
 
 		/**
 		Get time in mseconds
@@ -135,31 +135,31 @@ namespace NGTech {
 		Checks if mouse was moved
 		\return true if moved
 		*/
-		virtual bool isMouseMoved() { return mousing; }
+		ENGINE_INLINE virtual bool isMouseMoved() { return mousing; }
 
 		/**
 		Gets mouse X coordinate
 		\return X coordinate
 		*/
-		virtual int getMouseX() { return mouseX; }
+		ENGINE_INLINE virtual int getMouseX() { return mouseX; }
 
 		/**
 		Gets mouse Y coordinate
 		\return Y coordinate
 		*/
-		virtual int getMouseY() { return mouseY; }
+		ENGINE_INLINE virtual int getMouseY() { return mouseY; }
 
 		/**
 		Gets mouse delta X coordinate
 		\return delta X coordinate
 		*/
-		virtual int getMouseDX() { return mouseX - oldMouseX; }
+		ENGINE_INLINE virtual int getMouseDX() { return mouseX - oldMouseX; }
 
 		/**
 		Gets mouse delta Y coordinate
 		\return delta Y coordinate
 		*/
-		int getMouseDY() { return mouseY - oldMouseY; }
+		ENGINE_INLINE int getMouseDY() { return mouseY - oldMouseY; }
 
 		/**
 		Sets mouse position
@@ -177,13 +177,13 @@ namespace NGTech {
 		/**
 		Toggle show/hide cursor
 		*/
-		void toggleShowCursor() { showCursor(!cursorVisible); }
+		ENGINE_INLINE void toggleShowCursor() { showCursor(!cursorVisible); }
 
 		/**
 		Checks if cursor is visible
 		\return true if visible
 		*/
-		bool isCursorVisible() { return cursorVisible; }
+		ENGINE_INLINE bool isCursorVisible() { return cursorVisible; }
 
 		/**
 		Grab/release cursor
@@ -194,13 +194,13 @@ namespace NGTech {
 		/**
 		Toggle grab/release cursor
 		*/
-		void toggleGrabMouse() { grabMouse(!mouseGrabed); }
+		ENGINE_INLINE void toggleGrabMouse() { grabMouse(!mouseGrabed); }
 
 		/**
 		Checks if cursor is grabed
 		\return true if grabed
 		*/
-		bool isMouseGrabed() { return mouseGrabed; }
+		ENGINE_INLINE bool isMouseGrabed() { return mouseGrabed; }
 
 		/**
 		Checks if the mouse button is pressed

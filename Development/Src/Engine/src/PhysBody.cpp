@@ -62,7 +62,9 @@ namespace NGTech {
 
 		if (_mass > 0)
 			((PxRigidBody*)body->mActor)->setMass(body->mass);
+
 		PxRigidBodyExt::updateMassAndInertia(*((PxRigidBody*)body->mActor), 1.0f);
+
 		body->SetAngularDamping(1.0f);
 		body->SetLinearDamping(1.0f);
 		GetPhysics()->mScene->addActor(*body->mActor);
@@ -71,6 +73,7 @@ namespace NGTech {
 
 		return body;
 	}
+
 	//NOTE:Вроде подобрал число,что бы в дебагере было похоже на круг у основания цилиндра
 	PhysBody *PhysBody::CreateCylinder(float radius, float width, Mat4 *_trans, float mass) {
 		PhysBody *body = new PhysBody();
@@ -302,10 +305,10 @@ namespace NGTech {
 		body->mShape = NULL;
 
 		PxClothParticle vertices[] = {
-			PxClothParticle(PxVec3(0.0f, 0.0f, 0.0f), 0.0f),
-			PxClothParticle(PxVec3(0.0f, 1.0f, 0.0f), 1.0f),
-			PxClothParticle(PxVec3(1.0f, 0.0f, 0.0f), 1.0f),
-			PxClothParticle(PxVec3(1.0f, 1.0f, 0.0f), 1.0f)
+		PxClothParticle(PxVec3(0.0f, 0.0f, 0.0f), 0.0f),
+		PxClothParticle(PxVec3(0.0f, 1.0f, 0.0f), 1.0f),
+		PxClothParticle(PxVec3(1.0f, 0.0f, 0.0f), 1.0f),
+		PxClothParticle(PxVec3(1.0f, 1.0f, 0.0f), 1.0f)
 		};
 		PxU32 primitives[] = { 0, 1, 3, 2 };
 
@@ -328,7 +331,7 @@ namespace NGTech {
 		PxClothFabric* fabric = PxClothFabricCreate(*GetPhysics()->GetPxPhysics(), description, grav);
 
 
-	
+
 		auto mCloth = GetPhysics()->GetPxPhysics()->createCloth(EngineMathToPhysX(_trans), *fabric, vertices, PxClothFlags());
 		GetPhysics()->mScene->addActor(*mCloth);
 
@@ -343,14 +346,20 @@ namespace NGTech {
 
 	void PhysBody::SetTransform(const Mat4 &_transform) {
 		if (mActor)
+		{
+			GetPhysics()->LockWrite();
 			mActor->setGlobalPose(EngineMathToPhysX((NGTech::Mat4 *)&_transform));
+			GetPhysics()->UnLockWrite();
+		}
 		else
 			Debug("PhysBody::setTransform:-mActor is not exist");
 	}
 
 	Mat4 PhysBody::GetTransform() {
 		if (mActor){
+			GetPhysics()->LockWrite();
 			auto pos = mActor->getGlobalPose();
+			GetPhysics()->UnLockWrite();
 			return PhysXToEngineMath(pos);
 		}
 		else

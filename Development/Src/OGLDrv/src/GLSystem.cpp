@@ -125,29 +125,29 @@ namespace NGTech {
 		GLExtensions::initExtensions();
 		Debug("[Init] Checking Render Extensions");
 
-		//requireExtension("GL_ARB_vertex_shader", true);
-		//requireExtension("GL_ARB_fragment_shader", true);
-		//requireExtension("GL_ARB_shader_objects", true);
-		//requireExtension("GL_ARB_shading_language_100", true);
-		//requireExtension("GL_ARB_vertex_buffer_object", true);
-		//requireExtension("GL_EXT_framebuffer_object", true);
-		//requireExtension("GL_ARB_occlusion_query", true);
-		//requireExtension("GL_EXT_texture_filter_anisotropic", true);
+		requireExtension("GL_ARB_vertex_shader", true);
+		requireExtension("GL_ARB_fragment_shader", true);
+		requireExtension("GL_ARB_shader_objects", true);
+		requireExtension("GL_ARB_shading_language_100", true);
+		requireExtension("GL_ARB_vertex_buffer_object", true);
+		requireExtension("GL_EXT_framebuffer_object", true);
+		requireExtension("GL_ARB_occlusion_query", true);
+		requireExtension("GL_EXT_texture_filter_anisotropic", true);
 
-		////OpenGL3 and 4
-		//requireExtension("GL_ARB_occlusion_query2");
-		//requireExtension("GL_ARB_compatibility");
-		//requireExtension("GL_ARB_shading_language_420pack");
-		//requireExtension("GL_ARB_geometry_shader4");
-		//requireExtension("GL_ARB_shading_language_packing");
-		//requireExtension("GL_ARB_ES2_compatibility");
+		//OpenGL3 and 4
+		requireExtension("GL_ARB_occlusion_query2");
+		requireExtension("GL_ARB_compatibility");
+		requireExtension("GL_ARB_shading_language_420pack");
+		requireExtension("GL_ARB_geometry_shader4");
+		requireExtension("GL_ARB_shading_language_packing");
+		requireExtension("GL_ARB_ES2_compatibility");
 
 
-		////4.X
-		//requireExtension("GL_ARB_compute_shader");
-		//requireExtension("GL_ARB_gpu_shader5");
-		//requireExtension("GL_ARB_tessellation_shader");
-		//requireExtension("GL_ARB_shader_subroutine");
+		//4.X
+		requireExtension("GL_ARB_compute_shader");
+		requireExtension("GL_ARB_gpu_shader5");
+		requireExtension("GL_ARB_tessellation_shader");
+		requireExtension("GL_ARB_shader_subroutine");
 
 		wglSwapIntervalEXT(0);
 	}
@@ -815,7 +815,8 @@ namespace NGTech {
 	/**
 	*/
 	void GLSystem::swapBuffers() {
-#if 0
+#pragma message("Сделать вызов из окна")
+#if 0//TODO
 		SwapBuffers(GetWindow()->hDC);
 #endif
 	}

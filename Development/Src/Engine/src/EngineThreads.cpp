@@ -37,7 +37,7 @@ namespace NGTech
 	SoundThread::SoundThread() {
 
 	}
-	
+
 	/**
 	*/
 	SoundThread::~SoundThread() {
@@ -61,7 +61,7 @@ namespace NGTech
 	* FileSystemThread
 	*
 	\******************************************************************************/
-	
+
 	/**
 	*/
 	class FileSystemThread : public Thread {
@@ -105,7 +105,7 @@ namespace NGTech
 	* PhysicsThread
 	*
 	\******************************************************************************/
-	
+
 	/**
 	*/
 	class EngineJobThread : public Thread {

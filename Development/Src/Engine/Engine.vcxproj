@@ -349,11 +349,13 @@
     <ClInclude Include="inc\Object.h" />
     <ClInclude Include="inc\ParticleSystem.h" />
     <ClInclude Include="inc\PhysBody.h" />
+    <ClInclude Include="inc\PhysicsUpdateJob.h" />
     <ClInclude Include="inc\PhysJoint.h" />
     <ClInclude Include="inc\PhysSystem.h" />
     <ClInclude Include="inc\PhysXUtils.h" />
     <ClInclude Include="inc\Scene.h" />
     <ClInclude Include="inc\Terrain.h" />
+    <ClInclude Include="inc\WindowEvents.h" />
     <ClInclude Include="inc\WindowSystem.h" />
     <ClInclude Include="inc\WindowSystem_GLFW.h" />
     <ClInclude Include="Inc\WrappedScriptFunctions.h" />
@@ -385,6 +387,7 @@
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\ParticleSystem.cpp" />
     <ClCompile Include="src\PhysBody.cpp" />
+    <ClCompile Include="src\PhysicsUpdateJob.cpp" />
     <ClCompile Include="src\PhysJoint.cpp" />
     <ClCompile Include="src\PhysSystem.cpp" />
     <ClCompile Include="src\PhysXUtils.cpp" />

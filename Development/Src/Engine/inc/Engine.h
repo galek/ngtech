@@ -40,9 +40,10 @@ namespace NGTech {
 	private:
 		void _preInit();
 		void _setResources();
+	public:
+		EngineThreads*threads;
 	private:
 		EnginePlugins*plugins;
-		EngineThreads*threads;
 	};
 	ENGINE_API Engine* GetEngine();
 }
