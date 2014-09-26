@@ -1,6 +1,7 @@
 #pragma once
 
 #include "..\..\Common\CommonPrivate.h"
+#include "IncludesAndLibs.h"
 #include "BuildDefines.h"
 #include "coredll.h"
 #include "Log.h"

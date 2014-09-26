@@ -66,29 +66,20 @@ namespace NGTech {
 		pJoint = new PhysJointUpVector(Vec3(0, 1, 0), pBody);*/
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    get camera modelview matrix
-	//Params:  -
-	//Returns: modelview matrix
-	//---------------------------------------------------------------------------
+	/*
+	*/
 	Mat4 CameraFPS::getTransform() {
 		return Mat4::lookAt(position, position + direction, Vec3(0, 1, 0));
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    get camera projection matrix
-	//Params:  -
-	//Returns: projection matrix
-	//---------------------------------------------------------------------------
+	/*
+	*/
 	Mat4 CameraFPS::getProjection() {
 		return Mat4::perspective(fov, (float)4 / (float)3, 0.1, 10000);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    update camera
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/*
+	*/
 	void CameraFPS::update() {
 		/*if(pBody) {
 			position = pBody->GetTransform().getTranslation() + Vec3(0, 7, 0);
@@ -145,8 +136,8 @@ namespace NGTech {
 		if (GetWindow()->isKeyDown("q") && !inTheAir) {
 			movement += Vec3(0, 1.5, 0);
 		}
-		/*
-				pBody->AddTorque(movement * maxVelocity);*/
+		transform = Mat4::translate(position) * Mat4::rotate(90, direction);
+		view = Mat4::lookAt(position, position + direction, Vec3(0, 1, 0));
 	}
 
 
@@ -167,6 +158,10 @@ namespace NGTech {
 		this->position = Vec3(0, 0, 0);
 		this->maxVelocity = 1500;
 		this->fov = 60;
+		this->aspect = 4.0 / 3.0;
+		this->zNear = 0.1;
+		this->zFar = 1e4;
+		//this->buildProjection();
 
 		pBody = NULL;
 	}
@@ -244,6 +239,9 @@ namespace NGTech {
 			pBody->SetTransform(Mat4::translate(position + movement));
 		else
 			position += movement;
+
+		transform = Mat4::translate(position) * Mat4::rotate(90, direction);
+		view = Mat4::lookAt(position, position + direction, Vec3(0, 1, 0));
 	}
 
 }

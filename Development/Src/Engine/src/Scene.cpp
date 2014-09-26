@@ -301,7 +301,7 @@ namespace NGTech {
 	//Params:  light - omni light to draw
 	//Returns: -
 	//---------------------------------------------------------------------------
-	void Scene::drawOmni(LightOmni *light, bool blended) {
+	void Scene::drawOmni(LightPoint *light, bool blended) {
 		if (!light->isVisible()) return;
 
 		Frustum frustum;
@@ -396,7 +396,7 @@ namespace NGTech {
 	//Params:  light - omni light to get shadow map
 	//Returns: -
 	//---------------------------------------------------------------------------
-	void Scene::getOmniShadowMap(LightOmni *light) {
+	void Scene::getOmniShadowMap(LightPoint *light) {
 		if (!light->isVisible() || !light->castShadows || !cvars->r_shadowtype) {
 			return;
 		}
@@ -752,7 +752,7 @@ namespace NGTech {
 	//Params:  light - omni light to check
 	//Returns: -
 	//---------------------------------------------------------------------------
-	void Scene::checkOmniVisibility(LightOmni *light) {
+	void Scene::checkOmniVisibility(LightPoint *light) {
 		Frustum frustum;
 
 		frustum.get();
@@ -855,7 +855,7 @@ namespace NGTech {
 		for (int i = 0; i < lights.size(); i++) {
 			if (!lights[i]->isEnable()) continue;
 			if (lights[i]->getType() == Light::LIGHT_OMNI) {
-				checkOmniVisibility((LightOmni*)lights[i]);
+				checkOmniVisibility((LightPoint*)lights[i]);
 			}
 			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
 				checkSpotVisibility((LightSpot*)lights[i]);
@@ -864,7 +864,7 @@ namespace NGTech {
 
 		for (int i = 0; i < lights.size(); i++) {
 			if (lights[i]->getType() == Light::LIGHT_OMNI) {
-				getOmniShadowMap((LightOmni*)lights[i]);
+				getOmniShadowMap((LightPoint*)lights[i]);
 			}
 			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
 				getSpotShadowMap((LightSpot*)lights[i]);
@@ -898,7 +898,7 @@ namespace NGTech {
 		//draw lighting
 		for (int i = 0; i < lights.size(); i++) {
 			if (lights[i]->getType() == Light::LIGHT_OMNI) {
-				drawOmni((LightOmni*)lights[i], false);
+				drawOmni((LightPoint*)lights[i], false);
 			}
 			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
 				drawSpot((LightSpot*)lights[i], false);
@@ -967,7 +967,7 @@ namespace NGTech {
 
 		for (int i = 0; i < lights.size(); i++) {
 			if (lights[i]->getType() == Light::LIGHT_OMNI) {
-				drawOmni((LightOmni*)lights[i], false);
+				drawOmni((LightPoint*)lights[i], false);
 			}
 			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
 				drawSpot((LightSpot*)lights[i], false);
@@ -980,7 +980,7 @@ namespace NGTech {
 		drawAmbient(true);
 		for (int i = 0; i < lights.size(); i++) {
 			if (lights[i]->getType() == Light::LIGHT_OMNI) {
-				drawOmni((LightOmni*)lights[i], true);
+				drawOmni((LightPoint*)lights[i], true);
 			}
 			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
 				drawSpot((LightSpot*)lights[i], true);

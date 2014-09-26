@@ -21,7 +21,7 @@ namespace NGTech {
 	ObjectMesh::ObjectMesh(const String &path)
 		:Object() {
 		if (GetCache()){
-			model = GetCache()->loadModel("../data/meshes/" + path);
+			model = GetCache()->loadModel("meshes/" + path);
 			materials.resize(model->getNumSubsets());
 			for (int i = 0; i < materials.size(); i++)
 				materials[i] = nullptr;
@@ -38,7 +38,7 @@ namespace NGTech {
 		}
 		materials.clear();
 		GetCache()->deleteSound(impactSound);
-		delete pBody;
+		SAFE_DELETE(pBody);
 	}
 
 	void ObjectMesh::drawSubset(int s) {

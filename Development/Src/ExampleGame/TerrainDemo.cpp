@@ -117,7 +117,7 @@ void init() {
 	camera->setPhysics(Vec3(5, 5, 5), 1.0);
 	GetScene()->setCamera(camera);
 
-	LightOmni *omniLight = new LightOmni();
+	LightPoint *omniLight = new LightPoint();
 	omniLight->setColor(Vec3(1, 1, 1));
 	omniLight->setPosition(Vec3(0, 250, 0));
 	omniLight->setRadius(400);

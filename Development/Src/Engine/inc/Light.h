@@ -23,7 +23,7 @@ namespace NGTech {
 		ENGINE_INLINE bool isVisible() { return visible; }
 		ENGINE_INLINE bool isEnable() { return enabled; }
 		ENGINE_INLINE void setVisible(bool _s) { visible = _s; }
-	private:
+	protected:
 		bool enabled;
 		bool visible;
 	};
@@ -31,10 +31,10 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: class of the light omni light
 	//---------------------------------------------------------------------------
-	class ENGINE_API LightOmni : public Light {
+	class ENGINE_API LightPoint : public Light {
 	public:
-		LightOmni();
-		virtual ~LightOmni();
+		LightPoint();
+		virtual ~LightPoint();
 
 		ENGINE_INLINE const Vec3 &getPosition() { return position; };
 		ENGINE_INLINE void setPosition(const Vec3 &position) { this->position = position; };

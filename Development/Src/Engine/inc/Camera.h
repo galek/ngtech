@@ -1,9 +1,12 @@
 #pragma once
 
 //**************************************
-#include "../../Core/inc/MathLib.h"
-#include "PhysSystem.h"
 #include "../../Common/StringHelper.h"
+//**************************************
+#include "../../Core/inc/MathLib.h"
+//**************************************
+#include "PhysSystem.h"
+#include "Object.h"
 //**************************************
 
 namespace NGTech {
@@ -11,7 +14,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: base class of the camera
 	//---------------------------------------------------------------------------
-	class ENGINE_API Camera {
+	class ENGINE_API Camera :public Object {
 	public:
 		Camera();
 		enum CameraType {
@@ -20,44 +23,140 @@ namespace NGTech {
 			CAMERA_FREE,
 		};
 
-		ENGINE_INLINE virtual CameraType getType() { return CAMERA; };
+		/**
+		*/
+		ENGINE_INLINE virtual ObjectType getType() { return OBJECT_CAMERA; };
 
-		ENGINE_INLINE virtual Vec3 &getPosition() = 0;
+		/**
+		*/
+		ENGINE_INLINE virtual CameraType getCameraType() { return CAMERA; };
+
+		/**
+		*/
+		ENGINE_INLINE virtual Vec3 &getPosition() { return Vec3(0, 0, 0); }
+
+		/**
+		*/
 		ENGINE_INLINE virtual void setPosition(const Vec3 &position) {}
 
-		ENGINE_INLINE virtual Vec3 &getDirection() = 0;
+		/**
+		sets camera screen aspect
+		*/
+		ENGINE_INLINE virtual Vec3 &getDirection() { return Vec3(0, 0, 0); }
+
 		ENGINE_INLINE virtual void setDirection(const Vec3 &direction) {}
 
 		ENGINE_INLINE virtual float getMaxVelocity() { return 0; }
+
 		ENGINE_INLINE virtual void setMaxVelocity(float maxVelocity) {}
 
-		ENGINE_INLINE virtual float getFOV() { return 0; }
-		ENGINE_INLINE virtual void setFOV(float fov) {}
+		//TODO
+		virtual Vec3 &getMax(int s) { return Vec3(0, 0, 0); }
+		virtual Vec3 &getMin(int s) { return Vec3(0, 0, 0); }
+		virtual Vec3 &getCenter(int s) { return Vec3(0, 0, 0); }
+		//TODO
+		virtual Vec3 &getMax() { return Vec3(0, 0, 0); }
+		virtual Vec3 &getMin() { return Vec3(0, 0, 0); }
+		virtual Vec3 &getCenter() { return Vec3(0, 0, 0); }
+			
+		/**
+		gets camera fov
+		\return fov
+		*/
+		ENGINE_INLINE float getFOV() { return fov; }
 
+		/**
+		sets camera fov
+		*/
+		ENGINE_INLINE void setFOV(float _fov) { fov = _fov; }
+
+		/**
+		gets camera screen aspect
+		\return aspect
+		*/
+		ENGINE_INLINE float getAspect(){ return aspect; }
+		/**
+		sets camera screen aspect
+		*/
+		ENGINE_INLINE void setAspect(float _aspect){ aspect = _aspect; }
+
+		/**
+		gets camera zNear clip plane distance
+		\return distance
+		*/
+		ENGINE_INLINE float getZNear(){ return zNear; }
+
+		/**
+		sets camera zNear clip plane distance
+		*/
+		ENGINE_INLINE void setZNear(float _zNear){ zNear = _zNear; }
+
+		/**
+		gets camera zFar clip plane distance
+		\return distance
+		*/
+		ENGINE_INLINE float getZFar(){ return zFar; }
+
+		/**
+		sets camera zFar clip plane distance
+		*/
+		ENGINE_INLINE void setZFar(float _zFar){ zFar = _zFar; }
+
+		/**
+		*/
 		ENGINE_INLINE virtual Mat4 getTransform() = 0;
+
+		/**
+		gets camera projection matrix
+		\return projection matrix
+		*/
 		ENGINE_INLINE virtual Mat4 getProjection() = 0;
 
+		/**
+		*/
 		ENGINE_INLINE virtual void update() {}
+
+		/**
+		*/
 		ENGINE_INLINE float GetAngle(int _i) { if (_i <= 2) return angle[_i]; else return 0; }
+
+		/**
+		*/
 		ENGINE_INLINE void SetAngle(int _i, float _v) { if (_i <= 2) angle[_i] = _v; }
+
+		/**
+		*/
 		ENGINE_INLINE void LookAt(float _x, float _y) { angle[0] = -0.4 * _x; angle[1] = -0.4 * _y; }
 
 		//---physics---------------------------
-	public:
+	protected:
 		ENGINE_INLINE virtual void setPhysics(const Vec3 &size, float mass) {}
 		ENGINE_INLINE virtual PhysBody *getPhysBody() { return NULL; }
 
 		float angle[2];
+		float fov;
+		float aspect;
+		float zNear, zFar;
+
+		Mat4 view;
+		Mat4 transform;
 	};
 
-	//---------------------------------------------------------------------------
-	//Desc: class of the FPS camera
-	//---------------------------------------------------------------------------
+	/**
+	Class of the FPS camera
+	*/
 	class ENGINE_API CameraFPS : public Camera {
 	public:
+		/**
+		Creates new FPS camera
+		*/
 		CameraFPS();
-		~CameraFPS();
+		/**
+		Camera destructor
+		*/
+		virtual ~CameraFPS();
 
+		ENGINE_INLINE virtual CameraType getCameraType() { return CAMERA_FPS; };
 		ENGINE_INLINE virtual Vec3 &getPosition() { return position; };
 		ENGINE_INLINE virtual void setPosition(const Vec3 &position) { this->position = position; };
 
@@ -78,6 +177,10 @@ namespace NGTech {
 		//---physics---------------------------
 	public:
 		virtual void setPhysics(const Vec3 &size, float mass);
+		/**
+		gets camera phys body
+		\return phys body
+		*/
 		ENGINE_INLINE virtual PhysBody *getPhysBody() { return pBody; };
 
 	private:
@@ -88,7 +191,6 @@ namespace NGTech {
 		Vec3 direction;
 
 		float maxVelocity;
-		float fov;
 
 		PhysBody *pBody;
 		PhysJointUpVector *pJoint;
@@ -102,7 +204,9 @@ namespace NGTech {
 	class ENGINE_API CameraFree : public Camera {
 	public:
 		CameraFree();
-		~CameraFree();
+		virtual ~CameraFree();
+
+		ENGINE_INLINE virtual CameraType getCameraType() { return CAMERA_FREE; };
 
 		ENGINE_INLINE virtual Vec3 &getPosition() { return position; };
 		ENGINE_INLINE virtual void setPosition(const Vec3 &position) { this->position = position; };
@@ -130,7 +234,6 @@ namespace NGTech {
 		Vec3 direction;
 
 		float maxVelocity;
-		float fov;
 
 		PhysBody *pBody;
 	};

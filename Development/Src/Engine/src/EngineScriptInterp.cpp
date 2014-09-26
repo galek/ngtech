@@ -1,3 +1,5 @@
+#include "EnginePrivate.h"
+//***************************************************************************
 #include <assert.h>
 #include "EngineScriptInterp.h"
 #include "log.h"

@@ -1,13 +1,5 @@
-/***************************************************************************
-*   Copyright (C) 2006 by AST   *
-*   tsyplyaev@gmail.com   *
-*   ICQ: 279-533-134                          *
-*   This is a part of work done by AST.       *
-*   If you want to use it, please contact me. *
-***************************************************************************/
-
 #include "EnginePrivate.h"
-//**************************************
+//***************************************************************************
 #include "Engine.h"
 #include "Font.h"
 #include "Log.h"
@@ -39,10 +31,10 @@ namespace NGTech {
 
 	Font::~Font() {
 		for(int i = 0; i < 256; i++) {
-			delete list[i];
+			SAFE_DELETE(list[i]);
 		}
 
-		delete fontTex;
+		SAFE_DELETE(fontTex);
 	}
 
 
@@ -59,7 +51,7 @@ namespace NGTech {
 		fontTex->set(0);
 
 		for(int p = 0; p < text.length(); p++) {
-			list[text[p] + 16]->call();
+			list[text.data()[p] + 16]->call();
 		}
 
 		fontTex->unset(0);

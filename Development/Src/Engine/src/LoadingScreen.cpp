@@ -11,6 +11,7 @@ namespace NGTech {
 	*/
 	LoadingScreen::LoadingScreen(const String &path) {
 		background = GetRender()->TextureCreate2D(path);
+		background->setFilter(I_Texture::LINEAR);
 	}
 
 	LoadingScreen::~LoadingScreen() {

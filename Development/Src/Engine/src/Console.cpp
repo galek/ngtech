@@ -15,6 +15,10 @@
 * A copy of the NGTech License Agreement is available by contacting
 * NG Games Ltd. at http://nggames.com/
 */
+
+//***************************************************************************
+#include "EnginePrivate.h"
+//***************************************************************************
 #include "Console.h"
 
 namespace NGTech

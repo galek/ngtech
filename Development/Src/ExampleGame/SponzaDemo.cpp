@@ -56,7 +56,7 @@ void ExampleGame::initialise() {
 	camera->setFOV(60);
 
 
-	omniLight = new LightOmni();
+	omniLight = new LightPoint();
 	omniLight->setColor(Vec3(1, 1, 1));
 	omniLight->setPosition(Vec3(0, 60, 0));
 	omniLight->setRadius(200);

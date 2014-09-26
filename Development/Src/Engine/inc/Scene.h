@@ -57,14 +57,14 @@ namespace NGTech {
 	private:
 		void drawAmbient(bool blended);
 
-		void drawOmni(LightOmni *light, bool blended);
+		void drawOmni(LightPoint *light, bool blended);
 		void drawSpot(LightSpot *light, bool blended);
 		void drawDirect(LightDirect *light, bool blended);
 
-		void getOmniShadowMap(LightOmni *light);
+		void getOmniShadowMap(LightPoint *light);
 		void getSpotShadowMap(LightSpot *light);
 
-		void checkOmniVisibility(LightOmni *light);
+		void checkOmniVisibility(LightPoint *light);
 		void checkSpotVisibility(LightSpot *light);
 
 		Vec3 ambient;
@@ -113,7 +113,7 @@ namespace NGTech {
 		friend class ParticleSystem;
 
 		friend class Light;
-		friend class LightOmni;
+		friend class LightPoint;
 		friend class LightSpot;
 		friend class LightDirect;
 

@@ -66,8 +66,8 @@ namespace NGTech {
 		GetRender()->translate(position);
 		GetRender()->scale(Vec3(radius, radius, radius));
 
-		GetRender()->rotate(GetScene()->camera->angle[0] - 180, Vec3(0, 1, 0));
-		GetRender()->rotate(GetScene()->camera->angle[1], Vec3(1, 0, 0));
+		GetRender()->rotate(GetScene()->GetActiveCamera()->GetAngle(0) - 180, Vec3(0, 1, 0));
+		GetRender()->rotate(GetScene()->GetActiveCamera()->GetAngle(1), Vec3(1, 0, 0));
 
 		texture->set(0);
 		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);

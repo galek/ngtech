@@ -22,6 +22,7 @@ namespace NGTech {
 			OBJECT,
 			OBJECT_MESH,
 			OBJECT_PARTICLE_SYSTEM,
+			OBJECT_CAMERA
 		};
 
 		ENGINE_INLINE virtual void drawSubset(int s) {}

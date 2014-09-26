@@ -18,11 +18,15 @@
 //**************************************
 
 namespace NGTech {
+	/*
+	*/
 	Light::Light(){
 		GetScene()->addLight(this);
 	}
 
-	LightOmni::LightOmni() {
+	/*
+	*/
+	LightPoint::LightPoint() {
 		this->color = Vec3(1, 1, 1);
 		this->position = Vec3(0, 0, 0);
 		this->radius = 200;
@@ -30,17 +34,22 @@ namespace NGTech {
 		this->castShadows = true;
 
 		int size = GetCvars()->r_shadowsize;
+#pragma message("Мне кажется тут RGB будет достаточно")
 		shadowMap = GetRender()->TextureCreateCube(size, size, I_Texture::RGBA);
 		shadowMap->setFilter(I_Texture::LINEAR);
 		shadowMap->setAniso(I_Texture::ANISO_X0);
 		shadowMap->setWrap(I_Texture::CLAMP_TO_EDGE);
 	}
 
-	LightOmni::~LightOmni() {
+	/*
+	*/
+	LightPoint::~LightPoint() {
 		delete shadowMap;
 	}
 
-	void LightOmni::getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w) {
+	/**
+	*/
+	void LightPoint::getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w) {
 		int viewport[4];
 		GetRender()->getViewport(viewport);
 
@@ -111,6 +120,8 @@ namespace NGTech {
 		w -= y;
 	}
 
+	/**
+	*/
 	LightSpot::LightSpot() {
 		this->color = Vec3(1, 1, 1);
 		this->position = Vec3(0, 0, 0);
@@ -130,11 +141,15 @@ namespace NGTech {
 		projMap->setWrap(I_Texture::CLAMP);
 	}
 
+	/**
+	*/
 	LightSpot::~LightSpot() {
 		delete shadowMap;
 		delete projMap;
 	}
 
+	/**
+	*/
 	void LightSpot::getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w) {
 		int viewport[4];
 		GetRender()->getViewport(viewport);
@@ -206,11 +221,15 @@ namespace NGTech {
 		w -= y;
 	}
 
+	/**
+	*/
 	LightDirect::LightDirect() {
 		this->color = Vec3(1, 1, 1);
 		this->direction = Vec3(1, 1, 1);
 	}
 
+	/**
+	*/	
 	LightDirect::~LightDirect() {
 	}
 

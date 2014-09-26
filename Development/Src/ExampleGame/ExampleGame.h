@@ -15,7 +15,7 @@ namespace NGTech
 {
 	class ObjectMesh;
 	class CameraFree;
-	class LightOmni;
+	class LightPoint;
 	class ParticleSystem;
 }
 
@@ -33,7 +33,7 @@ class GAME_API ExampleGame : public NGTech::IGame
 	class NGTech::ObjectMesh *cylinder[5];
 	class NGTech::ObjectMesh *chammy;
 	class NGTech::CameraFree *camera;
-	class NGTech::LightOmni *omniLight;
+	class NGTech::LightPoint *omniLight;
 	class MyGUI::TextBox *fpsLabel;
 
 	class NGTech::ParticleSystem *particlesPink;
