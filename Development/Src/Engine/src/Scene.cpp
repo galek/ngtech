@@ -320,6 +320,7 @@ namespace NGTech {
 				frustum.get();
 
 				matMVP = GetRender()->getMatrix_MVP();
+#pragma message("TODO:rename param 324,381 lines")
 				if (!mtr->setPass("LightOmni")) return;
 
 				for (int n = 0; n < terrain->getNumNodes(); n++)	{

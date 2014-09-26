@@ -128,11 +128,19 @@ namespace NGTech {
 		*/
 		ENGINE_INLINE void LookAt(float _x, float _y) { angle[0] = -0.4 * _x; angle[1] = -0.4 * _y; }
 
-		//---physics---------------------------
 	protected:
+		/**
+		*/
 		ENGINE_INLINE virtual void setPhysics(const Vec3 &size, float mass) {}
+		/**
+		gets camera phys body
+		\return phys body
+		*/
 		ENGINE_INLINE virtual PhysBody *getPhysBody() { return NULL; }
-
+	
+		/**
+		*/
+	protected:
 		float angle[2];
 		float fov;
 		float aspect;
