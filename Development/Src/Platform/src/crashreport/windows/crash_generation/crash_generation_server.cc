@@ -158,9 +158,9 @@ namespace NGTech {
 		// cleared.
 		DisconnectNamedPipe(pipe_);
 		int num_tries = 100;
-		while (num_tries-- && server_state_ != IPC_SERVER_STATE_ERROR) {
+		/*while (num_tries-- && server_state_ != IPC_SERVER_STATE_ERROR) {
 			Sleep(10);
-		}
+			}*/
 
 		// Unregister wait on the pipe.
 		if (pipe_wait_handle_) {
@@ -553,7 +553,7 @@ namespace NGTech {
 			}
 		}
 #ifdef _DEBUG
-		else 
+		else
 			assert(!CheckForIOIncomplete(success));
 #endif
 		EnterStateImmediately(IPC_SERVER_STATE_DISCONNECTING);

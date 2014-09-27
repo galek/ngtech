@@ -30,7 +30,7 @@ namespace NGTech {
 	/**
 	Engine`s main physics system. Created one time
 	*/
-	class ENGINE_API PhysSystem 
+	class ENGINE_API PhysSystem
 	{
 	public:
 		PhysSystem(CVARManager*);
@@ -62,8 +62,8 @@ namespace NGTech {
 		void LockWrite();
 		void UnLockWrite();
 	private:
-		void togglePvdConnection();
-		void createPvdConnection();
+		void _togglePvdConnection();
+		void _createPvdConnection();
 	private:
 
 		PhysBody *pBody0;

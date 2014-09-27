@@ -207,12 +207,7 @@ namespace NGTech {
 			game->initialise();
 			Debug("[Init] Game Finished");
 		}
-
-		// run threads
-		threads->runSound();
-		threads->runFileSystem();
-		Debug("[Init] Threads Finished");
-
+		
 		this->running = true;
 
 		Debug("[Init] All Systems Initialised");
@@ -226,10 +221,6 @@ namespace NGTech {
 	*/
 	Engine::~Engine()  {
 		SAFE_DELETE(mWatermarkTex);
-		if (threads) {
-			threads->stopSound();
-			threads->stopJobs();
-		}
 		SAFE_DELETE(scripting);
 		SAFE_DELETE(game);
 		SAFE_DELETE(gui);

@@ -94,7 +94,7 @@ namespace NGTech {
 			Error("PxCreateCooking failed!", true);
 
 #ifdef ENABLE_PVD
-		togglePvdConnection();
+		_togglePvdConnection();
 #endif
 		// setup default material...
 		mMaterial = mPhysics->createMaterial(1.0f, 1.0f, 1.0f);
@@ -198,7 +198,14 @@ namespace NGTech {
 	void PhysSystem::update() {
 		mScene->lockWrite();
 		mScene->simulate(1.0f / 30.0f);
+		//SingleThreaded update-get results
+		if (info->ph_num_threads == 0)
+		{
+			mScene->fetchResults(true);
+		}
+
 		mScene->unlockWrite();
+
 	}
 
 	/*
@@ -210,8 +217,8 @@ namespace NGTech {
 
 	/**
 	*/
-	void PhysSystem::togglePvdConnection() {
-		Debug("PhysSystem::togglePvdConnection()");
+	void PhysSystem::_togglePvdConnection() {
+		Debug("PhysSystem::_togglePvdConnection()");
 		if (!mPhysics->getPvdConnectionManager()){
 			Debug("PhysSystem::togglePvdConnection()-1");
 			return;
@@ -221,13 +228,13 @@ namespace NGTech {
 			mPhysics->getPvdConnectionManager()->disconnect();
 		}
 		else
-			createPvdConnection();
+			_createPvdConnection();
 	}
 
 	/**
 	*/
-	void PhysSystem::createPvdConnection()	{
-		Debug("PhysSystem::createPvdConnection()");
+	void PhysSystem::_createPvdConnection()	{
+		Debug("PhysSystem::_createPvdConnection()");
 		auto mCon = PxVisualDebuggerExt::createConnection(mPhysics->getPvdConnectionManager(), "127.0.0.1", 5425, 100, PxVisualDebuggerExt::getAllConnectionFlags());
 		if (mCon){
 			mPhysics->getVisualDebugger()->setVisualizeConstraints(true);
@@ -288,12 +295,12 @@ namespace NGTech {
 	/**
 	*/
 	void PhysSystem::LockWrite(){
-		mScene->lockRead();
+		mScene->lockWrite();
 	}
 
 	/**
 	*/
 	void PhysSystem::UnLockWrite(){
-		mScene->unlockRead();
+		mScene->unlockWrite();
 	}
 }

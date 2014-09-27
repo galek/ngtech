@@ -19,9 +19,20 @@ namespace NGTech {
 		void setDepthTarget(I_Texture *texture = NULL);
 
 		void set();
+
+		/**
+		Unsets GLFBO
+		*/
 		void unset();
 
+		/**
+		Clears the frame buffer
+		*/
 		void clear();
+
+		/**
+		Flushes the frame buffer
+		*/
 		void flush();
 
 	private:

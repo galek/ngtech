@@ -12,97 +12,10 @@ namespace NGTech
 	 */
 #define ENGINE_THREADS_NUM_JOBS	128
 
-	/******************************************************************************\
-	*
-	* SoundThread
-	*
-	\******************************************************************************/
-
-	/**
-	*/
-	class SoundThread : public Thread {
-
-	public:
-
-		SoundThread();
-		virtual ~SoundThread();
-
-	protected:
-
-		virtual void process();
-	};
-
-	/**
-	*/
-	SoundThread::SoundThread() {
-
-	}
-
-	/**
-	*/
-	SoundThread::~SoundThread() {
-
-	}
-
-	/**
-	*/
-	void SoundThread::process() {
-
-		while (isRunning()) {
-			// update sound
-			//[TODO]Многопоточный апдейт еще не готов
-			/*auto camera = GetScene()->GetActiveCamera();
-			GetAudio()->setListener(camera->getPosition(), camera->getDirection());*/
-		}
-	}
 
 	/******************************************************************************\
 	*
-	* FileSystemThread
-	*
-	\******************************************************************************/
-
-	/**
-	*/
-	class FileSystemThread : public Thread {
-
-	public:
-
-		FileSystemThread();
-		virtual ~FileSystemThread();
-
-	protected:
-
-		virtual void process();
-	};
-
-	/**
-	*/
-	FileSystemThread::FileSystemThread() {
-
-	}
-
-	/**
-	*/
-	FileSystemThread::~FileSystemThread() {
-
-	}
-
-	/**
-	*/
-	void FileSystemThread::process() {
-
-		while (isRunning()) {
-
-			// update filesystem
-			//			engine.filesystem->update();
-
-		}
-	}
-
-	/******************************************************************************\
-	*
-	* PhysicsThread
+	* Task-Based Threading
 	*
 	\******************************************************************************/
 
@@ -180,14 +93,7 @@ namespace NGTech
 
 	/**
 	*/
-	EngineThreads::EngineThreads() : sound_lock(0), filesystem_lock(0), job_lock(0) {
-
-		// create sound thread
-		sound_thread = new SoundThread();
-
-		// create filesystem thread
-		filesystem_thread = new FileSystemThread();
-
+	EngineThreads::EngineThreads() :job_lock(0) {
 		// create job threads
 		int num_jobs = SystemInfo::getCPUCount() - 1;
 		if (num_jobs < 1) num_jobs = 1;
@@ -202,12 +108,6 @@ namespace NGTech
 
 	EngineThreads::~EngineThreads() {
 
-		// delete sound thread
-		delete sound_thread;
-
-		// delete filesystem thread
-		delete filesystem_thread;
-
 		// delete job threads
 		for (int i = 0; i < job_threads.size(); i++) {
 			delete job_threads[i];
@@ -219,30 +119,7 @@ namespace NGTech
 		}
 	}
 
-	/*
-	 */
-	void EngineThreads::runSound() {
-		if (sound_thread->run() == 0) {
-			Error("EngineThreads::runSound(): can't run sound thread\n", true);
-		}
-	}
-
-	void EngineThreads::stopSound() {
-		sound_thread->terminate();
-	}
-
-	/*
-	 */
-	void EngineThreads::runFileSystem() {
-		if (filesystem_thread->run() == 0) {
-			Error("EngineThreads::runFileSystem(): can't run filesystem thread\n", true);
-		}
-	}
-
-	void EngineThreads::stopFileSystem() {
-		filesystem_thread->terminate();
-	}
-
+	
 	/*
 	 */
 	int EngineThreads::getNumJobs() const {

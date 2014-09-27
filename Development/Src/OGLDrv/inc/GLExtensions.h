@@ -6,12 +6,20 @@
 
 namespace NGTech {
 
-	//---------------------------------------------------------------------------
-	//Desc: GLExtensions
-	//---------------------------------------------------------------------------
+	/**
+	OpenGL extensions managing class
+	*/
 	class GLExtensions {
 	public:
+		/**
+		Is GL extension supported
+		\param name extension name
+		\return true if supported
+		*/
 		static bool isExtSupported(const String &name);
+		/**
+		Init extensions
+		*/
 		static void initExtensions();
 	};
 }

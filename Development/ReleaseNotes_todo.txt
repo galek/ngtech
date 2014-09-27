@@ -24,3 +24,5 @@ Sky
 
 Удалить из конфига ph_num_threads,и вообще сделать как то по другому
 1 тред на физику,остальные на task-based или все task-based
+
+cone step mapping
