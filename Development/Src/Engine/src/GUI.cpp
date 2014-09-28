@@ -29,10 +29,11 @@
 #include "Cache.h"
 #include "CVarManager.h"
 #include "VFS.h"
-//**************************************
 
 namespace NGTech {
 
+	/**
+	*/
 	GUI::GUI(CVARManager *_cvars)
 		: mPlatform(nullptr),
 		mGUI(nullptr),
@@ -45,6 +46,9 @@ namespace NGTech {
 		mPlatform = new MyGUI::OpenGLPlatform();
 		mGUI = new MyGUI::Gui();
 	}
+
+	/**
+	*/
 	void GUI::initialise()	{
 		Log::writeHeader("-- GUI --");
 		mPlatform->initialise((MyGUI::OpenGLImageLoader*)GetRender()->GetGUIImageLoader());
@@ -54,12 +58,16 @@ namespace NGTech {
 		guiMtr = new Material("engine_materials/GUI.mat");
 		mInited = true;
 	}
-
+	
+	/**
+	*/
 	GUI::~GUI() {
 		SAFE_DELETE(fpsLabel);
 		SAFE_DELETE(mGUI);
 	}
 
+	/**
+	*/
 	void GUI::render() {
 		if (mInited) {
 			guiMtr->setPass("Ambient");
@@ -83,6 +91,8 @@ namespace NGTech {
 		}
 	}
 
+	/**
+	*/
 	void GUI::createDebugInfo(){
 		fpsLabel = mGUI->createWidget<MyGUI::TextBox>("TextBox", 100, 0, 180, 180, MyGUI::Align::Default, "Statistic", "InfoTextBox");
 		fpsLabel->setTextColour(MyGUI::Colour::White);
@@ -91,17 +101,26 @@ namespace NGTech {
 		fpsLabel->setCaption("FPS: ");
 	}
 
+	/**
+	*/
 	void GUI::updateDebugInfo(){
 		fpsLabel->setCaption("FPS: " + std::to_string((int)GetEngine()->GetLastFPS()));
 	}
 
+	/**
+	*/
 	void GUI::resize(int _width, int _height) {
 		mPlatform->getRenderManagerPtr()->setViewSize(_width, _height);
 	}
 
+	/**
+	*/
 	void GUI::showDebugInfo(bool _show){
 		if (_show)
 			createDebugInfo();
 		mDebugShow = _show;
 	}
+
+	/**
+	*/
 }

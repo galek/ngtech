@@ -281,7 +281,7 @@ namespace NGTech {
 		// run multi-threaded physics
 		if (!paused)
 		{
-			if (this->physSystem->hasUpdate() && this->cvars->ph_num_threads) {
+			if (this->physSystem->hasUpdate()) {
 				this->physSystem->runUpdate();
 			}
 		}
@@ -293,7 +293,7 @@ namespace NGTech {
 		if (!paused)
 		{
 			// update single-threaded physics
-			if (this->physSystem->hasUpdate() == 0 || this->cvars->ph_num_threads == 0) {
+			if (this->physSystem->hasUpdate() == 0) {
 				this->physSystem->update();
 			}
 		}
@@ -319,7 +319,7 @@ namespace NGTech {
 	void Engine::do_swap()
 	{
 		// wait multi-threaded physics
-		if (this->physSystem->hasUpdate() && this->cvars->ph_num_threads) {
+		if (this->physSystem->hasUpdate()) {
 			this->physSystem->waitUpdate();
 		}
 		if (this->iRender)

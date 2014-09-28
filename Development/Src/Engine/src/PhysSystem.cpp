@@ -62,14 +62,8 @@ namespace NGTech {
 	{
 		Log::writeHeader("-- PhysSystem --");
 		Debug("PhysSystem::initialise");
+		mUpdateJob = new PhysicsUpdateJob();
 
-		if (info->ph_num_threads >= 1) {
-			LogPrintf("Physics: Multi-threaded\n");
-			mUpdateJob = new PhysicsUpdateJob();
-		}
-		else {
-			LogPrintf("Physics: Single-threaded\n");
-		}
 
 		mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gDefaultErrorCallback);
 		if (!mFoundation)
@@ -198,14 +192,7 @@ namespace NGTech {
 	void PhysSystem::update() {
 		mScene->lockWrite();
 		mScene->simulate(1.0f / 30.0f);
-		//SingleThreaded update-get results
-		if (info->ph_num_threads == 0)
-		{
-			mScene->fetchResults(true);
-		}
-
 		mScene->unlockWrite();
-
 	}
 
 	/*

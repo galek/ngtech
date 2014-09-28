@@ -18,7 +18,6 @@ namespace NGTech {
 		r_parallax(_c->getBool("r_parallax")),
 		r_reflections(_c->getBool("r_reflections")),
 		r_wireframe(_c->getBool("r_wireframe")),
-		ph_num_threads(_c->getInt("ph_num_threads")),
 		i_w_mousefree(_c->getBool("i_w_mousefree"))
 	{}
 }
