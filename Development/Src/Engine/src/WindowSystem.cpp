@@ -458,6 +458,10 @@ namespace NGTech {
 
 	/**
 	*/
+	void WindowSystem::DisableVSync(int){}
+
+	/**
+	*/
 	const int WindowSystem::Input_GetKeyValueByChar(const char*  _p)
 	{
 		if (stricmp(_p, "A") == 0)

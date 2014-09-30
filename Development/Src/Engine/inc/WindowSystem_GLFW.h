@@ -256,6 +256,9 @@ namespace NGTech {
 		/**
 		*/
 		virtual void showOSCursor(int _value);
+		/**
+		*/
+		virtual void DisableVSync(int);
 	private:
 		/**
 		*/

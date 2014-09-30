@@ -8,6 +8,9 @@
 #include "Error.h"
 #include "glew/wglew.h"
 //***************************************************************************
+#include "../../Platform/inc/glfw/glfw3.h"
+#include "../../Platform/inc/glfw/glfw3native.h"
+//***************************************************************************
 
 namespace NGTech {
 
@@ -95,6 +98,17 @@ namespace NGTech {
 
 	/**
 	*/
+	void DisableVSync(CoreManager*engine)
+	{
+#ifndef DROP_EDITOR
+		if (engine->mIsEditor)
+			wglSwapIntervalEXT(0);
+		else
+#endif
+			engine->iWindow->DisableVSync(0);
+	}
+	/**
+	*/
 	void GLSystem::initialise()	{
 #ifndef DROP_EDITOR
 		if (!createContext(GetWindow()))
@@ -151,7 +165,7 @@ namespace NGTech {
 		requireExtension("GL_ARB_tessellation_shader");
 		requireExtension("GL_ARB_shader_subroutine");
 
-		wglSwapIntervalEXT(0);
+		DisableVSync(engine);
 	}
 
 	/**

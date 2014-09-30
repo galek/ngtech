@@ -42,7 +42,7 @@ namespace NGTech {
 	PhysSystem::PhysSystem(CVARManager*_info) :
 		info(_info),
 		update_id(0),
-		mNbThreads(0),//PhysX Threads
+		mNbThreads(1),//PhysX Threads
 		mUpdateJob(nullptr),
 		mFoundation(nullptr),
 		mProfileZoneManager(nullptr),

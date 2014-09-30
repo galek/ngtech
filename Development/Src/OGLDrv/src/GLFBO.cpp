@@ -24,28 +24,26 @@ namespace NGTech {
 		fbo->glColorID = fbo->glStencilID = fbo->glDepthID = 0;
 		fbo->colorTarget = fbo->depthTarget = NULL;
 
-		glGenFramebuffersEXT(1, &fbo->glID);
-		//glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbo->glID);
-		//glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,0);
+		glGenFramebuffers(1, &fbo->glID);
 
 		return fbo;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    adds color attachment to GLFBO
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void GLFBO::createColorAttachment() {
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, glID);
+		//Заполняем GBuffer
+		glBindFramebuffer(GL_FRAMEBUFFER, glID);
 
 		glGenTextures(1, &glColorID);
-		glBindTexture(GL_TEXTURE_2D, glColorID);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+		glBindTexture(GL_TEXTURE_RECTANGLE, glColorID);
+		
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		
+		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_RECTANGLE, glColorID, 0);
 	}
 
 	//---------------------------------------------------------------------------
@@ -54,13 +52,13 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void GLFBO::createDepthAttachment() {
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, glID);
+		glBindFramebuffer(GL_FRAMEBUFFER, glID);
 
 		glGenRenderbuffersEXT(1, &glDepthID);
 		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, glDepthID);
 		glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, width, height);
 
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
 	//---------------------------------------------------------------------------
@@ -69,13 +67,13 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void GLFBO::createStencilAttachment() {
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, glID);
+		glBindFramebuffer(GL_FRAMEBUFFER, glID);
 
 		glGenRenderbuffersEXT(1, &glStencilID);
 		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, glStencilID);
 		glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_STENCIL_INDEX, width, height);
 
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
 	//---------------------------------------------------------------------------

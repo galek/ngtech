@@ -57,34 +57,59 @@ namespace NGTech {
 			KEY_Y, KEY_Z,
 		};
 	public:
+		/**
+		*/
 		explicit WindowSystem(CVARManager*_cvars);
-
+		/**
+		*/
 		virtual ~WindowSystem();
+		/**
+		*/
 		virtual void initialise(int = 0);
+		/**
+		*/
 		virtual void setTitle(const String &title);
-
+		/**
+		*/
 		virtual void updateTimer();
-
+		/**
+		*/
 		virtual void update();
-
+		/**
+		*/
 		virtual int getTime();
-
+		/**
+		*/
 		virtual void setMousePos(int x, int y);
-
+		/**
+		*/
 		virtual void showCursor(bool show);
-
+		/**
+		*/
 		virtual void grabMouse(bool grab);
-
+		/**
+		*/
 		virtual bool isMouseButtonPressed(int mb);
+		/**
+		*/
 		virtual bool wasMouseButtonPressed(int mb);
+		/**
+		*/
 		virtual bool wasMouseButtonReleased(int mb);
-
+		/**
+		*/
 		virtual bool isKeyPressed(const char* key);
+		/**
+		*/
 		virtual bool isKeyDown(const char* key);
+		/**
+		*/
 		virtual bool isKeyUp(const char* key);
-
+		/**
+		*/
 		virtual void showOSCursor(int _value);
-
+		/**
+		*/
 		virtual float getLastFPS();
 		/**
 		*/
@@ -95,22 +120,53 @@ namespace NGTech {
 		/**
 		*/
 		ENGINE_INLINE virtual int getWidth() { return width; };
+		/**
+		*/
 		ENGINE_INLINE virtual int getHeight() { return height; };
-
+		/**
+		*/
 		ENGINE_INLINE virtual int getDTime() { return dTime; };
+		/**
+		*/
 		ENGINE_INLINE virtual int getETime() { return eTime; };
-
+		/**
+		*/
 		ENGINE_INLINE virtual bool isMouseMoved() { return mousing; };
+		/**
+		*/
 		ENGINE_INLINE virtual int getMouseX() { return mouseX; };
+		/**
+		*/
 		ENGINE_INLINE virtual int getMouseY() { return mouseY; };
+		/**
+		*/
 		ENGINE_INLINE virtual int getMouseDX() { return mouseX - oldMouseX; };
+		/**
+		*/
 		ENGINE_INLINE virtual int getMouseDY() { return mouseY - oldMouseY; };
+		/**
+		*/
 		ENGINE_INLINE virtual void toggleShowCursor() { showCursor(!cursorVisible); };
+		/**
+		*/
 		ENGINE_INLINE virtual bool isCursorVisible() { return cursorVisible; };
+		/**
+		*/
 		ENGINE_INLINE virtual void toggleGrabMouse() { grabMouse(!mouseGrabed); };
+		/**
+		*/
 		ENGINE_INLINE virtual bool isMouseGrabed() { return mouseGrabed; };
+		/**
+		*/
+		virtual void DisableVSync(int);
+		/**
+		*/
 	private:
+		/**
+		*/
 		virtual void _updateFPSCounter();
+		/**
+		*/
 	private:
 		bool isExternalHwnd;
 		float fps;

@@ -503,9 +503,11 @@ namespace NGTech {
 		matSpotTransform = light->projTransform;
 
 		//DRAW TERRAIN
-		if (terrain && !blended) {
+		if (terrain && !blended) 
+		{
 			Material *mtr = terrain->getMaterial();
-			if (mtr) {
+			if (mtr) 
+			{
 				frustum.get();
 
 				//set material params
@@ -529,7 +531,8 @@ namespace NGTech {
 		}
 
 		//DRAW OBJECTS
-		for (int m = 0; m < objects.size(); m++) {
+		for (int m = 0; m < objects.size(); m++) 
+		{
 			if (!objects[m]) {
 				continue;
 			}
@@ -835,10 +838,6 @@ namespace NGTech {
 	void Scene::update() {
 		//---------update-camera-----------------------------------
 		camera->update();
-		//draw particle systems
-		for (int k = 0; k < systems.size(); k++) {
-			if (systems[k]) systems[k]->draw();
-		}
 
 		//---------draw-scene--------------------------------
 		GetRender()->setMatrixMode_Projection();
@@ -848,93 +847,97 @@ namespace NGTech {
 		GetRender()->loadMatrix(camera->getTransform());
 
 		matTime = GetWindow()->getETime();
-		matViewportMap = viewportCopy;
-		matViewportTransform = Mat4::texBias() * GetRender()->getMatrix_MVP();
+		if (matTime > 0)
+		{
+			matViewportMap = viewportCopy;
+			matViewportTransform = Mat4::texBias() * GetRender()->getMatrix_MVP();
 
-		drawAmbient(false);
+			drawAmbient(false);
 
-		for (int i = 0; i < lights.size(); i++) {
-			if (!lights[i]->isEnable()) continue;
-			if (lights[i]->getType() == Light::LIGHT_OMNI) {
-				checkOmniVisibility((LightPoint*)lights[i]);
-			}
-			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
-				checkSpotVisibility((LightSpot*)lights[i]);
-			}
-		}
-
-		for (int i = 0; i < lights.size(); i++) {
-			if (lights[i]->getType() == Light::LIGHT_OMNI) {
-				getOmniShadowMap((LightPoint*)lights[i]);
-			}
-			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
-				getSpotShadowMap((LightSpot*)lights[i]);
-			}
-		}
-
-		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
-		GetRender()->depthMask(false);
-
-		//draw wireframe
-		if (GetCvars()->r_wireframe) {
-			glColor3f(1, 1, 1);//Nick:TODO:Replace
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//Nick:TODO:Replace
-
-			for (int i = 0; i < objects.size(); i++) {
-				GetRender()->push();
-				GetRender()->multMatrix(objects[i]->getTransform());
-				for (int k = 0; k < objects[i]->getNumSubsets(); k++) {
-					objects[i]->drawSubset(k);
-				}
-				GetRender()->pop();
-			}
-			if (terrain) {
-				for (int n = 0; n < terrain->getNumNodes(); n++) {
-					terrain->drawNode(n, camera->getPosition());
+			for (int i = 0; i < lights.size(); i++) 
+			{
+				if (lights[i]->isEnable())
+				{
+					if (lights[i]->getType() == Light::LIGHT_OMNI) {
+						checkOmniVisibility((LightPoint*)lights[i]);
+						if ((LightPoint*)lights[i]->isVisible())
+							getOmniShadowMap((LightPoint*)lights[i]);
+					}
+					else if (lights[i]->getType() == Light::LIGHT_SPOT) {
+						checkSpotVisibility((LightSpot*)lights[i]);
+						if ((LightSpot*)lights[i]->isVisible())
+							getSpotShadowMap((LightSpot*)lights[i]);
+					}
 				}
 			}
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);//Nick:TODO:Replace
-		}
 
-		//draw lighting
-		for (int i = 0; i < lights.size(); i++) {
-			if (lights[i]->getType() == Light::LIGHT_OMNI) {
-				drawOmni((LightPoint*)lights[i], false);
+			GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
+			GetRender()->depthMask(false);
+
+			//draw wireframe
+			if (GetCvars()->r_wireframe) {
+				glColor3f(1, 1, 1);//Nick:TODO:Replace
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//Nick:TODO:Replace
+
+				for (int i = 0; i < objects.size(); i++) {
+					GetRender()->push();
+					GetRender()->multMatrix(objects[i]->getTransform());
+					for (int k = 0; k < objects[i]->getNumSubsets(); k++) {
+						objects[i]->drawSubset(k);
+					}
+					GetRender()->pop();
+				}
+				if (terrain) {
+					for (int n = 0; n < terrain->getNumNodes(); n++) {
+						terrain->drawNode(n, camera->getPosition());
+					}
+				}
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);//Nick:TODO:Replace
 			}
-			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
-				drawSpot((LightSpot*)lights[i], false);
+
+			//draw lighting
+			for (int i = 0; i < lights.size(); i++) {
+				if (lights[i]->isVisible())
+				{
+					if (lights[i]->getType() == Light::LIGHT_OMNI) {
+						drawOmni((LightPoint*)lights[i], false);
+					}
+					else if (lights[i]->getType() == Light::LIGHT_SPOT) {
+						drawSpot((LightSpot*)lights[i], false);
+					}
+					else if (lights[i]->getType() == Light::LIGHT_DIRECT) {
+						drawDirect((LightDirect*)lights[i], false);
+					}
+				}
 			}
-			else if (lights[i]->getType() == Light::LIGHT_DIRECT) {
-				drawDirect((LightDirect*)lights[i], false);
+
+			GetRender()->depthMask(true);
+			GetRender()->disableBlending();
+
+			drawAmbient(true);
+
+			//draw particle systems
+			for (int k = 0; k < systems.size(); k++) {
+				if (systems[k]) systems[k]->draw();
 			}
+
+			//---------draw-scene-into-viewport-copy-------------------------------
+			viewportFBO->set();
+			viewportFBO->setColorTarget(viewportCopy);
+			viewportFBO->clear();
+
+			//---------set-camera--------------------------------
+			GetRender()->setMatrixMode_Projection();
+			GetRender()->loadMatrix(camera->getProjection());
+
+			GetRender()->setMatrixMode_Modelview();
+			GetRender()->loadMatrix(camera->getTransform());
+
+			drawAmbient(false);
+
+			GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
+			GetRender()->depthMask(false);
 		}
-
-		GetRender()->depthMask(true);
-		GetRender()->disableBlending();
-
-		drawAmbient(true);
-
-		//draw particle systems
-		for (int k = 0; k < systems.size(); k++) {
-			if (systems[k]) systems[k]->draw();
-		}
-
-		//---------draw-scene-into-viewport-copy-------------------------------
-		viewportFBO->set();
-		viewportFBO->setColorTarget(viewportCopy);
-		viewportFBO->clear();
-
-		//---------set-camera--------------------------------
-		GetRender()->setMatrixMode_Projection();
-		GetRender()->loadMatrix(camera->getProjection());
-
-		GetRender()->setMatrixMode_Modelview();
-		GetRender()->loadMatrix(camera->getTransform());
-
-		drawAmbient(false);
-
-		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
-		GetRender()->depthMask(false);
 	}
 
 	/*
@@ -945,65 +948,34 @@ namespace NGTech {
 
 	/*
 	*/
-	void Scene::render() {
-		if (GetCvars()->r_wireframe) {//Nick:TODO:Replace
-			glColor3f(1, 1, 1);//Nick:TODO:Replace
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//Nick:TODO:Replace
-
-			for (int i = 0; i < objects.size(); i++) {
-				GetRender()->push();
-				GetRender()->multMatrix(objects[i]->getTransform());
-				for (int k = 0; k < objects[i]->getNumSubsets(); k++) {
-					objects[i]->drawSubset(k);
-				}
-				GetRender()->pop();
-			}
-			if (terrain) {
-				for (int n = 0; n < terrain->getNumNodes(); n++) {
-					terrain->drawNode(n, camera->getPosition());
-				}
-			}
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);//Nick:TODO:Replace
-		}
-
-		for (int i = 0; i < lights.size(); i++) {
-			if (lights[i]->getType() == Light::LIGHT_OMNI) {
-				drawOmni((LightPoint*)lights[i], false);
-			}
-			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
-				drawSpot((LightSpot*)lights[i], false);
-			}
-			else if (lights[i]->getType() == Light::LIGHT_DIRECT) {
-				drawDirect((LightDirect*)lights[i], false);
-			}
-		}
-
+	void Scene::render()
+	{
 		drawAmbient(true);
+
 		for (int i = 0; i < lights.size(); i++) {
-			if (lights[i]->getType() == Light::LIGHT_OMNI) {
-				drawOmni((LightPoint*)lights[i], true);
-			}
-			else if (lights[i]->getType() == Light::LIGHT_SPOT) {
-				drawSpot((LightSpot*)lights[i], true);
-			}
-			else if (lights[i]->getType() == Light::LIGHT_DIRECT) {
-				drawDirect((LightDirect*)lights[i], true);
+			if (lights[i]->isVisible())
+			{
+				if (lights[i]->getType() == Light::LIGHT_OMNI) {
+					drawOmni((LightPoint*)lights[i], true);
+				}
+				else if (lights[i]->getType() == Light::LIGHT_SPOT) {
+					drawSpot((LightSpot*)lights[i], true);
+				}
+				else if (lights[i]->getType() == Light::LIGHT_DIRECT) {
+					drawDirect((LightDirect*)lights[i], true);
+				}
 			}
 		}
 
 		GetRender()->depthMask(true);
 		GetRender()->disableBlending();
 
-		for (int k = 0; k < systems.size(); k++) {
-			if (systems[k]) systems[k]->draw();
-		}
-
 		viewportFBO->flush();
 		viewportFBO->unset();
 
 		matMVP = GetRender()->getMatrix_MVP();
-	
-		if (GetCvars()->r_hdr) {
+#pragma message("Тормозит,все из-за HDR")
+		/*if (GetCvars()->r_hdr) {
 			//---------bright-pass--------------------------------
 			viewportFBO->set();
 			viewportFBO->setColorTarget(viewportCopy_brightPass);
@@ -1049,6 +1021,6 @@ namespace NGTech {
 
 			GetRender()->disableBlending();
 			GetRender()->enable3d();
-		}
+			}*/
 	}
 }

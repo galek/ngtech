@@ -60,7 +60,7 @@ void ExampleGame::initialise() {
 	omniLight->setColor(Vec3(1, 1, 1));
 	omniLight->setPosition(Vec3(0, 60, 0));
 	omniLight->setRadius(200);
-
+	
 	particlesPink = new ParticleSystem("smoke.png", 50);
 	particlesPink->setPosition(Vec3(60, 60, 0));
 	particlesPink->setColor(Vec3(1, 0.5, 1));
@@ -77,7 +77,7 @@ void ExampleGame::initialise() {
 	particlesYellow->setParticleLifeTime(10000);
 	particlesYellow->setDispersion(0.1);
 
-	//GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
+	GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
 
 	GetWindow()->grabMouse(true);
 

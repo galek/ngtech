@@ -247,4 +247,10 @@ namespace NGTech {
 	const char* WindowSystemGLFW::Input_GetKeyValueByInt(int _p){
 		return get_key_name(_p);
 	}
+
+	/**
+	*/
+	void WindowSystemGLFW::DisableVSync(int){
+		glfwSwapInterval(0);
+	}
 }
