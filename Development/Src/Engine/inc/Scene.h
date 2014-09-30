@@ -63,7 +63,7 @@ namespace NGTech {
 	private:
 		void drawAmbient(bool blended);
 
-		void drawOmni(LightPoint *light, bool blended);
+		void drawPoint(LightPoint *light, bool blended);
 		void drawSpot(LightSpot *light, bool blended);
 		void drawDirect(LightDirect *light, bool blended);
 
@@ -75,6 +75,7 @@ namespace NGTech {
 
 		Vec3 ambient;
 		Camera *camera;
+		Frustum *frustum;
 		Terrain *terrain;
 		Vec3 terrainLods;
 

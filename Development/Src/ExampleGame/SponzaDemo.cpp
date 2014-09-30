@@ -77,7 +77,7 @@ void ExampleGame::initialise() {
 	particlesYellow->setParticleLifeTime(10000);
 	particlesYellow->setDispersion(0.1);
 
-	GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
+	//GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
 
 	GetWindow()->grabMouse(true);
 

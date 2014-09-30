@@ -23,6 +23,8 @@ namespace NGTech {
 		ENGINE_INLINE bool isVisible() { return visible; }
 		ENGINE_INLINE bool isEnable() { return enabled; }
 		ENGINE_INLINE void setVisible(bool _s) { visible = _s; }
+
+		virtual I_Texture *getShadowMap() = 0;
 	protected:
 		bool enabled;
 		bool visible;
@@ -53,8 +55,9 @@ namespace NGTech {
 
 		ENGINE_INLINE virtual LightType getType() { return LIGHT_OMNI; };
 
-		void getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w);
+		ENGINE_INLINE virtual I_Texture *getShadowMap(){ return shadowMap; }
 
+		void getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w);
 	private:
 		Vec3 position, color;
 		float radius;
@@ -98,6 +101,8 @@ namespace NGTech {
 
 		ENGINE_INLINE virtual LightType getType() { return LIGHT_SPOT; };
 
+		ENGINE_INLINE virtual I_Texture *getShadowMap(){ return shadowMap; }
+
 		void getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w);
 
 	private:
@@ -130,6 +135,9 @@ namespace NGTech {
 		ENGINE_INLINE void setColor(const Vec3 &color) { this->color = color; };
 
 		ENGINE_INLINE virtual LightType getType() { return LIGHT_DIRECT; };
+
+
+		ENGINE_INLINE virtual I_Texture *getShadowMap(){ return NULL; }//Not implemented currently
 
 	private:
 		Vec3 direction, color;

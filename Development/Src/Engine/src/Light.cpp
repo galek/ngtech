@@ -119,7 +119,7 @@ namespace NGTech {
 		z -= x;
 		w -= y;
 	}
-
+	
 	/**
 	*/
 	LightSpot::LightSpot() {

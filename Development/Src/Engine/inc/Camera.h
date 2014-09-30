@@ -58,7 +58,7 @@ namespace NGTech {
 		virtual Vec3 &getMax() { return Vec3(0, 0, 0); }
 		virtual Vec3 &getMin() { return Vec3(0, 0, 0); }
 		virtual Vec3 &getCenter() { return Vec3(0, 0, 0); }
-			
+
 		/**
 		gets camera fov
 		\return fov
@@ -137,7 +137,7 @@ namespace NGTech {
 		\return phys body
 		*/
 		ENGINE_INLINE virtual PhysBody *getPhysBody() { return NULL; }
-	
+
 		/**
 		*/
 	protected:

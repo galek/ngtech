@@ -14,20 +14,17 @@
 
 namespace NGTech {
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates new scene with ambient light
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
-	Scene::Scene(CVARManager*_cvars) : cvars(_cvars), camera(nullptr) {
+	/**
+	*/
+	Scene::Scene(CVARManager*_cvars)
+		: cvars(_cvars),
+		camera(nullptr),
+		frustum(new Frustum()){
 		terrain = NULL;
 	}
-	//---------------------------------------------------------------------------
-	//Desc:    Init engine sub-systems
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
 
+	/**
+	*/
 	void Scene::initialise(){
 		viewportFBO = GetRender()->CreateFBO(512, 512);
 		viewportFBO->createDepthAttachment();
@@ -60,20 +57,14 @@ namespace NGTech {
 		hdr = new Material("engine_materials/hdr.mat");
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    destroys scene
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	Scene::~Scene() {
 		clear();
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    destroys scene
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::clear() {
 		systems.clear();
 		objects.clear();
@@ -82,105 +73,71 @@ namespace NGTech {
 		delete terrain;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    reload all shaders
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::reloadShaders() {
 		GetCache()->reloadShaders();
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets the scene gravity value
-	//Params:  gravity - gravity value
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::setGravity(const Vec3 &_gravity) {
 		GetPhysics()->SetGravity(_gravity);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets the ambient color of the scene
-	//Params:  ambient - pointer to LightAmbient
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::setAmbient(const Vec3 &color) {
 		ambient = color;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets the camera of the scene
-	//Params:  camera - pointer to camera
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::setCamera(Camera *camera) {
 		delete this->camera;
 		this->camera = camera;
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    creates terrain
-	//Params:  
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::setTerrain(const String &path, float step, float height, bool physics) {
 		terrain = new Terrain(path, step, height, 16);
 		terrainLods = Vec3(100, 200, 400);
 		if (physics) terrain->setPhysics();
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets LODS for the terrain
-	//Params:  lods - lods vector
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::setTerrainLods(const Vec3 &lods) {
 		terrain->setLods(lods);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    sets material for the terrain
-	//Params:  mtr - material to set
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::setTerrainMaterial(const String &path) {
 		if (terrain) terrain->setMaterial(path);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    adds new light to scene
-	//Params:  light - pointer to Light to add
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::addLight(Light *light) {
 		lights.push_back(light);
 	}
 
-
-	//---------------------------------------------------------------------------
-	//Desc:    adds new object to scene
-	//Params:  object - pointer to ObjectMeshs to add
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::addObject(Object *object) {
 		objects.push_back(object);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    adds new system to scene
-	//Params:  system - pointer to ParticleSystem to add
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::addParticleSystem(ParticleSystem *system) {
 		systems.push_back(system);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    removes Light from scene
-	//Params:  light - pointer to Light to remove
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::deleteLight(Light *light) {
 		for (int i = 0; i < lights.size(); i++) {
 			if (light == lights[i]) {
@@ -189,11 +146,8 @@ namespace NGTech {
 		}
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    removes ObjectMesh from scene
-	//Params:  object - pointer to ObjectMesh to remove
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::deleteObjectMesh(ObjectMesh *object) {
 		for (int i = 0; i < objects.size(); i++) {
 			if (object == objects[i]) {
@@ -202,11 +156,8 @@ namespace NGTech {
 		}
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    removes ParticleSystem from scene
-	//Params:  system - pointer to ParticleSystem to remove
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::deleteParticleSystem(ParticleSystem *system) {
 		for (int i = 0; i < systems.size(); i++) {
 			if (system == systems[i]) {
@@ -215,27 +166,25 @@ namespace NGTech {
 		}
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    draws the ambient pass
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
-	void Scene::drawAmbient(bool blended) {
-		Frustum frustum;
+	/**
+	*/
+	void Scene::drawAmbient(bool blended)
+	{
 		matLightColor = ambient;
 
 		//DRAW TERRAIN
 		if (terrain && !blended) {
 			Material *mtr = terrain->getMaterial();
 			if (mtr) {
-				frustum.get();
+				frustum->get();
 
 				matMVP = GetRender()->getMatrix_MVP();
 				matLightColor = ambient;
 				if (!mtr->setPass("Ambient")) return;
 
-				for (int n = 0; n < terrain->getNumNodes(); n++)	{
-					if (!frustum.isInside(terrain->getMin(n), terrain->getMax(n)))
+				for (int n = 0; n < terrain->getNumNodes(); n++)
+				{
+					if (!frustum->isInside(terrain->getMin(n), terrain->getMax(n)))
 						continue;
 
 					terrain->drawNode(n, camera->getPosition());
@@ -245,28 +194,27 @@ namespace NGTech {
 			}
 		}
 
-		//DRAW OBJECTS
+	/**
+	draw objects
+	*/
 		for (int m = 0; m < objects.size(); m++) {
 			if (!objects[m]) {
 				continue;
 			}
-			if (objects[m]->getType() == Object::OBJECT) {
-				continue;
-			}
+
 			Object *object = objects[m];
 
 			GetRender()->push();
 			GetRender()->multMatrix(object->getTransform());
 
-			frustum.get();
-			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
+			frustum->get();
+			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
 				GetRender()->pop();
 				continue;
 			}
 
-			//DRAW OBJECT SUBSETS
 			for (int s = 0; s < object->getNumSubsets(); s++) {
-				if (!frustum.isInside(object->getCenter(s), object->getRadius(s)))
+				if (!frustum->isInside(object->getCenter(s), object->getRadius(s)))
 					continue;
 
 				Material *mtr = object->getMaterial(s);
@@ -282,6 +230,7 @@ namespace NGTech {
 				else {
 					if (mtr->passHasBlending("Ambient")) continue;
 				}
+				//mtr->setAlphaTest();
 
 				if (!mtr->setPass("Ambient")) continue;
 
@@ -296,15 +245,10 @@ namespace NGTech {
 		}
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    draws omni lights
-	//Params:  light - omni light to draw
-	//Returns: -
-	//---------------------------------------------------------------------------
-	void Scene::drawOmni(LightPoint *light, bool blended) {
+	/**
+	*/
+	void Scene::drawPoint(LightPoint *light, bool blended) {
 		if (!light->isVisible()) return;
-
-		Frustum frustum;
 
 		//set material params
 		matLightIRadius = light->getIRadius();
@@ -317,14 +261,14 @@ namespace NGTech {
 		if (terrain && !blended) {
 			Material *mtr = terrain->getMaterial();
 			if (mtr) {
-				frustum.get();
+				frustum->get();
 
 				matMVP = GetRender()->getMatrix_MVP();
 #pragma message("TODO:rename param 324,381 lines")
 				if (!mtr->setPass("LightOmni")) return;
 
 				for (int n = 0; n < terrain->getNumNodes(); n++)	{
-					if (!frustum.isInside(terrain->getCenter(n), terrain->getRadius(n))) {
+					if (!frustum->isInside(terrain->getCenter(n), terrain->getRadius(n))) {
 						continue;
 					}
 					if ((light->position - terrain->getCenter(n)).length() >
@@ -342,16 +286,13 @@ namespace NGTech {
 			if (!objects[m]) {
 				continue;
 			}
-			if (objects[m]->getType() == Object::OBJECT) {
-				continue;
-			}
 			Object *object = objects[m];
 
 			GetRender()->push();
 			GetRender()->multMatrix(object->getTransform());
 
-			frustum.get();
-			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
+			frustum->get();
+			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
 				GetRender()->pop();
 				continue;
 			}
@@ -363,8 +304,8 @@ namespace NGTech {
 
 			//DRAW OBJECT SUBSETS
 			for (int s = 0; s < object->getNumSubsets(); s++) {
-				frustum.get();
-				if (!frustum.isInside(object->getCenter(s), object->getRadius(s)))
+				frustum->get();
+				if (!frustum->isInside(object->getCenter(s), object->getRadius(s)))
 					continue;
 
 				Material *mtr = object->getMaterial(s);
@@ -387,22 +328,15 @@ namespace NGTech {
 			}
 			GetRender()->pop();
 		}
-
-
-		//GetRender()->disableScissor();
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    gets omni light shadow map
-	//Params:  light - omni light to get shadow map
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::getOmniShadowMap(LightPoint *light) {
-		if (!light->isVisible() || !light->castShadows || !cvars->r_shadowtype) {
+		if (!light->getShadows() || !light->castShadows || !cvars->r_shadowtype) {
 			return;
 		}
 
-		Frustum frustum;
 
 		GetRender()->setMatrixMode_Projection();
 		GetRender()->push();
@@ -418,12 +352,12 @@ namespace NGTech {
 			shadowFBO->set();
 			shadowFBO->setColorTarget(light->shadowMap, f);
 			shadowFBO->clear();
-			//GetRender()->clearColor(Vec3(1.0, 1.0, 1.0));
 
 			GetRender()->loadMatrix(Mat4::cube(light->position, f));
 
 			//DRAW OBJECTS
-			for (int m = 0; m < objects.size(); m++) {
+			for (int m = 0; m < objects.size(); m++)
+			{
 				if (!objects[m]) {
 					continue;
 				}
@@ -435,8 +369,8 @@ namespace NGTech {
 				GetRender()->push();
 				GetRender()->multMatrix(object->getTransform());
 
-				frustum.get();
-				if (!frustum.isInside(object->getCenter(), object->getRadius())) {
+				frustum->get();
+				if (!frustum->isInside(object->getCenter(), object->getRadius())) {
 					GetRender()->pop();
 					continue;
 				}
@@ -446,13 +380,15 @@ namespace NGTech {
 					continue;
 				}
 
-				//DRAW OBJECT SUBSETS
+				/**
+				draw subsets
+				*/
 				for (int s = 0; s < object->getNumSubsets(); s++) {
 					Material *mtr = object->getMaterial(s);
 					if (!mtr) continue;
 
-					frustum.get();
-					if (!frustum.isInside(object->getCenter(s), object->getRadius(s))) {
+					frustum->get();
+					if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
 						continue;
 					}
 
@@ -467,6 +403,8 @@ namespace NGTech {
 				}
 				GetRender()->pop();
 			}
+			//			light->getShadowMap()->copy(f);
+
 			shadowFBO->flush();
 			shadowFBO->unset();
 		}
@@ -478,15 +416,10 @@ namespace NGTech {
 		GetRender()->pop();
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    draws spot light
-	//Params:  light - spot light to draw
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::drawSpot(LightSpot *light, bool blended) {
 		if (!light->isVisible()) return;
-
-		Frustum frustum;
 
 		light->projTransform = Mat4::texBias() *
 			Mat4::perspective(light->fov, 1, 1, light->radius) *
@@ -503,12 +436,12 @@ namespace NGTech {
 		matSpotTransform = light->projTransform;
 
 		//DRAW TERRAIN
-		if (terrain && !blended) 
+		if (terrain && !blended)
 		{
 			Material *mtr = terrain->getMaterial();
-			if (mtr) 
+			if (mtr)
 			{
-				frustum.get();
+				frustum->get();
 
 				//set material params
 				matMVP = GetRender()->getMatrix_MVP();
@@ -516,7 +449,7 @@ namespace NGTech {
 
 				for (int n = 0; n < terrain->getNumNodes(); n++)	{
 
-					if (!frustum.isInside(terrain->getCenter(n), terrain->getRadius(n))) {
+					if (!frustum->isInside(terrain->getCenter(n), terrain->getRadius(n))) {
 						continue;
 					}
 					if ((light->position - terrain->getCenter(n)).length() >
@@ -531,7 +464,7 @@ namespace NGTech {
 		}
 
 		//DRAW OBJECTS
-		for (int m = 0; m < objects.size(); m++) 
+		for (int m = 0; m < objects.size(); m++)
 		{
 			if (!objects[m]) {
 				continue;
@@ -544,8 +477,8 @@ namespace NGTech {
 			GetRender()->push();
 			GetRender()->multMatrix(object->getTransform());
 
-			frustum.get();
-			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
+			frustum->get();
+			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
 				GetRender()->pop();
 				continue;
 			}
@@ -557,8 +490,8 @@ namespace NGTech {
 
 			//DRAW OBJECT SUBSETS
 			for (int s = 0; s < object->getNumSubsets(); s++) {
-				frustum.get();
-				if (!frustum.isInside(object->getCenter(s), object->getRadius(s))) {
+				frustum->get();
+				if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
 					continue;
 				}
 
@@ -584,17 +517,12 @@ namespace NGTech {
 		}
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    draws spot light shadow map
-	//Params:  light - spot light to get shadow map
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::getSpotShadowMap(LightSpot *light) {
 		if (!light->isVisible() || !light->castShadows || !cvars->r_shadowtype) {
 			return;
 		}
-
-		Frustum frustum;
 
 		matLightIRadius = light->getIRadius();
 		matLightPosition = light->position;
@@ -625,8 +553,8 @@ namespace NGTech {
 			GetRender()->push();
 			GetRender()->multMatrix(object->getTransform());
 
-			frustum.get();
-			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
+			frustum->get();
+			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
 				GetRender()->pop();
 				continue;
 			}
@@ -642,8 +570,8 @@ namespace NGTech {
 
 				if (!mtr) continue;
 
-				frustum.get();
-				if (!frustum.isInside(object->getCenter(s), object->getRadius(s))) {
+				frustum->get();
+				if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
 					continue;
 				}
 
@@ -668,14 +596,9 @@ namespace NGTech {
 		GetRender()->pop();
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    draws direct light
-	//Params:  light - direct light to draw
-	//Returns: -
-	//---------------------------------------------------------------------------
+	/**
+	*/
 	void Scene::drawDirect(LightDirect *light, bool blended) {
-		Frustum frustum;
-
 		//set material params
 		matLightDirection = light->direction;
 		matViewPosition = camera->getPosition();
@@ -689,10 +612,10 @@ namespace NGTech {
 				matMVP = GetRender()->getMatrix_MVP();
 				if (!mtr->setPass("LightDirect")) return;
 
-				frustum.get();
+				frustum->get();
 
 				for (int n = 0; n < terrain->getNumNodes(); n++)	{
-					if (!frustum.isInside(terrain->getCenter(n), terrain->getRadius(n))) {
+					if (!frustum->isInside(terrain->getCenter(n), terrain->getRadius(n))) {
 						continue;
 					}
 
@@ -715,15 +638,15 @@ namespace NGTech {
 			GetRender()->push();
 			GetRender()->multMatrix(object->getTransform());
 
-			frustum.get();
-			if (!frustum.isInside(object->getCenter(), object->getRadius())) {
+			frustum->get();
+			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
 				GetRender()->pop();
 				continue;
 			}
 
 			//DRAW OBJECT SUBSETS
 			for (int s = 0; s < object->getNumSubsets(); s++) {
-				if (!frustum.isInside(object->getCenter(s), object->getRadius(s))) {
+				if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
 					continue;
 				}
 
@@ -750,17 +673,12 @@ namespace NGTech {
 		}
 	}
 
-
-	//---------------------------------------------------------------------------
-	//Desc:    checks omni light visibility
-	//Params:  light - omni light to check
-	//Returns: -
-	//---------------------------------------------------------------------------
-	void Scene::checkOmniVisibility(LightPoint *light) {
-		Frustum frustum;
-
-		frustum.get();
-		if (!frustum.isInside(light->position, light->radius)) {
+	/**
+	*/
+	void Scene::checkOmniVisibility(LightPoint *light)
+	{
+		frustum->get();
+		if (!frustum->isInside(light->position, light->radius)) {
 			light->setVisible(false);
 			return;
 		}
@@ -792,16 +710,13 @@ namespace NGTech {
 		light->setVisible(true);
 	}
 
-	//---------------------------------------------------------------------------
-	//Desc:    checks spot light visibility
-	//Params:  light - spot light to check
-	//Returns: -
-	//---------------------------------------------------------------------------
-	void Scene::checkSpotVisibility(LightSpot *light) {
-		Frustum frustum;
+	/**
+	*/
+	void Scene::checkSpotVisibility(LightSpot *light)
+	{
 
-		frustum.get();
-		if (!frustum.isInside(light->position, light->radius)) {
+		frustum->get();
+		if (!frustum->isInside(light->position, light->radius)) {
 			light->setVisible(false);
 			return;
 		}
@@ -833,7 +748,7 @@ namespace NGTech {
 		light->setVisible(true);
 	}
 
-	/*
+	/**
 	*/
 	void Scene::update() {
 		//---------update-camera-----------------------------------
@@ -854,7 +769,7 @@ namespace NGTech {
 
 			drawAmbient(false);
 
-			for (int i = 0; i < lights.size(); i++) 
+			for (int i = 0; i < lights.size(); i++)
 			{
 				if (lights[i]->isEnable())
 				{
@@ -900,7 +815,7 @@ namespace NGTech {
 				if (lights[i]->isVisible())
 				{
 					if (lights[i]->getType() == Light::LIGHT_OMNI) {
-						drawOmni((LightPoint*)lights[i], false);
+						drawPoint((LightPoint*)lights[i], false);
 					}
 					else if (lights[i]->getType() == Light::LIGHT_SPOT) {
 						drawSpot((LightSpot*)lights[i], false);
@@ -940,13 +855,13 @@ namespace NGTech {
 		}
 	}
 
-	/*
+	/**
 	*/
 	void Scene::updateSound() {
 		GetAudio()->setListener(camera->getPosition(), camera->getDirection());
 	}
 
-	/*
+	/**
 	*/
 	void Scene::render()
 	{
@@ -956,7 +871,7 @@ namespace NGTech {
 			if (lights[i]->isVisible())
 			{
 				if (lights[i]->getType() == Light::LIGHT_OMNI) {
-					drawOmni((LightPoint*)lights[i], true);
+					drawPoint((LightPoint*)lights[i], true);
 				}
 				else if (lights[i]->getType() == Light::LIGHT_SPOT) {
 					drawSpot((LightSpot*)lights[i], true);
@@ -975,52 +890,49 @@ namespace NGTech {
 
 		matMVP = GetRender()->getMatrix_MVP();
 #pragma message("Тормозит,все из-за HDR")
-		/*if (GetCvars()->r_hdr) {
+		if (GetCvars()->r_hdr) {
 			//---------bright-pass--------------------------------
 			viewportFBO->set();
-			viewportFBO->setColorTarget(viewportCopy_brightPass);
 			viewportFBO->clear();
 
 			GetRender()->enable2d(true);
 
-			matViewportMap = viewportCopy;
 			hdr->setPass("BrightPass");
+			matViewportMap = viewportCopy;
 			GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
 			hdr->unsetPass();
 
 			GetRender()->enable3d();
 
-			viewportFBO->flush();
-			viewportFBO->unset();
-
-			//---------bright-pass-blur--------------------------------
-			viewportFBO->set();
-			viewportFBO->setColorTarget(viewportCopy_brightPass_blured);
+			viewportCopy_brightPass->copy();
 			viewportFBO->clear();
 
 			GetRender()->enable2d(true);
 
-			matViewportMap = viewportCopy_brightPass;
 			hdr->setPass("BlurPass");
+			matViewportMap = viewportCopy_brightPass;
 			GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
 			hdr->unsetPass();
 
 			GetRender()->enable3d();
 
-			viewportFBO->flush();
+			viewportCopy_brightPass_blured->copy();
 			viewportFBO->unset();
 
 			//---------draw-bloom-------------------------------
 			GetRender()->enable2d(true);
 			GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 
-			matViewportMap = viewportCopy_brightPass_blured;
 			hdr->setPass("BlurPass");
+			matViewportMap = viewportCopy_brightPass_blured;
 			GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
 			hdr->unsetPass();
 
 			GetRender()->disableBlending();
 			GetRender()->enable3d();
-			}*/
+		}
 	}
+
+	/**
+	*/
 }
