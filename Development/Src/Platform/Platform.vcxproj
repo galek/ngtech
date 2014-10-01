@@ -34,23 +34,20 @@
     <ClCompile Include="src\crashreport\windows\crash_generation\crash_generation_server.cc" />
     <ClCompile Include="src\crashreport\windows\crash_generation\minidump_generator.cc" />
     <ClCompile Include="src\crashreport\windows\handler\exception_handler.cc" />
-    <ClCompile Include="src\glfw\clipboard.c" />
     <ClCompile Include="src\glfw\context.c" />
-    <ClCompile Include="src\glfw\gamma.c" />
     <ClCompile Include="src\glfw\init.c" />
     <ClCompile Include="src\glfw\input.c" />
     <ClCompile Include="src\glfw\joystick.c" />
     <ClCompile Include="src\glfw\monitor.c" />
     <ClCompile Include="src\glfw\time.c" />
     <ClCompile Include="src\glfw\wgl_context.c" />
-    <ClCompile Include="src\glfw\win32_clipboard.c" />
-    <ClCompile Include="src\glfw\win32_gamma.c" />
     <ClCompile Include="src\glfw\win32_init.c" />
-    <ClCompile Include="src\glfw\win32_joystick.c" />
     <ClCompile Include="src\glfw\win32_monitor.c" />
     <ClCompile Include="src\glfw\win32_time.c" />
+    <ClCompile Include="src\glfw\win32_tls.c" />
     <ClCompile Include="src\glfw\win32_window.c" />
     <ClCompile Include="src\glfw\window.c" />
+    <ClCompile Include="src\glfw\winmm_joystick.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\crashreport\common\breakpad_types.h" />
@@ -205,7 +202,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <PreprocessorDefinitions>_NDEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_NDEBUG;_CRT_SECURE_NO_WARNINGS;_GLFW_WIN32;_GLFW_WGL;_GLFW_USE_OPENGL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <DisableSpecificWarnings>4018;4275;4251;4800;4244;4996;4001;4100;4305;4661;4127;4706</DisableSpecificWarnings>

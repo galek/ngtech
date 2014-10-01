@@ -1,7 +1,8 @@
 //========================================================================
-// GLFW 3.0 OS X - www.glfw.org
+// GLFW 3.1 POSIX - www.glfw.org
 //------------------------------------------------------------------------
-// Copyright (c) 2009-2010 Camilla Berglund <elmindreda@elmindreda.org>
+// Copyright (c) 2002-2006 Marcus Geelnard
+// Copyright (c) 2006-2010 Camilla Berglund <elmindreda@elmindreda.org>
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -24,32 +25,33 @@
 //
 //========================================================================
 
-#include "internal.h"
-
-#include <mach/mach_time.h>
-
-
-// Return raw time
-//
-static uint64_t getRawTime(void)
-{
-    return mach_absolute_time();
-}
+#include "glfw/internal.h"
 
 
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
 //////////////////////////////////////////////////////////////////////////
 
-// Initialise timer
-//
-void _glfwInitTimer(void)
+int _glfwInitTLS(void)
 {
-    mach_timebase_info_data_t info;
-    mach_timebase_info(&info);
+    if (pthread_key_create(&_glfw.posix_tls.context, NULL) != 0)
+    {
+        _glfwInputError(GLFW_PLATFORM_ERROR,
+                        "POSIX: Failed to create context TLS");
+        return GL_FALSE;
+    }
 
-    _glfw.ns.timer.resolution = (double) info.numer / (info.denom * 1.0e9);
-    _glfw.ns.timer.base = getRawTime();
+    return GL_TRUE;
+}
+
+void _glfwTerminateTLS(void)
+{
+    pthread_key_delete(_glfw.posix_tls.context);
+}
+
+void _glfwSetCurrentContext(_GLFWwindow* context)
+{
+    pthread_setspecific(_glfw.posix_tls.context, context);
 }
 
 
@@ -57,15 +59,8 @@ void _glfwInitTimer(void)
 //////                       GLFW platform API                      //////
 //////////////////////////////////////////////////////////////////////////
 
-double _glfwPlatformGetTime(void)
+_GLFWwindow* _glfwPlatformGetCurrentContext(void)
 {
-    return (double) (getRawTime() - _glfw.ns.timer.base) *
-        _glfw.ns.timer.resolution;
-}
-
-void _glfwPlatformSetTime(double time)
-{
-    _glfw.ns.timer.base = getRawTime() -
-        (uint64_t) (time / _glfw.ns.timer.resolution);
+    return pthread_getspecific(_glfw.posix_tls.context);
 }
 

@@ -1,5 +1,5 @@
 //========================================================================
-// GLFW 3.1 - www.glfw.org
+// GLFW 3.1 Win32 - www.glfw.org
 //------------------------------------------------------------------------
 // Copyright (c) 2002-2006 Marcus Geelnard
 // Copyright (c) 2006-2010 Camilla Berglund <elmindreda@elmindreda.org>
@@ -25,21 +25,62 @@
 //
 //========================================================================
 
-#include "glfw/internal.h"
+#include "internal.h"
+
+
+// Return raw time
+//
+static unsigned __int64 getRawTime(void)
+{
+    if (_glfw.win32_time.hasPC)
+    {
+        unsigned __int64 time;
+        QueryPerformanceCounter((LARGE_INTEGER*) &time);
+        return time;
+    }
+    else
+        return (unsigned __int64) _glfw_timeGetTime();
+}
 
 
 //////////////////////////////////////////////////////////////////////////
-//////                        GLFW public API                       //////
+//////                       GLFW internal API                      //////
 //////////////////////////////////////////////////////////////////////////
 
-GLFWAPI double glfwGetTime(void)
+// Initialise timer
+//
+void _glfwInitTimer(void)
 {
-    _GLFW_REQUIRE_INIT_OR_RETURN(0.0);
-    return _glfwPlatformGetTime();
+    unsigned __int64 frequency;
+
+    if (QueryPerformanceFrequency((LARGE_INTEGER*) &frequency))
+    {
+        _glfw.win32_time.hasPC = GL_TRUE;
+        _glfw.win32_time.resolution = 1.0 / (double) frequency;
+    }
+    else
+    {
+        _glfw.win32_time.hasPC = GL_FALSE;
+        _glfw.win32_time.resolution = 0.001; // winmm resolution is 1 ms
+    }
+
+    _glfw.win32_time.base = getRawTime();
 }
 
-GLFWAPI void glfwSetTime(double time)
+
+//////////////////////////////////////////////////////////////////////////
+//////                       GLFW platform API                      //////
+//////////////////////////////////////////////////////////////////////////
+
+double _glfwPlatformGetTime(void)
 {
-    _GLFW_REQUIRE_INIT();
-    _glfwPlatformSetTime(time);
+    return (double) (getRawTime() - _glfw.win32_time.base) *
+        _glfw.win32_time.resolution;
 }
+
+void _glfwPlatformSetTime(double time)
+{
+    _glfw.win32_time.base = getRawTime() -
+        (unsigned __int64) (time / _glfw.win32_time.resolution);
+}
+

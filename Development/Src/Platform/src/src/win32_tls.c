@@ -1,7 +1,8 @@
 //========================================================================
-// GLFW 3.0 - www.glfw.org
+// GLFW 3.1 Win32 - www.glfw.org
 //------------------------------------------------------------------------
-// Copyright (c) 2010 Camilla Berglund <elmindreda@elmindreda.org>
+// Copyright (c) 2002-2006 Marcus Geelnard
+// Copyright (c) 2006-2010 Camilla Berglund <elmindreda@elmindreda.org>
 //
 // This software is provided 'as-is', without any express or implied
 // warranty. In no event will the authors be held liable for any damages
@@ -24,27 +25,45 @@
 //
 //========================================================================
 
-#include "glfw/internal.h"
-
-#include <math.h>
-#include <string.h>
+#include "internal.h"
 
 
 //////////////////////////////////////////////////////////////////////////
-//////                        GLFW public API                       //////
+//////                       GLFW internal API                      //////
 //////////////////////////////////////////////////////////////////////////
 
-GLFWAPI void glfwSetClipboardString(GLFWwindow* handle, const char* string)
+int _glfwInitTLS(void)
 {
-    _GLFWwindow* window = (_GLFWwindow*) handle;
-    _GLFW_REQUIRE_INIT();
-    _glfwPlatformSetClipboardString(window, string);
+    _glfw.win32_tls.context = TlsAlloc();
+    if (_glfw.win32_tls.context == TLS_OUT_OF_INDEXES)
+    {
+        _glfwInputError(GLFW_PLATFORM_ERROR,
+                        "Win32: Failed to allocate TLS index");
+        return GL_FALSE;
+    }
+
+    _glfw.win32_tls.allocated = GL_TRUE;
+    return GL_TRUE;
 }
 
-GLFWAPI const char* glfwGetClipboardString(GLFWwindow* handle)
+void _glfwTerminateTLS(void)
 {
-    _GLFWwindow* window = (_GLFWwindow*) handle;
-    _GLFW_REQUIRE_INIT_OR_RETURN(NULL);
-    return _glfwPlatformGetClipboardString(window);
+    if (_glfw.win32_tls.allocated)
+        TlsFree(_glfw.win32_tls.context);
+}
+
+void _glfwSetCurrentContext(_GLFWwindow* context)
+{
+    TlsSetValue(_glfw.win32_tls.context, context);
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//////                       GLFW platform API                      //////
+//////////////////////////////////////////////////////////////////////////
+
+_GLFWwindow* _glfwPlatformGetCurrentContext(void)
+{
+    return TlsGetValue(_glfw.win32_tls.context);
 }
 

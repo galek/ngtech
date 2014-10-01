@@ -471,3 +471,4 @@ GLFWAPI RROutput glfwGetX11Monitor(GLFWmonitor* handle)
     _GLFW_REQUIRE_INIT_OR_RETURN(None);
     return monitor->x11.output;
 }
+
