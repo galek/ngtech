@@ -36,9 +36,6 @@
     <ClInclude Include="IAudio.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="RunObject.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="IScripting.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>

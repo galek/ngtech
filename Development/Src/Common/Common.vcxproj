@@ -269,7 +269,6 @@
     <ClInclude Include="IRender.h" />
     <ClInclude Include="IScripting.h" />
     <ClInclude Include="IWindow.h" />
-    <ClInclude Include="RunObject.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="StringHelper.h" />
     <ClInclude Include="Types.h" />
