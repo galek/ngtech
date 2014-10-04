@@ -19,6 +19,7 @@
 #include "..\Src\Engine\inc\Terrain.h"
 #include "..\Src\Engine\inc\Light.h"
 #include "..\Src\Engine\inc\Effect.h"
+#include "..\Src\Engine\inc\Cache.h"
 
 #include "..\Src\Engine\inc\Font.h"
 #include "..\Src\Engine\inc\GUI.h"

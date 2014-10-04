@@ -23,7 +23,7 @@
 #include "pxtask/PxCudaContextManager.h"
 //***************************************************************************
 #ifdef _DEBUG
-#define ENABLE_PVD 1
+//#define ENABLE_PVD 1
 //#define DEBUG_PHYSICS 1
 #endif
 
@@ -42,7 +42,6 @@ namespace NGTech {
 	PhysSystem::PhysSystem(CVARManager*_info) :
 		info(_info),
 		update_id(0),
-		mNbThreads(1),//PhysX Threads
 		mUpdateJob(nullptr),
 		mFoundation(nullptr),
 		mProfileZoneManager(nullptr),
@@ -100,7 +99,7 @@ namespace NGTech {
 
 		if (!sceneDesc.cpuDispatcher)
 		{
-			mCpuDispatcher = PxDefaultCpuDispatcherCreate(mNbThreads);
+			mCpuDispatcher = PxDefaultCpuDispatcherCreate(1);
 			if (!mCpuDispatcher)
 				Error("PhysSystem::initialise()-PxDefaultCpuDispatcherCreate failed!", true);
 			sceneDesc.cpuDispatcher = mCpuDispatcher;

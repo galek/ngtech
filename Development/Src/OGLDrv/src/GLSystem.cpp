@@ -9,7 +9,6 @@
 #include "glew/wglew.h"
 //***************************************************************************
 #include "../../Platform/inc/glfw/glfw3.h"
-#include "../../Platform/inc/glfw/glfw3native.h"
 //***************************************************************************
 
 namespace NGTech {

@@ -207,7 +207,7 @@ namespace NGTech {
 			game->initialise();
 			Debug("[Init] Game Finished");
 		}
-		
+
 		this->running = true;
 
 		Debug("[Init] All Systems Initialised");
@@ -266,37 +266,24 @@ namespace NGTech {
 
 		if (this->scene)
 			this->scene->update();
-
+		// run multi-threaded sound
 		if (this->scene)
-			this->scene->updateSound();
-
+			this->scene->runUpdate();//Сейчас обновляем только звук
+		
 		if (this->game)
 			this->game->update();
 	}
 
 	/**
 	*/
-	void Engine::do_render() {
-
+	void Engine::do_render() 
+	{
 		// run multi-threaded physics
 		if (!paused)
-		{
-			if (this->physSystem->hasUpdate()) {
-				this->physSystem->runUpdate();
-			}
-		}
+			this->physSystem->runUpdate();
 
 		if (this->scene)
 			this->scene->render();
-
-
-		if (!paused)
-		{
-			// update single-threaded physics
-			if (this->physSystem->hasUpdate() == 0) {
-				this->physSystem->update();
-			}
-		}
 
 		if (this->gui)
 			this->gui->render();
@@ -319,9 +306,11 @@ namespace NGTech {
 	void Engine::do_swap()
 	{
 		// wait multi-threaded physics
-		if (this->physSystem->hasUpdate()) {
-			this->physSystem->waitUpdate();
-		}
+		this->physSystem->waitUpdate();
+
+		// wait multi-threaded sound
+		this->scene->waitUpdate();
+
 		if (this->iRender)
 			this->iRender->endFrame();
 	}

@@ -54,7 +54,6 @@ namespace NGTech {
 		ENGINE_INLINE physx::PxMaterial* GetPxMaterial(){ return mMaterial; }
 		ENGINE_INLINE physx::PxDefaultCpuDispatcher* GetPxDefaultCpuDispatcher(){ return mCpuDispatcher; }
 	public:
-		ENGINE_INLINE int hasUpdate() const { return (mUpdateJob != NULL); }
 		void runUpdate();
 		void waitUpdate();
 		void LockRead();
@@ -92,6 +91,5 @@ namespace NGTech {
 		CVARManager*									info;
 		PhysicsUpdateJob*								mUpdateJob;
 		int update_id;									// update identifier
-		int mNbThreads;
 	};
 }

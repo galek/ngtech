@@ -69,6 +69,10 @@ extern "C" {
 /*************************************************************************
  * System headers and types
  *************************************************************************/
+#ifdef _WIN32
+#define GLFW_EXPOSE_NATIVE_WIN32
+#define GLFW_EXPOSE_NATIVE_WGL
+#endif
 
 #if defined(GLFW_EXPOSE_NATIVE_WIN32)
  // This is a workaround for the fact that glfw3.h needs to export APIENTRY (for

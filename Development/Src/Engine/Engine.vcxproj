@@ -358,6 +358,7 @@
     <ClInclude Include="inc\PhysSystem.h" />
     <ClInclude Include="inc\PhysXUtils.h" />
     <ClInclude Include="inc\Scene.h" />
+    <ClInclude Include="inc\SceneUpdateJob.h" />
     <ClInclude Include="inc\Terrain.h" />
     <ClInclude Include="inc\WindowEvents.h" />
     <ClInclude Include="inc\WindowSystem.h" />
@@ -615,6 +616,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\SceneUpdateJob.cpp" />
     <ClCompile Include="src\Terrain.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">Use</PrecompiledHeader>

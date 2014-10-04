@@ -19,6 +19,7 @@
 
 namespace NGTech {
 
+	class SceneUpdateJob;
 	//---------------------------------------------------------------------------
 	//Desc: class of the scene. Created one time
 	//---------------------------------------------------------------------------
@@ -60,6 +61,11 @@ namespace NGTech {
 		void reloadShaders();
 
 		ENGINE_INLINE Camera *GetActiveCamera() { return camera; }
+
+	public:
+		void runUpdate();
+		void waitUpdate();
+
 	private:
 		void drawAmbient(bool blended);
 
@@ -125,5 +131,9 @@ namespace NGTech {
 		friend class LightDirect;
 
 		friend class Material;
+
+	private:
+		SceneUpdateJob* mUpdateJob;
+		int update_id; // update identifier
 	};
 }

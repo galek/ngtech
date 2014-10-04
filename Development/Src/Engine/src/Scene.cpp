@@ -10,6 +10,8 @@
 #include "Cache.h"
 #include "CvarManager.h"
 //**************************************
+#include "SceneUpdateJob.h"
+//**************************************
 #include "../OGLDrv/inc/GLExtensions.h"//TODO
 
 namespace NGTech {
@@ -18,6 +20,7 @@ namespace NGTech {
 	*/
 	Scene::Scene(CVARManager*_cvars)
 		: cvars(_cvars),
+		mUpdateJob(nullptr),
 		camera(nullptr),
 		frustum(new Frustum()){
 		terrain = NULL;
@@ -26,6 +29,11 @@ namespace NGTech {
 	/**
 	*/
 	void Scene::initialise(){
+
+		Log::writeHeader("-- Scene --");
+		Debug("Scene::initialise");
+		mUpdateJob = new SceneUpdateJob();
+
 		viewportFBO = GetRender()->CreateFBO(512, 512);
 		viewportFBO->createDepthAttachment();
 
@@ -61,6 +69,7 @@ namespace NGTech {
 	*/
 	Scene::~Scene() {
 		clear();
+		SAFE_DELETE(mUpdateJob);
 	}
 
 	/**
@@ -750,7 +759,8 @@ namespace NGTech {
 
 	/**
 	*/
-	void Scene::update() {
+	void Scene::update() 
+	{
 		//---------update-camera-----------------------------------
 		camera->update();
 
@@ -857,7 +867,8 @@ namespace NGTech {
 
 	/**
 	*/
-	void Scene::updateSound() {
+	void Scene::updateSound() 
+	{
 		GetAudio()->setListener(camera->getPosition(), camera->getDirection());
 	}
 
@@ -935,4 +946,17 @@ namespace NGTech {
 
 	/**
 	*/
+	void Scene::runUpdate() {
+		if (mUpdateJob) {
+			update_id = GetEngine()->threads->runJobs(mUpdateJob, sizeof(SceneUpdateJob), 1);
+		}
+	}
+
+	/**
+	*/
+	void Scene::waitUpdate(){
+		if (mUpdateJob) {
+			GetEngine()->threads->waitJobs(update_id);
+		}
+	}
 }

@@ -11,7 +11,7 @@
 
 namespace NGTech {
 
-	class Cache {
+	class CORE_API Cache {
 	public:
 		explicit Cache(CVARManager*_cvars);
 
