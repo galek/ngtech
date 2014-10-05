@@ -15,6 +15,7 @@
 * A copy of the NGTech License Agreement is available by contacting
 * NG Games Ltd. at http://nggames.com/
 */
+//TODO:Навести тут порядок,а то пиздец
 #include "EnginePrivate.h"
 //***************************************************
 #include "Engine.h"
@@ -38,7 +39,10 @@
 #include "GUI.h"
 #include "VFS.h"
 #include "IGame.h"
+//***************************************************
 #include "EngineScriptInterp.h"
+#include "MeshLoader.h"
+#include "MeshFormatXSMSH.h"
 //***************************************************
 #include "../../OGLDRV/inc/GLSystem.h"
 #include "EngineThreads.h"
@@ -102,6 +106,13 @@ namespace NGTech {
 		threads = new EngineThreads();
 		if (!threads)
 			Warning("[Init] EngineThreads Failed");
+
+		meshLoader = new MeshLoader();
+		if (!meshLoader)
+			Warning("[Init] MeshLoader Failed");
+		{
+			meshLoader->RegisterFormat(new MeshFormatXSMSH());
+		}
 #ifndef DROP_EDITOR
 		if (mIsEditor)
 		{

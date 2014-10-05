@@ -21,13 +21,16 @@ namespace NGTech
 		String GetLine();
 		String GetFileExt();
 		String CutFileExt();
+		void Read(void *buf, int size, int count);
 		void WriteString(const String &text);
 		void ScanF(const char * format, ...);
 	private:
 		void _OpenFile(const String&path, int _mode, bool _notSearch);
 	private:
 		FILE *mFile;
+		char *memoryBuffer;
 		String mName;
 		size_t mSize;
+		size_t mCurrentPos;
 	};
 }

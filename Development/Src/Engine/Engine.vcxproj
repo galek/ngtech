@@ -349,6 +349,9 @@
     <ClInclude Include="inc\Light.h" />
     <ClInclude Include="inc\LoadingScreen.h" />
     <ClInclude Include="inc\Material.h" />
+    <ClInclude Include="inc\MeshFormat.h" />
+    <ClInclude Include="inc\MeshFormatXSMSH.h" />
+    <ClInclude Include="inc\MeshLoader.h" />
     <ClInclude Include="inc\Model.h" />
     <ClInclude Include="inc\Object.h" />
     <ClInclude Include="inc\ParticleSystem.h" />
@@ -544,6 +547,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\MeshFormatXSMSH.cpp" />
+    <ClCompile Include="src\MeshLoader.cpp" />
     <ClCompile Include="src\Model.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">Use</PrecompiledHeader>

@@ -6,6 +6,8 @@
 #include "Log.h"
 #include "Frustum.h"
 #include "MathLib.h"
+#include "MeshLoader.h"
+//**************************************
 #include "Error.h"
 //**************************************
 
@@ -13,61 +15,13 @@ namespace NGTech {
 	/**
 	*/
 	Model::Model(const String &path) {
-		if (FileHelper::getFileExt(path) == "nggf")
-			_load(path);
+		_load(path);
 	}
 
 	/**
 	*/
 	void Model::_load(const String &path) {
-		//begin loading
-		VFile mFile(path.c_str());
-
-		char buf[1024];
-
-		mFile.ScanF("%s", buf); //#NG_GRAPHICS_FORMAT
-
-		int numSubsets;
-		mFile.ScanF("\nnum_subsets %i", &numSubsets); //num_subsets
-
-		//process subsets
-		for (int s = 0; s < numSubsets; s++) {
-			Subset *st = new Subset();
-
-			mFile.ScanF("\nsubset %s", st->name);
-
-			//number of vertices
-			mFile.ScanF("\nnum_vertices %i", &st->numVertices);
-			st->vertices = new Vertex[st->numVertices];
-
-			//process vertices
-			for (int v = 0; v < st->numVertices; v++) {
-				mFile.ScanF("%f %f %f %f %f %f %f %f",
-					&st->vertices[v].position.x,
-					&st->vertices[v].position.y,
-					&st->vertices[v].position.z,
-					&st->vertices[v].normal.x,
-					&st->vertices[v].normal.y,
-					&st->vertices[v].normal.z,
-					&st->vertices[v].texcoord.x,
-					&st->vertices[v].texcoord.y);
-			}
-
-			//number of faces
-			mFile.ScanF("\nnum_faces %i", &st->numIndices);
-			st->numIndices *= 3;
-			st->indices = new unsigned int[st->numIndices];
-
-			//process faces
-			for (int i = 0; i < st->numIndices / 3; i++) {
-				mFile.ScanF("%i %i %i",
-					&st->indices[i * 3 + 0],
-					&st->indices[i * 3 + 1],
-					&st->indices[i * 3 + 2]);
-			}
-
-			subsets.push_back(st);
-		}
+		GetEngine()->meshLoader->Load(path, this);
 
 		calculateTBN();
 		createVBO();
@@ -77,7 +31,7 @@ namespace NGTech {
 	/**
 	*/
 	Model::~Model() {
-		for (unsigned int s = 0; s < subsets.size(); s++) {
+		for (unsigned int s = 0; s < numSubsets; s++) {
 			Subset *st = subsets[s];
 
 			delete st->vertBuff;
@@ -90,52 +44,6 @@ namespace NGTech {
 	/**
 	*/
 	void Model::save(const String &path) {
-		FILE *file;
-		file = fopen(path.c_str(), "wt");
-
-		//number of subsets
-
-		fprintf(file, "#NG_GRAPHICS_FORMAT\n\n");
-
-		fprintf(file, "num_subsets %i\n\n", subsets.size()); //num_subsets
-
-		//process subsets
-		for (int s = 0; s < subsets.size(); s++) {
-			Subset *st = subsets[s];
-			fprintf(file, "subset %s\n", st->name);
-
-			fprintf(file, "num_vertices %i\n", st->numVertices);
-
-			//process vertices
-			for (int v = 0; v < st->numVertices; v++) {
-				fprintf(file, "%f %f %f %f %f %f %f %f\n",
-					st->vertices[v].position.x,
-					st->vertices[v].position.y,
-					st->vertices[v].position.z,
-					st->vertices[v].normal.x,
-					st->vertices[v].normal.y,
-					st->vertices[v].normal.z,
-					st->vertices[v].texcoord.x,
-					st->vertices[v].texcoord.y);
-			}
-
-			//number of faces
-
-			fprintf(file, "num_faces %i\n", st->numIndices);
-			st->numIndices *= 3;
-			st->indices = new unsigned int[st->numIndices];
-
-			//process faces
-			for (int i = 0; i < st->numIndices / 3; i++) {
-				fprintf(file, "%i %i %i\n",
-					st->indices[i * 3 + 0],
-					st->indices[i * 3 + 1],
-					st->indices[i * 3 + 2]);
-			}
-			fprintf(file, "\n");
-		}
-
-		fclose(file);
 	}
 
 	/**
@@ -163,7 +71,7 @@ namespace NGTech {
 	/**
 	*/
 	int Model::getSubset(String name) {
-		for (unsigned int s = 0; s < subsets.size(); s++) {
+		for (unsigned int s = 0; s < numSubsets; s++) {
 			if (subsets[s]->name == name)
 				return s;
 		}
@@ -173,10 +81,12 @@ namespace NGTech {
 	/**
 	*/
 	void Model::calculateTBN() {
-		for (int s = 0; s < subsets.size(); s++) {
+		for (int s = 0; s < numSubsets; s++)
+		{
 			Subset *st = subsets[s];
 
-			for (unsigned int iLoop = 0; iLoop < st->numIndices / 3; iLoop++) {
+			for (unsigned int iLoop = 0; iLoop < st->numIndices / 3; iLoop++)
+			{
 				int ind0 = st->indices[iLoop * 3 + 0];
 				int ind1 = st->indices[iLoop * 3 + 1];
 				int ind2 = st->indices[iLoop * 3 + 2];
@@ -191,11 +101,13 @@ namespace NGTech {
 				st->vertices[ind2].normal += n;
 			}
 
-			for (unsigned int vLoop = 0; vLoop < st->numVertices; vLoop++) {
+			for (unsigned int vLoop = 0; vLoop < st->numVertices; vLoop++)
+			{
 				st->vertices[vLoop].normal = Vec3::normalize(st->vertices[vLoop].normal);
 			}
 
-			for (unsigned int iLoop = 0; iLoop < st->numIndices / 3; iLoop++) {
+			for (unsigned int iLoop = 0; iLoop < st->numIndices / 3; iLoop++)
+			{
 				int ind0 = st->indices[iLoop * 3 + 0];
 				int ind1 = st->indices[iLoop * 3 + 1];
 				int ind2 = st->indices[iLoop * 3 + 2];
@@ -237,7 +149,8 @@ namespace NGTech {
 				st->vertices[ind2].binormal += b[2];
 			}
 
-			for (unsigned int vLoop = 0; vLoop < st->numVertices; vLoop++)	{
+			for (unsigned int vLoop = 0; vLoop < st->numVertices; vLoop++)
+			{
 				st->vertices[vLoop].tangent = Vec3::normalize(st->vertices[vLoop].tangent);
 				st->vertices[vLoop].binormal = Vec3::normalize(st->vertices[vLoop].binormal);
 			}
@@ -247,7 +160,7 @@ namespace NGTech {
 	/**
 	*/
 	void Model::calcBoundings() {
-		for (unsigned int s = 0; s < subsets.size(); s++) {
+		for (unsigned int s = 0; s < numSubsets; s++) {
 			Subset *st = subsets[s];
 
 			for (unsigned int v = 0; v < st->numVertices; v++) {
@@ -277,7 +190,7 @@ namespace NGTech {
 		min = subsets[0]->min;
 		max = subsets[0]->max;
 
-		for (int s = 1; s < subsets.size(); s++) {
+		for (int s = 1; s < numSubsets; s++) {
 			Subset *st = subsets[s];
 
 			min.x = min(min.x, st->min.x);
@@ -292,7 +205,7 @@ namespace NGTech {
 		center = (min + max) * 0.5;
 		radius = 0;
 
-		for (int s = 0; s < subsets.size(); s++) {
+		for (int s = 0; s < numSubsets; s++) {
 			Subset *st = subsets[s];
 			for (int v = 0; v < st->numVertices; v++) {
 				radius = max(radius, (st->vertices[v].position - center).length());
@@ -303,7 +216,7 @@ namespace NGTech {
 	/**
 	*/
 	void Model::createVBO() {
-		for (unsigned int s = 0; s < subsets.size(); s++) {
+		for (unsigned int s = 0; s < numSubsets; s++) {
 			Subset *st = subsets[s];
 			st->vertBuff = GetRender()->CreateVBO(st->vertices, st->numVertices, sizeof(Vertex), I_VBManager::FLOAT);
 		}

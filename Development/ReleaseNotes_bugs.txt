@@ -24,4 +24,11 @@ GLFW
 Не все перепортировано для GLFW
 Не откорректировано для NATIVE_WIN
 
-ph_num_threads = 0 не работает
+ВНИМАНИЕ!
+В списке материалов, в matname не должно быть пробелов
+
+Верно: 
+matname = matname.mat
+
+НЕ Верно: 
+mat name = matname.mat

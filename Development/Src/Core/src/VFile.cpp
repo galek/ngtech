@@ -12,7 +12,7 @@ namespace NGTech
 	/**
 	*/
 	VFile::VFile(const char* _name, int _mode, bool _notSearch)
-		:mName(_name)
+		:mName(_name), mCurrentPos(0), mSize(0), memoryBuffer(nullptr)
 	{
 		DebugM("Loading/Search file with name: %s", _name);
 		_OpenFile(_name, _mode, _notSearch);
@@ -21,7 +21,10 @@ namespace NGTech
 	/**
 	*/
 	VFile::~VFile(){
-		fclose(mFile);
+		if (mFile) fclose(mFile);
+		//SAFE_DELETE_ARRAY(memoryBuffer);
+		mSize = 0;
+		mCurrentPos = 0;
 	}
 
 	/**
@@ -36,25 +39,51 @@ namespace NGTech
 	/**
 	*/
 	char* VFile::LoadFile(){
-		char * buffer = NULL;
 		// obtain file size:
 		fseek(mFile, 0, SEEK_END);
 		mSize = ftell(mFile);
 		rewind(mFile);
 
 		// allocate memory to contain the whole file:
-		buffer = new char[sizeof(char)*mSize];
+		memoryBuffer = new char[sizeof(char)*mSize];
 		fseek(mFile, 0, SEEK_SET);
-		fread(buffer, sizeof(char), mSize, mFile);
-		buffer[mSize] = '\0';
+		fread(memoryBuffer, sizeof(char), mSize, mFile);
+		memoryBuffer[mSize] = '\0';
 
-		return buffer;
+		return memoryBuffer;
 	}
 
+	/**
+	*/
+	void VFile::Read(void *buf, int size, int count)
+	{
+		if (mFile)
+			fread(buf, size, count, mFile);
+
+		if (memoryBuffer)
+		{
+			memcpy((char*)buf, (char*)(memoryBuffer)+mCurrentPos, size*count);
+			mCurrentPos += size*count;
+		}
+	}
+
+	/**
+	*/
 	bool VFile::EndOfFile()	{
-		return feof(mFile);
+		if (mFile)
+		{
+			return feof(mFile) != 0;
+		}
+
+		if (memoryBuffer)
+		{
+			return (mCurrentPos > mSize);
+		}
+		return true;
 	}
 
+	/**
+	*/
 	const char*  VFile::GetDataPath() {
 		return GetVFS()->getDataPath(mName).c_str();
 	}

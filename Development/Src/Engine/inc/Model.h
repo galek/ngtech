@@ -21,7 +21,7 @@ namespace NGTech {
 
 		void save(const String &path);
 		void drawSubset(int s);
-		ENGINE_INLINE int getNumSubsets() { return subsets.size(); };
+		ENGINE_INLINE int getNumSubsets() { return numSubsets; };
 		int getSubset(String name);
 
 		ENGINE_INLINE Vec3 &getMax() { return max; };
@@ -40,16 +40,18 @@ namespace NGTech {
 			Vec3 normal;
 			Vec3 tangent;
 			Vec3 binormal;
+			Vec2 lmTexcoord;
 		};
+		bool lmTexcoords;
 
-	private:
+	public:
 		/**
 		Loads Mesh from file
 		*/
 		void _load(const String &path);
 
 		struct Subset {
-			char name[32];
+			std::string name;
 
 			Subset() {
 				vertBuff = NULL;
@@ -73,7 +75,8 @@ namespace NGTech {
 			bool visible;
 		};
 
-		std::vector<Subset*> subsets;
+		unsigned int numSubsets;
+		Subset **subsets;
 
 		Vec3 min, max;
 		Vec3 center;
