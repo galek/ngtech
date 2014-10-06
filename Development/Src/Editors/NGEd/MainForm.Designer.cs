@@ -50,6 +50,7 @@
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.codeEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logicEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.simulateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,7 +63,6 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.logicEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -119,15 +119,22 @@
             this.codeEditorToolStripMenuItem,
             this.logicEditorToolStripMenuItem});
             this.editorsToolStripMenuItem.Name = "editorsToolStripMenuItem";
-            this.editorsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editorsToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.editorsToolStripMenuItem.Text = "Editors";
             // 
             // codeEditorToolStripMenuItem
             // 
             this.codeEditorToolStripMenuItem.Name = "codeEditorToolStripMenuItem";
-            this.codeEditorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.codeEditorToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.codeEditorToolStripMenuItem.Text = "Code Editor";
             this.codeEditorToolStripMenuItem.Click += new System.EventHandler(this.codeEditorToolStripMenuItem_Click);
+            // 
+            // logicEditorToolStripMenuItem
+            // 
+            this.logicEditorToolStripMenuItem.Name = "logicEditorToolStripMenuItem";
+            this.logicEditorToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.logicEditorToolStripMenuItem.Text = "Logic Editor";
+            this.logicEditorToolStripMenuItem.Click += new System.EventHandler(this.logicEditorToolStripMenuItem_Click);
             // 
             // gameToolStripMenuItem
             // 
@@ -292,13 +299,6 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // logicEditorToolStripMenuItem
-            // 
-            this.logicEditorToolStripMenuItem.Name = "logicEditorToolStripMenuItem";
-            this.logicEditorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.logicEditorToolStripMenuItem.Text = "Logic Editor";
-            this.logicEditorToolStripMenuItem.Click += new System.EventHandler(this.logicEditorToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -332,7 +332,7 @@
         private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel4;
         private System.Windows.Forms.ToolStrip toolStrip1;
 
-        
+
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;

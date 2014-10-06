@@ -49,9 +49,27 @@ namespace NGEd
 
         private void splitContainer1_Panel1_MouseDown(object sender, MouseEventArgs e)
         {
-            var grab = this.engine.isGrabbed();
-            this.engine.SetGrabbed(!grab);
+            if (this.engine != null)
+            {
+                var grab = this.engine.isGrabbed();
+                this.engine.SetGrabbed(!grab);
+            }
         }
+
+        protected override bool ProcessKeyPreview(ref Message msg)
+        {
+            const int WM_KEYUP = 0x0101;
+            const int WM_KEYDOWN = 0x0100;
+
+            if (msg.Msg == WM_KEYDOWN)
+                this.engine.KeyDown((int)(Keys)msg.WParam);
+            else if (msg.Msg == WM_KEYUP)
+                this.engine.KeyUp((int)(Keys)msg.WParam);
+
+            return base.ProcessKeyPreview(ref msg);
+        }
+
+
         private void splitContainer1_Panel1_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -66,7 +84,8 @@ namespace NGEd
         }
         private void splitContainer1_Panel1_MouseUp(object sender, MouseEventArgs e)
         {
-            this.engine.SetGrabbed(false);
+            if (this.engine != null)
+                this.engine.SetGrabbed(false);
         }
 
         private void CameraActions(int _action, int x, int y)
@@ -92,7 +111,8 @@ namespace NGEd
 
         private void simulateToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            this.engine.PauseEngine(!simulateToolStripMenuItem.Checked);
+            if (this.engine != null)
+                this.engine.PauseEngine(!simulateToolStripMenuItem.Checked);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -104,7 +124,8 @@ namespace NGEd
             openFileDialog1.RestoreDirectory = true;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                this.engine.LoadEngineFormat(openFileDialog1.SafeFileName); 
+                if (this.engine != null)
+                    this.engine.LoadEngineFormat(openFileDialog1.SafeFileName);
             }
         }
 
@@ -112,7 +133,7 @@ namespace NGEd
         {
             if (mLogicEditor == null)
                 mLogicEditor = new GraphNodes.LogicEditorForm();
-            mLogicEditor.ShowDialog();
+            mLogicEditor.Show();
         }
     }
 }

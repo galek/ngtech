@@ -243,7 +243,19 @@ namespace NGTech {
 		\return true if was released
 		*/
 		virtual bool isKeyUp(const char*  key);
-		
+
+		/**
+		*/
+		ENGINE_INLINE virtual void setKeyDown(int _value){
+			keys[_value] = true;
+		}
+
+		/**
+		*/
+		ENGINE_INLINE virtual void setKeyUp(int _value){
+			keys[_value] = false;
+		}
+
 		/**
 		*/
 		virtual const int Input_GetKeyValueByChar(const char*  _p);

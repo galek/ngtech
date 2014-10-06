@@ -110,6 +110,12 @@ namespace NGTech {
 		virtual bool isKeyUp(const char* key) = 0;
 		/**
 		*/
+		virtual void setKeyDown(int _value) = 0;
+		/**
+		*/
+		virtual void setKeyUp(int _value) = 0;
+		/**
+		*/
 		virtual void showOSCursor(int _value) = 0;
 		/**
 		*/

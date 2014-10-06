@@ -65,6 +65,16 @@ namespace EngineCLR {
 			return false;
 		}
 
+		void KeyDown(int _key)
+		{
+			GetWindow()->setKeyDown(_key);
+		}
+
+		void KeyUp(int _key)
+		{
+			GetWindow()->setKeyUp(_key);
+		}
+
 		void CameraSetDirection(int x, int y)
 		{
 			posX = x;

@@ -159,8 +159,14 @@ namespace NGTech {
 		/**
 		*/
 		virtual void DisableVSync(int);
+
 		/**
 		*/
+		virtual void setKeyDown(int _value);
+
+		/**
+		*/
+		virtual void setKeyUp(int _value);
 	private:
 		/**
 		*/
