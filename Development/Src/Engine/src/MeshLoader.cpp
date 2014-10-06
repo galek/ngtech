@@ -42,11 +42,8 @@ namespace NGTech
 	*/
 	void MeshLoader::Load(const String &path, Model *mesh)
 	{
-		Warning("MeshLoader::Load");
 		VFile file(path.c_str());
 		auto ext = file.GetFileExt();
-
-		Warning(ext.c_str());
 
 		for (int i = 0; i < formats.size(); i++)
 		{

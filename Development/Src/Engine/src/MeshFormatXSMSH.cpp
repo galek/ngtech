@@ -40,7 +40,6 @@ namespace NGTech
 	*/
 	void MeshFormatXSMSH::Load(const std::string &path, Model *mesh)
 	{
-		Warning("Load");
 		//begin loading
 		VFile file(path.c_str());
 		//buffer

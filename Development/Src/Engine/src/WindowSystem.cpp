@@ -649,14 +649,12 @@ namespace NGTech {
 	/**
 	*/
 	void WindowSystem::setKeyDown(int _value){
-		Warning("KeyDown");
 		keys[_value] = true;
 	}
 
 	/**
 	*/
 	void WindowSystem::setKeyUp(int _value){
-		Warning("KeyUp");
 		keys[_value] = false;
 	}
 #endif
