@@ -56,15 +56,21 @@ namespace NGEd
             }
         }
 
+        /**
+        */
         protected override bool ProcessKeyPreview(ref Message msg)
         {
             const int WM_KEYUP = 0x0101;
             const int WM_KEYDOWN = 0x0100;
 
             if (msg.Msg == WM_KEYDOWN)
+            {
                 this.engine.KeyDown((int)(Keys)msg.WParam);
+            }
             else if (msg.Msg == WM_KEYUP)
+            {
                 this.engine.KeyUp((int)(Keys)msg.WParam);
+            }
 
             return base.ProcessKeyPreview(ref msg);
         }

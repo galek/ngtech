@@ -71,11 +71,7 @@ namespace EngineCLR {
 				GetWindow()->setKeyDown(_key);
 		}
 
-		void KeyUp(int _key)
-		{
-			if ((mGrabbed))
-				GetWindow()->setKeyUp(_key);
-		}
+		ENGINE_INLINE void KeyUp(int _key)	{ GetWindow()->setKeyUp(_key); }
 
 		void CameraSetDirection(int x, int y)
 		{
@@ -91,8 +87,6 @@ namespace EngineCLR {
 		ENGINE_INLINE bool isGrabbed() { return mGrabbed; }
 
 		ENGINE_INLINE void SetShowCursor(bool _s) { GetWindow()->showOSCursor(_s); }
-
-		ENGINE_INLINE void CameraPlusVector(float _x, float _y, float _z) { GetScene()->GetActiveCamera()->setPosition(GetScene()->GetActiveCamera()->getPosition() += Vec3(_x, _y, _z)); }
 
 		ENGINE_INLINE void PauseEngine(bool _s) { API_PauseEngine(_s); }
 

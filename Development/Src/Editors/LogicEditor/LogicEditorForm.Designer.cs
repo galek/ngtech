@@ -141,7 +141,7 @@
 			this.Controls.Add(this.graphControl);
 			this.DoubleBuffered = true;
 			this.Name = "ExampleForm";
-			this.Text = "Form1";
+			this.Text = "Logic Editor";
 			this.nodeMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
