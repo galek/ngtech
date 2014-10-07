@@ -37,12 +37,12 @@ namespace EngineCLR {
 			MouseGrab(false);
 			PauseEngine(true);
 		}
-		bool isInited()
+		ENGINE_INLINE bool isInited()
 		{
 			return mInited;
 		}
 
-		void Update() {
+		ENGINE_INLINE void Update() {
 			if (engine) {
 				engine->Update();
 			}
@@ -67,12 +67,14 @@ namespace EngineCLR {
 
 		void KeyDown(int _key)
 		{
-			GetWindow()->setKeyDown(_key);
+			if ((mGrabbed))
+				GetWindow()->setKeyDown(_key);
 		}
 
 		void KeyUp(int _key)
 		{
-			GetWindow()->setKeyUp(_key);
+			if ((mGrabbed))
+				GetWindow()->setKeyUp(_key);
 		}
 
 		void CameraSetDirection(int x, int y)
