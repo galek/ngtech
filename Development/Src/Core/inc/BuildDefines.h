@@ -31,4 +31,8 @@
 //#define DROP_EDITOR 1
 #endif
 
+#ifndef USE_STEAMWORKS
+#define USE_STEAMWORKS 1
+#endif
+
 #endif

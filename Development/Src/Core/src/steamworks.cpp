@@ -1,7 +1,7 @@
 #include "CorePrivate.h"
 
 #ifdef USE_STEAMWORKS
-#include "steamworks/public/steam/steam_api.h"
+#include "steamworks/steam/steam_api.h"
 
 
 #ifdef STEAM_CEG
@@ -20,7 +20,7 @@
 #define _getcwd getcwd
 #endif
 
-#pragma comment(lib,"steam_api")
+#pragma comment(lib,"steam_api.lib")
 
 namespace NGTech
 {
