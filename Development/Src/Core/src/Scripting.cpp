@@ -9,6 +9,7 @@
 #include "../Common/IDataManager.h"
 //***************************************************
 #include "WrappedScriptFunctions.h"
+#include "SteamWorks_API.h"
 //***************************************************
 
 namespace NGTech{
@@ -426,6 +427,20 @@ namespace NGTech{
 				def("GetScene", &GetScene),
 				def("GetGame", &GetGame),
 				def("GetScripting", &GetScripting)*/
+			];
+	}
+
+	/**
+	*/
+	void CoreScriptInterp::bindSteamWorks() {
+		using namespace luabind;
+		using namespace NGTech;
+		module(mLuaState)
+			[
+				def("API_SteamWorks_SetAchievement", &API_SteamWorks_SetAchievement),
+				def("API_SteamWorks_DeleteAchievement", &API_SteamWorks_DeleteAchievement),
+				def("API_SteamWorks_SetStat", &API_SteamWorks_SetStat),
+				def("API_SteamWorks_GetStat", &API_SteamWorks_GetStat)
 			];
 	}
 }

@@ -83,4 +83,9 @@ namespace NGTech {
 
 	/**
 	*/
+#ifdef USE_STEAMWORKS
+	SteamWorksMgr* GetSteamworksStats()	{
+		return GetCore()->steamworks;
+	}
+#endif
 }

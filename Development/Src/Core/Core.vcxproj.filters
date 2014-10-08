@@ -28,6 +28,12 @@
     <Filter Include="Заголовочные файлы\adl">
       <UniqueIdentifier>{00b167ee-4656-47b7-ad8c-86ed6b7026ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы исходного кода\steamworks">
+      <UniqueIdentifier>{006047c9-e7ff-4c1c-adb2-14ab6e1ab6ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\steamworks">
+      <UniqueIdentifier>{d9ed91af-621b-471e-9ac2-64f4323bf167}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\BuildDefines.h">
@@ -471,6 +477,15 @@
     <ClInclude Include="inc\adl\adl_structures.h">
       <Filter>Заголовочные файлы\adl</Filter>
     </ClInclude>
+    <ClInclude Include="inc\StatsAndAchievements.h">
+      <Filter>Заголовочные файлы\steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\SteamWorksMgr.h">
+      <Filter>Заголовочные файлы\steamworks</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\SteamWorks_API.h">
+      <Filter>Заголовочные файлы\steamworks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Config.cpp">
@@ -689,17 +704,26 @@
     <ClCompile Include="src\lua\LuaError.cpp">
       <Filter>Файлы исходного кода\lua</Filter>
     </ClCompile>
-    <ClCompile Include="src\Additions.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="src\steamworks.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="src\iLSystem.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="src\ati_eyefinity.cpp">
       <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ExternalAdditions.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Additions.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\steamworks.cpp">
+      <Filter>Файлы исходного кода\steamworks</Filter>
+    </ClCompile>
+    <ClCompile Include="src\steamworks_userstats.cpp">
+      <Filter>Файлы исходного кода\steamworks</Filter>
+    </ClCompile>
+    <ClCompile Include="src\steamworks_api.cpp">
+      <Filter>Файлы исходного кода\steamworks</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

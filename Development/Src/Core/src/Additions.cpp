@@ -1,44 +1,29 @@
 #include "CorePrivate.h"
 
 
-namespace NGTech {
+namespace NGTech 
+{
+
 	/**
 	*/
-	void ILSystemInit();
-	/**
-	*/
-#ifdef USE_STEAMWORKS
+	void DestroyAdditions();
+	bool InitAdditions();
+
 	/**
 	SteamWorks
 	*/
-	bool InitSteamWorks();
-	void DestroySteamWorks();
+#ifdef USE_STEAMWORKS
+	struct SteamWorksMgr* InitSteamWorks();
 #endif
-#ifdef USE_OWN_MINIDUMP
-	bool InitMiniDump();
-#endif
+
 	/**
 	*/
-	bool InitAdditions()
+	bool CoreManager::_InitAdditions()
 	{
 #ifdef USE_STEAMWORKS
-		if(!InitSteamWorks())
+		if (!InitSteamWorks())
 			return false;
 #endif
-
-#ifdef USE_OWN_MINIDUMP
-		if (!InitMiniDump())
-			return false;
-#endif
-		ILSystemInit();
-		return true;
-	}
-
-	/**
-	*/
-	void DestroyAdditions(){
-#ifdef USE_STEAMWORKS
-		DestroySteamWorks();
-#endif
+		return InitAdditions();
 	}
 }

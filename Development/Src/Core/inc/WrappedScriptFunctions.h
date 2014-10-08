@@ -1,5 +1,7 @@
 #pragma once
+
 #include <string>
+
 namespace NGTech
 {
 	void ScriptLogPrintf(std::string str);

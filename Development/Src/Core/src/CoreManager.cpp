@@ -1,42 +1,43 @@
 #include "CorePrivate.h"
 #include "CoreManager.h"
 
+#include "SteamWorksMgr.h"
+#include "StatsAndAchievements.h"
+
 namespace NGTech {
+
 	/**
 	*/
 	void DestroyAdditions();
-	bool InitAdditions();
+
 	/**
 	*/
 	CoreManager::CoreManager()
-		:paused(false),
-		mIsEditor(false),
-		iWindow(nullptr),
-		iRender(nullptr),
-		cvars(nullptr),
-		log(nullptr),
-		config(nullptr),
-		vfs(nullptr),
-		alSystem(nullptr),
-		physSystem(nullptr),
-		cache(nullptr),
-		gui(nullptr),
-		scene(nullptr),
-		scripting(nullptr),
-		mWatermarkTex(nullptr),
+		:paused(false), mIsEditor(false), iWindow(nullptr),
+		iRender(nullptr), cvars(nullptr), log(nullptr),
+		config(nullptr), vfs(nullptr), alSystem(nullptr),
+		physSystem(nullptr), cache(nullptr), gui(nullptr),
+		scene(nullptr), scripting(nullptr), mWatermarkTex(nullptr),
+#ifdef USE_STEAMWORKS
+		steamworks(nullptr),
+#endif
 		running(false)
 	{
 		SetCore(this);
 #ifndef _ENGINE_DEBUG_
-		if (!InitAdditions())
+		if (!_InitAdditions())
 			exit(0);
 #else
-		InitAdditions();
+		_InitAdditions();
 #endif
 	}
+
 	/**
 	*/
 	CoreManager::~CoreManager(){
+#ifdef USE_STEAMWORKS
+		SAFE_DELETE(steamworks);
+#endif
 		DestroyAdditions();
 	}
 }

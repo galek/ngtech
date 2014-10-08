@@ -22,6 +22,7 @@ namespace NGTech{
 		void bindLogFunctions();
 		void bindCoreFunctions();
 		void bindMathFunctions();
+		void bindSteamWorks();
 	private:
 		lua_State *mLuaState;
 	};

@@ -1,8 +1,12 @@
 #include "CorePrivate.h"
 
+//**************************************
 #ifdef USE_STEAMWORKS
 #include "steamworks/steam/steam_api.h"
-
+//**************************************
+#include "SteamWorksMgr.h"
+#include "StatsAndAchievements.h"
+//**************************************
 
 #ifdef STEAM_CEG
 // Steam DRM header file
@@ -58,8 +62,9 @@ namespace NGTech
 
 	/**
 	*/
-	bool InitSteamWorks()
+	SteamWorksMgr* InitSteamWorks()
 	{
+		static SteamWorksMgr steam;
 		if (SteamAPI_RestartAppIfNecessary(k_uAppIdInvalid))
 			return false;
 
@@ -67,14 +72,14 @@ namespace NGTech
 		{
 			::OutputDebugString("Steamworks_InitCEGLibrary() failed\n");
 			Alert("Fatal Error", "Steam must be running to play this game.\n");
-			return false;
+			return NULL;
 		}
 
 		if (!SteamAPI_Init())
 		{
 			::OutputDebugString("SteamAPI_Init() failed\n");
 			Alert("Fatal Error", "Steam must be running to play this game.\n");
-			return false;
+			return NULL;
 		}
 
 		SteamClient()->SetWarningMessageHook(&SteamAPIDebugTextHook);
@@ -82,7 +87,10 @@ namespace NGTech
 
 		// do a DRM self check
 		Steamworks_SelfCheck();
-		return true;
+
+		//Inition of Stats And Achievements
+		steam.stats = &StatsAndAchievements();
+		return &steam;
 	}
 
 	/**
