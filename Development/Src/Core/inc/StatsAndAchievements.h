@@ -20,15 +20,15 @@ namespace NGTech
 		/**
 		Добавляем пользователю ачивку
 		*/
-		bool SetAchievement(const char* ID);
+		bool SetAchievement(const char* API_NAME);
 		/**
 		Удаляем у пользователя ачивку
 		*/
-		bool DeleteAchievement(const char* ID);
+		bool DeleteAchievement(const char* API_NAME);
 		/**
 		Устанавливаем статистику
 		*/
-		void SetStat(const char* API_NAME, int _value);
+		void SetStat(const char* _name, int _value);
 		/**
 		Получаем статистику
 		*/
