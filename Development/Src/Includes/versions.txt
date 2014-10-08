@@ -1,4 +1,0 @@
-freetype-2.5.0.1
-MyGUI_3.2.0
-DevIL 1.78
-Newton 2.36

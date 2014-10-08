@@ -73,6 +73,9 @@
     <Filter Include="ResIL\ResIL\Source">
       <UniqueIdentifier>{d548eb19-af4e-48ac-b2f2-8f11a4c3824a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="OpenAl\backends">
+      <UniqueIdentifier>{7b0178b2-eb20-4738-ba55-390d164bc595}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="libogg\src\bitwise.c">
@@ -1161,6 +1164,174 @@
     <ClCompile Include="ResIL\src-IL\src\il_xpm.cpp">
       <Filter>ResIL\ResIL\Source</Filter>
     </ClCompile>
+    <ClCompile Include="openal\OpenAL32\alAuxEffectSlot.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\OpenAL32\alBuffer.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\OpenAL32\alEffect.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\OpenAL32\alError.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\OpenAL32\alExtension.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\OpenAL32\alFilter.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\OpenAL32\alFontsound.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\OpenAL32\alListener.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\OpenAL32\alPreset.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\OpenAL32\alSoundfont.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\OpenAL32\alSource.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\OpenAL32\alState.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\OpenAL32\alThunk.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\OpenAL32\sample_cvt.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\common\atomic.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\common\rwlock.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\common\threads.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\common\uintmap.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\ALc.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\alcConfig.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\alcRing.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\ALu.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\bs2b.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\helpers.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\hrtf.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\panning.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\midi\base.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\midi\fluidsynth.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\midi\sf2load.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\effects\autowah.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\effects\chorus.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\effects\compressor.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\effects\dedicated.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\effects\distortion.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\effects\echo.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\effects\equalizer.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\effects\flanger.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\effects\modulator.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\effects\null.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\effects\reverb.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\backends\dsound.c">
+      <Filter>OpenAl\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\backends\loopback.c">
+      <Filter>OpenAl\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\backends\mmdevapi.c">
+      <Filter>OpenAl\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\backends\wave.c">
+      <Filter>OpenAl\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\backends\winmm.c">
+      <Filter>OpenAl\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\mixer_c.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\mixer_sse.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\backends\baseBackEnd.c">
+      <Filter>OpenAl\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\OpenAL32\alMidi.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\midi\dummy.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\mixer.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\mixer_inc.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\mixer_sse2.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\mixer_sse41.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\midi\soft.c">
+      <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\backends\null_backend.c">
+      <Filter>OpenAl\backends</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libogg\include\ogg\ogg.h">
@@ -1747,6 +1918,105 @@
     </ClInclude>
     <ClInclude Include="ResIL\include\IL\devil_internal_exports.h">
       <Filter>ResIL\ResIL\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\include\align.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\include\atomic.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\include\bool.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\include\rwlock.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\include\static_assert.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\include\threads.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\include\uintmap.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\include\AL\al.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\include\AL\alc.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\include\AL\alext.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\include\AL\efx.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\include\AL\efx-creative.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\include\AL\efx-presets.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\OpenAL32\Include\alAuxEffectSlot.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\OpenAL32\Include\alBuffer.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\OpenAL32\Include\alEffect.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\OpenAL32\Include\alError.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\OpenAL32\Include\alFilter.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\OpenAL32\Include\alListener.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\OpenAL32\Include\alMain.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\OpenAL32\Include\alSource.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\OpenAL32\Include\alThunk.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\OpenAL32\Include\alu.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\OpenAL32\Include\bs2b.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\OpenAL32\Include\sample_cvt.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\Alc\alstring.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\Alc\compat.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\Alc\evtqueue.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\Alc\hrtf.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\Alc\mixer_defs.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\Alc\vector.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\Alc\midi\base.h">
+      <Filter>OpenAl</Filter>
+    </ClInclude>
+    <ClInclude Include="openal\Alc\backends\base.h">
+      <Filter>OpenAl\backends</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

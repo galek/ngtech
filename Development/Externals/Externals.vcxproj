@@ -52,6 +52,62 @@
     <ClCompile Include="libvorbis\lib\vorbisenc.c" />
     <ClCompile Include="libvorbis\lib\vorbisfile.c" />
     <ClCompile Include="libvorbis\lib\window.c" />
+    <ClCompile Include="openal\Alc\ALc.c" />
+    <ClCompile Include="openal\Alc\alcConfig.c" />
+    <ClCompile Include="openal\Alc\alcRing.c" />
+    <ClCompile Include="openal\Alc\ALu.c" />
+    <ClCompile Include="openal\Alc\backends\baseBackEnd.c" />
+    <ClCompile Include="openal\Alc\backends\dsound.c" />
+    <ClCompile Include="openal\Alc\backends\loopback.c" />
+    <ClCompile Include="openal\Alc\backends\mmdevapi.c" />
+    <ClCompile Include="openal\Alc\backends\null_backend.c" />
+    <ClCompile Include="openal\Alc\backends\wave.c" />
+    <ClCompile Include="openal\Alc\backends\winmm.c" />
+    <ClCompile Include="openal\Alc\bs2b.c" />
+    <ClCompile Include="openal\Alc\effects\autowah.c" />
+    <ClCompile Include="openal\Alc\effects\chorus.c" />
+    <ClCompile Include="openal\Alc\effects\compressor.c" />
+    <ClCompile Include="openal\Alc\effects\dedicated.c" />
+    <ClCompile Include="openal\Alc\effects\distortion.c" />
+    <ClCompile Include="openal\Alc\effects\echo.c" />
+    <ClCompile Include="openal\Alc\effects\equalizer.c" />
+    <ClCompile Include="openal\Alc\effects\flanger.c" />
+    <ClCompile Include="openal\Alc\effects\modulator.c" />
+    <ClCompile Include="openal\Alc\effects\null.c" />
+    <ClCompile Include="openal\Alc\effects\reverb.c" />
+    <ClCompile Include="openal\Alc\helpers.c" />
+    <ClCompile Include="openal\Alc\hrtf.c" />
+    <ClCompile Include="openal\Alc\midi\base.c" />
+    <ClCompile Include="openal\Alc\midi\dummy.c" />
+    <ClCompile Include="openal\Alc\midi\fluidsynth.c" />
+    <ClCompile Include="openal\Alc\midi\sf2load.c" />
+    <ClCompile Include="openal\Alc\midi\soft.c" />
+    <ClCompile Include="openal\Alc\mixer.c" />
+    <ClCompile Include="openal\Alc\mixer_c.c" />
+    <ClCompile Include="openal\Alc\mixer_inc.c" />
+    <ClCompile Include="openal\Alc\mixer_sse.c" />
+    <ClCompile Include="openal\Alc\mixer_sse2.c" />
+    <ClCompile Include="openal\Alc\mixer_sse41.c" />
+    <ClCompile Include="openal\Alc\panning.c" />
+    <ClCompile Include="openal\common\atomic.c" />
+    <ClCompile Include="openal\common\rwlock.c" />
+    <ClCompile Include="openal\common\threads.c" />
+    <ClCompile Include="openal\common\uintmap.c" />
+    <ClCompile Include="openal\OpenAL32\alAuxEffectSlot.c" />
+    <ClCompile Include="openal\OpenAL32\alBuffer.c" />
+    <ClCompile Include="openal\OpenAL32\alEffect.c" />
+    <ClCompile Include="openal\OpenAL32\alError.c" />
+    <ClCompile Include="openal\OpenAL32\alExtension.c" />
+    <ClCompile Include="openal\OpenAL32\alFilter.c" />
+    <ClCompile Include="openal\OpenAL32\alFontsound.c" />
+    <ClCompile Include="openal\OpenAL32\alListener.c" />
+    <ClCompile Include="openal\OpenAL32\alMidi.c" />
+    <ClCompile Include="openal\OpenAL32\alPreset.c" />
+    <ClCompile Include="openal\OpenAL32\alSoundfont.c" />
+    <ClCompile Include="openal\OpenAL32\alSource.c" />
+    <ClCompile Include="openal\OpenAL32\alState.c" />
+    <ClCompile Include="openal\OpenAL32\alThunk.c" />
+    <ClCompile Include="openal\OpenAL32\sample_cvt.c" />
     <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_cm.c" />
     <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_debug.c" />
     <ClCompile Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\base\jas_getopt.c" />
@@ -508,6 +564,39 @@
     <ClInclude Include="libvorbis\lib\scales.h" />
     <ClInclude Include="libvorbis\lib\smallft.h" />
     <ClInclude Include="libvorbis\lib\window.h" />
+    <ClInclude Include="openal\Alc\alstring.h" />
+    <ClInclude Include="openal\Alc\backends\base.h" />
+    <ClInclude Include="openal\Alc\compat.h" />
+    <ClInclude Include="openal\Alc\evtqueue.h" />
+    <ClInclude Include="openal\Alc\hrtf.h" />
+    <ClInclude Include="openal\Alc\midi\base.h" />
+    <ClInclude Include="openal\Alc\mixer_defs.h" />
+    <ClInclude Include="openal\Alc\vector.h" />
+    <ClInclude Include="openal\include\align.h" />
+    <ClInclude Include="openal\include\AL\al.h" />
+    <ClInclude Include="openal\include\AL\alc.h" />
+    <ClInclude Include="openal\include\AL\alext.h" />
+    <ClInclude Include="openal\include\AL\efx-creative.h" />
+    <ClInclude Include="openal\include\AL\efx-presets.h" />
+    <ClInclude Include="openal\include\AL\efx.h" />
+    <ClInclude Include="openal\include\atomic.h" />
+    <ClInclude Include="openal\include\bool.h" />
+    <ClInclude Include="openal\include\rwlock.h" />
+    <ClInclude Include="openal\include\static_assert.h" />
+    <ClInclude Include="openal\include\threads.h" />
+    <ClInclude Include="openal\include\uintmap.h" />
+    <ClInclude Include="openal\OpenAL32\Include\alAuxEffectSlot.h" />
+    <ClInclude Include="openal\OpenAL32\Include\alBuffer.h" />
+    <ClInclude Include="openal\OpenAL32\Include\alEffect.h" />
+    <ClInclude Include="openal\OpenAL32\Include\alError.h" />
+    <ClInclude Include="openal\OpenAL32\Include\alFilter.h" />
+    <ClInclude Include="openal\OpenAL32\Include\alListener.h" />
+    <ClInclude Include="openal\OpenAL32\Include\alMain.h" />
+    <ClInclude Include="openal\OpenAL32\Include\alSource.h" />
+    <ClInclude Include="openal\OpenAL32\Include\alThunk.h" />
+    <ClInclude Include="openal\OpenAL32\Include\alu.h" />
+    <ClInclude Include="openal\OpenAL32\Include\bs2b.h" />
+    <ClInclude Include="openal\OpenAL32\Include\sample_cvt.h" />
     <ClInclude Include="ResIL\include\IL\devil_internal_exports.h" />
     <ClInclude Include="ResIL\include\IL\il.h" />
     <ClInclude Include="ResIL\Input Libs\jasper-1.900.1\src\libjasper\bmp\bmp_cod.h" />
@@ -758,8 +847,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>devil/src-IL/include;devil/src-ILU/include;devil/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502;restrict=;strcasecmp=_stricmp;strncasecmp=_strnicmp;snprintf=_snprintf</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
@@ -774,8 +863,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>devil/src-IL/include;devil/src-ILU/include;devil/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502;restrict=;strcasecmp=_stricmp;strncasecmp=_strnicmp;snprintf=_snprintf</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
@@ -791,8 +880,8 @@
       </PrecompiledHeader>
       <Optimization>Full</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>devil/src-IL/include;devil/src-ILU/include;devil/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502;restrict=;strcasecmp=_stricmp;strncasecmp=_strnicmp;snprintf=_snprintf</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -812,8 +901,8 @@
       </PrecompiledHeader>
       <Optimization>Full</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>devil/src-IL/include;devil/src-ILU/include;devil/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502;restrict=;strcasecmp=_stricmp;strncasecmp=_strnicmp;snprintf=_snprintf</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -831,8 +920,8 @@
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>devil/src-IL/include;devil/src-ILU/include;devil/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502;restrict=;strcasecmp=_stricmp;strncasecmp=_strnicmp;snprintf=_snprintf</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -852,8 +941,8 @@
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>devil/src-IL/include;devil/src-ILU/include;devil/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502;restrict=;strcasecmp=_stricmp;strncasecmp=_strnicmp;snprintf=_snprintf</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>

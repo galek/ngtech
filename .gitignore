@@ -294,3 +294,5 @@ Development/Src/Editors/LogicEditor/obj/
 Development/Src/Editors/LogicEditor/bin/
 Development/Src/Editors/3dparty/Graph/obj/
 *.dll
+Bins/Bin32_d/NGEd.exe.config
+Bins/Bin32_d/NGEd.vshost.exe.config
