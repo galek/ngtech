@@ -1,6 +1,5 @@
 #include "CorePrivate.h"
 
-
 namespace NGTech 
 {
 

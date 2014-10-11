@@ -1,5 +1,5 @@
 //**************************************
-#include "EnginePrivate.h"
+#include "CorePrivate.h"
 //**************************************
 #include "Model.h"
 #include "MeshFormatXSMSH.h"

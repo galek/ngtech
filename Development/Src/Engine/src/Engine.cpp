@@ -19,30 +19,15 @@
 #include "EnginePrivate.h"
 //***************************************************
 #include "Engine.h"
-
 #include "CVARManager.h"
-
-#include "IRender.h"
 #include "ALSystem.h"
-#include "PhysSystem.h"
 #include "Cache.h"
-#include "Log.h"
-#include "Config.h"
-#include "LoadingScreen.h"
 #include "Scene.h"
-#include "Object.h"
-#include "Terrain.h"
-#include "Light.h"
-#include "ParticleSystem.h"
-#include "Camera.h"
-#include "Font.h"
 #include "GUI.h"
 #include "VFS.h"
 #include "IGame.h"
 //***************************************************
 #include "EngineScriptInterp.h"
-#include "MeshLoader.h"
-#include "MeshFormatXSMSH.h"
 //***************************************************
 #include "../../OGLDRV/inc/GLSystem.h"
 #include "EngineThreads.h"
@@ -55,8 +40,8 @@
 namespace NGTech {
 	/**
 	*/
-#define ENGINE_VERSION_NUMBER 0.3.5
-#define ENGINE_VERSION_STRING "0.3.5"
+#define ENGINE_VERSION_NUMBER 0.3.6
+#define ENGINE_VERSION_STRING "0.3.6"
 
 	/**
 	*/
@@ -107,12 +92,8 @@ namespace NGTech {
 		if (!threads)
 			Warning("[Init] EngineThreads Failed");
 
-		meshLoader = new MeshLoader();
-		if (!meshLoader)
-			Warning("[Init] MeshLoader Failed");
-		{
-			meshLoader->RegisterFormat(new MeshFormatXSMSH());
-		}
+		CorePreInit();
+
 #ifndef DROP_EDITOR
 		if (mIsEditor)
 		{
@@ -230,7 +211,8 @@ namespace NGTech {
 
 	/**
 	*/
-	Engine::~Engine()  {
+	Engine::~Engine()  
+	{
 		SAFE_DELETE(mWatermarkTex);
 		SAFE_DELETE(scripting);
 		SAFE_DELETE(game);
@@ -253,19 +235,25 @@ namespace NGTech {
 
 	/**
 	*/
-	void Engine::mainLoop() {
+	void Engine::mainLoop() 
+	{
+		PROFILER_START(Engine::mainLoop);
+
 		while (this->running)
 		{
 			do_update();
 			do_render();
 			do_swap();
 		}
+
+		PROFILER_END();
 	}
 
 	/**
 	*/
 	void Engine::do_update()
 	{
+		PROFILER_START(Engine::do_update);
 		if (iWindow)
 			this->iWindow->update();
 
@@ -277,18 +265,22 @@ namespace NGTech {
 
 		if (this->scene)
 			this->scene->update();
+
 		// run multi-threaded sound
 		if (this->scene)
 			this->scene->runUpdate();//Сейчас обновляем только звук
-		
+
 		if (this->game)
 			this->game->update();
+
+		PROFILER_END();
 	}
 
 	/**
 	*/
-	void Engine::do_render() 
+	void Engine::do_render()
 	{
+		PROFILER_START(Engine::do_render);
 		// run multi-threaded physics
 		if (!paused)
 			this->physSystem->runUpdate();
@@ -310,12 +302,15 @@ namespace NGTech {
 
 		if (this->iRender)
 			this->iRender->flush();
+
+		PROFILER_END();
 	}
 
 	/**
 	*/
 	void Engine::do_swap()
 	{
+		PROFILER_START(Engine::do_swap);
 		// wait multi-threaded physics
 		this->physSystem->waitUpdate();
 
@@ -324,11 +319,14 @@ namespace NGTech {
 
 		if (this->iRender)
 			this->iRender->endFrame();
+
+		PROFILER_END();
 	}
 
 	/**
 	*/
 	void Engine::quit() {
+		PROFILER_LOG();
 		running = false;
 	}
 
@@ -364,6 +362,7 @@ namespace NGTech {
 	*/
 	void RenderWatermark(I_Texture* _watermark)
 	{
+		PROFILER_START(RenderWatermark);
 		GetRender()->disableCulling();
 		GetRender()->enableBlending(I_Render::SRC_ALPHA, I_Render::ONE_MINUS_SRC_ALPHA);
 		_watermark->set(0);
@@ -376,5 +375,6 @@ namespace NGTech {
 		_watermark->unset(0);
 		GetRender()->disableBlending();
 		GetRender()->enableCulling();
+		PROFILER_END();
 	}
 }

@@ -6,6 +6,8 @@
 #include <fstream>
 #include <stdarg.h>
 
+#define SAFE_DELETE_ARRAY
+
 namespace NGTech
 {
 
@@ -22,7 +24,7 @@ namespace NGTech
 	*/
 	VFile::~VFile(){
 		if (mFile) fclose(mFile);
-		//SAFE_DELETE_ARRAY(memoryBuffer);
+		SAFE_DELETE_ARRAY(memoryBuffer);
 		mSize = 0;
 		mCurrentPos = 0;
 	}
@@ -39,6 +41,9 @@ namespace NGTech
 	/**
 	*/
 	char* VFile::LoadFile(){
+
+		PROFILER_START(VFile::LoadFile);
+
 		// obtain file size:
 		fseek(mFile, 0, SEEK_END);
 		mSize = ftell(mFile);
@@ -49,6 +54,8 @@ namespace NGTech
 		fseek(mFile, 0, SEEK_SET);
 		fread(memoryBuffer, sizeof(char), mSize, mFile);
 		memoryBuffer[mSize] = '\0';
+
+		PROFILER_END();
 
 		return memoryBuffer;
 	}

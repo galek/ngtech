@@ -19,6 +19,7 @@ namespace NGTech {
 		Log();
 		static void write(String text);
 		static void warning(String text);
+		static void profiler(String text);
 		static void error(String text);
 		static void writeHeader(String text);
 	};

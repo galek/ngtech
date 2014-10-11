@@ -1,5 +1,6 @@
 #include "CorePrivate.h"
 
+#include "libProfiler.h"
 
 namespace NGTech {
 	/**
@@ -20,17 +21,23 @@ namespace NGTech {
 	*/
 	bool InitAdditions()
 	{
+		PROFILER_ENABLE;
+
 #ifdef USE_OWN_MINIDUMP
 		if (!InitMiniDump())
 			return false;
 #endif
 		ILSystemInit();
+
 		return true;
 	}
 
 	/**
 	*/
-	void DestroyAdditions(){
+	void DestroyAdditions()
+	{
+		PROFILER_DISABLE;
+
 #ifdef USE_STEAMWORKS
 		DestroySteamWorks();
 #endif

@@ -9,4 +9,6 @@
 #include "DynLib.h"
 #include "VFile.h"
 #include "SystemInfo.h"
+#include "libProfiler.h"
+#include "MeshLoader.h"
 #include "CoreManager.h"

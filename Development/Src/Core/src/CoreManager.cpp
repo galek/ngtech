@@ -1,5 +1,5 @@
 #include "CorePrivate.h"
-#include "CoreManager.h"
+#include "MeshFormatXSMSH.h"
 
 #include "SteamWorksMgr.h"
 #include "StatsAndAchievements.h"
@@ -34,10 +34,23 @@ namespace NGTech {
 
 	/**
 	*/
-	CoreManager::~CoreManager(){
+	CoreManager::~CoreManager()
+	{
 #ifdef USE_STEAMWORKS
 		SAFE_DELETE(steamworks);
 #endif
 		DestroyAdditions();
+	}
+
+	/**
+	*/
+	void CoreManager::CorePreInit()
+	{
+		meshLoader = new MeshLoader();
+		if (!meshLoader)
+			Warning("[Init] MeshLoader Failed");
+		{
+			meshLoader->RegisterFormat(new MeshFormatXSMSH());
+		}
 	}
 }

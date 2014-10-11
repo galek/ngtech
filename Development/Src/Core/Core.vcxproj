@@ -172,7 +172,7 @@
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>CORE_EXPORTS;WIN32;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CORE_EXPORTS;WIN32;_MBCS;_CRT_SECURE_NO_WARNINGS;ENGINE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>CorePrivate.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -236,7 +236,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PreprocessorDefinitions>CORE_EXPORTS;WIN32;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CORE_EXPORTS;WIN32;_MBCS;_CRT_SECURE_NO_WARNINGS;ENGINE_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>CorePrivate.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -326,6 +326,7 @@
     <ClInclude Include="inc\FileHelper.h" />
     <ClInclude Include="inc\ILImage.h" />
     <ClInclude Include="inc\IncludesAndLibs.h" />
+    <ClInclude Include="inc\libProfiler.h" />
     <ClInclude Include="inc\Log.h" />
     <ClInclude Include="inc\lua\adopt_policy.hpp" />
     <ClInclude Include="inc\lua\back_reference.hpp" />
@@ -449,6 +450,9 @@
     <ClInclude Include="inc\lua\wrapper_base.hpp" />
     <ClInclude Include="inc\lua\yield_policy.hpp" />
     <ClInclude Include="inc\MathLib.h" />
+    <ClInclude Include="inc\MeshFormat.h" />
+    <ClInclude Include="inc\MeshFormatXSMSH.h" />
+    <ClInclude Include="inc\MeshLoader.h" />
     <ClInclude Include="inc\Scripting.h" />
     <ClInclude Include="inc\StatsAndAchievements.h" />
     <ClInclude Include="inc\SteamWorksMgr.h" />
@@ -959,6 +963,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\MeshFormatXSMSH.cpp" />
+    <ClCompile Include="src\MeshLoader.cpp" />
+    <ClCompile Include="src\Profiler.cpp" />
     <ClCompile Include="src\Scripting.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>

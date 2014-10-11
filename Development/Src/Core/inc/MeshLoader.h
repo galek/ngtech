@@ -9,7 +9,7 @@ namespace NGTech
 	/**
 	Mesh loader class
 	*/
-	class MeshLoader
+	class CORE_API MeshLoader
 	{
 	public:
 		/*

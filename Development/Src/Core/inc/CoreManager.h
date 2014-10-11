@@ -26,6 +26,7 @@ namespace NGTech {
 	class GUI;
 	class Scene;
 	class SystemInfo;
+	class MeshLoader;
 	/**
 	*/
 	struct CORE_API CoreManager{
@@ -62,8 +63,10 @@ namespace NGTech {
 		/**
 		*/
 		ENGINE_INLINE void SetPause(bool _s){ paused = _s; }
+	protected:
 		/**
 		*/
+		void CorePreInit();
 	private:
 		/**
 		*/
@@ -122,9 +125,9 @@ namespace NGTech {
 		/**
 		*/
 		IScriptInterp* scripting;
-
 		/**
 		*/
+		MeshLoader *meshLoader;
 #ifdef USE_STEAMWORKS
 		/**
 		*/

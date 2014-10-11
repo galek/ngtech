@@ -21,7 +21,7 @@ namespace NGTech {
 	Scene::Scene(CVARManager*_cvars)
 		: cvars(_cvars),
 		mUpdateJob(nullptr),
-		camera(nullptr),
+		camera(new CameraFixed()),
 		frustum(new Frustum()){
 		terrain = NULL;
 	}
@@ -203,9 +203,9 @@ namespace NGTech {
 			}
 		}
 
-	/**
-	draw objects
-	*/
+		/**
+		draw objects
+		*/
 		for (int m = 0; m < objects.size(); m++) {
 			if (!objects[m]) {
 				continue;
@@ -759,7 +759,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void Scene::update() 
+	void Scene::update()
 	{
 		//---------update-camera-----------------------------------
 		camera->update();
@@ -867,7 +867,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void Scene::updateSound() 
+	void Scene::updateSound()
 	{
 		GetAudio()->setListener(camera->getPosition(), camera->getDirection());
 	}

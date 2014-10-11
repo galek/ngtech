@@ -22,6 +22,9 @@
     <Filter Include="Файлы исходного кода\API">
       <UniqueIdentifier>{855ef171-b062-45a2-a21f-8f9a5f93a336}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы исходного кода\Cameras">
+      <UniqueIdentifier>{50a3ec95-32c9-4232-849b-97983804bc35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\ALSound.h">
@@ -132,15 +135,6 @@
     <ClInclude Include="inc\SceneUpdateJob.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="inc\MeshFormat.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\MeshFormatXSMSH.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\MeshLoader.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Inc\WrappedScriptFunctions.h">
       <Filter>Заголовочные файлы\API</Filter>
     </ClInclude>
@@ -156,9 +150,6 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="src\Cache.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Camera.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="src\Console.cpp">
@@ -254,14 +245,20 @@
     <ClCompile Include="src\SceneUpdateJob.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="src\MeshLoader.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="src\MeshFormatXSMSH.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="src\API_InputConverter.cpp">
       <Filter>Файлы исходного кода\API</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Файлы исходного кода\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CameraFree.cpp">
+      <Filter>Файлы исходного кода\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CameraFPS.cpp">
+      <Filter>Файлы исходного кода\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CameraFixed.cpp">
+      <Filter>Файлы исходного кода\Cameras</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,6 @@ namespace NGTech {
 	struct IGame;
 	class EnginePlugins;
 	class EngineThreads;
-	class MeshLoader;
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main class. Created one time
 	//---------------------------------------------------------------------------
@@ -43,7 +42,6 @@ namespace NGTech {
 		void _setResources();
 	public:
 		EngineThreads *threads;
-		MeshLoader *meshLoader;
 	private:
 		EnginePlugins *plugins;
 	};

@@ -112,7 +112,7 @@ namespace NGTech {
 			mCudaContextManager = PxCreateCudaContextManager(*mFoundation, cudaContextManagerDesc, mProfileZoneManager);
 			sceneDesc.gpuDispatcher = mCudaContextManager->getGpuDispatcher();
 			if (!sceneDesc.gpuDispatcher)
-				LogPrintf("[Physic] Hardware PhysX is not available");
+				LogPrintf("Hardware PhysX is not available");
 		}
 #endif
 
@@ -260,9 +260,9 @@ namespace NGTech {
 		if (mUpdateJob) {
 			GetEngine()->threads->waitJobs(update_id);
 
-			mScene->lockWrite();
+			LockRead();
 			mScene->fetchResults(true);
-			mScene->unlockWrite();
+			UnLockRead();
 		}
 	}
 

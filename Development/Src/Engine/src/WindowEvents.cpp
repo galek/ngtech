@@ -539,7 +539,7 @@ namespace NGTech {
 	/**
 	*/
 	void window_close_callback(GLFWwindow* window) {
-		exit(0);
 		//TODO:Выводить сообщение,как в DEUS EX
+#pragma message("TODO:Выводить сообщение,как в DEUS EX")
 	}
 }

@@ -35,4 +35,8 @@
 //#define USE_STEAMWORKS 1
 #endif
 
+#ifndef ENGINE_RELEASE
+#define USE_PROFILER 1
+#endif
+
 #endif
