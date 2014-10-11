@@ -761,6 +761,7 @@ namespace NGTech {
 	*/
 	void Scene::update()
 	{
+#pragma message("BUG,if camera is null,on next frame,after creation is will crash")
 		//---------update-camera-----------------------------------
 		camera->update();
 
@@ -958,5 +959,18 @@ namespace NGTech {
 		if (mUpdateJob) {
 			GetEngine()->threads->waitJobs(update_id);
 		}
+	}
+
+	/**
+	*/
+	bool Scene::_cameraCheckValid()
+	{
+		if (!camera)
+		{
+			Warning("Current camera is not valid.Loosing ptr?.Activated Fixed camera");
+			camera = new CameraFixed();
+			return false;
+		}
+		return true;
 	}
 }

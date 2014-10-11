@@ -58,6 +58,8 @@ namespace NGTech {
 		void deleteLight(Light *light);
 		void deleteParticleSystem(ParticleSystem *system);
 
+		bool _cameraCheckValid();
+
 		void reloadShaders();
 
 		ENGINE_INLINE Camera *GetActiveCamera() { return camera; }
