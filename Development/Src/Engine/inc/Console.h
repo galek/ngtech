@@ -95,5 +95,7 @@ namespace NGTech {
 
 		// если текущий текст автодополнен
 		bool mAutocomleted;
+
+		bool minputStatus;
 	};
 }

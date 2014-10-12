@@ -61,6 +61,8 @@ namespace NGTech
 		if (_button == "close")
 		{
 			mMainWidget->setVisible(false);
+
+			GetWindow()->grabMouse(minputStatus);
 		}
 	}
 
@@ -217,6 +219,7 @@ namespace NGTech
 
 	void Console::setVisible(bool _visible)	{
 		mMainWidget->setVisible(_visible);
+		minputStatus = GetWindow()->isMouseGrabed();
 	}
 
 }
