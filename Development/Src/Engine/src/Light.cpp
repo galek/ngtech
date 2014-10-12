@@ -119,7 +119,7 @@ namespace NGTech {
 		z -= x;
 		w -= y;
 	}
-	
+
 	/**
 	*/
 	LightSpot::LightSpot() {
@@ -229,7 +229,7 @@ namespace NGTech {
 	}
 
 	/**
-	*/	
+	*/
 	LightDirect::~LightDirect() {
 	}
 
