@@ -9,9 +9,8 @@ namespace NGTech
 	ENGINE_API void API_SetActiveCameraFOV(float _fov)
 	{
 		auto cam = GetScene()->GetActiveCamera();
-		if (!cam)
-			return;
-		cam->setFOV(_fov);
+		if (cam)
+			cam->setFOV(_fov);
 	}
 	/*
 	*/

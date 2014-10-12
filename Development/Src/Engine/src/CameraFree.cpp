@@ -55,18 +55,6 @@ namespace NGTech {
 
 	/**
 	*/
-	Mat4 CameraFree::getTransform() {
-		return Mat4::lookAt(position, position + direction, Vec3(0, 1, 0));
-	}
-
-	/**
-	*/
-	Mat4 CameraFree::getProjection() {
-		return Mat4::perspective(fov, (float)4 / (float)3, 0.1, 10000);
-	}
-
-	/**
-	*/
 	void CameraFree::update() {
 		if (pBody) {
 			position = pBody->GetTransform().getTranslation();

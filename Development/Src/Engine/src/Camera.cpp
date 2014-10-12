@@ -35,4 +35,17 @@ namespace NGTech {
 		if (GetScene())
 			GetScene()->setCamera(this);
 	}
+
+
+	/**
+	*/
+	Mat4 Camera::getTransform() {
+		return Mat4::lookAt(position, position + direction, Vec3(0, 1, 0));
+	}
+
+	/**
+	*/
+	Mat4 Camera::getProjection() {
+		return Mat4::perspective(fov, (float)4 / (float)3, 0.1, 10000);
+	}
 }

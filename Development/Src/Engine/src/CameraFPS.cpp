@@ -56,18 +56,6 @@ namespace NGTech {
 
 	/**
 	*/
-	Mat4 CameraFPS::getTransform() {
-		return Mat4::lookAt(position, position + direction, Vec3(0, 1, 0));
-	}
-
-	/**
-	*/
-	Mat4 CameraFPS::getProjection() {
-		return Mat4::perspective(fov, (float)4 / (float)3, 0.1, 10000);
-	}
-
-	/**
-	*/
 	void CameraFPS::update() {
 		/*if(pBody) {
 		position = pBody->GetTransform().getTranslation() + Vec3(0, 7, 0);

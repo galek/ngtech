@@ -34,22 +34,22 @@ namespace NGTech {
 
 		/**
 		*/
-		ENGINE_INLINE virtual Vec3 &getPosition() { return Vec3(0, 0, 0); }
+		ENGINE_INLINE virtual Vec3 &getPosition() { return position; }
 
 		/**
 		*/
-		ENGINE_INLINE virtual void setPosition(const Vec3 &position) {}
+		ENGINE_INLINE virtual void setPosition(const Vec3 &position) { this->position = position; }
 
 		/**
 		sets camera screen aspect
 		*/
-		ENGINE_INLINE virtual Vec3 &getDirection() { return Vec3(0, 0, 0); }
+		ENGINE_INLINE virtual Vec3 &getDirection() { return direction; }
 
-		ENGINE_INLINE virtual void setDirection(const Vec3 &direction) {}
+		ENGINE_INLINE virtual void setDirection(const Vec3 &direction) { this->direction = direction; }
 
-		ENGINE_INLINE virtual float getMaxVelocity() { return 0; }
+		ENGINE_INLINE virtual float getMaxVelocity() { return maxVelocity; }
 
-		ENGINE_INLINE virtual void setMaxVelocity(float maxVelocity) {}
+		ENGINE_INLINE virtual void setMaxVelocity(float maxVelocity) { this->maxVelocity = maxVelocity; }
 
 		//TODO
 		virtual Vec3 &getMax(int s) { return Vec3(0, 0, 0); }
@@ -105,13 +105,13 @@ namespace NGTech {
 
 		/**
 		*/
-		ENGINE_INLINE virtual Mat4 getTransform() = 0;
+		ENGINE_INLINE virtual Mat4 getTransform();
 
 		/**
 		gets camera projection matrix
 		\return projection matrix
 		*/
-		ENGINE_INLINE virtual Mat4 getProjection() = 0;
+		ENGINE_INLINE virtual Mat4 getProjection();
 
 		/**
 		*/
@@ -149,6 +149,11 @@ namespace NGTech {
 
 		Mat4 view;
 		Mat4 transform;
+
+		Vec3 position;
+		Vec3 direction;
+
+		float maxVelocity;
 	};
 
 	/**
@@ -166,20 +171,6 @@ namespace NGTech {
 		virtual ~CameraFPS();
 
 		ENGINE_INLINE virtual CameraType getCameraType() { return CAMERA_FPS; };
-		ENGINE_INLINE virtual Vec3 &getPosition() { return position; };
-		ENGINE_INLINE virtual void setPosition(const Vec3 &position) { this->position = position; };
-
-		ENGINE_INLINE virtual Vec3 &getDirection() { return direction; };
-		ENGINE_INLINE virtual void setDirection(const Vec3 &direction) { this->direction = direction; };
-
-		ENGINE_INLINE virtual float getMaxVelocity() { return maxVelocity; };
-		ENGINE_INLINE virtual void setMaxVelocity(float maxVelocity) { this->maxVelocity = maxVelocity; };
-
-		ENGINE_INLINE virtual float getFOV() { return fov; };
-		ENGINE_INLINE virtual void setFOV(float fov) { this->fov = fov; };
-
-		virtual Mat4 getTransform();
-		virtual Mat4 getProjection();
 
 		virtual void update();
 
@@ -196,11 +187,6 @@ namespace NGTech {
 		ALSound *jumpSnd;
 		ALSoundSource *jumpSrc;
 
-		Vec3 position;
-		Vec3 direction;
-
-		float maxVelocity;
-
 		PhysBody *pBody;
 		PhysJointUpVector *pJoint;
 		Vec3 size;
@@ -215,21 +201,6 @@ namespace NGTech {
 
 		ENGINE_INLINE virtual CameraType getCameraType() { return CAMERA_FREE; };
 
-		ENGINE_INLINE virtual Vec3 &getPosition() { return position; };
-		ENGINE_INLINE virtual void setPosition(const Vec3 &position) { this->position = position; };
-
-		ENGINE_INLINE virtual Vec3 &getDirection() { return direction; };
-		ENGINE_INLINE virtual void setDirection(const Vec3 &direction) { this->direction = direction; };
-
-		ENGINE_INLINE virtual float getMaxVelocity() { return maxVelocity; };
-		ENGINE_INLINE virtual void setMaxVelocity(float maxVelocity) { this->maxVelocity = maxVelocity; };
-
-		ENGINE_INLINE virtual float getFOV() { return fov; };
-		ENGINE_INLINE virtual void setFOV(float fov) { this->fov = fov; };
-
-		virtual Mat4 getTransform();
-		virtual Mat4 getProjection();
-
 		virtual void update();
 
 		//---physics---------------------------
@@ -237,11 +208,6 @@ namespace NGTech {
 		virtual void setPhysics(const Vec3 &size, float mass);
 
 	private:
-		Vec3 position;
-		Vec3 direction;
-
-		float maxVelocity;
-
 		PhysBody *pBody;
 	};
 
@@ -254,21 +220,6 @@ namespace NGTech {
 
 		ENGINE_INLINE virtual CameraType getCameraType() { return CAMERA_FIXED; };
 
-		ENGINE_INLINE virtual Vec3 &getPosition() { return position; };
-		ENGINE_INLINE virtual void setPosition(const Vec3 &position) { this->position = position; };
-
-		ENGINE_INLINE virtual Vec3 &getDirection() { return direction; };
-		ENGINE_INLINE virtual void setDirection(const Vec3 &direction) { this->direction = direction; };
-
-		ENGINE_INLINE virtual float getMaxVelocity() { return maxVelocity; };
-		ENGINE_INLINE virtual void setMaxVelocity(float maxVelocity) { this->maxVelocity = maxVelocity; };
-
-		ENGINE_INLINE virtual float getFOV() { return fov; };
-		ENGINE_INLINE virtual void setFOV(float fov) { this->fov = fov; };
-
-		virtual Mat4 getTransform();
-		virtual Mat4 getProjection();
-
 		virtual void update();
 
 		//---physics---------------------------
@@ -276,11 +227,6 @@ namespace NGTech {
 		virtual void setPhysics(const Vec3 &size, float mass);
 
 	private:
-		Vec3 position;
-		Vec3 direction;
-
-		float maxVelocity;
-
 		PhysBody *pBody;
 	};
 }
