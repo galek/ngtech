@@ -4,3 +4,4 @@
 #include "dlldef.h"
 #include "Engine.h"
 #include "EnginePlugins.h"
+#include "WrappedScriptFunctions.h"

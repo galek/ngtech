@@ -3,7 +3,10 @@
 #include "..\GUI\BaseLayout\BaseLayout.h"
 
 namespace NGTech {
-	class Console : public wraps::BaseLayout
+
+	/**
+	*/
+	class ENGINE_API Console : public wraps::BaseLayout
 	{
 	public:
 		typedef MyGUI::delegates::CDelegate2<const MyGUI::UString&, const MyGUI::UString&> CommandDelegate;
@@ -28,6 +31,8 @@ namespace NGTech {
 
 		/** Remove command. */
 		void unregisterConsoleDelegate(const MyGUI::UString& _command);
+
+		void notifyWindowButtonPressed(MyGUI::Window* _sender, const std::string& _button);
 
 		/** Event : Unknown command.\n
 		signature : void method(const MyGUI::UString & _key, const MyGUI::UString & _value)
@@ -67,20 +72,19 @@ namespace NGTech {
 		}
 
 	private:
-		void notifyWindowButtonPressed(MyGUI::Window* _sender, const std::string& _button);
-
 		void notifyMouseButtonClick(MyGUI::Widget* _sender);
 		void notifyComboAccept(MyGUI::ComboBox* _sender, size_t _index);
 		void notifyButtonPressed(MyGUI::Widget* _sender, MyGUI::KeyCode _key, MyGUI::Char _char);
 
 		void internalCommand(MyGUI::Widget* _sender, const MyGUI::UString& _key, const MyGUI::UString& _value);
 
+		void _registerConsoleCommands();
 	private:
 		MyGUI::EditBox* mListHistory;
 		MyGUI::ComboBox* mComboCommand;
 		MyGUI::Button* mButtonSubmit;
 
-		typedef std::map<MyGUI::UString, CommandDelegate> MapDelegate;
+		typedef std::map<String, CommandDelegate> MapDelegate;
 		MapDelegate mDelegates;
 
 		MyGUI::UString mStringCurrent;

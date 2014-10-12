@@ -8,7 +8,7 @@
 using namespace MyGUI;
 using namespace NGTech;
 
-/*
+/**
 */
 void GameGUIEvents::ExitEvent(MyGUI::Widget *)
 {

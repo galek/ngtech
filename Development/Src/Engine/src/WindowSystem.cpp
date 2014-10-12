@@ -540,11 +540,14 @@ namespace NGTech {
 
 		else if ((stricmp(_p, "ESC")) == 0)
 			return KEY_ESC;
+		else if ((stricmp(_p, "EQUAL")) == 0)
+			return KEY_EQUAL;
+		
 		else if ((stricmp(_p, "UP")) == 0)
 			return KEY_UP;
 		else if ((stricmp(_p, "DONW")) == 0)
 			return KEY_DOWN;
-		else if ((stricmp(_p, "LETF")) == 0)
+		else if ((stricmp(_p, "LEFT")) == 0)
 			return KEY_LEFT;
 		else if ((stricmp(_p, "RIGHT")) == 0)
 			return KEY_RIGHT;

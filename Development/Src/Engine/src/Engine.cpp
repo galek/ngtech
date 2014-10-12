@@ -15,7 +15,6 @@
 * A copy of the NGTech License Agreement is available by contacting
 * NG Games Ltd. at http://nggames.com/
 */
-//TODO:Навести тут порядок,а то пиздец
 #include "EnginePrivate.h"
 //***************************************************
 #include "Engine.h"
@@ -34,7 +33,8 @@
 //***************************************************
 #include "WindowSystem.h"
 #include "WindowSystem_GLFW.h"
-
+//***************************************************
+#include "Console.h"
 
 
 namespace NGTech {
@@ -200,6 +200,11 @@ namespace NGTech {
 			Debug("[Init] Game Finished");
 		}
 
+		//initialize Console
+		console = new Console();
+		if (console)
+			Debug("[Init] Console Finished");
+
 		this->running = true;
 
 		Debug("[Init] All Systems Initialised");
@@ -358,6 +363,18 @@ namespace NGTech {
 		plugins->LoadEngineModule(_name);
 	}
 
+	/**
+	*/
+	void Engine::ConsoleShow(bool _value){
+		console->setVisible(_value);
+	}
+
+	/**
+	*/
+	bool Engine::ConsoleIsActive(){
+		return console->getVisible();
+	}
+	
 	/**
 	*/
 	void RenderWatermark(I_Texture* _watermark)

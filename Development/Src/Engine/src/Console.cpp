@@ -21,6 +21,11 @@
 //***************************************************************************
 #include "Console.h"
 
+#include <string>
+#include <cctype>
+#include <algorithm>
+#include <iostream>
+
 namespace NGTech
 {
 
@@ -46,7 +51,9 @@ namespace NGTech
 		mButtonSubmit->eventMouseButtonClick += newDelegate(this, &Console::notifyMouseButtonClick);
 		mListHistory->setOverflowToTheLeft(true);
 
-		mMainWidget->setVisible(true);
+		mMainWidget->setVisible(false);
+
+		_registerConsoleCommands();
 	}
 
 	void Console::notifyWindowButtonPressed(MyGUI::Window* _sender, const std::string& _button)
@@ -64,14 +71,17 @@ namespace NGTech
 
 	void Console::notifyComboAccept(MyGUI::ComboBox* _sender, size_t _index)
 	{
-		const MyGUI::UString& command = _sender->getOnlyText();
+		String command{ _sender->getOnlyText().asUTF8_c_str() };
+		//ѕринудитльно переводим в нижний регистр
+		std::transform(command.begin(), command.end(), command.begin(), ::tolower);
+
 		if (command == "") return;
 
-		MyGUI::UString key = command;
-		MyGUI::UString value;
+		String key = command;
+		String value;
 
 		size_t pos = command.find(' ');
-		if (pos != MyGUI::UString::npos)
+		if (pos != String::npos)
 		{
 			key = command.substr(0, pos);
 			value = command.substr(pos + 1);
@@ -109,9 +119,14 @@ namespace NGTech
 			edit->eraseText(len - 1);
 		}
 
-		MyGUI::UString command = edit->getCaption();
+		String command = edit->getCaption();
 		if (command.length() == 0)
 			return;
+
+		//ѕринудитльно переводим в нижний регистр
+		std::transform(command.begin(), command.end(), command.begin(), ::tolower);
+		edit->setCaption(command);
+
 
 		for (MapDelegate::iterator iter = mDelegates.begin(); iter != mDelegates.end(); ++iter)
 		{
@@ -134,7 +149,6 @@ namespace NGTech
 		else
 			mListHistory->addText("\n" + _line);
 
-		//mListHistory->setTextCursor(0);
 		mListHistory->setTextSelection(mListHistory->getTextLength(), mListHistory->getTextLength());
 	}
 
@@ -173,52 +187,36 @@ namespace NGTech
 			MYGUI_LOG(Warning, "console - command '" << _command << "' doesn't exist");
 	}
 
-	void Console::internalCommand(MyGUI::Widget* _sender, const MyGUI::UString& _key, const MyGUI::UString& _value)
-	{
-		if (_key == "clear")
-		{
-			clearConsole();
-		}
-	}
-
-	void Console::addToConsole(const MyGUI::UString& _reason, const MyGUI::UString& _key, const MyGUI::UString& _value)
-	{
+	void Console::addToConsole(const MyGUI::UString& _reason, const MyGUI::UString& _key, const MyGUI::UString& _value)	{
 		addToConsole(MyGUI::utility::toString(_reason, "'", _key, " ", _value, "'"));
 	}
 
-	const MyGUI::UString& Console::getConsoleStringCurrent() const
-	{
+	const MyGUI::UString& Console::getConsoleStringCurrent() const 	{
 		return mStringCurrent;
 	}
 
-	const MyGUI::UString& Console::getConsoleStringError() const
-	{
+	const MyGUI::UString& Console::getConsoleStringError() const 	{
 		return mStringError;
 	}
 
-	const MyGUI::UString& Console::getConsoleStringSuccess() const
-	{
+	const MyGUI::UString& Console::getConsoleStringSuccess() const 	{
 		return mStringSuccess;
 	}
 
-	const MyGUI::UString& Console::getConsoleStringUnknow() const
-	{
+	const MyGUI::UString& Console::getConsoleStringUnknow() const	{
 		return mStringUnknow;
 	}
 
-	const MyGUI::UString& Console::getConsoleStringFormat() const
-	{
+	const MyGUI::UString& Console::getConsoleStringFormat() const	{
 		return mStringFormat;
 	}
 
-	bool Console::getVisible()
-	{
+	bool Console::getVisible()	{
 		return mMainWidget->getVisible();
 	}
 
-	void Console::setVisible(bool _visible)
-	{
+	void Console::setVisible(bool _visible)	{
 		mMainWidget->setVisible(_visible);
 	}
 
-} // namespace demo
+}

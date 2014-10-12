@@ -9,18 +9,10 @@ namespace NGTech {
 	/*
 	*/
 	const char* get_key_name(int key);
-
-	/*
-	*/
-	const char* get_action_name(int action);
-
+	
 	/*
 	*/
 	const char* get_button_name(int button);
-
-	/*
-	*/
-	const char* get_mods_name(int mods);
 
 	/*
 	*/

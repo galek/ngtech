@@ -78,7 +78,7 @@ namespace NGTech {
 		case GLFW_KEY_WORLD_2:      return "WORLD 2";
 
 			// Function keys
-		case GLFW_KEY_ESCAPE:       return "ESCAPE";
+		case GLFW_KEY_ESCAPE:       return "ESC";
 		case GLFW_KEY_F1:           return "F1";
 		case GLFW_KEY_F2:           return "F2";
 		case GLFW_KEY_F3:           return "F3";
@@ -235,11 +235,12 @@ namespace NGTech {
 
 		else if ((stricmp(_p, "SPACE")) == 0)
 			return KEY_SPACE;
+
+		else if ((stricmp(_p, "EQUAL")) == 0)
+			return KEY_EQUAL;
 #pragma message("uncomment and add this code")
 		/*else if ((stricmp(_p, "MINUS")) == 0)
 			return KEY_MINUS;
-			else if ((stricmp(_p, "EQUAL")) == 0)
-			return KEY_EQUAL;
 			else if ((stricmp(_p, "LEFT BRACKET")) == 0)
 			return KEY_LEFT_BRACKET;
 			else if ((stricmp(_p, "RIGHT BRACKET")) == 0)
@@ -365,33 +366,19 @@ namespace NGTech {
 
 		else if ((stricmp(_p, "ESC")) == 0)
 			return KEY_ESC;
+		else if ((stricmp(_p, "EQUAL")) == 0)
+			return KEY_EQUAL;
+
 		else if ((stricmp(_p, "UP")) == 0)
 			return KEY_UP;
 		else if ((stricmp(_p, "DONW")) == 0)
 			return KEY_DOWN;
-		else if ((stricmp(_p, "LETF")) == 0)
+		else if ((stricmp(_p, "LEFT")) == 0)
 			return KEY_LEFT;
 		else if ((stricmp(_p, "RIGHT")) == 0)
 			return KEY_RIGHT;
 
 		return 0;
-	}
-
-	/**
-	*/
-	const char* get_action_name(int action)
-	{
-		switch (action)
-		{
-		case GLFW_PRESS:
-			return "pressed";
-		case GLFW_RELEASE:
-			return "released";
-		case GLFW_REPEAT:
-			return "repeated";
-		}
-
-		return "caused unknown action";
 	}
 
 	/*
@@ -411,43 +398,57 @@ namespace NGTech {
 		return NULL;
 	}
 
-	/*
+	/**
+	!@ Hack!-bug NGT-5
 	*/
-	const char* get_mods_name(int mods)
+	void ConvertToMyGUIKey(int key, int &scancode)
 	{
-		static char name[512];
-
-		name[0] = '\0';
-
-		if (mods & GLFW_MOD_SHIFT)
-			strcat(name, " shift");
-		if (mods & GLFW_MOD_CONTROL)
-			strcat(name, " control");
-		if (mods & GLFW_MOD_ALT)
-			strcat(name, " alt");
-		if (mods & GLFW_MOD_SUPER)
-			strcat(name, " super");
-
-		return name;
+		using namespace MyGUI;
+		if (key == GLFW_KEY_DOWN)
+			scancode = KeyCode::Enum::ArrowDown;
+		else if (key == GLFW_KEY_LEFT)
+			scancode = KeyCode::Enum::ArrowLeft;
+		else if (key == GLFW_KEY_RIGHT)
+			scancode = KeyCode::Enum::ArrowRight;
+		else if (key == GLFW_KEY_UP)
+			scancode = KeyCode::Enum::ArrowUp;
 	}
-
-	/*
+	/**
 	*/
 	void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
 		const char* name = get_key_name(key);
 		auto windowSystem = (WindowSystemGLFW*)GetWindow();
+		/*
+		*/
+		using namespace MyGUI;
+		InputManager* mInputMgr = MyGUI::InputManager::getInstancePtr();
+
+		//Hack!-bug NGT-5
+		ConvertToMyGUIKey(key, scancode);
 
 		switch (action){
 		case GLFW_PRESS:
 		{
+			/*
+			*/
+			if (mInputMgr)
+				mInputMgr->injectKeyPress((KeyCode::Enum)(scancode), key);
+
 			windowSystem->keys[key] = true;
+
 			break;
 		}
 
 		case GLFW_RELEASE:
 		{
+			/*
+			*/
+			if (mInputMgr)
+				mInputMgr->injectKeyRelease((KeyCode::Enum)(scancode));
+
 			windowSystem->keys[key] = false;
+
 			break;
 		}
 		}

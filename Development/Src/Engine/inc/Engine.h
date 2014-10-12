@@ -10,6 +10,7 @@ namespace NGTech {
 	struct IGame;
 	class EnginePlugins;
 	class EngineThreads;
+	class Console;
 	//---------------------------------------------------------------------------
 	//Desc: Engine`s main class. Created one time
 	//---------------------------------------------------------------------------
@@ -37,11 +38,14 @@ namespace NGTech {
 		virtual float GetLastFPS();
 		virtual float GetTimePerFrame();
 		virtual void LoadEngineModule(const char* _name);
+		void ConsoleShow(bool _v);
+		bool ConsoleIsActive();
 	private:
 		void _preInit();
 		void _setResources();
 	public:
 		EngineThreads *threads;
+		Console		  *console;
 	private:
 		EnginePlugins *plugins;
 	};

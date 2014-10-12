@@ -25,6 +25,9 @@
     <Filter Include="Файлы исходного кода\Cameras">
       <UniqueIdentifier>{50a3ec95-32c9-4232-849b-97983804bc35}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы исходного кода\Console">
+      <UniqueIdentifier>{62b3bdc3-eb24-4ea9-b42c-5daea5a0cdc9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\ALSound.h">
@@ -152,9 +155,6 @@
     <ClCompile Include="src\Cache.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="src\Console.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="src\Effect.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -259,6 +259,12 @@
     </ClCompile>
     <ClCompile Include="src\CameraFixed.cpp">
       <Filter>Файлы исходного кода\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Console.cpp">
+      <Filter>Файлы исходного кода\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleCommands.cpp">
+      <Filter>Файлы исходного кода\Console</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

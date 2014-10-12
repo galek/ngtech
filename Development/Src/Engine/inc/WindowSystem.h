@@ -28,6 +28,8 @@ namespace NGTech {
 		enum Key {
 			KEY_ESC = VK_ESCAPE,
 			KEY_SPACE = VK_SPACE,
+			KEY_RETURN = VK_BACK,
+			KEY_EQUAL = VK_OEM_3,
 
 			KEY_UP = VK_UP,
 			KEY_DOWN = VK_DOWN,

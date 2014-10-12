@@ -133,5 +133,16 @@ EventsCallback::EventsCallback() : depth(10.0f){}
 void EventsCallback::Body(){
 	if (GetWindow()->isKeyDown("ESC"))
 		GetWindow()->toggleGrabMouse();
+
+	if (GetWindow()->isKeyDown("EQUAL"))
+	{
+		bool prev = GetWindow()->isMouseGrabed();
+		bool value = !GetEngine()->ConsoleIsActive();
+		GetEngine()->ConsoleShow(value);
+		if (prev)
+			GetWindow()->grabMouse(false);
+		else
+			GetWindow()->grabMouse(true);
+	}
 }
 #endif
