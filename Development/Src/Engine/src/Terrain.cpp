@@ -133,7 +133,7 @@ namespace NGTech {
 
 		computeTBN();
 
-		vertBuff = GetRender()->CreateVBO(vertices, numVertices, sizeof(Vertex), I_VBManager::FLOAT);
+		vertBuff = GetRender()->CreateVBO(vertices, numVertices, sizeof(Vertex), I_VBManager::FLOAT,I_VBManager::STATIC);
 	}
 
 	Terrain::~Terrain() {

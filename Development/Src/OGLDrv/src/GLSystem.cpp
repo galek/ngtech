@@ -67,7 +67,7 @@ namespace NGTech {
 
 	/**
 	*/
-	GLVBO *GLSystem::CreateVBO(void *data, int numElements, int elemSize, int dataType){ return GLVBO::createVBO(data, numElements, elemSize, (I_VBManager::DataType)dataType); }
+	GLVBO *GLSystem::CreateVBO(void *data, int numElements, int elemSize, int dataType, int drawType){ return GLVBO::createVBO(data, numElements, elemSize, (I_VBManager::DataType)dataType, (I_VBManager::TypeDraw)drawType); }
 
 	/**
 	*/

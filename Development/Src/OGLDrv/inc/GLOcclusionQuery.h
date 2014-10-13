@@ -28,5 +28,14 @@ namespace NGTech {
 		\return number of passed samples
 		*/
 		unsigned int getResult();
+
+		/** 
+		clear query
+		*/
+		virtual void clear();
+
+		/** render destroy
+		*/
+		virtual void destroy();
 	};
 }

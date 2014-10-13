@@ -800,4 +800,16 @@ namespace NGTech
 		radix_sort_function_compare<typename Iterator::DataType, Ret, Ret(*)(A0, A1)> compare(func);
 		RadixSort<typename Iterator::DataType, radix_sort_function_compare<typename Iterator::DataType, Ret, Ret(*)(A0, A1)> > radix_sort(&(*begin), size, compare);
 	}
+
+
+	/*
+	*/
+	template <class Index>
+	void MeshConvertIndicesTo(int *dest, const int *src, int size) {
+		const int *s = src;
+		Index *d = (Index*)dest;
+		for (int i = 0; i < size; i++) {
+			*d++ = (Index)*s++;
+		}
+	}
 }

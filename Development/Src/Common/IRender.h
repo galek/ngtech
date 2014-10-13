@@ -135,7 +135,7 @@ namespace NGTech {
 		virtual I_Shader *ShaderCreate(const String &path, const String &defines = "") = 0;
 		virtual I_FBOManager*CreateFBO(int x, int y) = 0;
 		virtual I_VBManager *CreateIBO(void *data, int numElements, int elemSize, int dataType) = 0;
-		virtual I_VBManager *CreateVBO(void *data, int numElements, int elemSize, int dataType) = 0;
+		virtual I_VBManager *CreateVBO(void *data, int numElements, int elemSize, int dataType, int drawType) = 0;
 		virtual I_ILImage* CreateImage2D(const String &path) = 0;
 		virtual I_ILImage* CreateImageEmpty2D(int width, int height, int format) = 0;
 		virtual I_ILImage* CreateImageNoise2D(int width, int height, int format) = 0;
@@ -328,6 +328,12 @@ namespace NGTech {
 			UNSIGNED_SHORT,
 		};
 
+		enum TypeDraw
+		{
+			STATIC,
+			STREAM
+		};
+
 		virtual ~I_VBManager(){}
 
 		virtual void setVertexSource(int numComp, int stride, int offset) = 0;
@@ -375,8 +381,18 @@ namespace NGTech {
 		*/
 		virtual unsigned int getResult() = 0;
 
+		/**
+		clear query
+		*/
+		virtual void clear() = 0;
+
+		/** render destroy
+		*/
+		virtual void destroy() = 0;
+
 	protected:
-		unsigned int glID;
+		unsigned int query_id;
+		unsigned int result;
 	};
 
 	struct I_DisplayList

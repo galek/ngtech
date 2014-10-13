@@ -8,33 +8,49 @@ namespace NGTech {
 	/*
 	*/
 	GLOcclusionQuery::GLOcclusionQuery() {
-		glGenQueriesARB(1, &glID);
+		query_id = 0;
+		result = 1;
 	}
 
 	/*
 	*/
 	GLOcclusionQuery::~GLOcclusionQuery() {
-		glDeleteQueriesARB(1, &glID);
+		if (glIsQuery(query_id)) glDeleteQueries(1, &query_id);
 	}
 
 	/*
 	*/
 	void GLOcclusionQuery::beginRendering() {
-		glBeginQueryARB(GL_SAMPLES_PASSED_ARB, glID);
+		if (query_id == 0) glGenQueries(1, &query_id);
+		glBeginQuery(GL_SAMPLES_PASSED, query_id);
 	}
 
 	/*
 	*/
 	void GLOcclusionQuery::endRendering() {
-		glEndQueryARB(GL_SAMPLES_PASSED_ARB);
+		glEndQuery(GL_SAMPLES_PASSED);
 	}
 
 	/*
 	*/
 	unsigned int GLOcclusionQuery::getResult() {
-		unsigned int fc;
-		glGetQueryObjectuivARB(glID, GL_QUERY_RESULT_ARB, &fc);
-		return fc;
+		if (query_id == 0) return 1;
+		GLint available = 0;
+		glGetQueryObjectiv(query_id, GL_QUERY_RESULT_AVAILABLE, &available);
+		if (available) glGetQueryObjectuiv(query_id, GL_QUERY_RESULT, &result);
+		return result;
+	}
+
+
+	/*
+	*/
+	void GLOcclusionQuery::clear() {
+		result = 1;
+	}
+
+	void GLOcclusionQuery::destroy() {
+		query_id = 0;
+		result = 1;
 	}
 
 }

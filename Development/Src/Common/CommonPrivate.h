@@ -14,3 +14,5 @@
 #include "IGUI.h"
 #include "IILImage.h"
 #include "IGame.h"
+
+#include "Utils.h"

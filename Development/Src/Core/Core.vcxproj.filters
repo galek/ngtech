@@ -695,9 +695,6 @@
     <ClCompile Include="src\lua\pcall.cpp">
       <Filter>Файлы исходного кода\lua</Filter>
     </ClCompile>
-    <ClCompile Include="src\lua\print.c">
-      <Filter>Файлы исходного кода\lua</Filter>
-    </ClCompile>
     <ClCompile Include="src\lua\scope.cpp">
       <Filter>Файлы исходного кода\lua</Filter>
     </ClCompile>

@@ -12,7 +12,7 @@ namespace NGTech {
 	class GLVBO :public I_VBManager {
 	public:
 		static GLVBO *createIBO(void *data, int numElements, int elemSize, DataType dataType);
-		static GLVBO *createVBO(void *data, int numElements, int elemSize, DataType dataType);
+		static GLVBO *createVBO(void *data, int numElements, int elemSize, DataType dataType, TypeDraw drawType);
 		virtual ~GLVBO();
 
 		virtual void setVertexSource(int numComp, int stride, int offset);

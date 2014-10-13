@@ -218,7 +218,7 @@ namespace NGTech {
 	void Model::createVBO() {
 		for (unsigned int s = 0; s < numSubsets; s++) {
 			Subset *st = subsets[s];
-			st->vertBuff = GetRender()->CreateVBO(st->vertices, st->numVertices, sizeof(Vertex), I_VBManager::FLOAT);
+			st->vertBuff = GetRender()->CreateVBO(st->vertices, st->numVertices, sizeof(Vertex), I_VBManager::FLOAT, I_VBManager::STATIC);
 		}
 	}
 }
