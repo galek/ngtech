@@ -55,7 +55,7 @@ namespace NGTech
 	size_t DataStream::read(void* _buf, size_t _count)
 	{
 		if (mStream == nullptr) return 0;
-		size_t count = NGTech::minF(size(), _count);
+		size_t count = min(size(), _count);
 		mStream->read((char*)_buf, count);
 		return count;
 	}
