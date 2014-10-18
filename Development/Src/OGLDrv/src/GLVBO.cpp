@@ -27,9 +27,13 @@ namespace NGTech {
 			vbo->drawType = GL_STATIC_DRAW;
 
 		vbo->type = GL_ARRAY_BUFFER;
-
+		// создадим Vertex Buffer Object (VBO)
 		glGenBuffers(1, &vbo->glID);
+
+		// устанавливаем созданный VBO как текущий
 		glBindBuffer(vbo->type, vbo->glID);
+
+		// заполним VBO данными
 		glBufferData(vbo->type, vbo->elementSize * vbo->numElements, data, vbo->drawType);
 
 

@@ -47,6 +47,12 @@ namespace NGTech
 
 		bool mIsInitialise;
 	};
-} // namespace VEGA
 
-#endif // __MYGUI_OPENGL_DATA_MANAGER_H__
+
+
+	bool CORE_API loadBinary(const String & _file, unsigned int & Format, std::vector<unsigned char> & Data, int & Size);
+	bool CORE_API saveBinary(const String & _file, unsigned int const & Format, std::vector<unsigned char> const & Data, int const & Size);
+
+}
+
+#endif

@@ -91,9 +91,7 @@ namespace NGTech {
 		threads = new EngineThreads();
 		if (!threads)
 			Warning("[Init] EngineThreads Failed");
-
-		CorePreInit();
-
+		
 #ifndef DROP_EDITOR
 		if (mIsEditor)
 		{

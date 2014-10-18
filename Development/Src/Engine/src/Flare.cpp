@@ -34,23 +34,8 @@ namespace NGTech {
 
 		flareList = GetRender()->GetDL();
 		flareList->beginBuild();
-#if 0
-		glBegin(GL_QUADS);
-		glTexCoord2f(0, 0);
-		glVertex3f(-1, -1, 0);
 
-		glTexCoord2f(1, 0);
-		glVertex3f(1, -1, 0);
-
-		glTexCoord2f(1, 1);
-		glVertex3f(1, 1, 0);
-
-		glTexCoord2f(0, 1);
-		glVertex3f(-1, 1, 0);
-		glEnd();
-#else
 		GetRender()->drawRect(-1, -1,1,1,0,0,1,0);
-#endif
 		flareList->endBuild();
 
 		position = Vec3(0, 0, 0);

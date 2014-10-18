@@ -21,6 +21,7 @@ namespace NGTech {
 		enum MouseButton {
 			MOUSE_LEFT_BUTTON = 0,
 			MOUSE_RIGHT_BUTTON = 1,
+			MOUSE_RIGHT_MIDLLE = 2//Кажется она
 		};
 		/**
 		Keyboard keys enum

@@ -7,6 +7,7 @@
 #include "Log.h"
 #include "MathLib.h"
 #include "DynLib.h"
+#include "VFS.h"
 #include "VFile.h"
 #include "SystemInfo.h"
 #include "libProfiler.h"

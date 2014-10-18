@@ -66,11 +66,14 @@ namespace NGTech {
 	protected:
 		/**
 		*/
-		void CorePreInit();
+		void _preInit();
 	private:
 		/**
 		*/
 		bool _InitAdditions();
+		/**
+		*/
+		void _initUserDir(const char* dir = "../userData/");
 		/**
 		*/
 	public:

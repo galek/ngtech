@@ -4,6 +4,11 @@
 #include "SteamWorksMgr.h"
 #include "StatsAndAchievements.h"
 
+
+#include <direct.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 namespace NGTech {
 
 	/**
@@ -30,6 +35,7 @@ namespace NGTech {
 #else
 		_InitAdditions();
 #endif
+		_preInit();
 	}
 
 	/**
@@ -44,13 +50,18 @@ namespace NGTech {
 
 	/**
 	*/
-	void CoreManager::CorePreInit()
+	void CoreManager::_preInit()
 	{
+		_initUserDir();
 		meshLoader = new MeshLoader();
 		if (!meshLoader)
 			Warning("[Init] MeshLoader Failed");
 		{
 			meshLoader->RegisterFormat(new MeshFormatXSMSH());
 		}
+	}
+	
+	void CoreManager::_initUserDir(const char* dir)	{
+		_mkdir(dir);
 	}
 }

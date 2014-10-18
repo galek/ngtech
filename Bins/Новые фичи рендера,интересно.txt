@@ -1,0 +1,12 @@
+gl-430-texture-view -при приближении на текстуре не видно пикселей
+gl-440-buffer-storage -хз что,но интелу нравится,раз они его 4.3 дрова впихнули
+gl-430-texture-storage -оно же
+gl-430-program-subroutine-красивая штука
+gl-430-multi-draw-indirect-отрисовка частями
+
+gl-430-draw-without-vertex-attrib-рисовать без VBO?
+gl-420-test-depth-conservative
+gl-420-primitive-line-aa
+gl-420-memory-barrier
+gl-420-interface-matching-рисуем сетку
+gl-420-draw-base-instance

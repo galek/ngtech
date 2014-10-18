@@ -367,12 +367,6 @@ namespace NGTech {
 			//DRAW OBJECTS
 			for (int m = 0; m < objects.size(); m++)
 			{
-				if (!objects[m]) {
-					continue;
-				}
-				if (objects[m]->getType() == Object::OBJECT) {
-					continue;
-				}
 				Object *object = objects[m];
 
 				GetRender()->push();
@@ -475,12 +469,6 @@ namespace NGTech {
 		//DRAW OBJECTS
 		for (int m = 0; m < objects.size(); m++)
 		{
-			if (!objects[m]) {
-				continue;
-			}
-			if (objects[m]->getType() == Object::OBJECT) {
-				continue;
-			}
 			Object *object = objects[m];
 
 			GetRender()->push();
@@ -550,13 +538,8 @@ namespace NGTech {
 		GetRender()->clearColor(Vec3(1.0, 1.0, 1.0));
 
 		//DRAW OBJECTS
-		for (int m = 0; m < objects.size(); m++) {
-			if (!objects[m]) {
-				continue;
-			}
-			if (objects[m]->getType() == Object::OBJECT) {
-				continue;
-			}
+		for (int m = 0; m < objects.size(); m++) 
+		{			
 			Object *object = objects[m];
 
 			GetRender()->push();
@@ -635,13 +618,8 @@ namespace NGTech {
 		}
 
 		//DRAW OBJECTS
-		for (int m = 0; m < objects.size(); m++) {
-			if (!objects[m]) {
-				continue;
-			}
-			if (objects[m]->getType() == Object::OBJECT) {
-				continue;
-			}
+		for (int m = 0; m < objects.size(); m++) 
+		{
 			Object *object = objects[m];
 
 			GetRender()->push();

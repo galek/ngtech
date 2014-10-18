@@ -77,5 +77,13 @@ namespace NGTech {
 		\param value param value
 		*/
 		void sendInt(const String &name, int value);
+
+		bool _createShader(const String &path, const String &defines = "", bool save = true);
+		
+	private:
+		bool _saveCache(const String &path);
+		const char* _createShaderCacheDirectory(String _file);
+	private:
+		unsigned int PipelineName;
 	};
 }
