@@ -78,10 +78,20 @@ namespace NGTech {
 		*/
 		void sendInt(const String &name, int value);
 
-		bool _createShader(const String &path, const String &defines = "", bool save = true);
-		
 	private:
+		/**
+		Creation shader functions
+		*/
+		bool _createShader(const String &path, const String &defines = "", bool save = true);
+
+		/**
+		Saving shader cache in user directory
+		*/
 		bool _saveCache(const String &path);
+
+		/**
+		Creation shader cache user directory
+		*/
 		const char* _createShaderCacheDirectory(String _file);
 	private:
 		unsigned int PipelineName;
