@@ -22,13 +22,13 @@ namespace NGTech {
 	*/
 	void GLOcclusionQuery::beginRendering() {
 		if (query_id == 0) glGenQueries(1, &query_id);
-		glBeginQuery(GL_SAMPLES_PASSED, query_id);
+		glBeginQuery(GL_ANY_SAMPLES_PASSED_CONSERVATIVE, query_id);
 	}
 
 	/*
 	*/
 	void GLOcclusionQuery::endRendering() {
-		glEndQuery(GL_SAMPLES_PASSED);
+		glEndQuery(GL_ANY_SAMPLES_PASSED_CONSERVATIVE);
 	}
 
 	/*
