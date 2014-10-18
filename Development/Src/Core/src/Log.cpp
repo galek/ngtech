@@ -1,10 +1,12 @@
 #include "CorePrivate.h"
 //***************************************************************************
+#include <direct.h> //_mkdir
+#include <tchar.h>
+#include <stdarg.h>
+//***************************************************************************
 #include "Log.h"
 #include "FileHelper.h"
 #include "Error.h"
-#include <tchar.h>
-#include <stdarg.h>
 //***************************************************************************
 
 namespace NGTech {
@@ -73,6 +75,7 @@ namespace NGTech {
 	}
 
 	Log::Log() {
+		_mkdir("../Logs");
 		FILE *fLog;
 		fLog = fopen(LOG_FILE, "wt");
 
