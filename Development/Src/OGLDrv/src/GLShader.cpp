@@ -95,6 +95,7 @@ namespace NGTech {
 			glProgramParameteri(this->program, GL_PROGRAM_BINARY_RETRIEVABLE_HINT, GL_TRUE);
 			glProgramBinary(this->program, Format, &Data[0], Size);
 			mBinary = true;
+			return true;
 		}
 
 		else {
@@ -301,6 +302,7 @@ namespace NGTech {
 
 			return true;
 		}
+		return false;
 	}
 
 	bool GLShader::_saveCache(const String &path)
