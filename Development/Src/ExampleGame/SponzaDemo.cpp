@@ -22,53 +22,52 @@ void ExampleGame::initialise() {
 
 	sponza = new ObjectMesh("sponza.nggf");
 	{
-		sponza->setMaterial("arcs floor", "arcs_floor.mat");
-		sponza->setMaterial("arcs 01", "arcs_01.mat");
-		sponza->setMaterial("arcs 02", "arcs_02.mat");
-		sponza->setMaterial("arcs 03", "arcs_03.mat");
-		sponza->setMaterial("arcs 04", "arcs_04.mat");
-		sponza->setMaterial("arcs floo0", "arcs_floo0.mat");
-		sponza->setMaterial("arcs small", "arcs_small.mat");
-		sponza->setMaterial("arcs long", "arcs_long.mat");
+		sponza->setMaterial("arcs_floor.mat", "arcs floor");
+		sponza->setMaterial("arcs_01.mat", "arcs 01");
+		sponza->setMaterial("arcs_02.mat", "arcs 02");
+		sponza->setMaterial("arcs_03.mat", "arcs 03");
+		sponza->setMaterial("arcs_04.mat", "arcs 04");
+		sponza->setMaterial("arcs_floo0.mat", "arcs floo0");
+		sponza->setMaterial("arcs_small.mat", "arcs small");
+		sponza->setMaterial("arcs_long.mat", "arcs long");
 
+		sponza->setMaterial("object32.mat", "object32");
+		sponza->setMaterial("object31.mat", "object31");
+		sponza->setMaterial("pillar_cor.mat", "pillar cor");
+		sponza->setMaterial("pillar_flo.mat", "pillar flo");
+		sponza->setMaterial("object28.mat", "object28");
+		sponza->setMaterial("object27.mat", "object27");
+		sponza->setMaterial("pillar_qua.mat", "pillar qua");
+		sponza->setMaterial("pillar_rou.mat", "pillar rou");
+		sponza->setMaterial("puillar_fl.mat", "puillar fl");
 
-		sponza->setMaterial("object32", "object32.mat");
-		sponza->setMaterial("object31", "object31.mat");
-		sponza->setMaterial("pillar cor", "pillar_cor.mat");
-		sponza->setMaterial("pillar flo", "pillar_flo.mat");
-		sponza->setMaterial("object28", "object28.mat");
-		sponza->setMaterial("object27", "object27.mat");
-		sponza->setMaterial("pillar qua", "pillar_qua.mat");
-		sponza->setMaterial("pillar rou", "pillar_rou.mat");
-		sponza->setMaterial("puillar fl", "puillar_fl.mat");
+		sponza->setMaterial("object19.mat", "object19");
+		sponza->setMaterial("object21.mat", "object21");
+		sponza->setMaterial("object23.mat", "object23");
 
-		sponza->setMaterial("object19", "object19.mat");
-		sponza->setMaterial("object21", "object21.mat");
-		sponza->setMaterial("object23", "object23.mat");
+		sponza->setMaterial("relief.mat", "relief");
+		sponza->setMaterial("holes.mat", "holes");
+		sponza->setMaterial("outside01.mat", "outside01");
 
-		sponza->setMaterial("relief", "relief.mat");
-		sponza->setMaterial("holes", "holes.mat");
-		sponza->setMaterial("outside01", "outside01.mat");
+		sponza->setMaterial("parapet.mat", "parapet");
+		sponza->setMaterial("round_hole.mat", "round hole");
+		sponza->setMaterial("ceiling.mat", "ceiling");
+		sponza->setMaterial("object6.mat", "object6");
+		sponza->setMaterial("object5.mat", "object5");
+		sponza->setMaterial("object4.mat", "object4");
+		sponza->setMaterial("object3.mat", "object3");
+		sponza->setMaterial("walls.mat", "walls");
+		sponza->setMaterial("windows.mat", "windows");
+		sponza->setMaterial("doors.mat", "doors");
 
-		sponza->setMaterial("parapet", "parapet.mat");
-		sponza->setMaterial("round hole", "round_hole.mat");
-		sponza->setMaterial("ceiling", "ceiling.mat");
-		sponza->setMaterial("object6", "object6.mat");
-		sponza->setMaterial("object5", "object5.mat");
-		sponza->setMaterial("object4", "object4.mat");
-		sponza->setMaterial("object3", "object3.mat");
-		sponza->setMaterial("walls", "walls.mat");
-		sponza->setMaterial("windows", "windows.mat");
-		sponza->setMaterial("doors", "doors.mat");
-
-		sponza->setMaterial("floors", "floors.mat");
+		sponza->setMaterial("floors.mat", "floors");
 	}
 	sponza->setTransform(Mat4::translate(Vec3(0, -10, 0)));
 	sponza->setPhysicsStaticMesh();
 
 	for (int i = 0; i < 5; i++) {
 		box[i] = new ObjectMesh("cube.nggf");
-		box[i]->setMaterial("*", "grid.mat");
+		box[i]->setMaterial("grid.mat");
 		box[i]->setTransform(Mat4::translate(Vec3(-10 - i * 2, i * 20 + 10, i - 10)));
 		box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);
 		box[i]->setImpactSound("impact.ogg");
@@ -76,7 +75,7 @@ void ExampleGame::initialise() {
 
 	for (int i = 0; i < 5; i++) {
 		sphere[i] = new ObjectMesh("sphere.nggf");
-		sphere[i]->setMaterial("*", "grid.mat");
+		sphere[i]->setMaterial("grid.mat");
 		sphere[i]->setTransform(Mat4::translate(Vec3(10 + i * 2, i * 20 + 10, i - 10)));
 		sphere[i]->setPhysicsSphere(Vec3(5, 5, 5), 10);
 		sphere[i]->setImpactSound("impact.ogg");
@@ -84,7 +83,7 @@ void ExampleGame::initialise() {
 
 	for (int i = 0; i < 5; i++) {
 		cylinder[i] = new ObjectMesh("torus.nggf");
-		cylinder[i]->setMaterial("*", "grid.mat");
+		cylinder[i]->setMaterial("grid.mat");
 		cylinder[i]->setTransform(Mat4::translate(Vec3(20 + i * 2, i * 20 + 20, i - 10)));
 		cylinder[i]->setPhysicsConvexHull(10.0f);
 		cylinder[i]->setImpactSound("impact.ogg");
@@ -119,6 +118,9 @@ void ExampleGame::initialise() {
 	particlesYellow->setDispersion(0.1);
 
 	//GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
+	sMesh = new ObjectSkinnedMesh("chammy.xssmsh");
+	sMesh->setMaterial("grid.mat");
+	sMesh->setTransform(Mat4::translate(Vec3(-60, 60, 0)));
 
 	GetWindow()->grabMouse(true);
 

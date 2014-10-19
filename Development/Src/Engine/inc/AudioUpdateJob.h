@@ -4,10 +4,10 @@
 
 namespace NGTech
 {
-	class SceneUpdateJob : public EngineJobBase
+	class AudioUpdateJob : public EngineJobBase
 	{
 	public:
-		SceneUpdateJob();
+		AudioUpdateJob();
 
 		virtual void process();
 	};

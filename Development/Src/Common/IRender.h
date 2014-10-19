@@ -349,6 +349,8 @@ namespace NGTech {
 		virtual void set() = 0;
 		virtual void unset() = 0;
 
+		virtual void* map(int offset = 0) = 0;
+		virtual unsigned char unMap() = 0;
 	protected:
 		unsigned int glID;
 		int numElements;

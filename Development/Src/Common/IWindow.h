@@ -129,8 +129,12 @@ namespace NGTech {
 		/**
 		*/
 		virtual void swapBuffers(){}
-		//Used in all windows systems
+		/**
+		*/
 		virtual void DisableVSync(int){}
+		/**
+		*/
+		inline virtual int divider() { return 1; }
 	public:
 		void* hRC;
 		//For Native windows opengl

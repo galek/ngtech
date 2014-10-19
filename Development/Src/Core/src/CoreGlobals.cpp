@@ -83,6 +83,18 @@ namespace NGTech {
 
 	/**
 	*/
+	CORE_API SkinnedMeshLoader* GetSkinnedMeshLoader(){
+		return GetCore()->skinnedMeshLoader;
+	}
+
+	/**
+	*/
+	CORE_API MeshLoader* GetMeshLoader(){
+		return GetCore()->meshLoader;
+	}
+
+	/**
+	*/
 #ifdef USE_STEAMWORKS
 	SteamWorksMgr* GetSteamworksStats()	{
 		return GetCore()->steamworks;

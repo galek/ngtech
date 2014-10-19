@@ -4,6 +4,7 @@
 #include "..\..\Common\IRender.h"
 #include "..\..\Core\inc\BuildDefines.h"
 #include "..\..\Core\inc\CoreManager.h"
+#include "..\..\Core\inc\Log.h"
 #include "..\..\Engine\inc\dlldef.h"
 #include "..\..\Engine\inc\Engine.h"
 #include "..\..\Engine\inc\EngineAppBase.h"
@@ -79,7 +80,7 @@ namespace EngineCLR {
 			posY = y;
 			auto cam = GetScene()->GetActiveCamera();
 			if (cam)
-				cam->LookAt(posX, posY);
+				cam->lookAt(posX, posY);
 			else
 				Warning("[Editor]Camera not exist");
 		}

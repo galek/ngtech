@@ -273,6 +273,9 @@ namespace NGTech {
 		/**
 		*/
 		virtual void DisableVSync(int);
+		/**
+		*/
+		ENGINE_INLINE virtual int divider() { return 1000; }
 	private:
 		/**
 		*/

@@ -27,6 +27,7 @@ namespace NGTech {
 	class Scene;
 	class SystemInfo;
 	class MeshLoader;
+	class SkinnedMeshLoader;
 	/**
 	*/
 	struct CORE_API CoreManager{
@@ -131,6 +132,9 @@ namespace NGTech {
 		/**
 		*/
 		MeshLoader *meshLoader;
+		/**
+		*/
+		SkinnedMeshLoader *skinnedMeshLoader;
 #ifdef USE_STEAMWORKS
 		/**
 		*/
@@ -183,6 +187,12 @@ namespace NGTech {
 	/**
 	*/
 	CORE_API IScriptInterp* GetScripting();
+	/**
+	*/
+	CORE_API SkinnedMeshLoader* GetSkinnedMeshLoader();
+	/**
+	*/
+	CORE_API MeshLoader* GetMeshLoader();
 	/**
 	*/
 #ifdef USE_STEAMWORKS

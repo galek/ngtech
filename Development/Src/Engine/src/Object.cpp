@@ -19,7 +19,8 @@ namespace NGTech {
 	}
 
 	ObjectMesh::ObjectMesh(const String &path)
-		:Object() {
+		:Object() 
+	{
 		if (GetCache()){
 			model = GetCache()->loadModel("meshes/" + path);
 			materials.resize(model->getNumSubsets());
@@ -28,7 +29,6 @@ namespace NGTech {
 		}
 		transform.identity();
 		pBody = nullptr;
-		return;
 	}
 
 	ObjectMesh::~ObjectMesh() {
@@ -49,7 +49,7 @@ namespace NGTech {
 		return materials[s];
 	}
 
-	void ObjectMesh::setMaterial(const String &name, const String &path) {
+	void ObjectMesh::setMaterial(const String &path, const String &name) {
 		if (GetCache()){
 			Material *material = GetCache()->loadMaterial(path);
 			if (name == "*")

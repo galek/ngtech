@@ -1,12 +1,12 @@
 #include "EnginePrivate.h"
 
-#include "SceneUpdateJob.h"
+#include "AudioUpdateJob.h"
 #include "Scene.h"
 
 namespace NGTech{
-	SceneUpdateJob::SceneUpdateJob() {}
+	AudioUpdateJob::AudioUpdateJob() {}
 
-	void SceneUpdateJob::process() {
+	void AudioUpdateJob::process() {
 		GetScene()->updateSound();
 	}
 }

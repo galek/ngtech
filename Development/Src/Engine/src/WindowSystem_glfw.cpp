@@ -191,10 +191,13 @@ namespace NGTech {
 	/**
 	*/
 	void WindowSystemGLFW::updateTimer() {
-		int ticks = glfwGetTime()*1000;;
+		int ticks = glfwGetTime()*1000;
 		dTime = ticks - eTime;
 		eTime = ticks;
 	}
+
+	//TODO:Function get Ticks(return glfwGetTime())
+
 
 	/**
 	*/

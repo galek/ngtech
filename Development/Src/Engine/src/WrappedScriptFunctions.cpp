@@ -23,7 +23,7 @@ namespace NGTech
 	ENGINE_API ObjectMesh* API_LoadModel(const char*_p)
 	{
 		auto ptr = new ObjectMesh(_p);
-		ptr->setMaterial("*", "defmat.mat");
+		ptr->setMaterial("defmat.mat");
 		ptr->setTransform(Mat4::translate(Vec3(0, 0, 0)));
 		return ptr;
 	}

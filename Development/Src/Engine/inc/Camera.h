@@ -26,6 +26,10 @@ namespace NGTech {
 
 		/**
 		*/
+		ENGINE_INLINE virtual void drawSubset(int) { }
+
+		/**
+		*/
 		ENGINE_INLINE virtual ObjectType getType() { return OBJECT_CAMERA; };
 
 		/**
@@ -119,15 +123,15 @@ namespace NGTech {
 
 		/**
 		*/
-		ENGINE_INLINE float GetAngle(int _i) { if (_i <= 2) return angle[_i]; else return 0; }
+		ENGINE_INLINE float getAngle(int _i) { if (_i <= 2) return angle[_i]; else return 0; }
 
 		/**
 		*/
-		ENGINE_INLINE void SetAngle(int _i, float _v) { if (_i <= 2) angle[_i] = _v; }
+		ENGINE_INLINE void setAngle(int _i, float _v) { if (_i <= 2) angle[_i] = _v; }
 
 		/**
 		*/
-		ENGINE_INLINE void LookAt(float _x, float _y) { angle[0] = -0.4 * _x; angle[1] = -0.4 * _y; }
+		ENGINE_INLINE void lookAt(float _x, float _y) { angle[0] = -0.4 * _x; angle[1] = -0.4 * _y; }
 
 	protected:
 		/**
@@ -138,9 +142,19 @@ namespace NGTech {
 		\return phys body
 		*/
 		ENGINE_INLINE virtual PhysBody *getPhysBody() { return NULL; }
-
+	private:
 		/**
 		*/
+		ENGINE_INLINE virtual int getNumSubsets() { return 0; };
+		/**
+		*/
+		ENGINE_INLINE virtual float getRadius(int s) { return 0; };
+		/**
+		*/
+		ENGINE_INLINE virtual float getRadius() { return 0; };
+		/**
+		*/
+		ENGINE_INLINE virtual Material* getMaterial(int s) { return NULL; };
 	protected:
 		float angle[2];
 		float fov;

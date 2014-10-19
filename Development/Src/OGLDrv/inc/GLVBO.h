@@ -27,5 +27,8 @@ namespace NGTech {
 
 		virtual void set();
 		virtual void unset();
+
+		virtual void *map(int offset = 0);
+		virtual unsigned char unMap();
 	};
 }

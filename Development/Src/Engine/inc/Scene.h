@@ -19,7 +19,7 @@
 
 namespace NGTech {
 
-	class SceneUpdateJob;
+	class AudioUpdateJob;
 	//---------------------------------------------------------------------------
 	//Desc: class of the scene. Created one time
 	//---------------------------------------------------------------------------
@@ -135,7 +135,7 @@ namespace NGTech {
 		friend class Material;
 
 	private:
-		SceneUpdateJob* mUpdateJob;
+		AudioUpdateJob* mUpdateJob;
 		int update_id; // update identifier
 	};
 }

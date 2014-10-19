@@ -3,10 +3,6 @@
 //**************************************
 #include "../../Common/StringHelper.h"
 #include "../../Core/inc/MathLib.h"
-#include "PhysSystem.h"
-#include "Frustum.h"
-#include "Material.h"
-#include "../../Core/inc/Log.h"
 //**************************************
 
 namespace NGTech {
@@ -14,7 +10,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: class of the scene object
 	//---------------------------------------------------------------------------
-	class Model {
+	class CORE_API Model {
 	public:
 		explicit Model(const String &path);
 		~Model();
@@ -24,15 +20,15 @@ namespace NGTech {
 		ENGINE_INLINE int getNumSubsets() { return numSubsets; };
 		int getSubset(String name);
 
-		ENGINE_INLINE Vec3 &getMax() { return max; };
-		ENGINE_INLINE Vec3 &getMin() { return min; };
-		ENGINE_INLINE Vec3 &getCenter() { return center; };
-		ENGINE_INLINE float getRadius() { return radius; };
+		ENGINE_INLINE Vec3 &getMax() { return bBox.max; };
+		ENGINE_INLINE Vec3 &getMin() { return bBox.min; };
+		ENGINE_INLINE Vec3 &getCenter() { return bSphere.center; };
+		ENGINE_INLINE float getRadius() { return bSphere.radius; };
 
-		ENGINE_INLINE Vec3 &getMax(int s) { return subsets[s]->max; };
-		ENGINE_INLINE Vec3 &getMin(int s) { return subsets[s]->min; };
-		ENGINE_INLINE Vec3 &getCenter(int s) { return subsets[s]->center; };
-		ENGINE_INLINE float getRadius(int s) { return subsets[s]->radius; };
+		ENGINE_INLINE Vec3 &getMax(int s) { return subsets[s]->bBox.max; };
+		ENGINE_INLINE Vec3 &getMin(int s) { return subsets[s]->bBox.min; };
+		ENGINE_INLINE Vec3 &getCenter(int s) { return subsets[s]->bSphere.center; };
+		ENGINE_INLINE float getRadius(int s) { return subsets[s]->bSphere.radius; };
 
 		struct Vertex {
 			Vec3 position;
@@ -68,9 +64,8 @@ namespace NGTech {
 
 			I_VBManager *vertBuff;
 
-			Vec3 min, max;
-			Vec3 center;
-			float radius;
+			BBox bBox;
+			BSphere bSphere;
 
 			bool visible;
 		};
@@ -78,9 +73,8 @@ namespace NGTech {
 		unsigned int numSubsets;
 		Subset **subsets;
 
-		Vec3 min, max;
-		Vec3 center;
-		float radius;
+		BBox bBox;
+		BSphere bSphere;
 
 		void calcBoundings();
 

@@ -13,3 +13,5 @@
 #include "libProfiler.h"
 #include "MeshLoader.h"
 #include "CoreManager.h"
+#include "BSphere.h"
+#include "BBox.h"

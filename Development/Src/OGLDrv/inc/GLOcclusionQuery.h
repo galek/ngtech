@@ -31,10 +31,13 @@ namespace NGTech {
 
 		/** 
 		clear query
+		TODO:пока нигде не используется
 		*/
 		virtual void clear();
 
-		/** render destroy
+		/** 
+		render destroy
+		TODO:пока нигде не используется
 		*/
 		virtual void destroy();
 	};

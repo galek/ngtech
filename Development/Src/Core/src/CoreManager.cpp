@@ -1,13 +1,16 @@
 #include "CorePrivate.h"
-#include "MeshFormatXSMSH.h"
-
-#include "SteamWorksMgr.h"
-#include "StatsAndAchievements.h"
-
-
+//**************************************
 #include <direct.h>
 #include <stdlib.h>
 #include <stdio.h>
+//**************************************
+#include "MeshFormatXSMSH.h"
+#include "SkinnedMeshLoader.h"
+#include "SkinnedMeshFormatXSSMSH.h"
+//**************************************
+#include "SteamWorksMgr.h"
+#include "StatsAndAchievements.h"
+//**************************************
 
 namespace NGTech {
 
@@ -55,12 +58,25 @@ namespace NGTech {
 		_initUserDir();
 		meshLoader = new MeshLoader();
 		if (!meshLoader)
-			Warning("[Init] MeshLoader Failed");
 		{
-			meshLoader->RegisterFormat(new MeshFormatXSMSH());
+			Warning("[Init] MeshLoader Failed");
+			return;
 		}
+		meshLoader->RegisterFormat(new MeshFormatXSMSH());
+
+		/**
+		*/
+		skinnedMeshLoader = new SkinnedMeshLoader();
+		if (!meshLoader)
+		{
+			Warning("[Init] MeshLoader Failed");
+			return;
+		}
+		skinnedMeshLoader->RegisterFormat(new SkinnedMeshFormatXSSMSH());
 	}
-	
+
+	/**
+	*/
 	void CoreManager::_initUserDir(const char* dir)	{
 		_mkdir(dir);
 	}

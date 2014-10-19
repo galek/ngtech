@@ -313,6 +313,8 @@
     <ClInclude Include="inc\adl\adl_sdk.h" />
     <ClInclude Include="inc\adl\adl_structures.h" />
     <ClInclude Include="inc\ati_eyefinity.h" />
+    <ClInclude Include="inc\BBox.h" />
+    <ClInclude Include="inc\BSphere.h" />
     <ClInclude Include="inc\BuildDefines.h" />
     <ClInclude Include="inc\Config.h" />
     <ClInclude Include="inc\coredll.h" />
@@ -453,7 +455,12 @@
     <ClInclude Include="inc\MeshFormat.h" />
     <ClInclude Include="inc\MeshFormatXSMSH.h" />
     <ClInclude Include="inc\MeshLoader.h" />
+    <ClInclude Include="inc\Model.h" />
     <ClInclude Include="inc\Scripting.h" />
+    <ClInclude Include="inc\SkinnedMesh.h" />
+    <ClInclude Include="inc\SkinnedMeshFormat.h" />
+    <ClInclude Include="inc\SkinnedMeshFormatXSSMSH.h" />
+    <ClInclude Include="inc\SkinnedMeshLoader.h" />
     <ClInclude Include="inc\StatsAndAchievements.h" />
     <ClInclude Include="inc\SteamWorksMgr.h" />
     <ClInclude Include="inc\SteamWorks_API.h" />
@@ -957,6 +964,7 @@
     </ClCompile>
     <ClCompile Include="src\MeshFormatXSMSH.cpp" />
     <ClCompile Include="src\MeshLoader.cpp" />
+    <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Profiler.cpp" />
     <ClCompile Include="src\Scripting.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
@@ -966,6 +974,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\SkinnedMesh.cpp" />
+    <ClCompile Include="src\SkinnedMeshFormatXSMSH.cpp" />
+    <ClCompile Include="src\SkinnedMeshLoader.cpp" />
     <ClCompile Include="src\steamworks.cpp" />
     <ClCompile Include="src\steamworks_api.cpp" />
     <ClCompile Include="src\steamworks_userstats.cpp" />

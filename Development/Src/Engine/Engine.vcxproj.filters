@@ -135,11 +135,11 @@
     <ClInclude Include="inc\PhysicsUpdateJob.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="inc\SceneUpdateJob.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Inc\WrappedScriptFunctions.h">
       <Filter>Заголовочные файлы\API</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\AudioUpdateJob.h">
+      <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -191,9 +191,6 @@
     <ClCompile Include="src\Material.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="src\Object.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -242,9 +239,6 @@
     <ClCompile Include="src\PhysicsUpdateJob.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="src\SceneUpdateJob.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="src\API_InputConverter.cpp">
       <Filter>Файлы исходного кода\API</Filter>
     </ClCompile>
@@ -265,6 +259,12 @@
     </ClCompile>
     <ClCompile Include="src\ConsoleCommands.cpp">
       <Filter>Файлы исходного кода\Console</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AudioUpdateJob.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ObjectSkinnedMesh.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

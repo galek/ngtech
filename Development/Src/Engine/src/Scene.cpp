@@ -10,7 +10,7 @@
 #include "Cache.h"
 #include "CvarManager.h"
 //**************************************
-#include "SceneUpdateJob.h"
+#include "AudioUpdateJob.h"
 //**************************************
 #include "../OGLDrv/inc/GLExtensions.h"//TODO
 
@@ -32,7 +32,7 @@ namespace NGTech {
 
 		Log::writeHeader("-- Scene --");
 		Debug("Scene::initialise");
-		mUpdateJob = new SceneUpdateJob();
+		mUpdateJob = new AudioUpdateJob();
 
 		viewportFBO = GetRender()->CreateFBO(512, 512);
 		viewportFBO->createDepthAttachment();
@@ -182,9 +182,11 @@ namespace NGTech {
 		matLightColor = ambient;
 
 		//DRAW TERRAIN
-		if (terrain && !blended) {
+		if (terrain && !blended)
+		{
 			Material *mtr = terrain->getMaterial();
-			if (mtr) {
+			if (mtr)
+			{
 				frustum->get();
 
 				matMVP = GetRender()->getMatrix_MVP();
@@ -206,11 +208,8 @@ namespace NGTech {
 		/**
 		draw objects
 		*/
-		for (int m = 0; m < objects.size(); m++) {
-			if (!objects[m]) {
-				continue;
-			}
-
+		for (int m = 0; m < objects.size(); m++)
+		{
 			Object *object = objects[m];
 
 			GetRender()->push();
@@ -222,7 +221,8 @@ namespace NGTech {
 				continue;
 			}
 
-			for (int s = 0; s < object->getNumSubsets(); s++) {
+			for (int s = 0; s < object->getNumSubsets(); s++)
+			{
 				if (!frustum->isInside(object->getCenter(s), object->getRadius(s)))
 					continue;
 
@@ -239,7 +239,7 @@ namespace NGTech {
 				else {
 					if (mtr->passHasBlending("Ambient")) continue;
 				}
-				//mtr->setAlphaTest();
+				mtr->setPassAlphaTest();//From 091
 
 				if (!mtr->setPass("Ambient")) continue;
 
@@ -249,7 +249,6 @@ namespace NGTech {
 					mtr->unsetPassBlending();
 				mtr->unsetPass();
 			}
-
 			GetRender()->pop();
 		}
 	}
@@ -267,9 +266,11 @@ namespace NGTech {
 		matShadowMap = light->shadowMap;
 
 		//DRAW TERRAIN
-		if (terrain && !blended) {
+		if (terrain && !blended)
+		{
 			Material *mtr = terrain->getMaterial();
-			if (mtr) {
+			if (mtr)
+			{
 				frustum->get();
 
 				matMVP = GetRender()->getMatrix_MVP();
@@ -291,10 +292,9 @@ namespace NGTech {
 			}
 		}
 
-		for (int m = 0; m < objects.size(); m++) {
-			if (!objects[m]) {
-				continue;
-			}
+		for (int m = 0; m < objects.size(); m++)
+		{
+
 			Object *object = objects[m];
 
 			GetRender()->push();
@@ -538,8 +538,8 @@ namespace NGTech {
 		GetRender()->clearColor(Vec3(1.0, 1.0, 1.0));
 
 		//DRAW OBJECTS
-		for (int m = 0; m < objects.size(); m++) 
-		{			
+		for (int m = 0; m < objects.size(); m++)
+		{
 			Object *object = objects[m];
 
 			GetRender()->push();
@@ -618,7 +618,7 @@ namespace NGTech {
 		}
 
 		//DRAW OBJECTS
-		for (int m = 0; m < objects.size(); m++) 
+		for (int m = 0; m < objects.size(); m++)
 		{
 			Object *object = objects[m];
 
@@ -800,7 +800,8 @@ namespace NGTech {
 			}
 
 			//draw lighting
-			for (int i = 0; i < lights.size(); i++) {
+			for (int i = 0; i < lights.size(); i++)
+			{
 				if (lights[i]->isVisible())
 				{
 					if (lights[i]->getType() == Light::LIGHT_OMNI) {
@@ -841,6 +842,19 @@ namespace NGTech {
 
 			GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 			GetRender()->depthMask(false);
+		}
+
+		//---------Рисуем анимированные меши--------------------------------
+		float mFPS = GetEngine()->GetLastFPS();
+		if (mFPS <= 0.f)
+			mFPS = 1.f;
+		for (int i = 0; i < objects.size(); i++)
+		{
+			if (objects[i]->getType() == Object::OBJECT_SKELETEAL_MESH)
+			{
+				ObjectSkinnedMesh*mesh = (ObjectSkinnedMesh*)objects[i];
+				mesh->setAnimationFrame(matTime / GetWindow()->divider()*mFPS);
+			}
 		}
 	}
 
@@ -927,7 +941,7 @@ namespace NGTech {
 	*/
 	void Scene::runUpdate() {
 		if (mUpdateJob) {
-			update_id = GetEngine()->threads->runJobs(mUpdateJob, sizeof(SceneUpdateJob), 1);
+			update_id = GetEngine()->threads->runJobs(mUpdateJob, sizeof(AudioUpdateJob), 1);
 		}
 	}
 

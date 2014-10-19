@@ -10,7 +10,7 @@ namespace NGTech {
 	*/
 	GLVBO *GLVBO::createVBO(void *data, int numElements, int elemSize, DataType dataType, TypeDraw drawType) {
 		GLVBO *vbo = new GLVBO();
-
+		
 		vbo->numElements = numElements;
 		vbo->elementSize = elemSize;
 
@@ -145,5 +145,17 @@ namespace NGTech {
 		glDisableClientState(GL_INDEX_ARRAY);
 	}
 
+	/**
+	*/
+	void * GLVBO::map(int offset) {
+		GLint vertex_flags = GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT;
+		return glMapBufferRange(type, offset, elementSize, vertex_flags);
+	}
+
+	/**
+	*/
+	unsigned char GLVBO::unMap() {
+		return glUnmapBuffer(type);
+	}
 
 }

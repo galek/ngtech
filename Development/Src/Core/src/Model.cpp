@@ -1,14 +1,7 @@
-#include "EnginePrivate.h"
+#include "CorePrivate.h"
 //**************************************
-#include "Engine.h"
 #include "Model.h"
-#include "FileHelper.h"
-#include "Log.h"
-#include "Frustum.h"
-#include "MathLib.h"
 #include "MeshLoader.h"
-//**************************************
-#include "Error.h"
 //**************************************
 
 namespace NGTech {
@@ -21,7 +14,7 @@ namespace NGTech {
 	/**
 	*/
 	void Model::_load(const String &path) {
-		GetEngine()->meshLoader->Load(path, this);
+		GetMeshLoader()->Load(path, this);
 
 		calculateTBN();
 		createVBO();
@@ -38,6 +31,7 @@ namespace NGTech {
 
 			delete[] st->vertices;
 			delete[] st->indices;
+			delete st;
 		}
 	}
 
@@ -159,58 +153,33 @@ namespace NGTech {
 
 	/**
 	*/
-	void Model::calcBoundings() {
-		for (unsigned int s = 0; s < numSubsets; s++) {
+	void Model::calcBoundings()
+	{
+		for (unsigned int s = 0; s < numSubsets; s++)
+		{
 			Subset *st = subsets[s];
 
-			for (unsigned int v = 0; v < st->numVertices; v++) {
-				//need to do so because of MSVC 2005 bug
-				if (v == 0) {
-					st->min = st->vertices[0].position;
-					st->max = st->vertices[0].position;
-				}
-				st->max = st->vertices[0].position;
-				st->min.x = min(st->min.x, st->vertices[v].position.x);
-				st->min.y = min(st->min.y, st->vertices[v].position.y);
-				st->min.z = min(st->min.z, st->vertices[v].position.z);
-
-				st->max.x = max(st->max.x, st->vertices[v].position.x);
-				st->max.y = max(st->max.y, st->vertices[v].position.y);
-				st->max.z = max(st->max.z, st->vertices[v].position.z);
+			st->bBox = BBox(st->vertices[0].position, st->vertices[0].position);
+			for (unsigned int v = 1; v < st->numVertices; v++)
+			{
+				st->bBox.AddPoint(st->vertices[v].position);
 			}
 
-			st->radius = 0;
-			st->center = (st->max + st->min) * 0.5;
-
-			for (int v = 0; v < st->numVertices; v++) {
-				st->radius = max(st->radius, (st->vertices[v].position - st->center).length());
+			st->bSphere = BSphere(st->bBox.GetCenter(), 0);
+			for (unsigned int v = 0; v < st->numVertices; v++)
+			{
+				st->bSphere.AddPoint(st->vertices[v].position);
 			}
 		}
 
-		min = subsets[0]->min;
-		max = subsets[0]->max;
-
-		for (int s = 1; s < numSubsets; s++) {
+		bBox = subsets[0]->bBox;
+		for (int s = 1; s < numSubsets; s++)
+		{
 			Subset *st = subsets[s];
-
-			min.x = min(min.x, st->min.x);
-			min.y = min(min.y, st->min.y);
-			min.z = min(min.z, st->min.z);
-
-			max.x = max(max.x, st->max.x);
-			max.y = max(max.y, st->max.y);
-			max.z = max(max.z, st->max.z);
+			bBox.AddBBox(st->bBox);
 		}
 
-		center = (min + max) * 0.5;
-		radius = 0;
-
-		for (int s = 0; s < numSubsets; s++) {
-			Subset *st = subsets[s];
-			for (int v = 0; v < st->numVertices; v++) {
-				radius = max(radius, (st->vertices[v].position - center).length());
-			}
-		}
+		bSphere = BSphere(bBox.GetCenter(), ((bBox.max - bBox.min) * 0.5f).length());
 	}
 
 	/**

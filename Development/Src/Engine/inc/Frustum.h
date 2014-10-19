@@ -10,6 +10,8 @@
 
 //*************************
 #include "../../Core/inc/MathLib.h"
+#include "../../Core/inc/BBox.h"
+#include "../../Core/inc/BSphere.h"
 //*************************
 
 namespace NGTech {
@@ -24,7 +26,12 @@ namespace NGTech {
 		gets the current view frustum from Meshview and Projection matrix
 		*/
 		void get();
-		ENGINE_INLINE float *getPlane(int n) { return plane[n]; };
+
+		/**
+		Gets the current view frustum from modelview and projection matrix
+		*/
+		void Build(const Mat4 &matrix);
+
 		/**
 		checks wether the point is inside of the frustum
 		\param point  point coordinates
@@ -48,6 +55,21 @@ namespace NGTech {
 		*/
 		bool isInside(const Vec3 &center, float radius);
 
+		/**
+		checks weather the bounding box is inside the frustum
+		\param min box`s min and max
+		\param max  sphere radius
+		\return true if  inside
+		*/
+		bool isInside(const BBox &box);
+
+		/**
+		checks weather the bounding sphere is inside the frustum
+		\param center  sphere center
+		\param radius  sphere radius
+		\return true if  inside
+		*/
+		bool isInside(const BSphere &sphere);
 	private:
 		float plane[6][4];
 	};
