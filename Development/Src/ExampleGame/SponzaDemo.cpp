@@ -42,7 +42,7 @@ void ExampleGame::initialise() {
 		sponza->setMaterial("pillar rou", "pillar_rou.mat");
 		sponza->setMaterial("puillar fl", "puillar_fl.mat");
 
-		sponza->setMaterial("object21", "object19.mat");
+		sponza->setMaterial("object19", "object19.mat");
 		sponza->setMaterial("object21", "object21.mat");
 		sponza->setMaterial("object23", "object23.mat");
 
@@ -51,7 +51,7 @@ void ExampleGame::initialise() {
 		sponza->setMaterial("outside01", "outside01.mat");
 
 		sponza->setMaterial("parapet", "parapet.mat");
-		sponza->setMaterial("round_hole", "round_hole.mat");
+		sponza->setMaterial("round hole", "round_hole.mat");
 		sponza->setMaterial("ceiling", "ceiling.mat");
 		sponza->setMaterial("object6", "object6.mat");
 		sponza->setMaterial("object5", "object5.mat");

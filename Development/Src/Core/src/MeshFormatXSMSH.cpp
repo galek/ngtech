@@ -15,7 +15,7 @@ namespace NGTech
 		memset(buffer, 0, NAME_SIZE);
 		file->Read(buffer, NAME_SIZE, 1);
 		name = buffer;
-		Debug((String("Loading material: ") + buffer).c_str());
+		LogPrintf((String("Loading material: ") + buffer).c_str());
 	}
 
 	/**
