@@ -1,19 +1,8 @@
-/***************************************************************************
- *   Copyright (C) 2006 by AST   *
- *   tsyplyaevgmail.com   *
- *   ICQ: 279-533-134                          *
- *   This is a part of work done by AST.       *
- *   If you want to use it, please contact me. *
- ***************************************************************************/
-
 //**************************************
 #include "CorePrivate.h"
 //**************************************
 #include "SkinnedMeshFormatXSSMSH.h"
 #include "SkinnedMesh.h"
-//#include "../Include/FileSystem.h"
-//#include "../Include/Log.h"
-//#include "../Include/Error.h"
 //**************************************
 
 namespace NGTech
