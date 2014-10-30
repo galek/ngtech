@@ -21,15 +21,20 @@ namespace NGTech {
 	Scene::Scene(CVARManager*_cvars)
 		: cvars(_cvars),
 		mUpdateJob(nullptr),
+		terrain(nullptr),
+		depthPass(nullptr),
+		hdr(nullptr),
+		query(nullptr),
+		sphere(nullptr),
 		camera(new CameraFixed()),
-		frustum(new Frustum()){
-		terrain = NULL;
+		frustum(new Frustum())
+	{
 	}
 
 	/**
 	*/
-	void Scene::initialise(){
-
+	void Scene::initialise()
+	{
 		Log::writeHeader("-- Scene --");
 		Debug("Scene::initialise");
 		mUpdateJob = new AudioUpdateJob();
@@ -61,8 +66,8 @@ namespace NGTech {
 		matShadowMap = NULL;
 		matSpotMap = NULL;
 
-		depthPass = new Material("engine_materials/depth_pass.mat");
-		hdr = new Material("engine_materials/hdr.mat");
+		depthPass = new Material("materials/engine_materials/depth_pass.mat");
+		hdr = new Material("materials/engine_materials/HDR.mat");
 	}
 
 	/**

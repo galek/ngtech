@@ -23,12 +23,11 @@ namespace NGTech {
 	Material::Material(String path) {
 		if (path == ""){
 			Warning("[Material::Material]Material loading from blank path,automatic deletion.Check your material list");
-			return;
 			delete this;
 		}
 		//begin loading
 		VFile mFile(path.c_str(), VFile::READ_TEXT);
-		while (!mFile.EndOfFile()) {
+		while (!mFile.IsEof()) {
 			String line = mFile.GetLine();
 
 			if (StringHelper::getWord(line, 1) == "pass") {
@@ -43,7 +42,7 @@ namespace NGTech {
 				pass->castShadows = true;
 				pass->recieveShadows = true;
 
-				while (StringHelper::getWord(line, 1) != "}" && !mFile.EndOfFile()) {
+				while (StringHelper::getWord(line, 1) != "}" && !mFile.IsEof()) {
 					line = mFile.GetLine();
 
 					if (line[0] == '/' && line[1] == '/')

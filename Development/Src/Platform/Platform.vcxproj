@@ -96,6 +96,8 @@
     <ClInclude Include="inc\crashreport\windows\handler\exception_handler.h" />
     <ClInclude Include="inc\glfw\glfw3.h" />
     <ClInclude Include="inc\glfw\glfw3native.h" />
+    <ClInclude Include="inc\platformdetect.h" />
+    <ClInclude Include="inc\PlatformPrivate.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{24B9D3ED-61BD-4EA7-B15E-F23DFD8BD247}</ProjectGuid>

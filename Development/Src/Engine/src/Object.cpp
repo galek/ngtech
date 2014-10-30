@@ -68,7 +68,7 @@ namespace NGTech {
 			return;
 		}
 
-		while (!mFile.EndOfFile()) {
+		while (!mFile.IsEof()) {
 			String line = mFile.GetLine();
 			setMaterial(StringHelper::getWord(line, 1), StringHelper::getWord(line, 3));
 		}

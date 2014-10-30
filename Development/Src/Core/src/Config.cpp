@@ -18,7 +18,7 @@ namespace NGTech {
 	Config::Config(const String &path) {
 		VFile file(path.c_str(), VFile::READ_TEXT, true);
 
-		while (!file.EndOfFile()) {
+		while (!file.IsEof()) {
 			String line = file.GetLine();
 			if (line[0] == '#' || StringHelper::getWordsNumber(line) < 3) {
 				continue;

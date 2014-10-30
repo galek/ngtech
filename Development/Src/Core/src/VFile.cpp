@@ -6,6 +6,7 @@
 #include <fstream>
 #include <stdarg.h>
 
+#pragma message("Слушай,сделай уже этот макросс,заебал!")
 #define SAFE_DELETE_ARRAY
 
 namespace NGTech
@@ -13,7 +14,7 @@ namespace NGTech
 
 	/**
 	*/
-	VFile::VFile(const char* _name, int _mode, bool _notSearch)
+	VFile::VFile(const String & _name, int _mode, bool _notSearch)
 		:mName(_name), mCurrentPos(0), mSize(0), memoryBuffer(nullptr)
 	{
 		DebugM("Loading/Search file with name: %s", _name);
@@ -62,6 +63,20 @@ namespace NGTech
 
 	/**
 	*/
+	size_t VFile::FTell(){
+		return ftell(mFile);
+	}
+
+	/**
+	*/
+	size_t VFile::FSeek(long offset, int mode)
+	{
+		assert(mFile);
+		return fseek(mFile, offset, mode);
+	}
+
+	/**
+	*/
 	void VFile::Read(void *buf, int size, int count)
 	{
 		if (mFile)
@@ -76,16 +91,14 @@ namespace NGTech
 
 	/**
 	*/
-	bool VFile::EndOfFile()	{
+	bool VFile::IsEof()	{
+		assert(mFile);
 		if (mFile)
-		{
 			return feof(mFile) != 0;
-		}
 
 		if (memoryBuffer)
-		{
 			return (mCurrentPos > mSize);
-		}
+
 		return true;
 	}
 
@@ -113,7 +126,7 @@ namespace NGTech
 	String VFile::GetLine()
 	{
 		if (!mFile) return "";
-		if (EndOfFile()) return "";
+		if (IsEof()) return "";
 
 		String output = "";
 		unsigned char h = fgetc(mFile);
@@ -196,4 +209,13 @@ namespace NGTech
 
 	/**
 	*/
+	int VFile::FClose()
+	{
+		assert(mFile);
+
+		if (mFile)
+			return fclose(mFile);
+		
+		return 1;
+	}
 }

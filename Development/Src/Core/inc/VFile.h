@@ -10,20 +10,25 @@ namespace NGTech
 			READ_TEXT
 		};
 	public:
-		explicit VFile(const char* _name, int _mode = READ_BIN, bool _notSearch = false);
+		explicit VFile(const String &_name, int _mode = READ_BIN, bool _notSearch = false);
 		~VFile();
 
 		bool IsDataExist();
-		bool EndOfFile();
+		bool IsEof();
 		char* LoadFile();
 		const char* GetDataPath();
 		size_t Size();
+		size_t FTell();
+		size_t FSeek(long offset, int mode);
 		String GetLine();
 		String GetFileExt();
 		String CutFileExt();
+		//Revert 0 if all is normal
+		int FClose();
 		void Read(void *buf, int size, int count);
 		void WriteString(const String &text);
 		void ScanF(const char * format, ...);
+		ENGINE_INLINE FILE* GetLowLevelFile(){ return mFile; }
 	private:
 		void _OpenFile(const String&path, int _mode, bool _notSearch);
 	private:

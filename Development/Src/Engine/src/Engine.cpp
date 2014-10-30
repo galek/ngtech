@@ -315,9 +315,11 @@ namespace NGTech {
 	{
 		PROFILER_START(Engine::do_swap);
 		// wait multi-threaded physics
+		if (this->physSystem)
 		this->physSystem->waitUpdate();
 
 		// wait multi-threaded sound
+		if (this->scene)
 		this->scene->waitUpdate();
 
 		if (this->iRender)

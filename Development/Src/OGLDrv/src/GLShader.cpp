@@ -102,13 +102,13 @@ namespace NGTech {
 			VFile mFile(path.c_str(), VFile::READ_TEXT);
 			String line, vsCode, fsCode, tcsCode, tesCode, gsCode;
 
-			while (!mFile.EndOfFile()) {
+			while (!mFile.IsEof()) {
 				line = mFile.GetLine();
 
 				//find GLSL vertex shader
 				if (line == "[GLSL_VERTEX_SHADER]") {
 					vsCode = "";
-					while (!mFile.EndOfFile()) {
+					while (!mFile.IsEof()) {
 						line = mFile.GetLine();;
 						if (line == "[GLSL_FRAGMENT_SHADER]") break;
 						else if (line == "[GLSL_COMPUTE_SHADER]") break;
@@ -141,7 +141,7 @@ namespace NGTech {
 				//find GLSL fragment shader
 				if (line == "[GLSL_FRAGMENT_SHADER]") {
 					fsCode = "";
-					while (!mFile.EndOfFile()) {
+					while (!mFile.IsEof()) {
 						line = mFile.GetLine();
 						if (line == "[GLSL_VERTEX_SHADER]") break;
 						else if (line == "[GLSL_COMPUTE_SHADER]") break;
@@ -175,7 +175,7 @@ namespace NGTech {
 				//find GLSL TESSELATION EVAL SHADER
 				if (line == "[GLSL_GEOMETRY_SHADER]") {
 					gsCode = "";
-					while (!mFile.EndOfFile()) {
+					while (!mFile.IsEof()) {
 						line = mFile.GetLine();
 						if (line == "[GLSL_FRAGMENT_SHADER]") break;
 						else if (line == "[GLSL_COMPUTE_SHADER]") break;
@@ -209,7 +209,7 @@ namespace NGTech {
 				//find GLSL TESSELATION EVAL SHADER
 				if (line == "[GLSL_TESSELATION_EVAL_SHADER]") {
 					tesCode = "";
-					while (!mFile.EndOfFile()) {
+					while (!mFile.IsEof()) {
 						line = mFile.GetLine();
 						if (line == "[GLSL_FRAGMENT_SHADER]") break;
 						else if (line == "[GLSL_COMPUTE_SHADER]") break;
@@ -242,7 +242,7 @@ namespace NGTech {
 				//find GLSL TESSELATION CONTROL SHADER
 				if (line == "[GLSL_TESSELATION_CONTROL_SHADER]") {
 					tcsCode = "";
-					while (!mFile.EndOfFile()) {
+					while (!mFile.IsEof()) {
 						line = mFile.GetLine();
 						if (line == "[GLSL_FRAGMENT_SHADER]") break;
 						else if (line == "[GLSL_COMPUTE_SHADER]") break;

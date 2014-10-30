@@ -29,6 +29,7 @@
 #include "Cache.h"
 #include "CVarManager.h"
 #include "VFS.h"
+//**************************************
 
 namespace NGTech {
 
@@ -120,7 +121,4 @@ namespace NGTech {
 			createDebugInfo();
 		mDebugShow = _show;
 	}
-
-	/**
-	*/
 }

@@ -266,5 +266,11 @@
     <ClInclude Include="inc\glfw\glfw3native.h">
       <Filter>Заголовочные файлы\glfw</Filter>
     </ClInclude>
+    <ClInclude Include="inc\platformdetect.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\PlatformPrivate.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
