@@ -1,4 +1,4 @@
-/* Copyright (C) 2006-2013, NG Games Ltd. All rights reserved.
+/* Copyright (C) 2006-2015, NG Games Ltd. All rights reserved.
 *
 * File:    EngineAPPBase.cpp
 * Desc:    Engine Application Base  impl.
