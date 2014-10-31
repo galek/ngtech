@@ -20,7 +20,7 @@
 #include "DataFileStream.h"
 #include "FileSystemInfo/FileSystemInfo.h"
 #include <fstream>
-#include "../Common/IDataManager.h"
+#include "../../Common/IDataManager.h"
 #include "VFS.h"
 #include "UString.h"
 
@@ -55,8 +55,7 @@ namespace NGTech
 			delete stream;
 			return nullptr;
 		}
-		//Nick:TODO:тут надо этот класс перенести из mygui
-		using namespace NGTech;
+
 		DataFileStream* data = new DataFileStream(stream);
 
 		return data;
@@ -72,13 +71,13 @@ namespace NGTech
 	const VectorString& FileSystem::getDataListNames(const std::string& _pattern)
 	{
 		static VectorString result;
-		common::VectorWString wresult;
+		VectorWString wresult;
 		result.clear();
 
 		for (VectorArhivInfo::const_iterator item = mPaths.begin(); item != mPaths.end(); ++item)
-			common::scanFolder(wresult, (*item).name, (*item).recursive, NGTech::UString(_pattern).asWStr(), false);
+			scanFolder(wresult, (*item).name, (*item).recursive, NGTech::UString(_pattern).asWStr(), false);
 
-		for (common::VectorWString::const_iterator item = wresult.begin(); item != wresult.end(); ++item)
+		for (VectorWString::const_iterator item = wresult.begin(); item != wresult.end(); ++item)
 			result.push_back(NGTech::UString(*item).asUTF8());
 		return result;
 	}
@@ -88,12 +87,12 @@ namespace NGTech
 	{
 		static std::string path;
 		VectorString result;
-		common::VectorWString wresult;
+		VectorWString wresult;
 
 		for (VectorArhivInfo::const_iterator item = mPaths.begin(); item != mPaths.end(); ++item)
-			common::scanFolder(wresult, (*item).name, (*item).recursive, NGTech::UString(_name).asWStr(), true);
+			scanFolder(wresult, (*item).name, (*item).recursive, NGTech::UString(_name).asWStr(), true);
 
-		for (common::VectorWString::const_iterator item = wresult.begin(); item != wresult.end(); ++item)
+		for (VectorWString::const_iterator item = wresult.begin(); item != wresult.end(); ++item)
 			result.push_back(NGTech::UString(*item).asUTF8());
 
 		//	path = result.size() == 1 ? result[0] : "";
@@ -110,7 +109,7 @@ namespace NGTech
 		}
 		return path;
 	}
-	//Nick:TODO:Rewrite
+
 	void FileSystem::addResourceLocation(const std::string& _name, bool _recursive)
 	{
 		ArhivInfo info;

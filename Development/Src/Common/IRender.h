@@ -31,6 +31,7 @@ namespace NGTech {
 	struct I_FBOManager;
 	struct I_VBManager;
 	struct I_Shader;
+	struct I_Texture;
 
 	struct I_Texture{
 		/**

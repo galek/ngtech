@@ -2,7 +2,7 @@
 
 #if ENGINE_PLATFORM == ENGINE_PLATFORM_WIN32
 #    define DYNLIB_HANDLE hInstance
-#    define DYNLIB_LOAD( a ) LoadLibrary( a )
+#    define DYNLIB_LOAD( a ) LoadLibraryA( a )
 #    define DYNLIB_GETSYM( a, b ) GetProcAddress( a, b )
 #    define DYNLIB_UNLOAD( a ) !FreeLibrary( a )
 
@@ -22,8 +22,8 @@ typedef struct HINSTANCE__* hInstance;
 #    define DYNLIB_UNLOAD( a ) mac_unloadExeBundle( a )
 #endif
 
-
-namespace NGTech{
+namespace NGTech
+{
 	//-----------------------------------------------------------------------------
 	// Cross-platform dynamic library system
 	//-----------------------------------------------------------------------------

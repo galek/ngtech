@@ -1,16 +1,7 @@
 #include "CorePrivate.h"
 
-#if ENGINE_PLATFORM == ENGINE_PLATFORM_WIN32
-#   define WIN32_LEAN_AND_MEAN
-#   include <windows.h>
-#endif
-
-#define ENGINE_PLATFORM_LINUX 0
-#define ENGINE_PLATFORM_WIN32 1
-#define ENGINE_PLATFORM_APPLE 2
-#define ENGINE_PLATFORM ENGINE_PLATFORM_WIN32
-
-namespace NGTech{
+namespace NGTech
+{
 	//-----------------------------------------------------------------------
 	DynLib::DynLib(const std::string& name)
 	{

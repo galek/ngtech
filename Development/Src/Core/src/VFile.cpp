@@ -17,7 +17,7 @@ namespace NGTech
 	VFile::VFile(const String & _name, int _mode, bool _notSearch)
 		:mName(_name), mCurrentPos(0), mSize(0), memoryBuffer(nullptr)
 	{
-		DebugM("Loading/Search file with name: %s", _name);
+		DebugM("Loading/Search file with name: %s", _name.c_str());
 		_OpenFile(_name, _mode, _notSearch);
 	}
 
@@ -100,6 +100,22 @@ namespace NGTech
 			return (mCurrentPos > mSize);
 
 		return true;
+	}
+
+	/**
+	*/
+	void VFile::Write(void *buf, int size, int count)
+	{
+		if (mFile)
+		{
+			fwrite(buf, size, count, mFile);
+		}
+
+		if (memoryBuffer)
+		{
+			memcpy((char*)(memoryBuffer)+mCurrentPos, (char*)buf, size*count);
+			mCurrentPos += size*count;
+		}
 	}
 
 	/**
@@ -194,6 +210,8 @@ namespace NGTech
 				mFile = fopen(GetDataPath(), "rt");
 			else if (_mode == READ_BIN)
 				mFile = fopen(GetDataPath(), "rb");
+			else if (_mode == WRITE_BIN)
+				mFile = fopen(GetDataPath(), "wb");
 		}
 	}
 

@@ -45,8 +45,6 @@ namespace MyGUI
 		mPointerManager(nullptr),
 		mClipboardManager(nullptr),
 		mLayoutManager(nullptr),
-		mDynLibManager(nullptr),
-		mPluginManager(nullptr),
 		mLanguageManager(nullptr),
 		mResourceManager(nullptr),
 		mFactoryManager(nullptr),
@@ -85,8 +83,6 @@ namespace MyGUI
 		mPointerManager = new PointerManager();
 		mClipboardManager = new ClipboardManager();
 		mLayoutManager = new LayoutManager();
-		mDynLibManager = new DynLibManager();
-		mPluginManager = new PluginManager();
 		mLanguageManager = new LanguageManager();
 		mFactoryManager = new FactoryManager();
 		mToolTipManager = new ToolTipManager();
@@ -102,8 +98,6 @@ namespace MyGUI
 		mPointerManager->initialise();
 		mClipboardManager->initialise();
 		mLayoutManager->initialise();
-		mDynLibManager->initialise();
-		mPluginManager->initialise();
 		mLanguageManager->initialise();
 		mFactoryManager->initialise();
 		mToolTipManager->initialise();
@@ -146,8 +140,6 @@ namespace MyGUI
 		mControllerManager->shutdown();
 		mClipboardManager->shutdown();
 		mLayoutManager->shutdown();
-		mPluginManager->shutdown();
-		mDynLibManager->shutdown();
 		mLanguageManager->shutdown();
 		mResourceManager->shutdown();
 		mFactoryManager->shutdown();
@@ -166,8 +158,6 @@ namespace MyGUI
 		delete mControllerManager;
 		delete mClipboardManager;
 		delete mLayoutManager;
-		delete mDynLibManager;
-		delete mPluginManager;
 		delete mLanguageManager;
 		delete mResourceManager;
 		delete mFactoryManager;

@@ -7,7 +7,8 @@ namespace NGTech
 	public:
 		enum {
 			READ_BIN,
-			READ_TEXT
+			READ_TEXT,
+			WRITE_BIN,
 		};
 	public:
 		explicit VFile(const String &_name, int _mode = READ_BIN, bool _notSearch = false);
@@ -27,6 +28,7 @@ namespace NGTech
 		int FClose();
 		void Read(void *buf, int size, int count);
 		void WriteString(const String &text);
+		void Write(void *buf, int size, int count);
 		void ScanF(const char * format, ...);
 		ENGINE_INLINE FILE* GetLowLevelFile(){ return mFile; }
 	private:

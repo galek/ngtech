@@ -180,8 +180,6 @@ namespace MyGUI
 		PointerManager* mPointerManager;
 		ClipboardManager* mClipboardManager;
 		LayoutManager* mLayoutManager;
-		DynLibManager* mDynLibManager;
-		PluginManager* mPluginManager;
 		LanguageManager* mLanguageManager;
 		ResourceManager* mResourceManager;
 		FactoryManager* mFactoryManager;
