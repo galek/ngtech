@@ -53,7 +53,7 @@ namespace NGTech {
 	{
 		SetCore(this);
 		log = new Log();
-		LogPrintf("Engine Version:", ENGINE_VERSION_STRING, " Build Date : ", __DATE__, " : ", __TIME__);
+		LogPrintf("Engine Version: "ENGINE_VERSION_STRING" Build Date : "__DATE__" : "__TIME__);
 	}
 
 	/**
@@ -70,6 +70,8 @@ namespace NGTech {
 		LogPrintf(info->getSystemInfo());
 		LogPrintf(info->getCPUInfo());
 		LogPrintf(info->getGPUInfo());
+		LogPrintf("GPU Count: %i", info->getGPUCount());
+		LogPrintf("GPU Memory: %i", info->getGPUMemory());
 
 		plugins = new EnginePlugins();
 		if (!plugins)

@@ -308,7 +308,7 @@ namespace NGTech {
 			if (!linked) {
 				char errorString[4096];
 				glGetInfoLogARB(this->program, sizeof(errorString), NULL, errorString);
-				Warning("[%s] Error: shader file '%s' tcs compiling error: %s", __FUNCTION__, path.c_str(), (errorString));
+				Warning("[%s] Error: shader file '%s' linking error: %s", __FUNCTION__, path.c_str(), (errorString));
 				return false;
 			}
 			glGenProgramPipelines(1, &PipelineName);
@@ -337,7 +337,11 @@ namespace NGTech {
 
 	const char* GLShader::_createShaderCacheDirectory(String _file)
 	{
-		const char* dir = "../userData/ShaderCache/";
+#if PLATFORM_MEMORY_ADDRESS_SPACE == PLATFORM_MEMORY_ADDRESS_SPACE_32BIT
+		const char* dir = "../userData/ShaderCache.32/";
+#else
+		const char* dir = "../userData/ShaderCache.64/";
+#endif
 		String Filename = dir + _file + ".bin";
 		_mkdir(dir);
 		return Filename.c_str();
