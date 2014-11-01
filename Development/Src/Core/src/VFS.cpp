@@ -101,10 +101,10 @@ namespace NGTech
 			path = result[0];
 			if (result.size() > 1)
 			{
-				Warning("There are several files with name '", _name, "'. '", path, "' was used.");
+				Warning("There are several files with name '", _name.c_str(), "'. '", path.c_str(), "' was used.");
 				Warning("Other candidater are:");
 				for (size_t index = 1; index < result.size(); index++)
-					Warning(" - '", result[index], "'");
+					Warning(" - '", result[index].c_str(), "'");
 			}
 		}
 		return path;

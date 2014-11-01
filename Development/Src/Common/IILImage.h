@@ -19,7 +19,7 @@ namespace NGTech {
 			RGBA = 0x1908,
 		};
 	public:
-		~I_ILImage(){}
+		virtual ~I_ILImage(){}
 
 		virtual void toNormalMap(int k) = 0;
 		virtual void toGreyScale() = 0;

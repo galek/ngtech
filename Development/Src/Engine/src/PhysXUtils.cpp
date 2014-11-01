@@ -34,11 +34,11 @@ namespace NGTech {
 	PxConvexMesh* createCylinderConvexMesh(const PxF32 width, const PxF32 radius, const PxU32 numCirclePoints, PxPhysics& physics, PxCooking& cooking)
 	{
 #define  MAX_NUM_VERTS_IN_CIRCLE 100
-		PX_ASSERT(numCirclePoints<MAX_NUM_VERTS_IN_CIRCLE);
+		PX_ASSERT(numCirclePoints < MAX_NUM_VERTS_IN_CIRCLE);
 		PxVec3 verts[2 * MAX_NUM_VERTS_IN_CIRCLE];
 		PxU32 numVerts = 2 * numCirclePoints;
 		const PxF32 dtheta = 2 * PxPi / (1.0f*numCirclePoints);
-		for (PxU32 i = 0; i<MAX_NUM_VERTS_IN_CIRCLE; i++)
+		for (PxU32 i = 0; i < MAX_NUM_VERTS_IN_CIRCLE; i++)
 		{
 			const PxF32 theta = dtheta*i;
 			const PxF32 cosTheta = radius*PxCos(theta);

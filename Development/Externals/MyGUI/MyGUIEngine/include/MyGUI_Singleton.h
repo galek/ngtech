@@ -31,7 +31,6 @@ namespace MyGUI
 
 		virtual ~Singleton()
 		{
-			MYGUI_ASSERT(nullptr != msInstance, "Destroying Singleton instance " << getClassTypeName() << " before constructing it.");
 			msInstance = nullptr;
 		}
 

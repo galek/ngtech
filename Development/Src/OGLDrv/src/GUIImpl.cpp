@@ -68,7 +68,7 @@ namespace NGTech {
 
 			switch (format)
 			{
-			case IL_COLOUR_INDEX: convertToFormat = IL_RGB; break;
+			case IL_COLOUR_INDEX: convertToFormat = IL_RGB; break; //-V525
 			case IL_ALPHA: convertToFormat = IL_LUMINANCE_ALPHA; break;
 			case IL_BGR: convertToFormat = IL_RGB; break;
 			case IL_BGRA: convertToFormat = IL_RGBA; break;
@@ -100,7 +100,7 @@ namespace NGTech {
 			memcpy(_data, data, size);
 			return _data;
 		}
-		Warning("[GUI] Failed Loading GUI image!File not found:%s", _filename);
+		Warning("[GUI] Failed Loading GUI image!File not found:%s", _filename.c_str());
 		return NULL;
 	}
 	/*

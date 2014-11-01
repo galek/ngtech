@@ -28,12 +28,14 @@
 #   define IS_OS_WINDOWS    0
 #   define IS_OS_LINUX      1
 #   define IS_OS_MACOSX     0
+#   define DROP_EDITOR      1
 #   define PLATFORM_OS      PLATFORM_OS_LINUX
 #   pragma message("Platform OS is Linux.")
 #elif ( defined(__APPLE__) && defined(__MACH__) )  || defined( MACOSX )
 #   define IS_OS_WINDOWS    0
 #   define IS_OS_LINUX      0
 #   define IS_OS_MACOSX     1
+#   define DROP_EDITOR      1
 #   define PLATFORM_OS      PLATFORM_OS_MACOSX
 #   pragma message("Platform OS is MacOSX.")
 #else
@@ -41,22 +43,35 @@
 #endif
 
 
-#define PLATFORM_COMPILER_MSVC  1
-#define PLATFORM_COMPILER_GCC   2
+#define PLATFORM_COMPILER_MSVC    1
+#define PLATFORM_COMPILER_GCC     2
+#define PLATFORM_COMPILER_CLANG   3
 
 #if defined( _MSC_VER )
 #   define PLATFORM_COMPILER            PLATFORM_COMPILER_MSVC
 #   define PLATFORM_COMPILER_VERSION    _MSC_VER
-#   define IS_COMPILER_MSVC     1
-#   define IS_COMPILER_GCC      0
+#   define IS_COMPILER_MSVC       1
+#   define IS_COMPILER_GCC        0
+#   define IS_COMPILER_CLANG      0
+#   define IS_COMPILER_INTEL      0
 #   pragma message("Platform Compiler is Microsoft Visual C++.")
 #	pragma comment(lib,"winmm.lib")
 #elif defined( __GNUC__ )
 #   define PLATFORM_COMPILER            PLATFORM_COMPILER_GCC
 #   define PLATFORM_COMPILER_VERSION    (__GNUC__ * 10000 + __GNUC_MINOR__ * 100)
-#   define IS_COMPILER_MSVC     0
-#   define IS_COMPILER_GCC      1
+#   define IS_COMPILER_MSVC       0
+#   define IS_COMPILER_GCC        1
+#   define IS_COMPILER_CLANG      0
+#   define IS_COMPILER_INTEL      0
 #   pragma message("Platform Compiler is GCC.")
+#elif defined( __CLANG__ )
+#   define PLATFORM_COMPILER            PLATFORM_COMPILER_CLANG
+#   define PLATFORM_COMPILER_VERSION    (__CLANG_MAJOR__ + __CLANG_MINOR__ + __CLANG_PATCHLEVEL__)
+#   define IS_COMPILER_MSVC       0
+#   define IS_COMPILER_GCC        0
+#   define IS_COMPILER_CLANG      1
+#   define IS_COMPILER_INTEL      0
+#   pragma message("Platform Compiler is CLANG.")
 #else
 #   error "This compiler is not supported."
 #endif
@@ -96,5 +111,9 @@
 
 #define _QUOTE(x) # x
 #define QUOTE(x) _QUOTE(x)
+
+#define SAFE_RELEASE(p) { if ( (p) ) { (p)->Release(); (p) = 0; } }
+#define SAFE_DELETE(a) if( (a) != NULL ) delete (a); (a) = NULL;
+#define SAFE_DELETE_ARRAY(p) { if (p) { delete [] p; (p)=NULL; } }
 
 #endif

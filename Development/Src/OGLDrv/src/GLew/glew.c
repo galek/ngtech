@@ -12682,7 +12682,7 @@ GLenum GLEWAPIENTRY glewInit (void)
 #ifdef GLEW_MX
 GLboolean GLEWAPIENTRY glewContextIsSupported (const GLEWContext* ctx, const char* name)
 #else
-GLboolean GLEWAPIENTRY glewIsSupported (const char* name)
+GLboolean GLEWAPIENTRY glewIsSupported (const char* name) //-V553
 #endif
 {
   GLubyte* pos = (GLubyte*)name;

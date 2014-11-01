@@ -164,7 +164,6 @@ namespace NGTech {
 						else if (line == "[GLSL_COMPUTE_SHADER]") break;
 						else if (line == "[GLSL_TESSELATION_CONTROL_SHADER]") break;
 						else if (line == "[GLSL_TESSELATION_EVAL_SHADER]") break;
-						else if (line == "[GLSL_TESSELATION_EVAL_SHADER]") break;
 						else if (line == "[GLSL_GEOMETRY_SHADER]") break;
 						fsCode = fsCode + line + "\n";
 					}
@@ -284,7 +283,7 @@ namespace NGTech {
 					if (!compiled) {
 						char errorString[4096];
 						glGetInfoLogARB(this->tcs, sizeof(errorString), NULL, errorString);
-						Warning("[%s] Error: shader file '%s' tcs compiling error: %s", __FUNCTION__, path, (errorString));
+						Warning("[%s] Error: shader file '%s' tcs compiling error: %s", __FUNCTION__, path.c_str(), (errorString));
 						return false;
 					}
 				}
@@ -294,7 +293,7 @@ namespace NGTech {
 			this->program = glCreateProgram();
 			if (this->vs) glAttachShader(this->program, this->vs);
 			if (this->fs) glAttachShader(this->program, this->fs);
-			if (this->gs) glAttachShader(this->program, this->tcs);
+			if (this->gs) glAttachShader(this->program, this->gs);
 			if (this->tes) glAttachShader(this->program, this->tes);
 			if (this->tcs) glAttachShader(this->program, this->tcs);
 
@@ -309,7 +308,7 @@ namespace NGTech {
 			if (!linked) {
 				char errorString[4096];
 				glGetInfoLogARB(this->program, sizeof(errorString), NULL, errorString);
-				Warning("[%s] Error: shader file '%s' tcs compiling error: %s", __FUNCTION__, path, (errorString));
+				Warning("[%s] Error: shader file '%s' tcs compiling error: %s", __FUNCTION__, path.c_str(), (errorString));
 				return false;
 			}
 			glGenProgramPipelines(1, &PipelineName);

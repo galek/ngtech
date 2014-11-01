@@ -88,7 +88,7 @@ namespace NGTech {
 	void Config::setBool(const String &name, bool value) {
 		for (int i = 0; i < vars.size(); i++) {
 			if (vars[i].name == name) {
-				vars[i].value = StringHelper::fromInt(value);
+				vars[i].value = StringHelper::fromBool(value);
 				return;
 			}
 		}

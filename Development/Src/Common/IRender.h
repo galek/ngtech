@@ -33,7 +33,9 @@ namespace NGTech {
 	struct I_Shader;
 	struct I_Texture;
 
-	struct I_Texture{
+	struct I_Texture
+	{
+		virtual ~I_Texture(){}
 		/**
 		Texture target enum
 		*/

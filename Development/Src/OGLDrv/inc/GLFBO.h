@@ -34,17 +34,5 @@ namespace NGTech {
 		Flushes the frame buffer
 		*/
 		void flush();
-
-	private:
-		GLuint glID;
-
-		GLuint glColorID;
-		GLuint glStencilID;
-		GLuint glDepthID;
-
-		I_Texture *colorTarget;
-		I_Texture *depthTarget;
-
-		int width, height;
 	};
 }

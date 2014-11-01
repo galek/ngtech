@@ -24,6 +24,8 @@
 #include "Log.h"
 #include "Scene.h"
 //**************************************
+#include "PhysXCharacterController.h"
+//**************************************
 
 namespace NGTech {
 
@@ -50,16 +52,21 @@ namespace NGTech {
 	/**
 	*/
 	void CameraFree::setPhysics(const Vec3 &size, float mass) {
-		pBody = PhysBody::CreateSphere(size.y, &Mat4::translate(position), mass);
+		CharacterControllerDesc desc;
+		desc.height = 10.f;
+		desc.contactOffset = 0.05f; // Originally had it lower, raising it didn't seem to do much.
+		desc.position = position;
+		desc.radius = 5 * 0.4;
+		desc.upDirection = Vec3(0, 1, 0);
+		desc.stepOffset = 0.01f;
+		pBody = new PhysXCharacterController(desc);
 	}
 
 	/**
 	*/
 	void CameraFree::update() {
-		if (pBody) {
-			position = pBody->GetTransform().getTranslation();
-			pBody->SetLinearVelocity(Vec3(0, 0, 0));
-		}
+		if (pBody)
+			position = pBody->getPosition();
 
 		if (GetWindow()->isMouseMoved() && GetWindow()->isMouseGrabed()) {
 			angle[0] = -0.4 * GetWindow()->getMouseX();
@@ -99,7 +106,7 @@ namespace NGTech {
 		}
 
 		if (pBody)
-			pBody->SetTransform(Mat4::translate(position + movement));
+			pBody->move(movement.x, movement.y, movement.z, GetEngine()->GetTimePerFrame());
 		else
 			position += movement;
 

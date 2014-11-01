@@ -27,7 +27,7 @@
 #include "GUI.h"
 #include "mygui.h"
 //***************************************************
-#ifdef WIN32
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
 #include <windows.h>
 #endif
 //***************************************************

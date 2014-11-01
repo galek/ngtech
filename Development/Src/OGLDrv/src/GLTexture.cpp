@@ -146,14 +146,14 @@ namespace NGTech {
 		glDeleteTextures(1, &glID);
 	}
 
-	void GLTexture::setWrap(Wrap wrap) {
-		this->wrap = wrap;
+	void GLTexture::setWrap(Wrap _wrap) {
+		this->wrap = _wrap;
 
 		glBindTexture(target, glID);
 
-		glTexParameteri(target, GL_TEXTURE_WRAP_S, wrap);
-		glTexParameteri(target, GL_TEXTURE_WRAP_T, wrap);
-		glTexParameteri(target, GL_TEXTURE_WRAP_R, wrap);
+		glTexParameteri(target, GL_TEXTURE_WRAP_S, this->wrap);
+		glTexParameteri(target, GL_TEXTURE_WRAP_T, this->wrap);
+		glTexParameteri(target, GL_TEXTURE_WRAP_R, this->wrap);
 
 		glBindTexture(target, 0);
 	}
@@ -199,11 +199,11 @@ namespace NGTech {
 		glBindTexture(target, 0);
 	}
 
-	void GLTexture::setAniso(Aniso aniso) {
+	void GLTexture::setAniso(Aniso _aniso) {
 		glBindTexture(target, glID);
 
-		if (aniso > 0) {
-			this->aniso = aniso;
+		if (_aniso > 0) {
+			this->aniso = _aniso;
 			glTexParameterf(target, GL_TEXTURE_MAX_ANISOTROPY_EXT, this->aniso);
 		}
 

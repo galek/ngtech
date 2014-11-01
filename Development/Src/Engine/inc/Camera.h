@@ -222,7 +222,7 @@ namespace NGTech {
 		virtual void setPhysics(const Vec3 &size, float mass);
 
 	private:
-		PhysBody *pBody;
+		struct PhysXCharacterController* pBody;
 	};
 
 	/**

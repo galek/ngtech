@@ -23,9 +23,6 @@
 #include <fstream>
 #include <stdarg.h>
 
-#pragma message("Слушай,сделай уже этот макросс,заебал!")
-#define SAFE_DELETE_ARRAY
-
 namespace NGTech
 {
 
@@ -52,7 +49,7 @@ namespace NGTech
 	bool VFile::IsDataExist() {
 		bool status = GetVFS()->isDataExist(mName);
 		if (!status)
-			Warning("File %s :is not exist", mName);
+			Warning("File %s :is not exist", mName.c_str());
 		return status;
 	}
 

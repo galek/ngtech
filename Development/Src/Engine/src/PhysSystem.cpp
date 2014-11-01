@@ -24,7 +24,6 @@
 //***************************************************************************
 #ifdef _DEBUG
 //#define ENABLE_PVD 1
-//#define DEBUG_PHYSICS 1
 #endif
 
 namespace NGTech {
@@ -49,10 +48,11 @@ namespace NGTech {
 		mCooking(nullptr),
 		mMaterial(nullptr),
 		mCpuDispatcher(nullptr),
-#if defined (WIN32) && !defined (_DEBUG)
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
 		mCudaContextManager(nullptr),
 #endif
-		mScene(nullptr)
+		mScene(nullptr),
+		mCCManager(nullptr)
 	{}
 
 	/**
@@ -104,7 +104,8 @@ namespace NGTech {
 				Error("PhysSystem::initialise()-PxDefaultCpuDispatcherCreate failed!", true);
 			sceneDesc.cpuDispatcher = mCpuDispatcher;
 		}
-#if defined (WIN32) && !defined (_DEBUG)
+
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
 		// create GPU dispatcher
 		if (!sceneDesc.gpuDispatcher)
 		{
@@ -121,15 +122,11 @@ namespace NGTech {
 
 		mScene = mPhysics->createScene(sceneDesc);
 		if (!mScene)
-			Error("PhysSystem::initialise()-createScene failed!", true);
+			Error("PhysSystem::initialise()-create mScene failed!", true);
 
-#if defined (DEBUG_PHYSICS)
-		// *** Create Ground-Plane *** //
-		PxTransform pose = PxTransform(PxVec3(0.0f, 0.0f, 0.0f), PxQuat(PxHalfPi, PxVec3(0.0f, 0.0f, 1.0f)));
-		PxRigidStatic* plane = mPhysics->createRigidStatic(pose);
-		PxShape* shape = plane->createShape(PxPlaneGeometry(), *mMaterial);
-		mScene->addActor(*plane);
-#endif
+		mCCManager = PxCreateControllerManager(*mScene);
+		if (!mCCManager)
+			Error("PhysSystem::initialise()-create mCCManager failed!", true);
 	}
 
 	/**
@@ -172,7 +169,7 @@ namespace NGTech {
 			mCpuDispatcher->release();
 		mCpuDispatcher = NULL;
 
-#if defined (WIN32) && !defined (_DEBUG)
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
 		if (mCudaContextManager)
 			mCudaContextManager->release();
 		mCudaContextManager = NULL;

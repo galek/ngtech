@@ -19,6 +19,7 @@ namespace physx
 	class PxScene;
 	class PxMaterial;
 	class PxCudaContextManager;
+	class PxControllerManager;
 }
 //***************************************************************************
 
@@ -53,6 +54,7 @@ namespace NGTech {
 		ENGINE_INLINE physx::PxScene* GetPxScene(){ return mScene; }
 		ENGINE_INLINE physx::PxMaterial* GetPxMaterial(){ return mMaterial; }
 		ENGINE_INLINE physx::PxDefaultCpuDispatcher* GetPxDefaultCpuDispatcher(){ return mCpuDispatcher; }
+		ENGINE_INLINE physx::PxControllerManager* GetPxControllerManager(){ return mCCManager; }
 	public:
 		void runUpdate();
 		void waitUpdate();
@@ -85,9 +87,10 @@ namespace NGTech {
 		physx::PxScene*								    mScene;
 		physx::PxMaterial*								mMaterial;
 		physx::PxDefaultCpuDispatcher*					mCpuDispatcher;
-#if defined (WIN32) && !defined (_DEBUG)
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
 		physx::PxCudaContextManager*				    mCudaContextManager;
 #endif
+		physx::PxControllerManager*						mCCManager;
 		CVARManager*									info;
 		PhysicsUpdateJob*								mUpdateJob;
 		int update_id;									// update identifier

@@ -27,6 +27,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	struct I_Audio {
 	public:
+		virtual ~I_Audio(){}
 		virtual void initialise() = 0;
 		virtual String getVendor() = 0;
 		virtual String getRenderer() = 0;

@@ -40,8 +40,8 @@
 namespace NGTech {
 	/**
 	*/
-#define ENGINE_VERSION_NUMBER 0.3.6
-#define ENGINE_VERSION_STRING "0.3.6"
+#define ENGINE_VERSION_NUMBER 0.4
+#define ENGINE_VERSION_STRING "0.4"
 
 	/**
 	*/
@@ -53,7 +53,7 @@ namespace NGTech {
 	{
 		SetCore(this);
 		log = new Log();
-		LogPrintf("Engine Version:"ENGINE_VERSION_STRING" Build Date : "__DATE__" : "__TIME__);
+		LogPrintf("Engine Version:", ENGINE_VERSION_STRING, " Build Date : ", __DATE__, " : ", __TIME__);
 	}
 
 	/**
@@ -91,7 +91,7 @@ namespace NGTech {
 		threads = new EngineThreads();
 		if (!threads)
 			Warning("[Init] EngineThreads Failed");
-		
+
 #ifndef DROP_EDITOR
 		if (mIsEditor)
 		{
@@ -214,7 +214,7 @@ namespace NGTech {
 
 	/**
 	*/
-	Engine::~Engine()  
+	Engine::~Engine()
 	{
 		SAFE_DELETE(mWatermarkTex);
 		SAFE_DELETE(scripting);
@@ -238,7 +238,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void Engine::mainLoop() 
+	void Engine::mainLoop()
 	{
 		PROFILER_START(Engine::mainLoop);
 
@@ -316,11 +316,11 @@ namespace NGTech {
 		PROFILER_START(Engine::do_swap);
 		// wait multi-threaded physics
 		if (this->physSystem)
-		this->physSystem->waitUpdate();
+			this->physSystem->waitUpdate();
 
 		// wait multi-threaded sound
 		if (this->scene)
-		this->scene->waitUpdate();
+			this->scene->waitUpdate();
 
 		if (this->iRender)
 			this->iRender->endFrame();
@@ -374,7 +374,7 @@ namespace NGTech {
 	bool Engine::ConsoleIsActive(){
 		return console->getVisible();
 	}
-	
+
 	/**
 	*/
 	void RenderWatermark(I_Texture* _watermark)

@@ -16,12 +16,13 @@
 * NG Games Ltd. at http://nggames.com/
 */
 #include "EnginePrivate.h"
+//***************************************************
 #include "Engine.h"
 #include "EngineThreads.h"
-//added
 #include "Utils.h"
 #include "SystemInfo.h"
 #include "Scene.h"
+//***************************************************
 
 namespace NGTech
 {
@@ -85,7 +86,7 @@ namespace NGTech
 	*/
 	void EngineJobThread::process() {
 
-#ifdef _WIN32
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
 		SetThreadIdealProcessor(thread, num + 1);
 #endif
 

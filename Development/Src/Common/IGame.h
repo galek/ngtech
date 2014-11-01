@@ -25,13 +25,13 @@ namespace NGTech {
 
 	struct IGame
 	{
+		virtual ~IGame(){}
 	protected:
 		IGame() :rc(false), ec(false){}
 	public:
 		virtual void initialise() = 0;
 		virtual void update() = 0;
 		virtual void render() = 0;
-
 
 		void runRenderCallback(){ render_callback->Body(); };
 		void runEventsCallback(){ events_callback->Body(); };

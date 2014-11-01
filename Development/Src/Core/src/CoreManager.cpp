@@ -57,21 +57,11 @@ namespace NGTech {
 	{
 		_initUserDir();
 		meshLoader = new MeshLoader();
-		if (!meshLoader)
-		{
-			Warning("[Init] MeshLoader Failed");
-			return;
-		}
 		meshLoader->RegisterFormat(new MeshFormatXSMSH());
 
 		/**
 		*/
 		skinnedMeshLoader = new SkinnedMeshLoader();
-		if (!meshLoader)
-		{
-			Warning("[Init] MeshLoader Failed");
-			return;
-		}
 		skinnedMeshLoader->RegisterFormat(new SkinnedMeshFormatXSSMSH());
 	}
 
