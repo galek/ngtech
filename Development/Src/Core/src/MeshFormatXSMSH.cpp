@@ -51,7 +51,7 @@ namespace NGTech
 
 		if (header != MESH_HEADER && header != MESH_HEADER_UNWRAPPED)
 		{
-			Error(std::string("MeshLoader::LoadXSMSH() error: mesh file '" + path + "' has invalid header"), true);
+			Error(std::string("MeshLoader::Load() error: mesh file '" + path + "' has invalid header"), false);
 			return;
 		}
 

@@ -19,10 +19,11 @@ namespace NGTech {
 	}
 
 	ObjectMesh::ObjectMesh(const String &path)
-		:Object() 
+		:Object()
 	{
-		if (GetCache()){
-			model = GetCache()->loadModel("meshes/" + path);
+		auto cache = GetCache();
+		if (cache){
+			model = cache->loadModel("meshes/" + path);
 			materials.resize(model->getNumSubsets());
 			for (int i = 0; i < materials.size(); i++)
 				materials[i] = nullptr;
@@ -32,12 +33,15 @@ namespace NGTech {
 	}
 
 	ObjectMesh::~ObjectMesh() {
-		GetCache()->deleteModel(model);
-		for (int i = 0; i < materials.size(); i++) {
-			GetCache()->deleteMaterial(materials[i]);
+		auto cache = GetCache();
+		if (cache){
+			cache->deleteModel(model);
+			for (int i = 0; i < materials.size(); i++) {
+				cache->deleteMaterial(materials[i]);
+			}
+			materials.clear();
+			cache->deleteSound(impactSound);
 		}
-		materials.clear();
-		GetCache()->deleteSound(impactSound);
 		SAFE_DELETE(pBody);
 	}
 
@@ -50,8 +54,10 @@ namespace NGTech {
 	}
 
 	void ObjectMesh::setMaterial(const String &path, const String &name) {
-		if (GetCache()){
-			Material *material = GetCache()->loadMaterial(path);
+		auto cache = GetCache();
+		if (cache)
+		{
+			Material *material = cache->loadMaterial(path);
 			if (name == "*")
 				for (int s = 0; s < model->getNumSubsets(); s++)
 					materials[s] = material;
@@ -137,7 +143,7 @@ namespace NGTech {
 
 		for (int i = 0; i < model->getNumSubsets(); i++)
 			pb[i] = *PhysBody::CreateStaticMesh(model->subsets[i]->numVertices, model->subsets[i]->numIndices, &transform, model->subsets[i]->vertices, model->subsets[i]->indices);
-	
+
 		//Nick:BUG:Меш собирается в реалтайме,и часть тел пролетает,если сначала создать физику,и потом задать коллизию
 		pBody = pb;
 	}
@@ -159,8 +165,12 @@ namespace NGTech {
 	}
 
 	void ObjectMesh::setImpactSound(const String &path) {
-		impactSound = GetCache()->loadSound(path);
-		if (pBody)
-			pBody->SetImpactSound(impactSound);
+		auto cache = GetCache();
+		if (cache)
+		{
+			impactSound = cache->loadSound(path);
+			if (pBody)
+				pBody->SetImpactSound(impactSound);
+		}
 	}
 }
