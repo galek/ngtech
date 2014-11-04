@@ -293,7 +293,6 @@ Development/Src/Editors/NGEd/obj/
 Development/Src/Editors/LogicEditor/obj/
 Development/Src/Editors/LogicEditor/bin/
 Development/Src/Editors/3dparty/Graph/obj/
-*.dll
 Bins/Bin32_d/NGEd.exe.config
 Bins/Bin32_d/NGEd.vshost.exe.config
 Bins/userData/ShaderCache/
@@ -301,3 +300,7 @@ Bins/Bin32/EngineLog.html - Ярлык.lnk
 Bins/Bin32_d/EngineLog.html - Ярлык.lnk
 Bins/Bin32_d/userData - Ярлык.lnk
 Bins/userData/
+Bins/Bin32_d/Graph.dll
+Bins/Bin32_d/GraphNodes.dll
+Bins/Bin64_d/Graph.dll
+Bins/Bin64_d/GraphNodes.dll
