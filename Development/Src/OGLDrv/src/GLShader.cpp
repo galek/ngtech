@@ -130,7 +130,7 @@ namespace NGTech {
 		else
 		{
 			if (_save)
-				Warning("Shader Cache for shader: %s is not valid", path.c_str());
+				LogPrintf("Shader Cache for shader: %s is not valid", path.c_str());
 			VFile mFile(path.c_str(), VFile::READ_TEXT);
 			String line, vsCode, fsCode, tcsCode, tesCode, gsCode;
 
