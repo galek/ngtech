@@ -96,7 +96,7 @@ namespace NGTech {
 		*/
 		const char* _createShaderCacheDirectory(const char* _file);
 
-		bool checkLinked(bool needLink, const char*path);
+		bool _checkLinked(const char*path);
 	private:
 		unsigned int PipelineName;
 		std::string Filename;

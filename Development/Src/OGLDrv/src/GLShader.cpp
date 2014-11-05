@@ -305,29 +305,15 @@ namespace NGTech {
 			}
 
 			//create
-			if (this->vs){
-				glAttachShader(this->program, this->vs);
-				checkLinked(true, path.c_str());
-			}
-			if (this->fs) {
-				glAttachShader(this->program, this->fs);
-				checkLinked(true, path.c_str());
-			}
-			if (this->gs){
-				glAttachShader(this->program, this->gs);
-				checkLinked(true, path.c_str());
-			}
-			if (this->tes){
-				glAttachShader(this->program, this->tes);
-				checkLinked(true, path.c_str());
-			}
-			if (this->tcs){
-				glAttachShader(this->program, this->tcs);
-				checkLinked(true, path.c_str());
-			}
+			this->program = glCreateProgram();
+			if (this->vs)  glAttachShader(this->program, this->vs);
+			if (this->fs)  glAttachShader(this->program, this->fs);
+			if (this->gs)  glAttachShader(this->program, this->gs);
+			if (this->tes) glAttachShader(this->program, this->tes);
+			if (this->tcs) glAttachShader(this->program, this->tcs);
 
-			//Not needed for binary
-			checkLinked(true, path.c_str());
+			if (!_checkLinked(path.c_str()))
+				return false;
 
 			if (_save)
 			{
@@ -341,11 +327,10 @@ namespace NGTech {
 		return false;
 	}
 
-	bool GLShader::checkLinked(bool needLink, const char*path)
+	bool GLShader::_checkLinked(const char*path)
 	{
 		int linked;
-		if (needLink)
-			glLinkProgram(this->program);
+		glLinkProgram(this->program);
 		glGetProgramiv(this->program, GL_LINK_STATUS, &linked);
 
 		if (!linked) {
@@ -360,15 +345,6 @@ namespace NGTech {
 	bool GLShader::_saveCache(const char* path)
 	{
 		Debug(__FUNCTION__);
-		/*
-				int Size = 0;
-				unsigned int Format = 0;
-
-				glGetProgramiv(this->program, GL_PROGRAM_BINARY_LENGTH, &Size);
-
-				void* Data = (void*)malloc(Size);
-				glGetProgramBinary(this->program, Size, nullptr, &Format, Data);
-				return saveBinary(_createShaderCacheDirectory(path), Format, Data, Size);*/
 		GLint Size(0);
 		GLenum Format(0);
 
@@ -391,4 +367,4 @@ namespace NGTech {
 		Filename += ".bin";
 		return Filename.c_str();
 	}
-}
+	}
