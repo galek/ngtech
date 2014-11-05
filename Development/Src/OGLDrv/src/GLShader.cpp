@@ -32,17 +32,21 @@ namespace NGTech {
 	GLShader *GLShader::create(const String &path, const String &defines) {
 		GLShader *shader = new GLShader();
 
-		shader->vs = NULL;
-		shader->fs = NULL;
-		shader->cs = NULL;
-		shader->tcs = NULL;
-		shader->tes = NULL;
-		shader->program = NULL;
-
 		if (shader->_createShader(path, defines, true))
 			return shader;
 		else
 			return NULL;
+	}
+
+	GLShader::GLShader() :
+		Filename("NULL")
+	{
+		this->vs = NULL;
+		this->fs = NULL;
+		this->cs = NULL;
+		this->tcs = NULL;
+		this->tes = NULL;
+		this->program = NULL;
 	}
 
 	GLShader::~GLShader() {
@@ -52,8 +56,8 @@ namespace NGTech {
 		if (cs) glDeleteProgram(cs);
 		if (tcs) glDeleteProgram(tcs);
 		if (tes) glDeleteProgram(tes);
-		glDeleteProgram(program);
-		glDeleteProgramPipelines(1, &PipelineName);
+		if (program) glDeleteProgram(program);
+		if (PipelineName) glDeleteProgramPipelines(1, &PipelineName);
 	}
 
 	void GLShader::set() {
@@ -99,23 +103,34 @@ namespace NGTech {
 
 	bool GLShader::_createShader(const String &path, const String &defines, bool _save)
 	{
+		int Success = 0;
 
-		unsigned int Format = 0;
-		int Size = 0;
-		std::vector<unsigned char> Data;
-		bool mBinary = false;
+		glGenProgramPipelines(1, &PipelineName);
 
-		if (loadBinary(_createShaderCacheDirectory(path), Format, Data, Size))
 		{
 			this->program = glCreateProgram();
 			glProgramParameteri(this->program, GL_PROGRAM_SEPARABLE, GL_TRUE);
 			glProgramParameteri(this->program, GL_PROGRAM_BINARY_RETRIEVABLE_HINT, GL_TRUE);
-			glProgramBinary(this->program, Format, &Data[0], Size);
-			mBinary = true;
-			return true;
-		}
 
-		else {
+
+			GLenum Format = 0;
+			GLint Size = 0;
+			std::vector<unsigned char> Data;
+
+			if (loadBinary(_createShaderCacheDirectory(path.c_str()), Format, Data, Size))
+			{
+				DebugM("loading shader binary,for %s, is successful", path.c_str());
+				glProgramBinary(this->program, Format, &Data[0], Size);
+				glGetProgramiv(this->program, GL_LINK_STATUS, &Success);
+			}
+		}
+		DebugM("Validation shader binary is %i", Success);
+		if (Success)
+			return true;
+		else
+		{
+			if (_save)
+				Warning("Shader Cache for shader: %s is not valid", path.c_str());
 			VFile mFile(path.c_str(), VFile::READ_TEXT);
 			String line, vsCode, fsCode, tcsCode, tesCode, gsCode;
 
@@ -290,60 +305,90 @@ namespace NGTech {
 			}
 
 			//create
-			this->program = glCreateProgram();
-			if (this->vs) glAttachShader(this->program, this->vs);
-			if (this->fs) glAttachShader(this->program, this->fs);
-			if (this->gs) glAttachShader(this->program, this->gs);
-			if (this->tes) glAttachShader(this->program, this->tes);
-			if (this->tcs) glAttachShader(this->program, this->tcs);
-
-			int linked;
+			if (this->vs){
+				glAttachShader(this->program, this->vs);
+				checkLinked(true, path.c_str());
+			}
+			if (this->fs) {
+				glAttachShader(this->program, this->fs);
+				checkLinked(true, path.c_str());
+			}
+			if (this->gs){
+				glAttachShader(this->program, this->gs);
+				checkLinked(true, path.c_str());
+			}
+			if (this->tes){
+				glAttachShader(this->program, this->tes);
+				checkLinked(true, path.c_str());
+			}
+			if (this->tcs){
+				glAttachShader(this->program, this->tcs);
+				checkLinked(true, path.c_str());
+			}
 
 			//Not needed for binary
-			if (!mBinary)
-				glLinkProgram(this->program);
-
-			glGetProgramiv(this->program, GL_LINK_STATUS, &linked);
-
-			if (!linked) {
-				char errorString[4096];
-				glGetInfoLogARB(this->program, sizeof(errorString), NULL, errorString);
-				Warning("[%s] Error: shader file '%s' linking error: %s", __FUNCTION__, path.c_str(), (errorString));
-				return false;
-			}
-			glGenProgramPipelines(1, &PipelineName);
+			checkLinked(true, path.c_str());
 
 			if (_save)
-				return _saveCache(path);
-
+			{
+				if (!_saveCache(path.c_str()))
+				{
+					Warning("Failed Saving Compiled cache: %s", path.c_str());
+				}
+			}
 			return true;
 		}
 		return false;
 	}
 
-	bool GLShader::_saveCache(const String &path)
+	bool GLShader::checkLinked(bool needLink, const char*path)
+	{
+		int linked;
+		if (needLink)
+			glLinkProgram(this->program);
+		glGetProgramiv(this->program, GL_LINK_STATUS, &linked);
+
+		if (!linked) {
+			char errorString[4096];
+			glGetInfoLogARB(this->program, sizeof(errorString), NULL, errorString);
+			Warning("[%s] Error: shader file '%s' linking error: %s", __FUNCTION__, path, (errorString));
+			return false;
+		}
+		return true;
+	}
+
+	bool GLShader::_saveCache(const char* path)
 	{
 		Debug(__FUNCTION__);
+		/*
+				int Size = 0;
+				unsigned int Format = 0;
+
+				glGetProgramiv(this->program, GL_PROGRAM_BINARY_LENGTH, &Size);
+
+				void* Data = (void*)malloc(Size);
+				glGetProgramBinary(this->program, Size, nullptr, &Format, Data);
+				return saveBinary(_createShaderCacheDirectory(path), Format, Data, Size);*/
 		GLint Size(0);
 		GLenum Format(0);
 
 		glGetProgramiv(this->program, GL_PROGRAM_BINARY_LENGTH, &Size);
 		std::vector<unsigned char> Data(Size);
 		glGetProgramBinary(this->program, Size, nullptr, &Format, &Data[0]);
-		saveBinary(_createShaderCacheDirectory(path), Format, Data, Size);
-
-		return true;
+		return saveBinary(_createShaderCacheDirectory(path), Format, Data, Size);
 	}
 
-	const char* GLShader::_createShaderCacheDirectory(String _file)
+	const char* GLShader::_createShaderCacheDirectory(const char * _file)
 	{
 #if PLATFORM_MEMORY_ADDRESS_SPACE == PLATFORM_MEMORY_ADDRESS_SPACE_32BIT
-		const char* dir = "../userData/ShaderCache.32/";
+		static const char* dir = "../userData/ShaderCache.32/";
 #else
-		const char* dir = "../userData/ShaderCache.64/";
+		static const char* dir = "../userData/ShaderCache.64/";
 #endif
-		String Filename = dir + _file + ".bin";
 		_mkdir(dir);
+		Filename = dir;
+		Filename += _file;
+		Filename += ".bin";
 		return Filename.c_str();
 	}
 }

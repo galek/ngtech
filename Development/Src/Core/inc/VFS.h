@@ -48,11 +48,8 @@ namespace NGTech
 		bool mIsInitialise;
 	};
 
-
-
-	bool CORE_API loadBinary(const String & _file, unsigned int & Format, std::vector<unsigned char> & Data, int & Size);
-	bool CORE_API saveBinary(const String & _file, unsigned int const & Format, std::vector<unsigned char> const & Data, int const & Size);
-
+	bool CORE_API saveBinary(const char* _file, unsigned int const Format, std::vector<unsigned char> & Data, int const & Size); 
+	bool CORE_API loadBinary(const char* _file,	unsigned int & Format, std::vector<unsigned char> & Data, int & Size);
 }
 
 #endif

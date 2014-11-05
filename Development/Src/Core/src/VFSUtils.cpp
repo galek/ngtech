@@ -6,13 +6,14 @@
 namespace NGTech {
 
 	bool CORE_API saveBinary
-		(const String & _file,
-		unsigned int const & Format,
-		std::vector<unsigned char> const & Data,
+		(const char* _file,
+		unsigned int const Format,
+		std::vector<unsigned char> & Data,
 		int const & Size
 		)
 	{
-		FILE* File = fopen(_file.c_str(), "wb");
+		DebugM("saveBinary %s", _file);
+		FILE* File = fopen(_file, "wb");
 
 		if (File)
 		{
@@ -26,12 +27,16 @@ namespace NGTech {
 	}
 
 	bool CORE_API loadBinary
-		(const std::string & _file,
+		(const char* _file,
 		unsigned int & Format,
-		std::vector<unsigned char> & Data,
+		std::vector<unsigned char>& Data,
 		int & Size)
 	{
-		FILE* File = fopen(_file.c_str(), "rb");
+		DebugM("loadBinary %s", _file);
+
+		int binaryLength = 0;
+
+		FILE* File = fopen(_file, "rb");
 
 		if (File)
 		{

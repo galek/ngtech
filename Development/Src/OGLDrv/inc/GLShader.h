@@ -10,7 +10,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: GL GLShader struct    
 	//---------------------------------------------------------------------------
-	class GLShader :public I_Shader {
+	class GLShader : public I_Shader {
 	public:
 		/**
 		Creates new GLShader
@@ -77,6 +77,8 @@ namespace NGTech {
 		\param value param value
 		*/
 		void sendInt(const String &name, int value);
+	protected:
+		GLShader();
 
 	private:
 		/**
@@ -87,13 +89,16 @@ namespace NGTech {
 		/**
 		Saving shader cache in user directory
 		*/
-		bool _saveCache(const String &path);
+		bool _saveCache(const char* path);
 
 		/**
 		Creation shader cache user directory
 		*/
-		const char* _createShaderCacheDirectory(String _file);
+		const char* _createShaderCacheDirectory(const char* _file);
+
+		bool checkLinked(bool needLink, const char*path);
 	private:
 		unsigned int PipelineName;
+		std::string Filename;
 	};
 }
