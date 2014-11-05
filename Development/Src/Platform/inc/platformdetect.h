@@ -114,6 +114,6 @@
 
 #define SAFE_RELEASE(p) { if ( (p) ) { (p)->Release(); (p) = 0; } }
 #define SAFE_DELETE(a) if( (a) != NULL ) delete (a); (a) = NULL;
-#define SAFE_DELETE_ARRAY(p) { if (p) { delete [] p; (p)=NULL; } }
+#define SAFE_DELETE_ARRAY(p) { if (p) { delete [] p; (p) = NULL; } }
 
 #endif
