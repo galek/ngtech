@@ -163,7 +163,7 @@ namespace NGTech {
 	}
 
 	ILImage::~ILImage() {
-		free(data);
+		SAFE_DELETE(data);
 	}
 
 	void ILImage::toNormalMap(int k) {

@@ -107,9 +107,7 @@ namespace MyGUI
 		// загружаем дефолтные настройки если надо
 		if (!_core.empty())
 			mResourceManager->load(_core);
-
-		BackwardCompatibility::initialise();
-
+		
 		MYGUI_LOG(Info, getClassTypeName() << " successfully initialized");
 		mIsInitialise = true;
 	}

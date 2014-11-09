@@ -1,43 +1,120 @@
+/***************************************************************************
+ *   Copyright (C) 2006 by AST   *
+ *   tsyplyaevgmail.com   *
+ *   ICQ: 279-533-134                          *
+ *   This is a part of work done by AST.       *
+ *   If you want to use it, please contact me. *
+ ***************************************************************************/
+
 #pragma once
 
 //**************************************
 #include <string>
-#include <tchar.h>
 //**************************************
 
-namespace NGTech {
-	//---------------------------------------------------------------------------
-	//Desc: std::string
-	//---------------------------------------------------------------------------
-	typedef std::basic_string<TCHAR> TString;
-	typedef TString String;
+/**
+std::string
+*/
+class String : public std::string
+{
+public:
+	/**
+	String constructor
+	*/
+	String();
 
-	void replaceSpaces(String &s);
-	void getFileName(String &s);
-	void cutFileExt(String &s);
+	/**
+	String constructor
+	*/
+	String(const char *str);
 
-	//---------------------------------------------------------------------------
-	//Desc: some important String functions
-	//---------------------------------------------------------------------------
-	struct StringHelper {
-		static int getWordsNumber(const String &input);
-		static String getWord(const String &input, unsigned int n);
+	/**
+	String constructor
+	*/
+	String(const std::string &str);
 
-		static int toInt(const String &input);
-		static float toFloat(const String &input);
-		static double toDouble(const String &input);
+	/**
+	String constructor
+	*/
+	String(int i);
 
-		static int getInt(const String &input, unsigned int n);
-		static float getFloat(const String &input, unsigned int n);
-		static double getDouble(const String &input, unsigned int n);
+	/*
+	String constructor
+	*/
+	String(unsigned int i);
 
-		static String toUpper(const String &input);
+	/**
+	String constructor
+	*/
+	String(float i);
 
-		static String fromInt(int i);
-		static String fromDouble(double i);
-		static String fromFloat(float i);
-		static String fromBool(bool i);
+	/**
+	String constructor
+	*/
+	String(double i);
 
-		static String printf(const TCHAR *format, ...);
-	};
-}
+	/**
+	String constructor
+	*/
+	String(bool i);
+
+	/**
+	Gets word from String. Words are separated by space
+	*/
+	String GetWord(int n);
+
+	/**
+	Gets quoted word from String. Words are separated by space and quoted word can contain spaces
+	*/
+	String GetQuotedWord(int n);
+
+	/**
+	Gets words count. Words are separated by space
+	*/
+	int GetWordCount();
+
+	/**
+	Cuts file ext from file name
+	*/
+	String CutFileExt();
+
+	/**
+	Gets file ext from file name
+	*/
+	String GetFileExt();
+
+	/**
+	Converts String to int
+	*/
+	int ToInt();
+
+	/**
+	Converts String to float
+	*/
+	float ToFloat();
+
+	/**
+	Converts String to double
+	*/
+	double ToDouble();
+
+	/**
+	Converts String to bool
+	*/
+	bool ToBool();
+
+	/**
+	strstr analog
+	*/
+	bool Strstr(const String &line);
+
+	/**
+	sprintf analog
+	*/
+	void Printf(const String &format,...);
+
+	/**
+	Converts String to const char *
+	*/
+	operator const char*() const;
+};

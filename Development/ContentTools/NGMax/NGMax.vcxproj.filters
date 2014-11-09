@@ -8,12 +8,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="String.cpp" />
     <ClCompile Include="MathLib.cpp" />
+    <ClCompile Include="File.cpp" />
+    <ClCompile Include="String.cpp" />
+    <ClCompile Include="xmlParser\xmlParser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="String.h" />
     <ClInclude Include="MathLib.h" />
+    <ClInclude Include="File.h" />
+    <ClInclude Include="String.h" />
+    <ClInclude Include="xmlParser\xmlParser.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="export.def">
