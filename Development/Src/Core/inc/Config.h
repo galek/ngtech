@@ -27,9 +27,9 @@ namespace NGTech {
 	private:
 		struct ConfigVar {
 			ConfigVar() {
-				name = "";
-				value = "";
-			};
+				name.clear();
+				value.clear();
+			}
 
 			String name;
 			String value;

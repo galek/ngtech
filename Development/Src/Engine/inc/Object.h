@@ -1,7 +1,6 @@
 #pragma once
 
 //**************************************
-//#include "../../Common/StringHelper.h"
 #include "../../Core/inc/MathLib.h"
 #include "PhysSystem.h"
 #include "Frustum.h"
@@ -26,21 +25,21 @@ namespace NGTech {
 			OBJECT_CAMERA
 		};
 
-		virtual void drawSubset(int s) = 0;
-		ENGINE_INLINE virtual int getNumSubsets() = 0;
+		virtual void drawSubset(size_t s) = 0;
+		ENGINE_INLINE virtual size_t getNumSubsets() = 0;
 
 		virtual Vec3 &getMax() = 0;
 		virtual Vec3 &getMin() = 0;
 		virtual Vec3 &getCenter() = 0;
 		ENGINE_INLINE virtual float getRadius() = 0;
-		ENGINE_INLINE virtual float getRadius(int s) = 0;
+		ENGINE_INLINE virtual float getRadius(size_t s) = 0;
 
-		virtual Vec3 &getMax(int s) = 0;
-		virtual Vec3 &getMin(int s) = 0;
-		virtual Vec3 &getCenter(int s) = 0;
+		virtual Vec3 &getMax(size_t s) = 0;
+		virtual Vec3 &getMin(size_t s) = 0;
+		virtual Vec3 &getCenter(size_t s) = 0;
 
 
-		ENGINE_INLINE virtual Material *getMaterial(int s) = 0;
+		ENGINE_INLINE virtual Material *getMaterial(size_t s) = 0;
 
 		ENGINE_INLINE virtual void setTransform(const Mat4 &trans) {}
 		ENGINE_INLINE virtual Mat4 getTransform() = 0;
@@ -53,25 +52,26 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: class of the scene object
 	//---------------------------------------------------------------------------
-	class ENGINE_API ObjectMesh : public Object{
+	class ENGINE_API ObjectMesh : public Object
+	{
 	public:
 		explicit ObjectMesh(const String &path);
 		virtual ~ObjectMesh();
 
-		virtual void drawSubset(int s);
-		ENGINE_INLINE virtual int getNumSubsets() { return model->getNumSubsets(); };
+		virtual void drawSubset(size_t s);
+		ENGINE_INLINE virtual size_t getNumSubsets() { return model->getNumSubsets(); };
 
 		ENGINE_INLINE virtual Vec3 &getMax() { return model->bBox.max; };
 		ENGINE_INLINE virtual Vec3 &getMin() { return model->bBox.min; };
 		ENGINE_INLINE virtual Vec3 &getCenter() { return model->bSphere.center; };
 		ENGINE_INLINE virtual float getRadius() { return model->bSphere.radius; };
 
-		ENGINE_INLINE virtual Vec3 &getMax(int s) { return model->subsets[s]->bBox.max; };
-		ENGINE_INLINE virtual Vec3 &getMin(int s) { return model->subsets[s]->bBox.min; };
-		ENGINE_INLINE virtual Vec3 &getCenter(int s) { return model->subsets[s]->bSphere.center; };
-		ENGINE_INLINE virtual float getRadius(int s) { return model->subsets[s]->bSphere.radius; };
+		ENGINE_INLINE virtual Vec3 &getMax(size_t s) { return model->subsets[s]->bBox.max; };
+		ENGINE_INLINE virtual Vec3 &getMin(size_t s) { return model->subsets[s]->bBox.min; };
+		ENGINE_INLINE virtual Vec3 &getCenter(size_t s) { return model->subsets[s]->bSphere.center; };
+		ENGINE_INLINE virtual float getRadius(size_t s) { return model->subsets[s]->bSphere.radius; };
 
-		virtual Material *getMaterial(int s);
+		virtual Material *getMaterial(size_t s);
 
 		void setMaterial(const String &path, const String &subsetName = "*");
 		void setMaterialList(const String &path);
@@ -122,10 +122,10 @@ namespace NGTech {
 		ENGINE_INLINE virtual Vec3 &getCenter() { return mesh->bSphere.center; };
 		ENGINE_INLINE virtual float getRadius() { return mesh->bSphere.radius; };
 
-		ENGINE_INLINE virtual Vec3 &getMax(int s) { return mesh->subsets[s]->bBox.max; };
-		ENGINE_INLINE virtual Vec3 &getMin(int s) { return mesh->subsets[s]->bBox.min; };
-		ENGINE_INLINE virtual Vec3 &getCenter(int s) { return mesh->subsets[s]->bSphere.center; };
-		ENGINE_INLINE virtual float getRadius(int s) { return mesh->subsets[s]->bSphere.radius; };
+		ENGINE_INLINE virtual Vec3 &getMax(size_t s) { return mesh->subsets[s]->bBox.max; };
+		ENGINE_INLINE virtual Vec3 &getMin(size_t s) { return mesh->subsets[s]->bBox.min; };
+		ENGINE_INLINE virtual Vec3 &getCenter(size_t s) { return mesh->subsets[s]->bSphere.center; };
+		ENGINE_INLINE virtual float getRadius(size_t s) { return mesh->subsets[s]->bSphere.radius; };
 
 		virtual void setTransform(const Mat4 &trans);
 		virtual Mat4 getTransform();
@@ -134,27 +134,27 @@ namespace NGTech {
 		/**
 		draws object subset
 		*/
-		virtual void drawSubset(int s);
+		virtual void drawSubset(size_t s);
 
 		/**
 		get number of object subsets
 		*/
-		virtual int getNumSubsets();
+		virtual size_t getNumSubsets();
 
 		/**
 		get BBox of the object subset
 		*/
-		virtual const BBox &getBBox(int subset = -1);
+		virtual const BBox &getBBox(size_t subset = -1);
 
 		/**
 		get BSphere of the object subset
 		*/
-		virtual const BSphere &getBSphere(int subset = -1);
+		virtual const BSphere &getBSphere(size_t subset = -1);
 
 		/**
 		get subset material by number
 		*/
-		virtual Material *getMaterial(int subset);
+		virtual Material *getMaterial(size_t subset);
 
 		/*
 		Not virtual

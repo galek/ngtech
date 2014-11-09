@@ -28,7 +28,7 @@ namespace NGTech
 		/**
 		draws object subset
 		*/
-		void drawSubset(int subset);
+		void drawSubset(size_t subset);
 
 		/**
 		gets number of subsets
@@ -44,7 +44,7 @@ namespace NGTech
 
 		/**
 		*/
-		const BBox &GetBBox(int subset = -1)
+		const BBox &GetBBox(size_t subset = -1)
 		{
 			if (subset > 0)
 				return subsets[subset]->bBox;
@@ -53,7 +53,7 @@ namespace NGTech
 
 		/**
 		*/
-		const BSphere &GetBSphere(int subset = -1)
+		const BSphere &GetBSphere(size_t subset = -1)
 		{
 			if (subset > 0)
 				return subsets[subset]->bSphere;

@@ -18,14 +18,11 @@ namespace NGTech {
 		~ALSound();
 
 	private:
-		ALenum format;
-		short *samples;
-
+		int format;
 		int rate;
 		int size;
-
-		ALuint buffID;
-
+		unsigned int buffID;
+		short *samples;
 		friend class ALSoundSource;
 	};
 }

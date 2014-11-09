@@ -87,9 +87,6 @@
     <ClInclude Include="inc\Material.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="inc\Model.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="inc\Object.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>

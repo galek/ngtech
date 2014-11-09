@@ -242,39 +242,46 @@ namespace NGTech {
 	*/
 	void Engine::mainLoop()
 	{
-		PROFILER_START(Engine::mainLoop);
-
 		while (this->running)
 		{
 			do_update();
 			do_render();
 			do_swap();
 		}
-
-		PROFILER_END();
 	}
 
 	/**
 	*/
 	void Engine::do_update()
 	{
-		PROFILER_START(Engine::do_update);
+		PROFILER_START(Engine::do_update - window);
 		if (iWindow)
 			this->iWindow->update();
+		PROFILER_END();
 
-		if (this->game->ec)
-			this->game->runEventsCallback();
+		PROFILER_START(Engine::do_update - game - event_callback);
+		if (this->game)
+			if (this->game->ec)
+				this->game->runEventsCallback();
+		PROFILER_END();
 
+		PROFILER_START(Engine::do_update - render - clear);
 		if (this->iRender)
 			this->iRender->clear(I_Render::COLOR_BUFFER | I_Render::DEPTH_BUFFER | I_Render::STENCIL_BUFFER);
+		PROFILER_END();
 
+		PROFILER_START(Engine::do_update - scene - update);
 		if (this->scene)
 			this->scene->update();
+		PROFILER_END();
 
+		PROFILER_START(Engine::do_update - sound - update);
 		// run multi-threaded sound
 		if (this->scene)
 			this->scene->runUpdate();//Сейчас обновляем только звук
+		PROFILER_END();
 
+		PROFILER_START(Engine::do_update - game - update);
 		if (this->game)
 			this->game->update();
 
@@ -285,19 +292,22 @@ namespace NGTech {
 	*/
 	void Engine::do_render()
 	{
-		PROFILER_START(Engine::do_render);
+		PROFILER_START(Engine::do_render - physics);
 		// run multi-threaded physics
 		if (!paused)
 			this->physSystem->runUpdate();
+		PROFILER_END();
 
+		PROFILER_START(Engine::do_render - render);
 		if (this->scene)
 			this->scene->render();
 
 		if (this->gui)
 			this->gui->render();
 
-		if (this->game->rc)
-			this->game->runRenderCallback();
+		if (this->game)
+			if (this->game->rc)
+				this->game->runRenderCallback();
 
 		if (mWatermarkTex)
 			RenderWatermark(mWatermarkTex);
@@ -315,15 +325,19 @@ namespace NGTech {
 	*/
 	void Engine::do_swap()
 	{
-		PROFILER_START(Engine::do_swap);
+		PROFILER_START(Engine::do_swap - physics);
 		// wait multi-threaded physics
 		if (this->physSystem)
 			this->physSystem->waitUpdate();
+		PROFILER_END();
 
+		PROFILER_START(Engine::do_swap - sound);
 		// wait multi-threaded sound
 		if (this->scene)
 			this->scene->waitUpdate();
+		PROFILER_END();
 
+		PROFILER_START(Engine::do_swap - render);
 		if (this->iRender)
 			this->iRender->endFrame();
 

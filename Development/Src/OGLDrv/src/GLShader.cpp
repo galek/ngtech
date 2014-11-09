@@ -96,7 +96,7 @@ namespace NGTech {
 		glUniform1f(param, value);
 	}
 
-	void GLShader::sendInt(const String &name, int value) {
+	void GLShader::sendInt(const String &name, size_t value) {
 		int param = glGetUniformLocation(program, name.c_str());
 		glUniform1i(param, value);
 	}
@@ -132,14 +132,13 @@ namespace NGTech {
 			if (_save)
 				LogPrintf("Shader Cache for shader: %s is not valid", path.c_str());
 			VFile mFile(path.c_str(), VFile::READ_TEXT);
-			String line, vsCode, fsCode, tcsCode, tesCode, gsCode;
+			String line, vsCode = "", fsCode = "", tcsCode = "", tesCode = "", gsCode = "";
 
 			while (!mFile.IsEof()) {
 				line = mFile.GetLine();
 
 				//find GLSL vertex shader
 				if (line == "[GLSL_VERTEX_SHADER]") {
-					vsCode = "";
 					while (!mFile.IsEof()) {
 						line = mFile.GetLine();;
 						if (line == "[GLSL_FRAGMENT_SHADER]") break;
@@ -172,7 +171,6 @@ namespace NGTech {
 
 				//find GLSL fragment shader
 				if (line == "[GLSL_FRAGMENT_SHADER]") {
-					fsCode = "";
 					while (!mFile.IsEof()) {
 						line = mFile.GetLine();
 						if (line == "[GLSL_VERTEX_SHADER]") break;
@@ -205,7 +203,6 @@ namespace NGTech {
 
 				//find GLSL TESSELATION EVAL SHADER
 				if (line == "[GLSL_GEOMETRY_SHADER]") {
-					gsCode = "";
 					while (!mFile.IsEof()) {
 						line = mFile.GetLine();
 						if (line == "[GLSL_FRAGMENT_SHADER]") break;
@@ -239,7 +236,6 @@ namespace NGTech {
 
 				//find GLSL TESSELATION EVAL SHADER
 				if (line == "[GLSL_TESSELATION_EVAL_SHADER]") {
-					tesCode = "";
 					while (!mFile.IsEof()) {
 						line = mFile.GetLine();
 						if (line == "[GLSL_FRAGMENT_SHADER]") break;
@@ -272,7 +268,6 @@ namespace NGTech {
 
 				//find GLSL TESSELATION CONTROL SHADER
 				if (line == "[GLSL_TESSELATION_CONTROL_SHADER]") {
-					tcsCode = "";
 					while (!mFile.IsEof()) {
 						line = mFile.GetLine();
 						if (line == "[GLSL_FRAGMENT_SHADER]") break;

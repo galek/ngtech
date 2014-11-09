@@ -349,7 +349,6 @@
     <ClInclude Include="inc\Light.h" />
     <ClInclude Include="inc\LoadingScreen.h" />
     <ClInclude Include="inc\Material.h" />
-    <ClInclude Include="inc\Model.h" />
     <ClInclude Include="inc\Object.h" />
     <ClInclude Include="inc\ParticleSystem.h" />
     <ClInclude Include="inc\PhysBody.h" />

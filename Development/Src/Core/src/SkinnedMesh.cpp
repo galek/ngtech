@@ -114,7 +114,7 @@ namespace NGTech
 	/*
 	TODO:This is not optimal,need rewrite on modern GL and shaders
 	*/
-	void SkinnedMesh::drawSubset(int subset)
+	void SkinnedMesh::drawSubset(size_t subset)
 	{
 		CreateVBO();
 		Subset *st = subsets[subset];

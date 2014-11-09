@@ -136,12 +136,12 @@ namespace NGTech {
 		return *this;
 	}
 
-	float &Vec2::operator[](int index) {
+	float &Vec2::operator[](ptrdiff_t index) {
 		return *(index + &x);
 	}
 
 
-	float Vec2::operator[](int index) const {
+	float Vec2::operator[](ptrdiff_t index) const {
 		return *(index + &x);
 	}
 
@@ -271,12 +271,12 @@ namespace NGTech {
 		return *this;
 	}
 
-	float& Vec3::operator[](int index) {
+	float& Vec3::operator[](ptrdiff_t index) {
 		return *(index + &x);
 	}
 
 
-	float Vec3::operator[](int index) const {
+	float Vec3::operator[](ptrdiff_t index) const {
 		return *(index + &x);
 	}
 
@@ -424,11 +424,11 @@ namespace NGTech {
 		return *this;
 	}
 
-	float& Vec4::operator[](int index) {
+	float& Vec4::operator[](ptrdiff_t index) {
 		return *(index + &x);
 	}
 
-	float Vec4::operator[](int index) const {
+	float Vec4::operator[](ptrdiff_t index) const {
 		return *(index + &x);
 	}
 
@@ -579,11 +579,11 @@ namespace NGTech {
 		return *this;
 	}
 
-	float &Mat3::operator[](int index) {
+	float &Mat3::operator[](ptrdiff_t index) {
 		return e[index];
 	}
 
-	float Mat3::operator[](int index) const {
+	float Mat3::operator[](ptrdiff_t index) const {
 		return e[index];
 	}
 
@@ -768,11 +768,11 @@ namespace NGTech {
 		return *this;
 	}
 
-	float &Mat4::operator[](int index) {
+	float &Mat4::operator[](ptrdiff_t index) {
 		return e[index];
 	}
 
-	float Mat4::operator[](int index) const {
+	float Mat4::operator[](ptrdiff_t index) const {
 		return e[index];
 	}
 
@@ -1192,11 +1192,11 @@ namespace NGTech {
 		return (float*)&x;
 	}
 
-	float &Quat::operator[](int i) {
+	float &Quat::operator[](ptrdiff_t i) {
 		return ((float*)&x)[i];
 	}
 
-	const float Quat::operator[](int i) const {
+	const float Quat::operator[](ptrdiff_t i) const {
 		return ((float*)&x)[i];
 	}
 

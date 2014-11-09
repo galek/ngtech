@@ -45,8 +45,8 @@ namespace NGTech {
 
 		Vec2& operator=(const Vec2 &in);
 
-		float& operator[](int index);
-		float operator[](int index) const;
+		float& operator[](ptrdiff_t index);//ptrdiff_t Was int,check in clang
+		float operator[](ptrdiff_t index) const;//ptrdiff_t Was int,check in clang
 
 		operator float*();
 		operator const float*() const;
@@ -76,6 +76,7 @@ namespace NGTech {
 		static ENGINE_INLINE float dot(const Vec2 &a, const Vec2 &b) {
 			return (a.x * b.x + a.y * b.y);
 		}
+		static ENGINE_INLINE Vec2 &Zero(){ static Vec2 mZero(0, 0); return mZero; }
 	};
 
 	extern ENGINE_INLINE Vec2 CORE_API operator+(const Vec2 &a, const Vec2 &b);
@@ -101,8 +102,8 @@ namespace NGTech {
 		Vec3(const Vec4 &in);
 
 		Vec3& operator=(const Vec3 &in);
-		float& operator[](int index);
-		float operator[](int index) const;
+		float& operator[](ptrdiff_t index);//ptrdiff_t Was int,check in clang
+		float operator[](ptrdiff_t index) const;//ptrdiff_t Was int,check in clang
 		operator float*();
 		operator const float*() const;
 
@@ -132,6 +133,7 @@ namespace NGTech {
 			return (a.x * b.x + a.y * b.y + a.z * b.z);
 		}
 		static ENGINE_INLINE Vec3 cross(const Vec3 &a, const Vec3 &b);
+		static ENGINE_INLINE Vec3 &Zero(){ static Vec3 mZero(0, 0, 0); return mZero; }
 	};
 
 	extern ENGINE_INLINE Vec3 CORE_API operator+(const Vec3 &a, const Vec3 &b);
@@ -158,8 +160,8 @@ namespace NGTech {
 		Vec4(const Vec3 &in, float cw);
 
 		Vec4& operator=(const Vec4 &in);
-		float& operator[](int index);
-		float operator[](int index) const;
+		float& operator[](ptrdiff_t index);//ptrdiff_t Was int,check in clang
+		float operator[](ptrdiff_t index) const;//ptrdiff_t Was int,check in clang
 
 		operator float*();
 		operator const float*() const;
@@ -190,6 +192,7 @@ namespace NGTech {
 		static ENGINE_INLINE float dot(const Vec4 &a, const Vec4 &b) {
 			return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
 		}
+		static ENGINE_INLINE Vec4 &Zero(){ static Vec4 mZero(0, 0, 0, 0); return mZero; }
 	};
 
 	extern ENGINE_INLINE Vec4 CORE_API operator+(const Vec4 &a, const Vec4 &b);
@@ -221,8 +224,8 @@ namespace NGTech {
 		Mat3 &operator=(const Mat3 &in);
 		Mat3 &operator*=(const Mat3 &in);
 
-		float &operator[](int index);
-		float operator[](int index) const;
+		float &operator[](ptrdiff_t index);//ptrdiff_t Was int,check in clang
+		float operator[](ptrdiff_t index) const;//ptrdiff_t Was int,check in clang
 		operator float*();
 		operator const float*() const;
 
@@ -261,8 +264,8 @@ namespace NGTech {
 		Mat4 &operator=(const Mat4 &in);
 		Mat4 &operator*=(const Mat4 &in);
 
-		float &operator[](int index);
-		float operator[](int index) const;
+		float &operator[](ptrdiff_t index);//ptrdiff_t Was int,check in clang
+		float operator[](ptrdiff_t index) const;//ptrdiff_t Was int,check in clang
 		operator float*();
 		operator const float*() const;
 
@@ -311,8 +314,8 @@ namespace NGTech {
 		operator float*();
 		operator const float*() const;
 
-		float &operator[](int i);
-		const float operator[](int i) const;
+		float &operator[](ptrdiff_t i);//ptrdiff_t Was int,check in clang
+		const float operator[](ptrdiff_t i) const;//ptrdiff_t Was int,check in clang
 
 		Quat operator*(const Quat &q) const;
 		static Quat slerp(const Quat &q0, const Quat &q1, float t);

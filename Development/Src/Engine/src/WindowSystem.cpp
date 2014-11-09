@@ -542,7 +542,7 @@ namespace NGTech {
 			return KEY_ESC;
 		else if ((stricmp(_p, "EQUAL")) == 0)
 			return KEY_EQUAL;
-		
+
 		else if ((stricmp(_p, "UP")) == 0)
 			return KEY_UP;
 		else if ((stricmp(_p, "DONW")) == 0)

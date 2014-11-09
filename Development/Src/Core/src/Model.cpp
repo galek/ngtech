@@ -42,7 +42,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void Model::drawSubset(int s) {
+	void Model::drawSubset(size_t s) {
 		Subset *st = subsets[s];
 
 		st->vertBuff->set();

@@ -16,8 +16,8 @@ namespace NGTech {
 		~Model();
 
 		void save(const String &path);
-		void drawSubset(int s);
-		ENGINE_INLINE int getNumSubsets() { return numSubsets; };
+		void drawSubset(size_t s);
+		ENGINE_INLINE size_t getNumSubsets() { return numSubsets; };
 		int getSubset(String name);
 
 		ENGINE_INLINE Vec3 &getMax() { return bBox.max; };
@@ -25,10 +25,10 @@ namespace NGTech {
 		ENGINE_INLINE Vec3 &getCenter() { return bSphere.center; };
 		ENGINE_INLINE float getRadius() { return bSphere.radius; };
 
-		ENGINE_INLINE Vec3 &getMax(int s) { return subsets[s]->bBox.max; };
-		ENGINE_INLINE Vec3 &getMin(int s) { return subsets[s]->bBox.min; };
-		ENGINE_INLINE Vec3 &getCenter(int s) { return subsets[s]->bSphere.center; };
-		ENGINE_INLINE float getRadius(int s) { return subsets[s]->bSphere.radius; };
+		ENGINE_INLINE Vec3 &getMax(size_t s) { return subsets[s]->bBox.max; };
+		ENGINE_INLINE Vec3 &getMin(size_t s) { return subsets[s]->bBox.min; };
+		ENGINE_INLINE Vec3 &getCenter(size_t s) { return subsets[s]->bSphere.center; };
+		ENGINE_INLINE float getRadius(size_t s) { return subsets[s]->bSphere.radius; };
 
 		struct Vertex {
 			Vec3 position;

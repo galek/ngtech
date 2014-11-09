@@ -76,7 +76,7 @@ namespace NGTech {
 		\param name parameter name
 		\param value param value
 		*/
-		void sendInt(const String &name, int value);
+		void sendInt(const String &name, size_t value);
 	protected:
 		GLShader();
 

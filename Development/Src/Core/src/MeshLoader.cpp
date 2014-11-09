@@ -45,7 +45,7 @@ namespace NGTech
 		VFile file(path.c_str());
 		auto ext = file.GetFileExt();
 
-		for (int i = 0; i < formats.size(); i++)
+		for (size_t i = 0; i < formats.size(); i++)
 		{
 			if (formats[i]->GetExt() == ext)
 			{

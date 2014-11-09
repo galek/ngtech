@@ -29,6 +29,9 @@ namespace NGTech {
 	public:
 		/**
 		*/
+		virtual ~I_Window(){}
+		/**
+		*/
 		virtual void initialise(int _hwnd) = 0;
 		/**
 		*/

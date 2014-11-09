@@ -45,7 +45,7 @@ namespace NGTech {
 
 	Model *Cache::loadModel(const String &path) {
 
-		if (path == "") return NULL;
+		if (path.empty()) return NULL;
 		std::map<String, std::pair<Model*, int>>::iterator it = models.find(path);
 		if (it == models.end() || it->second.first == NULL) {
 			Model *model = new Model(path);

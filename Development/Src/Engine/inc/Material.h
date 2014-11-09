@@ -77,7 +77,7 @@ namespace NGTech {
 			int shadowMapUnit;
 			int viewportMapUnit;
 			int spotMapUnit;
-			int maxUnit;
+			size_t maxUnit;
 		};
 		std::vector<Pass*> passes;
 		Pass *currentPass;

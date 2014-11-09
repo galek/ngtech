@@ -46,7 +46,7 @@ LUABIND_API void handle_exception_aux(lua_State* L)
         if (handler_chain)
             handler_chain->handle(L);
         else
-            throw;
+			throw std::exception("handle_exception_aux-failed handler_chain->handle");
     }
     catch (error const&)
     {}

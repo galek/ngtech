@@ -243,7 +243,7 @@ namespace NGTech {
 						String name = StringHelper::getWord(line, 2);
 
 						//standart params
-						if (StringHelper::getWord(line, 4) == "") {
+						if (StringHelper::getWord(line, 4).empty()) {
 
 							//user params
 						}
@@ -288,7 +288,7 @@ namespace NGTech {
 					if (StringHelper::getWord(line, 1) == "vec4") {
 						String name = StringHelper::getWord(line, 2);
 						//standart params
-						if (StringHelper::getWord(line, 4) == "") {
+						if (StringHelper::getWord(line, 4).empty()) {
 
 							//user params
 						}
@@ -345,18 +345,18 @@ namespace NGTech {
 				}
 			}
 		}
-		//		fclose(mFile);
 	}
 
-	Material::~Material() {
-		for (int p = 0; p < passes.size(); p++) {
+	Material::~Material()
+	{
+		for (size_t p = 0; p < passes.size(); p++) {
 			Pass *pass = passes[p];
-			for (int i = 0; i < pass->u_sampler2D.size(); i++) {
+			for (size_t i = 0; i < pass->u_sampler2D.size(); i++) {
 				GetCache()->deleteTexture(pass->u_sampler2D[i].second);
 			}
 			pass->u_sampler2D.clear();
 
-			for (int i = 0; i < pass->u_samplerCube.size(); i++) {
+			for (size_t i = 0; i < pass->u_samplerCube.size(); i++) {
 				GetCache()->deleteTexture(pass->u_samplerCube[i].second);
 			}
 			pass->u_samplerCube.clear();
@@ -374,7 +374,7 @@ namespace NGTech {
 	bool Material::setPass(const String &name) {
 		Pass *p = NULL;
 
-		for (int i = 0; i < passes.size(); i++) {
+		for (size_t i = 0; i < passes.size(); i++) {
 			if (passes[i]->name == name) {
 				p = passes[i];
 			}
@@ -387,39 +387,39 @@ namespace NGTech {
 
 		p->shader->set();
 
-		for (int i = 0; i < p->u_float.size(); i++) {
+		for (size_t i = 0; i < p->u_float.size(); i++) {
 			p->shader->sendFloat(p->u_float[i].first, p->u_float[i].second);
 		}
 
-		for (int i = 0; i < p->u_Vec2.size(); i++) {
+		for (size_t i = 0; i < p->u_Vec2.size(); i++) {
 			p->shader->sendVec2(p->u_Vec2[i].first, p->u_Vec2[i].second);
 		}
 
-		for (int i = 0; i < p->u_Vec3.size(); i++) {
+		for (size_t i = 0; i < p->u_Vec3.size(); i++) {
 			p->shader->sendVec3(p->u_Vec3[i].first, p->u_Vec3[i].second);
 		}
 
-		for (int i = 0; i < p->u_Vec4.size(); i++) {
+		for (size_t i = 0; i < p->u_Vec4.size(); i++) {
 			p->shader->sendVec4(p->u_Vec4[i].first, p->u_Vec4[i].second);
 		}
 
-		for (int i = 0; i < p->u_Mat4.size(); i++) {
+		for (size_t i = 0; i < p->u_Mat4.size(); i++) {
 			p->shader->sendMat4(p->u_Mat4[i].first, p->u_Mat4[i].second);
 		}
 
-		for (int i = 0; i < p->u_sampler2D.size(); i++) {
+		for (size_t i = 0; i < p->u_sampler2D.size(); i++) {
 			p->shader->sendInt(p->u_sampler2D[i].first, p->maxUnit + i);
 			p->u_sampler2D[i].second->set(p->maxUnit + i);
 		}
 		p->maxUnit += p->u_sampler2D.size();
 
-		for (int i = 0; i < p->u_samplerCube.size(); i++) {
+		for (size_t i = 0; i < p->u_samplerCube.size(); i++) {
 			p->shader->sendInt(p->u_samplerCube[i].first, p->maxUnit + i);
 			p->u_samplerCube[i].second->set(p->maxUnit + i);
 		}
 		p->maxUnit += p->u_samplerCube.size();
 
-		for (int i = 0; i < p->u_scene_params.size(); i++) {
+		for (size_t i = 0; i < p->u_scene_params.size(); i++) {
 			Pass::SceneParam type = p->u_scene_params[i].second;
 			String name = p->u_scene_params[i].first;
 
@@ -461,12 +461,12 @@ namespace NGTech {
 
 		p->shader->unset();
 
-		for (int i = 0; i < p->u_sampler2D.size(); i++) {
+		for (size_t i = 0; i < p->u_sampler2D.size(); i++) {
 			p->u_sampler2D[i].second->unset(p->maxUnit + i);
 		}
 		p->maxUnit += p->u_sampler2D.size();
 
-		for (int i = 0; i < p->u_samplerCube.size(); i++) {
+		for (size_t i = 0; i < p->u_samplerCube.size(); i++) {
 			p->u_samplerCube[i].second->unset(p->maxUnit + i);
 		}
 		p->maxUnit += p->u_samplerCube.size();
@@ -481,7 +481,7 @@ namespace NGTech {
 	bool Material::passHasBlending(const String &name) {
 		Pass *p = NULL;
 
-		for (int i = 0; i < passes.size(); i++) {
+		for (size_t i = 0; i < passes.size(); i++) {
 			if (passes[i]->name == name) {
 				p = passes[i];
 			}
@@ -494,7 +494,7 @@ namespace NGTech {
 	void Material::setPassBlending(const String &name) {
 		Pass *p = NULL;
 
-		for (int i = 0; i < passes.size(); i++) {
+		for (size_t i = 0; i < passes.size(); i++) {
 			if (passes[i]->name == name) {
 				p = passes[i];
 			}

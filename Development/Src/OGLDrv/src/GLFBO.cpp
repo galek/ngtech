@@ -42,7 +42,7 @@ namespace NGTech {
 		glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		
 		glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-
+		//В оригинале было glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);,а не ниже написанное
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_RECTANGLE, glColorID, 0);
 	}
 

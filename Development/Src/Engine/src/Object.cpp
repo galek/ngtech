@@ -25,7 +25,7 @@ namespace NGTech {
 		if (cache){
 			model = cache->loadModel("meshes/" + path);
 			materials.resize(model->getNumSubsets());
-			for (int i = 0; i < materials.size(); i++)
+			for (size_t i = 0; i < materials.size(); i++)
 				materials[i] = nullptr;
 		}
 		transform.identity();
@@ -36,7 +36,7 @@ namespace NGTech {
 		auto cache = GetCache();
 		if (cache){
 			cache->deleteModel(model);
-			for (int i = 0; i < materials.size(); i++) {
+			for (size_t i = 0; i < materials.size(); i++) {
 				cache->deleteMaterial(materials[i]);
 			}
 			materials.clear();
@@ -45,11 +45,11 @@ namespace NGTech {
 		SAFE_DELETE(pBody);
 	}
 
-	void ObjectMesh::drawSubset(int s) {
+	void ObjectMesh::drawSubset(size_t s) {
 		model->drawSubset(s);
 	}
 
-	Material *ObjectMesh::getMaterial(int s) {
+	Material *ObjectMesh::getMaterial(size_t s) {
 		return materials[s];
 	}
 
@@ -59,7 +59,7 @@ namespace NGTech {
 		{
 			Material *material = cache->loadMaterial(path);
 			if (name == "*")
-				for (int s = 0; s < model->getNumSubsets(); s++)
+				for (size_t s = 0; s < model->getNumSubsets(); s++)
 					materials[s] = material;
 			materials[model->getSubset(name)] = material;
 		}
@@ -120,12 +120,12 @@ namespace NGTech {
 
 	void ObjectMesh::setPhysicsConvexHull(float mass) {
 		int numVertices = 0;
-		for (int i = 0; i < model->getNumSubsets(); i++) {
+		for (size_t i = 0; i < model->getNumSubsets(); i++) {
 			numVertices += model->subsets[i]->numVertices;
 		}
 
 		PhysBody*pb = new PhysBody[model->getNumSubsets()];
-		for (int i = 0; i < model->getNumSubsets(); i++)
+		for (size_t i = 0; i < model->getNumSubsets(); i++)
 			pb[i] = *PhysBody::CreateConvexHull(model->subsets[i]->numVertices, model->subsets[i]->numIndices, &transform, model->subsets[i]->vertices, model->subsets[i]->indices, mass);
 
 		pBody = pb;
@@ -134,14 +134,14 @@ namespace NGTech {
 	void ObjectMesh::setPhysicsStaticMesh() {
 		int numIndices = 0;
 		int numVertices = 0;
-		for (int i = 0; i < model->getNumSubsets(); i++) {
+		for (size_t i = 0; i < model->getNumSubsets(); i++) {
 			numIndices += model->subsets[i]->numIndices;
 			numVertices += model->subsets[i]->numVertices;
 		}
 
 		PhysBody*pb = new PhysBody[model->getNumSubsets()];
 
-		for (int i = 0; i < model->getNumSubsets(); i++)
+		for (size_t i = 0; i < model->getNumSubsets(); i++)
 			pb[i] = *PhysBody::CreateStaticMesh(model->subsets[i]->numVertices, model->subsets[i]->numIndices, &transform, model->subsets[i]->vertices, model->subsets[i]->indices);
 
 		//Nick:BUG:Меш собирается в реалтайме,и часть тел пролетает,если сначала создать физику,и потом задать коллизию
@@ -151,14 +151,14 @@ namespace NGTech {
 	void ObjectMesh::setPhysicsCloth() {
 		int numIndices = 0;
 		int numVertices = 0;
-		for (int i = 0; i < model->getNumSubsets(); i++) {
+		for (size_t i = 0; i < model->getNumSubsets(); i++) {
 			numIndices += model->subsets[i]->numIndices;
 			numVertices += model->subsets[i]->numVertices;
 		}
 
 		PhysBody*pb = new PhysBody[model->getNumSubsets()];
 
-		for (int i = 0; i < model->getNumSubsets(); i++)
+		for (size_t i = 0; i < model->getNumSubsets(); i++)
 			pb[i] = *PhysBody::CreateCloth(model->subsets[i]->numVertices, model->subsets[i]->numIndices, &transform, model->subsets[i]->vertices, model->subsets[i]->indices);
 
 		pBody = pb;

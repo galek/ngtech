@@ -26,7 +26,7 @@ namespace NGTech {
 
 		/**
 		*/
-		ENGINE_INLINE virtual void drawSubset(int) { }
+		ENGINE_INLINE virtual void drawSubset(size_t) { }
 
 		/**
 		*/
@@ -55,14 +55,13 @@ namespace NGTech {
 
 		ENGINE_INLINE virtual void setMaxVelocity(float maxVelocity) { this->maxVelocity = maxVelocity; }
 
-		//TODO
-		virtual Vec3 &getMax(int s) { return Vec3(0, 0, 0); }
-		virtual Vec3 &getMin(int s) { return Vec3(0, 0, 0); }
-		virtual Vec3 &getCenter(int s) { return Vec3(0, 0, 0); }
-		//TODO
-		virtual Vec3 &getMax() { return Vec3(0, 0, 0); }
-		virtual Vec3 &getMin() { return Vec3(0, 0, 0); }
-		virtual Vec3 &getCenter() { return Vec3(0, 0, 0); }
+		virtual Vec3 &getMax(size_t s) { return Vec3::Zero(); }
+		virtual Vec3 &getMin(size_t s) { return Vec3::Zero(); }
+		virtual Vec3 &getCenter(size_t s) { return Vec3::Zero(); }
+
+		virtual Vec3 &getMax() { return Vec3::Zero(); }
+		virtual Vec3 &getMin() { return Vec3::Zero(); }
+		virtual Vec3 &getCenter() { return Vec3::Zero(); }
 
 		/**
 		gets camera fov
@@ -79,33 +78,33 @@ namespace NGTech {
 		gets camera screen aspect
 		\return aspect
 		*/
-		ENGINE_INLINE float getAspect(){ return aspect; }
+		ENGINE_INLINE float getAspect() { return aspect; }
 		/**
 		sets camera screen aspect
 		*/
-		ENGINE_INLINE void setAspect(float _aspect){ aspect = _aspect; }
+		ENGINE_INLINE void setAspect(float _aspect) { aspect = _aspect; }
 
 		/**
 		gets camera zNear clip plane distance
 		\return distance
 		*/
-		ENGINE_INLINE float getZNear(){ return zNear; }
+		ENGINE_INLINE float getZNear() { return zNear; }
 
 		/**
 		sets camera zNear clip plane distance
 		*/
-		ENGINE_INLINE void setZNear(float _zNear){ zNear = _zNear; }
+		ENGINE_INLINE void setZNear(float _zNear) { zNear = _zNear; }
 
 		/**
 		gets camera zFar clip plane distance
 		\return distance
 		*/
-		ENGINE_INLINE float getZFar(){ return zFar; }
+		ENGINE_INLINE float getZFar() { return zFar; }
 
 		/**
 		sets camera zFar clip plane distance
 		*/
-		ENGINE_INLINE void setZFar(float _zFar){ zFar = _zFar; }
+		ENGINE_INLINE void setZFar(float _zFar) { zFar = _zFar; }
 
 		/**
 		*/
@@ -123,11 +122,11 @@ namespace NGTech {
 
 		/**
 		*/
-		ENGINE_INLINE float getAngle(int _i) { if (_i <= 2) return angle[_i]; else return 0; }
+		ENGINE_INLINE float getAngle(size_t _i) { if (_i <= 2) return angle[_i]; else return 0; }
 
 		/**
 		*/
-		ENGINE_INLINE void setAngle(int _i, float _v) { if (_i <= 2) angle[_i] = _v; }
+		ENGINE_INLINE void setAngle(size_t _i, float _v) { if (_i <= 2) angle[_i] = _v; }
 
 		/**
 		*/
@@ -145,16 +144,16 @@ namespace NGTech {
 	private:
 		/**
 		*/
-		ENGINE_INLINE virtual int getNumSubsets() { return 0; };
+		ENGINE_INLINE virtual size_t getNumSubsets() { return 0; };
 		/**
 		*/
-		ENGINE_INLINE virtual float getRadius(int s) { return 0; };
+		ENGINE_INLINE virtual float getRadius(size_t s) { return 0; };
 		/**
 		*/
 		ENGINE_INLINE virtual float getRadius() { return 0; };
 		/**
 		*/
-		ENGINE_INLINE virtual Material* getMaterial(int s) { return NULL; };
+		ENGINE_INLINE virtual Material* getMaterial(size_t s) { return NULL; };
 	protected:
 		float angle[2];
 		float fov;

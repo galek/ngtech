@@ -153,7 +153,7 @@ namespace NGTech {
 	/**
 	*/
 	void Scene::deleteLight(Light *light) {
-		for (int i = 0; i < lights.size(); i++) {
+		for (size_t i = 0; i < lights.size(); i++) {
 			if (light == lights[i]) {
 				lights[i] = NULL;
 			}
@@ -163,7 +163,7 @@ namespace NGTech {
 	/**
 	*/
 	void Scene::deleteObjectMesh(ObjectMesh *object) {
-		for (int i = 0; i < objects.size(); i++) {
+		for (size_t i = 0; i < objects.size(); i++) {
 			if (object == objects[i]) {
 				objects[i] = NULL;
 			}
@@ -173,7 +173,7 @@ namespace NGTech {
 	/**
 	*/
 	void Scene::deleteParticleSystem(ParticleSystem *system) {
-		for (int i = 0; i < systems.size(); i++) {
+		for (size_t i = 0; i < systems.size(); i++) {
 			if (system == systems[i]) {
 				systems[i] = NULL;
 			}
@@ -213,7 +213,7 @@ namespace NGTech {
 		/**
 		draw objects
 		*/
-		for (int m = 0; m < objects.size(); m++)
+		for (size_t m = 0; m < objects.size(); m++)
 		{
 			Object *object = objects[m];
 
@@ -226,7 +226,7 @@ namespace NGTech {
 				continue;
 			}
 
-			for (int s = 0; s < object->getNumSubsets(); s++)
+			for (size_t s = 0; s < object->getNumSubsets(); s++)
 			{
 				if (!frustum->isInside(object->getCenter(s), object->getRadius(s)))
 					continue;
@@ -297,7 +297,7 @@ namespace NGTech {
 			}
 		}
 
-		for (int m = 0; m < objects.size(); m++)
+		for (size_t m = 0; m < objects.size(); m++)
 		{
 
 			Object *object = objects[m];
@@ -317,7 +317,7 @@ namespace NGTech {
 			}
 
 			//DRAW OBJECT SUBSETS
-			for (int s = 0; s < object->getNumSubsets(); s++) {
+			for (size_t s = 0; s < object->getNumSubsets(); s++) {
 				frustum->get();
 				if (!frustum->isInside(object->getCenter(s), object->getRadius(s)))
 					continue;
@@ -362,7 +362,7 @@ namespace NGTech {
 		matLightIRadius = light->getIRadius();
 		matLightPosition = light->position;
 
-		for (int f = 0; f < 6; f++) {
+		for (size_t f = 0; f < 6; f++) {
 			shadowFBO->set();
 			shadowFBO->setColorTarget(light->shadowMap, f);
 			shadowFBO->clear();
@@ -370,7 +370,7 @@ namespace NGTech {
 			GetRender()->loadMatrix(Mat4::cube(light->position, f));
 
 			//DRAW OBJECTS
-			for (int m = 0; m < objects.size(); m++)
+			for (size_t m = 0; m < objects.size(); m++)
 			{
 				Object *object = objects[m];
 
@@ -391,7 +391,7 @@ namespace NGTech {
 				/**
 				draw subsets
 				*/
-				for (int s = 0; s < object->getNumSubsets(); s++) {
+				for (size_t s = 0; s < object->getNumSubsets(); s++) {
 					Material *mtr = object->getMaterial(s);
 					if (!mtr) continue;
 
@@ -472,7 +472,7 @@ namespace NGTech {
 		}
 
 		//DRAW OBJECTS
-		for (int m = 0; m < objects.size(); m++)
+		for (size_t m = 0; m < objects.size(); m++)
 		{
 			Object *object = objects[m];
 
@@ -491,7 +491,7 @@ namespace NGTech {
 			}
 
 			//DRAW OBJECT SUBSETS
-			for (int s = 0; s < object->getNumSubsets(); s++) {
+			for (size_t s = 0; s < object->getNumSubsets(); s++) {
 				frustum->get();
 				if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
 					continue;
@@ -543,7 +543,7 @@ namespace NGTech {
 		GetRender()->clearColor(Vec3(1.0, 1.0, 1.0));
 
 		//DRAW OBJECTS
-		for (int m = 0; m < objects.size(); m++)
+		for (size_t m = 0; m < objects.size(); m++)
 		{
 			Object *object = objects[m];
 
@@ -562,7 +562,7 @@ namespace NGTech {
 			}
 
 			//DRAW OBJECT SUBSETS
-			for (int s = 0; s < object->getNumSubsets(); s++) {
+			for (size_t s = 0; s < object->getNumSubsets(); s++) {
 				Material *mtr = object->getMaterial(s);
 
 				if (!mtr) continue;
@@ -623,7 +623,7 @@ namespace NGTech {
 		}
 
 		//DRAW OBJECTS
-		for (int m = 0; m < objects.size(); m++)
+		for (size_t m = 0; m < objects.size(); m++)
 		{
 			Object *object = objects[m];
 
@@ -637,7 +637,7 @@ namespace NGTech {
 			}
 
 			//DRAW OBJECT SUBSETS
-			for (int s = 0; s < object->getNumSubsets(); s++) {
+			for (size_t s = 0; s < object->getNumSubsets(); s++) {
 				if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
 					continue;
 				}
@@ -763,7 +763,7 @@ namespace NGTech {
 
 			drawAmbient(false);
 
-			for (int i = 0; i < lights.size(); i++)
+			for (size_t i = 0; i < lights.size(); i++)
 			{
 				if (lights[i]->isEnable())
 				{
@@ -788,10 +788,10 @@ namespace NGTech {
 				glColor3f(1, 1, 1);//Nick:TODO:Replace
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//Nick:TODO:Replace
 
-				for (int i = 0; i < objects.size(); i++) {
+				for (size_t i = 0; i < objects.size(); i++) {
 					GetRender()->push();
 					GetRender()->multMatrix(objects[i]->getTransform());
-					for (int k = 0; k < objects[i]->getNumSubsets(); k++) {
+					for (size_t k = 0; k < objects[i]->getNumSubsets(); k++) {
 						objects[i]->drawSubset(k);
 					}
 					GetRender()->pop();
@@ -805,7 +805,7 @@ namespace NGTech {
 			}
 
 			//draw lighting
-			for (int i = 0; i < lights.size(); i++)
+			for (size_t i = 0; i < lights.size(); i++)
 			{
 				if (lights[i]->isVisible())
 				{
@@ -827,7 +827,7 @@ namespace NGTech {
 			drawAmbient(true);
 
 			//draw particle systems
-			for (int k = 0; k < systems.size(); k++) {
+			for (size_t k = 0; k < systems.size(); k++) {
 				if (systems[k]) systems[k]->draw();
 			}
 
@@ -851,9 +851,10 @@ namespace NGTech {
 
 		//---------Рисуем анимированные меши--------------------------------
 		float mFPS = GetEngine()->GetLastFPS();
-		if (mFPS <= 0.f)
-			mFPS = 1.f;
-		for (int i = 0; i < objects.size(); i++)
+
+		if (mFPS <= 0.f) mFPS = 1.f;
+
+		for (size_t i = 0; i < objects.size(); i++)
 		{
 			if (objects[i]->getType() == Object::OBJECT_SKELETEAL_MESH)
 			{
@@ -876,7 +877,7 @@ namespace NGTech {
 	{
 		drawAmbient(true);
 
-		for (int i = 0; i < lights.size(); i++) {
+		for (size_t i = 0; i < lights.size(); i++) {
 			if (lights[i]->isVisible())
 			{
 				if (lights[i]->getType() == Light::LIGHT_OMNI) {

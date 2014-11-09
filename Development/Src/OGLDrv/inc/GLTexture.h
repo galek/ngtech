@@ -19,8 +19,8 @@ namespace NGTech {
 		void setFilter(Filter filter);
 		void setAniso(Aniso aniso);
 
-		void set(int tex_unit);
-		void unset(int tex_unit);
+		void set(size_t tex_unit);
+		void unset(size_t tex_unit);
 
 		void beginRenderTo();
 		void copy(int face = -1);

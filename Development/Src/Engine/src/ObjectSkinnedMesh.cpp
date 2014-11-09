@@ -18,7 +18,6 @@ namespace NGTech {
 	ObjectSkinnedMesh::ObjectSkinnedMesh(const String &path)
 		:Object()
 	{
-		//Warning(__FUNCTION__);
 		mesh = new SkinnedMesh("meshes/" + path);
 		materials = new Material*[mesh->GetNumSubsets()];
 		transform.identity();
@@ -26,8 +25,7 @@ namespace NGTech {
 	}
 
 	ObjectSkinnedMesh::~ObjectSkinnedMesh() {
-		//Warning(__FUNCTION__);
-		for (int i = 0; i < getNumSubsets(); i++)
+		for (size_t i = 0; i < getNumSubsets(); i++)
 		{
 			GetCache()->deleteMaterial(materials[i]);
 		}
@@ -36,7 +34,7 @@ namespace NGTech {
 
 	}
 
-	void ObjectSkinnedMesh::drawSubset(int subset) {
+	void ObjectSkinnedMesh::drawSubset(size_t subset) {
 		//Warning(__FUNCTION__);
 		//BBox bbox = GetTransformedBBox(subset);
 		//BSphere bsphere = GetTransformedBSphere(subset);
@@ -65,11 +63,10 @@ namespace NGTech {
 	}
 
 	void ObjectSkinnedMesh::setMaterial(const String &path, const String &name) {
-		//Warning(__FUNCTION__);
 		if (GetCache()){
 			Material *material = GetCache()->loadMaterial(path);
 			if (name == "*")
-				for (int s = 0; s < mesh->GetNumSubsets(); s++)
+				for (size_t s = 0; s < mesh->GetNumSubsets(); s++)
 					materials[s] = material;
 			materials[mesh->GetSubset(name)] = material;
 		}
@@ -91,7 +88,6 @@ namespace NGTech {
 	//}
 
 	void ObjectSkinnedMesh::setTransform(const Mat4 &trans) {
-		//Warning(__FUNCTION__);
 		transform = trans;
 	}
 
@@ -100,39 +96,35 @@ namespace NGTech {
 		return transform;
 	}
 
-	/*
+	/**
 	*/
-	int ObjectSkinnedMesh::getNumSubsets()
+	size_t ObjectSkinnedMesh::getNumSubsets()
 	{
-		//Warning(__FUNCTION__);
 		return mesh->GetNumSubsets();
 	}
 
-	/*
+	/**
 	*/
-	const BBox &ObjectSkinnedMesh::getBBox(int s)
+	const BBox &ObjectSkinnedMesh::getBBox(size_t s)
 	{
-		//Warning(__FUNCTION__);
 		return mesh->GetBBox(s);
 	}
 
-	/*
+	/**
 	*/
-	const BSphere &ObjectSkinnedMesh::getBSphere(int s)
+	const BSphere &ObjectSkinnedMesh::getBSphere(size_t s)
 	{
-		//Warning(__FUNCTION__);
 		return mesh->GetBSphere(s);
 	}
 
-	/*
+	/**
 	*/
-	Material *ObjectSkinnedMesh::getMaterial(int subset)
+	Material *ObjectSkinnedMesh::getMaterial(size_t subset)
 	{
-		//Warning(__FUNCTION__);
 		return materials[subset];
 	}
 
-	/*
+	/**
 	*/
 	/*void ObjectSkinnedMesh::SetMaterialList(const String &path)
 	{
@@ -153,11 +145,10 @@ namespace NGTech {
 	SAFE_DELETE(list);
 	}*/
 
-	/*
+	/**
 	*/
 	void ObjectSkinnedMesh::setAnimationFrame(int frame, int from, int to)
 	{
-		//Warning(__FUNCTION__);
 		mesh->SetFrame(frame, from, to);
 	}
 }
