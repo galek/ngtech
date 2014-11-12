@@ -61,13 +61,13 @@ namespace NGTech {
 	}
 
 	void GLShader::set() {
-		glUseProgramObjectARB(program);
+		glUseProgram(program);
 		if (PipelineName != 0)
 			glBindProgramPipeline(PipelineName);
 	}
 
 	void GLShader::unset() {
-		glUseProgramObjectARB(NULL);
+		glUseProgram(NULL);
 		glBindProgramPipeline(0);
 	}
 
@@ -363,4 +363,302 @@ namespace NGTech {
 		Filename += ".bin";
 		return Filename.c_str();
 	}
+
+	/**
+	*/
+	int GLShader::GetUniformLocation(const char*uniform, bool isOptional)
+	{
+		GLint result = glGetUniformLocation(this->program, uniform);
+
+		if (result == -1)
+		{
+			std::string strErr("could not find uniform \"%s\" in program %d");
+			strErr += uniform;
+			strErr += this->program;
+
+			if (!isOptional){
+				Error(strErr.c_str(), true);
+			}
+			Warning(strErr.c_str());
+		}
+		return result;
 	}
+
+	/**
+	*/
+	int GLShader::GetAttribLocation(const char* attribute, bool isOptional)
+	{
+		GLint result = glGetAttribLocation(this->program, attribute);
+
+		if (result == -1)
+		{
+			std::string strErr("could not find uniform \"%s\" in program %d");
+			strErr += attribute;
+			strErr += this->program;
+
+			if (!isOptional){
+				Error(strErr.c_str(), true);
+			}
+			Warning(strErr.c_str());
+		}
+
+		return result;
+	}
+
+	/**
+	*/
+	void GLShader::BindTexture2D(const char *name, int unit, unsigned int tex)
+	{
+		GLint loc = GetUniformLocation(name, false);
+		if (loc >= 0) {
+			glUniform1i(loc, unit);
+			glActiveTexture(GL_TEXTURE0 + unit);
+			glBindTexture(GL_TEXTURE_2D, tex);
+		}
+	}
+
+	/**
+	*/
+	void GLShader::BindTexture2D(int index, int unit, unsigned int tex)
+	{
+		glUniform1i(index, unit);
+		glActiveTexture(GL_TEXTURE0 + unit);
+		glBindTexture(GL_TEXTURE_2D, tex);
+	}
+
+	/**
+	*/
+	void GLShader::BindTextureRect(const char *name, int unit, unsigned int tex)
+	{
+		GLint loc = GetUniformLocation(name, false);
+		if (loc >= 0) {
+			glUniform1i(loc, unit);
+			glActiveTexture(GL_TEXTURE0 + unit);
+			glBindTexture(0x84F5/*GL_TEXTURE_RECT*/, tex);
+		}
+	}
+
+	/**
+	*/
+	void GLShader::BindTextureRect(int index, int unit, unsigned int tex)
+	{
+		glUniform1i(index, unit);
+		glActiveTexture(GL_TEXTURE0 + unit);
+		glBindTexture(0x84F5/*GL_TEXTURE_RECT*/, tex);
+	}
+
+	/**
+	*/
+	void GLShader::BindTextureArray(const char *name, int unit, unsigned int tex)
+	{
+		GLint loc = GetUniformLocation(name, false);
+		if (loc >= 0) {
+			glUniform1i(loc, unit);
+			glActiveTexture(GL_TEXTURE0 + unit);
+			glBindTexture(0x8c1a, tex); // GL_TEXTURE_2D_ARRAY
+		}
+	}
+
+	/**
+	*/
+	void GLShader::BindTextureArray(int index, int unit, unsigned int tex)
+	{
+		glUniform1i(index, unit);
+		glActiveTexture(GL_TEXTURE0 + unit);
+		glBindTexture(0x8c1a, tex); // GL_TEXTURE_2D_ARRAY
+	}
+	
+	/**
+	*/
+	void GLShader::SetUniform1i(const char *name, int value)
+	{
+		GLint loc = GetUniformLocation(name, false);
+		if (loc >= 0) {
+			glUniform1i(loc, value);
+		}
+	}
+	
+	/**
+	*/
+	void GLShader::SetUniform1i(int index, int value)
+	{
+		if (index >= 0) {
+			glUniform1i(index, value);
+		}
+	}
+	
+	/**
+	*/
+	void GLShader::SetUniform2i(const char *name, int x, int y)
+	{
+		GLint loc = GetUniformLocation(name, false);
+		if (loc >= 0) {
+			glUniform2i(loc, x, y);
+		}
+	}
+
+	/**
+	*/
+	void GLShader::SetUniform2i(int index, int x, int y)
+	{
+		if (index >= 0) {
+			glUniform2i(index, x, y);
+		}
+	}
+
+	/**
+	*/
+	void GLShader::SetUniform3i(const char *name, int x, int y, int z)
+	{
+		GLint loc = GetUniformLocation(name, false);
+		if (loc >= 0) {
+			glUniform3i(loc, x, y, z);
+		}
+	}
+
+	/**
+	*/
+	void GLShader::SetUniform3i(int index, int x, int y, int z)
+	{
+		if (index >= 0) {
+			glUniform3i(index, x, y, z);
+		}
+	}
+
+	/**
+	*/
+	void GLShader::SetUniform1f(const char *name, float value)
+	{
+		GLint loc = GetUniformLocation(name, false);
+		if (loc >= 0) {
+			glUniform1f(loc, value);
+		}
+	}
+
+	/**
+	*/
+	void GLShader::SetUniform1f(int index, float value)
+	{
+		if (index >= 0) {
+			glUniform1f(index, value);
+		}
+	}
+
+	/**
+	*/
+	void GLShader::SetUniform2f(const char *name, float x, float y)
+	{
+		GLint loc = GetUniformLocation(name, false);
+		if (loc >= 0) {
+			glUniform2f(loc, x, y);
+		}
+	}
+
+	/**
+	*/
+	void GLShader::SetUniform2f(int index, float x, float y)
+	{
+		if (index >= 0) {
+			glUniform2f(index, x, y);
+		}
+	}
+
+	/**
+	*/
+	void GLShader::SetUniform3f(const char *name, float x, float y, float z)
+	{
+		GLint loc = GetUniformLocation(name, false);
+		if (loc >= 0) {
+			glUniform3f(loc, x, y, z);
+		}
+	}
+
+	/**
+	*/
+	void GLShader::SetUniform3f(int index, float x, float y, float z)
+	{
+		if (index >= 0) {
+			glUniform3f(index, x, y, z);
+		}
+	}
+
+	/**
+	*/
+	void GLShader::SetUniform4f(const char *name, float x, float y, float z, float w)
+	{
+		GLint loc = GetUniformLocation(name, false);
+		if (loc >= 0) {
+			glUniform4f(loc, x, y, z, w);
+		}
+	}
+	
+	/**
+	*/
+	void GLShader::SetUniform4f(int index, float x, float y, float z, float w)
+	{
+		if (index >= 0) {
+			glUniform4f(index, x, y, z, w);
+		}
+	}
+	
+	/**
+	*/
+	void GLShader::SetUniform3fv(const char *name, const float *value, int count)
+	{
+		GLint loc = GetUniformLocation(name, false);
+		if (loc >= 0) {
+			glUniform3fv(loc, count, value);
+		}
+
+	}
+	
+	/**
+	*/
+	void GLShader::SetUniform3fv(int index, const float *value, int count)
+	{
+		if (index >= 0) {
+			glUniform3fv(index, count, value);
+		}
+	}
+
+	/**
+	*/
+	void GLShader::SetUniform4fv(const char *name, const float *value, int count)
+	{
+		GLint loc = GetUniformLocation(name, false);
+		if (loc >= 0) {
+			glUniform4fv(loc, count, value);
+		}
+	}
+	
+	/**
+	*/
+	void GLShader::SetUniform4fv(int index, const float *value, int count)
+	{
+		if (index >= 0) {
+			glUniform4fv(index, count, value);
+		}
+	}
+	
+	/**
+	*/
+	void GLShader::SetUniformMatrix4fv(const char *name, float *m, int count, bool transpose)
+	{
+		GLint loc = GetUniformLocation(name, false);
+		if (loc >= 0) {
+			glUniformMatrix4fv(loc, count, transpose, m);
+		}
+	}
+	
+	/**
+	*/
+	void GLShader::SetUniformMatrix4fv(int index, float *m, int count, bool transpose)
+	{
+		if (index >= 0) {
+			glUniformMatrix4fv(index, count, transpose, m);
+		}
+	}
+	
+	/**
+	*/
+}

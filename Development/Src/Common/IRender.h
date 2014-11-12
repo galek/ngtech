@@ -490,9 +490,117 @@ namespace NGTech {
 		/**
 		*/
 		virtual void sendInt(const String &name, size_t value) = 0;
+		/**
+		*/
+		virtual int GetUniformLocation(const char*_loc, bool isOptional) = 0;
 
-	protected:
-		unsigned int gs, vs, fs, cs, tcs, tes, program;
+		/**
+		*/
+		virtual int GetAttribLocation(const char* attribute, bool isOptional) = 0;
+
+		/**
+		*/
+		virtual void BindTexture2D(const char *name, int unit, unsigned int tex) = 0;
+
+		/**
+		*/
+		virtual void BindTexture2D(int index, int unit, unsigned int tex) = 0;
+
+		/**
+		*/
+		virtual void BindTextureRect(const char *name, int unit, unsigned int tex) = 0;
+
+		/**
+		*/
+		virtual void BindTextureRect(int index, int unit, unsigned int tex) = 0;
+
+		/**
+		*/
+		virtual void BindTextureArray(const char *name, int unit, unsigned int tex) = 0;
+
+		/**
+		*/
+		virtual void BindTextureArray(int index, int unit, unsigned int tex) = 0;
+
+		/**
+		*/
+		virtual void SetUniform1i(const char *name, int value) = 0;
+
+		/**
+		*/
+		virtual void SetUniform1i(int index, int value) = 0;
+
+		/**
+		*/
+		virtual void SetUniform2i(const char *name, int x, int y) = 0;
+
+		/**
+		*/
+		virtual void SetUniform2i(int index, int x, int y) = 0;
+
+		/**
+		*/
+		virtual void SetUniform3i(const char *name, int x, int y, int z) = 0;
+
+		/**
+		*/
+		virtual void SetUniform3i(int index, int x, int y, int z) = 0;
+
+		/**
+		*/
+		virtual void SetUniform1f(const char *name, float value) = 0;
+
+		/**
+		*/
+		virtual void SetUniform1f(int index, float value) = 0;
+
+		/**
+		*/
+		virtual void SetUniform2f(const char *name, float x, float y) = 0;
+
+		/**
+		*/
+		virtual void SetUniform2f(int index, float x, float y) = 0;
+
+		/**
+		*/
+		virtual void SetUniform3f(const char *name, float x, float y, float z) = 0;
+
+		/**
+		*/
+		virtual void SetUniform3f(int index, float x, float y, float z) = 0;
+
+		/**
+		*/
+		virtual void SetUniform4f(const char *name, float x, float y, float z, float w) = 0;
+
+		/**
+		*/
+		virtual void SetUniform4f(int index, float x, float y, float z, float w) = 0;
+
+		/**
+		*/
+		virtual void SetUniform3fv(const char *name, const float *value, int count) = 0;
+
+		/**
+		*/
+		virtual void SetUniform3fv(int index, const float *value, int count) = 0;
+
+		/**
+		*/
+		virtual void SetUniform4fv(const char *name, const float *value, int count) = 0;
+
+		/**
+		*/
+		virtual void SetUniform4fv(int index, const float *value, int count) = 0;
+
+		/**
+		*/
+		virtual void SetUniformMatrix4fv(const char *name, float *m, int count, bool transpose) = 0;
+
+		/**
+		*/
+		virtual void SetUniformMatrix4fv(int index, float *m, int count, bool transpose) = 0;
 	};
 
 
