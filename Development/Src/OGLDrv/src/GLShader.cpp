@@ -108,17 +108,16 @@ namespace NGTech {
 		glGenProgramPipelines(1, &PipelineName);
 
 		{
-			this->program = glCreateProgram();
-			glProgramParameteri(this->program, GL_PROGRAM_SEPARABLE, GL_TRUE);
-			glProgramParameteri(this->program, GL_PROGRAM_BINARY_RETRIEVABLE_HINT, GL_TRUE);
-
-
 			GLenum Format = 0;
 			GLint Size = 0;
 			std::vector<unsigned char> Data;
 
 			if (loadBinary(_createShaderCacheDirectory(path.c_str()), Format, Data, Size))
 			{
+				this->program = glCreateProgram();
+				glProgramParameteri(this->program, GL_PROGRAM_SEPARABLE, GL_TRUE);
+				glProgramParameteri(this->program, GL_PROGRAM_BINARY_RETRIEVABLE_HINT, GL_TRUE);
+
 				DebugM("loading shader binary,for %s, is successful", path.c_str());
 				glProgramBinary(this->program, Format, &Data[0], Size);
 				glGetProgramiv(this->program, GL_LINK_STATUS, &Success);
