@@ -39,20 +39,21 @@ namespace NGTech {
 		Debug("Scene::initialise");
 		mUpdateJob = new AudioUpdateJob();
 
-		viewportFBO = GetRender()->CreateFBO(512, 512);
+		viewportFBO = GetRender()->CreateFBO(cvars->r_width, cvars->r_height);
 		viewportFBO->createDepthAttachment();
 
 		int size = GetCvars()->r_shadowsize;
 		shadowFBO = GetRender()->CreateFBO(size, size);
 		shadowFBO->createDepthAttachment();
 
-		viewportCopy = GetRender()->TextureCreate2D(512, 512, I_Texture::RGBA);
+		viewportCopy = GetRender()->TextureCreate2D(cvars->r_width, cvars->r_height, I_Texture::RGBA);
 		viewportCopy->setWrap(I_Texture::CLAMP_TO_EDGE);
 		viewportCopy->setFilter(I_Texture::LINEAR);
-
-		viewportCopy_brightPass = GetRender()->TextureCreate2D(512, 512, I_Texture::RGBA);
-		viewportCopy_brightPass->setWrap(I_Texture::CLAMP_TO_EDGE);
-		viewportCopy_brightPass->setFilter(I_Texture::LINEAR);
+		
+		hdrViewportCopy = GetRender()->TextureCreate2D(128, 128, I_Texture::RGBA);
+		hdrViewportCopy->setWrap(I_Texture::CLAMP_TO_EDGE);
+		hdrViewportCopy->setFilter(I_Texture::LINEAR);
+		hdrViewportCopy->setAniso(I_Texture::ANISO_X0);
 
 		viewportCopy_brightPass_blured = GetRender()->TextureCreate2D(512, 512, I_Texture::RGBA);
 		viewportCopy_brightPass_blured->setWrap(I_Texture::CLAMP_TO_EDGE);
@@ -74,6 +75,14 @@ namespace NGTech {
 	*/
 	Scene::~Scene() {
 		clear();
+		SAFE_DELETE(hdr);
+		SAFE_DELETE(sphere);
+		SAFE_DELETE(shadowFBO);
+		SAFE_DELETE(viewportFBO);
+		SAFE_DELETE(camera);
+		SAFE_DELETE(query);
+		SAFE_DELETE(viewportCopy);
+		SAFE_DELETE(hdrViewportCopy);
 		SAFE_DELETE(mUpdateJob);
 	}
 
@@ -900,44 +909,49 @@ namespace NGTech {
 
 		matMVP = GetRender()->getMatrix_MVP();
 #pragma message("Тормозит,все из-за HDR")
-		if (GetCvars()->r_hdr) {
-			//---------bright-pass--------------------------------
+		if (GetCvars()->r_hdr)
+		{
 			viewportFBO->set();
 			viewportFBO->clear();
 
 			GetRender()->enable2d(true);
+			{
+				viewportCopy->Set();
+				GetRender()->drawRect(0, 0, 1, 1, 0, cvars->r_width, cvars->r_height, 0);
+				viewportCopy->UnSet();
 
-			hdr->setPass("BrightPass");
-			matViewportMap = viewportCopy;
-			GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
-			hdr->unsetPass();
+				hdrViewportCopy->copy();
+				viewportFBO->clear();
 
+				//---------bright-pass--------------------------------
+				hdr->setPass("BrightPass");
+				matViewportMap = viewportCopy;
+				GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
+				hdr->unsetPass();
+			
+				hdrViewportCopy->copy();
+				viewportFBO->clear();
+
+				//BlurPass
+				hdr->setPass("BlurPass");
+				matViewportMap = hdrViewportCopy; 
+				GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0); 
+				hdr->unsetPass();
+				hdrViewportCopy->copy();
+			}
 			GetRender()->enable3d();
 
-			viewportCopy_brightPass->copy();
-			viewportFBO->clear();
-
-			GetRender()->enable2d(true);
-
-			hdr->setPass("BlurPass");
-			matViewportMap = viewportCopy_brightPass;
-			GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
-			hdr->unsetPass();
-
-			GetRender()->enable3d();
-
-			viewportCopy_brightPass_blured->copy();
 			viewportFBO->unset();
 
 			//---------draw-bloom-------------------------------
-			GetRender()->enable2d(true);
 			GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
-
-			hdr->setPass("BlurPass");
-			matViewportMap = viewportCopy_brightPass_blured;
-			GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
-			hdr->unsetPass();
-
+			GetRender()->enable2d(true);
+			{
+				hdr->setPass("BlurPass");
+				matViewportMap = viewportCopy_brightPass_blured;
+				GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
+				hdr->unsetPass();
+			}
 			GetRender()->disableBlending();
 			GetRender()->enable3d();
 		}

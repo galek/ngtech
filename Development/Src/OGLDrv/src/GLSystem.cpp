@@ -308,7 +308,7 @@ namespace NGTech {
 	/**
 	*/
 	void GLSystem::loadMatrix(const Mat4 &matrix) {
-		glLoadMatrixf(matrix);
+		glLoadMatrixf(matrix);//Deprecated
 	}
 
 	/**

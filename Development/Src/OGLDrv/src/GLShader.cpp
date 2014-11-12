@@ -107,6 +107,7 @@ namespace NGTech {
 
 		glGenProgramPipelines(1, &PipelineName);
 
+#ifndef _ENGINE_DEBUG_
 		{
 			GLenum Format = 0;
 			GLint Size = 0;
@@ -123,6 +124,7 @@ namespace NGTech {
 				glGetProgramiv(this->program, GL_LINK_STATUS, &Success);
 			}
 		}
+#endif
 		DebugM("Validation shader binary is %i", Success);
 		if (Success)
 			return true;

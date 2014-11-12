@@ -210,6 +210,19 @@ namespace NGTech {
 		glBindTexture(target, 0);
 	}
 
+
+	void GLTexture::Set()
+	{
+		glEnable(this->target);
+		glBindTexture(this->target, glID);
+	}
+
+	void GLTexture::UnSet()
+	{
+		glBindTexture(this->target, 0);
+		glDisable(this->target);
+	}
+
 	void GLTexture::set(size_t tex_unit) {
 		glActiveTextureARB(GL_TEXTURE0_ARB + tex_unit);
 		glEnable(target);

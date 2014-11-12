@@ -95,7 +95,7 @@ namespace NGTech {
 		I_FBOManager *shadowFBO;
 
 		I_Texture *viewportCopy;
-		I_Texture *viewportCopy_brightPass;
+		I_Texture *hdrViewportCopy;
 		I_Texture *viewportCopy_brightPass_blured;
 
 		Material *depthPass;

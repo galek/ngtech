@@ -100,6 +100,9 @@ namespace NGTech {
 		virtual void setFilter(Filter filter) = 0;
 		virtual void setAniso(Aniso aniso) = 0;
 
+		virtual void  Set() = 0;
+		virtual void  UnSet() = 0;
+
 		virtual void set(size_t tex_unit) = 0;
 		virtual void unset(size_t tex_unit) = 0;
 
