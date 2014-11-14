@@ -53,7 +53,7 @@ namespace NGTech {
 	{
 		SetCore(this);
 		log = new Log();
-		LogPrintf("Engine Version: "ENGINE_VERSION_STRING" Build Date : "__DATE__" : "__TIME__);
+		LogPrintf("Engine Version: %s Build Date : %s : %s", ENGINE_VERSION_STRING, __DATE__, __TIME__);
 	}
 
 	/**
@@ -143,7 +143,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void Engine::setGame(IGame*_game){
+	void Engine::setGame(IGame*_game) {
 		Debug("[Init] Engine::setGame()");
 		game = _game;
 	}
@@ -154,7 +154,7 @@ namespace NGTech {
 	{
 		_preInit();
 		Debug("[Init] Engine::initialise()");
-		if (iWindow){
+		if (iWindow) {
 			iWindow->initialise(_hwnd);
 			Debug("[Init] Window Finished");
 		}
@@ -162,40 +162,40 @@ namespace NGTech {
 		_setResources();
 		Debug("[Init] FileSystem Finished");
 
-		if (iRender){
+		if (iRender) {
 			iRender->initialise();
 			Debug("[Init] Render Finished");
 		}
 
-		if (alSystem){
+		if (alSystem) {
 			alSystem->initialise();
 			Debug("[Init] Audio Finished");
 		}
 
-		if (physSystem){
+		if (physSystem) {
 			physSystem->initialise();
 			Debug("[Init] Physics Finished");
 		}
 
 		//initialize GUI
-		if (gui){
+		if (gui) {
 			gui->initialise();
 			Debug("[Init] GUI Finished");
 		}
 
 		//initialize SceneManager
-		if (scene){
+		if (scene) {
 			scene->initialise();
 			Debug("[Init] SceneManager Finished");
 		}
 
-		if (scripting){
+		if (scripting) {
 			scripting->initialise();
 			Debug("[Init] Scripting Finished");
 		}
 
 		//initialize Game
-		if (game){
+		if (game) {
 			game->initialise();
 			Debug("[Init] Game Finished");
 		}
@@ -375,19 +375,19 @@ namespace NGTech {
 
 	/**
 	*/
-	void Engine::LoadEngineModule(const char*_name){
+	void Engine::LoadEngineModule(const char*_name) {
 		plugins->LoadEngineModule(_name);
 	}
 
 	/**
 	*/
-	void Engine::ConsoleShow(bool _value){
+	void Engine::ConsoleShow(bool _value) {
 		console->setVisible(_value);
 	}
 
 	/**
 	*/
-	bool Engine::ConsoleIsActive(){
+	bool Engine::ConsoleIsActive() {
 		return console->getVisible();
 	}
 
