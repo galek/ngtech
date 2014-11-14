@@ -2,13 +2,13 @@
 
 uniform mat4 u_world;
 uniform vec3 u_view_pos;
-uniform mat4 u_mvp;
+uniform mat4 auto_mvp;
 
 varying vec3 v_view_vec;
 varying vec2 v_tex_coord;
 
 void main() {
-	gl_Position = u_mvp * gl_Vertex;
+	gl_Position = auto_mvp * gl_Vertex;
 	v_tex_coord = gl_MultiTexCoord0.xy;
 	
 	vec3 tangent  = normalize((u_world * vec4(gl_MultiTexCoord1.xyz, 0)).xyz); 

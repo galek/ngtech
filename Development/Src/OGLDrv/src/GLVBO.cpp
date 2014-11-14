@@ -76,7 +76,7 @@ namespace NGTech {
 	/**
 	*/
 	GLVBO::~GLVBO() {
-		glDeleteBuffersARB(1, &glID);
+		glDeleteBuffers(1, &glID);
 	}
 
 	/**
@@ -108,7 +108,7 @@ namespace NGTech {
 	/**
 	*/
 	void GLVBO::setTexCoordSource(int tex_unit, int numComp, int stride, int offset) {
-		glClientActiveTextureARB(GL_TEXTURE0_ARB + tex_unit);
+		glClientActiveTexture(GL_TEXTURE0 + tex_unit);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glTexCoordPointer(numComp, dataType, stride, (void*)offset);
 	}
@@ -135,7 +135,7 @@ namespace NGTech {
 	/**
 	*/
 	void GLVBO::unsetTexCoordSource(int tex_unit) {
-		glClientActiveTextureARB(GL_TEXTURE0_ARB + tex_unit);
+		glClientActiveTexture(GL_TEXTURE0 + tex_unit);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 

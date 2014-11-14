@@ -92,7 +92,7 @@ namespace NGTech {
 	/**
 	*/
 	GLSystem::GLSystem(CoreManager*_engine)
-		:engine(_engine)
+		:engine(_engine), polygon_cull(0), polygon_front(0)
 	{}
 
 	/**
@@ -373,28 +373,74 @@ namespace NGTech {
 
 	/**
 	*/
-	void GLSystem::cullFunc(CullType type) {
-		glFrontFace(type);
+	void GLSystem::SetPolygonFront(CullType front)
+	{
+		assert(front >= 0 && front < NUM_FRONT_MODES && "GLSystem::SetPolygonFront(): bad polygon front");
+
+		static const GLuint front_modes[] = {
+			GL_CCW,
+			GL_CW,
+		};
+
+		if (front == CULL_FRONT) {
+			if (polygon_front == CULL_CCW)
+			{
+				glFrontFace(front_modes[CULL_CW]);
+				polygon_front = CULL_CW;
+			}
+			else if (polygon_front == CULL_CW)
+			{
+				glFrontFace(front_modes[CULL_CCW]);
+				polygon_front = CULL_CCW;
+			}
+		}
+		else if (polygon_front != front)
+		{
+			glFrontFace(front_modes[front]);
+			polygon_front = front;
+		}
 	}
 
 	/**
 	*/
-	void GLSystem::cullFace(CullFace face) {
-		glFrontFace(face);
+	void GLSystem::SetPolygonCull(CullFace cull)
+	{
+		assert(cull >= 0 && cull < NUM_CULL_MODES && "GLSystem::SetPolygonCull(): bad polygon cull");
+
+		static const GLuint cull_modes[] = {
+			0,
+			GL_BACK,
+			GL_FRONT,
+		};
+
+		if (polygon_cull != cull)
+		{
+			if (cull == CULL_NONE)
+			{
+				glDisable(GL_CULL_FACE);
+				glCullFace(GL_BACK);
+			}
+			else
+			{
+				glCullFace(cull_modes[cull]);
+				if (polygon_cull == CULL_NONE) glEnable(GL_CULL_FACE);
+			}
+			polygon_cull = cull;
+		}
 	}
 
 	/**
 	*/
 	void GLSystem::enableCulling(CullType type) {
 		glEnable(GL_CULL_FACE);
-		glFrontFace(type);
+		SetPolygonFront(type);
 	}
 
 	/**
 	*/
 	void GLSystem::enableCulling(CullFace face) {
 		glEnable(GL_CULL_FACE);
-		glFrontFace(face);
+		SetPolygonCull(face);
 	}
 
 	/**
@@ -407,6 +453,7 @@ namespace NGTech {
 	*/
 	void GLSystem::disableCulling() {
 		glDisable(GL_CULL_FACE);
+		polygon_cull = CULL_NONE;
 	}
 
 	/**

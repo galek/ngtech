@@ -450,6 +450,22 @@ namespace NGTech {
 				p->shader->sendInt(name, p->maxUnit + 2);
 				GetScene()->matSpotMap->set(p->maxUnit + 2);
 			}
+			//AUTO PARAMS
+			{	
+				if (type == Pass::matTime)          { p->shader->sendFloat("auto_mtime", GetScene()->matTime); }
+				if (type == Pass::matLightIRadius) { p->shader->sendFloat("auto_mlir", GetScene()->matLightIRadius); }
+
+				if (type == Pass::matLightColor)    { p->shader->sendVec3("auto_mlc", GetScene()->matLightColor); }
+				if (type == Pass::matLightPosition) { p->shader->sendVec3("auto_mlp", GetScene()->matLightPosition); }
+				if (type == Pass::matLightDirection){ p->shader->sendVec3("auto_mld", GetScene()->matLightDirection); }
+				if (type == Pass::matViewPosition)  { p->shader->sendVec3("auto_mvp", GetScene()->matViewPosition); }
+
+
+				if (type == Pass::matMVP) { p->shader->sendMat4("auto_mvp", GetScene()->matMVP); }
+				if (type == Pass::matWorld) { p->shader->sendMat4("auto_world", GetScene()->matWorld); }
+				if (type == Pass::matSpotTransform) { p->shader->sendMat4("auto_mst", GetScene()->matSpotTransform); }
+				if (type == Pass::matViewportTransform) { p->shader->sendMat4("auto_mvt", GetScene()->matViewportTransform); }
+			}
 		}
 
 		return true;

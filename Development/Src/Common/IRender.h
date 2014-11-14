@@ -224,15 +224,19 @@ namespace NGTech {
 		//Desc: Cull type enum
 		//---------------------------------------------------------------------------
 		enum CullType {
-			CCW = 0x0901,
-			CW = 0x0900,
+			CULL_CCW = 0,
+			CULL_CW,
+			CULL_FRONT,
+			NUM_FRONT_MODES
 		};
 		//---------------------------------------------------------------------------
 		//Desc: Cull face
 		//---------------------------------------------------------------------------
 		enum CullFace {
-			FRONT_FACE = 0x0404,
-			BACK_FACE = 0x0405,
+			CULL_NONE = 0,
+			CULL_FRONT_FACE,
+			CULL_BACK_FACE,
+			NUM_CULL_MODES,
 		};
 		//---------------------------------------------------------------------------
 		//Desc: Buffers enum
@@ -360,10 +364,10 @@ namespace NGTech {
 		/**
 		Culling
 		*/
-		virtual void  cullFunc(CullType type) = 0;
+		virtual void  SetPolygonFront(CullType type) = 0;
 		/**
 		*/
-		virtual void  cullFace(CullFace face) = 0;
+		virtual void  SetPolygonCull(CullFace face) = 0;
 		/**
 		*/
 		virtual void  enableCulling(CullType type) = 0;

@@ -110,8 +110,8 @@ namespace NGTech {
 		virtual void disablePolygonOffsetFill();
 
 		//---Culling-------------------------------
-		virtual void cullFunc(CullType type);
-		virtual void cullFace(CullFace face);
+		virtual void SetPolygonFront(CullType type);
+		virtual void SetPolygonCull(CullFace face);
 		virtual void enableCulling(CullType type);
 		virtual void enableCulling(CullFace face);
 		virtual void enableCulling();
@@ -154,6 +154,9 @@ namespace NGTech {
 		friend class GLVBO;
 		friend class GLShader;
 		friend class GLDisplayList;
+	private:
+		unsigned int polygon_cull;
+		unsigned int polygon_front;
 	private:
 		CoreManager* engine;
 	};
