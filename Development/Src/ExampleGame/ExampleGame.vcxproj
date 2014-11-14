@@ -321,6 +321,25 @@
       <Project>{422176d6-9f6c-4344-90a5-3520c7213826}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Bins\data\shaders\blur.glsl" />
+    <None Include="..\..\..\Bins\data\shaders\bright_pass.glsl" />
+    <None Include="..\..\..\Bins\data\shaders\cell_shading.glsl" />
+    <None Include="..\..\..\Bins\data\shaders\depth.glsl" />
+    <None Include="..\..\..\Bins\data\shaders\gui.glsl" />
+    <None Include="..\..\..\Bins\data\shaders\mandelbrot.glsl" />
+    <None Include="..\..\..\Bins\data\shaders\mesh_ambient.glsl" />
+    <None Include="..\..\..\Bins\data\shaders\mesh_ambient_env.glsl" />
+    <None Include="..\..\..\Bins\data\shaders\mesh_ambient_refr.glsl" />
+    <None Include="..\..\..\Bins\data\shaders\mesh_direct.glsl" />
+    <None Include="..\..\..\Bins\data\shaders\mesh_point.glsl" />
+    <None Include="..\..\..\Bins\data\shaders\mesh_spot.glsl" />
+    <None Include="..\..\..\Bins\data\shaders\terrain_ambient.glsl" />
+    <None Include="..\..\..\Bins\data\shaders\terrain_direct.glsl" />
+    <None Include="..\..\..\Bins\data\shaders\terrain_omni.glsl" />
+    <None Include="..\..\..\Bins\data\shaders\terrain_spot.glsl" />
+    <None Include="..\..\..\Bins\data\shaders\water_ambient.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

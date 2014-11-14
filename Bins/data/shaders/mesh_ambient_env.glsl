@@ -13,6 +13,8 @@ void main() {
 
 
 [GLSL_FRAGMENT_SHADER]
+//OUT
+layout(location = 0) out vec4 OutColor;
 
 varying vec2 v_tex_coord;
 varying vec3 v_env_coord;
@@ -23,5 +25,5 @@ uniform samplerCube u_env_map;
 
 void main() {
 	vec3 normal = 2.0 * texture2D(u_texture_1, v_tex_coord).xyz - 1.0;
-	gl_FragColor = textureCube(u_env_map, v_env_coord + normal * 0.2);
+	OutColor = textureCube(u_env_map, v_env_coord + normal * 0.2);
 }

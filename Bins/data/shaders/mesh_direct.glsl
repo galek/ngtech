@@ -35,6 +35,8 @@ void main() {
 
 
 [GLSL_FRAGMENT_SHADER]
+//OUT
+layout(location = 0) out vec4 OutColor;
 
 varying vec2 v_tex_coord;
 varying vec3 v_light_vec;
@@ -68,5 +70,5 @@ void main() {
 	specular = pow(clamp(dot(reflect(-vVec, normal), lVec), 0.0, 1.0), u_material_param_0.y) * u_material_param_0.x;
 #endif
 	
-	gl_FragColor = (baseColor * diffuse + specular) * vec4(u_light_color, 1.0);
+	OutColor = (baseColor * diffuse + specular) * vec4(u_light_color, 1.0);
 }

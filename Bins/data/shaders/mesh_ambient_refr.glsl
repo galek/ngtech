@@ -17,6 +17,8 @@ void main() {
 
 
 [GLSL_FRAGMENT_SHADER]
+//OUT
+layout(location = 0) out vec4 OutColor;
 
 varying vec2 v_tex_coord;
 varying vec4 v_proj_coord;
@@ -27,5 +29,5 @@ uniform sampler2D u_viewport_map;
 
 void main() {
 	vec3 normal = 2.0 * texture2D(u_texture_1, v_tex_coord).xyz - 1.0;
-	gl_FragColor = texture2DProj(u_viewport_map, v_proj_coord + vec4(normal, 0.0));
+	OutColor = texture2DProj(u_viewport_map, v_proj_coord + vec4(normal, 0.0));
 }

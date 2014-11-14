@@ -27,6 +27,9 @@ void main() {
 
 [GLSL_FRAGMENT_SHADER]
 
+//OUT
+layout(location = 0) out vec4 OutColor;
+
 varying vec2 v_tex_coord;
 varying vec3 v_view_vec;
 
@@ -47,5 +50,5 @@ void main() {
 #endif
 
 	vec4 baseColor = texture2D(u_texture_0, texCoord);
-	gl_FragColor = baseColor * vec4(u_light_color, 1.0);
+	OutColor = baseColor * vec4(u_light_color, 1.0);
 }

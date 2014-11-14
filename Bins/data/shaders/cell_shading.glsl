@@ -11,6 +11,8 @@ void main(void)
 }
 
 [GLSL_FRAGMENT_SHADER]
+//OUT
+layout(location = 0) out vec4 OutColor;
 
 varying vec3 Normal;
 
@@ -28,5 +30,5 @@ void main (void)
 	if (f > Phong)
 		color = PhongColor;
 
-	gl_FragColor = vec4(color, 1);
+	OutColor = vec4(color, 1);
 }

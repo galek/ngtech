@@ -16,11 +16,13 @@ void main() {
 
 
 [GLSL_FRAGMENT_SHADER]
+//OUT
+layout(location = 0) out vec4 OutColor;
 
 varying vec3 v_light_vec;
 
 void main() {
 	float depth = length(v_light_vec);
 	
-	gl_FragColor = vec4(depth, 0, 0, 0);
+	OutColor = vec4(depth, 0, 0, 0);
 }

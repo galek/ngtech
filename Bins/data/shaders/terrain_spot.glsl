@@ -26,6 +26,8 @@ void main() {
 
 
 [GLSL_FRAGMENT_SHADER]
+//OUT
+layout(location = 0) out vec4 OutColor;
 
 varying vec2 v_tex_coord;
 varying vec3 v_light_vec;
@@ -115,5 +117,5 @@ void main() {
 	vec3 lVec = normalize(v_light_vec);
 	float diffuse = (clamp(dot(v_normal, lVec), 0.0, 1.0) - 0.5) * 2.0;
 
-	gl_FragColor = baseColor * detColor * diffuse * vec4(u_light_color, 1.0) * atten * shadow * texture2DProj(u_spot_map, v_spot_proj_coord);
+	OutColor = baseColor * detColor * diffuse * vec4(u_light_color, 1.0) * atten * shadow * texture2DProj(u_spot_map, v_spot_proj_coord);
 }

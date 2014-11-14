@@ -8,6 +8,8 @@ void main() {
 }
 
 [GLSL_FRAGMENT_SHADER]
+//OUT
+layout(location = 0) out vec4 OutColor;
 
 #define MAX_ITER 64.0
 
@@ -37,5 +39,5 @@ void main() {
 		iteration++;
 	};
 					 
-	gl_FragColor = texture2D(colorMap, vec2(iteration/MAX_ITER, iteration/MAX_ITER));
+	OutColor = texture2D(colorMap, vec2(iteration / MAX_ITER, iteration / MAX_ITER));
 }
