@@ -49,7 +49,7 @@ namespace NGTech {
 		viewportCopy = GetRender()->TextureCreate2D(cvars->r_width, cvars->r_height, I_Texture::RGBA);
 		viewportCopy->setWrap(I_Texture::CLAMP_TO_EDGE);
 		viewportCopy->setFilter(I_Texture::LINEAR);
-		
+
 		hdrViewportCopy = GetRender()->TextureCreate2D(128, 128, I_Texture::RGBA);
 		hdrViewportCopy->setWrap(I_Texture::CLAMP_TO_EDGE);
 		hdrViewportCopy->setFilter(I_Texture::LINEAR);
@@ -356,9 +356,9 @@ namespace NGTech {
 	/**
 	*/
 	void Scene::getOmniShadowMap(LightPoint *light) {
-		if (!light->getShadows() || !light->castShadows || !cvars->r_shadowtype) {
-			return;
-		}
+		//if (!light->getShadows() || !light->castShadows || !cvars->r_shadowtype) {
+		//	return;
+		//}
 
 
 		GetRender()->setMatrixMode_Projection();
@@ -371,7 +371,8 @@ namespace NGTech {
 		matLightIRadius = light->getIRadius();
 		matLightPosition = light->position;
 
-		for (size_t f = 0; f < 6; f++) {
+		for (size_t f = 0; f < 6; f++)
+		{
 			shadowFBO->set();
 			shadowFBO->setColorTarget(light->shadowMap, f);
 			shadowFBO->clear();
@@ -420,7 +421,7 @@ namespace NGTech {
 				}
 				GetRender()->pop();
 			}
-			//			light->getShadowMap()->copy(f);
+			light->getShadowMap()->copy(f);
 
 			shadowFBO->flush();
 			shadowFBO->unset();
@@ -928,14 +929,14 @@ namespace NGTech {
 				matViewportMap = viewportCopy;
 				GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
 				hdr->unsetPass();
-			
+
 				hdrViewportCopy->copy();
 				viewportFBO->clear();
 
 				//BlurPass
 				hdr->setPass("BlurPass");
-				matViewportMap = hdrViewportCopy; 
-				GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0); 
+				matViewportMap = hdrViewportCopy;
+				GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
 				hdr->unsetPass();
 				hdrViewportCopy->copy();
 			}
