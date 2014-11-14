@@ -201,3 +201,7 @@
 
 /* Define if we have pthread_mutex_timedlock() */
 /* #undef HAVE_PTHREAD_MUTEX_TIMEDLOCK */
+//
+//strcasecmp = _stricmp
+//strncasecmp = _strnicmp
+//snprintf = _snprintf

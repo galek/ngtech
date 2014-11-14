@@ -86,7 +86,7 @@ static ALvoid ALdistortionState_update(ALdistortionState *state, ALCdevice *Devi
     SetGains(Device, gain, state->Gain);
 }
 
-static ALvoid ALdistortionState_process(ALdistortionState *state, ALuint SamplesToDo, const ALfloat *restrict SamplesIn, ALfloat (*restrict SamplesOut)[BUFFERSIZE])
+static ALvoid ALdistortionState_process(ALdistortionState *state, ALuint SamplesToDo, const ALfloat *SamplesIn, ALfloat (*SamplesOut)[BUFFERSIZE])
 {
     const ALfloat fc = state->edge_coeff;
     float oversample_buffer[64][4];

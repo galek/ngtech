@@ -19,10 +19,10 @@
 #include "mixer_defs.h"
 
 
-static inline void ApplyCoeffsStep(ALuint Offset, ALfloat (*restrict Values)[2],
+static inline void ApplyCoeffsStep(ALuint Offset, ALfloat (*Values)[2],
                                    const ALuint IrSize,
-                                   ALfloat (*restrict Coeffs)[2],
-                                   const ALfloat (*restrict CoeffStep)[2],
+                                   ALfloat (*Coeffs)[2],
+                                   const ALfloat (*CoeffStep)[2],
                                    ALfloat left, ALfloat right)
 {
     const __m128 lrlr = _mm_setr_ps(left, right, left, right);
@@ -81,9 +81,9 @@ static inline void ApplyCoeffsStep(ALuint Offset, ALfloat (*restrict Values)[2],
     }
 }
 
-static inline void ApplyCoeffs(ALuint Offset, ALfloat (*restrict Values)[2],
+static inline void ApplyCoeffs(ALuint Offset, ALfloat (*Values)[2],
                                const ALuint IrSize,
-                               ALfloat (*restrict Coeffs)[2],
+                               ALfloat (*Coeffs)[2],
                                ALfloat left, ALfloat right)
 {
     const __m128 lrlr = _mm_setr_ps(left, right, left, right);
@@ -138,7 +138,7 @@ static inline void ApplyCoeffs(ALuint Offset, ALfloat (*restrict Values)[2],
 #undef SUFFIX
 
 
-void Mix_SSE(const ALfloat *data, ALuint OutChans, ALfloat (*restrict OutBuffer)[BUFFERSIZE],
+void Mix_SSE(const ALfloat *data, ALuint OutChans, ALfloat (*OutBuffer)[BUFFERSIZE],
              MixGains *Gains, ALuint Counter, ALuint OutPos, ALuint BufferSize)
 {
     ALfloat gain, step;

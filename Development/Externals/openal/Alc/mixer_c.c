@@ -22,7 +22,7 @@ static inline ALfloat cubic32(const ALfloat *vals, ALuint frac)
 }
 
 const ALfloat *Resample_copy32_C(const ALfloat *src, ALuint UNUSED(frac),
-	ALuint increment, ALfloat *restrict dst, ALuint numsamples)
+	ALuint increment, ALfloat *dst, ALuint numsamples)
 {
 	assert(increment == FRACTIONONE);
 #if defined(HAVE_SSE) || defined(HAVE_NEON)
@@ -36,7 +36,7 @@ const ALfloat *Resample_copy32_C(const ALfloat *src, ALuint UNUSED(frac),
 
 #define DECL_TEMPLATE(Sampler)                                                \
 const ALfloat *Resample_##Sampler##_C(const ALfloat *src, ALuint frac,        \
-  ALuint increment, ALfloat *restrict dst, ALuint numsamples)                 \
+  ALuint increment, ALfloat *dst, ALuint numsamples)                 \
 {                                                                             \
     ALuint i;                                                                 \
     for(i = 0;i < numsamples;i++)                                             \
@@ -57,7 +57,7 @@ DECL_TEMPLATE(cubic32)
 #undef DECL_TEMPLATE
 
 
-void ALfilterState_processC(ALfilterState *filter, ALfloat *restrict dst, const ALfloat *src, ALuint numsamples)
+void ALfilterState_processC(ALfilterState *filter, ALfloat *dst, const ALfloat *src, ALuint numsamples)
 {
 	ALuint i;
 	for (i = 0; i < numsamples; i++)
@@ -65,10 +65,10 @@ void ALfilterState_processC(ALfilterState *filter, ALfloat *restrict dst, const 
 }
 
 
-__inline void ApplyCoeffsStep(ALuint Offset, ALfloat(*restrict Values)[2],
+__inline void ApplyCoeffsStep(ALuint Offset, ALfloat(*Values)[2],
 	const ALuint IrSize,
-	ALfloat(*restrict Coeffs)[2],
-	const ALfloat(*restrict CoeffStep)[2],
+	ALfloat(*Coeffs)[2],
+	const ALfloat(*CoeffStep)[2],
 	ALfloat left, ALfloat right)
 {
 	ALuint c;
@@ -82,9 +82,9 @@ __inline void ApplyCoeffsStep(ALuint Offset, ALfloat(*restrict Values)[2],
 	}
 }
 
-__inline void ApplyCoeffs(ALuint Offset, ALfloat(*restrict Values)[2],
+__inline void ApplyCoeffs(ALuint Offset, ALfloat(*Values)[2],
 	const ALuint IrSize,
-	ALfloat(*restrict Coeffs)[2],
+	ALfloat(*Coeffs)[2],
 	ALfloat left, ALfloat right)
 {
 	ALuint c;
@@ -101,7 +101,7 @@ __inline void ApplyCoeffs(ALuint Offset, ALfloat(*restrict Values)[2],
 #undef SUFFIX
 
 
-void Mix_C(const ALfloat *data, ALuint OutChans, ALfloat(*restrict OutBuffer)[BUFFERSIZE],
+void Mix_C(const ALfloat *data, ALuint OutChans, ALfloat(*OutBuffer)[BUFFERSIZE],
 	MixGains *Gains, ALuint Counter, ALuint OutPos, ALuint BufferSize)
 {
 	ALfloat gain, step;

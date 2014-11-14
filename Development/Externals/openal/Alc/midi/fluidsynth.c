@@ -577,7 +577,7 @@ static void FSynth_stop(FSynth *self);
 static void FSynth_reset(FSynth *self);
 static void FSynth_update(FSynth *self, ALCdevice *device);
 static void FSynth_processQueue(FSynth *self, ALuint64 time);
-static void FSynth_process(FSynth *self, ALuint SamplesToDo, ALfloat (*restrict DryBuffer)[BUFFERSIZE]);
+static void FSynth_process(FSynth *self, ALuint SamplesToDo, ALfloat (*DryBuffer)[BUFFERSIZE]);
 DECLARE_DEFAULT_ALLOCATORS(FSynth)
 DEFINE_MIDISYNTH_VTABLE(FSynth);
 
@@ -840,7 +840,7 @@ static void FSynth_processQueue(FSynth *self, ALuint64 time)
     }
 }
 
-static void FSynth_process(FSynth *self, ALuint SamplesToDo, ALfloat (*restrict DryBuffer)[BUFFERSIZE])
+static void FSynth_process(FSynth *self, ALuint SamplesToDo, ALfloat (*DryBuffer)[BUFFERSIZE])
 {
     MidiSynth *synth = STATIC_CAST(MidiSynth, self);
     ALenum state = synth->State;

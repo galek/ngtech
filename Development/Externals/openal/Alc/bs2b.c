@@ -140,4 +140,4 @@ void bs2b_clear(struct bs2b *bs2b)
     memset(&bs2b->last_sample, 0, sizeof(bs2b->last_sample));
 } /* bs2b_clear */
 
-extern inline void bs2b_cross_feed(struct bs2b *bs2b, float *restrict samples);
+extern inline void bs2b_cross_feed(struct bs2b *bs2b, float *samples);

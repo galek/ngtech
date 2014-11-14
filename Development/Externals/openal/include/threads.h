@@ -29,17 +29,20 @@ typedef void (*altss_dtor_t)(void*);
 
 
 #ifdef _WIN32
-#define inline __inline
+#define inline __forceinline
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 
 #ifndef _TIMESPEC_DEFINED
 #define _TIMESPEC_DEFINED
+
+#if _MSC_VER < 1900
 struct timespec {
     time_t tv_sec;
     long tv_nsec;
 };
+#endif
 
 struct itimerspec {
     struct timespec it_interval;

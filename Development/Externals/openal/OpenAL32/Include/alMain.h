@@ -252,14 +252,6 @@ ALC_API void ALC_APIENTRY alcGetInteger64vSOFT(ALCdevice *device, ALCenum pname,
 #endif
 #endif
 
-
-#ifdef IN_IDE_PARSER
-/* KDevelop's parser doesn't recognize the C99-standard restrict keyword, but
- * recent versions (at least 4.5.1) do recognize GCC's __restrict. */
-#define restrict __restrict
-#endif
-
-
 typedef ALint64SOFT ALint64;
 typedef ALuint64SOFT ALuint64;
 

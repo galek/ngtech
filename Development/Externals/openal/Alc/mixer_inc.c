@@ -14,18 +14,18 @@
 #define MixHrtf MERGE(MixHrtf_,SUFFIX)
 
 
-void ApplyCoeffsStep(ALuint Offset, ALfloat (*restrict Values)[2],
+void ApplyCoeffsStep(ALuint Offset, ALfloat (*Values)[2],
                                    const ALuint irSize,
-                                   ALfloat (*restrict Coeffs)[2],
-                                   const ALfloat (*restrict CoeffStep)[2],
+                                   ALfloat (*Coeffs)[2],
+                                   const ALfloat (*CoeffStep)[2],
                                    ALfloat left, ALfloat right);
-void ApplyCoeffs(ALuint Offset, ALfloat (*restrict Values)[2],
+void ApplyCoeffs(ALuint Offset, ALfloat (*Values)[2],
                                const ALuint irSize,
-                               ALfloat (*restrict Coeffs)[2],
+                               ALfloat (*Coeffs)[2],
                                ALfloat left, ALfloat right);
 
 
-void MixHrtf(ALfloat (*restrict OutBuffer)[BUFFERSIZE], const ALfloat *data,
+void MixHrtf(ALfloat (*OutBuffer)[BUFFERSIZE], const ALfloat *data,
              ALuint Counter, ALuint Offset, ALuint OutPos, const ALuint IrSize,
              const HrtfParams *hrtfparams, HrtfState *hrtfstate, ALuint BufferSize)
 {

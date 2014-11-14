@@ -152,7 +152,7 @@ static void SilenceSamples(ALfloat *dst, ALuint samples)
 
 
 static const ALfloat *DoFilters(ALfilterState *lpfilter, ALfilterState *hpfilter,
-	ALfloat *restrict dst, const ALfloat *restrict src,
+	ALfloat *dst, const ALfloat *src,
 	ALuint numsamples, enum ActiveFilters type)
 {
 	ALuint i;

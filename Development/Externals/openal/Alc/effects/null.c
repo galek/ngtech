@@ -41,7 +41,7 @@ static ALvoid ALnullState_update(ALnullState* UNUSED(state), ALCdevice* UNUSED(d
  * input to the output buffer. The result should be added to the output buffer,
  * not replace it.
  */
-static ALvoid ALnullState_process(ALnullState* UNUSED(state), ALuint UNUSED(samplesToDo), const ALfloat *restrict UNUSED(samplesIn), ALfloat(*restrict samplesOut)[BUFFERSIZE])
+static ALvoid ALnullState_process(ALnullState* UNUSED(state), ALuint UNUSED(samplesToDo), const ALfloat *UNUSED(samplesIn), ALfloat(*samplesOut)[BUFFERSIZE])
 {
 	/* NOTE: Couldn't use the UNUSED macro on samplesOut due to the way GCC's
 	 * __attribute__ declaration interacts with the parenthesis. */

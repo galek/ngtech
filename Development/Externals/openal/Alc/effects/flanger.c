@@ -171,11 +171,11 @@ static inline void Sinusoid(ALint *delay_left, ALint *delay_right, ALuint offset
 
 #define DECL_TEMPLATE(Func)                                                   \
 static void Process##Func(ALflangerState *state, const ALuint SamplesToDo,    \
-  const ALfloat *restrict SamplesIn, ALfloat (*restrict out)[2])              \
+  const ALfloat *SamplesIn, ALfloat (*out)[2])              \
 {                                                                             \
     const ALuint bufmask = state->BufferLength-1;                             \
-    ALfloat *restrict leftbuf = state->SampleBuffer[0];                       \
-    ALfloat *restrict rightbuf = state->SampleBuffer[1];                      \
+    ALfloat *leftbuf = state->SampleBuffer[0];                       \
+    ALfloat *rightbuf = state->SampleBuffer[1];                      \
     ALuint offset = state->offset;                                            \
     const ALfloat feedback = state->feedback;                                 \
     ALuint it;                                                                \
@@ -201,7 +201,7 @@ DECL_TEMPLATE(Sinusoid)
 
 #undef DECL_TEMPLATE
 
-static ALvoid ALflangerState_process(ALflangerState *state, ALuint SamplesToDo, const ALfloat *restrict SamplesIn, ALfloat (*restrict SamplesOut)[BUFFERSIZE])
+static ALvoid ALflangerState_process(ALflangerState *state, ALuint SamplesToDo, const ALfloat *SamplesIn, ALfloat (*SamplesOut)[BUFFERSIZE])
 {
     ALuint it, kt;
     ALuint base;

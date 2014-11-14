@@ -462,7 +462,7 @@ cmsBool SynError(cmsIT8* it8, const char *Txt, ...)
     Buffer[255] = 0;
     va_end(args);
 
-    snprintf(ErrMsg, 1023, "%s: Line %d, %s", it8->FileStack[it8 ->IncludeSP]->FileName, it8->lineno, Buffer);
+    _snprintf(ErrMsg, 1023, "%s: Line %d, %s", it8->FileStack[it8 ->IncludeSP]->FileName, it8->lineno, Buffer);
     ErrMsg[1023] = 0;
     it8->sy = SSYNERROR;
     cmsSignalError(it8 ->ContextID, cmsERROR_CORRUPTION_DETECTED, "%s", ErrMsg);
@@ -981,8 +981,8 @@ cmsBool GetVal(cmsIT8* it8, char* Buffer, cmsUInt32Number max, const char* Error
     case SIDENT:  strncpy(Buffer, it8->id, max);
                   Buffer[max-1]=0;
                   break;
-    case SINUM:   snprintf(Buffer, max, "%d", it8 -> inum); break;
-    case SDNUM:   snprintf(Buffer, max, it8->DoubleFormatter, it8 -> dnum); break;
+    case SINUM:   _snprintf(Buffer, max, "%d", it8 -> inum); break;
+    case SDNUM:   _snprintf(Buffer, max, it8->DoubleFormatter, it8 -> dnum); break;
     case SSTRING: strncpy(Buffer, it8->str, max);
                   Buffer[max-1] = 0;
                   break;
@@ -2200,7 +2200,7 @@ void CookPointers(cmsIT8* it8)
                                         char *Type  = p ->Value;
                                         int  nTable = (int) k;
 
-                                        snprintf(Buffer, 255, "%s %d %s", Label, nTable, Type );
+                                        _snprintf(Buffer, 255, "%s %d %s", Label, nTable, Type );
 
                                         SetData(it8, i, idField, Buffer);
                                     }
@@ -2665,7 +2665,7 @@ cmsBool CMSEXPORT cmsIT8SetDataDbl(cmsHANDLE hIT8, const char* cPatch,
 
     _cmsAssert(hIT8 != NULL);
 
-    snprintf(Buff, 255, it8->DoubleFormatter, Val);
+    _snprintf(Buff, 255, it8->DoubleFormatter, Val);
     return cmsIT8SetData(hIT8, cPatch, cSample, Buff);
 }
 

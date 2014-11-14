@@ -109,7 +109,7 @@ static ALvoid ALechoState_update(ALechoState *state, ALCdevice *Device, const AL
     ComputeAngleGains(Device, atan2f(+lrpan, 0.0f), (1.0f-dirGain)*F_PI, gain, state->Gain[1]);
 }
 
-static ALvoid ALechoState_process(ALechoState *state, ALuint SamplesToDo, const ALfloat *restrict SamplesIn, ALfloat (*restrict SamplesOut)[BUFFERSIZE])
+static ALvoid ALechoState_process(ALechoState *state, ALuint SamplesToDo, const ALfloat *SamplesIn, ALfloat (*SamplesOut)[BUFFERSIZE])
 {
     const ALuint mask = state->BufferLength-1;
     const ALuint tap1 = state->Tap[0].delay;

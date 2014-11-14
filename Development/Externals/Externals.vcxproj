@@ -847,7 +847,7 @@
       </PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502;restrict=;strcasecmp=_stricmp;strncasecmp=_strnicmp;snprintf=_snprintf</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -863,7 +863,7 @@
       </PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502;restrict=;strcasecmp=_stricmp;strncasecmp=_strnicmp;snprintf=_snprintf</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -880,7 +880,7 @@
       </PrecompiledHeader>
       <Optimization>Full</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502;restrict=;strcasecmp=_stricmp;strncasecmp=_strnicmp;snprintf=_snprintf</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -901,7 +901,7 @@
       </PrecompiledHeader>
       <Optimization>Full</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502;restrict=;strcasecmp=_stricmp;strncasecmp=_strnicmp;snprintf=_snprintf</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -920,7 +920,7 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502;restrict=;strcasecmp=_stricmp;strncasecmp=_strnicmp;snprintf=_snprintf</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -941,7 +941,7 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502;restrict=;strcasecmp=_stricmp;strncasecmp=_strnicmp;snprintf=_snprintf</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>

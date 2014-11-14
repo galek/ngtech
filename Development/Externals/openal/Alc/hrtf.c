@@ -692,7 +692,7 @@ static struct Hrtf *LoadHrtf(ALuint deviceRate)
             next++;
             if(*next == 'r')
             {
-                int wrote = snprintf(&fname[i], sizeof(fname)-i, "%u", deviceRate);
+                int wrote = _snprintf(&fname[i], sizeof(fname)-i, "%u", deviceRate);
                 i += minu(wrote, sizeof(fname)-i);
                 next++;
             }

@@ -92,7 +92,7 @@ static void ProbePlaybackDevices(void)
                 if(count != 0)
                 {
                     char str[64];
-                    snprintf(str, sizeof(str), " #%d", count+1);
+					_snprintf(str, sizeof(str), " #%d", count + 1);
                     al_string_append_cstr(&dname, str);
                 }
                 count++;
@@ -136,7 +136,7 @@ static void ProbeCaptureDevices(void)
                 if(count != 0)
                 {
                     char str[64];
-                    snprintf(str, sizeof(str), " #%d", count+1);
+					_snprintf(str, sizeof(str), " #%d", count + 1);
                     al_string_append_cstr(&dname, str);
                 }
                 count++;

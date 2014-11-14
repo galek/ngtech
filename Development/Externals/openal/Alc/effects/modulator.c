@@ -68,8 +68,8 @@ static inline ALfloat Square(ALuint index)
 
 #define DECL_TEMPLATE(func)                                                   \
 static void Process##func(ALmodulatorState *state, ALuint SamplesToDo,        \
-  const ALfloat *restrict SamplesIn,                                          \
-  ALfloat (*restrict SamplesOut)[BUFFERSIZE])                                 \
+  const ALfloat *SamplesIn,                                          \
+  ALfloat (*SamplesOut)[BUFFERSIZE])                                 \
 {                                                                             \
     const ALuint step = state->step;                                          \
     ALuint index = state->index;                                              \
@@ -153,7 +153,7 @@ static ALvoid ALmodulatorState_update(ALmodulatorState *state, ALCdevice *Device
     SetGains(Device, gain, state->Gain);
 }
 
-static ALvoid ALmodulatorState_process(ALmodulatorState *state, ALuint SamplesToDo, const ALfloat *restrict SamplesIn, ALfloat (*restrict SamplesOut)[BUFFERSIZE])
+static ALvoid ALmodulatorState_process(ALmodulatorState *state, ALuint SamplesToDo, const ALfloat *SamplesIn, ALfloat (*SamplesOut)[BUFFERSIZE])
 {
     switch(state->Waveform)
     {

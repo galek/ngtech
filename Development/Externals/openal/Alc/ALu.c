@@ -106,7 +106,7 @@ static inline void aluNormalize(ALfloat *inVector)
     }
 }
 
-static inline ALvoid aluMatrixVector(ALfloat *vector, ALfloat w, ALfloat (*restrict matrix)[4])
+static inline ALvoid aluMatrixVector(ALfloat *vector, ALfloat w, ALfloat (*matrix)[4])
 {
     ALfloat temp[4] = {
         vector[0], vector[1], vector[2], w
@@ -686,7 +686,7 @@ ALvoid CalcSourceParams(ALactivesource *src, const ALCcontext *ALContext)
     /* Transform source to listener space (convert to head relative) */
     if(ALSource->HeadRelative == AL_FALSE)
     {
-        ALfloat (*restrict Matrix)[4] = ALContext->Listener->Params.Matrix;
+        ALfloat (*Matrix)[4] = ALContext->Listener->Params.Matrix;
         /* Transform source vectors */
         aluMatrixVector(Position, 1.0f, Matrix);
         aluMatrixVector(Direction, 0.0f, Matrix);
@@ -1108,14 +1108,14 @@ static inline ALubyte aluF2UB(ALfloat val)
 #define DECL_TEMPLATE(T, func)                                                \
 static void Write_##T(ALCdevice *device, ALvoid **buffer, ALuint SamplesToDo) \
 {                                                                             \
-    ALfloat (*restrict DryBuffer)[BUFFERSIZE] = device->DryBuffer;            \
+    ALfloat (*DryBuffer)[BUFFERSIZE] = device->DryBuffer;            \
     const ALuint numchans = ChannelsFromDevFmt(device->FmtChans);             \
     const ALuint *offsets = device->ChannelOffsets;                           \
     ALuint i, j;                                                              \
                                                                               \
     for(j = 0;j < MaxChannels;j++)                                            \
     {                                                                         \
-        T *restrict out;                                                      \
+        T *out;                                                      \
                                                                               \
         if(offsets[j] == INVALID_OFFSET)                                      \
             continue;                                                         \

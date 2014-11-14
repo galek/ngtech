@@ -860,11 +860,11 @@ static void alc_init(void)
     AL_STRING_INIT(alcCaptureDeviceList);
 
     str = getenv("__ALSOFT_HALF_ANGLE_CONES");
-    if(str && (strcasecmp(str, "true") == 0 || strtol(str, NULL, 0) == 1))
+    if(str && (_stricmp(str, "true") == 0 || strtol(str, NULL, 0) == 1))
         ConeScale *= 0.5f;
 
     str = getenv("__ALSOFT_REVERSE_Z");
-    if(str && (strcasecmp(str, "true") == 0 || strtol(str, NULL, 0) == 1))
+    if(str && (_stricmp(str, "true") == 0 || strtol(str, NULL, 0) == 1))
         ZScale *= -1.0f;
 
     ret = altss_create(&LocalContext, ReleaseThreadCtx);
@@ -901,9 +901,9 @@ static void alc_initconfig(void)
 
     {
         char buf[1024] = "";
-        int len = snprintf(buf, sizeof(buf), "%s", BackendList[0].name);
+        int len = _snprintf(buf, sizeof(buf), "%s", BackendList[0].name);
         for(i = 1;BackendList[i].name;i++)
-            len += snprintf(buf+len, sizeof(buf)-len, ", %s", BackendList[i].name);
+			len += _snprintf(buf + len, sizeof(buf) - len, ", %s", BackendList[i].name);
         TRACE("Supported backends: %s\n", buf);
     }
     ReadALConfig();
@@ -921,7 +921,7 @@ static void alc_initconfig(void)
 #endif
     if(ConfigValueStr(NULL, "disable-cpu-exts", &str))
     {
-        if(strcasecmp(str, "all") == 0)
+        if(_stricmp(str, "all") == 0)
             capfilter = 0;
         else
         {
@@ -940,13 +940,13 @@ static void alc_initconfig(void)
                 len = (next ? ((size_t)(next-str)) : strlen(str));
                 while(len > 0 && isspace(str[len-1]))
                     len--;
-                if(len == 3 && strncasecmp(str, "sse", len) == 0)
+                if(len == 3 && _strnicmp(str, "sse", len) == 0)
                     capfilter &= ~CPU_CAP_SSE;
-                else if(len == 4 && strncasecmp(str, "sse2", len) == 0)
+                else if(len == 4 && _strnicmp(str, "sse2", len) == 0)
                     capfilter &= ~CPU_CAP_SSE2;
-                else if(len == 6 && strncasecmp(str, "sse4.1", len) == 0)
+                else if(len == 6 && _strnicmp(str, "sse4.1", len) == 0)
                     capfilter &= ~CPU_CAP_SSE4_1;
-                else if(len == 4 && strncasecmp(str, "neon", len) == 0)
+                else if(len == 4 && _strnicmp(str, "neon", len) == 0)
                     capfilter &= ~CPU_CAP_NEON;
                 else
                     WARN("Invalid CPU extension \"%s\"\n", str);
@@ -964,11 +964,11 @@ static void alc_initconfig(void)
 
     if(ConfigValueStr(NULL, "resampler", &str))
     {
-        if(strcasecmp(str, "point") == 0 || strcasecmp(str, "none") == 0)
+        if(_stricmp(str, "point") == 0 || _stricmp(str, "none") == 0)
             DefaultResampler = PointResampler;
-        else if(strcasecmp(str, "linear") == 0)
+        else if(_stricmp(str, "linear") == 0)
             DefaultResampler = LinearResampler;
-        else if(strcasecmp(str, "cubic") == 0)
+        else if(_stricmp(str, "cubic") == 0)
             DefaultResampler = CubicResampler;
         else
         {
@@ -983,7 +983,7 @@ static void alc_initconfig(void)
     }
 
     str = getenv("ALSOFT_TRAP_ERROR");
-    if(str && (strcasecmp(str, "true") == 0 || strtol(str, NULL, 0) == 1))
+    if(str && (_stricmp(str, "true") == 0 || strtol(str, NULL, 0) == 1))
     {
         TrapALError  = AL_TRUE;
         TrapALCError = AL_TRUE;
@@ -991,12 +991,12 @@ static void alc_initconfig(void)
     else
     {
         str = getenv("ALSOFT_TRAP_AL_ERROR");
-        if(str && (strcasecmp(str, "true") == 0 || strtol(str, NULL, 0) == 1))
+        if(str && (_stricmp(str, "true") == 0 || strtol(str, NULL, 0) == 1))
             TrapALError = AL_TRUE;
         TrapALError = GetConfigValueBool(NULL, "trap-al-error", TrapALError);
 
         str = getenv("ALSOFT_TRAP_ALC_ERROR");
-        if(str && (strcasecmp(str, "true") == 0 || strtol(str, NULL, 0) == 1))
+        if(str && (_stricmp(str, "true") == 0 || strtol(str, NULL, 0) == 1))
             TrapALCError = ALC_TRUE;
         TrapALCError = GetConfigValueBool(NULL, "trap-alc-error", TrapALCError);
     }
@@ -2773,7 +2773,7 @@ ALC_API ALCboolean ALC_APIENTRY alcIsExtensionPresent(ALCdevice *device, const A
         const char *ptr = (device ? alcExtensionList : alcNoDeviceExtList);
         while(ptr && *ptr)
         {
-            if(strncasecmp(ptr, extName, len) == 0 &&
+            if(_strnicmp(ptr, extName, len) == 0 &&
                (ptr[len] == '\0' || isspace(ptr[len])))
             {
                 bResult = ALC_TRUE;
@@ -3066,7 +3066,7 @@ ALC_API ALCdevice* ALC_APIENTRY alcOpenDevice(const ALCchar *deviceName)
         return NULL;
     }
 
-    if(deviceName && (!deviceName[0] || strcasecmp(deviceName, alcDefaultName) == 0 || strcasecmp(deviceName, "openal-soft") == 0))
+    if(deviceName && (!deviceName[0] || _stricmp(deviceName, alcDefaultName) == 0 || _stricmp(deviceName, "openal-soft") == 0))
         deviceName = NULL;
 
     device = al_calloc(16, sizeof(ALCdevice)+sizeof(ALeffectslot));
@@ -3143,7 +3143,7 @@ ALC_API ALCdevice* ALC_APIENTRY alcOpenDevice(const ALCchar *deviceName)
 
         for(i = 0;i < COUNTOF(chanlist);i++)
         {
-            if(strcasecmp(chanlist[i].name, fmt) == 0)
+            if(_stricmp(chanlist[i].name, fmt) == 0)
             {
                 device->FmtChans = chanlist[i].chans;
                 device->Flags |= DEVICE_CHANNELS_REQUEST;
@@ -3171,7 +3171,7 @@ ALC_API ALCdevice* ALC_APIENTRY alcOpenDevice(const ALCchar *deviceName)
 
         for(i = 0;i < COUNTOF(typelist);i++)
         {
-            if(strcasecmp(typelist[i].name, fmt) == 0)
+            if(_stricmp(typelist[i].name, fmt) == 0)
             {
                 device->FmtType = typelist[i].type;
                 device->Flags |= DEVICE_SAMPLE_TYPE_REQUEST;
@@ -3216,7 +3216,7 @@ ALC_API ALCdevice* ALC_APIENTRY alcOpenDevice(const ALCchar *deviceName)
         ERR("Option 'format' is deprecated, please use 'channels' and 'sample-type'\n");
         for(i = 0;i < COUNTOF(formats);i++)
         {
-            if(strcasecmp(fmt, formats[i].name) == 0)
+            if(_stricmp(fmt, formats[i].name) == 0)
             {
                 if(!(device->Flags&DEVICE_CHANNELS_REQUEST))
                     device->FmtChans = formats[i].channels;
@@ -3381,7 +3381,7 @@ ALC_API ALCdevice* ALC_APIENTRY alcCaptureOpenDevice(const ALCchar *deviceName, 
         return NULL;
     }
 
-    if(deviceName && (!deviceName[0] || strcasecmp(deviceName, alcDefaultName) == 0 || strcasecmp(deviceName, "openal-soft") == 0))
+    if(deviceName && (!deviceName[0] || _stricmp(deviceName, alcDefaultName) == 0 || _stricmp(deviceName, "openal-soft") == 0))
         deviceName = NULL;
 
     device = al_calloc(16, sizeof(ALCdevice));

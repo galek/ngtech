@@ -74,22 +74,11 @@
 
 // The specification for "inline" is section 6.7.4 of the C99 standard (ISO/IEC 9899:1999).
 // unfortunately VisualC++ does not conform that
-#if defined(_MSC_VER) || defined(__BORLANDC__)
-#   define cmsINLINE __inline
+#if defined(_MSC_VER)
+#   define cmsINLINE __forceinline
 #else
 #   define cmsINLINE static inline
 #endif
-
-// Other replacement functions
-#ifdef _MSC_VER
-# ifndef snprintf
-#       define snprintf  _snprintf
-# endif
-# ifndef vsnprintf
-#       define vsnprintf  _vsnprintf
-# endif
-#endif
-
 
 // A fast way to convert from/to 16 <-> 8 bits
 #define FROM_8_TO_16(rgb) (cmsUInt16Number) ((((cmsUInt16Number) (rgb)) << 8)|(rgb))

@@ -94,7 +94,7 @@ extern "C" {
 		void(*const reset)(MidiSynth *self);
 
 		void(*const update)(MidiSynth *self, ALCdevice *device);
-		void(*const process)(MidiSynth *self, ALuint samples, ALfloat(*restrict DryBuffer)[BUFFERSIZE]);
+		void(*const process)(MidiSynth *self, ALuint samples, ALfloat(*DryBuffer)[BUFFERSIZE]);
 
 		void(*const Delete)(void *ptr);
 	};
@@ -106,7 +106,7 @@ DECLARE_THUNK1(T, MidiSynth, void, setGain, ALfloat)                          \
 DECLARE_THUNK(T, MidiSynth, void, stop)                                       \
 DECLARE_THUNK(T, MidiSynth, void, reset)                                      \
 DECLARE_THUNK1(T, MidiSynth, void, update, ALCdevice*)                        \
-DECLARE_THUNK2(T, MidiSynth, void, process, ALuint, ALfloatBUFFERSIZE*restrict) \
+DECLARE_THUNK2(T, MidiSynth, void, process, ALuint, ALfloatBUFFERSIZE*) \
 static void T##_MidiSynth_Delete(void *ptr)                                   \
 	{ T##_Delete(STATIC_UPCAST(T, MidiSynth, (MidiSynth*)ptr)); }                 \
                                                                               \

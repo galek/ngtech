@@ -630,7 +630,7 @@ ALvoid LoadReverbPreset(const char *name, ALeffect *effect)
 {
 	size_t i;
 
-	if (strcasecmp(name, "NONE") == 0)
+	if (_stricmp(name, "NONE") == 0)
 	{
 		InitEffectParams(effect, AL_EFFECT_NULL);
 		TRACE("Loading reverb '%s'\n", "NONE");
@@ -647,7 +647,7 @@ ALvoid LoadReverbPreset(const char *name, ALeffect *effect)
 	{
 		const EFXEAXREVERBPROPERTIES *props;
 
-		if (strcasecmp(name, reverblist[i].name) != 0)
+		if (_stricmp(name, reverblist[i].name) != 0)
 			continue;
 
 		TRACE("Loading reverb '%s'\n", reverblist[i].name);
