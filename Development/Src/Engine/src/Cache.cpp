@@ -113,12 +113,12 @@ namespace NGTech {
 		return it->second.first;
 	}
 
-	I_Shader *Cache::loadShader(const String &path, const String &defines) {
+	I_Shader *Cache::loadShader(const String &path, const String &_defines) {
 
 		if (path == "") return NULL;
 		std::map<String, std::pair<I_Shader*, int>>::iterator it = shaders.find(path);
 		if (it == shaders.end() || it->second.first == NULL) {
-			String defines = "";
+			String defines = _defines;
 			if (cvars->r_reflections) defines += "#define REFLECTIONS\n";
 			if (cvars->r_parallax) defines += "#define PARALLAX\n";
 			if (cvars->r_specular) defines += "#define SPECULAR\n";
@@ -137,6 +137,7 @@ namespace NGTech {
 	}
 
 	void Cache::reloadShaders() {
+#pragma message("Тут надо добавить еще один параметр,как выше")
 		String defines = "";
 		if (cvars->r_reflections) defines += "#define REFLECTIONS\n";
 		if (cvars->r_parallax) defines += "#define PARALLAX\n";

@@ -28,7 +28,7 @@ namespace NGTech
 
 	/*
 	 */
-	template <class Type> ENGINE_INLINE void swap(Type &v0, Type &v1) {
+	template <class Type> ENGINE_INLINE void Swap(Type &v0, Type &v1) {
 		Type temp = v0;
 		v0 = v1;
 		v1 = temp;
@@ -133,7 +133,7 @@ namespace NGTech
 				while (l < right && compare(array[l], c)) l++;
 				while (r > left && compare(c, array[r])) r--;
 				if (l < r) {
-					swap(array[l], array[r]);
+					Swap(array[l], array[r]);
 					if (m == l) m = r;
 					else if (m == r) m = l;
 					l++;
