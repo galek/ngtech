@@ -89,17 +89,6 @@ namespace MyGUI
 			mItemTemplate->setVisible(false);
 		}
 
-#ifndef MYGUI_DONT_USE_OBSOLETE
-		if (mItemTemplate == nullptr)
-		{
-			assignWidget(mItemTemplate, "Sheet");
-			if (mItemTemplate != nullptr)
-			{
-				mItemTemplate->setVisible(false);
-			}
-		}
-#endif // MYGUI_DONT_USE_OBSOLETE
-
 		// OBSOLETE
 		Widget* showPatch = nullptr;
 		assignWidget(showPatch, "ShowPatch");

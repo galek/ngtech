@@ -77,8 +77,6 @@ namespace MyGUI
 		factory.registerFactory<Widget>(mCategoryName);
 		factory.registerFactory<Window>(mCategoryName);
 
-		BackwardCompatibility::registerWidgetTypes();
-
 		Gui::getInstance().eventFrameStart += newDelegate(this, &WidgetManager::notifyEventFrameStart);
 
 		MYGUI_LOG(Info, getClassTypeName() << " successfully initialized");

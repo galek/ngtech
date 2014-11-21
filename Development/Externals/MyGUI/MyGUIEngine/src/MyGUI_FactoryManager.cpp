@@ -77,7 +77,7 @@ namespace MyGUI
 			return nullptr;
 		}
 
-		std::string typeName = BackwardCompatibility::getFactoryRename(_category, _type);
+		std::string typeName = _type;
 		MapFactoryItem::iterator type = category->second.find(typeName);
 		if (type == category->second.end())
 		{
@@ -100,16 +100,16 @@ namespace MyGUI
 		/*MapRegisterFactoryItem::iterator category = mRegisterFactoryItems.find(_category);
 		if (category == mRegisterFactoryItems.end())
 		{
-			return;
+		return;
 		}
 		MapFactoryItem::iterator type = category->second.find(_type);
 		if (type == category->second.end())
 		{
-			return;
+		return;
 		}
 		if (type->second.empty())
 		{
-			return;
+		return;
 		}
 
 		type->second(_object, nullptr, _version);*/

@@ -225,13 +225,6 @@ namespace MyGUI
 
 		if (!skinOnly)
 		{
-			const MapString& properties = _skinInfo->getProperties();
-			for (MapString::const_iterator item = properties.begin(); item != properties.end(); ++item)
-			{
-				if (BackwardCompatibility::isIgnoreProperty((*item).first))
-					setUserString((*item).first, (*item).second);
-			}
-
 			// создаем детей скина
 			const VectorChildSkinInfo& child = _skinInfo->getChild();
 			for (VectorChildSkinInfo::const_iterator iter = child.begin(); iter != child.end(); ++iter)
@@ -1066,7 +1059,6 @@ namespace MyGUI
 		std::string key = _key;
 		std::string value = _value;
 
-		if (BackwardCompatibility::checkProperty(this, key, value))
 		{
 			size_t index = key.find("_");
 			if (index != std::string::npos)

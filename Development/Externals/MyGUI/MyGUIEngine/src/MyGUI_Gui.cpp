@@ -112,20 +112,11 @@ namespace MyGUI
 		mIsInitialise = true;
 	}
 
-#ifndef MYGUI_DONT_USE_OBSOLETE
-	void Gui::initialise(const std::string& _core, const std::string& _logFileName)
-	{
-		initialise(_core);
-	}
-#endif // MYGUI_DONT_USE_OBSOLETE
-
 	void Gui::shutdown()
 	{
 		MYGUI_ASSERT(mIsInitialise, getClassTypeName() << " is not initialised");
 		MYGUI_LOG(Info, "* Shutdown: " << getClassTypeName());
-
-		BackwardCompatibility::shutdown();
-
+		
 		_destroyAllChildWidget();
 
 		// деинициализируем и удаляем синглтоны

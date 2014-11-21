@@ -60,10 +60,6 @@ namespace MyGUI
 
 	void FontManager::_load(xml::ElementPtr _node, const std::string& _file, Version _version)
 	{
-#ifndef MYGUI_DONT_USE_OBSOLETE
-		loadOldFontFormat(_node, _file, _version, mXmlFontTagName);
-#endif // MYGUI_DONT_USE_OBSOLETE
-
 		xml::ElementEnumerator node = _node->getElementEnumerator();
 		while (node.next())
 		{

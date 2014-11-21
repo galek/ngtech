@@ -125,27 +125,6 @@ namespace MyGUI
 			ElementPtr operator->() const;
 			ElementPtr current();
 
-			/*obsolete:*/
-#ifndef MYGUI_DONT_USE_OBSOLETE
-
-			MYGUI_OBSOLETE("use : bool ElementEnumerator::next()")
-			bool nextNode()
-			{
-				return next();
-			}
-			MYGUI_OBSOLETE("use : bool ElementEnumerator::next(const std::string& _name)")
-			bool nextNode(const std::string& _name)
-			{
-				return next(_name);
-			}
-			MYGUI_OBSOLETE("use : ElementPtr ElementEnumerator::current()")
-			ElementPtr currentNode()
-			{
-				return current();
-			}
-
-#endif // MYGUI_DONT_USE_OBSOLETE
-
 		private:
 			bool m_first;
 			VectorElement::iterator m_current, m_end;
@@ -217,57 +196,6 @@ namespace MyGUI
 
 			ElementPtr createCopy();
 
-			/*obsolete:*/
-#ifndef MYGUI_DONT_USE_OBSOLETE
-
-			template <typename T>
-			MYGUI_OBSOLETE("use : template <typename T> void Element::addAttribute(const std::string &_key, const T& _value)")
-			void addAttributes(const std::string& _key, const T& _value)
-			{
-				addAttribute<T>(_key, _value);
-			}
-			MYGUI_OBSOLETE("use : void Element::addAttribute(const std::string& _key, const std::string& _value)")
-			void addAttributes(const std::string& _key, const std::string& _value)
-			{
-				addAttribute(_key, _value);
-			}
-
-			template <typename T>
-			MYGUI_OBSOLETE("use : template <typename T> void Element::addContent(const T& _content)")
-			void addBody(const T& _content)
-			{
-				addContent<T>(_content);
-			}
-			MYGUI_OBSOLETE("use : void Element::addContent(const std::string& _content)")
-			void addBody(const std::string& _content)
-			{
-				addContent(_content);
-			}
-			template <typename T>
-			MYGUI_OBSOLETE("use : template <typename T> void Element::setContent(const T& _content)")
-			void setBody(const T& _content)
-			{
-				setContent<T>(_content);
-			}
-			MYGUI_OBSOLETE("use : void Element::setContent(const std::string& _content)")
-			void setBody(const std::string& _content)
-			{
-				setContent(_content);
-			}
-
-			MYGUI_OBSOLETE("use : const std::string& Element::getContent()")
-			const std::string& getBody() const
-			{
-				return getContent();
-			}
-			MYGUI_OBSOLETE("use : ElementEnumerator Element::getElementEnumerator()")
-			ElementEnumerator getNodeIterator()
-			{
-				return getElementEnumerator();
-			}
-
-#endif // MYGUI_DONT_USE_OBSOLETE
-
 		private:
 			std::string mName;
 			std::string mContent;
@@ -319,18 +247,7 @@ namespace MyGUI
 			ElementPtr createRoot(const std::string& _name);
 
 			ElementPtr getRoot() const;
-
-			/*obsolete:*/
-#ifndef MYGUI_DONT_USE_OBSOLETE
-
-			MYGUI_OBSOLETE("use : ElementPtr Document::createDeclaration(const std::string& _version, const std::string& _encoding)")
-			ElementPtr createInfo(const std::string& _version = "1.0", const std::string& _encoding = "UTF-8")
-			{
-				return createDeclaration(_version, _encoding);
-			}
-
-#endif // MYGUI_DONT_USE_OBSOLETE
-
+			
 		private:
 			void setLastFileError(const std::string& _filename);
 			void setLastFileError(const std::wstring& _filename);

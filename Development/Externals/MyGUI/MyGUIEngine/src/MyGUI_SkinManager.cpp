@@ -63,9 +63,6 @@ namespace MyGUI
 
 	void SkinManager::_load(xml::ElementPtr _node, const std::string& _file, Version _version)
 	{
-#ifndef MYGUI_DONT_USE_OBSOLETE
-		loadOldSkinFormat(_node, _file, _version, mXmlSkinTagName);
-#endif // MYGUI_DONT_USE_OBSOLETE
 	}
 
 	void SkinManager::createDefault(const std::string& _value)
@@ -79,7 +76,7 @@ namespace MyGUI
 
 	ResourceSkin* SkinManager::getByName(const std::string& _name) const
 	{
-		std::string skinName = BackwardCompatibility::getSkinRename(_name);
+		std::string skinName = _name;
 		IResource* result = nullptr;
 		if (!skinName.empty() && skinName != mXmlDefaultSkinValue)
 			result = ResourceManager::getInstance().getByName(skinName, false);
@@ -98,7 +95,7 @@ namespace MyGUI
 
 	bool SkinManager::isExist(const std::string& _name) const
 	{
-		std::string skinName = BackwardCompatibility::getSkinRename(_name);
+		std::string skinName = _name;
 		IResource* result = ResourceManager::getInstance().getByName(skinName, false);
 		return (result != nullptr) && (result->isType<ResourceSkin>());
 	}

@@ -269,6 +269,7 @@
     <ClInclude Include="IRender.h" />
     <ClInclude Include="IScripting.h" />
     <ClInclude Include="IWindow.h" />
+    <ClInclude Include="NonCopyable.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="StringHelper.h" />
     <ClInclude Include="Types.h" />

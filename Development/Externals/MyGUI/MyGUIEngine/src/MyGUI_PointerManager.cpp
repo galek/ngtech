@@ -89,10 +89,6 @@ namespace MyGUI
 
 	void PointerManager::_load(xml::ElementPtr _node, const std::string& _file, Version _version)
 	{
-#ifndef MYGUI_DONT_USE_OBSOLETE
-		loadOldPointerFormat(_node, _file, _version, mXmlPointerTagName);
-#endif // MYGUI_DONT_USE_OBSOLETE
-
 		xml::ElementEnumerator node = _node->getElementEnumerator();
 		while (node.next())
 		{
