@@ -20,11 +20,13 @@
 
 namespace NGTech {
 
-	Material::Material(String path) {
+	Material::Material(String path)
+	{
 		if (path == ""){
 			Warning("[Material::Material]Material loading from blank path,automatic deletion.Check your material list");
 			delete this;
 		}
+
 		//begin loading
 		VFile mFile(path.c_str(), VFile::READ_TEXT);
 		while (!mFile.IsEof()) {
@@ -451,7 +453,7 @@ namespace NGTech {
 				GetScene()->matSpotMap->set(p->maxUnit + 2);
 			}
 			//AUTO PARAMS
-			{	
+			{
 				if (type == Pass::matTime)          { p->shader->sendFloat("auto_mtime", GetScene()->matTime); }
 				if (type == Pass::matLightIRadius) { p->shader->sendFloat("auto_mlir", GetScene()->matLightIRadius); }
 

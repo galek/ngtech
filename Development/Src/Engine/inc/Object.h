@@ -85,10 +85,8 @@ namespace NGTech {
 		void setPhysicsSphere(const Vec3 &size, float mass = 0);
 
 		void setPhysicsCylinder(float radius, float width, float mass = 0);
-		void setPhysicsCone(float radius, float height, float mass = 0);
 		void setPhysicsCapsule(float radius, float height, float mass = 0);
-		void setPhysicsChampferCylinder(float radius, float height, float mass = 0);
-
+		
 		void setPhysicsConvexHull(float mass = 0);
 		void setPhysicsStaticMesh();
 		void setPhysicsCloth();
@@ -107,6 +105,7 @@ namespace NGTech {
 		Mat4 transform;
 
 		bool visible;
+		bool bMultipart;
 
 		friend class Scene;
 	};

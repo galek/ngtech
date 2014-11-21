@@ -19,7 +19,7 @@ namespace NGTech {
 	}
 
 	ObjectMesh::ObjectMesh(const String &path)
-		:Object()
+		:Object(), pBody(nullptr), bMultipart(false)
 	{
 		auto cache = GetCache();
 		if (cache){
@@ -29,10 +29,10 @@ namespace NGTech {
 				materials[i] = nullptr;
 		}
 		transform.identity();
-		pBody = nullptr;
 	}
 
 	ObjectMesh::~ObjectMesh() {
+		Warning(__FUNCTION__);
 		auto cache = GetCache();
 		if (cache){
 			cache->deleteModel(model);
@@ -42,7 +42,15 @@ namespace NGTech {
 			materials.clear();
 			cache->deleteSound(impactSound);
 		}
-		SAFE_DELETE(pBody);
+
+		if (GetScene())
+			GetScene()->deleteObjectMesh(this);
+
+		if (bMultipart) {
+			SAFE_DELETE_ARRAY(pBody);
+		}
+		else
+			SAFE_DELETE(pBody);
 	}
 
 	void ObjectMesh::drawSubset(size_t s) {
@@ -106,16 +114,8 @@ namespace NGTech {
 		pBody = PhysBody::CreateCylinder(radius, width, &transform, mass);
 	}
 
-	void ObjectMesh::setPhysicsCone(float radius, float height, float mass) {
-		pBody = PhysBody::CreateCone(radius, height, mass);
-	}
-
 	void ObjectMesh::setPhysicsCapsule(float radius, float height, float mass)  {
 		pBody = PhysBody::CreateCapsule(radius, height, &transform, mass);
-	}
-
-	void ObjectMesh::setPhysicsChampferCylinder(float radius, float height, float mass) {
-		pBody = PhysBody::CreateChampferCylinder(radius, height, mass);
 	}
 
 	void ObjectMesh::setPhysicsConvexHull(float mass) {
@@ -129,6 +129,7 @@ namespace NGTech {
 			pb[i] = *PhysBody::CreateConvexHull(model->subsets[i]->numVertices, model->subsets[i]->numIndices, &transform, model->subsets[i]->vertices, model->subsets[i]->indices, mass);
 
 		pBody = pb;
+		bMultipart = true;
 	}
 
 	void ObjectMesh::setPhysicsStaticMesh() {
@@ -139,29 +140,18 @@ namespace NGTech {
 			numVertices += model->subsets[i]->numVertices;
 		}
 
-		PhysBody*pb = new PhysBody[model->getNumSubsets()];
+		auto pb = new PhysBody[model->getNumSubsets()];
 
 		for (size_t i = 0; i < model->getNumSubsets(); i++)
 			pb[i] = *PhysBody::CreateStaticMesh(model->subsets[i]->numVertices, model->subsets[i]->numIndices, &transform, model->subsets[i]->vertices, model->subsets[i]->indices);
 
 		//Nick:BUG:Меш собирается в реалтайме,и часть тел пролетает,если сначала создать физику,и потом задать коллизию
 		pBody = pb;
+		bMultipart = true;
 	}
 
 	void ObjectMesh::setPhysicsCloth() {
-		int numIndices = 0;
-		int numVertices = 0;
-		for (size_t i = 0; i < model->getNumSubsets(); i++) {
-			numIndices += model->subsets[i]->numIndices;
-			numVertices += model->subsets[i]->numVertices;
-		}
 
-		PhysBody*pb = new PhysBody[model->getNumSubsets()];
-
-		for (size_t i = 0; i < model->getNumSubsets(); i++)
-			pb[i] = *PhysBody::CreateCloth(model->subsets[i]->numVertices, model->subsets[i]->numIndices, &transform, model->subsets[i]->vertices, model->subsets[i]->indices);
-
-		pBody = pb;
 	}
 
 	void ObjectMesh::setImpactSound(const String &path) {

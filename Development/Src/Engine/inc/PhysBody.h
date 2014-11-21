@@ -13,7 +13,6 @@ namespace physx
 	class PxRigidActor;
 }
 namespace NGTech {
-
 	//---------------------------------------------------------------------------
 	//Desc: Rigid body struct
 	//---------------------------------------------------------------------------
@@ -23,14 +22,13 @@ namespace NGTech {
 		static PhysBody *CreateSphere(float radius, Mat4 *_trans, float mass = 0);
 
 		static PhysBody *CreateCylinder(float radius, float height, Mat4 *_trans, float mass = 0);
-		static PhysBody *CreateCone(float radius, float height, float mass = 0);
 		static PhysBody *CreateCapsule(float radius, float height, Mat4 *_trans, float mass = 0);
-		static PhysBody *CreateChampferCylinder(float radius, float height, float mass = 0);
 
 		static PhysBody *CreateConvexHull(int _numVert, int _numFaces, Mat4 *_trans, void*_vertices, unsigned int*_indices, float);
 		static PhysBody *CreateStaticMesh(int _numVert, int _numFaces, Mat4 *_trans, void*, unsigned int*);
-		static PhysBody *CreateCloth(int _numVert, int _numFaces, Mat4 *_trans, void*, unsigned int*);
 
+		PhysBody();
+		PhysBody(const PhysBody&);
 		~PhysBody();
 
 		void SetTransform(const Mat4 &trans);
@@ -55,6 +53,22 @@ namespace NGTech {
 		void SetLinearDamping(float _v);
 		void SetAngularDamping(float _v);
 		void SetMassSpaceInertiaTensor(const Vec3&);
+
+		PhysBody & operator = (const PhysBody & other)
+		{
+			if (this != &other) // защита от неправильного самоприсваивания
+			{
+				impactSrc = other.impactSrc;
+				mShape = other.mShape;
+				mActor = other.mActor;
+				mLvelocity = other.mLvelocity;
+				mAvelocity = other.mAvelocity;
+				mass = other.mass;
+			}
+			// по соглашению всегда возвращаем *this
+			return *this;
+		}
+		
 	private:
 		ALSoundSource *impactSrc;
 		physx::PxShape* mShape;

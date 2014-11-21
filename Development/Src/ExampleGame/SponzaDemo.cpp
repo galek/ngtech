@@ -124,7 +124,7 @@ void ExampleGame::initialise() {
 
 	GetWindow()->grabMouse(true);
 
-	MyGUI::ButtonPtr button = GetGUI()->getGUI()->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
+	MyGUI::Button* button = GetGUI()->getGUI()->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
 	button->setFontName("DejaVuSansFont_15");
 	button->setCaption("Exit");
 	button->eventMouseButtonClick = MyGUI::newDelegate(events, &GameGUIEvents::ExitEvent);

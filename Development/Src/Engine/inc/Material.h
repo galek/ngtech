@@ -81,7 +81,7 @@ namespace NGTech {
 		};
 		std::vector<Pass*> passes;
 		Pass *currentPass;
-
+	
 		friend class Scene;
 	};
 

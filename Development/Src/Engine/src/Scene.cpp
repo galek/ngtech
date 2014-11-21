@@ -117,8 +117,9 @@ namespace NGTech {
 	/**
 	*/
 	void Scene::setCamera(Camera *camera) {
-		delete this->camera;
+		auto older = this->camera;
 		this->camera = camera;
+		SAFE_DELETE(older);
 	}
 
 	/**
@@ -162,30 +163,30 @@ namespace NGTech {
 	/**
 	*/
 	void Scene::deleteLight(Light *light) {
-		for (size_t i = 0; i < lights.size(); i++) {
-			if (light == lights[i]) {
-				lights[i] = NULL;
-			}
+		auto it = std::find(lights.begin(), lights.end(), light);
+		if (it != lights.end())
+		{
+			lights.erase(it);
 		}
 	}
 
 	/**
 	*/
 	void Scene::deleteObjectMesh(ObjectMesh *object) {
-		for (size_t i = 0; i < objects.size(); i++) {
-			if (object == objects[i]) {
-				objects[i] = NULL;
-			}
+		auto it = std::find(objects.begin(), objects.end(), object);
+		if (it != objects.end())
+		{
+			objects.erase(it);
 		}
 	}
 
 	/**
 	*/
 	void Scene::deleteParticleSystem(ParticleSystem *system) {
-		for (size_t i = 0; i < systems.size(); i++) {
-			if (system == systems[i]) {
-				systems[i] = NULL;
-			}
+		auto it = std::find(systems.begin(), systems.end(), system);
+		if (it != systems.end())
+		{
+			systems.erase(it);
 		}
 	}
 
@@ -222,55 +223,59 @@ namespace NGTech {
 		/**
 		draw objects
 		*/
+		Object *object = nullptr;
 		for (size_t m = 0; m < objects.size(); m++)
 		{
-			Object *object = objects[m];
+			object = objects[m];
 
-			GetRender()->push();
-			GetRender()->multMatrix(object->getTransform());
-
-			frustum->get();
-			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
-				GetRender()->pop();
-				continue;
-			}
-
-			for (size_t s = 0; s < object->getNumSubsets(); s++)
+			if (object)//Check what ptr is valid
 			{
-				if (!frustum->isInside(object->getCenter(s), object->getRadius(s)))
+				GetRender()->push();
+				GetRender()->multMatrix(object->getTransform());
+
+				frustum->get();
+				if (!frustum->isInside(object->getCenter(), object->getRadius())) {
+					GetRender()->pop();
 					continue;
-
-				Material *mtr = object->getMaterial(s);
-				if (!mtr) continue;
-
-				matMVP = GetRender()->getMatrix_MVP();
-				matWorld = object->getTransform();
-
-				if (blended) {
-					if (!mtr->passHasBlending("Ambient")) continue;
-					mtr->setPassBlending("Ambient");
 				}
-				else {
-					if (mtr->passHasBlending("Ambient")) continue;
+
+				for (size_t s = 0; s < object->getNumSubsets(); s++)
+				{
+					if (!frustum->isInside(object->getCenter(s), object->getRadius(s)))
+						continue;
+
+					Material *mtr = object->getMaterial(s);
+					if (!mtr) continue;
+
+					matMVP = GetRender()->getMatrix_MVP();
+					matWorld = object->getTransform();
+
+					if (blended) {
+						if (!mtr->passHasBlending("Ambient")) continue;
+						mtr->setPassBlending("Ambient");
+					}
+					else {
+						if (mtr->passHasBlending("Ambient")) continue;
+					}
+					mtr->setPassAlphaTest();//From 091
+
+					if (!mtr->setPass("Ambient")) continue;
+
+					object->drawSubset(s);
+
+					if (mtr->passHasBlending("Ambient") && blended)
+						mtr->unsetPassBlending();
+					mtr->unsetPass();
 				}
-				mtr->setPassAlphaTest();//From 091
-
-				if (!mtr->setPass("Ambient")) continue;
-
-				object->drawSubset(s);
-
-				if (mtr->passHasBlending("Ambient") && blended)
-					mtr->unsetPassBlending();
-				mtr->unsetPass();
+				GetRender()->pop();
 			}
-			GetRender()->pop();
 		}
 	}
 
 	/**
 	*/
 	void Scene::drawPoint(LightPoint *light, bool blended) {
-		if (!light->isVisible()) return;
+		if (!light->isVisible() || !light->isEnable()) return;
 
 		//set material params
 		matLightIRadius = light->getIRadius();
@@ -356,10 +361,9 @@ namespace NGTech {
 	/**
 	*/
 	void Scene::getOmniShadowMap(LightPoint *light) {
-		//if (!light->getShadows() || !light->castShadows || !cvars->r_shadowtype) {
-		//	return;
-		//}
-
+		if (!light->getShadows() || !light->castShadows || !cvars->r_shadowtype) {
+			return;
+		}
 
 		GetRender()->setMatrixMode_Projection();
 		GetRender()->push();
@@ -403,25 +407,24 @@ namespace NGTech {
 				*/
 				for (size_t s = 0; s < object->getNumSubsets(); s++) {
 					Material *mtr = object->getMaterial(s);
-					if (!mtr) continue;
+					if (mtr)
+					{
 
-					frustum->get();
-					if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
-						continue;
+						frustum->get();
+						if (frustum->isInside(object->getCenter(s), object->getRadius(s))) {
+							//set material params
+							matMVP = GetRender()->getMatrix_MVP();
+							matWorld = object->getTransform();
+							depthPass->setPass("DepthPass");
+
+							object->drawSubset(s);
+
+							depthPass->unsetPass();
+						}
 					}
-
-					//set material params
-					matMVP = GetRender()->getMatrix_MVP();
-					matWorld = object->getTransform();
-					depthPass->setPass("DepthPass");
-
-					object->drawSubset(s);
-
-					depthPass->unsetPass();
 				}
 				GetRender()->pop();
 			}
-			light->getShadowMap()->copy(f);
 
 			shadowFBO->flush();
 			shadowFBO->unset();
@@ -437,7 +440,7 @@ namespace NGTech {
 	/**
 	*/
 	void Scene::drawSpot(LightSpot *light, bool blended) {
-		if (!light->isVisible()) return;
+		if (!light->isVisible() || !light->isEnable()) return;
 
 		light->projTransform = Mat4::texBias() *
 			Mat4::perspective(light->fov, 1, 1, light->radius) *
@@ -605,7 +608,10 @@ namespace NGTech {
 
 	/**
 	*/
-	void Scene::drawDirect(LightDirect *light, bool blended) {
+	void Scene::drawDirect(LightDirect *light, bool blended)
+	{
+		if (!light->isVisible() || !light->isEnable()) return;
+
 		//set material params
 		matLightDirection = light->direction;
 		matViewPosition = camera->getPosition();
@@ -773,19 +779,23 @@ namespace NGTech {
 
 			drawAmbient(false);
 
+			Light* tempLight = nullptr;
+
 			for (size_t i = 0; i < lights.size(); i++)
 			{
-				if (lights[i]->isEnable())
+				tempLight = lights[i];
+				if (tempLight->isEnable())
 				{
-					if (lights[i]->getType() == Light::LIGHT_OMNI) {
-						checkOmniVisibility((LightPoint*)lights[i]);
-						if ((LightPoint*)lights[i]->isVisible())
-							getOmniShadowMap((LightPoint*)lights[i]);
+					if (tempLight->getType() == Light::LIGHT_OMNI)
+					{
+						checkOmniVisibility((LightPoint*)tempLight);
+						if ((LightPoint*)tempLight->isVisible())
+							getOmniShadowMap((LightPoint*)tempLight);
 					}
-					else if (lights[i]->getType() == Light::LIGHT_SPOT) {
-						checkSpotVisibility((LightSpot*)lights[i]);
-						if ((LightSpot*)lights[i]->isVisible())
-							getSpotShadowMap((LightSpot*)lights[i]);
+					else if (tempLight->getType() == Light::LIGHT_SPOT) {
+						checkSpotVisibility((LightSpot*)tempLight);
+						if ((LightSpot*)tempLight->isVisible())
+							getSpotShadowMap((LightSpot*)tempLight);
 					}
 				}
 			}
@@ -817,16 +827,17 @@ namespace NGTech {
 			//draw lighting
 			for (size_t i = 0; i < lights.size(); i++)
 			{
-				if (lights[i]->isVisible())
+				tempLight = lights[i];
+				if (tempLight->isVisible())
 				{
-					if (lights[i]->getType() == Light::LIGHT_OMNI) {
-						drawPoint((LightPoint*)lights[i], false);
+					if (tempLight->getType() == Light::LIGHT_OMNI) {
+						drawPoint((LightPoint*)tempLight, false);
 					}
-					else if (lights[i]->getType() == Light::LIGHT_SPOT) {
-						drawSpot((LightSpot*)lights[i], false);
+					else if (tempLight->getType() == Light::LIGHT_SPOT) {
+						drawSpot((LightSpot*)tempLight, false);
 					}
-					else if (lights[i]->getType() == Light::LIGHT_DIRECT) {
-						drawDirect((LightDirect*)lights[i], false);
+					else if (tempLight->getType() == Light::LIGHT_DIRECT) {
+						drawDirect((LightDirect*)tempLight, false);
 					}
 				}
 			}

@@ -20,6 +20,7 @@ namespace physx
 	class PxMaterial;
 	class PxCudaContextManager;
 	class PxControllerManager;
+	class PxSceneDesc;
 }
 //***************************************************************************
 
@@ -62,20 +63,11 @@ namespace NGTech {
 		void UnLockRead();
 		void LockWrite();
 		void UnLockWrite();
+		void _CreateScene(const physx::PxSceneDesc*_sceneDesc);
 	private:
 		void _togglePvdConnection();
 		void _createPvdConnection();
 	private:
-
-		PhysBody *pBody0;
-		PhysBody *pBody1;
-		float impactSpeed;
-		Vec3 impactNormal, impactPosition;
-
-		float intersectionParam;
-		Vec3 intersectionNormal;
-		PhysBody *intersectedBody;
-
 		friend class PhysBody;
 		friend class PhysJoint;
 		friend class PhysJointUpVector;

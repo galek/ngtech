@@ -94,7 +94,7 @@ namespace NGTech {
 		if (!mMaterial)
 			Error("createMaterial failed!", true);
 
-		PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
+		static PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
 		sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
 
 		if (!sceneDesc.cpuDispatcher)
@@ -120,13 +120,7 @@ namespace NGTech {
 		if (!sceneDesc.filterShader)
 			sceneDesc.filterShader = gDefaultFilterShader;
 
-		mScene = mPhysics->createScene(sceneDesc);
-		if (!mScene)
-			Error("PhysSystem::initialise()-create mScene failed!", true);
-
-		mCCManager = PxCreateControllerManager(*mScene);
-		if (!mCCManager)
-			Error("PhysSystem::initialise()-create mCCManager failed!", true);
+		_CreateScene(&sceneDesc);
 	}
 
 	/**
@@ -285,5 +279,18 @@ namespace NGTech {
 	*/
 	void PhysSystem::UnLockWrite(){
 		mScene->unlockWrite();
+	}
+
+	/**
+	*/
+	void PhysSystem::_CreateScene(const physx::PxSceneDesc*_sceneDesc)
+	{
+		mScene = mPhysics->createScene(*_sceneDesc);
+		if (!mScene)
+			Error("PhysSystem::initialise()-create mScene failed!", true);
+
+		mCCManager = PxCreateControllerManager(*mScene);
+		if (!mCCManager)
+			Error("PhysSystem::initialise()-create mCCManager failed!", true);
 	}
 }
