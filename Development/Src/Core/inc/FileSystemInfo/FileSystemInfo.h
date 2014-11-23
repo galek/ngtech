@@ -15,11 +15,14 @@
 #include <dirent.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <linux/stat.h>
 #include <unistd.h>
 #endif
 
 #include <string>
 #include <vector>
+
+#include "../UString.h"
 
 namespace NGTech
 {
@@ -119,7 +122,7 @@ namespace NGTech
 		if (lHandle != -1)
 			_findclose(lHandle);
 #else
-		DIR* dir = opendir(MyGUI::UString(_folder).asUTF8_c_str());
+		DIR* dir = opendir(UString(_folder).asUTF8_c_str());
 		struct dirent* dp;
 
 		if (dir == NULL)
@@ -131,13 +134,13 @@ namespace NGTech
 
 		while ((dp = readdir(dir)) != NULL)
 		{
-			if (!isReservedDir(MyGUI::UString(dp->d_name).asWStr_c_str()))
+			if (!isReservedDir(UString(dp->d_name).asWStr_c_str()))
 			{
 				struct stat fInfo;
 				char path[NAME_MAX];
 				//snprintf(path, NAME_MAX, "%s/%s", MyGUI::UString(_folder).asUTF8_c_str(), dp->d_name);
 				if (stat(path, &fInfo) == -1)perror("stat");
-				_result.push_back(FileInfo(MyGUI::UString(dp->d_name).asWStr(), (S_ISDIR(fInfo.st_mode))));
+				_result.push_back(FileInfo(UString(dp->d_name).asWStr(), (S_ISDIR(fInfo.st_mode))));
 			}
 		}
 
@@ -153,7 +156,7 @@ namespace NGTech
 		return buff;
 #else
 		char buff[PATH_MAX + 1];
-		return getcwd(buff, PATH_MAX) ? MyGUI::UString(buff).asWStr() : std::wstring();
+		return getcwd(buff, PATH_MAX) ? UString(buff).asWStr() : std::wstring();
 #endif
 	}
 

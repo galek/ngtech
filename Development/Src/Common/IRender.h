@@ -467,33 +467,48 @@ namespace NGTech {
 	struct I_Shader
 	{
 		I_Shader(){}
+
 		/**
 		*/
 		virtual ~I_Shader(){}
+
 		/**
 		*/
 		virtual void set() = 0;
+
 		/**
 		*/
 		virtual void unset() = 0;
+
+		/**
+		Release shader
+		*/
+		virtual void Release() = 0;
+
 		/**
 		*/
 		virtual void sendMat4(const String &name, const Mat4 &value) = 0;
+
 		/**
 		*/
 		virtual void sendVec4(const String &name, const Vec4 &value) = 0;
+
 		/**
 		*/
 		virtual void sendVec3(const String &name, const Vec3 &value) = 0;
+
 		/**
 		*/
 		virtual void sendVec2(const String &name, const Vec2 &value) = 0;
+
 		/**
 		*/
 		virtual void sendFloat(const String &name, float value) = 0;
+
 		/**
 		*/
 		virtual void sendInt(const String &name, size_t value) = 0;
+
 		/**
 		*/
 		virtual int GetUniformLocation(const char*_loc, bool isOptional) = 0;
@@ -513,6 +528,10 @@ namespace NGTech {
 		/**
 		*/
 		virtual void BindTextureRect(const char *name, int unit, unsigned int tex) = 0;
+
+		/**
+		*/
+		virtual bool CreateShader(const String &path, const String &defines, bool _save) = 0;
 
 		/**
 		*/
@@ -605,6 +624,28 @@ namespace NGTech {
 		/**
 		*/
 		virtual void SetUniformMatrix4fv(int index, float *m, int count, bool transpose) = 0;
+
+		/**
+		*/
+		virtual void AddAttribute(const std::string& attribute) = 0;
+
+		/**
+		*/
+		virtual void AddUniform(const std::string& uniform) = 0;
+		/**
+		An indexer that returns the location of the attribute/uniform
+		*/
+		unsigned int operator[](const std::string& attribute);
+		/**
+		*/
+		unsigned int operator()(const std::string& uniform);
+		/**
+		An indexer that returns the location of the attribute/uniform
+		*/
+		unsigned int operator[](const char* attribute);
+		/**
+		*/
+		unsigned int operator()(const char* uniform);
 	};
 
 

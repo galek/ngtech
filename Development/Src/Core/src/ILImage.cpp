@@ -90,7 +90,7 @@ namespace NGTech {
 		if (GetVFS()->isDataExist(_path))
 		{
 			IDataStream* stream = GetVFS()->getData(_path);
-			if (!stream){
+			if (!stream) {
 				Warning("[GUI]Failed Loading GUI image!");
 				return NULL;
 			}
@@ -158,7 +158,7 @@ namespace NGTech {
 			memcpy(image->data, data, size);
 			return image;
 		}
-		Warning("[GUI] Failed Loading GUI image!File not found:%s", _path);
+		Warning("[GUI] Failed Loading GUI image!File not found:%s", _path.c_str());
 		return NULL;
 	}
 

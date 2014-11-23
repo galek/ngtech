@@ -1,4 +1,7 @@
 #include "CorePrivate.h"
+#if  (PLATFORM_OS == PLATFORM_OS_LINUX) || (PLATFORM_OS == PLATFORM_OS_ANDROID)
+#include <dlfcn.h>
+#endif
 
 namespace NGTech
 {
@@ -21,7 +24,7 @@ namespace NGTech
 		LogPrintf("Loading library %s", mName.c_str());
 
 		std::string name = mName;
-#if ENGINE_PLATFORM == ENGINE_PLATFORM_LINUX
+#if (PLATFORM_OS == PLATFORM_OS_LINUX) || (PLATFORM_OS == PLATFORM_OS_ANDROID)
 		// dlopen() does not add .so to the filename, like windows does for .dll
 		if (name.substr(name.length() - 3, 3) != ".so")
 			name += ".so";
@@ -53,7 +56,7 @@ namespace NGTech
 	//-----------------------------------------------------------------------
 	std::string DynLib::GetError(void)
 	{
-#if ENGINE_PLATFORM == ENGINE_PLATFORM_WIN32
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
 		LPVOID lpMsgBuf;
 		FormatMessage(
 			FORMAT_MESSAGE_ALLOCATE_BUFFER |
@@ -70,12 +73,12 @@ namespace NGTech
 		// Free the buffer.
 		LocalFree(lpMsgBuf);
 		return ret;
-#elif ENGINE_PLATFORM == ENGINE_PLATFORM_LINUX
-		return string(dlerror());
-#elif ENGINE_PLATFORM == ENGINE_PLATFORM_APPLE
-		return string(mac_errorBundle());
+#elif  (PLATFORM_OS == PLATFORM_OS_LINUX) || (PLATFORM_OS == PLATFORM_OS_ANDROID)
+		return std::string(dlerror());
+#elif PLATFORM_OS == PLATFORM_OS_MACOSX
+		return std::string(mac_errorBundle());
 #else
-		return string("");
+		return std::string("");
 #endif
 	}
 }

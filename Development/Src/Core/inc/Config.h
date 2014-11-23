@@ -2,7 +2,7 @@
 
 //**************************************
 #ifndef __E_STRING_H__
-#include "..\Common\StringHelper.h"
+#include "../../Common/StringHelper.h"
 #endif
 #include <vector>
 //**************************************

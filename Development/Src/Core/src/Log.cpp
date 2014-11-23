@@ -17,8 +17,12 @@
 */
 #include "CorePrivate.h"
 //***************************************************************************
+#if (PLATFORM_OS == PLATFORM_OS_LINUX) || (PLATFORM_OS == PLATFORM_OS_ANDROID)
+#include <sys/stat.h>
+#elif  PLATFORM_OS == PLATFORM_OS_WINDOWS
 #include <direct.h> //_mkdir
 #include <tchar.h>
+#endif
 #include <stdarg.h>
 //***************************************************************************
 #include "Log.h"
@@ -42,7 +46,7 @@ namespace NGTech {
 
 		va_list         argptr;
 		va_start(argptr, fmt);
-		_vstprintf(msg, fmt, argptr);
+		vsprintf(msg, fmt, argptr);
 		va_end(argptr);
 
 		if (String(msg).empty())
@@ -60,7 +64,7 @@ namespace NGTech {
 
 		va_list         argptr;
 		va_start(argptr, fmt);
-		_vstprintf(msg, fmt, argptr);
+		vsprintf(msg, fmt, argptr);
 		va_end(argptr);
 
 		if (String(msg).empty())
@@ -77,7 +81,7 @@ namespace NGTech {
 
 		va_list         argptr;
 		va_start(argptr, fmt);
-		_vstprintf(msg, fmt, argptr);
+		vsprintf(msg, fmt, argptr);
 		va_end(argptr);
 
 		if (String(msg).empty())
@@ -92,7 +96,12 @@ namespace NGTech {
 	}
 
 	Log::Log() {
+#if (PLATFORM_OS == PLATFORM_OS_LINUX) || (PLATFORM_OS == PLATFORM_OS_ANDROID)
+		//with read/write/search permissions for owner and group, and with read/search permissions for others.
+		mkdir("../Logs", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+#elif PLATFORM_OS == PLATFORM_OS_WINDOWS
 		_mkdir("../Logs");
+#endif
 		FILE *fLog;
 		fLog = fopen(LOG_FILE, "wt");
 

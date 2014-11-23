@@ -1,7 +1,6 @@
 #pragma once
 
-#include "..\..\Common\CommonPrivate.h"
-#include "..\..\Platform\inc\PlatformPrivate.h"
+#include "../../Common/CommonPrivate.h"
 #include "IncludesAndLibs.h"
 #include "BuildDefines.h"
 #include "coredll.h"

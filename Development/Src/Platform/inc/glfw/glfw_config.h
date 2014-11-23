@@ -36,8 +36,6 @@
 
 // Define this to 1 if building GLFW for X11
 /* #undef _GLFW_X11 */
-// Define this to 1 if building GLFW for Win32
-#define _GLFW_WIN32
 // Define this to 1 if building GLFW for Cocoa
 /* #undef _GLFW_COCOA */
 
@@ -79,7 +77,14 @@
 /* #undef _GLFW_USE_MENUBAR */
 
 // Define this to 1 if using OpenGL as the client library
+#ifdef __ANDROID__
+#define _GLFW_USE_GLESV1
+#define _GLFW_EGL
+#else
 #define _GLFW_USE_OPENGL
+// Define this to 1 if building GLFW for Win32
+#define _GLFW_WIN32
+#endif
 // Define this to 1 if using OpenGL ES 1.1 as the client library
 /* #undef _GLFW_USE_GLESV1 */
 // Define this to 1 if using OpenGL ES 2.0 as the client library

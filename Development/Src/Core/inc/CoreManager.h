@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Common/Types.h"
+#include "../../Platform/inc/PlatformDetect.h"
 #include "coredll.h"
 
 namespace NGTech {

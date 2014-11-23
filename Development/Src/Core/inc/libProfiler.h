@@ -8,7 +8,7 @@
 // Critical Section
 #if IS_OS_WINDOWS
 typedef CRITICAL_SECTION ZCriticalSection_t;
-inline char* ZGetCurrentDirectory(int bufLength, char *pszDest)
+ENGINE_INLINE char* ZGetCurrentDirectory(int bufLength, char *pszDest)
 {
 	return (char*)GetCurrentDirectoryA(bufLength, pszDest);
 }
@@ -31,7 +31,7 @@ inline char* ZGetCurrentDirectory(int bufLength, char *pszDest)
 #endif
 
 
-__inline ZCriticalSection_t* NewCriticalSection()
+ENGINE_INLINE ZCriticalSection_t* NewCriticalSection()
 {
 #if IS_OS_LINUX
 	ZCriticalSection_t *cs = new pthread_mutex_t;
@@ -55,7 +55,7 @@ __inline ZCriticalSection_t* NewCriticalSection()
 #endif
 }
 
-__inline void DestroyCriticalSection(ZCriticalSection_t *cs)
+ENGINE_INLINE void DestroyCriticalSection(ZCriticalSection_t *cs)
 {
 #if IS_OS_LINUX
 	delete cs;
@@ -67,7 +67,7 @@ __inline void DestroyCriticalSection(ZCriticalSection_t *cs)
 #endif
 }
 
-__inline void LockCriticalSection(ZCriticalSection_t *cs)
+ENGINE_INLINE void LockCriticalSection(ZCriticalSection_t *cs)
 {
 #if IS_OS_LINUX
 	pthread_mutex_lock( cs );
@@ -78,7 +78,7 @@ __inline void LockCriticalSection(ZCriticalSection_t *cs)
 #endif
 }
 
-__inline void UnLockCriticalSection(ZCriticalSection_t *cs)
+ENGINE_INLINE void UnLockCriticalSection(ZCriticalSection_t *cs)
 {
 #if IS_OS_LINUX
 	pthread_mutex_unlock( cs );

@@ -32,7 +32,7 @@ namespace NGTech {
 	GLShader *GLShader::create(const String &path, const String &defines) {
 		GLShader *shader = new GLShader();
 
-		if (shader->_createShader(path, defines, true))
+		if (shader->CreateShader(path, defines, true))
 			return shader;
 		else
 			return NULL;
@@ -50,6 +50,11 @@ namespace NGTech {
 	}
 
 	GLShader::~GLShader() {
+		Release();
+	}
+
+	void GLShader::Release() 
+	{
 		if (vs) glDeleteProgram(vs);
 		if (fs) glDeleteProgram(fs);
 		if (gs) glDeleteProgram(gs);
@@ -73,35 +78,41 @@ namespace NGTech {
 
 	void GLShader::sendMat4(const String &name, const Mat4 &value) {
 		GLint param = glGetUniformLocation(program, name.c_str());
+		_uniformLocationList[name] = param;
 		glUniformMatrix4fv(param, 1, false, value);
 	}
 
 	void GLShader::sendVec4(const String &name, const Vec4 &value) {
 		GLint param = glGetUniformLocation(program, name.c_str());
+		_uniformLocationList[name] = param;
 		glUniform4fv(param, 1, value);
 	}
 
 	void GLShader::sendVec3(const String &name, const Vec3 &value) {
 		GLint param = glGetUniformLocation(program, name.c_str());
+		_uniformLocationList[name] = param;
 		glUniform3fv(param, 1, value);
 	}
 
 	void GLShader::sendVec2(const String &name, const Vec2 &value) {
 		GLint param = glGetUniformLocation(program, name.c_str());
+		_uniformLocationList[name] = param;
 		glUniform2fv(param, 1, value);
 	}
 
 	void GLShader::sendFloat(const String &name, float value) {
 		int param = glGetUniformLocation(program, name.c_str());
+		_uniformLocationList[name] = param;
 		glUniform1f(param, value);
 	}
 
 	void GLShader::sendInt(const String &name, size_t value) {
 		int param = glGetUniformLocation(program, name.c_str());
+		_uniformLocationList[name] = param;
 		glUniform1i(param, value);
 	}
 
-	bool GLShader::_createShader(const String &path, const String &defines, bool _save)
+	bool GLShader::CreateShader(const String &path, const String &defines, bool _save)
 	{
 		int Success = 0;
 
@@ -164,7 +175,7 @@ namespace NGTech {
 
 					if (!compiled) {
 						char errorString[4096];
-						glGetInfoLogARB(this->vs, sizeof(errorString), NULL, errorString);
+						glGetProgramInfoLog(this->vs, sizeof(errorString), NULL, errorString);
 						Error::showAndExit("GLShader::create() error: shader file '" + path + "' vs compiling error: " + String(errorString));
 						return false;
 					}
@@ -196,7 +207,7 @@ namespace NGTech {
 
 					if (!compiled) {
 						char errorString[4096];
-						glGetInfoLogARB(this->fs, sizeof(errorString), NULL, errorString);
+						glGetProgramInfoLog(this->fs, sizeof(errorString), NULL, errorString);
 						Error::showAndExit("GLShader::create() error: shader file '" + path + "' fs compiling error: " + String(errorString));
 						return false;
 					}
@@ -228,7 +239,7 @@ namespace NGTech {
 
 					if (!compiled) {
 						char errorString[4096];
-						glGetInfoLogARB(this->gs, sizeof(errorString), NULL, errorString);
+						glGetProgramInfoLog(this->gs, sizeof(errorString), NULL, errorString);
 						Error::showAndExit("GLShader::create() error: shader file '" + path + "' gs compiling error: " + String(errorString));
 						return false;
 					}
@@ -261,7 +272,7 @@ namespace NGTech {
 
 					if (!compiled) {
 						char errorString[4096];
-						glGetInfoLogARB(this->tes, sizeof(errorString), NULL, errorString);
+						glGetProgramInfoLog(this->tes, sizeof(errorString), NULL, errorString);
 						Error::showAndExit("GLShader::create() error: shader file '" + path + "' tes compiling error: " + String(errorString));
 						return false;
 					}
@@ -293,7 +304,7 @@ namespace NGTech {
 
 					if (!compiled) {
 						char errorString[4096];
-						glGetInfoLogARB(this->tcs, sizeof(errorString), NULL, errorString);
+						glGetProgramInfoLog(this->tcs, sizeof(errorString), NULL, errorString);
 						Warning("[%s] Error: shader file '%s' tcs compiling error: %s", __FUNCTION__, path.c_str(), (errorString));
 						return false;
 					}
@@ -331,7 +342,7 @@ namespace NGTech {
 
 		if (!linked) {
 			char errorString[4096];
-			glGetInfoLogARB(this->program, sizeof(errorString), NULL, errorString);
+			glGetProgramInfoLog(this->program, sizeof(errorString), NULL, errorString);
 			Warning("[%s] Error: shader file '%s' linking error: %s", __FUNCTION__, path, (errorString));
 			return false;
 		}
@@ -369,6 +380,7 @@ namespace NGTech {
 	int GLShader::GetUniformLocation(const char*uniform, bool isOptional)
 	{
 		GLint result = glGetUniformLocation(this->program, uniform);
+		_uniformLocationList[uniform] = result;
 
 		if (result == -1)
 		{
@@ -389,6 +401,7 @@ namespace NGTech {
 	int GLShader::GetAttribLocation(const char* attribute, bool isOptional)
 	{
 		GLint result = glGetAttribLocation(this->program, attribute);
+		_attributeList[attribute] = result;
 
 		if (result == -1)
 		{
@@ -467,7 +480,7 @@ namespace NGTech {
 		glActiveTexture(GL_TEXTURE0 + unit);
 		glBindTexture(0x8c1a, tex); // GL_TEXTURE_2D_ARRAY
 	}
-	
+
 	/**
 	*/
 	void GLShader::SetUniform1i(const char *name, int value)
@@ -477,7 +490,7 @@ namespace NGTech {
 			glUniform1i(loc, value);
 		}
 	}
-	
+
 	/**
 	*/
 	void GLShader::SetUniform1i(int index, int value)
@@ -486,7 +499,7 @@ namespace NGTech {
 			glUniform1i(index, value);
 		}
 	}
-	
+
 	/**
 	*/
 	void GLShader::SetUniform2i(const char *name, int x, int y)
@@ -591,7 +604,7 @@ namespace NGTech {
 			glUniform4f(loc, x, y, z, w);
 		}
 	}
-	
+
 	/**
 	*/
 	void GLShader::SetUniform4f(int index, float x, float y, float z, float w)
@@ -600,7 +613,7 @@ namespace NGTech {
 			glUniform4f(index, x, y, z, w);
 		}
 	}
-	
+
 	/**
 	*/
 	void GLShader::SetUniform3fv(const char *name, const float *value, int count)
@@ -611,7 +624,7 @@ namespace NGTech {
 		}
 
 	}
-	
+
 	/**
 	*/
 	void GLShader::SetUniform3fv(int index, const float *value, int count)
@@ -630,7 +643,7 @@ namespace NGTech {
 			glUniform4fv(loc, count, value);
 		}
 	}
-	
+
 	/**
 	*/
 	void GLShader::SetUniform4fv(int index, const float *value, int count)
@@ -639,7 +652,7 @@ namespace NGTech {
 			glUniform4fv(index, count, value);
 		}
 	}
-	
+
 	/**
 	*/
 	void GLShader::SetUniformMatrix4fv(const char *name, float *m, int count, bool transpose)
@@ -649,7 +662,7 @@ namespace NGTech {
 			glUniformMatrix4fv(loc, count, transpose, m);
 		}
 	}
-	
+
 	/**
 	*/
 	void GLShader::SetUniformMatrix4fv(int index, float *m, int count, bool transpose)
@@ -658,7 +671,40 @@ namespace NGTech {
 			glUniformMatrix4fv(index, count, transpose, m);
 		}
 	}
-	
+
 	/**
 	*/
+	void GLShader::AddAttribute(const std::string& attribute) {
+		_attributeList[attribute] = glGetAttribLocation(this->program, attribute.c_str());
+	}
+
+	/**
+	*/
+	void GLShader::AddUniform(const std::string& uniform) {
+		_uniformLocationList[uniform] = glGetUniformLocation(this->program, uniform.c_str());
+	}
+
+	/**
+	*/
+	GLuint GLShader::operator [](const std::string& attribute) {
+		return _attributeList[attribute];
+	}
+
+	/**
+	*/
+	GLuint GLShader::operator()(const std::string& uniform){
+		return _uniformLocationList[uniform];
+	}
+
+	/**
+	*/
+	GLuint GLShader::operator [](const char* attribute) {
+		return _attributeList[attribute];
+	}
+
+	/**
+	*/
+	GLuint GLShader::operator()(const char* uniform){
+		return _uniformLocationList[uniform];
+	}
 }

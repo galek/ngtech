@@ -1,7 +1,9 @@
 #include "CorePrivate.h"
 //***************************************************************************
 #include "Log.h"
+#if  PLATFORM_OS == PLATFORM_OS_WINDOWS
 #include <tchar.h>
+#endif
 #include <stdarg.h>
 //***************************************************************************
 

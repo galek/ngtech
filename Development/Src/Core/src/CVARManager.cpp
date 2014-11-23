@@ -1,6 +1,6 @@
 #include "CorePrivate.h"
 #include "CvarManager.h"
-#include "../Common/StringHelper.h"
+#include "../../Common/StringHelper.h"
 #include "Config.h"
 
 namespace NGTech {

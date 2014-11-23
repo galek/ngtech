@@ -1,6 +1,10 @@
 #include "CorePrivate.h"
 //**************************************
-#include <direct.h>
+#if (PLATFORM_OS == PLATFORM_OS_LINUX) || (PLATFORM_OS == PLATFORM_OS_ANDROID)
+#include <sys/stat.h>
+#elif  PLATFORM_OS == PLATFORM_OS_WINDOWS
+#include <direct.h> //_mkdir
+#endif
 #include <stdlib.h>
 #include <stdio.h>
 //**************************************
@@ -67,7 +71,12 @@ namespace NGTech {
 
 	/**
 	*/
-	void CoreManager::_initUserDir(const char* dir)	{
+	void CoreManager::_initUserDir(const char* dir) {
+#if (PLATFORM_OS == PLATFORM_OS_LINUX) || (PLATFORM_OS == PLATFORM_OS_ANDROID)
+		//with read/write/search permissions for owner and group, and with read/search permissions for others.
+		mkdir(dir, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+#elif PLATFORM_OS == PLATFORM_OS_WINDOWS
 		_mkdir(dir);
+#endif
 	}
 }

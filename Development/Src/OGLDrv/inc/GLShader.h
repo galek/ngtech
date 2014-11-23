@@ -1,8 +1,10 @@
 #pragma once 
 
 //***************************************************************************
-#include "MathLib.h"
-#include "../Common/StringHelper.h"
+#include "../../Core/Inc/MathLib.h"
+#include "../../Common/StringHelper.h"
+//***************************************************************************
+#include "Renderdll.h"
 //***************************************************************************
 
 namespace NGTech {
@@ -10,7 +12,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: GL GLShader struct    
 	//---------------------------------------------------------------------------
-	class GLShader : public I_Shader {
+	class RENDER_API GLShader : public I_Shader {
 	public:
 		/**
 		Creates new GLShader
@@ -19,6 +21,10 @@ namespace NGTech {
 		\return pointer to the new GLShader
 		*/
 		static GLShader *create(const String &path, const String &defines = "");
+
+		/**
+		*/
+		GLShader();
 
 		/**
 		Destroys  GLShader
@@ -35,7 +41,10 @@ namespace NGTech {
 		*/
 		virtual void unset();
 
-
+		/**
+		Release shader
+		*/
+		virtual void Release();
 		/**
 		Sends uniform param to shader
 		\param name parameter name
@@ -189,13 +198,33 @@ namespace NGTech {
 		/**
 		*/
 		virtual void SetUniformMatrix4fv(int index, float *m, int count, bool transpose);
-	protected:
-		GLShader();
-	private:
+
+		/**
+		*/
+		virtual void AddAttribute(const std::string& attribute);
+
+		/**
+		*/
+		virtual void AddUniform(const std::string& uniform);
 		/**
 		Creation shader functions
 		*/
-		bool _createShader(const String &path, const String &defines = "", bool save = true);
+		virtual bool CreateShader(const String &path, const String &defines = "", bool save = true);
+		/**
+		An indexer that returns the location of the attribute/uniform
+		*/
+		unsigned int operator[](const std::string& attribute);
+		/**
+		*/
+		unsigned int operator()(const std::string& uniform);
+		/**
+		An indexer that returns the location of the attribute/uniform
+		*/
+		unsigned int operator[](const char* attribute);
+		/**
+		*/
+		unsigned int operator()(const char* uniform);
+	private:
 
 		/**
 		Saving shader cache in user directory
@@ -211,5 +240,7 @@ namespace NGTech {
 	private:
 		unsigned int PipelineName, gs, vs, fs, cs, tcs, tes, program;
 		std::string Filename;
+		std::map<std::string, unsigned int> _attributeList;
+		std::map<std::string, unsigned int> _uniformLocationList;
 	};
 }

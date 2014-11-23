@@ -18,14 +18,27 @@ namespace NGTech {
 			LIGHT_DIRECT,
 		};
 
+
+		ENGINE_INLINE const Vec3 &getPosition() { return position; };
+		ENGINE_INLINE void setPosition(const Vec3 &position) { this->position = position; };
+
+		ENGINE_INLINE const Vec3 &getColor() { return color; };
+		ENGINE_INLINE void setColor(const Vec3 &color) { this->color = color; };
+
+		ENGINE_INLINE const Vec3 &getDirection() { return direction; };
+		ENGINE_INLINE void setDirection(const Vec3 &direction) { this->direction = direction; };
+
 		ENGINE_INLINE virtual LightType getType() { return LIGHT; }
+
 		ENGINE_INLINE void setEnable(bool flag) { enabled = flag; }
-		ENGINE_INLINE bool isVisible() { return visible; }
 		ENGINE_INLINE bool isEnable() { return enabled; }
+
 		ENGINE_INLINE void setVisible(bool _s) { visible = _s; }
+		ENGINE_INLINE bool isVisible() { return visible; }
 
 		virtual I_Texture *getShadowMap() = 0;
 	protected:
+		Vec3 position, direction, color;
 		bool enabled;
 		bool visible;
 	};
@@ -37,12 +50,6 @@ namespace NGTech {
 	public:
 		LightPoint();
 		virtual ~LightPoint();
-
-		ENGINE_INLINE const Vec3 &getPosition() { return position; };
-		ENGINE_INLINE void setPosition(const Vec3 &position) { this->position = position; };
-
-		ENGINE_INLINE const Vec3 &getColor() { return color; };
-		ENGINE_INLINE void setColor(const Vec3 &color) { this->color = color; };
 
 		ENGINE_INLINE float getRadius() { return radius; };
 		ENGINE_INLINE float getIRadius() { return 1 / radius; };
@@ -59,7 +66,6 @@ namespace NGTech {
 
 		void getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w);
 	private:
-		Vec3 position, color;
 		float radius;
 		bool castShadows;
 
@@ -77,15 +83,6 @@ namespace NGTech {
 	public:
 		LightSpot();
 		virtual ~LightSpot();
-
-		ENGINE_INLINE const Vec3 &getPosition() { return position; };
-		ENGINE_INLINE void setPosition(const Vec3 &position) { this->position = position; };
-
-		ENGINE_INLINE const Vec3 &getDirection() { return direction; };
-		ENGINE_INLINE void setDirection(const Vec3 &direction) { this->direction = direction; };
-
-		ENGINE_INLINE const Vec3 &getColor() { return color; };
-		ENGINE_INLINE void setColor(const Vec3 &color) { this->color = color; };
 
 		ENGINE_INLINE float getFOV() { return fov; };
 		ENGINE_INLINE void setFOV(float fov) { this->fov = fov; };
@@ -106,7 +103,6 @@ namespace NGTech {
 		void getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w);
 
 	private:
-		Vec3 position, direction, color;
 		float radius, fov;
 		bool castShadows;
 
@@ -128,9 +124,6 @@ namespace NGTech {
 		LightDirect();
 		virtual ~LightDirect();
 
-		ENGINE_INLINE const Vec3 &getDirection() { return direction; };
-		ENGINE_INLINE void setDirection(const Vec3 &direction) { this->direction = direction; };
-
 		ENGINE_INLINE const Vec3 &getColor() { return color; };
 		ENGINE_INLINE void setColor(const Vec3 &color) { this->color = color; };
 
@@ -140,7 +133,6 @@ namespace NGTech {
 		ENGINE_INLINE virtual I_Texture *getShadowMap(){ return NULL; }//Not implemented currently
 
 	private:
-		Vec3 direction, color;
 
 		friend class Scene;
 	};

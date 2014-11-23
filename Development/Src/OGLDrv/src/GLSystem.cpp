@@ -127,15 +127,16 @@ namespace NGTech {
 		defAniso = GLTexture::ANISO_X0;
 		defFilter = GLTexture::LINEAR_MIPMAP_LINEAR;
 
-		glEnable(GL_DEPTH_TEST);
+
+		//enable depth testing and culling
 		glDepthFunc(GL_LEQUAL);
-
+		glEnable(GL_DEPTH_TEST);
+		glCullFace(GL_BACK);
 		glEnable(GL_CULL_FACE);
-
+		//Texture Params
 		glPixelStorei(GL_PACK_ALIGNMENT, 1);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		reshape(GetWindow()->getWidth(), GetWindow()->getHeight());
 		GLExtensions::initExtensions();
 		Debug("[Init] Checking Render Extensions");

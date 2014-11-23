@@ -14,22 +14,25 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // OS definition
 
-#define PLATFORM_OS_WINDOWS    1
-#define PLATFORM_OS_LINUX      2
-#define PLATFORM_OS_MACOSX     3
+#define PLATFORM_OS_WINDOWS     1
+#define PLATFORM_OS_LINUX       2
+#define PLATFORM_OS_MACOSX      3
+#define PLATFORM_OS_ANDROID     4
 
 #if defined( __WIN32__ ) || defined( _WIN32 ) || defined( __WIN64__ ) || defined( _WIN64 ) || defined( WIN32 )
 #   define IS_OS_WINDOWS    1
 #   define IS_OS_LINUX      0
 #   define IS_OS_MACOSX     0
 #   define PLATFORM_OS      PLATFORM_OS_WINDOWS
+#   define ENGINE_INLINE	__forceinline
 #   pragma message("Platform OS is Windows.")
-#elif defined(__linux__) || defined( LINUX )
+#elif defined(__linux__) && (!defined(__ANDROID__) )|| defined( LINUX )
 #   define IS_OS_WINDOWS    0
 #   define IS_OS_LINUX      1
 #   define IS_OS_MACOSX     0
 #   define DROP_EDITOR      1
 #   define PLATFORM_OS      PLATFORM_OS_LINUX
+#   define ENGINE_INLINE	inline
 #   pragma message("Platform OS is Linux.")
 #elif ( defined(__APPLE__) && defined(__MACH__) )  || defined( MACOSX )
 #   define IS_OS_WINDOWS    0
@@ -37,7 +40,16 @@
 #   define IS_OS_MACOSX     1
 #   define DROP_EDITOR      1
 #   define PLATFORM_OS      PLATFORM_OS_MACOSX
+#   define ENGINE_INLINE	inline
 #   pragma message("Platform OS is MacOSX.")
+#elif defined(__linux__) && (defined(__ANDROID__) )
+#   define IS_OS_WINDOWS    0
+#   define IS_OS_LINUX      0
+#   define IS_OS_MACOSX     0
+#   define DROP_EDITOR      1
+#   define PLATFORM_OS      PLATFORM_OS_ANDROID
+#   define ENGINE_INLINE	inline
+#   pragma message("Platform OS is Android.")
 #else
 #   error "This platform is not supported."
 #endif

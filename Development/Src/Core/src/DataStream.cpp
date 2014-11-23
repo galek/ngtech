@@ -5,10 +5,10 @@
  */
 
 #include "CorePrivate.h"
-#include "DataStream.h"
-#include "Utils.h"
-#include <algorithm>
+
 #include <fstream>
+
+#include "DataStream.h"
 
 namespace NGTech
 {
@@ -55,7 +55,11 @@ namespace NGTech
 	size_t DataStream::read(void* _buf, size_t _count)
 	{
 		if (mStream == nullptr) return 0;
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
 		size_t count = min(size(), _count);
+#else
+		size_t count = std::min(size(), _count);
+#endif
 		mStream->read((char*)_buf, count);
 		return count;
 	}
