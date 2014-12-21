@@ -106,6 +106,31 @@ namespace NGTech {
 #endif
 			engine->iWindow->DisableVSync(0);
 	}
+
+	/**
+	*/
+	static void APIENTRY ReportGLError(
+		GLenum source,
+		GLenum type,
+		GLuint id,
+		GLenum severity,
+		GLsizei length,
+		const GLchar *message,
+		void *userdata)
+	{
+		if (type >= GL_DEBUG_TYPE_ERROR && type <= GL_DEBUG_TYPE_PERFORMANCE)
+		{
+			if (source == GL_DEBUG_SOURCE_API)
+				LogPrintf("GL(", severity, "): ");
+			else if (source == GL_DEBUG_SOURCE_SHADER_COMPILER)
+				LogPrintf("GLSL(", severity, "): ");
+			else
+				LogPrintf("OTHER(", severity, "): ");
+
+			LogPrintf("", id, ": ", message);
+		}
+	}
+
 	/**
 	*/
 	void GLSystem::initialise()	{
@@ -166,6 +191,11 @@ namespace NGTech {
 		requireExtension("GL_ARB_shader_subroutine");
 
 		DisableVSync(engine);
+
+#ifdef _ENGINE_DEBUG_
+		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, 0, GL_TRUE);
+		glDebugMessageCallback(ReportGLError, 0);
+#endif
 	}
 
 	/**
@@ -194,6 +224,7 @@ namespace NGTech {
 	/**
 	*/
 	String GLSystem::getExtensions() {
+		//return "NULL";
 		return (char *)glGetString(GL_EXTENSIONS);
 	}
 

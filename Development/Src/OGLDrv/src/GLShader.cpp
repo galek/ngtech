@@ -53,7 +53,7 @@ namespace NGTech {
 		Release();
 	}
 
-	void GLShader::Release() 
+	void GLShader::Release()
 	{
 		if (vs) glDeleteProgram(vs);
 		if (fs) glDeleteProgram(fs);
@@ -135,11 +135,11 @@ namespace NGTech {
 				glGetProgramiv(this->program, GL_LINK_STATUS, &Success);
 			}
 		}
-#endif
 		DebugM("Validation shader binary is %i", Success);
 		if (Success)
 			return true;
 		else
+#endif
 		{
 			if (_save)
 				LogPrintf("Shader Cache for shader: %s is not valid", path.c_str());
@@ -174,9 +174,10 @@ namespace NGTech {
 					glGetShaderiv(this->vs, GL_COMPILE_STATUS, &compiled);
 
 					if (!compiled) {
-						char errorString[4096];
+						char errorString[1024] = { 0 };
 						glGetProgramInfoLog(this->vs, sizeof(errorString), NULL, errorString);
-						Error::showAndExit("GLShader::create() error: shader file '" + path + "' vs compiling error: " + String(errorString));
+						Warning("[%s] Error: shader file '%s' vs compiling error: %s", __FUNCTION__, path.c_str(), String(errorString));
+						Error("Failed compiling shader", true);
 						return false;
 					}
 				}
@@ -206,9 +207,10 @@ namespace NGTech {
 					glGetShaderiv(this->fs, GL_COMPILE_STATUS, &compiled);
 
 					if (!compiled) {
-						char errorString[4096];
+						char errorString[1024] = { 0 };
 						glGetProgramInfoLog(this->fs, sizeof(errorString), NULL, errorString);
-						Error::showAndExit("GLShader::create() error: shader file '" + path + "' fs compiling error: " + String(errorString));
+						Warning("[%s] Error: shader file '%s' fs compiling error: %s", __FUNCTION__, path.c_str(), String(errorString));
+						Error("Failed compiling shader", true);
 						return false;
 					}
 				}
@@ -238,9 +240,10 @@ namespace NGTech {
 					glGetShaderiv(this->gs, GL_COMPILE_STATUS, &compiled);
 
 					if (!compiled) {
-						char errorString[4096];
+						char errorString[1024] = { 0 };
 						glGetProgramInfoLog(this->gs, sizeof(errorString), NULL, errorString);
-						Error::showAndExit("GLShader::create() error: shader file '" + path + "' gs compiling error: " + String(errorString));
+						Warning("[%s] Error: shader file '%s' gs compiling error: %s", __FUNCTION__, path.c_str(), String(errorString));
+						Error("Failed compiling shader", true);
 						return false;
 					}
 				}
@@ -271,9 +274,10 @@ namespace NGTech {
 					glGetShaderiv(this->tes, GL_COMPILE_STATUS, &compiled);
 
 					if (!compiled) {
-						char errorString[4096];
+						char errorString[1024] = { 0 };
 						glGetProgramInfoLog(this->tes, sizeof(errorString), NULL, errorString);
-						Error::showAndExit("GLShader::create() error: shader file '" + path + "' tes compiling error: " + String(errorString));
+						Warning("[%s] Error: shader file '%s' tes compiling error: %s", __FUNCTION__, path.c_str(), String(errorString));
+						Error("Failed compiling shader", true);
 						return false;
 					}
 				}
@@ -303,9 +307,10 @@ namespace NGTech {
 					glGetShaderiv(this->tcs, GL_COMPILE_STATUS, &compiled);
 
 					if (!compiled) {
-						char errorString[4096];
+						char errorString[1024] = { 0 };
 						glGetProgramInfoLog(this->tcs, sizeof(errorString), NULL, errorString);
-						Warning("[%s] Error: shader file '%s' tcs compiling error: %s", __FUNCTION__, path.c_str(), (errorString));
+						Warning("[%s] Error: shader file '%s' tcs compiling error: %s", __FUNCTION__, path.c_str(), String(errorString));
+						Error("Failed compiling shader", true);
 						return false;
 					}
 				}
@@ -351,6 +356,7 @@ namespace NGTech {
 
 	bool GLShader::_saveCache(const char* path)
 	{
+#ifndef _ENGINE_DEBUG_
 		Debug(__FUNCTION__);
 		GLint Size(0);
 		GLenum Format(0);
@@ -359,6 +365,9 @@ namespace NGTech {
 		std::vector<unsigned char> Data(Size);
 		glGetProgramBinary(this->program, Size, nullptr, &Format, &Data[0]);
 		return saveBinary(_createShaderCacheDirectory(path), Format, Data, Size);
+#else
+		return true;
+#endif
 	}
 
 	const char* GLShader::_createShaderCacheDirectory(const char * _file)

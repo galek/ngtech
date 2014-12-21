@@ -284,7 +284,12 @@ namespace NGTech {
 		PROFILER_START(Engine::do_update - game - update);
 		if (this->game)
 			this->game->update();
+		PROFILER_END();
 
+		PROFILER_START(Engine::do_update - physics);
+		// run multi-threaded physics
+		if (!paused)
+			this->physSystem->runUpdate();
 		PROFILER_END();
 	}
 
@@ -292,12 +297,6 @@ namespace NGTech {
 	*/
 	void Engine::do_render()
 	{
-		PROFILER_START(Engine::do_render - physics);
-		// run multi-threaded physics
-		if (!paused)
-			this->physSystem->runUpdate();
-		PROFILER_END();
-
 		PROFILER_START(Engine::do_render - render);
 		if (this->scene)
 			this->scene->render();

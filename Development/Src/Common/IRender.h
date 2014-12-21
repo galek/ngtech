@@ -701,10 +701,10 @@ namespace NGTech {
 		virtual void unset() = 0;
 		/**
 		*/
-		virtual void* map(int offset = 0) = 0;
+		virtual void* map(int offset = 0, void** data = nullptr) = 0;
 		/**
 		*/
-		virtual unsigned char unMap() = 0;
+		virtual void unMap() = 0;
 		/**
 		*/
 	protected:

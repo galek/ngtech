@@ -10,7 +10,8 @@ namespace NGTech {
 	*/
 	GLVBO *GLVBO::createVBO(void *data, int numElements, int elemSize, DataType dataType, TypeDraw drawType) {
 		GLVBO *vbo = new GLVBO();
-		
+		vbo->mBUFType = BUF_VERTEX;
+
 		vbo->numElements = numElements;
 		vbo->elementSize = elemSize;
 
@@ -36,6 +37,7 @@ namespace NGTech {
 		// заполним VBO данными
 		glBufferData(vbo->type, vbo->elementSize * vbo->numElements, data, vbo->drawType);
 
+		vbo->unset();
 
 		return vbo;
 	}
@@ -44,6 +46,7 @@ namespace NGTech {
 	*/
 	GLVBO *GLVBO::createIBO(void *data, int numElements, int elemSize, DataType dataType) {
 		GLVBO *vbo = new GLVBO();
+		vbo->mBUFType = BUF_INDEX;
 
 		vbo->numElements = numElements;
 		vbo->elementSize = elemSize;
@@ -70,6 +73,9 @@ namespace NGTech {
 			vbo->dataType = GL_UNSIGNED_INT;
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * numElements, data, GL_STATIC_DRAW);
 		}
+
+		vbo->unset();
+
 		return vbo;
 	}
 
@@ -147,15 +153,64 @@ namespace NGTech {
 
 	/**
 	*/
-	void * GLVBO::map(int offset) {
-		GLint vertex_flags = GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT;
-		return glMapBufferRange(type, offset, elementSize, vertex_flags);
+	void * GLVBO::map(int offset, void** data) {
+		set();
+
+		if (this->mBUFType == BUF_VERTEX)
+		{
+			//if (flags == 0)
+			//	flags = GL_MAP_READ_BIT | GL_MAP_WRITE_BIT;
+			GLint vertex_flags = GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT;
+			vertexdata_locked.ptr = glMapBufferRange(GL_ARRAY_BUFFER, offset, elementSize, vertex_flags);
+			vertexdata_locked.flags = vertex_flags;
+			if (!vertexdata_locked.ptr)
+				return NULL;
+
+			if (data)
+				(*data) = vertexdata_locked.ptr;
+
+			return vertexdata_locked.ptr;
+		}
+		else if (this->mBUFType == BUF_INDEX)
+		{
+			GLint index_flags = GL_MAP_INVALIDATE_RANGE_BIT | GL_MAP_WRITE_BIT;
+			indexdata_locked.ptr = glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, offset, elementSize, index_flags);
+			indexdata_locked.flags = index_flags;
+
+			if (!indexdata_locked.ptr)
+				return NULL;
+
+			if (data)
+				(*data) = indexdata_locked.ptr;
+
+			return indexdata_locked.ptr;
+		}
+		else
+		{
+			Error("NOT DETERMINATED", true);
+		}
 	}
 
 	/**
 	*/
-	unsigned char GLVBO::unMap() {
-		return glUnmapBuffer(type);
+	void GLVBO::unMap() {
+		if (this->mBUFType == BUF_VERTEX)
+		{
+			if (vertexdata_locked.ptr && glID != 0)
+			{
+				glUnmapBuffer(type);
+				vertexdata_locked.ptr = 0;
+			}
+		}
+		else if (this->mBUFType == BUF_INDEX)
+		{
+			if (indexdata_locked.ptr && glID != 0)
+			{
+				glUnmapBuffer(type);
+				indexdata_locked.ptr = 0;
+			}
+		}
+		unset();
 	}
 
 }
