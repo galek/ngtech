@@ -313,7 +313,6 @@ namespace NGTech {
 
 		for (size_t m = 0; m < objects.size(); m++)
 		{
-
 			Object *object = objects[m];
 
 			GetRender()->push();
@@ -349,7 +348,7 @@ namespace NGTech {
 					if (mtr->passHasBlending("Ambient")) continue;
 				}
 				if (!mtr->setPass("LightOmni")) continue;
-
+				
 				object->drawSubset(s);
 
 				mtr->unsetPass();
@@ -382,7 +381,7 @@ namespace NGTech {
 			shadowFBO->clear();
 
 			GetRender()->loadMatrix(Mat4::cube(light->position, f));
-
+			
 			//DRAW OBJECTS
 			for (size_t m = 0; m < objects.size(); m++)
 			{
@@ -392,12 +391,10 @@ namespace NGTech {
 				GetRender()->multMatrix(object->getTransform());
 
 				frustum->get();
-				if (!frustum->isInside(object->getCenter(), object->getRadius())) {
-					GetRender()->pop();
-					continue;
-				}
-				if ((light->position - object->getTransform().getTranslation()).length() >
-					light->radius + object->getRadius()) {
+				if ((!frustum->isInside(object->getCenter(), object->getRadius())) 
+					|| (((light->position - object->getTransform().getTranslation()).length() >
+					light->radius + object->getRadius())))
+				{
 					GetRender()->pop();
 					continue;
 				}
@@ -405,13 +402,14 @@ namespace NGTech {
 				/**
 				draw subsets
 				*/
-				for (size_t s = 0; s < object->getNumSubsets(); s++) {
+				for (size_t s = 0; s < object->getNumSubsets(); s++) 
+				{
 					Material *mtr = object->getMaterial(s);
 					if (mtr)
 					{
-
 						frustum->get();
-						if (frustum->isInside(object->getCenter(s), object->getRadius(s))) {
+						if (frustum->isInside(object->getCenter(s), object->getRadius(s))) 
+						{
 							//set material params
 							matMVP = GetRender()->getMatrix_MVP();
 							matWorld = object->getTransform();
@@ -425,7 +423,6 @@ namespace NGTech {
 				}
 				GetRender()->pop();
 			}
-
 			shadowFBO->flush();
 			shadowFBO->unset();
 		}
