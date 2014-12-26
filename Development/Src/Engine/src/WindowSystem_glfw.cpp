@@ -163,8 +163,6 @@ namespace NGTech {
 		int value = GLFW_CURSOR_NORMAL;
 		if (show == 1)
 			value = GLFW_CURSOR_NORMAL;
-		else if ((show == 2) || ((cvars->r_fullscreen == false) && (cvars->i_w_mousefree == true)))
-			value = GLFW_CURSOR_HIDDEN;
 		else
 			value = GLFW_CURSOR_DISABLED;
 		glfwSetInputMode(window, GLFW_CURSOR, value);

@@ -17,7 +17,6 @@ namespace NGTech {
 		r_hdr(_c->getBool("r_hdr")),
 		r_parallax(_c->getBool("r_parallax")),
 		r_reflections(_c->getBool("r_reflections")),
-		r_wireframe(_c->getBool("r_wireframe")),
-		i_w_mousefree(_c->getBool("i_w_mousefree"))
+		r_wireframe(_c->getBool("r_wireframe"))
 	{}
 }

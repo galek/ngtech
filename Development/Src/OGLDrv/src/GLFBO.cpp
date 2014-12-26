@@ -32,7 +32,6 @@ namespace NGTech {
 	/**
 	*/
 	void GLFBO::createColorAttachment() {
-		//Заполняем GBuffer
 		glBindFramebuffer(GL_FRAMEBUFFER, glID);
 
 		glGenTextures(1, &glColorID);
@@ -54,9 +53,9 @@ namespace NGTech {
 	void GLFBO::createDepthAttachment() {
 		glBindFramebuffer(GL_FRAMEBUFFER, glID);
 
-		glGenRenderbuffersEXT(1, &glDepthID);
-		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, glDepthID);
-		glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, width, height);
+		glGenRenderbuffers(1, &glDepthID);
+		glBindRenderbuffer(GL_RENDERBUFFER, glDepthID);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
@@ -70,8 +69,8 @@ namespace NGTech {
 		glBindFramebuffer(GL_FRAMEBUFFER, glID);
 
 		glGenRenderbuffersEXT(1, &glStencilID);
-		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, glStencilID);
-		glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_STENCIL_INDEX, width, height);
+		glBindRenderbufferEXT(GL_RENDERBUFFER, glStencilID);
+		glRenderbufferStorageEXT(GL_RENDERBUFFER, GL_STENCIL_INDEX, width, height);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
@@ -82,10 +81,10 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	GLFBO::~GLFBO() {
-		glDeleteFramebuffersEXT(1, &glID);
-		if (glColorID) glDeleteRenderbuffersEXT(1, &glColorID);
-		if (glDepthID) glDeleteRenderbuffersEXT(1, &glDepthID);
-		if (glStencilID) glDeleteRenderbuffersEXT(1, &glStencilID);
+		glDeleteFramebuffers(1, &glID);
+		if (glColorID) glDeleteRenderbuffers(1, &glColorID);
+		if (glDepthID) glDeleteRenderbuffers(1, &glDepthID);
+		if (glStencilID) glDeleteRenderbuffers(1, &glStencilID);
 	}
 
 	//---------------------------------------------------------------------------
@@ -96,10 +95,10 @@ namespace NGTech {
 	void GLFBO::setColorTarget(I_Texture *texture, int face) {
 		if (texture) {
 			if (face < 0) {
-				glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, texture->target, texture->glID, 0);
+				glFramebufferTexture2D(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0, texture->target, texture->glID, 0);
 			}
 			else {
-				glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB + face, texture->glID, 0);
+				glFramebufferTexture2D(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, texture->glID, 0);
 			}
 			colorTarget = texture;
 		}
@@ -119,7 +118,7 @@ namespace NGTech {
 			depthTarget = texture;
 		}
 		else {
-			glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, GL_RENDERBUFFER_EXT, glDepthID);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, GL_RENDERBUFFER, glDepthID);
 		}
 	}
 
@@ -129,14 +128,14 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void GLFBO::set() {
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, glID);
+		glBindFramebuffer(GL_FRAMEBUFFER, glID);
 
-		if (glColorID && !colorTarget) glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, glColorID, 0);
-		if (glDepthID && !depthTarget) glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, glDepthID);
-		if (glStencilID) glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, glStencilID);
+		if (glColorID && !colorTarget) glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, glColorID, 0);
+		if (glDepthID && !depthTarget) glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, glDepthID);
+		if (glStencilID) glFramebufferRenderbufferEXT(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, glStencilID);
 
-		GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-		if (status == GL_FRAMEBUFFER_UNSUPPORTED_EXT) {
+		GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+		if (status == GL_FRAMEBUFFER_UNSUPPORTED) {
 			Log::write("GLFBO::set() error: framebuffer unsupported");
 		}
 
@@ -149,7 +148,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void GLFBO::unset() {
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, GetWindow()->getWidth(), GetWindow()->getHeight());
 	}
 
@@ -159,7 +158,7 @@ namespace NGTech {
 	//Returns: -
 	//---------------------------------------------------------------------------
 	void GLFBO::clear() {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	//---------------------------------------------------------------------------

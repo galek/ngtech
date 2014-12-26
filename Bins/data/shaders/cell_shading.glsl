@@ -11,7 +11,7 @@ void main(void)
 }
 
 [GLSL_FRAGMENT_SHADER]
-#version 330
+#version 330 core
 //OUT
 layout(location = 0) out vec4 OutColor;
 

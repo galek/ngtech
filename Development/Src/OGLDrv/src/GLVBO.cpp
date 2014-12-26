@@ -189,6 +189,7 @@ namespace NGTech {
 		{
 			Error("NOT DETERMINATED", true);
 		}
+		return nullptr;
 	}
 
 	/**
