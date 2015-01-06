@@ -1,3 +1,4 @@
+---------------------------------------
 [*]GLFW Window system(window,input)
 [*]Task-Based Threading (currently only PhysX)
 [*]PhysX threads count(see user.ltx param ph_num_threads )
@@ -7,3 +8,5 @@
 [*]Added Cylinder primitive support of physics
 [*]Added Capsule primitive support of physics
 [*]Hybrid Window system - different for editor and end-user runtime
+---------------------------------------
+[*]Limited FPS on 60fps mode

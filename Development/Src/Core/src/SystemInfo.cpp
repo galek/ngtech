@@ -1,6 +1,6 @@
 #include "CorePrivate.h"
 
-#ifdef _WIN32
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
 #define _WIN32_DCOM
 #include <windows.h>
 #include <comdef.h>
@@ -18,7 +18,7 @@
 #pragma comment(lib,"atimgpud/atimgpud_s_x86.lib")
 #endif
 #endif
-#elif _LINUX
+#elif PLATFORM_OS == PLATFORM_OS_LINUX
 #include <dlfcn.h>
 #include <unistd.h>
 #include <sys/sysctl.h>
@@ -50,8 +50,7 @@ namespace NGTech {
 #define GET_NAME(NAME) #NAME
 #define GET_VERSION(VERSION) GET_NAME(VERSION)
 
-#ifdef _WIN32
-
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
 		strcpy(info, "Windows");
 #ifdef _WIN64
 		strcat(info, " 64bit");
@@ -66,7 +65,7 @@ namespace NGTech {
 		strcat(info," GCC " GET_VERSION(__GNUC__) "." GET_VERSION(__GNUC_MINOR__) "." GET_VERSION(__GNUC_PATCHLEVEL__));
 #endif
 
-#elif _LINUX
+#elif PLATFORM_OS == PLATFORM_OS_LINUX
 
 		strcpy(info,"Linux");
 #ifdef _LP64
@@ -103,7 +102,7 @@ namespace NGTech {
 	* Return system information
 	*
 	\******************************************************************************/
-#ifdef _WIN32
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
 	int CompareWindowsVersion(DWORD dwMajorVersion, DWORD dwMinorVersion)
 	{
 		OSVERSIONINFOEX ver;
@@ -129,7 +128,7 @@ namespace NGTech {
 
 		memory_size = 256;
 
-#ifdef _WIN32
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
 		if (CompareWindowsVersion(6, 0))
 			sprintf(info, "Windows Vista");
 		else if (CompareWindowsVersion(6, 1))
@@ -138,7 +137,7 @@ namespace NGTech {
 			sprintf(info, "Windows 8");
 		else if (CompareWindowsVersion(6, 3))
 			sprintf(info, "Windows 8.1");
-		else if (CompareWindowsVersion(6, 4))
+		else if ((CompareWindowsVersion(6, 4)) || (CompareWindowsVersion(10, 0)))
 			sprintf(info, "Windows 10");
 #ifdef _WIN64
 		strcat(info, " 64bit");
@@ -157,7 +156,7 @@ namespace NGTech {
 		GlobalMemoryStatus(&memory);
 		memory_size = (int)(memory.dwTotalPhys / 1024 / 1024);
 
-#elif _LINUX
+#elif PLATFORM_OS == PLATFORM_OS_LINUX
 
 		FILE *file = popen("uname -s -r -m","r");
 		if(file) {
@@ -197,18 +196,18 @@ namespace NGTech {
 
 	/*
 	 */
-#if defined(_WIN32) || defined(_LINUX)
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS || PLATFORM_OS == PLATFORM_OS_LINUX
 	static ENGINE_INLINE void int2str(char *dest, unsigned int value) {
 		dest[0] = (value >> 0) & 0xff;
 		dest[1] = (value >> 8) & 0xff;
 		dest[2] = (value >> 16) & 0xff;
 		dest[3] = (value >> 24) & 0xff;
 	}
-#ifdef _WIN32
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
 	static ENGINE_INLINE void cpuid(int *dest, int func) {
 		__cpuid(dest, func);
 	}
-#elif _LINUX
+#elif PLATFORM_OS == PLATFORM_OS_LINUX
 #ifdef _LP64
 	static ENGINE_INLINE void cpuid(int *dest,int func) {
 		asm volatile("cpuid" : "=a"(dest[0]), "=b"(dest[1]), "=c"(dest[2]), "=d"(dest[3]) : "a"(func));
@@ -231,7 +230,7 @@ namespace NGTech {
 		frequency = 1000;
 		count = 1;
 
-#if defined(_WIN32) || defined(_LINUX)
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS || PLATFORM_OS == PLATFORM_OS_LINUX
 
 		struct CPUReg {
 			unsigned int eax;
@@ -275,7 +274,7 @@ namespace NGTech {
 		strcpy(info, s);
 
 
-#ifdef _WIN32
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
 
 		SYSTEM_INFO system;
 		GetSystemInfo(&system);
@@ -283,7 +282,7 @@ namespace NGTech {
 		std::string str("Supported Threads:");
 		strcpy(info, (str + std::to_string(count)).c_str());
 
-#elif _LINUX
+#elif PLATFORM_OS == PLATFORM_OS_LINUX
 
 		FILE *file = fopen("/proc/cpuinfo","r");
 		if(file) {
@@ -329,8 +328,54 @@ namespace NGTech {
 		memory_size = 256;
 		count = 1;
 
-#ifdef _WIN32
-#ifdef HAVE_NVCPL
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
+
+		HRESULT hr = CoInitializeEx(NULL, COINIT_MULTITHREADED);
+		IWbemLocator *locator = NULL;
+		if (SUCCEEDED(CoCreateInstance(CLSID_WbemLocator, 0, CLSCTX_INPROC_SERVER, IID_IWbemLocator, (LPVOID*)&locator))) {
+			IWbemServices *services = NULL;
+			if (SUCCEEDED(locator->ConnectServer(L"root\\cimv2", NULL, NULL, 0, NULL, 0, 0, &services))) {
+				if (SUCCEEDED(CoSetProxyBlanket(services, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL, RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE))) {
+					IEnumWbemClassObject *enumerator = NULL;
+					if (SUCCEEDED(services->ExecQuery(L"wql", L"select * from Win32_VideoController where DeviceID=\"VideoController1\"", WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, &enumerator))) {
+						ULONG ret = 0;
+						IWbemClassObject *object = NULL;
+						while (enumerator->Next(WBEM_INFINITE, 1, &object, &ret) == WBEM_S_NO_ERROR && ret == 1) {
+							VARIANT property;
+							VariantInit(&property);
+							if (SUCCEEDED(object->Get(L"Caption", 0, &property, 0, 0))) {
+								char *d = info;
+								const wchar_t *s = property.bstrVal;
+								while (s && *s) *d++ = (*s++) & 0xff;
+								*d = '\0';
+							}
+							VariantClear(&property);
+							VariantInit(&property);
+							if (SUCCEEDED(object->Get(L"DriverVersion", 0, &property, 0, 0))) {
+								const wchar_t *s = property.bstrVal;
+								char *d = info + strlen(info);
+								if (d != info) *d++ = ' ';
+								while (s && *s) *d++ = (*s++) & 0xff;
+								*d = '\0';
+							}
+							VariantClear(&property);
+							VariantInit(&property);
+							if (SUCCEEDED(object->Get(L"AdapterRAM", 0, &property, 0, 0))) {
+								memory_size = property.uintVal / 1024 / 1024;
+							}
+							VariantClear(&property);
+							object->Release();
+						}
+						enumerator->Release();
+					}
+				}
+				services->Release();
+			}
+			locator->Release();
+		}
+		if (hr == S_OK) CoUninitialize();
+
+#if HAVE_NVCPL
 		HINSTANCE nvcpl = LoadLibrary("NVCPL.dll");
 		if (nvcpl != NULL) {
 			NvCplGetDataIntType NvCplGetDataInt = (NvCplGetDataIntType)GetProcAddress(nvcpl, "NvCplGetDataInt");
@@ -355,13 +400,12 @@ namespace NGTech {
 		}
 #endif
 
-#ifdef HAVE_ATIMGPU
+#if HAVE_ATIMGPU
 		count = AtiMultiGPUAdapters();
-		if (count > 3) strcat(info, " QuadFireX");
-		else if (count > 1) strcat(info, " CrossFireX");
+		if(count > 3) strcat(info," QuadFireX");
+		else if(count > 1) strcat(info," CrossFireX");
 #endif
-
-#elif _LINUX
+#elif PLATFORM_OS == PLATFORM_OS_LINUX
 
 		Display *display = XOpenDisplay(NULL);
 

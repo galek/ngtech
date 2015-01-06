@@ -22,10 +22,11 @@ namespace NGTech {
 	bool InitAdditions()
 	{
 		PROFILER_ENABLE;
-
+#ifndef _ENGINE_DEBUG_
 #ifdef USE_OWN_MINIDUMP
 		if (!InitMiniDump())
 			return false;
+#endif
 #endif
 		ILSystemInit();
 
