@@ -39,4 +39,9 @@
 #define USE_PROFILER 1
 #endif
 
+#ifndef LIMITED_FPS
+#define LIMITED_FPS 1
+#endif
+
+
 #endif

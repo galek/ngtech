@@ -244,7 +244,7 @@ namespace NGTech {
 	*/
 	void Engine::mainLoop()
 	{
-#ifdef PLATFORM_OS == PLATFORM_OS_WINDOWS
+#if LIMITED_FPS
 		auto next_game_tick = this->iWindow->GetTicks();
 		int loops;
 

@@ -62,7 +62,8 @@ namespace NGTech {
 
 		void reloadShaders();
 
-		ENGINE_INLINE Camera *GetActiveCamera() { return camera; }
+		ENGINE_INLINE Camera *getActiveCamera() { return camera; }
+		ENGINE_INLINE size_t objCount(){ return objects.size(); }
 
 	public:
 		void runUpdate();

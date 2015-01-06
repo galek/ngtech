@@ -59,7 +59,7 @@ namespace NGTech {
 
 	/**
 	*/
-	GLShader  *GLSystem::ShaderCreateVSandFS(const String &pathVS, const String &pathFS, const String &defines){ return GLShader::createFromPath(pathVS, pathFS, defines); }
+	GLShader  *GLSystem::ShaderCreateVSandFS(const String &pathFS, const String &pathVS, const String &defines){ return GLShader::createFromPath(pathFS, pathVS, defines); }
 
 	/**
 	*/
@@ -125,13 +125,11 @@ namespace NGTech {
 		if (type >= GL_DEBUG_TYPE_ERROR && type <= GL_DEBUG_TYPE_PERFORMANCE)
 		{
 			if (source == GL_DEBUG_SOURCE_API)
-				LogPrintf("GL(", severity, "): ");
-			else if (source == GL_DEBUG_SOURCE_SHADER_COMPILER)
-				LogPrintf("GLSL(", severity, "): ");
+				LogPrintf("GL(%i): id: %i : %s", severity, id, message);
+			else if (source == GL_DEBUG_SOURCE_API)
+				LogPrintf("GLSL(%i): id: %i : %s", severity, id, message);
 			else
-				LogPrintf("OTHER(", severity, "): ");
-
-			LogPrintf("", id, ": ", message);
+				LogPrintf("OTHER(%i): id: %i : %s", severity, id, message);
 		}
 	}
 
@@ -158,9 +156,9 @@ namespace NGTech {
 
 		//enable depth testing and culling
 		glDepthFunc(GL_LEQUAL);
-		glEnable(GL_DEPTH_TEST);
 		glCullFace(GL_BACK);
 		glEnable(GL_CULL_FACE);
+		glEnable(GL_DEPTH_TEST);
 		//Texture Params
 		glPixelStorei(GL_PACK_ALIGNMENT, 1);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -237,10 +235,11 @@ namespace NGTech {
 		glViewport(0, 0, width, height);
 
 		glMatrixMode(GL_PROJECTION);
-		loadMatrix(Mat4::perspective(60, (float)width / (float)height, 1, 500));
-
+		glLoadIdentity();
+		loadMatrix(Mat4::perspective(60, (float)width / (float)height, 1, 500));//TODO:FOV
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
+		glTranslatef(0.0, 0.0, 0.0);
 	}
 
 	/**

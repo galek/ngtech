@@ -144,7 +144,7 @@ void ShowConsole()
 void EventsCallback::Body(){
 	if (GetWindow()->isKeyDown("ESC"))
 		GetWindow()->toggleGrabMouse();
-
+	
 	if (GetWindow()->isKeyDown("EQUAL"))
 	{
 		ShowConsole();

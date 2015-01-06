@@ -74,13 +74,13 @@ namespace NGTech {
 		if (PipelineName) glDeleteProgramPipelines(1, &PipelineName);
 	}
 
-	void GLShader::set() {
+	void GLShader::Enable() {
 		glUseProgram(program);
 		if (PipelineName != 0)
 			glBindProgramPipeline(PipelineName);
 	}
 
-	void GLShader::unset() {
+	void GLShader::Disable() {
 		glUseProgram(NULL);
 		glBindProgramPipeline(0);
 	}
@@ -381,11 +381,10 @@ namespace NGTech {
 			//	LogPrintf("Shader Cache for shader: %s is not valid", path.c_str());
 			VFile mFileFS(pathFS.c_str(), VFile::READ_TEXT);
 			VFile mFileVS(pathVS.c_str(), VFile::READ_TEXT);
-			String line, vsCode = "", fsCode = "", tcsCode = "", tesCode = "", gsCode = "";
+			String line, vsCode = "", fsCode = "";
 
-			while (!mFileVS.IsEof()) {
-				line = mFileVS.GetLine();
-
+			//VERTEX SHADER
+			{
 				//find GLSL vertex shader {
 				while (!mFileVS.IsEof()) {
 					line = mFileVS.GetLine();
@@ -413,6 +412,7 @@ namespace NGTech {
 				}
 			}
 
+			//FRAGMENT SHADER
 			//find GLSL fragment shader
 			{
 				while (!mFileFS.IsEof()) {
@@ -517,14 +517,9 @@ namespace NGTech {
 
 		if (result == -1)
 		{
-			std::string strErr("could not find uniform \"%s\" in program %d");
-			strErr += uniform;
-			strErr += this->program;
-
 			if (!isOptional){
-				Error(strErr.c_str(), true);
+				Warning("could not find uniform \"%s\" in program %d", uniform, this->program);
 			}
-			Warning(strErr.c_str());
 		}
 		return result;
 	}
@@ -538,14 +533,9 @@ namespace NGTech {
 
 		if (result == -1)
 		{
-			std::string strErr("could not find uniform \"%s\" in program %d");
-			strErr += attribute;
-			strErr += this->program;
-
 			if (!isOptional){
-				Error(strErr.c_str(), true);
+				Warning("could not find uniform \"%s\" in program %d", attribute, this->program);
 			}
-			Warning(strErr.c_str());
 		}
 
 		return result;

@@ -13,6 +13,7 @@ namespace NGTech {
 	public:
 		GLVBO()
 		{
+			data = nullptr;
 			vertexdata_locked.ptr = 0;
 			indexdata_locked.ptr = 0;
 		}
@@ -32,6 +33,7 @@ namespace NGTech {
 
 		virtual void set();
 		virtual void unset();
+		virtual void FillBuffer();
 
 		virtual void *map(int offset = 0, void** data = nullptr);
 		virtual void unMap();

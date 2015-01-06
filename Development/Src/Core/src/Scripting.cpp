@@ -368,8 +368,8 @@ namespace NGTech{
 
 				//====ISHADER====
 				class_<I_Shader>("I_Shader")
-				.def("set", &I_Shader::set)
-				.def("unset", &I_Shader::unset)
+				.def("Enable", &I_Shader::Enable)
+				.def("Disable", &I_Shader::Disable)
 				.def("sendMat4", &I_Shader::sendMat4)
 				.def("sendVec4", &I_Shader::sendVec4)
 				.def("sendVec3", &I_Shader::sendVec3)

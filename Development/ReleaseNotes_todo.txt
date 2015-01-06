@@ -30,3 +30,6 @@ Tools:
 
 Добавить либу CharactedCinematic для физикса
 Пофиксить получение оъема памяти для видюхи
+
+Отвязать от FPS
+http://www.koonsolo.com/news/dewitters-gameloop/

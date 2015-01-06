@@ -41,12 +41,12 @@ namespace NGTech {
 		/**
 		Sets shader
 		*/
-		virtual void set();
+		virtual void Enable();
 
 		/**
 		Unsets shader
 		*/
-		virtual void unset();
+		virtual void Disable();
 
 		/**
 		Release shader
@@ -96,11 +96,11 @@ namespace NGTech {
 
 		/**
 		*/
-		virtual int GetUniformLocation(const char*_loc, bool isOptional);
+		virtual int GetUniformLocation(const char*_loc, bool isOptional = false);
 
 		/**
 		*/
-		virtual int GetAttribLocation(const char* attribute, bool isOptional);
+		virtual int GetAttribLocation(const char* attribute, bool isOptional = false);
 
 		/**
 		*/

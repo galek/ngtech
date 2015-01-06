@@ -164,7 +164,7 @@ namespace NGTech {
 		virtual I_Shader *ShaderCreate(const String &path, const String &defines = "") = 0;
 		/**
 		*/
-		virtual I_Shader *ShaderCreateVSandFS(const String &pathVS, const String &pathFS, const String &defines = "") = 0;
+		virtual I_Shader *ShaderCreateVSandFS(const String &pathFS, const String &pathVS, const String &defines = "") = 0;
 		/**
 		*/
 		virtual I_FBOManager*CreateFBO(int x, int y) = 0;
@@ -477,11 +477,11 @@ namespace NGTech {
 
 		/**
 		*/
-		virtual void set() = 0;
+		virtual void Enable() = 0;
 
 		/**
 		*/
-		virtual void unset() = 0;
+		virtual void Disable() = 0;
 
 		/**
 		Release shader
@@ -514,11 +514,11 @@ namespace NGTech {
 
 		/**
 		*/
-		virtual int GetUniformLocation(const char*_loc, bool isOptional) = 0;
+		virtual int GetUniformLocation(const char*_loc, bool isOptional = false) = 0;
 
 		/**
 		*/
-		virtual int GetAttribLocation(const char* attribute, bool isOptional) = 0;
+		virtual int GetAttribLocation(const char* attribute, bool isOptional = false) = 0;
 
 		/**
 		*/
@@ -667,7 +667,9 @@ namespace NGTech {
 		enum TypeDraw
 		{
 			STATIC,
-			STREAM
+			STREAM,
+			DYNAMIC,
+			COUNT
 		};
 		/**
 		*/
@@ -704,6 +706,9 @@ namespace NGTech {
 		virtual void unset() = 0;
 		/**
 		*/
+		virtual void FillBuffer() = 0;
+		/**
+		*/
 		virtual void* map(int offset = 0, void** data = nullptr) = 0;
 		/**
 		*/
@@ -711,6 +716,7 @@ namespace NGTech {
 		/**
 		*/
 	protected:
+		void*data;
 		unsigned int glID;
 		int numElements;
 		int elementSize;
