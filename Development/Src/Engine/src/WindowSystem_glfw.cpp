@@ -59,6 +59,9 @@ namespace NGTech {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 		//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 		//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef _ENGINE_DEBUG_
+		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+#endif
 
 		GLFWmonitor *mMonitor = NULL;
 		if (fullscreen)
@@ -189,13 +192,10 @@ namespace NGTech {
 	/**
 	*/
 	void WindowSystemGLFW::updateTimer() {
-		int ticks = glfwGetTime()*1000;
+		int ticks = glfwGetTime() * 1000;
 		dTime = ticks - eTime;
 		eTime = ticks;
 	}
-
-	//TODO:Function get Ticks(return glfwGetTime())
-
 
 	/**
 	*/

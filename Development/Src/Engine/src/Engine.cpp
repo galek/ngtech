@@ -42,7 +42,9 @@ namespace NGTech {
 	*/
 #define ENGINE_VERSION_NUMBER 0.4
 #define ENGINE_VERSION_STRING "0.4"
-
+	const int TICKS_PER_SECOND = 60;
+	const int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
+	const int MAX_FRAMESKIP = 10;
 	/**
 	*/
 	void RenderWatermark(I_Texture* _watermark);
@@ -242,12 +244,31 @@ namespace NGTech {
 	*/
 	void Engine::mainLoop()
 	{
+#ifdef PLATFORM_OS == PLATFORM_OS_WINDOWS
+		auto next_game_tick = this->iWindow->GetTicks();
+		int loops;
+
+		while (this->running) {
+
+			loops = 0;
+			while (this->iWindow->GetTicks() > next_game_tick && loops < MAX_FRAMESKIP) {
+
+				do_update();
+				do_render();
+				do_swap();
+
+				next_game_tick += SKIP_TICKS;
+				loops++;
+			}
+		}
+#else
 		while (this->running)
 		{
 			do_update();
 			do_render();
 			do_swap();
 		}
+#endif
 	}
 
 	/**

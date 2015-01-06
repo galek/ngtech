@@ -34,6 +34,7 @@ namespace NGTech {
 		virtual GLTexture *TextureCreateCube(I_ILImage **image);
 
 		virtual GLShader *ShaderCreate(const String &path, const String &defines = "");
+		virtual GLShader *ShaderCreateVSandFS(const String &pathVS, const String &pathFS, const String &defines = "");
 		virtual GLVBO *CreateIBO(void *data, int numElements, int elemSize, int dataType);
 		virtual GLVBO *CreateVBO(void *data, int numElements, int elemSize, int dataType, int drawType);
 		virtual GLFBO *CreateFBO(int x, int y);
@@ -52,7 +53,6 @@ namespace NGTech {
 		String getVendor();
 		String getRenderer();
 		String getVersion();
-		String getExtensions();
 
 		virtual int getNumTexUnits();
 		virtual int getMaxAniso();

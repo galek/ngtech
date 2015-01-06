@@ -38,6 +38,15 @@ namespace NGTech {
 			return NULL;
 	}
 
+	GLShader *GLShader::createFromPath(const String &pathFS, const String &pathVS, const String &defines){
+		GLShader *shader = new GLShader();
+
+		if (shader->CreateShader(pathFS, pathVS, defines, true))
+			return shader;
+		else
+			return NULL;
+	}
+
 	GLShader::GLShader() :
 		Filename("NULL")
 	{
@@ -106,7 +115,7 @@ namespace NGTech {
 		glUniform1f(param, value);
 	}
 
-	void GLShader::sendInt(const String &name, size_t value) {
+	void GLShader::sendInt(const String &name, int value) {
 		int param = glGetUniformLocation(program, name.c_str());
 		_uniformLocationList[name] = param;
 		glUniform1i(param, value);
@@ -334,6 +343,121 @@ namespace NGTech {
 					Warning("Failed Saving Compiled cache: %s", path.c_str());
 				}
 			}
+			return true;
+		}
+		return false;
+	}
+
+	bool GLShader::CreateShader(const String &pathFS, const String &pathVS, const String &defines, bool _save)
+	{
+		int Success = 0;
+
+		glGenProgramPipelines(1, &PipelineName);
+
+		//#ifndef _ENGINE_DEBUG_
+		//		{
+		//			GLenum Format = 0;
+		//			GLint Size = 0;
+		//			std::vector<unsigned char> Data;
+		//
+		//			if (loadBinary(_createShaderCacheDirectory(path.c_str()), Format, Data, Size))
+		//			{
+		//				this->program = glCreateProgram();
+		//				glProgramParameteri(this->program, GL_PROGRAM_SEPARABLE, GL_TRUE);
+		//				glProgramParameteri(this->program, GL_PROGRAM_BINARY_RETRIEVABLE_HINT, GL_TRUE);
+		//
+		//				DebugM("loading shader binary,for %s, is successful", path.c_str());
+		//				glProgramBinary(this->program, Format, &Data[0], Size);
+		//				glGetProgramiv(this->program, GL_LINK_STATUS, &Success);
+		//			}
+		//		}
+		//		DebugM("Validation shader binary is %i", Success);
+		//		if (Success)
+		//			return true;
+		//		else
+		//#endif
+		{
+			//if (_save)
+			//	LogPrintf("Shader Cache for shader: %s is not valid", path.c_str());
+			VFile mFileFS(pathFS.c_str(), VFile::READ_TEXT);
+			VFile mFileVS(pathVS.c_str(), VFile::READ_TEXT);
+			String line, vsCode = "", fsCode = "", tcsCode = "", tesCode = "", gsCode = "";
+
+			while (!mFileVS.IsEof()) {
+				line = mFileVS.GetLine();
+
+				//find GLSL vertex shader {
+				while (!mFileVS.IsEof()) {
+					line = mFileVS.GetLine();
+					vsCode = vsCode + line + "\n";
+				}
+
+				vsCode = defines + vsCode;
+
+				const char *vsString[1];
+				vsString[0] = (char*)vsCode.c_str();
+
+				this->vs = glCreateShaderObjectARB(GL_VERTEX_SHADER_ARB);
+				glShaderSource(this->vs, 1, vsString, NULL);
+				glCompileShader(this->vs);
+
+				int compiled;
+				glGetShaderiv(this->vs, GL_COMPILE_STATUS, &compiled);
+
+				if (!compiled) {
+					char errorString[1024] = { 0 };
+					glGetProgramInfoLog(this->vs, sizeof(errorString), NULL, errorString);
+					Warning("[%s] Error: shader file '%s' vs compiling error: %s", __FUNCTION__, pathVS.c_str(), String(errorString));
+					Error("Failed compiling shader", true);
+					return false;
+				}
+			}
+
+			//find GLSL fragment shader
+			{
+				while (!mFileFS.IsEof()) {
+					line = mFileFS.GetLine();
+					fsCode = fsCode + line + "\n";
+				}
+
+				fsCode = defines + fsCode;
+
+				const char *fsString[1];
+				fsString[0] = (char*)fsCode.c_str();
+
+				this->fs = glCreateShaderObjectARB(GL_FRAGMENT_SHADER_ARB);
+				glShaderSource(this->fs, 1, fsString, NULL);
+				glCompileShader(this->fs);
+
+				int compiled;
+				glGetShaderiv(this->fs, GL_COMPILE_STATUS, &compiled);
+
+				if (!compiled) {
+					char errorString[1024] = { 0 };
+					glGetProgramInfoLog(this->fs, sizeof(errorString), NULL, errorString);
+					Warning("[%s] Error: shader file '%s' fs compiling error: %s", __FUNCTION__, pathFS.c_str(), String(errorString));
+					Error("Failed compiling shader", true);
+					return false;
+				}
+			}
+			//create
+			this->program = glCreateProgram();
+			if (this->vs)  glAttachShader(this->program, this->vs);
+			if (this->fs)  glAttachShader(this->program, this->fs);
+
+			std::string errorPath = "VS:%s and FS:%s";
+			errorPath += pathVS;
+			errorPath += pathFS;
+			if (!_checkLinked(errorPath.c_str()))
+				return false;
+
+			//if (_save)
+			//{
+			//	if (!_saveCache(path.c_str()))
+			//	{
+			//		Warning("Failed Saving Compiled cache: %s", path.c_str());
+			//	}
+			//}
 			return true;
 		}
 		return false;

@@ -116,6 +116,9 @@ namespace NGTech {
 		virtual float getLastFPS();
 		/**
 		*/
+		virtual unsigned long GetTicks();
+		/**
+		*/
 		virtual const int Input_GetKeyValueByChar(const char*  _p);
 		/**
 		*/

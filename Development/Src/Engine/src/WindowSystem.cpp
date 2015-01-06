@@ -660,5 +660,11 @@ namespace NGTech {
 	void WindowSystem::setKeyUp(int _value){
 		keys[_value] = false;
 	}
+
+	/**
+	*/
+	unsigned long WindowSystem::GetTicks(){
+		return GetTickCount();
+	}
 #endif
 }

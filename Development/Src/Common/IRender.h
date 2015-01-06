@@ -164,6 +164,9 @@ namespace NGTech {
 		virtual I_Shader *ShaderCreate(const String &path, const String &defines = "") = 0;
 		/**
 		*/
+		virtual I_Shader *ShaderCreateVSandFS(const String &pathVS, const String &pathFS, const String &defines = "") = 0;
+		/**
+		*/
 		virtual I_FBOManager*CreateFBO(int x, int y) = 0;
 		/**
 		*/
@@ -507,7 +510,7 @@ namespace NGTech {
 
 		/**
 		*/
-		virtual void sendInt(const String &name, size_t value) = 0;
+		virtual void sendInt(const String &name, int value) = 0;
 
 		/**
 		*/

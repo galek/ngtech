@@ -59,6 +59,9 @@ namespace NGTech {
 		virtual int getTime() = 0;
 		/**
 		*/
+		virtual unsigned long GetTicks() = 0;
+		/**
+		*/
 		virtual bool isMouseMoved() = 0;
 		/**
 		*/

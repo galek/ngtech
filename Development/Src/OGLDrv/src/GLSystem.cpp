@@ -59,6 +59,10 @@ namespace NGTech {
 
 	/**
 	*/
+	GLShader  *GLSystem::ShaderCreateVSandFS(const String &pathVS, const String &pathFS, const String &defines){ return GLShader::createFromPath(pathVS, pathFS, defines); }
+
+	/**
+	*/
 	GLFBO*GLSystem::CreateFBO(int x, int y){ return GLFBO::create(x, y); }
 
 	/**
@@ -145,7 +149,6 @@ namespace NGTech {
 		Log::write("Vendor:         " + getVendor());
 		Log::write("Renderer:       " + getRenderer());
 		Log::write("Version:        " + getVersion());
-		Log::write("Extensions:     " + getExtensions());
 		Log::write("Texture units:  " + StringHelper::fromInt(getNumTexUnits()));
 		Log::write("Max anisotropy: " + StringHelper::fromInt(getMaxAniso()));
 
@@ -164,32 +167,6 @@ namespace NGTech {
 
 		reshape(GetWindow()->getWidth(), GetWindow()->getHeight());
 		GLExtensions::initExtensions();
-		Debug("[Init] Checking Render Extensions");
-
-		requireExtension("GL_ARB_vertex_shader", true);
-		requireExtension("GL_ARB_fragment_shader", true);
-		requireExtension("GL_ARB_shader_objects", true);
-		requireExtension("GL_ARB_shading_language_100", true);
-		requireExtension("GL_ARB_vertex_buffer_object", true);
-		requireExtension("GL_EXT_framebuffer_object", true);
-		requireExtension("GL_ARB_occlusion_query", true);
-		requireExtension("GL_EXT_texture_filter_anisotropic", true);
-
-		//OpenGL3 and 4
-		requireExtension("GL_ARB_occlusion_query2");
-		requireExtension("GL_ARB_compatibility");
-		requireExtension("GL_ARB_shading_language_420pack");
-		requireExtension("GL_ARB_geometry_shader4");
-		requireExtension("GL_ARB_shading_language_packing");
-		requireExtension("GL_ARB_ES2_compatibility");
-
-
-		//4.X
-		requireExtension("GL_ARB_compute_shader");
-		requireExtension("GL_ARB_gpu_shader5");
-		requireExtension("GL_ARB_tessellation_shader");
-		requireExtension("GL_ARB_shader_subroutine");
-
 		DisableVSync(engine);
 
 #ifdef _ENGINE_DEBUG_
@@ -219,13 +196,6 @@ namespace NGTech {
 	*/
 	String GLSystem::getVersion() {
 		return (char *)glGetString(GL_VERSION);
-	}
-
-	/**
-	*/
-	String GLSystem::getExtensions() {
-		//return "NULL";
-		return (char *)glGetString(GL_EXTENSIONS);
 	}
 
 	/**

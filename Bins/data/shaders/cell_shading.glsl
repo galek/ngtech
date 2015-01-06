@@ -11,9 +11,11 @@ void main(void)
 }
 
 [GLSL_FRAGMENT_SHADER]
+#if NEW_GL
 #version 330 core
 //OUT
 layout(location = 0) out vec4 OutColor;
+#endif
 
 varying vec3 Normal;
 
@@ -31,5 +33,9 @@ void main (void)
 	if (f > Phong)
 		color = PhongColor;
 
+#if NEW_GL
 	OutColor = vec4(color, 1);
+#else
+	gl_FragColor = vec4(color, 1);
+#endif
 }
