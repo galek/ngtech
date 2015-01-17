@@ -9,17 +9,29 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: Vertex buffer object class
 	//---------------------------------------------------------------------------
-	class GLVBO :public I_VBManager {
+	class GLVBO :public I_VBManager
+	{
+	private:
+		GLVBO(const GLVBO& other) = delete;
+		GLVBO& operator=(const GLVBO& other) = delete;
 	public:
-		GLVBO()
+		enum BUFType
 		{
-			data = nullptr;
-			vertexdata_locked.ptr = 0;
-			indexdata_locked.ptr = 0;
-		}
+			BUF_VERTEX = 0,
+			BUF_INDEX
+		};
+	public:
+		GLVBO();
 		static GLVBO *createIBO(void *data, int numElements, int elemSize, DataType dataType);
 		static GLVBO *createVBO(void *data, int numElements, int elemSize, DataType dataType, TypeDraw drawType);
 		virtual ~GLVBO();
+
+		// устанавливаем созданный VBO как текущий
+		virtual void Bind() const;
+		virtual void UnBind() const;
+		virtual void BindIndex(unsigned int idx) const;
+		virtual void UnbindIndex(unsigned int idx) const;
+		virtual void Allocate(const void *data, size_t size, TypeDraw usage);
 
 		virtual void setVertexSource(int numComp, int stride, int offset);
 		virtual void setNormalSource(int stride, int offset);
@@ -31,18 +43,23 @@ namespace NGTech {
 		virtual void unsetTexCoordSource(int tex_unit);
 		virtual void unsetIndexSource();
 
-		virtual void set();
-		virtual void unset();
-		virtual void FillBuffer();
+		virtual void FillBuffer(size_t offset);
 
 		virtual void *map(int offset = 0, void** data = nullptr);
 		virtual void unMap();
-	private:
-		enum BUFType
+		void SetType(BUFType _b)
 		{
-			BUF_VERTEX = 0,
-			BUF_INDEX
-		};
+			if (_b == BUF_INDEX)
+				type = GL_ELEMENT_ARRAY_BUFFER;
+			else if (_b == BUF_VERTEX)
+				type = GL_ARRAY_BUFFER;
+		}
+		ENGINE_INLINE unsigned int GetType() { return type; }
+		ENGINE_INLINE unsigned int GetID() { return glID; }
+	public:
+		// создадим Vertex Buffer Object (VBO)
+		virtual void _Create();
+	private:
 		BUFType mBUFType;
 
 		struct locked_data
@@ -52,5 +69,6 @@ namespace NGTech {
 		};
 		locked_data	vertexdata_locked;
 		locked_data	indexdata_locked;
+		size_t _size;
 	};
 }

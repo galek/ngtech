@@ -45,16 +45,16 @@ namespace NGTech {
 	void Model::drawSubset(size_t s) {
 		Subset *st = subsets[s];
 
-		st->vertBuff->set();
+		st->vertBuff->Bind();
 		st->vertBuff->setTexCoordSource(0, 2, sizeof(Vertex), sizeof(Vec3));
 		st->vertBuff->setNormalSource(sizeof(Vertex), sizeof(Vec3) + sizeof(Vec2));
 		st->vertBuff->setTexCoordSource(1, 3, sizeof(Vertex), 2 * sizeof(Vec3) + sizeof(Vec2));
 		st->vertBuff->setTexCoordSource(2, 3, sizeof(Vertex), 3 * sizeof(Vec3) + sizeof(Vec2));
 		st->vertBuff->setVertexSource(3, sizeof(Vertex), 0);
 
-		GetRender()->drawIndexedGeometry(st->indices, st->numIndices);
+		GetRender()->DrawElements(st->indices, st->numIndices);
 
-		st->vertBuff->unset();
+		st->vertBuff->UnBind();
 		st->vertBuff->unsetVertexSource();
 		st->vertBuff->unsetTexCoordSource(0);
 		st->vertBuff->unsetNormalSource();

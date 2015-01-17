@@ -278,7 +278,7 @@ namespace NGTech {
 		virtual void showOSCursor(int _value);
 		/**
 		*/
-		virtual void DisableVSync(int);
+		virtual void ManageVSync(bool _v);
 		/**
 		*/
 		ENGINE_INLINE virtual int divider() { return 1000; }

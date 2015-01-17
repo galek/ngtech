@@ -15,11 +15,11 @@ namespace NGTech
 	public:
 		/*
 		*/
-		MeshFormatXSMSH();
+		MeshFormatXSMSH(){}
 
 		/*
 		*/
-		virtual ~MeshFormatXSMSH();
+		virtual ~MeshFormatXSMSH(){}
 
 		/*
 		*/

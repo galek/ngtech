@@ -201,12 +201,12 @@ namespace NGTech {
 			game->initialise();
 			Debug("[Init] Game Finished");
 		}
-
+#if 0
 		//initialize Console
 		console = new Console();
 		if (console)
 			Debug("[Init] Console Finished");
-
+#endif
 		this->running = true;
 
 		Debug("[Init] All Systems Initialised");
@@ -248,7 +248,7 @@ namespace NGTech {
 		auto next_game_tick = this->iWindow->GetTicks();
 		int loops;
 
-		while (this->running) {
+		while (IsRunning()) {
 
 			loops = 0;
 			while (this->iWindow->GetTicks() > next_game_tick && loops < MAX_FRAMESKIP) {
@@ -262,7 +262,7 @@ namespace NGTech {
 			}
 		}
 #else
-		while (this->running)
+		while (IsRunning())
 		{
 			do_update();
 			do_render();
@@ -329,8 +329,8 @@ namespace NGTech {
 			if (this->game->rc)
 				this->game->runRenderCallback();
 
-		if (mWatermarkTex)
-			RenderWatermark(mWatermarkTex);
+		/*if (mWatermarkTex)
+			RenderWatermark(mWatermarkTex);*/
 
 		if (this->game)
 			this->game->render();
@@ -402,13 +402,14 @@ namespace NGTech {
 	/**
 	*/
 	void Engine::ConsoleShow(bool _value) {
-		console->setVisible(_value);
+//		console->setVisible(_value);
 	}
 
 	/**
 	*/
 	bool Engine::ConsoleIsActive() {
-		return console->getVisible();
+//		return console->getVisible();
+		return false;
 	}
 
 	/**

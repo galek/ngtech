@@ -8,7 +8,26 @@ namespace NGTech {
 
 	/**
 	*/
-	GLVBO *GLVBO::createVBO(void *_data, int numElements, int elemSize, DataType dataType, TypeDraw drawType) {
+	GLVBO::GLVBO()
+	{
+		data = nullptr;
+		glID = 0;
+		_size = 0;
+		vertexdata_locked.ptr = 0;
+		indexdata_locked.ptr = 0;
+		_Create();
+	}
+
+	/**
+	*/
+	GLVBO::~GLVBO() {
+		glDeleteBuffers(1, &glID);
+	}
+
+	/**
+	*/
+	GLVBO *GLVBO::createVBO(void *_data, int numElements, int elemSize, DataType dataType, TypeDraw _drawType)
+	{
 		GLVBO *vbo = new GLVBO();
 		vbo->mBUFType = BUF_VERTEX;
 
@@ -23,24 +42,16 @@ namespace NGTech {
 			vbo->dataType = GL_DOUBLE;
 		}
 
-		if (drawType == STREAM)
+		if (_drawType == STREAM)
 			vbo->drawType = GL_STREAM_DRAW;
-		else if (drawType == STATIC)
+		else if (_drawType == STATIC)
 			vbo->drawType = GL_STATIC_DRAW;
-		else if (drawType == DYNAMIC)
+		else if (_drawType == DYNAMIC)
 			vbo->drawType = GL_DYNAMIC_DRAW;
 
 		vbo->type = GL_ARRAY_BUFFER;
-		// создадим Vertex Buffer Object (VBO)
-		glGenBuffers(1, &vbo->glID);
-
-		// устанавливаем созданный VBO как текущий
-		glBindBuffer(vbo->type, vbo->glID);
-
-		// заполним VBO данными
-		glBufferData(vbo->type, vbo->elementSize * vbo->numElements, vbo->data, vbo->drawType);
-
-		vbo->unset();
+				
+		vbo->Allocate(vbo->data, vbo->elementSize * vbo->numElements, _drawType);
 
 		return vbo;
 	}
@@ -64,50 +75,77 @@ namespace NGTech {
 		vbo->drawType = GL_STREAM_DRAW;
 		vbo->type = GL_ELEMENT_ARRAY_BUFFER;
 
-		glGenBuffers(1, &vbo->glID);
-		glBindBuffer(vbo->type, vbo->glID);
-
 		if (numElements <= 65536){
 			vbo->dataType = GL_UNSIGNED_SHORT;
 			vbo->elementSize = sizeof(unsigned short);
-			glBufferData(vbo->type, sizeof(unsigned short) * vbo->numElements, vbo->data, vbo->drawType);
+			vbo->Allocate(vbo->data, sizeof(unsigned short) * vbo->numElements, STREAM);
 			MeshConvertIndicesTo<unsigned short>((int *)vbo->data, (int*)vbo->data, numElements);
 		}
 		else {
 			vbo->dataType = GL_UNSIGNED_INT;
 			vbo->drawType = GL_STATIC_DRAW;
 			vbo->elementSize = sizeof(int);
-			glBufferData(vbo->type, sizeof(int) * numElements, vbo->data, vbo->drawType);
+			vbo->Allocate(vbo->data, sizeof(int) * vbo->numElements, STATIC);
 		}
-
-		vbo->unset();
 
 		return vbo;
 	}
 
 	/**
 	*/
-	GLVBO::~GLVBO() {
-		glDeleteBuffers(1, &glID);
+	void GLVBO::_Create() {
+		glGenBuffers(1, &glID);
 	}
-
+	
 	/**
 	*/
-	void GLVBO::set() {
+	void GLVBO::Bind() const
+	{
 		glBindBuffer(type, glID);
 	}
-
+	
 	/**
 	*/
-	void GLVBO::FillBuffer() {
-		// заполним VBO данными
-		glBufferData(type, elementSize * numElements, data, drawType);
+	void GLVBO::UnBind() const
+	{
+		glBindBuffer(type, 0);
+	}
+	
+	/**
+	*/
+	void GLVBO::BindIndex(unsigned int idx) const
+	{
+		glBindBufferBase(type, idx, glID);
 	}
 
 	/**
 	*/
-	void GLVBO::unset() {
-		glBindBuffer(type, 0);
+	void GLVBO::UnbindIndex(unsigned int idx) const
+	{
+		glBindBufferBase(type, idx, 0);
+	}
+
+	/**
+	*/
+	void GLVBO::Allocate(const void *data, size_t size, TypeDraw _drawType)
+	{
+		_size = size;
+		GLSystem::RecordMemoryWrite(size);
+		if (_drawType == STREAM)
+			drawType = GL_STREAM_DRAW;
+		else if (_drawType == STATIC)
+			drawType = GL_STATIC_DRAW;
+		else if (_drawType == DYNAMIC)
+			drawType = GL_DYNAMIC_DRAW;
+		glNamedBufferDataEXT(glID, size, data, drawType);
+	}
+
+	/**
+	*/
+	void GLVBO::FillBuffer(size_t offset) {
+		// заполним VBO данными
+		GLSystem::RecordMemoryWrite(elementSize * numElements);
+		glNamedBufferSubDataEXT(glID, offset, elementSize * numElements, data);
 	}
 
 	/**
@@ -166,15 +204,15 @@ namespace NGTech {
 
 	/**
 	*/
-	void * GLVBO::map(int offset, void** data) {
-		set();
-
+	void * GLVBO::map(int offset, void** data) 
+	{
 		if (this->mBUFType == BUF_VERTEX)
 		{
 			//if (flags == 0)
 			//	flags = GL_MAP_READ_BIT | GL_MAP_WRITE_BIT;
 			GLint vertex_flags = GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT;
-			vertexdata_locked.ptr = glMapBufferRange(GL_ARRAY_BUFFER, offset, elementSize, vertex_flags);
+			vertexdata_locked.ptr = //glMapBufferRange(GL_ARRAY_BUFFER, offset, elementSize, vertex_flags);//Nick:Check:Проверь это
+				glMapNamedBufferEXT(glID, vertex_flags);
 			vertexdata_locked.flags = vertex_flags;
 			if (!vertexdata_locked.ptr)
 				return NULL;
@@ -187,7 +225,8 @@ namespace NGTech {
 		else if (this->mBUFType == BUF_INDEX)
 		{
 			GLint index_flags = GL_MAP_INVALIDATE_RANGE_BIT | GL_MAP_WRITE_BIT;
-			indexdata_locked.ptr = glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, offset, elementSize, index_flags);
+			indexdata_locked.ptr = //glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, offset, elementSize, index_flags);//Nick:Check:Проверь это
+				glMapNamedBufferEXT(glID, index_flags);
 			indexdata_locked.flags = index_flags;
 
 			if (!indexdata_locked.ptr)
@@ -205,8 +244,6 @@ namespace NGTech {
 		return nullptr;
 	}
 
-	// !TODO
-	// !BUG:ругается Buffer is unbound or is already unmapped.
 	/**
 	*/
 	void GLVBO::unMap() {
@@ -214,7 +251,7 @@ namespace NGTech {
 		{
 			if (vertexdata_locked.ptr && glID != 0)
 			{
-				glUnmapBuffer(type);
+				/*glUnmapBuffer*/glUnmapNamedBufferEXT(type);
 				vertexdata_locked.ptr = 0;
 			}
 		}
@@ -222,11 +259,10 @@ namespace NGTech {
 		{
 			if (indexdata_locked.ptr && glID != 0)
 			{
-				glUnmapBuffer(type);
+				/*glUnmapBuffer*/glUnmapNamedBufferEXT(type);
 				indexdata_locked.ptr = 0;
 			}
 		}
-		unset();
 	}
 
 }

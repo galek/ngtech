@@ -64,6 +64,9 @@ namespace NGTech {
 		/**
 		*/
 		ENGINE_INLINE void SetPause(bool _s){ paused = _s; }
+		/**
+		*/															
+		ENGINE_INLINE bool IsRunning() const{ return running; }
 	protected:
 		/**
 		*/

@@ -18,6 +18,7 @@
 #include "EnginePrivate.h"
 #include "EngineAppBase.h"
 #include "..\..\Common\IGame.h"
+#include <thread>
 
 namespace NGTech {
 
@@ -37,16 +38,17 @@ namespace NGTech {
 	/**
 	*/
 	EngineAppBase::EngineAppBase(IGame*_game, ICallback* rc, ICallback* ev)
-		:EngineAppBase(0,false, _game, rc, ev)
+		:EngineAppBase(0, false, _game, rc, ev)
 	{}
-
 	/**
 	*/
 	void EngineAppBase::Update(){
-		if (GetEngine()->isEditor())
-			GetEngine()->editorLoop();
+		Engine* engine = GetEngine();
+
+		if (engine->isEditor())
+			engine->editorLoop();
 		else
-			GetEngine()->mainLoop();
+			engine->mainLoop();
 	}
 
 	void EngineAppBase::Run(){

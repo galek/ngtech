@@ -315,9 +315,11 @@
     <ClCompile Include="src\GLOcclusionQuery.cpp" />
     <ClCompile Include="src\GLShader.cpp" />
     <ClCompile Include="src\GLSystem.cpp" />
+    <ClCompile Include="src\GLSystemFabrics.cpp" />
     <ClCompile Include="src\GLTexture.cpp" />
     <ClCompile Include="src\GLVBO.cpp" />
     <ClCompile Include="src\GUIImpl.cpp" />
+    <ClCompile Include="src\meshobject.cc" />
     <ClCompile Include="src\RenderPrivate.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -328,6 +330,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\CommonDefs.h" />
     <ClInclude Include="inc\GLDisplayList.h" />
     <ClInclude Include="inc\GLExtensions.h" />
     <ClInclude Include="inc\GLFBO.h" />
@@ -336,6 +339,9 @@
     <ClInclude Include="inc\GLSystem.h" />
     <ClInclude Include="inc\GLTexture.h" />
     <ClInclude Include="inc\GLVBO.h" />
+    <ClInclude Include="inc\MeshObj.h" />
+    <ClInclude Include="inc\meshobject.hh" />
+    <ClInclude Include="inc\RenderDLL.h" />
     <ClInclude Include="inc\RenderPrivate.h" />
     <ClInclude Include="inc\GUIImpl.h" />
   </ItemGroup>

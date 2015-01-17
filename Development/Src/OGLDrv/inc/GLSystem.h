@@ -11,6 +11,7 @@
 #include "GLOcclusionQuery.h"
 #include "Renderdll.h"
 #include <vector>
+#include "meshobject.hh"
 //***************************************************************************
 
 namespace NGTech {
@@ -19,6 +20,7 @@ namespace NGTech {
 	//Desc: Engine`s main video system. Created one time
 	//---------------------------------------------------------------------------
 	class RENDER_API GLSystem :public I_Render {
+		friend class GLVBO;
 	public:
 		virtual GLDisplayList* GetDL();
 		virtual GLOcclusionQuery* GetOQ();
@@ -46,6 +48,10 @@ namespace NGTech {
 		virtual ILImage* CreateImageEmpty3D(int width, int height, int depth, int format);
 		virtual ILImage* CreateImageNoise3D(int width, int height, int depth, int format);
 		virtual void*    GetGUIImageLoader();
+		virtual void EnableMultiSample(bool);
+		virtual void EnableVSync(bool);
+		void EnableDebugOutput();
+		void DisableDebugOutput();
 	public:
 		GLSystem(CoreManager*);
 		virtual ~GLSystem();
@@ -57,8 +63,6 @@ namespace NGTech {
 		virtual int getNumTexUnits();
 		virtual int getMaxAniso();
 
-
-		virtual bool requireExtension(const String &name, bool _fatal = false);
 		virtual void initialise();
 
 		virtual void reshape(int width, int height);
@@ -67,7 +71,8 @@ namespace NGTech {
 		virtual void colorMask(bool r, bool g, bool b, bool a);
 		virtual void clear(GLbitfield buffers);
 		virtual void flush();
-		virtual void viewport(int x, int y);
+		virtual void setViewport(unsigned int w, unsigned int h);
+		virtual void setViewport(unsigned int x, unsigned int y, unsigned int w, unsigned int h);
 
 		//----------Using-textures----
 		virtual void setColor(const Vec3 &color);
@@ -143,9 +148,38 @@ namespace NGTech {
 		virtual void scale(const Vec3 &coef);
 
 		//---Draw-Geom-Stream---------------------
-		virtual void drawIndexedGeometry(void *indices, int indexCount);
-		virtual void drawGeometry(int vertexCount);
+		virtual void DrawElements(void *indices, int indexCount);
+		virtual void DrawArrays(int vertexCount);
 
+		bool requireExtension(const char*name, bool _fatal = false);
+
+		void WriteScreenshot(const char* path);
+
+		// drawing
+		void DrawArrays(unsigned int baseVertex, unsigned int numVertices, MeshPrimitiveType type = MeshPrimitiveType::Triangles);
+		
+		// fullscreen quad
+		void DrawFullscreenQuad();
+
+		void FlushCommandBuffer();
+
+		// profiling
+		static void RecordMemoryWrite(size_t numBytes);
+		static void RecordMemoryRead(size_t numBytes);
+
+		static unsigned int GetDrawCalls();
+		static unsigned int GetMaxDrawCalls();
+
+		static unsigned int GetRenderStateChanges();
+		static unsigned int GetMaxRenderStateChanges();
+
+		static float GetGPUMemoryWrite();
+		static float GetMaxGPUMemoryWrite();
+
+		static float GetGPUMemoryRead();
+		static float GetMaxGPUMemoryRead();
+
+		ENGINE_INLINE bool IsDebugOutputEnabled() const	{ return debugOutputEnabled; }
 	private:
 		virtual bool createContext(I_Window*);
 		virtual void swapBuffers();
@@ -155,10 +189,80 @@ namespace NGTech {
 		friend class GLShader;
 		friend class GLDisplayList;
 	private:
+		Vec4 mCurrentViewport;
 		unsigned int polygon_cull;
 		unsigned int polygon_front;
+		MeshObject *_fullscreenTriangle;
+		bool debugOutputEnabled;
+	private:
+		static unsigned int drawCalls;
+		static unsigned int maxDrawCalls;
+
+		static unsigned int renderStateChanges;
+		static unsigned int maxRenderStateChanges;
+
+		static size_t gpuMemoryWrite;
+		static size_t maxGPUMemoryWrite;
+
+		static size_t gpuMemoryRead;
+		static size_t maxGPUMemoryRead;
 	private:
 		CoreManager* engine;
 	};
 
+	ENGINE_INLINE void GLSystem::RecordMemoryWrite(size_t numBytes)
+	{
+		gpuMemoryWrite += numBytes;
+	}
+
+	ENGINE_INLINE void GLSystem::RecordMemoryRead(size_t numBytes)
+	{
+		gpuMemoryRead += numBytes;
+	}
+
+	ENGINE_INLINE unsigned int GLSystem::GetDrawCalls()
+	{
+		return drawCalls;
+	}
+
+	ENGINE_INLINE unsigned int GLSystem::GetMaxDrawCalls()
+	{
+		return maxDrawCalls;
+	}
+
+	ENGINE_INLINE unsigned int GLSystem::GetRenderStateChanges()
+	{
+		return renderStateChanges;
+	}
+
+	ENGINE_INLINE unsigned int GLSystem::GetMaxRenderStateChanges()
+	{
+		return maxRenderStateChanges;
+	}
+
+	ENGINE_INLINE float GLSystem::GetGPUMemoryRead()
+	{
+		return gpuMemoryRead;
+	}
+
+	ENGINE_INLINE float GLSystem::GetMaxGPUMemoryRead()
+	{
+		return maxGPUMemoryRead;
+	}
+
+	ENGINE_INLINE float GLSystem::GetGPUMemoryWrite()
+	{
+		return gpuMemoryWrite;
+	}
+
+	ENGINE_INLINE float GLSystem::GetMaxGPUMemoryWrite()
+	{
+		return maxGPUMemoryWrite;
+	}
+
+	struct FullscreenQuadVertex
+	{
+		float pos[2];
+	};
+	static_assert(sizeof(FullscreenQuadVertex) == 8, "Invalid structure size!");
 }

@@ -7,13 +7,14 @@ namespace NGTech {
 
 	/**
 	*/
-	bool GLExtensions::isExtSupported(const String &name) {
-		return glewIsExtensionSupported(name.c_str());
+	bool GLExtensions::isExtSupported(const char*name) {
+		return glewIsExtensionSupported(name);
 	}
 
 	/**
 	*/
 	void GLExtensions::initExtensions() {
+		glewExperimental = GL_TRUE;
 		if (glewInit() != GLEW_OK)
 			Error("GLExtensions::initExtensions()", true);
 	}

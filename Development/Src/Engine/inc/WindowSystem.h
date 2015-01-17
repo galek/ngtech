@@ -164,7 +164,7 @@ namespace NGTech {
 		ENGINE_INLINE virtual bool isMouseGrabed() { return mouseGrabed; };
 		/**
 		*/
-		virtual void DisableVSync(int);
+		virtual void ManageVSync(bool _v);
 
 		/**
 		*/

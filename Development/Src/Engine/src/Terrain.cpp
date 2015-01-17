@@ -203,14 +203,14 @@ namespace NGTech {
 		if((pos - cameraPos).length() > lods.y) lod = 2;
 		if((pos - cameraPos).length() > lods.z) lod = 3;
 
-		vertBuff->set(); 
+		vertBuff->Bind(); 
 		vertBuff->setTexCoordSource(0, 2, sizeof(Vertex), sizeof(Vec3));
 		vertBuff->setNormalSource(sizeof(Vertex), sizeof(Vec3) + sizeof(Vec2));
 		vertBuff->setVertexSource(3, sizeof(Vertex), 0);
 
-		GetRender()->drawIndexedGeometry(nodes[n].indices[lod], nodes[n].numIndices[lod]);
+		GetRender()->DrawElements(nodes[n].indices[lod], nodes[n].numIndices[lod]);
 
-		vertBuff->unset();
+		vertBuff->UnBind();
 		vertBuff->unsetVertexSource();
 		vertBuff->unsetTexCoordSource(0);
 		vertBuff->unsetNormalSource();

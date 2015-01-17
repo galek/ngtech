@@ -123,11 +123,6 @@ void ExampleGame::initialise() {
 	sMesh->setTransform(Mat4::translate(Vec3(-60, 60, 0)));
 
 	GetWindow()->grabMouse(true);
-
-	MyGUI::Button* button = GetGUI()->getGUI()->createWidget<MyGUI::Button>("Button", 10, 10, 300, 26, MyGUI::Align::Default, "Main");
-	button->setFontName("DejaVuSansFont_15");
-	button->setCaption("Exit");
-	button->eventMouseButtonClick = MyGUI::newDelegate(events, &GameGUIEvents::ExitEvent);
 }
 //------------------------------------------------------------
 EventsCallback::EventsCallback() : depth(10.0f){}
@@ -140,14 +135,61 @@ void ShowConsole()
 	GetWindow()->grabMouse(status);
 }
 
+void AsyncLoad(const char* _file)
+{
+	unsigned char * data = NULL;
+	size_t size = 0;
+
+	HANDLE fileHandle = CreateFileA(
+		_file,            // pointer to name of the file
+		FILE_READ_DATA,           // access (read-write) mode
+		FILE_SHARE_READ,                      // share mode
+		NULL,                   // pointer to security attributes
+		OPEN_EXISTING,          // how to create
+		FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED,
+		NULL);
+	if (fileHandle != INVALID_HANDLE_VALUE)
+	{
+		// overlapped is Win32s async io file handle
+		OVERLAPPED overlapped;
+		memset(&overlapped, 0, sizeof(OVERLAPPED));
+		{
+			// Get the file size
+			LARGE_INTEGER FileSize;
+			GetFileSizeEx(fileHandle, &FileSize);
+			size = FileSize.LowPart;
+		}
+
+		// read 100 bytes of the file in overlapped mode
+		data = new unsigned char[size + 1];
+		data[size] = NULL;
+		ReadFile(fileHandle, data, 100, NULL, &overlapped);
+
+		// poll until completed
+		BOOL complete = false;
+		DWORD bytesTransferred = 0;
+		do
+		{
+			// to make good use of overlapped IO, we really
+			// should be doing something useful here
+			complete = GetOverlappedResult(
+				fileHandle, &overlapped, &bytesTransferred, FALSE);
+		} while (!complete);
+		//assert(bytesTransferred == 100);
+		Warning((char*)data);
+	}
+}
+
 
 void EventsCallback::Body(){
 	if (GetWindow()->isKeyDown("ESC"))
-		GetWindow()->toggleGrabMouse();
+		exit(0);
+	//#undef min
 	
-	if (GetWindow()->isKeyDown("EQUAL"))
-	{
-		ShowConsole();
-	}
+	//
+	//	if (GetWindow()->isKeyDown("EQUAL"))
+	//	{
+	//		ShowConsole();
+	//	}
 }
 #endif

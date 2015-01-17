@@ -7,15 +7,14 @@
 
 namespace NGTech
 {
-
 #define NAME_SIZE 64
 
-	static void ReadName(char *buffer, std::string &name, VFile *file)
+	void ReadName(char *buffer, std::string &name, VFile *file)
 	{
 		memset(buffer, 0, NAME_SIZE);
 		file->Read(buffer, NAME_SIZE, 1);
 		name = buffer;
-		LogPrintf((String("Loading material: ") + buffer).c_str());
+		Debug((String("Loading material: ") + buffer).c_str());
 	}
 
 	/**
@@ -23,19 +22,7 @@ namespace NGTech
 	*/
 #define MESH_HEADER ('x' | 's' << 8 | 'm' << 16 | 's' << 24)
 #define MESH_HEADER_UNWRAPPED ('x' | 's' << 8 | 'm' << 16 | 'u' << 24)
-
-	/**
-	*/
-	MeshFormatXSMSH::MeshFormatXSMSH()
-	{
-	}
-
-	/**
-	*/
-	MeshFormatXSMSH::~MeshFormatXSMSH()
-	{
-	}
-
+	
 	/**
 	*/
 	void MeshFormatXSMSH::Load(const std::string &path, Model *mesh)

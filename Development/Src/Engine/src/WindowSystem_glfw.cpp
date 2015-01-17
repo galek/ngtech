@@ -42,6 +42,15 @@ namespace NGTech {
 
 	/*
 	*/
+	void get_resolution() {
+		const GLFWvidmode * mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+		auto window_width = mode->width;
+		auto window_height = mode->height;
+	}
+
+	/*
+	*/
 	void WindowSystemGLFW::initialise(int)
 	{
 		Debug("WindowSystem::Initialize()");
@@ -57,7 +66,6 @@ namespace NGTech {
 		//Request Specific Version
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-		//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 		//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #ifdef _ENGINE_DEBUG_
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
@@ -156,7 +164,7 @@ namespace NGTech {
 	/**
 	*/
 	void WindowSystemGLFW::showCursor(bool show) {
-		MyGUI::PointerManager::getInstance().setVisible(show);
+		//MyGUI::PointerManager::getInstance().setVisible(show);
 		cursorVisible = show;
 	}
 
@@ -251,7 +259,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void WindowSystemGLFW::DisableVSync(int){
-		glfwSwapInterval(0);
+	void WindowSystemGLFW::ManageVSync(bool _v){
+		glfwSwapInterval(_v);
 	}
 }

@@ -1,19 +1,23 @@
 #pragma once 
 
 //***************************************************
+#include "../Src/Common/CommonPrivate.h"
 #include "../Src/Common/IWindow.h"
 #include "../Src/Common/IRender.h"
 #include "../Src/Common/IGame.h"
 #include "../Src/Common/IScripting.h"
-#include "../Src/Engine/inc/Engine.h"
 
+#include "../Src/Core/inc/CoreDLL.h"
+#include "../Src/Core/inc/SteamWorks_API.h"
 #include "../Src/Core/inc/MathLib.h"
-
-#include "../Src/Engine/inc/ALSystem.h"
-#include "../Src/Engine/inc/PhysSystem.h"
 #include "../Src/Core/inc/Log.h"
+#include "../Src/Core/inc/ASYNCFILE.h"
 #include "../Src/Core/inc/Config.h"
 
+
+#include "../Src/Engine/inc/Engine.h"
+#include "../Src/Engine/inc/ALSystem.h"
+#include "../Src/Engine/inc/PhysSystem.h"
 #include "../Src/Engine/inc/LoadingScreen.h"
 
 #include "../Src/Engine/inc/Scene.h"
@@ -28,7 +32,6 @@
 
 //***************************************************
 //Scripting
-#include "../Core/inc/SteamWorks_API.h"
 #include "../Engine/inc/WrappedScriptFunctions.h"
 
 //***************************************************

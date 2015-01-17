@@ -346,6 +346,7 @@
     <ClInclude Include="inc\Font.h" />
     <ClInclude Include="inc\Frustum.h" />
     <ClInclude Include="inc\GUI.h" />
+    <ClInclude Include="inc\intersection.h" />
     <ClInclude Include="inc\Light.h" />
     <ClInclude Include="inc\LoadingScreen.h" />
     <ClInclude Include="inc\Material.h" />

@@ -238,8 +238,8 @@ namespace NGTech {
 				_gWindowSystem->mousing = true;
 
 
-				if (!_gWindowSystem->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMouseMove(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, 0);
+				/*if (!_gWindowSystem->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMouseMove(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, 0);*/
 
 				return 0;
 			}
@@ -250,8 +250,8 @@ namespace NGTech {
 			if (_gWindowSystem)
 				_gWindowSystem->mouseButtons[0] = true;
 
-			if (!_gWindowSystem->mouseGrabed)
-				MyGUI::InputManager::getInstancePtr()->injectMousePress(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, (MyGUI::MouseButton::Enum)0);
+			/*if (!_gWindowSystem->mouseGrabed)
+				MyGUI::InputManager::getInstancePtr()->injectMousePress(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, (MyGUI::MouseButton::Enum)0); */
 
 			return 0;
 		}
@@ -261,8 +261,8 @@ namespace NGTech {
 			if (_gWindowSystem)
 				_gWindowSystem->mouseButtons[0] = false;
 
-			if (!_gWindowSystem->mouseGrabed)
-				MyGUI::InputManager::getInstancePtr()->injectMouseRelease(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, (MyGUI::MouseButton::Enum)0);
+			/*if (!_gWindowSystem->mouseGrabed)
+				MyGUI::InputManager::getInstancePtr()->injectMouseRelease(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, (MyGUI::MouseButton::Enum)0); */
 
 			return 0;
 		}
@@ -272,8 +272,8 @@ namespace NGTech {
 			if (_gWindowSystem)
 				_gWindowSystem->mouseButtons[1] = true;
 
-			if (!_gWindowSystem->mouseGrabed)
-				MyGUI::InputManager::getInstancePtr()->injectMousePress(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, (MyGUI::MouseButton::Enum)1);
+			/*if (!_gWindowSystem->mouseGrabed)
+				MyGUI::InputManager::getInstancePtr()->injectMousePress(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, (MyGUI::MouseButton::Enum)1);*/
 
 			return 0;
 		}
@@ -283,8 +283,8 @@ namespace NGTech {
 			if (_gWindowSystem)
 				_gWindowSystem->mouseButtons[1] = false;
 
-			if (!_gWindowSystem->mouseGrabed)
-				MyGUI::InputManager::getInstancePtr()->injectMouseRelease(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, (MyGUI::MouseButton::Enum)1);
+			/*if (!_gWindowSystem->mouseGrabed)
+				MyGUI::InputManager::getInstancePtr()->injectMouseRelease(_gWindowSystem->oldMouseX, _gWindowSystem->oldMouseY, (MyGUI::MouseButton::Enum)1);*/
 
 			return 0;
 		}
@@ -381,7 +381,7 @@ namespace NGTech {
 	/**
 	*/
 	void WindowSystem::showCursor(bool show) {
-		MyGUI::PointerManager::getInstance().setVisible(show);
+		/*MyGUI::PointerManager::getInstance().setVisible(show);*/
 		cursorVisible = show;
 	}
 
@@ -458,7 +458,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void WindowSystem::DisableVSync(int){}
+	void WindowSystem::ManageVSync(bool _v){}
 
 	/**
 	*/

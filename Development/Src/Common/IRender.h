@@ -251,9 +251,6 @@ namespace NGTech {
 		};
 		/**
 		*/
-		virtual bool  requireExtension(const std::string &name, bool _fatal = false) = 0;
-		/**
-		*/
 		virtual void  initialise() = 0;
 		/**
 		*/
@@ -275,7 +272,10 @@ namespace NGTech {
 		virtual void  flush() = 0;
 		/**
 		*/
-		virtual void  viewport(int x, int y) = 0;
+		virtual void setViewport(unsigned int w, unsigned int h) = 0;
+		/**
+		*/
+		virtual void setViewport(unsigned int x, unsigned int y, unsigned int w, unsigned int h) = 0;
 		/**
 		*/
 		virtual void  endFrame(){ swapBuffers(); }
@@ -439,10 +439,10 @@ namespace NGTech {
 		/**
 		Draw-Geom-Stream
 		*/
-		virtual void drawIndexedGeometry(void *indices, int indexCount) = 0;
+		virtual void DrawElements(void *indices, int indexCount) = 0;
 		/**
 		*/
-		virtual void drawGeometry(int vertexCount) = 0;
+		virtual void DrawArrays(int vertexCount) = 0;
 		/**
 		OpenGL Low Level
 		*/
@@ -452,6 +452,7 @@ namespace NGTech {
 		virtual void swapBuffers() = 0;
 		/**
 		*/
+		virtual void WriteScreenshot(const char* path) = 0;
 	public:
 		/**
 		*/
@@ -660,6 +661,8 @@ namespace NGTech {
 		enum DataType {
 			FLOAT,
 			DOUBLE,
+			SHORT,
+			UNSIGNED_BYTE,
 			UNSIGNED_INT,
 			UNSIGNED_SHORT,
 		};
@@ -700,13 +703,22 @@ namespace NGTech {
 		virtual void unsetIndexSource() = 0;
 		/**
 		*/
-		virtual void set() = 0;
+		virtual void Bind() const = 0;
 		/**
 		*/
-		virtual void unset() = 0;
+		virtual void UnBind() const = 0;
 		/**
 		*/
-		virtual void FillBuffer() = 0;
+		virtual void BindIndex(unsigned int idx) const = 0;
+		/**
+		*/
+		virtual void UnbindIndex(unsigned int idx) const = 0;
+		/**
+		*/
+		virtual void Allocate(const void *data, size_t size, TypeDraw usage) = 0;
+		/**
+		*/
+		virtual void FillBuffer(size_t offset) = 0;
 		/**
 		*/
 		virtual void* map(int offset = 0, void** data = nullptr) = 0;

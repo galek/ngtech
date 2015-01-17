@@ -994,4 +994,58 @@ namespace NGTech {
 		}
 		return true;
 	}
+
+	void Scene::testInteserction()
+	{
+#if 0
+		Vec3 ray_origin;
+		Vec3 ray_direction;
+		ScreenPosToWorldRay(
+			1024 / 2, 768 / 2,
+			1024, 768,
+			ViewMatrix,
+			ProjectionMatrix,
+			ray_origin,
+			ray_direction
+			);
+
+		//ray_direction = ray_direction*20.0f;
+
+		//Nick message = "background";
+
+		// Test each each Oriented Bounding Box (OBB).
+		// A physics engine can be much smarter than this, 
+		// because it already has some spatial partitionning structure, 
+		// like Binary Space Partitionning Tree (BSP-Tree),
+		// Bounding Volume Hierarchy (BVH) or other.
+		for (int i = 0; i < 100; i++){
+
+			float intersection_distance; // Output of TestRayOBBIntersection()
+			Vec3 aabb_min(-1.0f, -1.0f, -1.0f);
+			Vec3 aabb_max(1.0f, 1.0f, 1.0f);
+
+			// The ModelMatrix transforms :
+			// - the mesh to its desired position and orientation
+			// - but also the AABB (defined with aabb_min and aabb_max) into an OBB
+			Mat4 RotationMatrix = glm::toMat4(orientations[i]);
+			Mat4 TranslationMatrix = Mat4::translate(Mat4(), positions[i]);
+			Mat4 ModelMatrix = TranslationMatrix * RotationMatrix;
+
+
+			if (TestRayOBBIntersection(
+				ray_origin,
+				ray_direction,
+				aabb_min,
+				aabb_max,
+				ModelMatrix,
+				intersection_distance)
+				){
+				/*std::ostringstream oss;
+				oss << "mesh " << i;
+				message = oss.str();*/
+				break;
+			}
+		}
+#endif
+	}
 }

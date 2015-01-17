@@ -149,65 +149,53 @@ namespace NGTech {
 	void GLTexture::setWrap(Wrap _wrap) {
 		this->wrap = _wrap;
 
-		glBindTexture(target, glID);
-
-		glTexParameteri(target, GL_TEXTURE_WRAP_S, this->wrap);
-		glTexParameteri(target, GL_TEXTURE_WRAP_T, this->wrap);
-		glTexParameteri(target, GL_TEXTURE_WRAP_R, this->wrap);
-
-		glBindTexture(target, 0);
+		glTextureParameteriEXT(glID, target, GL_TEXTURE_WRAP_S, this->wrap);
+		glTextureParameteriEXT(glID, target, GL_TEXTURE_WRAP_T, this->wrap);
+		glTextureParameteriEXT(glID, target, GL_TEXTURE_WRAP_R, this->wrap);
 	}
 
 	void GLTexture::setFilter(Filter filter) {
 
-		glBindTexture(target, glID);
-
 		if (filter == NEAREST) {
 			magFilter = GL_NEAREST;
 			minFilter = GL_NEAREST;
-			glTexParameteri(target, GL_TEXTURE_MAG_FILTER, magFilter);
-			glTexParameteri(target, GL_TEXTURE_MIN_FILTER, minFilter);
+			glTextureParameteriEXT(glID, target, GL_TEXTURE_MAG_FILTER, magFilter);
+			glTextureParameteriEXT(glID, target, GL_TEXTURE_MIN_FILTER, minFilter);
 		}
 		else if (filter == LINEAR) {
 			magFilter = GL_LINEAR;
 			minFilter = GL_LINEAR;
-			glTexParameteri(target, GL_TEXTURE_MAG_FILTER, magFilter);
-			glTexParameteri(target, GL_TEXTURE_MIN_FILTER, minFilter);
+			glTextureParameteriEXT(glID, target, GL_TEXTURE_MAG_FILTER, magFilter);
+			glTextureParameteriEXT(glID, target, GL_TEXTURE_MIN_FILTER, minFilter);
 		}
 		else if (filter == NEAREST_MIPMAP_NEAREST){
 			magFilter = GL_NEAREST;
 			minFilter = GL_NEAREST_MIPMAP_NEAREST;
-			glTexParameteri(target, GL_TEXTURE_MAG_FILTER, magFilter);
-			glTexParameteri(target, GL_TEXTURE_MIN_FILTER, minFilter);
-			glTexParameteri(target, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
+			glTextureParameteriEXT(glID, target, GL_TEXTURE_MAG_FILTER, magFilter);
+			glTextureParameteriEXT(glID, target, GL_TEXTURE_MIN_FILTER, minFilter);
+			glTextureParameteriEXT(glID, target, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
 		}
 		else if (filter == LINEAR_MIPMAP_NEAREST) {
 			magFilter = GL_LINEAR;
 			minFilter = GL_LINEAR_MIPMAP_NEAREST;
-			glTexParameteri(target, GL_TEXTURE_MAG_FILTER, magFilter);
-			glTexParameteri(target, GL_TEXTURE_MIN_FILTER, minFilter);
-			glTexParameteri(target, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
+			glTextureParameteriEXT(glID, target, GL_TEXTURE_MAG_FILTER, magFilter);
+			glTextureParameteriEXT(glID, target, GL_TEXTURE_MIN_FILTER, minFilter);
+			glTextureParameteriEXT(glID, target, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
 		}
 		else if (filter == LINEAR_MIPMAP_LINEAR) {
 			magFilter = GL_LINEAR;
 			minFilter = GL_LINEAR_MIPMAP_LINEAR;
-			glTexParameteri(target, GL_TEXTURE_MAG_FILTER, magFilter);
-			glTexParameteri(target, GL_TEXTURE_MIN_FILTER, minFilter);
-			glTexParameteri(target, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
+			glTextureParameteriEXT(glID, target, GL_TEXTURE_MAG_FILTER, magFilter);
+			glTextureParameteriEXT(glID, target, GL_TEXTURE_MIN_FILTER, minFilter);
+			glTextureParameteriEXT(glID, target, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
 		}
-
-		glBindTexture(target, 0);
 	}
 
 	void GLTexture::setAniso(Aniso _aniso) {
-		glBindTexture(target, glID);
-
 		if (_aniso > 0) {
 			this->aniso = _aniso;
-			glTexParameterf(target, GL_TEXTURE_MAX_ANISOTROPY_EXT, this->aniso);
+			glTextureParameterfEXT(glID, target, GL_TEXTURE_MAX_ANISOTROPY_EXT, this->aniso);
 		}
-
-		glBindTexture(target, 0);
 	}
 
 

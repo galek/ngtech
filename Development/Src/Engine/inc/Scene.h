@@ -70,6 +70,7 @@ namespace NGTech {
 		void waitUpdate();
 
 	private:
+		void testInteserction();
 		void drawAmbient(bool blended);
 
 		void drawPoint(LightPoint *light, bool blended);

@@ -9,6 +9,7 @@
 //***************************************************
 #include "../Core/inc/CVARManager.h"
 #include "../inc/WindowSystem_GLFW.h"
+#include "../inc/intersection.h"
 //***************************************************
 
 namespace NGTech {
@@ -420,7 +421,7 @@ namespace NGTech {
 		/*
 		*/
 		using namespace MyGUI;
-		InputManager* mInputMgr = MyGUI::InputManager::getInstancePtr();
+		/*InputManager* mInputMgr = MyGUI::InputManager::getInstancePtr();*/
 
 		//Hack!-bug NGT-5
 		ConvertToMyGUIKey(key, scancode);
@@ -430,8 +431,8 @@ namespace NGTech {
 		{
 			/*
 			*/
-			if (mInputMgr)
-				mInputMgr->injectKeyPress((KeyCode::Enum)(scancode), key);
+			/*if (mInputMgr)
+				mInputMgr->injectKeyPress((KeyCode::Enum)(scancode), key);*/
 
 			windowSystem->keys[key] = true;
 
@@ -442,8 +443,8 @@ namespace NGTech {
 		{
 			/*
 			*/
-			if (mInputMgr)
-				mInputMgr->injectKeyRelease((KeyCode::Enum)(scancode));
+			/*if (mInputMgr)
+				mInputMgr->injectKeyRelease((KeyCode::Enum)(scancode));*/
 
 			windowSystem->keys[key] = false;
 
@@ -465,14 +466,14 @@ namespace NGTech {
 			if (button == GLFW_MOUSE_BUTTON_LEFT)
 			{
 				windowSystem->mouseButtons[0] = true;
-				if (!windowSystem->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMousePress(windowSystem->oldMouseX, windowSystem->oldMouseY, (MyGUI::MouseButton::Enum)0);
+				/*if (!windowSystem->mouseGrabed)
+					MyGUI::InputManager::getInstancePtr()->injectMousePress(windowSystem->oldMouseX, windowSystem->oldMouseY, (MyGUI::MouseButton::Enum)0);*/
 			}
 			if (button == GLFW_MOUSE_BUTTON_RIGHT)
 			{
 				windowSystem->mouseButtons[1] = true;
-				if (!windowSystem->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMousePress(windowSystem->oldMouseX, windowSystem->oldMouseY, (MyGUI::MouseButton::Enum)1);
+				//if (!windowSystem->mouseGrabed)
+				//	MyGUI::InputManager::getInstancePtr()->injectMousePress(windowSystem->oldMouseX, windowSystem->oldMouseY, (MyGUI::MouseButton::Enum)1);
 			}
 			break;
 		}
@@ -482,14 +483,14 @@ namespace NGTech {
 			if (button == GLFW_MOUSE_BUTTON_LEFT)
 			{
 				windowSystem->mouseButtons[0] = false;
-				if (!windowSystem->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(windowSystem->oldMouseX, windowSystem->oldMouseY, (MyGUI::MouseButton::Enum)0);
+				//if (!windowSystem->mouseGrabed)
+				//	MyGUI::InputManager::getInstancePtr()->injectMouseRelease(windowSystem->oldMouseX, windowSystem->oldMouseY, (MyGUI::MouseButton::Enum)0);
 			}
 			if (button == GLFW_MOUSE_BUTTON_RIGHT)
 			{
 				windowSystem->mouseButtons[1] = false;
-				if (!windowSystem->mouseGrabed)
-					MyGUI::InputManager::getInstancePtr()->injectMouseRelease(windowSystem->oldMouseX, windowSystem->oldMouseY, (MyGUI::MouseButton::Enum)1);
+				//if (!windowSystem->mouseGrabed)
+				//	MyGUI::InputManager::getInstancePtr()->injectMouseRelease(windowSystem->oldMouseX, windowSystem->oldMouseY, (MyGUI::MouseButton::Enum)1);
 			}
 			break;
 		}
@@ -515,8 +516,8 @@ namespace NGTech {
 		win->mouseX = mx;
 		win->mouseY = my;
 
-		if (!win->mouseGrabed)
-			MyGUI::InputManager::getInstancePtr()->injectMouseMove(win->oldMouseX, win->oldMouseY, 0);
+		//if (!win->mouseGrabed)
+		//	MyGUI::InputManager::getInstancePtr()->injectMouseMove(win->oldMouseX, win->oldMouseY, 0);
 	}
 
 	/**

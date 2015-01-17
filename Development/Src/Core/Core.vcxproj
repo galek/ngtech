@@ -312,6 +312,7 @@
     <ClInclude Include="inc\adl\adl_defines.h" />
     <ClInclude Include="inc\adl\adl_sdk.h" />
     <ClInclude Include="inc\adl\adl_structures.h" />
+    <ClInclude Include="inc\ASYNCFile.h" />
     <ClInclude Include="inc\ati_eyefinity.h" />
     <ClInclude Include="inc\BBox.h" />
     <ClInclude Include="inc\BSphere.h" />
@@ -464,6 +465,7 @@
     <ClInclude Include="inc\StatsAndAchievements.h" />
     <ClInclude Include="inc\SteamWorksMgr.h" />
     <ClInclude Include="inc\SteamWorks_API.h" />
+    <ClInclude Include="inc\strtools.h" />
     <ClInclude Include="inc\systeminfo.h" />
     <ClInclude Include="inc\Thread.h" />
     <ClInclude Include="inc\UString.h" />
@@ -473,6 +475,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Additions.cpp" />
+    <ClCompile Include="src\AsyncFS.cpp" />
     <ClCompile Include="src\ExternalAdditions.cpp" />
     <ClCompile Include="src\ati_eyefinity.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -980,6 +983,7 @@
     <ClCompile Include="src\steamworks.cpp" />
     <ClCompile Include="src\steamworks_api.cpp" />
     <ClCompile Include="src\steamworks_userstats.cpp" />
+    <ClCompile Include="src\strtools.cpp" />
     <ClCompile Include="src\SystemInfo.cpp" />
     <ClCompile Include="src\Thread.cpp" />
     <ClCompile Include="src\UString.cpp" />

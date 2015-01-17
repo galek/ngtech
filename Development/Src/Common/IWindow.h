@@ -137,7 +137,7 @@ namespace NGTech {
 		virtual void swapBuffers(){}
 		/**
 		*/
-		virtual void DisableVSync(int){}
+		virtual void ManageVSync(bool _v){}
 		/**
 		*/
 		inline virtual int divider() { return 1; }

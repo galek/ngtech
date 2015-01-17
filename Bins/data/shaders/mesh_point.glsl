@@ -1,5 +1,4 @@
 [GLSL_VERTEX_SHADER]
-
 uniform mat4 u_mvp;
 uniform mat4 u_world;
 uniform vec3 u_light_pos;
