@@ -31,3 +31,7 @@ freetype-смотри семпл skybox
 
 Решить,что делать с mygui
 Можно ограничить физику по аналогии с главным циклом
+
+http://ogltutor.netau.net/tutorials/tutorial38.html
+http://ogltutor.netau.net/tutorials/tutorial42.html
+http://ogltutor.netau.net/tutorials/tutorial43.html
