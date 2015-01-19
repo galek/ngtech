@@ -171,6 +171,7 @@ namespace NGTech {
 	/**
 	*/
 	void WindowSystemGLFW::setMousePos(int x, int y) {
+		glfwSetCursorPos(window, x, y);
 	}
 
 	/**

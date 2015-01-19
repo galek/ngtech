@@ -207,8 +207,8 @@ namespace NGTech {
 					glGetShaderiv(this->fs, GL_COMPILE_STATUS, &compiled);
 
 					if (!compiled) {
-						char errorString[1024] = { 0 };
-						glGetProgramInfoLog(this->fs, sizeof(errorString), NULL, errorString);
+						char errorString[1000] = { 0 };
+						glGetProgramInfoLog(this->fs, sizeof(errorString), 0, errorString);
 						Warning("[%s] Error: shader file '%s' fs compiling error: %s", __FUNCTION__, path.c_str(), String(errorString));
 						Error("Failed compiling shader", true);
 						return false;

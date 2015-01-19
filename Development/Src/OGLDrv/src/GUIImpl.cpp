@@ -26,7 +26,7 @@ namespace NGTech {
 			IDataStream* stream = GetVFS()->getData(_filename);
 			if (!stream){
 				Warning("[GUI]Failed Loading GUI image!");
-				return NULL;
+				return nullptr;
 			}
 			size_t lumpSize = stream->size();
 			void* lumpData = malloc(lumpSize);
@@ -101,7 +101,7 @@ namespace NGTech {
 			return _data;
 		}
 		Warning("[GUI] Failed Loading GUI image!File not found:%s", _filename.c_str());
-		return NULL;
+		return nullptr;
 	}
 	/*
 	*/

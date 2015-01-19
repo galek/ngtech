@@ -511,12 +511,12 @@ namespace NGTech {
 		win->oldMouseY = win->mouseY;
 
 #pragma message("BUG,если сильно крутануть,то выйдет за границы ")
-
+		
 		win->mouseX = mx;
 		win->mouseY = my;
 
 		if (!win->mouseGrabed)
-			MyGUI::InputManager::getInstancePtr()->injectMouseMove(win->oldMouseX, win->oldMouseY, 0);
+			MyGUI::InputManager::getInstancePtr()->injectMouseMove(win->mouseX, win->mouseY, 0);
 	}
 
 	/**
