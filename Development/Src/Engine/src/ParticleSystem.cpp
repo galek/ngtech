@@ -94,8 +94,8 @@ namespace NGTech {
 			GetRender()->translate(particles[i].position);
 			GetRender()->scale(Vec3(5, 5, 5));
 
-			GetRender()->rotate(GetScene()->GetActiveCamera()->getAngle(0) - 180, Vec3(0, 1, 0));
-			GetRender()->rotate(GetScene()->GetActiveCamera()->getAngle(1), Vec3(1, 0, 0));
+			GetRender()->rotate(GetScene()->getActiveCamera()->getAngle(0) - 180, Vec3(0, 1, 0));
+			GetRender()->rotate(GetScene()->getActiveCamera()->getAngle(1), Vec3(1, 0, 0));
 
 			particleList->call();
 

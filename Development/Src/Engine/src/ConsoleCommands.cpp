@@ -46,10 +46,10 @@ namespace NGTech
 		GetEngine()->quit();
 	}
 	//***************************************************************************
-	void Console::_registerConsoleCommands()
+	/*void Console::_registerConsoleCommands()
 	{
 		this->registerConsoleDelegate("pause", MyGUI::newDelegate(E_Pause));
 		this->registerConsoleDelegate("fov", MyGUI::newDelegate(E_SetActiveCameraFOV));
 		this->registerConsoleDelegate("quit", MyGUI::newDelegate(E_Quit));
-	}
+	}*/
 }

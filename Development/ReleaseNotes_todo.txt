@@ -1,9 +1,5 @@
 Добавить в конфиг сборки дефайн вкл\откл MyGUI
 
-Переписать Scene -
-перенести оттуда воду,террейн и тому подобную хуйню
-
-GUI:
 1)NVGamePad
 2)Корректный шейдер mygui (?Сделано)
 3)Внести mygui в Core,GLPlatform в GLDrv
@@ -30,3 +26,12 @@ Tools:
 
 Добавить либу CharactedCinematic для физикса
 Пофиксить получение оъема памяти для видюхи
+
+freetype-смотри семпл skybox
+
+Решить,что делать с mygui
+Можно ограничить физику по аналогии с главным циклом
+
+http://ogltutor.netau.net/tutorials/tutorial38.html
+http://ogltutor.netau.net/tutorials/tutorial42.html
+http://ogltutor.netau.net/tutorials/tutorial43.html

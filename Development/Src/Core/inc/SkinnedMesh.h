@@ -82,11 +82,10 @@ namespace NGTech
 		BBox bBox;
 		BSphere bSphere;
 	private:
-
 		/**
 		*/
 		void CreateVBO();
-
+	private:
 		String path;
 
 		struct Weight

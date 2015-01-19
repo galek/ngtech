@@ -59,6 +59,9 @@ namespace NGTech {
 		virtual int getTime() = 0;
 		/**
 		*/
+		virtual unsigned long GetTicks() = 0;
+		/**
+		*/
 		virtual bool isMouseMoved() = 0;
 		/**
 		*/
@@ -134,7 +137,7 @@ namespace NGTech {
 		virtual void swapBuffers(){}
 		/**
 		*/
-		virtual void DisableVSync(int){}
+		virtual void ManageVSync(bool _v){}
 		/**
 		*/
 		inline virtual int divider() { return 1; }

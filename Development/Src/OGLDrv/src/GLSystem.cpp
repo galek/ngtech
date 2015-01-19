@@ -1,13 +1,14 @@
 #include "RenderPrivate.h"
 //***************************************************************************
 #include "Engine.h"
-#include "GLSystem.h"
-#include "Log.h"
-#include "WindowSystem.h"
-#include "GLTexture.h"
 #include "Error.h"
-#include "glew/wglew.h"
+#include "WindowSystem.h"
 //***************************************************************************
+#include "GLSystem.h"
+#include "GLTexture.h"
+#include "CommonDefs.h"
+//***************************************************************************
+#include "glew/wglew.h"
 #include "../../Platform/inc/glfw/glfw3.h"
 //***************************************************************************
 
@@ -15,96 +16,34 @@ namespace NGTech {
 
 	/**
 	*/
-	GLDisplayList* GLSystem::GetDL(){ return new GLDisplayList(); }
+	unsigned int GLSystem::drawCalls = 0;
+	unsigned int GLSystem::maxDrawCalls = 0;
 
-	/**
-	*/
-	GLOcclusionQuery* GLSystem::GetOQ() { return new GLOcclusionQuery(); }
+	unsigned int GLSystem::renderStateChanges = 0;
+	unsigned int GLSystem::maxRenderStateChanges = 0;
 
-	/**
-	*/
-	GLTexture* GLSystem::TextureCreate2D(const String &path){ return GLTexture::create2d(path); }
+	size_t GLSystem::gpuMemoryWrite = 0;
+	size_t GLSystem::maxGPUMemoryWrite = 0;
 
-	/**
-	*/
-	GLTexture* GLSystem::TextureCreateCube(const String &path){ return GLTexture::createCube(path); }
-
-	/**
-	*/
-	GLTexture *GLSystem::TextureCreate2D(I_ILImage *image) { return GLTexture::create2d(image); }
-
-	/**
-	*/
-	GLTexture *GLSystem::TextureCreate3D(I_ILImage *image) { return GLTexture::create3d(image); }
-
-	/**
-	*/
-	GLTexture *GLSystem::TextureCreateCube(I_ILImage **image) { return GLTexture::createCube(image); }
-
-	/**
-	*/
-	GLTexture* GLSystem::TextureCreate2D(int width, int height, int format) { return GLTexture::create2d(width, height, (I_Texture::Format)format); }
-
-	/**
-	*/
-	GLTexture* GLSystem::TextureCreate3D(int width, int height, int depth, int format) { return GLTexture::create3d(width, height, depth, (I_Texture::Format)format); }
-
-	/**
-	*/
-	GLTexture* GLSystem::TextureCreateCube(int width, int height, int format) { return GLTexture::createCube(width, height, (I_Texture::Format)format); }
-
-	/**
-	*/
-	GLShader  *GLSystem::ShaderCreate(const String &path, const String &defines){ return GLShader::create(path, defines); }
-
-	/**
-	*/
-	GLFBO*GLSystem::CreateFBO(int x, int y){ return GLFBO::create(x, y); }
-
-	/**
-	*/
-	GLVBO *GLSystem::CreateIBO(void *data, int numElements, int elemSize, int dataType){ return GLVBO::createIBO(data, numElements, elemSize, (I_VBManager::DataType)dataType); }
-
-	/**
-	*/
-	GLVBO *GLSystem::CreateVBO(void *data, int numElements, int elemSize, int dataType, int drawType){ return GLVBO::createVBO(data, numElements, elemSize, (I_VBManager::DataType)dataType, (I_VBManager::TypeDraw)drawType); }
-
-	/**
-	*/
-	ILImage* GLSystem::CreateImage2D(const String &path){ return ILImage::create2d(path); }
-
-	/**
-	*/
-	ILImage* GLSystem::CreateImageEmpty2D(int width, int height, int format){ return ILImage::createEmpty2d(width, height, format); }
-
-	/**
-	*/
-	ILImage* GLSystem::CreateImageNoise2D(int width, int height, int format){ return ILImage::createNoise2d(width, height, format); }
-
-	/**
-	*/
-	ILImage* GLSystem::CreateImageEmpty3D(int width, int height, int depth, int format){ return ILImage::createEmpty3d(width, height, depth, format); }
-
-	/**
-	*/
-	ILImage* GLSystem::CreateImageNoise3D(int width, int height, int depth, int format){ return ILImage::createNoise3d(width, height, depth, format); }
+	size_t GLSystem::gpuMemoryRead = 0;
+	size_t GLSystem::maxGPUMemoryRead = 0;
 
 	/**
 	*/
 	GLSystem::GLSystem(CoreManager*_engine)
-		:engine(_engine), polygon_cull(0), polygon_front(0)
+		:engine(_engine), polygon_cull(0), polygon_front(0), debugOutputEnabled(false)
 	{}
 
 	/**
 	*/
-	void DisableVSync(CoreManager*engine)
+	void ManageVSync(CoreManager*engine, bool v)
 	{
 #ifndef DROP_EDITOR
 		if (engine->mIsEditor)
-			wglSwapIntervalEXT(0);
+			wglSwapIntervalEXT(v);
 		else
 #endif
-			engine->iWindow->DisableVSync(0);
+			engine->iWindow->ManageVSync(v);
 	}
 
 	/**
@@ -116,18 +55,16 @@ namespace NGTech {
 		GLenum severity,
 		GLsizei length,
 		const GLchar *message,
-		void *userdata)
+		const void *userdata)
 	{
 		if (type >= GL_DEBUG_TYPE_ERROR && type <= GL_DEBUG_TYPE_PERFORMANCE)
 		{
 			if (source == GL_DEBUG_SOURCE_API)
-				LogPrintf("GL(", severity, "): ");
+				LogPrintf("GL(%i): id: %i : %s", severity, id, message);
 			else if (source == GL_DEBUG_SOURCE_SHADER_COMPILER)
-				LogPrintf("GLSL(", severity, "): ");
+				LogPrintf("GLSL(%i): id: %i : %s", severity, id, message);
 			else
-				LogPrintf("OTHER(", severity, "): ");
-
-			LogPrintf("", id, ": ", message);
+				LogPrintf("OTHER(%i): id: %i : %s", severity, id, message);
 		}
 	}
 
@@ -145,7 +82,6 @@ namespace NGTech {
 		Log::write("Vendor:         " + getVendor());
 		Log::write("Renderer:       " + getRenderer());
 		Log::write("Version:        " + getVersion());
-		Log::write("Extensions:     " + getExtensions());
 		Log::write("Texture units:  " + StringHelper::fromInt(getNumTexUnits()));
 		Log::write("Max anisotropy: " + StringHelper::fromInt(getMaxAniso()));
 
@@ -155,52 +91,173 @@ namespace NGTech {
 
 		//enable depth testing and culling
 		glDepthFunc(GL_LEQUAL);
-		glEnable(GL_DEPTH_TEST);
 		glCullFace(GL_BACK);
 		glEnable(GL_CULL_FACE);
+		glEnable(GL_DEPTH_TEST);
 		//Texture Params
 		glPixelStorei(GL_PACK_ALIGNMENT, 1);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 		reshape(GetWindow()->getWidth(), GetWindow()->getHeight());
 		GLExtensions::initExtensions();
-		Debug("[Init] Checking Render Extensions");
+		ManageVSync(engine, false);
+		EnableMultiSample(false);
 
-		requireExtension("GL_ARB_vertex_shader", true);
-		requireExtension("GL_ARB_fragment_shader", true);
-		requireExtension("GL_ARB_shader_objects", true);
-		requireExtension("GL_ARB_shading_language_100", true);
-		requireExtension("GL_ARB_vertex_buffer_object", true);
-		requireExtension("GL_EXT_framebuffer_object", true);
-		requireExtension("GL_ARB_occlusion_query", true);
-		requireExtension("GL_EXT_texture_filter_anisotropic", true);
+		requireExtension("GL_EXT_direct_state_access", false);
+		requireExtension("GL_ARB_debug_output", false);
 
-		//OpenGL3 and 4
-		requireExtension("GL_ARB_occlusion_query2");
-		requireExtension("GL_ARB_compatibility");
-		requireExtension("GL_ARB_shading_language_420pack");
-		requireExtension("GL_ARB_geometry_shader4");
-		requireExtension("GL_ARB_shading_language_packing");
-		requireExtension("GL_ARB_ES2_compatibility");
+		EnableDebugOutput();
 
+		{
+			FullscreenQuadVertex verts[] = {
+				{ { -1.0F, -3.0F } },
+				{ { -1.0F, 1.0F } },
+				{ { 3.0F, 1.0F } }
+			};
 
-		//4.X
-		requireExtension("GL_ARB_compute_shader");
-		requireExtension("GL_ARB_gpu_shader5");
-		requireExtension("GL_ARB_tessellation_shader");
-		requireExtension("GL_ARB_shader_subroutine");
+			VertexLayout layout;
+			layout.stride = sizeof(FullscreenQuadVertex);
+			layout.attributes.emplace_back(2, 0, false, DataType::Float);
 
-		DisableVSync(engine);
+			_fullscreenTriangle = new MeshObject();
+			_fullscreenTriangle->GetVertexBuffer().Allocate(
+				verts,
+				3 * sizeof(FullscreenQuadVertex),
+				GLVBO::STATIC
+				);
+			_fullscreenTriangle->SetVertexLayout(layout);
+		}
+	}
 
+	/**
+	*/
+	void GLSystem::DrawArrays(
+		unsigned int baseVertex,
+		unsigned int numVertices,
+		MeshPrimitiveType type
+		)
+	{
+		glDrawArrays(
+			static_cast<GLenum>(type),
+			baseVertex,
+			numVertices
+			);
+		drawCalls++;
+	}
+
+	/**
+	*/
+	void GLSystem::DrawFullscreenQuad()
+	{
+		_fullscreenTriangle->Bind();
+		DrawArrays(0, 3);
+	}
+
+	/**
+	*/
+	void GLSystem::FlushCommandBuffer()
+	{
+		glFlush();
+		glFinish();
+	}
+
+	/**
+	*/
+	void GLSystem::WriteScreenshot(const char* path)
+	{
+		size_t unused = 42;
+		unsigned char* output;
+
+		unsigned int wx = mCurrentViewport.x;
+		unsigned int wy = mCurrentViewport.y;
+		unsigned int ww = mCurrentViewport.z;
+		unsigned int wh = mCurrentViewport.w;
+
+		output = (unsigned char*)malloc((ww - wx) * (wh - wy) * 3 * sizeof(char));
+
+		glReadBuffer(GL_FRONT);
+		glReadPixels(wx, wy, ww, wh, GL_RGB, GL_UNSIGNED_BYTE, output);
+
+		unsigned char tgaHeader[12] = { 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		unsigned char header[6];
+		unsigned char bits = 0;
+		int colorMode = 0;
+		unsigned char tempColors = 0;
+		FILE* file = fopen(path, "wb");
+		if (!file) {
+			free(output);
+			Error(String("Cannot create screenshot file: ") + path, false);
+			return;
+		}
+		colorMode = 3;
+		bits = 24;
+		header[0] = (int)(ww - wx) % 256;
+		header[1] = (int)(ww - wx) / 256;
+		header[2] = (int)(wh - wy) % 256;
+		header[3] = (int)(wh - wy) / 256;
+		header[4] = bits;
+		header[5] = 0;
+		unused = fwrite(tgaHeader, sizeof(tgaHeader), 1, file);
+		unused = fwrite(header, sizeof(header), 1, file);
+		for (size_t i = 0; i < (ww - wx) * (wh - wy) * colorMode; i += colorMode) {
+			tempColors = output[i];
+			output[i] = output[i + 2];
+			output[i + 2] = tempColors;
+		}
+		unused = fwrite(output, (ww - wx) * (wh - wy) * colorMode, 1, file);
+		free(output);
+		fclose(file);
+	}
+
+	/**
+	*/
+	void GLSystem::EnableDebugOutput()
+	{
 #ifdef _ENGINE_DEBUG_
-		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, 0, GL_TRUE);
-		glDebugMessageCallback(ReportGLError, 0);
+		if (glDebugMessageCallback){
+			Debug("Enabling GL debug output");
+			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+			glDebugMessageCallback(ReportGLError, nullptr);
+			GLuint unusedIds = 0;
+			glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, &unusedIds, true);
+			debugOutputEnabled = true;
+		}
+		else
+			Debug("glDebugMessageCallback not available");
 #endif
 	}
 
 	/**
 	*/
+	void GLSystem::DisableDebugOutput()
+	{
+#ifdef _ENGINE_DEBUG_
+		Debug("Disabling GL debug output");
+		glDisable(GL_DEBUG_OUTPUT);
+		glDebugMessageCallback(nullptr, nullptr);
+		debugOutputEnabled = false;
+#endif
+	}
+
+	/**
+	*/
+	void GLSystem::EnableMultiSample(bool v){
+		if (v)
+			glEnable(GL_MULTISAMPLE);
+		else
+			glDisable(GL_MULTISAMPLE);
+	}
+
+	/**
+	*/
+	void GLSystem::EnableVSync(bool _v){
+			ManageVSync(engine, _v);
+	}
+
+	/**
+	*/
 	GLSystem::~GLSystem() {
+		SAFE_DELETE(_fullscreenTriangle);
 	}
 
 	/**
@@ -223,13 +280,6 @@ namespace NGTech {
 
 	/**
 	*/
-	String GLSystem::getExtensions() {
-		//return "NULL";
-		return (char *)glGetString(GL_EXTENSIONS);
-	}
-
-	/**
-	*/
 	int GLSystem::getNumTexUnits() {
 		int nTexUnits;
 		glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, (int *)&nTexUnits);
@@ -246,16 +296,25 @@ namespace NGTech {
 
 	/**
 	*/
-	bool GLSystem::requireExtension(const String &name, bool _fatal) {
+	bool GLSystem::requireExtension(const char*name, bool _fatal) {
 		if (!GLExtensions::isExtSupported(name))
 		{
 			if (_fatal)
-				Error::showAndExit("GLSystem::requireExtension() error: your video card does not support " + name);
+				Error::showAndExit(String("GLSystem::requireExtension() error: your video card does not support ") + name);
 			else
-				Warning("GLSystem::requireExtension() error: your video card does not support %s", name.c_str());
+				Warning("GLSystem::requireExtension() error: your video card does not support %s", name);
 			return false;
 		}
 		return true;
+	}
+
+	void perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar)
+	{
+		const GLdouble pi = 3.1415926535897932384626433832795;
+		GLdouble fW, fH;
+		fH = tan(fovY / 360 * pi) * zNear;
+		fW = fH * aspect;
+		glFrustum(-fW, fW, -fH, fH, zNear, zFar);
 	}
 
 	/**
@@ -264,11 +323,12 @@ namespace NGTech {
 		if (height == 0)
 			height = 1;
 
-		glViewport(0, 0, width, height);
+		setViewport(0, 0, width, height);
 
 		glMatrixMode(GL_PROJECTION);
-		loadMatrix(Mat4::perspective(60, (float)width / (float)height, 1, 500));
-
+		glLoadIdentity();
+		//perspectiveGL(60, (float)width / (float)height, 1, 500);//
+		loadMatrix(Mat4::perspective(60, (float)width / (float)height, 1, 500));//TODO:FOV
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 	}
@@ -305,8 +365,17 @@ namespace NGTech {
 
 	/**
 	*/
-	void GLSystem::viewport(int x, int y) {
-		glViewport(0, 0, x, y);
+	void GLSystem::setViewport(unsigned int w, unsigned int h) {
+		mCurrentViewport = Vec4(0, 0, w, h);
+		glViewport(0, 0, w, h);
+	}
+
+	/**
+	*/
+	void GLSystem::setViewport(unsigned int x, unsigned int y, unsigned int w, unsigned int h)
+	{
+		mCurrentViewport = Vec4(x, y, w, h);
+		glViewport(x, y, w, h);
 	}
 
 	/**
@@ -334,7 +403,7 @@ namespace NGTech {
 	/**
 	*/
 	void GLSystem::multMatrix(const Mat4 &matrix) {
-		glMultMatrixf(matrix);
+		glMultMatrixf(matrix);//Deprecated
 	}
 
 	/**
@@ -346,25 +415,25 @@ namespace NGTech {
 	/**
 	*/
 	void GLSystem::setMatrixMode_Projection() {
-		glMatrixMode(GL_PROJECTION);
+		glMatrixMode(GL_PROJECTION);//Deprecated
 	}
 
 	/**
 	*/
 	void GLSystem::setMatrixMode_Modelview() {
-		glMatrixMode(GL_MODELVIEW);
+		glMatrixMode(GL_MODELVIEW);//Deprecated
 	}
 
 	/**
 	*/
 	void GLSystem::push() {
-		glPushMatrix();
+		glPushMatrix();//Deprecated
 	}
 
 	/**
 	*/
 	void GLSystem::pop() {
-		glPopMatrix();
+		glPopMatrix();//Deprecated
 	}
 
 	/**
@@ -695,13 +764,15 @@ namespace NGTech {
 
 	/**
 	*/
-	void GLSystem::drawIndexedGeometry(void *indices, int indexCount) {
+	void GLSystem::DrawElements(void *indices, int indexCount) {
+		//Баженов переписывал это
 		glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, indices);
+		drawCalls++;
 	}
 
 	/**
 	*/
-	void GLSystem::drawGeometry(int vertexCount) {
+	void GLSystem::DrawArrays(int vertexCount) {
 		glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 	}
 

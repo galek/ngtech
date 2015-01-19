@@ -116,6 +116,9 @@ namespace NGTech {
 		virtual float getLastFPS();
 		/**
 		*/
+		virtual unsigned long GetTicks();
+		/**
+		*/
 		virtual const int Input_GetKeyValueByChar(const char*  _p);
 		/**
 		*/
@@ -161,7 +164,7 @@ namespace NGTech {
 		ENGINE_INLINE virtual bool isMouseGrabed() { return mouseGrabed; };
 		/**
 		*/
-		virtual void DisableVSync(int);
+		virtual void ManageVSync(bool _v);
 
 		/**
 		*/

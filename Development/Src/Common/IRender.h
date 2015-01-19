@@ -164,6 +164,9 @@ namespace NGTech {
 		virtual I_Shader *ShaderCreate(const String &path, const String &defines = "") = 0;
 		/**
 		*/
+		virtual I_Shader *ShaderCreateVSandFS(const String &pathFS, const String &pathVS, const String &defines = "") = 0;
+		/**
+		*/
 		virtual I_FBOManager*CreateFBO(int x, int y) = 0;
 		/**
 		*/
@@ -248,9 +251,6 @@ namespace NGTech {
 		};
 		/**
 		*/
-		virtual bool  requireExtension(const std::string &name, bool _fatal = false) = 0;
-		/**
-		*/
 		virtual void  initialise() = 0;
 		/**
 		*/
@@ -272,7 +272,10 @@ namespace NGTech {
 		virtual void  flush() = 0;
 		/**
 		*/
-		virtual void  viewport(int x, int y) = 0;
+		virtual void setViewport(unsigned int w, unsigned int h) = 0;
+		/**
+		*/
+		virtual void setViewport(unsigned int x, unsigned int y, unsigned int w, unsigned int h) = 0;
 		/**
 		*/
 		virtual void  endFrame(){ swapBuffers(); }
@@ -436,10 +439,10 @@ namespace NGTech {
 		/**
 		Draw-Geom-Stream
 		*/
-		virtual void drawIndexedGeometry(void *indices, int indexCount) = 0;
+		virtual void DrawElements(void *indices, int indexCount) = 0;
 		/**
 		*/
-		virtual void drawGeometry(int vertexCount) = 0;
+		virtual void DrawArrays(int vertexCount) = 0;
 		/**
 		OpenGL Low Level
 		*/
@@ -449,6 +452,7 @@ namespace NGTech {
 		virtual void swapBuffers() = 0;
 		/**
 		*/
+		virtual void WriteScreenshot(const char* path) = 0;
 	public:
 		/**
 		*/
@@ -474,11 +478,11 @@ namespace NGTech {
 
 		/**
 		*/
-		virtual void set() = 0;
+		virtual void Enable() = 0;
 
 		/**
 		*/
-		virtual void unset() = 0;
+		virtual void Disable() = 0;
 
 		/**
 		Release shader
@@ -507,15 +511,15 @@ namespace NGTech {
 
 		/**
 		*/
-		virtual void sendInt(const String &name, size_t value) = 0;
+		virtual void sendInt(const String &name, int value) = 0;
 
 		/**
 		*/
-		virtual int GetUniformLocation(const char*_loc, bool isOptional) = 0;
+		virtual int GetUniformLocation(const char*_loc, bool isOptional = false) = 0;
 
 		/**
 		*/
-		virtual int GetAttribLocation(const char* attribute, bool isOptional) = 0;
+		virtual int GetAttribLocation(const char* attribute, bool isOptional = false) = 0;
 
 		/**
 		*/
@@ -657,6 +661,8 @@ namespace NGTech {
 		enum DataType {
 			FLOAT,
 			DOUBLE,
+			SHORT,
+			UNSIGNED_BYTE,
 			UNSIGNED_INT,
 			UNSIGNED_SHORT,
 		};
@@ -664,7 +670,9 @@ namespace NGTech {
 		enum TypeDraw
 		{
 			STATIC,
-			STREAM
+			STREAM,
+			DYNAMIC,
+			COUNT
 		};
 		/**
 		*/
@@ -695,10 +703,22 @@ namespace NGTech {
 		virtual void unsetIndexSource() = 0;
 		/**
 		*/
-		virtual void set() = 0;
+		virtual void Bind() const = 0;
 		/**
 		*/
-		virtual void unset() = 0;
+		virtual void UnBind() const = 0;
+		/**
+		*/
+		virtual void BindIndex(unsigned int idx) const = 0;
+		/**
+		*/
+		virtual void UnbindIndex(unsigned int idx) const = 0;
+		/**
+		*/
+		virtual void Allocate(const void *data, size_t size, TypeDraw usage) = 0;
+		/**
+		*/
+		virtual void FillBuffer(size_t offset) = 0;
 		/**
 		*/
 		virtual void* map(int offset = 0, void** data = nullptr) = 0;
@@ -708,6 +728,7 @@ namespace NGTech {
 		/**
 		*/
 	protected:
+		void*data;
 		unsigned int glID;
 		int numElements;
 		int elementSize;

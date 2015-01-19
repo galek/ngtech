@@ -39,6 +39,7 @@ namespace NGTech
 		path = _path;
 		CalculateTBN();
 		CalculateBoundings();
+		CreateVBO();
 	}
 
 	/*
@@ -116,29 +117,24 @@ namespace NGTech
 	*/
 	void SkinnedMesh::drawSubset(size_t subset)
 	{
-		CreateVBO();
 		Subset *st = subsets[subset];
-		st->vertBuff->map();
 
-		st->vertBuff->set();
+		st->vertBuff->Bind();
+		st->vertBuff->FillBuffer(0);
 		st->vertBuff->setTexCoordSource(0, 2, sizeof(Vertex), sizeof(Vec3));
 		st->vertBuff->setNormalSource(sizeof(Vertex), sizeof(Vec3) + sizeof(Vec2));
 		st->vertBuff->setTexCoordSource(1, 3, sizeof(Vertex), 2 * sizeof(Vec3) + sizeof(Vec2));
 		st->vertBuff->setTexCoordSource(2, 3, sizeof(Vertex), 3 * sizeof(Vec3) + sizeof(Vec2));
 		st->vertBuff->setVertexSource(3, sizeof(Vertex), 0);
-		st->vertBuff->unMap();
 
+		GetRender()->DrawElements(st->indices, st->numIndices);
 
-		GetRender()->drawIndexedGeometry(st->indices, st->numIndices);
-
-		st->vertBuff->unset();
+		st->vertBuff->UnBind();
 		st->vertBuff->unsetVertexSource();
 		st->vertBuff->unsetTexCoordSource(0);
 		st->vertBuff->unsetNormalSource();
 		st->vertBuff->unsetTexCoordSource(1);
 		st->vertBuff->unsetTexCoordSource(2);
-
-		SAFE_DELETE(st->vertBuff);
 	}
 
 	/*
@@ -224,11 +220,10 @@ namespace NGTech
 				}
 			}
 		}
-
-		//SetFrame(0.0);//Из 91
+		SetFrame(0.0);
 	}
 
-	/*
+	/**
 	*/
 	void SkinnedMesh::CalculateBoundings()
 	{
@@ -265,8 +260,7 @@ namespace NGTech
 	void SkinnedMesh::CreateVBO() {
 		for (unsigned int s = 0; s < numSubsets; s++) {
 			Subset *st = subsets[s];
-			st->vertBuff = GetRender()->CreateVBO(st->vertices, st->numVertices, sizeof(Vertex), I_VBManager::FLOAT, I_VBManager::STREAM);
+			st->vertBuff = GetRender()->CreateVBO(st->vertices, st->numVertices, 2 * sizeof(Vertex), I_VBManager::FLOAT, I_VBManager::STREAM);
 		}
 	}
-
 }

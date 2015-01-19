@@ -93,11 +93,7 @@ namespace NGTech {
 	*/
 	String StringHelper::toUpper(const String &input) {
 		String buf = input;
-#ifdef __ANDROID__
 		std::transform(buf.begin(), buf.end(), buf.begin(), ::toupper);
-#else
-		_strupr((char *)buf.c_str());
-#endif
 		return buf;
 	}
 

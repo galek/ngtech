@@ -8,9 +8,11 @@ void main() {
 }
 
 [GLSL_FRAGMENT_SHADER]
+#if NEW_GL
 #version 330 core
 //OUT
 layout(location = 0) out vec4 OutColor;
+#endif
 
 varying vec2 v_tex_coord;
 uniform sampler2D u_viewport_map;
@@ -28,6 +30,10 @@ void main() {
 	base += texture2D(u_viewport_map, v_tex_coord + vec2(0.0,  -offset));
 	base += texture2D(u_viewport_map, v_tex_coord + vec2(offset,  0.0));
 	base += texture2D(u_viewport_map, v_tex_coord + vec2(-offset, 0.0));
-	
+
+#if NEW_GL
 	OutColor = base * 0.11;
+#else
+	gl_FragColor = base * 0.11;
+#endif
 }

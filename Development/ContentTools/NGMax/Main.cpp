@@ -162,7 +162,7 @@ void NGEnumProc::ReadModel()
 		if (!subset.object)
 			continue;
 		//name
-		subset.name = _wcslwr((wchar_t*)subset.node->GetName());
+		subset.name = subset.node->GetName();
 
 		//process geometry
 		Matrix3 tm = subset.node->GetObjTMAfterWSM(iface->GetTime());
@@ -170,7 +170,7 @@ void NGEnumProc::ReadModel()
 		nm.NoScale();
 		nm.NoTrans();
 
-		/*Get position*/
+		//get bBox
 		Box3 box;
 		subset.object->mesh.buildBoundingBox();
 		box = subset.object->mesh.getBoundingBox(&tm);
@@ -190,24 +190,21 @@ void NGEnumProc::ReadModel()
 				break;
 			}
 		}
-
 		if (mp > 0)
-		{
 			unwrappedTexcoord = true;
-		}
-
 
 		for (int i = 0; i < subset.object->mesh.numFaces; i++)
 		{
 			Face *f = &subset.object->mesh.faces[i];
-			TVFace *tf = &subset.object->mesh.tvFace[i];
 
 			TVFace *tfu = NULL;
+			/*TVFace *tf = &subset.object->mesh.tvFace[i];*///Nick:Crash
+
 			if (unwrappedTexcoord)
 			{
 				tfu = &subset.object->mesh.mapFaces(mp)[i];
 			}
-
+			//цикл по индексам грани
 			for (int j = 0; j < 3; j++)
 			{
 				Vertex vertex;
@@ -218,14 +215,20 @@ void NGEnumProc::ReadModel()
 				vertex.position.y = v.y;
 				vertex.position.z = v.z;
 
-				vertex.texcoord.x = subset.object->mesh.tVerts[tf->t[j]].x;
-				vertex.texcoord.y = subset.object->mesh.tVerts[tf->t[j]].y;
 
 				if (unwrappedTexcoord)
 				{
 					vertex.unwrappedTexcoord.x = subset.object->mesh.mapVerts(mp)[tfu->t[j]].x;
 					vertex.unwrappedTexcoord.y = subset.object->mesh.mapVerts(mp)[tfu->t[j]].y;
 				}
+				//else //Nick:Crash
+				//{			
+				//	if (tf)
+				//	{
+				//		vertex.texcoord.x = subset.object->mesh.tVerts[tf->t[j]].x;
+				//		vertex.texcoord.y = subset.object->mesh.tVerts[tf->t[j]].y;
+				//	}
+				//}
 
 				//read normal
 				bool specifiedNormal = true;
@@ -585,6 +588,16 @@ class NGMax : public SceneExport
 public:
 	/*
 	*/
+	NGMax(){}
+
+	/*
+	*/
+	virtual ~NGMax()
+	{
+	}
+
+	/*
+	*/
 	int ExtCount()
 	{
 		return 1;
@@ -661,18 +674,6 @@ public:
 	BOOL SupportsOptions(int ext, DWORD options)
 	{
 		return (options == SCENE_EXPORT_SELECTED) ? TRUE : FALSE;
-	}
-
-	/*
-	*/
-	NGMax()
-	{
-	}
-
-	/*
-	*/
-	virtual ~NGMax()
-	{
 	}
 
 	/*

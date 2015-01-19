@@ -10,34 +10,36 @@ varying vec3 v_light_vec;
 varying vec3 v_view_vec;
 
 void main() {
-	gl_Position = u_mvp * gl_Vertex; 
+	gl_Position = u_mvp * gl_Vertex;
 	v_tex_coord = gl_MultiTexCoord0.xy;
 
-	vec3 tangent  = normalize((u_world * vec4(gl_MultiTexCoord1.xyz, 0)).xyz); 
-	vec3 binormal = normalize((u_world * vec4(gl_MultiTexCoord2.xyz, 0)).xyz); 
-	vec3 normal   = normalize((u_world * vec4(gl_Normal.xyz, 0)).xyz); 
-	
-    vec4 worldPos = u_world * gl_Vertex;
+	vec3 tangent = normalize((u_world * vec4(gl_MultiTexCoord1.xyz, 0)).xyz);
+	vec3 binormal = normalize((u_world * vec4(gl_MultiTexCoord2.xyz, 0)).xyz);
+	vec3 normal = normalize((u_world * vec4(gl_Normal.xyz, 0)).xyz);
+
+	vec4 worldPos = u_world * gl_Vertex;
 
 	vec3 lVec = -u_light_dir;
-	
-	v_light_vec.x = dot(tangent, lVec); 
+
+	v_light_vec.x = dot(tangent, lVec);
 	v_light_vec.y = dot(binormal, lVec);
 	v_light_vec.z = dot(normal, lVec);
-	
+
 	vec3 vVec = u_view_pos - worldPos.xyz;
-		
-	v_view_vec.x = dot(tangent, vVec); 
+
+	v_view_vec.x = dot(tangent, vVec);
 	v_view_vec.y = dot(binormal, vVec);
-	v_view_vec.z = dot(normal , vVec);
+	v_view_vec.z = dot(normal, vVec);
 }
 
 
 
 [GLSL_FRAGMENT_SHADER]
+#if NEW_GL
 #version 330 core
 //OUT
 layout(location = 0) out vec4 OutColor;
+#endif
 
 varying vec2 v_tex_coord;
 varying vec3 v_light_vec;
@@ -53,7 +55,7 @@ void main() {
 
 	vec3 lVec = normalize(v_light_vec);
 	vec3 vVec = normalize(v_view_vec);
-	
+
 	vec2 texCoord = v_tex_coord;
 #ifdef PARALLAX
 	float height = texture2D(u_texture_1, v_tex_coord).w;
@@ -63,13 +65,17 @@ void main() {
 
 	vec4 baseColor = texture2D(u_texture_0, texCoord);
 	vec3 normal = 2.0 * texture2D(u_texture_1, texCoord).xyz - 1.0;
-	
-    float diffuse = clamp(dot(normal, lVec), 0.0, 1.0);
+
+	float diffuse = clamp(dot(normal, lVec), 0.0, 1.0);
 
 	float specular = 0.0;
 #ifdef SPECULAR
 	specular = pow(clamp(dot(reflect(-vVec, normal), lVec), 0.0, 1.0), u_material_param_0.y) * u_material_param_0.x;
 #endif
-	
+
+#if NEW_GL
 	OutColor = (baseColor * diffuse + specular) * vec4(u_light_color, 1.0);
+#else
+	gl_FragColor = (baseColor * diffuse + specular) * vec4(u_light_color, 1.0);
+#endif
 }

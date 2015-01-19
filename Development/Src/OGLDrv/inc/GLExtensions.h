@@ -16,7 +16,7 @@ namespace NGTech {
 		\param name extension name
 		\return true if supported
 		*/
-		static bool isExtSupported(const String &name);
+		static bool isExtSupported(const char*name);
 		/**
 		Init extensions
 		*/

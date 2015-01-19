@@ -21,6 +21,13 @@ namespace NGTech {
 		\return pointer to the new GLShader
 		*/
 		static GLShader *create(const String &path, const String &defines = "");
+		/**
+		Creates new GLShader
+		\param path shader file path
+		\defines shader code defines
+		\return pointer to the new GLShader
+		*/
+		static GLShader *createFromPath(const String &pathFS, const String &pathVS, const String &defines = "");
 
 		/**
 		*/
@@ -34,12 +41,12 @@ namespace NGTech {
 		/**
 		Sets shader
 		*/
-		virtual void set();
+		virtual void Enable();
 
 		/**
 		Unsets shader
 		*/
-		virtual void unset();
+		virtual void Disable();
 
 		/**
 		Release shader
@@ -85,15 +92,15 @@ namespace NGTech {
 		\param name parameter name
 		\param value param value
 		*/
-		virtual void sendInt(const String &name, size_t value);
+		virtual void sendInt(const String &name, int value);
 
 		/**
 		*/
-		virtual int GetUniformLocation(const char*_loc, bool isOptional);
+		virtual int GetUniformLocation(const char*_loc, bool isOptional = false);
 
 		/**
 		*/
-		virtual int GetAttribLocation(const char* attribute, bool isOptional);
+		virtual int GetAttribLocation(const char* attribute, bool isOptional = false);
 
 		/**
 		*/
@@ -207,10 +214,6 @@ namespace NGTech {
 		*/
 		virtual void AddUniform(const std::string& uniform);
 		/**
-		Creation shader functions
-		*/
-		virtual bool CreateShader(const String &path, const String &defines = "", bool save = true);
-		/**
 		An indexer that returns the location of the attribute/uniform
 		*/
 		unsigned int operator[](const std::string& attribute);
@@ -225,7 +228,14 @@ namespace NGTech {
 		*/
 		unsigned int operator()(const char* uniform);
 	private:
-
+		/**
+		Creation shader functions
+		*/
+		virtual bool CreateShader(const String &path, const String &defines = "", bool save = true);
+		/**
+		Creation shader functions
+		*/
+		virtual bool CreateShader(const String &pathFS, const String &pathVS, const String &defines = "", bool save = true);
 		/**
 		Saving shader cache in user directory
 		*/

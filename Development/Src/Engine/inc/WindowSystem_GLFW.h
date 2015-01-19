@@ -116,6 +116,12 @@ namespace NGTech {
 		ENGINE_INLINE virtual int getDTime() { return dTime; }
 
 		/**
+		Gets frames ticks
+		\return ulTicks
+		*/
+		ENGINE_INLINE virtual unsigned long GetTicks();
+
+		/**
 		Gets elapsed time
 		\return eTime
 		*/
@@ -272,7 +278,7 @@ namespace NGTech {
 		virtual void showOSCursor(int _value);
 		/**
 		*/
-		virtual void DisableVSync(int);
+		virtual void ManageVSync(bool _v);
 		/**
 		*/
 		ENGINE_INLINE virtual int divider() { return 1000; }
@@ -304,6 +310,7 @@ namespace NGTech {
 		bool mousing, cursorVisible, mouseGrabed;
 	private:
 		float fps;
+		unsigned long ulTicks;
 	private:
 		GLFWwindow* window;
 		CVARManager* cvars;

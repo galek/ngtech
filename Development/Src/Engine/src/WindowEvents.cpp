@@ -9,6 +9,7 @@
 //***************************************************
 #include "../Core/inc/CVARManager.h"
 #include "../inc/WindowSystem_GLFW.h"
+#include "../inc/intersection.h"
 //***************************************************
 
 namespace NGTech {
@@ -511,7 +512,6 @@ namespace NGTech {
 		win->oldMouseY = win->mouseY;
 
 #pragma message("BUG,если сильно крутануть,то выйдет за границы ")
-		
 		win->mouseX = mx;
 		win->mouseY = my;
 

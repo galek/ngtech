@@ -23,8 +23,7 @@ namespace EngineCLR {
 			:hwnd(_hwnd),
 			mInited(false),
 			engine(nullptr)
-		{
-		}
+		{}
 
 		~EngineCLR() {
 			delete engine;
@@ -38,10 +37,7 @@ namespace EngineCLR {
 			MouseGrab(false);
 			PauseEngine(true);
 		}
-		ENGINE_INLINE bool isInited()
-		{
-			return mInited;
-		}
+		ENGINE_INLINE bool isInited()	{ return mInited; }
 
 		ENGINE_INLINE void Update() {
 			if (engine) {
@@ -51,7 +47,7 @@ namespace EngineCLR {
 
 		void MouseGrab(bool _val)
 		{
-			if (GetWindow())
+			if (GetWindow() && engine)
 				GetWindow()->grabMouse(_val);
 		}
 
@@ -61,14 +57,14 @@ namespace EngineCLR {
 
 		bool isMouseGrabed()
 		{
-			if (GetWindow())
+			if (GetWindow() && engine)
 				return GetWindow()->isMouseGrabed();
 			return false;
 		}
 
 		void KeyDown(int _key)
 		{
-			if ((mGrabbed))
+			if ((mGrabbed) && engine)
 				GetWindow()->setKeyDown(_key);
 		}
 
@@ -78,8 +74,8 @@ namespace EngineCLR {
 		{
 			posX = x;
 			posY = y;
-			auto cam = GetScene()->GetActiveCamera();
-			if (cam)
+			auto cam = GetScene()->getActiveCamera();
+			if (cam && engine)
 				cam->lookAt(posX, posY);
 			else
 				Warning("[Editor]Camera not exist");
@@ -98,7 +94,7 @@ namespace EngineCLR {
 		}
 	private:
 		void EngineStart(int _hwnd, IGame*_game, ICallback *rc, ICallback *ev){
-			if (!mInited)
+			if (!mInited && !engine)
 			{
 				engine = new EngineAppBase(_hwnd, true, _game, rc, ev);
 				mInited = true;

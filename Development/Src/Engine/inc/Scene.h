@@ -62,13 +62,15 @@ namespace NGTech {
 
 		void reloadShaders();
 
-		ENGINE_INLINE Camera *GetActiveCamera() { return camera; }
+		ENGINE_INLINE Camera *getActiveCamera() { return camera; }
+		ENGINE_INLINE size_t objCount(){ return objects.size(); }
 
 	public:
 		void runUpdate();
 		void waitUpdate();
 
 	private:
+		void testInteserction();
 		void drawAmbient(bool blended);
 
 		void drawPoint(LightPoint *light, bool blended);

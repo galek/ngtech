@@ -3,7 +3,7 @@
 #include "..\GUI\BaseLayout\BaseLayout.h"
 
 namespace NGTech {
-
+#if 0
 	/**
 	*/
 	class ENGINE_API Console : public wraps::BaseLayout
@@ -98,4 +98,5 @@ namespace NGTech {
 
 		bool minputStatus;
 	};
+#endif
 }

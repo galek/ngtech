@@ -7,16 +7,9 @@
 
 namespace NGTech
 {
-
 #define NAME_SIZE 64
 
-	static void ReadName(char *buffer, std::string &name, VFile *file)
-	{
-		memset(buffer, 0, NAME_SIZE);
-		file->Read(buffer, NAME_SIZE, 1);
-		name = buffer;
-		Debug((String("Loading material: ") + buffer).c_str());
-	}
+	void ReadName(char *buffer, std::string &name, VFile *file);
 
 	/*
 	SkinnedMesh

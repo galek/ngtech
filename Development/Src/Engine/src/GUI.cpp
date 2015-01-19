@@ -43,34 +43,34 @@ namespace NGTech {
 		mDebugShow(false),
 		mInited(false)
 	{
-		Debug("[GUI] Constructor");
+		/*Debug("[GUI] Constructor");
 		mPlatform = new MyGUI::OpenGLPlatform();
-		mGUI = new MyGUI::Gui();
+		mGUI = new MyGUI::Gui();*/
 	}
 
 	/**
 	*/
 	void GUI::initialise()	{
-		Log::writeHeader("-- GUI --");
+		/*Log::writeHeader("-- GUI --");
 		mPlatform->initialise((MyGUI::OpenGLImageLoader*)GetRender()->GetGUIImageLoader());
 		resize(cvars->r_width, cvars->r_height);
 		mGUI->initialise("MyGUI_Core.xml");
 		showDebugInfo(cvars->r_showInfo);
 		guiMtr = new Material("engine_materials/GUI.mat");
-		mInited = true;
+		mInited = true;*/
 	}
 	
 	/**
 	*/
 	GUI::~GUI() {
-		SAFE_DELETE(fpsLabel);
-		SAFE_DELETE(mGUI);
+		/*SAFE_DELETE(fpsLabel);
+		SAFE_DELETE(mGUI);*/
 	}
 
 	/**
 	*/
 	void GUI::render() {
-		if (mInited) {
+		/*if (mInited) {
 			guiMtr->setPass("Ambient");
 			GetRender()->disableCulling();
 			GetRender()->drawRect(0, 10, 0, 10, 0, 0, 1, 1);
@@ -89,36 +89,36 @@ namespace NGTech {
 			GetRender()->disableBlending();
 			GetRender()->enableCulling();
 			GetRender()->enable3d();
-		}
+		}*/
 	}
 
 	/**
 	*/
 	void GUI::createDebugInfo(){
-		fpsLabel = mGUI->createWidget<MyGUI::TextBox>("TextBox", 100, 0, 180, 180, MyGUI::Align::Default, "Statistic", "InfoTextBox");
+		/*fpsLabel = mGUI->createWidget<MyGUI::TextBox>("TextBox", 100, 0, 180, 180, MyGUI::Align::Default, "Statistic", "InfoTextBox");
 		fpsLabel->setTextColour(MyGUI::Colour::White);
 		fpsLabel->setTextShadow(true);
 		fpsLabel->setVisible(true);
-		fpsLabel->setCaption("FPS: ");
+		fpsLabel->setCaption("FPS: ");*/
 	}
 
 	/**
 	*/
 	void GUI::updateDebugInfo(){
-		fpsLabel->setCaption("FPS: " + std::to_string((int)GetEngine()->GetLastFPS()));
+		/*fpsLabel->setCaption("FPS: " + std::to_string((int)GetEngine()->GetLastFPS()));*/
 	}
 
 	/**
 	*/
 	void GUI::resize(int _width, int _height) {
-		mPlatform->getRenderManagerPtr()->setViewSize(_width, _height);
+		/*mPlatform->getRenderManagerPtr()->setViewSize(_width, _height);*/
 	}
 
 	/**
 	*/
 	void GUI::showDebugInfo(bool _show){
-		if (_show)
+		/*if (_show)
 			createDebugInfo();
-		mDebugShow = _show;
+		mDebugShow = _show;*/
 	}
 }

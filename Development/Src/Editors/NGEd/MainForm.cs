@@ -34,17 +34,12 @@ namespace NGEd
             base.OnLoad(e);
             this.engine = new EngineCLR.EngineCLR(this.splitContainer1.Panel1.Handle.ToInt32());
             engine.EngineInit();
-            engine.Resize(this.Width, this.Height);
+            engine.Resize(this.splitContainer1.Width, this.splitContainer1.Height);
             mLogicEditor = new GraphNodes.LogicEditorForm();
         }
 
         private void codeEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-        }
-
-        private void splitContainer1_Panel1_Resize(object sender, EventArgs e)
-        {
-            if (this.engine != null) this.engine.Resize(this.Width, this.Height);
         }
 
         private void splitContainer1_Panel1_MouseDown(object sender, MouseEventArgs e)
@@ -140,6 +135,11 @@ namespace NGEd
             if (mLogicEditor == null)
                 mLogicEditor = new GraphNodes.LogicEditorForm();
             mLogicEditor.Show();
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            //engine.Resize(this.splitContainer1.Width, this.splitContainer1.Height);
         }
     }
 }

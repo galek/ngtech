@@ -15,9 +15,11 @@ void main() {
 
 
 [GLSL_FRAGMENT_SHADER]
+#if NEW_GL
 #version 330 core
 //OUT
 layout(location = 0) out vec4 OutColor;
+#endif
 
 varying vec2 v_tex_coord;
 varying vec4 v_proj_coord;
@@ -30,6 +32,10 @@ uniform float u_time;
 void main() {
 	vec3 noise = texture2D(u_dudv_map, v_tex_coord * 20.0 + vec2(u_time, u_time) * 0.00005).xyz * 0.5;
 	vec4 refrColor = texture2DProj(u_viewport_map, v_proj_coord + vec4(noise, 0.0));
-	
+
+#if NEW_GL
 	OutColor = refrColor; //* vec4(0.8, 0.8, 1.0, 1.0);
+#else
+	gl_FragColor = refrColor; //* vec4(0.8, 0.8, 1.0, 1.0);
+#endif
 }

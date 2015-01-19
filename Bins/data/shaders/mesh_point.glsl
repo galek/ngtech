@@ -1,5 +1,4 @@
 [GLSL_VERTEX_SHADER]
-
 uniform mat4 u_mvp;
 uniform mat4 u_world;
 uniform vec3 u_light_pos;
@@ -38,9 +37,11 @@ void main() {
 
 
 [GLSL_FRAGMENT_SHADER]
+#if NEW_GL
 #version 330 core
 //OUT
 layout(location = 0) out vec4 OutColor;
+#endif
 
 varying vec2 v_tex_coord;
 varying vec3 v_light_vec;
@@ -149,6 +150,10 @@ void main() {
 #ifdef SPECULAR
 	specular = pow(clamp(dot(reflect(-vVec, normal), lVec), 0.0, 1.0), u_material_param_0.y) * u_material_param_0.x;
 #endif
-	
+
+#if NEW_GL
 	OutColor = (baseColor * diffuse + specular) * vec4(u_light_color, 1.0) * atten * shadow;
+#else
+	gl_FragColor = (baseColor * diffuse + specular) * vec4(u_light_color, 1.0) * atten * shadow;
+#endif
 }

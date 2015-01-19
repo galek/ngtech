@@ -141,6 +141,9 @@
     <ClInclude Include="inc\PhysJoint.h">
       <Filter>Заголовочные файлы\PhysX</Filter>
     </ClInclude>
+    <ClInclude Include="inc\intersection.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ALSound.cpp">
@@ -268,6 +271,12 @@
     </ClCompile>
     <ClCompile Include="src\PhysXCharacterController.cpp">
       <Filter>Файлы исходного кода\PhysX</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TicksCounter.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\InterSection.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

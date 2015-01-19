@@ -10,7 +10,7 @@
 #ifndef LOG_FILE
 #define LOG_FILE "../Logs/EngineLog.html"
 #endif
-
+//Is depreated?
 #ifndef HAVE_NVCPL
 #define HAVE_NVCPL 1
 #endif
@@ -38,5 +38,10 @@
 #ifndef ENGINE_RELEASE
 #define USE_PROFILER 1
 #endif
+
+#ifndef LIMITED_FPS
+#define LIMITED_FPS 1
+#endif
+
 
 #endif

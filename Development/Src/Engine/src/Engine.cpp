@@ -42,7 +42,9 @@ namespace NGTech {
 	*/
 #define ENGINE_VERSION_NUMBER 0.4
 #define ENGINE_VERSION_STRING "0.4"
-
+	const int TICKS_PER_SECOND = 60;
+	const int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
+	const int MAX_FRAMESKIP = 10;
 	/**
 	*/
 	void RenderWatermark(I_Texture* _watermark);
@@ -199,12 +201,12 @@ namespace NGTech {
 			game->initialise();
 			Debug("[Init] Game Finished");
 		}
-
+#if 0
 		//initialize Console
 		console = new Console();
 		if (console)
 			Debug("[Init] Console Finished");
-
+#endif
 		this->running = true;
 
 		Debug("[Init] All Systems Initialised");
@@ -242,12 +244,31 @@ namespace NGTech {
 	*/
 	void Engine::mainLoop()
 	{
-		while (this->running)
+#if LIMITED_FPS
+		auto next_game_tick = this->iWindow->GetTicks();
+		int loops;
+
+		while (IsRunning()) {
+
+			loops = 0;
+			while (this->iWindow->GetTicks() > next_game_tick && loops < MAX_FRAMESKIP) {
+
+				do_update();
+				do_render();
+				do_swap();
+
+				next_game_tick += SKIP_TICKS;
+				loops++;
+			}
+		}
+#else
+		while (IsRunning())
 		{
 			do_update();
 			do_render();
 			do_swap();
 		}
+#endif
 	}
 
 	/**
@@ -308,8 +329,8 @@ namespace NGTech {
 			if (this->game->rc)
 				this->game->runRenderCallback();
 
-		if (mWatermarkTex)
-			RenderWatermark(mWatermarkTex);
+		/*if (mWatermarkTex)
+			RenderWatermark(mWatermarkTex);*/
 
 		if (this->game)
 			this->game->render();
@@ -381,13 +402,14 @@ namespace NGTech {
 	/**
 	*/
 	void Engine::ConsoleShow(bool _value) {
-		console->setVisible(_value);
+//		console->setVisible(_value);
 	}
 
 	/**
 	*/
 	bool Engine::ConsoleIsActive() {
-		return console->getVisible();
+//		return console->getVisible();
+		return false;
 	}
 
 	/**

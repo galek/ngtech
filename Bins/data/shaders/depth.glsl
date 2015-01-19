@@ -16,14 +16,20 @@ void main() {
 
 
 [GLSL_FRAGMENT_SHADER]
+#if NEW_GL
 #version 330 core
 //OUT
 layout(location = 0) out vec4 OutColor;
+#endif
 
 varying vec3 v_light_vec;
 
 void main() {
 	float depth = length(v_light_vec);
-	
+
+#if NEW_GL
 	OutColor = vec4(depth, 0, 0, 0);
+#else
+	gl_FragColor = vec4(depth, 0, 0, 0);
+#endif
 }

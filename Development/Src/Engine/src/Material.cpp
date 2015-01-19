@@ -387,7 +387,7 @@ namespace NGTech {
 
 		p->maxUnit = 0;
 
-		p->shader->set();
+		p->shader->Enable();
 
 		for (size_t i = 0; i < p->u_float.size(); i++) {
 			p->shader->sendFloat(p->u_float[i].first, p->u_float[i].second);
@@ -477,7 +477,7 @@ namespace NGTech {
 		Pass *p = currentPass;
 		p->maxUnit = 0;
 
-		p->shader->unset();
+		p->shader->Disable();
 
 		for (size_t i = 0; i < p->u_sampler2D.size(); i++) {
 			p->u_sampler2D[i].second->unset(p->maxUnit + i);
