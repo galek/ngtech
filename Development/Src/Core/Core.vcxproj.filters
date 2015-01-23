@@ -34,6 +34,12 @@
     <Filter Include="Заголовочные файлы\steamworks">
       <UniqueIdentifier>{d9ed91af-621b-471e-9ac2-64f4323bf167}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы исходного кода\License">
+      <UniqueIdentifier>{3c7555f3-c2ad-46ef-b714-dadf9ad66d93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\License">
+      <UniqueIdentifier>{6b878d3b-7dc9-4e3d-a594-0a5bb1a2f4c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\BuildDefines.h">
@@ -525,6 +531,9 @@
     <ClInclude Include="inc\strtools.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="inc\License\License.h">
+      <Filter>Заголовочные файлы\License</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Config.cpp">
@@ -790,6 +799,9 @@
     </ClCompile>
     <ClCompile Include="src\strtools.cpp">
       <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\License\License.cpp">
+      <Filter>Файлы исходного кода\License</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

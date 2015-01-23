@@ -201,12 +201,12 @@ namespace NGTech {
 			game->initialise();
 			Debug("[Init] Game Finished");
 		}
-#if 0
+
 		//initialize Console
 		console = new Console();
 		if (console)
 			Debug("[Init] Console Finished");
-#endif
+
 		this->running = true;
 
 		Debug("[Init] All Systems Initialised");
@@ -235,9 +235,11 @@ namespace NGTech {
 	/**
 	*/
 	void Engine::editorLoop() {
-		do_update();
-		do_render();
-		do_swap();
+		if (IsRunning()) {
+			do_update();
+			do_render();
+			do_swap();
+		}
 	}
 
 	/**
@@ -402,14 +404,13 @@ namespace NGTech {
 	/**
 	*/
 	void Engine::ConsoleShow(bool _value) {
-//		console->setVisible(_value);
+		console->setVisible(_value);
 	}
 
 	/**
 	*/
 	bool Engine::ConsoleIsActive() {
-//		return console->getVisible();
-		return false;
+		return console->getVisible();
 	}
 
 	/**

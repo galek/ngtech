@@ -40,18 +40,20 @@ namespace NGTech {
 		Texture target enum
 		*/
 		enum Target {
-			TEXTURE_2D = 0x0DE1,
-			TEXTURE_3D = 0x806F,
-			TEXTURE_CUBE = 0x8513,
+			TEXTURE_ZERO = 0,
+			TEXTURE_2D,
+			TEXTURE_3D,
+			TEXTURE_CUBE
 		};
 
 		/**
 		Texture edge wrap enum
 		*/
 		enum Wrap {
-			REPEAT = 0x2901,
-			CLAMP = 0x2900,
-			CLAMP_TO_EDGE = 0x812F,
+			ZERO = 0,
+			REPEAT,
+			CLAMP,
+			CLAMP_TO_EDGE,
 		};
 		/**
 		Texture src format enum
@@ -199,29 +201,29 @@ namespace NGTech {
 		//Desc: Blending type enum
 		//---------------------------------------------------------------------------
 		enum BlendParam {
-			ONE = 1,
-			ZERO = 0,
-			SRC_COLOR = 0x0300,
-			DST_COLOR = 0x0306,
-			SRC_ALPHA = 0x0302,
-			DST_ALPHA = 0x0304,
-			ONE_MINUS_SRC_COLOR = 0x0301,
-			ONE_MINUS_DST_COLOR = 0x0307,
-			ONE_MINUS_SRC_ALPHA = 0x0303,
-			ONE_MINUS_DST_ALPHA = 0x0305,
+			ONE,
+			ZERO,
+			SRC_COLOR,
+			DST_COLOR,
+			SRC_ALPHA,
+			DST_ALPHA,
+			ONE_MINUS_SRC_COLOR,
+			ONE_MINUS_DST_COLOR,
+			ONE_MINUS_SRC_ALPHA,
+			ONE_MINUS_DST_ALPHA,
 		};
 		//---------------------------------------------------------------------------
 		//Desc: Depth function enum
 		//---------------------------------------------------------------------------
 		enum CompareType {
-			NEVER = 0x0209,
-			LESS = 0x0201,
-			EQUAL = 0x0202,
-			LEQUAL = 0x0203,
-			GREATER = 0x0204,
-			NOTEQUAL = 0x0205,
-			GEQUAL = 0x0206,
-			ALWAYS = 0x0207,
+			NEVER,
+			LESS,
+			EQUAL,
+			LEQUAL,
+			GREATER,
+			NOTEQUAL,
+			GEQUAL,
+			ALWAYS,
 		};
 		//---------------------------------------------------------------------------
 		//Desc: Cull type enum

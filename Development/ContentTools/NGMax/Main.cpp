@@ -15,7 +15,6 @@
 /*
 String
 */
-
 //name buffer
 #define NAME_SIZE 64
 char nameBuffer[NAME_SIZE];
@@ -53,6 +52,17 @@ Mesh
 //header
 #define MESH_HEADER ('x' | 's' << 8 | 'm' << 16 | 's' << 24)
 #define MESH_HEADER_UNWRAPPED ('x' | 's' << 8 | 'm' << 16 | 'u' << 24)
+#define SKINNED_MESH_HEADER ('x' | 's' << 8 | 's' << 16 | 'm' << 24)
+#define MAX_WEIGHTS 32
+
+//weight class
+struct Weight
+{
+	int bone;
+	float weight;
+	Point3 position;
+	Point3 normal;
+};
 
 //
 Matrix3 zySwap = Matrix3(Point3(1, 0, 0), Point3(0, 0, 1), Point3(0, 1, 0), Point3(0, 0, 0));
@@ -63,7 +73,12 @@ struct Vertex
 	Point3 position;
 	Point3 normal;
 	Point2 texcoord;
-	Point2 unwrappedTexcoord;
+	Point2 unwrappedTexcoord;//в Skinned было удалено
+
+	int numWeights;
+	Weight weights[MAX_WEIGHTS];
+
+	int id;
 };
 
 //subset class
@@ -106,7 +121,7 @@ public:
 	void Export(const char *name);
 	void ReadModel();
 	void SaveXSMSH(const String &name);
-	void SaveMaterials();
+	void SaveMaterials(const String &name);
 	void SaveMaterialList(const String &name);
 
 	/*
@@ -116,10 +131,14 @@ public:
 	Interface *iface;
 	bool selected;
 
+	std::vector<INode*> bones;
 	std::vector<INode*> nodes;
+	std::vector<Modifier*> modifiers;
+
 	std::vector<Subset> subsets;
 	std::vector<MaterialData> materials;
 	MaterialData withoutMaterials;
+
 	Point3 pos;
 
 	bool unwrappedTexcoord;
@@ -131,7 +150,7 @@ void NGEnumProc::Export(const char *name)
 {
 	ReadModel();
 	SaveXSMSH(name);
-	SaveMaterials();
+	SaveMaterials(name);
 	SaveMaterialList(name);
 }
 
@@ -161,6 +180,7 @@ void NGEnumProc::ReadModel()
 		subset.object = NODE2OBJ(subset.node, d);
 		if (!subset.object)
 			continue;
+
 		//name
 		subset.name = subset.node->GetName();
 
@@ -172,19 +192,20 @@ void NGEnumProc::ReadModel()
 
 		//get bBox
 		Box3 box;
-		subset.object->mesh.buildBoundingBox();
-		box = subset.object->mesh.getBoundingBox(&tm);
+		auto mesh = subset.object->mesh;
+		mesh.buildBoundingBox();
+		box = mesh.getBoundingBox(&tm);
 		subset.min = box.Min();
 		subset.max = box.Max();
 
 		//build normals
-		subset.object->mesh.buildNormals();
+		mesh.buildNormals();
 
 		//additional texcoord
 		int mp = -1;
 		for (int i = 2; i < MAX_MESHMAPS - 1; i++)
 		{
-			if (subset.object->mesh.mapSupport(i))
+			if (mesh.mapSupport(i))
 			{
 				mp = i;
 				break;
@@ -193,23 +214,23 @@ void NGEnumProc::ReadModel()
 		if (mp > 0)
 			unwrappedTexcoord = true;
 
-		for (int i = 0; i < subset.object->mesh.numFaces; i++)
+		for (int i = 0; i < mesh.numFaces; i++)
 		{
-			Face *f = &subset.object->mesh.faces[i];
+			Face *f = &mesh.faces[i];
 
 			TVFace *tfu = NULL;
-			/*TVFace *tf = &subset.object->mesh.tvFace[i];*///Nick:Crash
+			TVFace *tf = &mesh.tvFace[i];
 
 			if (unwrappedTexcoord)
 			{
-				tfu = &subset.object->mesh.mapFaces(mp)[i];
+				tfu = &mesh.mapFaces(mp)[i];
 			}
 			//цикл по индексам грани
 			for (int j = 0; j < 3; j++)
 			{
 				Vertex vertex;
 
-				Point3 v = tm * subset.object->mesh.verts[f->v[j]];
+				Point3 v = tm * mesh.verts[f->v[j]];
 
 				vertex.position.x = v.x;
 				vertex.position.y = v.y;
@@ -218,22 +239,25 @@ void NGEnumProc::ReadModel()
 
 				if (unwrappedTexcoord)
 				{
-					vertex.unwrappedTexcoord.x = subset.object->mesh.mapVerts(mp)[tfu->t[j]].x;
-					vertex.unwrappedTexcoord.y = subset.object->mesh.mapVerts(mp)[tfu->t[j]].y;
+					vertex.unwrappedTexcoord.x = mesh.mapVerts(mp)[tfu->t[j]].x;
+					vertex.unwrappedTexcoord.y = mesh.mapVerts(mp)[tfu->t[j]].y;
 				}
-				//else //Nick:Crash
-				//{			
-				//	if (tf)
-				//	{
-				//		vertex.texcoord.x = subset.object->mesh.tVerts[tf->t[j]].x;
-				//		vertex.texcoord.y = subset.object->mesh.tVerts[tf->t[j]].y;
-				//	}
-				//}
+				else //Nick:Crash
+				{
+					if (tf)
+					{
+						vertex.id = f->v[j];//from skeletal
+						/*vertex.texcoord.x*/auto test = mesh.tVerts[tf->t[j]].x;
+						/*vertex.texcoord.x = mesh.tVerts[tf->t[j]].x;
+						vertex.texcoord.y = mesh.tVerts[tf->t[j]].y;*/
+						//MessageBoxA(0, "", "", MB_OK);
+					}
+				}
 
 				//read normal
 				bool specifiedNormal = true;
 
-				RVertex *rv = subset.object->mesh.getRVertPtr(f->v[j]);
+				RVertex *rv = mesh.getRVertPtr(f->v[j]);
 				int nnormals;
 
 				if (rv->rFlags & SPECIFIED_NORMAL)
@@ -271,7 +295,7 @@ void NGEnumProc::ReadModel()
 					else
 					{
 						specifiedNormal = false;
-						Point3 normal = nm * subset.object->mesh.getFaceNormal(i);
+						Point3 normal = nm * mesh.getFaceNormal(i);
 						vertex.normal.x = normal.x;
 						vertex.normal.y = normal.y;
 						vertex.normal.z = normal.z;
@@ -427,7 +451,7 @@ void NGEnumProc::SaveXSMSH(const String& name)
 
 /*
 */
-void NGEnumProc::SaveMaterials()
+void NGEnumProc::SaveMaterials(const String &_name)
 {
 	//materials
 	for (int s = 0; s < subsets.size(); s++)
@@ -510,6 +534,67 @@ void NGEnumProc::SaveMaterials()
 					shininessNode.addAttribute("value", "16");
 
 					materialNode.writeToFile(materialName.c_str());*/
+
+					/*{
+					FILE *fmtr = fopen(materialName.c_str(), "wt");
+
+					_ftprintf(fmtr, _T("pass Ambient\n"));
+					_ftprintf(fmtr, _T("{\n"));
+					_ftprintf(fmtr, _T("shader = mesh_ambient.glsl\n"));
+					_ftprintf(fmtr, _T("mat4 u_mvp = scene::mvp\n"));
+					_ftprintf(fmtr, _T("vec3 u_light_color = scene::light_color\n"));
+					_ftprintf(fmtr, _T("sampler2D u_texture_0 = %s\n"), textureFile.c_str());
+					_ftprintf(fmtr, _T("}\n\n"));
+
+					_ftprintf(fmtr, _T("pass LightOmni\n"));
+					_ftprintf(fmtr, _T("{\n"));
+					_ftprintf(fmtr, _T("shader = mesh_point.glsl\n"));
+					_ftprintf(fmtr, _T("vec4 u_material_param_0 = 0.5 24 1\n"));
+					_ftprintf(fmtr, _T("mat4 u_mvp = scene::mvp\n"));
+					_ftprintf(fmtr, _T("mat4 u_world = scene::world\n"));
+					_ftprintf(fmtr, _T("vec3 u_light_color = scene::light_color\n"));
+					_ftprintf(fmtr, _T("vec3 u_light_pos = scene::light_position\n"));
+					_ftprintf(fmtr, _T("vec3 u_view_pos = scene::view_position\n"));
+					_ftprintf(fmtr, _T("float u_inv_radius = scene::light_iradius\n"));
+					_ftprintf(fmtr, _T("sampler2D u_texture_0 = %s\n"), textureFile.c_str());
+					_ftprintf(fmtr, _T("sampler2D u_texture_1  = normal_map() %s\n"), textureFile.c_str());
+					_ftprintf(fmtr, _T("sampler2D u_shadow_map = scene::shadow_map\n"));
+					_ftprintf(fmtr, _T("}\n\n"));
+
+					_ftprintf(fmtr, _T("pass LightSpot\n"));
+					_ftprintf(fmtr, _T("{\n"));
+					_ftprintf(fmtr, _T("shader = mesh_spot.glsl\n"));
+					_ftprintf(fmtr, _T("vec4 u_material_param_0 = 0.5 24 1\n"));
+					_ftprintf(fmtr, _T("mat4 u_mvp = scene::mvp\n"));
+					_ftprintf(fmtr, _T("mat4 u_world = scene::world\n"));
+					_ftprintf(fmtr, _T("mat4 u_spot_proj_transform = scene::spot_transform\n"));
+					_ftprintf(fmtr, _T("vec3 u_light_color = scene::light_color\n"));
+					_ftprintf(fmtr, _T("vec3 u_light_pos = scene::light_position\n"));
+					_ftprintf(fmtr, _T("vec3 u_light_dir = scene::light_direction\n"));
+					_ftprintf(fmtr, _T("float u_inv_radius = scene::light_iradius\n"));
+					_ftprintf(fmtr, _T("vec3 u_view_pos = scene::view_position\n"));
+					_ftprintf(fmtr, _T("sampler2D u_texture_0 = %s\n"), textureFile.c_str());
+					_ftprintf(fmtr, _T("sampler2D u_texture_1 = normal_map() %s\n"), textureFile.c_str());
+					_ftprintf(fmtr, _T("sampler2D u_shadow_map = scene::shadow_map\n"));
+					_ftprintf(fmtr, _T("sampler2D u_spot_proj_map = scene::spot_map\n"));
+					_ftprintf(fmtr, _T("}\n\n"));
+
+					_ftprintf(fmtr, _T("pass LightDirect\n"));
+					_ftprintf(fmtr, _T("{\n"));
+					_ftprintf(fmtr, _T("shader = mesh_direct.glsl\n"));
+					_ftprintf(fmtr, _T("vec4 u_material_param_0 = 0.5 24 1\n"));
+					_ftprintf(fmtr, _T("mat4 u_mvp = scene::mvp\n"));
+					_ftprintf(fmtr, _T("mat4 u_world = scene::world\n"));
+					_ftprintf(fmtr, _T("vec3 u_light_color = scene::light_color\n"));
+					_ftprintf(fmtr, _T("vec3 u_light_dir = scene::light_direction\n"));
+					_ftprintf(fmtr, _T("vec3 u_view_pos = scene::view_position\n"));
+					_ftprintf(fmtr, _T("sampler2D u_texture_0 = %s\n"), textureFile.c_str());
+					_ftprintf(fmtr, _T("sampler2D u_texture_1 = normal_map() %s\n"), textureFile.c_str());
+					_ftprintf(fmtr, _T("}"));
+
+					fclose(fmtr);
+					}*/
+
 				}
 			}
 			else
@@ -517,10 +602,69 @@ void NGEnumProc::SaveMaterials()
 				withoutMaterials.subsets.push_back(subsets[s].name);
 			}
 		}
-		else
+		/*else
 		{
-			withoutMaterials.subsets.push_back(subsets[s].name);
+		withoutMaterials.subsets.push_back(subsets[s].name);
 		}
+		{
+		FILE *fmtr = fopen(materialName.c_str(), "wt");
+
+		_ftprintf(fmtr, _T("pass Ambient\n"));
+		_ftprintf(fmtr, _T("{\n"));
+		_ftprintf(fmtr, _T("shader = mesh_ambient.glsl\n"));
+		_ftprintf(fmtr, _T("mat4 u_mvp = scene::mvp\n"));
+		_ftprintf(fmtr, _T("vec3 u_light_color = scene::light_color\n"));
+		_ftprintf(fmtr, _T("sampler2D u_texture_0 = %s\n"), textureFile.c_str());
+		_ftprintf(fmtr, _T("}\n\n"));
+
+		_ftprintf(fmtr, _T("pass LightOmni\n"));
+		_ftprintf(fmtr, _T("{\n"));
+		_ftprintf(fmtr, _T("shader = mesh_point.glsl\n"));
+		_ftprintf(fmtr, _T("vec4 u_material_param_0 = 0.5 24 1\n"));
+		_ftprintf(fmtr, _T("mat4 u_mvp = scene::mvp\n"));
+		_ftprintf(fmtr, _T("mat4 u_world = scene::world\n"));
+		_ftprintf(fmtr, _T("vec3 u_light_color = scene::light_color\n"));
+		_ftprintf(fmtr, _T("vec3 u_light_pos = scene::light_position\n"));
+		_ftprintf(fmtr, _T("vec3 u_view_pos = scene::view_position\n"));
+		_ftprintf(fmtr, _T("float u_inv_radius = scene::light_iradius\n"));
+		_ftprintf(fmtr, _T("sampler2D u_texture_0 = %s\n"), textureFile.c_str());
+		_ftprintf(fmtr, _T("sampler2D u_texture_1  = normal_map() %s\n"), textureFile.c_str());
+		_ftprintf(fmtr, _T("sampler2D u_shadow_map = scene::shadow_map\n"));
+		_ftprintf(fmtr, _T("}\n\n"));
+
+		_ftprintf(fmtr, _T("pass LightSpot\n"));
+		_ftprintf(fmtr, _T("{\n"));
+		_ftprintf(fmtr, _T("shader = mesh_spot.glsl\n"));
+		_ftprintf(fmtr, _T("vec4 u_material_param_0 = 0.5 24 1\n"));
+		_ftprintf(fmtr, _T("mat4 u_mvp = scene::mvp\n"));
+		_ftprintf(fmtr, _T("mat4 u_world = scene::world\n"));
+		_ftprintf(fmtr, _T("mat4 u_spot_proj_transform = scene::spot_transform\n"));
+		_ftprintf(fmtr, _T("vec3 u_light_color = scene::light_color\n"));
+		_ftprintf(fmtr, _T("vec3 u_light_pos = scene::light_position\n"));
+		_ftprintf(fmtr, _T("vec3 u_light_dir = scene::light_direction\n"));
+		_ftprintf(fmtr, _T("float u_inv_radius = scene::light_iradius\n"));
+		_ftprintf(fmtr, _T("vec3 u_view_pos = scene::view_position\n"));
+		_ftprintf(fmtr, _T("sampler2D u_texture_0 = %s\n"), textureFile.c_str());
+		_ftprintf(fmtr, _T("sampler2D u_texture_1 = normal_map() %s\n"), textureFile.c_str());
+		_ftprintf(fmtr, _T("sampler2D u_shadow_map = scene::shadow_map\n"));
+		_ftprintf(fmtr, _T("sampler2D u_spot_proj_map = scene::spot_map\n"));
+		_ftprintf(fmtr, _T("}\n\n"));
+
+		_ftprintf(fmtr, _T("pass LightDirect\n"));
+		_ftprintf(fmtr, _T("{\n"));
+		_ftprintf(fmtr, _T("shader = mesh_direct.glsl\n"));
+		_ftprintf(fmtr, _T("vec4 u_material_param_0 = 0.5 24 1\n"));
+		_ftprintf(fmtr, _T("mat4 u_mvp = scene::mvp\n"));
+		_ftprintf(fmtr, _T("mat4 u_world = scene::world\n"));
+		_ftprintf(fmtr, _T("vec3 u_light_color = scene::light_color\n"));
+		_ftprintf(fmtr, _T("vec3 u_light_dir = scene::light_direction\n"));
+		_ftprintf(fmtr, _T("vec3 u_view_pos = scene::view_position\n"));
+		_ftprintf(fmtr, _T("sampler2D u_texture_0 = %s\n"), textureFile.c_str());
+		_ftprintf(fmtr, _T("sampler2D u_texture_1 = normal_map() %s\n"), textureFile.c_str());
+		_ftprintf(fmtr, _T("}"));
+
+		fclose(fmtr);
+		}*/
 	}
 }
 
@@ -528,23 +672,33 @@ void NGEnumProc::SaveMaterials()
 */
 void NGEnumProc::SaveMaterialList(const String &name)
 {
-	//String path = name;
-	//path = path.CutFileExt();
-	//path = path + ".xsmtrlst";
+	String path = name;
+	path = path.CutFileExt();
+	path = path + ".matls";
+	FILE *fmtr = fopen(path.c_str(), "wt");
+	FILE *subf = fopen(("substes_" + path).c_str(), "wt");
+
+#if 1
+	for (int i = 0; i < materials.size(); i++)
+	{
+		String mfile = materials[i].name;
+		MessageBoxA(0, mfile.c_str(), mfile.c_str(), 0);
+	}
+#endif
+
 
 	//XMLNode listNode = XMLNode::createXMLTopNode("MaterialList");
-	//for (int i = 0; i < materials.size(); i++)
-	//{
-	//	String mfile = "data/materials/" + materials[i].name;
-	//	XMLNode materialNode = listNode.addChild("Material");
-	//	materialNode.addAttribute("file", mfile.c_str());
+	for (int i = 0; i < materials.size(); i++)
+	{
+		String mfile = materials[i].name;
+		fprintf(fmtr, mfile.c_str());
 
-	//	for (int k = 0; k < materials[i].subsets.size(); k++)
-	//	{
-	//		XMLNode subsetNode = materialNode.addChild("Subset");
-	//		subsetNode.addAttribute("name", materials[i].subsets[k].c_str());
-	//	}
-	//}
+		for (int k = 0; k < materials[i].subsets.size(); k++)
+		{
+			String Sfile = materials[i].subsets[k].c_str();
+			fprintf(subf, Sfile.c_str());
+		}
+	}
 
 	////no materials
 	//XMLNode materialNode = listNode.addChild("NoMaterial");

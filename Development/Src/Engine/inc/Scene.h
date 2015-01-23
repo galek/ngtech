@@ -106,7 +106,7 @@ namespace NGTech {
 		float matTime;
 		float matLightIRadius;
 
-		Vec3 matLightColor;
+		Vec4 matLightColor;
 		Vec3 matLightPosition;
 		Vec3 matLightDirection;
 		Vec3 matViewPosition;

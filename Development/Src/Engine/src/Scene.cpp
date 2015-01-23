@@ -41,7 +41,7 @@ namespace NGTech {
 
 		viewportFBO = GetRender()->CreateFBO(cvars->r_width, cvars->r_height);
 		viewportFBO->createDepthAttachment();
-
+		
 		int size = GetCvars()->r_shadowsize;
 		shadowFBO = GetRender()->CreateFBO(size, size);
 		shadowFBO->createDepthAttachment();
@@ -315,45 +315,48 @@ namespace NGTech {
 		{
 			Object *object = objects[m];
 
-			GetRender()->push();
-			GetRender()->multMatrix(object->getTransform());
+			if (object)
+			{
+				GetRender()->push();
+				GetRender()->multMatrix(object->getTransform());
 
-			frustum->get();
-			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
-				GetRender()->pop();
-				continue;
-			}
-			if ((light->position - object->getTransform().getTranslation()).length() >
-				light->radius + object->getRadius()) {
-				GetRender()->pop();
-				continue;
-			}
-
-			//DRAW OBJECT SUBSETS
-			for (size_t s = 0; s < object->getNumSubsets(); s++) {
 				frustum->get();
-				if (!frustum->isInside(object->getCenter(s), object->getRadius(s)))
+				if (!frustum->isInside(object->getCenter(), object->getRadius())) {
+					GetRender()->pop();
 					continue;
-
-				Material *mtr = object->getMaterial(s);
-				if (!mtr) continue;
-
-				matMVP = GetRender()->getMatrix_MVP();
-				matWorld = object->getTransform();
-
-				if (blended) {
-					if (!mtr->passHasBlending("Ambient")) continue;
 				}
-				else {
-					if (mtr->passHasBlending("Ambient")) continue;
+				if ((light->position - object->getTransform().getTranslation()).length() >
+					light->radius + object->getRadius()) {
+					GetRender()->pop();
+					continue;
 				}
-				if (!mtr->setPass("LightOmni")) continue;
-				
-				object->drawSubset(s);
 
-				mtr->unsetPass();
+				//DRAW OBJECT SUBSETS
+				for (size_t s = 0; s < object->getNumSubsets(); s++) {
+					frustum->get();
+					if (!frustum->isInside(object->getCenter(s), object->getRadius(s)))
+						continue;
+
+					Material *mtr = object->getMaterial(s);
+					if (!mtr) continue;
+
+					matMVP = GetRender()->getMatrix_MVP();
+					matWorld = object->getTransform();
+
+					if (blended) {
+						if (!mtr->passHasBlending("Ambient")) continue;
+					}
+					else {
+						if (mtr->passHasBlending("Ambient")) continue;
+					}
+					if (!mtr->setPass("LightOmni")) continue;
+
+					object->drawSubset(s);
+
+					mtr->unsetPass();
+				}
+				GetRender()->pop();
 			}
-			GetRender()->pop();
 		}
 	}
 
@@ -381,47 +384,49 @@ namespace NGTech {
 			shadowFBO->clear();
 
 			GetRender()->loadMatrix(Mat4::cube(light->position, f));
-			
+
 			//DRAW OBJECTS
 			for (size_t m = 0; m < objects.size(); m++)
 			{
 				Object *object = objects[m];
-
-				GetRender()->push();
-				GetRender()->multMatrix(object->getTransform());
-
-				frustum->get();
-				if ((!frustum->isInside(object->getCenter(), object->getRadius())) 
-					|| (((light->position - object->getTransform().getTranslation()).length() >
-					light->radius + object->getRadius())))
+				if (object)
 				{
-					GetRender()->pop();
-					continue;
-				}
+					GetRender()->push();
+					GetRender()->multMatrix(object->getTransform());
 
-				/**
-				draw subsets
-				*/
-				for (size_t s = 0; s < object->getNumSubsets(); s++) 
-				{
-					Material *mtr = object->getMaterial(s);
-					if (mtr)
+					frustum->get();
+					if ((!frustum->isInside(object->getCenter(), object->getRadius()))
+						|| (((light->position - object->getTransform().getTranslation()).length() >
+						light->radius + object->getRadius())))
 					{
-						frustum->get();
-						if (frustum->isInside(object->getCenter(s), object->getRadius(s))) 
+						GetRender()->pop();
+						continue;
+					}
+
+					/**
+					draw subsets
+					*/
+					for (size_t s = 0; s < object->getNumSubsets(); s++)
+					{
+						Material *mtr = object->getMaterial(s);
+						if (mtr)
 						{
-							//set material params
-							matMVP = GetRender()->getMatrix_MVP();
-							matWorld = object->getTransform();
-							depthPass->setPass("DepthPass");
+							frustum->get();
+							if (frustum->isInside(object->getCenter(s), object->getRadius(s)))
+							{
+								//set material params
+								matMVP = GetRender()->getMatrix_MVP();
+								matWorld = object->getTransform();
+								depthPass->setPass("DepthPass");
 
-							object->drawSubset(s);
+								object->drawSubset(s);
 
-							depthPass->unsetPass();
+								depthPass->unsetPass();
+							}
 						}
 					}
+					GetRender()->pop();
 				}
-				GetRender()->pop();
 			}
 			shadowFBO->flush();
 			shadowFBO->unset();
@@ -486,46 +491,49 @@ namespace NGTech {
 		{
 			Object *object = objects[m];
 
-			GetRender()->push();
-			GetRender()->multMatrix(object->getTransform());
+			if (object)
+			{
+				GetRender()->push();
+				GetRender()->multMatrix(object->getTransform());
 
-			frustum->get();
-			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
-				GetRender()->pop();
-				continue;
-			}
-			if ((light->position - object->getTransform().getTranslation()).length() >
-				light->radius + object->getRadius()) {
-				GetRender()->pop();
-				continue;
-			}
-
-			//DRAW OBJECT SUBSETS
-			for (size_t s = 0; s < object->getNumSubsets(); s++) {
 				frustum->get();
-				if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
+				if (!frustum->isInside(object->getCenter(), object->getRadius())) {
+					GetRender()->pop();
+					continue;
+				}
+				if ((light->position - object->getTransform().getTranslation()).length() >
+					light->radius + object->getRadius()) {
+					GetRender()->pop();
 					continue;
 				}
 
-				Material *mtr = object->getMaterial(s);
-				if (!mtr) continue;
+				//DRAW OBJECT SUBSETS
+				for (size_t s = 0; s < object->getNumSubsets(); s++) {
+					frustum->get();
+					if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
+						continue;
+					}
 
-				//set material params
-				matMVP = GetRender()->getMatrix_MVP();
-				matWorld = object->getTransform();
-				if (blended) {
-					if (!mtr->passHasBlending("Ambient")) continue;
+					Material *mtr = object->getMaterial(s);
+					if (!mtr) continue;
+
+					//set material params
+					matMVP = GetRender()->getMatrix_MVP();
+					matWorld = object->getTransform();
+					if (blended) {
+						if (!mtr->passHasBlending("Ambient")) continue;
+					}
+					else {
+						if (mtr->passHasBlending("Ambient")) continue;
+					}
+					if (!mtr->setPass("LightSpot")) continue;
+
+					object->drawSubset(s);
+
+					mtr->unsetPass();
 				}
-				else {
-					if (mtr->passHasBlending("Ambient")) continue;
-				}
-				if (!mtr->setPass("LightSpot")) continue;
-
-				object->drawSubset(s);
-
-				mtr->unsetPass();
+				GetRender()->pop();
 			}
-			GetRender()->pop();
 		}
 	}
 
@@ -557,40 +565,43 @@ namespace NGTech {
 		{
 			Object *object = objects[m];
 
-			GetRender()->push();
-			GetRender()->multMatrix(object->getTransform());
-
-			frustum->get();
-			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
-				GetRender()->pop();
-				continue;
-			}
-			if ((light->position - object->getTransform().getTranslation()).length() >
-				light->radius + object->getRadius()) {
-				GetRender()->pop();
-				continue;
-			}
-
-			//DRAW OBJECT SUBSETS
-			for (size_t s = 0; s < object->getNumSubsets(); s++) {
-				Material *mtr = object->getMaterial(s);
-
-				if (!mtr) continue;
+			if (object)
+			{
+				GetRender()->push();
+				GetRender()->multMatrix(object->getTransform());
 
 				frustum->get();
-				if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
+				if (!frustum->isInside(object->getCenter(), object->getRadius())) {
+					GetRender()->pop();
+					continue;
+				}
+				if ((light->position - object->getTransform().getTranslation()).length() >
+					light->radius + object->getRadius()) {
+					GetRender()->pop();
 					continue;
 				}
 
-				matMVP = GetRender()->getMatrix_MVP();
-				matWorld = object->getTransform();
-				depthPass->setPass("DepthPass");
+				//DRAW OBJECT SUBSETS
+				for (size_t s = 0; s < object->getNumSubsets(); s++) {
+					Material *mtr = object->getMaterial(s);
 
-				object->drawSubset(s);
+					if (!mtr) continue;
 
-				depthPass->unsetPass();
+					frustum->get();
+					if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
+						continue;
+					}
+
+					matMVP = GetRender()->getMatrix_MVP();
+					matWorld = object->getTransform();
+					depthPass->setPass("DepthPass");
+
+					object->drawSubset(s);
+
+					depthPass->unsetPass();
+				}
+				GetRender()->pop();
 			}
-			GetRender()->pop();
 		}
 
 		shadowFBO->flush();
@@ -640,41 +651,44 @@ namespace NGTech {
 		{
 			Object *object = objects[m];
 
-			GetRender()->push();
-			GetRender()->multMatrix(object->getTransform());
+			if (object)
+			{
+				GetRender()->push();
+				GetRender()->multMatrix(object->getTransform());
 
-			frustum->get();
-			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
-				GetRender()->pop();
-				continue;
-			}
-
-			//DRAW OBJECT SUBSETS
-			for (size_t s = 0; s < object->getNumSubsets(); s++) {
-				if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
+				frustum->get();
+				if (!frustum->isInside(object->getCenter(), object->getRadius())) {
+					GetRender()->pop();
 					continue;
 				}
 
-				Material *mtr = object->getMaterial(s);
-				if (!mtr) continue;
+				//DRAW OBJECT SUBSETS
+				for (size_t s = 0; s < object->getNumSubsets(); s++) {
+					if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
+						continue;
+					}
 
-				//set material params
-				matMVP = GetRender()->getMatrix_MVP();
-				matWorld = object->getTransform();
+					Material *mtr = object->getMaterial(s);
+					if (!mtr) continue;
 
-				if (blended) {
-					if (!mtr->passHasBlending("Ambient")) continue;
+					//set material params
+					matMVP = GetRender()->getMatrix_MVP();
+					matWorld = object->getTransform();
+
+					if (blended) {
+						if (!mtr->passHasBlending("Ambient")) continue;
+					}
+					else {
+						if (mtr->passHasBlending("Ambient")) continue;
+					}
+					if (!mtr->setPass("LightDirect")) continue;
+
+					object->drawSubset(s);
+
+					mtr->unsetPass();
 				}
-				else {
-					if (mtr->passHasBlending("Ambient")) continue;
-				}
-				if (!mtr->setPass("LightDirect")) continue;
-
-				object->drawSubset(s);
-
-				mtr->unsetPass();
+				GetRender()->pop();
 			}
-			GetRender()->pop();
 		}
 	}
 
@@ -760,7 +774,11 @@ namespace NGTech {
 #pragma message("BUG,if camera is null,on next frame,after creation is will crash")
 		//---------update-camera-----------------------------------
 		camera->update();
-
+		//draw particle systems
+		for (size_t k = 0; k < systems.size(); k++) {
+			if (systems[k]) systems[k]->draw();
+		}
+		
 		//---------draw-scene--------------------------------
 		GetRender()->setMatrixMode_Projection();
 		GetRender()->loadMatrix(camera->getProjection());
@@ -912,6 +930,10 @@ namespace NGTech {
 
 		GetRender()->depthMask(true);
 		GetRender()->disableBlending();
+
+		for (size_t k = 0; k < systems.size(); k++) {
+			if (systems[k]) systems[k]->draw();
+		}
 
 		viewportFBO->flush();
 		viewportFBO->unset();

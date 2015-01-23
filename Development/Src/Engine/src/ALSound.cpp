@@ -26,29 +26,20 @@
 
 namespace NGTech {
 
-	ALSound *ALSound::create(const String &_path) {
-		ALSound *sound = new ALSound();
-#pragma message("REWRITE ON OWN FILE")
-		String path = "../data/sounds/" + _path;
+	ALSound::ALSound(const String &_path) {
+		String path = "sounds/" + _path;
 		if (FileHelper::getFileExt(path) != "ogg") {
 			Error::showAndExit("ALSound::create() error: sound file " + path + " is not a OGG file");
-			return NULL;
+			return;
 		}
 
-		FILE *file = fopen(path.c_str(), "rb");
-
-		if (file == NULL) {
-			Error::showAndExit("ALSound::create() error: sound file " + path + " not found");
-			return NULL;
-		}
-
+		VFile file(path, VFile::READ_BIN);
 		OggVorbis_File vf;
 		memset(&vf, 0, sizeof(vf));
 
-		if (ov_open(file, &vf, NULL, 0) < 0)	{
-			fclose(file);
+		if (ov_open(file.GetLowLevelFile(), &vf, NULL, 0) < 0)	{
 			Error::showAndExit("ALSound::create() error: sound file " + path + " is not a valid OGG file");
-			return NULL;
+			return;
 		}
 
 		vorbis_info *vi = ov_info(&vf, -1);
@@ -57,38 +48,36 @@ namespace NGTech {
 		int numChannels = vi->channels;
 
 		if (numChannels == 1)
-			sound->format = AL_FORMAT_MONO16;
+			this->format = AL_FORMAT_MONO16;
 		else
-			sound->format = AL_FORMAT_STEREO16;
+			this->format = AL_FORMAT_STEREO16;
 
 
-		sound->rate = vi->rate;
-		sound->size = numSamples * numChannels;
+		this->rate = vi->rate;
+		this->size = numSamples * numChannels;
 
-		sound->samples = new short[sound->size];
-		sound->size *= sizeof(short);
+		this->samples = new short[this->size];
+		this->size *= sizeof(short);
 
 		int samplePos = 0;
-		while (samplePos < sound->size) {
-			char *dest = (char *)sound->samples + samplePos;
+		while (samplePos < this->size) {
+			char *dest = (char *)this->samples + samplePos;
 
-			int bitStream, readBytes = ov_read(&vf, dest, sound->size - samplePos, 0, 2, 1, &bitStream);
+			int bitStream, readBytes = ov_read(&vf, dest, this->size - samplePos, 0, 2, 1, &bitStream);
 			if (readBytes <= 0)
 				break;
 			samplePos += readBytes;
 		}
 		ov_clear(&vf);
 
-		alGenBuffers(1, &sound->buffID);
-		alBufferData(sound->buffID, sound->format, sound->samples, sound->size, sound->rate);
+		alGenBuffers(1, &this->buffID);
+		alBufferData(this->buffID, this->format, this->samples, this->size, this->rate);
 
 		int error = alGetError();
 		if (error != AL_NO_ERROR) {
 			Error::showAndExit("ALSound::create() error: sound file " + path + " could not be loaded");
-			return NULL;
+			return;
 		}
-
-		return sound;
 	}
 
 	ALSound::~ALSound() {

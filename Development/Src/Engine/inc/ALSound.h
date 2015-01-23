@@ -14,7 +14,7 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	class ENGINE_API ALSound {
 	public:
-		static ALSound *create(const String &path);
+		ALSound(const String &path);
 		~ALSound();
 
 	private:

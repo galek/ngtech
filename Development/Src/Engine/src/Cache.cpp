@@ -62,7 +62,7 @@ namespace NGTech {
 		if (path == "") return NULL;
 		std::map<String, std::pair<ALSound*, int>>::iterator it = sounds.find(path);
 		if (it == sounds.end() || it->second.first == NULL) {
-			ALSound *sound = ALSound::create(path);
+			ALSound *sound = new ALSound(path);
 			sounds[path].first = sound;
 			sounds[path].second = 1;
 			return sound;
@@ -137,7 +137,6 @@ namespace NGTech {
 	}
 
 	void Cache::reloadShaders() {
-#pragma message("Тут надо добавить еще один параметр,как выше")
 		String defines = "";
 		if (cvars->r_reflections) defines += "#define REFLECTIONS\n";
 		if (cvars->r_parallax) defines += "#define PARALLAX\n";
@@ -154,8 +153,6 @@ namespace NGTech {
 			it->second.first = GetRender()->ShaderCreate(it->first, defines);
 		}
 	}
-
-
 
 	void Cache::deleteMaterial(Material *material) {
 		std::map<String, std::pair<Material*, int>>::iterator it;

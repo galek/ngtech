@@ -81,7 +81,7 @@ namespace NGTech {
 
 		PxCookingParams params(scale);
 		params.meshWeldTolerance = 0.0f;
-		params.meshPreprocessParams = PxMeshPreprocessingFlags(PxMeshPreprocessingFlag::eWELD_VERTICES | PxMeshPreprocessingFlag::eREMOVE_UNREFERENCED_VERTICES | PxMeshPreprocessingFlag::eREMOVE_DUPLICATED_TRIANGLES | PxMeshPreprocessingFlag::eREMOVE_UNREFERENCED_VERTICES);//NICK:WTF?!
+		params.meshPreprocessParams = PxMeshPreprocessingFlags(PxMeshPreprocessingFlag::eWELD_VERTICES | PxMeshPreprocessingFlag::eREMOVE_UNREFERENCED_VERTICES | PxMeshPreprocessingFlag::eREMOVE_DUPLICATED_TRIANGLES);
 		mCooking = PxCreateCooking(PX_PHYSICS_VERSION, *mFoundation, params);
 		if (!mCooking)
 			Error("PxCreateCooking failed!", true);
@@ -127,7 +127,9 @@ namespace NGTech {
 	*/
 	PhysSystem::~PhysSystem() {
 		Debug("PhysSystem::~PhysSystem()");
-		mScene->fetchResults(true);
+
+		if (mScene)
+			mScene->fetchResults(true);
 
 		if (mMaterial)
 			mMaterial->release();

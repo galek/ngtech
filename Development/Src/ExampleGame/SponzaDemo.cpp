@@ -184,12 +184,10 @@ void AsyncLoad(const char* _file)
 void EventsCallback::Body(){
 	if (GetWindow()->isKeyDown("ESC"))
 		exit(0);
-	//#undef min
-	
-	//
-	//	if (GetWindow()->isKeyDown("EQUAL"))
-	//	{
-	//		ShowConsole();
-	//	}
+
+	if (GetWindow()->isKeyDown("EQUAL"))
+	{
+		ShowConsole();
+	}
 }
 #endif

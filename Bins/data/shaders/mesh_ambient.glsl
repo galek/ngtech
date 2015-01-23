@@ -26,12 +26,6 @@ void main() {
 
 
 [GLSL_FRAGMENT_SHADER]
-#if NEW_GL
-#version 330 core
-
-//OUT
-layout(location = 0) out vec4 OutColor;
-#endif
 
 varying vec2 v_tex_coord;
 varying vec3 v_view_vec;
@@ -52,11 +46,7 @@ void main() {
 	texCoord = texCoord + offset * vVec.xy * u_material_param_0.z;
 #endif
 
-	vec4 baseColor = texture2D(u_texture_0, texCoord);
+	vec4 baseColor = texture(u_texture_0, texCoord);
 
-#if NEW_GL
-	OutColor = baseColor * vec4(u_light_color, 1.0);
-#else
 	gl_FragColor = baseColor * vec4(u_light_color, 1.0);
-#endif
 }

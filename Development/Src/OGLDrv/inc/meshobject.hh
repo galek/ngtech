@@ -19,7 +19,6 @@
 
 #include "commondefs.h"
 
-#include <GL/glew.h>
 #include <vector>
 
 namespace NGTech

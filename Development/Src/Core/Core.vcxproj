@@ -330,6 +330,7 @@
     <ClInclude Include="inc\ILImage.h" />
     <ClInclude Include="inc\IncludesAndLibs.h" />
     <ClInclude Include="inc\libProfiler.h" />
+    <ClInclude Include="inc\License\License.h" />
     <ClInclude Include="inc\Log.h" />
     <ClInclude Include="inc\lua\adopt_policy.hpp" />
     <ClInclude Include="inc\lua\back_reference.hpp" />
@@ -549,6 +550,7 @@
     </ClCompile>
     <ClCompile Include="src\ILImage.cpp" />
     <ClCompile Include="src\iLSystem.cpp" />
+    <ClCompile Include="src\License\License.cpp" />
     <ClCompile Include="src\Log.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>

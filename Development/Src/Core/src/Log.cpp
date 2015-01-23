@@ -38,6 +38,10 @@ namespace NGTech {
 #ifdef _ENGINE_DEBUG_
 		Log::write(text + " In: " + _file + " : " + line);
 #endif	
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
+		// output to debugger
+		OutputDebugString(text.c_str());
+#endif
 	}
 
 	void Warning(const char *fmt, ...){

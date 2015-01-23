@@ -10,7 +10,7 @@
 #include "WindowSystem.h"
 #include <math.h>
 //**************************************
-
+//http://opengl-tutorial-org.googlecode.com/hg-history/1d30ba2813cb683db8c8cf20a3971c22d34408c0/tutorial18_billboards_and_particles/tutorial18_particles.cpp
 namespace NGTech {
 
 	//---------------------------------------------------------------------------

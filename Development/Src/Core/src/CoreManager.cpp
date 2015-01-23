@@ -36,12 +36,9 @@ namespace NGTech {
 		running(false)
 	{
 		SetCore(this);
-#ifndef _ENGINE_DEBUG_
 		if (!_InitAdditions())
 			exit(0);
-#else
-		_InitAdditions();
-#endif
+
 		_preInit();
 	}
 

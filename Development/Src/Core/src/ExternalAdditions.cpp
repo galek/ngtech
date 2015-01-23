@@ -5,6 +5,9 @@
 namespace NGTech {
 	/**
 	*/
+	bool DemoStartCheck();
+	/**
+	*/
 	void ILSystemInit();
 	/**
 	*/
@@ -27,7 +30,11 @@ namespace NGTech {
 		if (!InitMiniDump())
 			return false;
 #endif
-#endif
+		/*	if (!DemoStartCheck())
+				return false;*/
+#endif	
+		if (!DemoStartCheck())
+			return false;
 		ILSystemInit();
 
 		return true;

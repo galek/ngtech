@@ -14,14 +14,14 @@ namespace NGTech {
 		Config(const String &path);
 		void save(const String &path);
 
-		float getFloat(const String &name);
-		int getInt(const String &name);
-		bool getBool(const String &name);
+		const float getFloat(const String &name, const float def = 0.0f);
+		const int getInt(const String &name, const int def = 0);
+		const bool getBool(const String &name, const bool def = false);
 		const String &getString(const String &name);
 
-		void setFloat(const String &name, float value);
-		void setInt(const String &name, int value);
-		void setBool(const String &name, bool value);
+		void setFloat(const String &name, const float value);
+		void setInt(const String &name, const int value);
+		void setBool(const String &name, const bool value);
 		void setString(const String &name, const String &value);
 
 	private:

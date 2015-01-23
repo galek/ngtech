@@ -22,32 +22,6 @@ namespace NGTech {
 	class RENDER_API GLSystem :public I_Render {
 		friend class GLVBO;
 	public:
-		virtual GLDisplayList* GetDL();
-		virtual GLOcclusionQuery* GetOQ();
-
-
-		virtual GLTexture* TextureCreate2D(const String &path);
-		virtual GLTexture* TextureCreateCube(const String &path);
-		virtual GLTexture *TextureCreate2D(int width, int height, int format);
-		virtual GLTexture *TextureCreate3D(int width, int height, int depth, int format);
-		virtual GLTexture *TextureCreateCube(int width, int height, int format);
-		virtual GLTexture *TextureCreate2D(I_ILImage *image);
-		virtual GLTexture *TextureCreate3D(I_ILImage *image);
-		virtual GLTexture *TextureCreateCube(I_ILImage **image);
-
-		virtual GLShader *ShaderCreate(const String &path, const String &defines = "");
-		virtual GLShader *ShaderCreateVSandFS(const String &pathFS, const String &pathVS, const String &defines = "");
-		virtual GLVBO *CreateIBO(void *data, int numElements, int elemSize, int dataType);
-		virtual GLVBO *CreateVBO(void *data, int numElements, int elemSize, int dataType, int drawType);
-		virtual GLFBO *CreateFBO(int x, int y);
-
-
-		virtual ILImage* CreateImage2D(const String &path);
-		virtual ILImage* CreateImageEmpty2D(int width, int height, int format);
-		virtual ILImage* CreateImageNoise2D(int width, int height, int format);
-		virtual ILImage* CreateImageEmpty3D(int width, int height, int depth, int format);
-		virtual ILImage* CreateImageNoise3D(int width, int height, int depth, int format);
-		virtual void*    GetGUIImageLoader();
 		virtual void EnableMultiSample(bool);
 		virtual void EnableVSync(bool);
 		void EnableDebugOutput();
@@ -157,7 +131,7 @@ namespace NGTech {
 
 		// drawing
 		void DrawArrays(unsigned int baseVertex, unsigned int numVertices, MeshPrimitiveType type = MeshPrimitiveType::Triangles);
-		
+
 		// fullscreen quad
 		void DrawFullscreenQuad();
 
@@ -183,6 +157,34 @@ namespace NGTech {
 	private:
 		virtual bool createContext(I_Window*);
 		virtual void swapBuffers();
+	public:
+		//FABRICS
+		virtual GLDisplayList* GetDL();
+		virtual GLOcclusionQuery* GetOQ();
+
+
+		virtual GLTexture* TextureCreate2D(const String &path);
+		virtual GLTexture* TextureCreateCube(const String &path);
+		virtual GLTexture *TextureCreate2D(int width, int height, int format);
+		virtual GLTexture *TextureCreate3D(int width, int height, int depth, int format);
+		virtual GLTexture *TextureCreateCube(int width, int height, int format);
+		virtual GLTexture *TextureCreate2D(I_ILImage *image);
+		virtual GLTexture *TextureCreate3D(I_ILImage *image);
+		virtual GLTexture *TextureCreateCube(I_ILImage **image);
+
+		virtual GLShader *ShaderCreate(const String &path, const String &defines = "");
+		virtual GLShader *ShaderCreateVSandFS(const String &pathFS, const String &pathVS, const String &defines = "");
+		virtual GLVBO *CreateIBO(void *data, int numElements, int elemSize, int dataType);
+		virtual GLVBO *CreateVBO(void *data, int numElements, int elemSize, int dataType, int drawType);
+		virtual GLFBO *CreateFBO(int x, int y);
+
+
+		virtual ILImage* CreateImage2D(const String &path);
+		virtual ILImage* CreateImageEmpty2D(int width, int height, int format);
+		virtual ILImage* CreateImageNoise2D(int width, int height, int format);
+		virtual ILImage* CreateImageEmpty3D(int width, int height, int depth, int format);
+		virtual ILImage* CreateImageNoise3D(int width, int height, int depth, int format);
+		virtual void*    GetGUIImageLoader();
 	private:
 		friend class GLTexture;
 		friend class GLVBO;
@@ -208,6 +210,7 @@ namespace NGTech {
 		static size_t maxGPUMemoryRead;
 	private:
 		CoreManager* engine;
+		CVARManager* cvars;
 	};
 
 	ENGINE_INLINE void GLSystem::RecordMemoryWrite(size_t numBytes)

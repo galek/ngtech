@@ -43,31 +43,31 @@ namespace NGTech {
 		fclose(cFile);
 	}
 
-	float Config::getFloat(const String &name) {
+	const float Config::getFloat(const String &name, const float def) {
 		for (int i = 0; i < vars.size(); i++) {
 			if (vars[i].name == name)
 				return StringHelper::toFloat(vars[i].value);
 		}
-		return 0;
+		return def;
 	}
 
-	int Config::getInt(const String &name) {
+	const int Config::getInt(const String &name, const int def) {
 		for (int i = 0; i < vars.size(); i++) {
 			if (vars[i].name == name)
 				return StringHelper::toInt(vars[i].value);
 		}
-		return 0;
+		return def;
 	}
 
-	bool Config::getBool(const String &name) {
+	const bool Config::getBool(const String &name, const bool def) {
 		for (int i = 0; i < vars.size(); i++) {
 			if (vars[i].name == name)
 				return StringHelper::toInt(vars[i].value);
 		}
-		return false;
+		return def;
 	}
 
-	void Config::setFloat(const String &name, float value) {
+	void Config::setFloat(const String &name, const float value) {
 		for (int i = 0; i < vars.size(); i++) {
 			if (vars[i].name == name) {
 				vars[i].value = StringHelper::fromFloat(value);
@@ -76,7 +76,7 @@ namespace NGTech {
 		}
 	}
 
-	void Config::setInt(const String &name, int value) {
+	void Config::setInt(const String &name, const int value) {
 		for (int i = 0; i < vars.size(); i++) {
 			if (vars[i].name == name) {
 				vars[i].value = StringHelper::fromInt(value);
@@ -85,7 +85,7 @@ namespace NGTech {
 		}
 	}
 
-	void Config::setBool(const String &name, bool value) {
+	void Config::setBool(const String &name, const bool value) {
 		for (int i = 0; i < vars.size(); i++) {
 			if (vars[i].name == name) {
 				vars[i].value = StringHelper::fromBool(value);

@@ -28,7 +28,6 @@
 
 namespace NGTech
 {
-#if 0
 	Console::Console() : BaseLayout("Core/Console.layout")
 	{
 		assignWidget(mListHistory, "list_History");
@@ -221,5 +220,4 @@ namespace NGTech
 		mMainWidget->setVisible(_visible);
 		minputStatus = GetWindow()->isMouseGrabed();
 	}
-#endif
 }

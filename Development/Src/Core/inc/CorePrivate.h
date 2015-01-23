@@ -16,3 +16,4 @@
 #include "libProfiler.h"
 #include "MeshLoader.h"
 #include "CoreManager.h"
+#include "License.h"

@@ -3,7 +3,7 @@
 #include "GLExtensions.h"
 #include "GLTexture.h"
 //***************************************************************************
-
+//see http://www.slideshare.net/Mark_Kilgard/opengl-45-update-for-nvidia-gpus?qid=0ec7626a-1ec3-4178-aefb-2636607cf26e&v=qf1&b=&from_search=1
 namespace NGTech {
 
 	GLTexture *GLTexture::create2d(const String &path) {
@@ -147,7 +147,13 @@ namespace NGTech {
 	}
 
 	void GLTexture::setWrap(Wrap _wrap) {
-		this->wrap = _wrap;
+		static const GLuint Targets[] = {
+			/*ZERO*/0,
+			/*REPEAT*/0x2901,
+			/*CLAMP*/0x2900,
+			/*CLAMP_TO_EDGE*/0x812F
+		};
+		this->wrap = Targets[_wrap];
 
 		glTextureParameteriEXT(glID, target, GL_TEXTURE_WRAP_S, this->wrap);
 		glTextureParameteriEXT(glID, target, GL_TEXTURE_WRAP_T, this->wrap);
@@ -249,6 +255,12 @@ namespace NGTech {
 	}
 
 	GLTexture *GLTexture::create(int width, int height, int depth, Target target, Format format, void **data) {
+		static const GLuint Targets[] = {
+			/*ZERO*/0,
+			/*TEXTURE_2D*/0x0DE1,
+			/*TEXTURE_3D*/ 0x806F,
+			/*TEXTURE_CUBE*/0x8513
+		};
 		GLTexture *texture = new GLTexture();
 
 		texture->width = width;
@@ -256,7 +268,7 @@ namespace NGTech {
 		texture->depth = depth;
 
 		texture->wrap = GL_REPEAT;
-		texture->target = target;
+		texture->target = Targets[target];
 
 		if (format == RGB) {
 			texture->srcFormat = GL_RGB;
@@ -303,8 +315,8 @@ namespace NGTech {
 		}
 
 		glGenTextures(1, &texture->glID);
-		glBindTexture(texture->target, texture->glID);
-
+		glBindTexture(texture->target, texture->glID);//IN DSA is not needed
+		//IN DSA replaced on glTextureParameteri
 		glTexParameteri(texture->target, GL_TEXTURE_WRAP_S, texture->wrap);
 		glTexParameteri(texture->target, GL_TEXTURE_WRAP_T, texture->wrap);
 		glTexParameteri(texture->target, GL_TEXTURE_WRAP_R, texture->wrap);
@@ -361,7 +373,7 @@ namespace NGTech {
 				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB + i, 0, texture->internalFormat, texture->width, texture->height, 0, texture->srcFormat, texture->dataType, data[i]);
 			}
 		}
-		glBindTexture(texture->target, 0);
+		glBindTexture(texture->target, 0);//IN DSA is not needed
 
 		return texture;
 	}

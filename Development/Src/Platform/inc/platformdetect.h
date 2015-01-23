@@ -24,7 +24,6 @@
 #   define IS_OS_LINUX      0
 #   define IS_OS_MACOSX     0
 #   define PLATFORM_OS      PLATFORM_OS_WINDOWS
-#   define ENGINE_INLINE	__forceinline
 #   pragma message("Platform OS is Windows.")
 #elif defined(__linux__) && (!defined(__ANDROID__) )|| defined( LINUX )
 #   define IS_OS_WINDOWS    0
@@ -32,7 +31,6 @@
 #   define IS_OS_MACOSX     0
 #   define DROP_EDITOR      1
 #   define PLATFORM_OS      PLATFORM_OS_LINUX
-#   define ENGINE_INLINE	inline
 #   pragma message("Platform OS is Linux.")
 #elif ( defined(__APPLE__) && defined(__MACH__) )  || defined( MACOSX )
 #   define IS_OS_WINDOWS    0
@@ -40,7 +38,6 @@
 #   define IS_OS_MACOSX     1
 #   define DROP_EDITOR      1
 #   define PLATFORM_OS      PLATFORM_OS_MACOSX
-#   define ENGINE_INLINE	inline
 #   pragma message("Platform OS is MacOSX.")
 #elif defined(__linux__) && (defined(__ANDROID__) )
 #   define IS_OS_WINDOWS    0
@@ -48,7 +45,6 @@
 #   define IS_OS_MACOSX     0
 #   define DROP_EDITOR      1
 #   define PLATFORM_OS      PLATFORM_OS_ANDROID
-#   define ENGINE_INLINE	inline
 #   pragma message("Platform OS is Android.")
 #else
 #   error "This platform is not supported."
@@ -66,6 +62,7 @@
 #   define IS_COMPILER_GCC        0
 #   define IS_COMPILER_CLANG      0
 #   define IS_COMPILER_INTEL      0
+#   define ENGINE_INLINE		  __forceinline
 #   pragma message("Platform Compiler is Microsoft Visual C++.")
 #	pragma comment(lib,"winmm.lib")
 #elif defined( __GNUC__ )
@@ -75,6 +72,7 @@
 #   define IS_COMPILER_GCC        1
 #   define IS_COMPILER_CLANG      0
 #   define IS_COMPILER_INTEL      0
+#   define ENGINE_INLINE		  inline
 #   pragma message("Platform Compiler is GCC.")
 #elif defined( __CLANG__ )
 #   define PLATFORM_COMPILER            PLATFORM_COMPILER_CLANG
@@ -83,11 +81,11 @@
 #   define IS_COMPILER_GCC        0
 #   define IS_COMPILER_CLANG      1
 #   define IS_COMPILER_INTEL      0
+#   define ENGINE_INLINE		  inline
 #   pragma message("Platform Compiler is CLANG.")
 #else
 #   error "This compiler is not supported."
 #endif
-
 
 #define PLATFORM_MEMORY_ADDRESS_SPACE_32BIT  1
 #define PLATFORM_MEMORY_ADDRESS_SPACE_64BIT  2

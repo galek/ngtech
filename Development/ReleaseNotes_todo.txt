@@ -2,10 +2,7 @@
 
 1)NVGamePad
 2)Корректный шейдер mygui (?Сделано)
-3)Внести mygui в Core,GLPlatform в GLDrv
-4)Больше инфы о железке(смотри свой двиг на d3d11)
 5)Панелька настроек,как у Unigine,по ESC
-6)Игровой GUI вынести в отдельный класс
 7)Sky
 
 
@@ -25,7 +22,6 @@ Tools:
 
 
 Добавить либу CharactedCinematic для физикса
-Пофиксить получение оъема памяти для видюхи
 
 freetype-смотри семпл skybox
 
@@ -35,3 +31,8 @@ freetype-смотри семпл skybox
 http://ogltutor.netau.net/tutorials/tutorial38.html
 http://ogltutor.netau.net/tutorials/tutorial42.html
 http://ogltutor.netau.net/tutorials/tutorial43.html
+
+Экспорт списка материалов из макса
+
+Прямой экспорт вектора амбиента в материал
+Перепиши партиклы

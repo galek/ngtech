@@ -31,7 +31,7 @@ namespace NGTech {
 	/**
 	*/
 	GLSystem::GLSystem(CoreManager*_engine)
-		:engine(_engine), polygon_cull(0), polygon_front(0), debugOutputEnabled(false)
+		:engine(_engine), cvars(engine->cvars), polygon_cull(0), polygon_front(0), debugOutputEnabled(false)
 	{}
 
 	/**
@@ -251,7 +251,7 @@ namespace NGTech {
 	/**
 	*/
 	void GLSystem::EnableVSync(bool _v){
-			ManageVSync(engine, _v);
+		ManageVSync(engine, _v);
 	}
 
 	/**
@@ -307,7 +307,7 @@ namespace NGTech {
 		}
 		return true;
 	}
-
+	//Deprecated
 	void perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar)
 	{
 		const GLdouble pi = 3.1415926535897932384626433832795;
@@ -328,7 +328,7 @@ namespace NGTech {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		//perspectiveGL(60, (float)width / (float)height, 1, 500);//
-		loadMatrix(Mat4::perspective(60, (float)width / (float)height, 1, 500));//TODO:FOV
+		loadMatrix(Mat4::perspective(cvars->cl_fov, (float)width / (float)height, 1, 500));//TODO:FOV
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 	}
@@ -560,14 +560,24 @@ namespace NGTech {
 	/**
 	*/
 	void GLSystem::alphaTestFunc(CompareType type, float alphaRef) {
-		glAlphaFunc(type, alphaRef);
+		static const GLuint modes[] = {
+			/*NEVER*/0x0209, /*LESS*/ 0x0201,/*EQUAL*/ 0x0202,
+			/*LEQUAL*/ 0x0203, /*GREATER*/ 0x0204,/*NOTEQUAL*/ 0x0205,
+			/*GEQUAL*/ 0x0206, /*ALWAYS*/ 0x0207
+		};
+		glAlphaFunc(modes[type], alphaRef);
 	}
 
 	/**
 	*/
 	void GLSystem::enableAlphaTest(CompareType type, float alphaRef) {
 		glEnable(GL_ALPHA_TEST);
-		glAlphaFunc(type, alphaRef);
+		static const GLuint modes[] = {
+			/*NEVER*/0x0209, /*LESS*/ 0x0201,/*EQUAL*/ 0x0202,
+			/*LEQUAL*/ 0x0203, /*GREATER*/ 0x0204,/*NOTEQUAL*/ 0x0205,
+			/*GEQUAL*/ 0x0206, /*ALWAYS*/ 0x0207
+		};
+		glAlphaFunc(modes[type], alphaRef);
 	}
 
 	/**
@@ -585,14 +595,24 @@ namespace NGTech {
 	/**
 	*/
 	void GLSystem::depthFunc(CompareType type) {
-		glDepthFunc(type);
+		static const GLuint modes[] = {
+			/*NEVER*/0x0209, /*LESS*/ 0x0201,/*EQUAL*/ 0x0202,
+			/*LEQUAL*/ 0x0203, /*GREATER*/ 0x0204,/*NOTEQUAL*/ 0x0205,
+			/*GEQUAL*/ 0x0206, /*ALWAYS*/ 0x0207
+		};
+		glDepthFunc(modes[type]);
 	}
 
 	/**
 	*/
 	void GLSystem::enableDepth(CompareType type) {
 		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(type);
+		static const GLuint modes[] = {
+			/*NEVER*/0x0209, /*LESS*/ 0x0201,/*EQUAL*/ 0x0202,
+			/*LEQUAL*/ 0x0203, /*GREATER*/ 0x0204,/*NOTEQUAL*/ 0x0205,
+			/*GEQUAL*/ 0x0206, /*ALWAYS*/ 0x0207
+		};
+		glDepthFunc(modes[type]);
 	}
 
 	/**
@@ -672,14 +692,24 @@ namespace NGTech {
 	/**
 	*/
 	void GLSystem::blendFunc(BlendParam src, BlendParam dst) {
-		glBlendFunc(src, dst);
+		static const GLuint modes[] = {
+			1, 0, 0x0300, 0x0306, 0x0302, 0x0304,
+			0x0301, 0x0307, 0x0303, 0x0305
+		};
+		glBlendFunc(modes[src], modes[dst]);
 	}
 
 	/**
 	*/
-	void GLSystem::enableBlending(BlendParam src, BlendParam dst) {
+	void GLSystem::enableBlending(BlendParam src, BlendParam dst)
+	{
 		glEnable(GL_BLEND);
-		glBlendFunc(src, dst);
+
+		static const GLuint modes[] = {
+			1, 0, 0x0300, 0x0306, 0x0302, 0x0304,
+			0x0301, 0x0307, 0x0303, 0x0305
+		};
+		glBlendFunc(modes[src], modes[dst]);
 	}
 
 	/**

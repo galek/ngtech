@@ -13,7 +13,7 @@
 
 
 namespace NGTech {
-
+	//http://www.nexcius.net/wiki/OpenGL_4.0_Wrapper
 	/**
 	*/
 	WindowSystemGLFW::WindowSystemGLFW(CVARManager*_cvars)
@@ -70,6 +70,7 @@ namespace NGTech {
 #ifdef _ENGINE_DEBUG_
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 #endif
+		glfwGetInputMode(window, GLFW_STICKY_KEYS);
 
 		GLFWmonitor *mMonitor = NULL;
 		if (fullscreen)
@@ -164,7 +165,7 @@ namespace NGTech {
 	/**
 	*/
 	void WindowSystemGLFW::showCursor(bool show) {
-		//MyGUI::PointerManager::getInstance().setVisible(show);
+		MyGUI::PointerManager::getInstance().setVisible(show);
 		cursorVisible = show;
 	}
 
