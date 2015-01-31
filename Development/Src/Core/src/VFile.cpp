@@ -23,13 +23,21 @@
 #include <fstream>
 #include <stdarg.h>
 
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
+#include  <io.h>
+#include  <stdio.h>
+#include  <stdlib.h>
+#else
+#include <unistd.h>
+#endif
+
 namespace NGTech
 {
 
 	/**
 	*/
 	VFile::VFile(const String & _name, int _mode, bool _notSearch)
-		:mName(_name), mCurrentPos(0), mSize(0), memoryBuffer(nullptr)
+		:mName(_name), mCurrentPos(0), mSize(0), memoryBuffer(nullptr), mFile(nullptr)
 	{
 		DebugM("Loading/Search file with name: %s", _name.c_str());
 		_OpenFile(_name, _mode, _notSearch);
@@ -48,14 +56,17 @@ namespace NGTech
 	*/
 	bool VFile::IsDataExist() {
 		bool status = GetVFS()->isDataExist(mName);
-		if (!status)
+		if ((!status))
 			Warning("File %s :is not exist", mName.c_str());
 		return status;
 	}
 
 	/**
 	*/
-	char* VFile::LoadFile(){
+	char* VFile::LoadFile()
+	{
+		if (!IsDataExist())
+			return nullptr;
 
 		PROFILER_START(VFile::LoadFile);
 
@@ -78,15 +89,18 @@ namespace NGTech
 	/**
 	*/
 	size_t VFile::FTell(){
-		return ftell(mFile);
+		if (mFile)
+			return ftell(mFile);
+		return -1;
 	}
 
 	/**
 	*/
 	size_t VFile::FSeek(long offset, int mode)
 	{
-		assert(mFile);
-		return fseek(mFile, offset, mode);
+		if (mFile)
+			return fseek(mFile, offset, mode);
+		return 1;
 	}
 
 	/**
@@ -106,7 +120,6 @@ namespace NGTech
 	/**
 	*/
 	bool VFile::IsEof()	{
-		assert(mFile);
 		if (mFile)
 			return feof(mFile) != 0;
 
@@ -187,7 +200,8 @@ namespace NGTech
 	/**
 	*/
 	void VFile::WriteString(const String &text) {
-		fprintf(mFile, "%s\n", text.c_str());
+		if (mFile)
+			fprintf(mFile, "%s\n", text.c_str());
 	}
 
 	/**
@@ -233,21 +247,34 @@ namespace NGTech
 	*/
 	void VFile::ScanF(const char *format, ...)
 	{
-		va_list ap;
-		va_start(ap, format);
-		vfscanf(mFile, format, ap);
-		va_end(ap);
+		if (mFile)
+		{
+			va_list ap;
+			va_start(ap, format);
+			vfscanf(mFile, format, ap);
+			va_end(ap);
+		}
 	}
 
 	/**
 	*/
 	int VFile::FClose()
 	{
-		assert(mFile);
-
 		if (mFile)
 			return fclose(mFile);
-		
+
 		return 1;
+	}
+
+	/**
+	*/
+	bool VFile::IsValid()
+	{
+		return
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
+			!(_access(mName.c_str(), 00) != -1);
+#else
+			!(access(mName.c_str(), F_OK) != -1);
+#endif
 	}
 }

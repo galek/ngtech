@@ -35,13 +35,13 @@ namespace NGTech
 
 		/*
 		*/
-		virtual void Load(const String &path, SkinnedMesh *mesh);
+		virtual bool Load(const String &path, SkinnedMesh *mesh);
 
 		/*
 		*/
 		virtual String GetExt()
 		{
-			return "xssmsh";
+			return "nggf";
 		}
 	};
 

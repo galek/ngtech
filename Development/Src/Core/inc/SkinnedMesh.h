@@ -37,6 +37,8 @@ namespace NGTech
 			return numSubsets;
 		}
 
+		void SetNumSubsets(unsigned int _num) {	numSubsets = _num;	}
+
 		/**
 		get subset number by number
 		*/
@@ -159,6 +161,9 @@ namespace NGTech
 		Subset **subsets;
 
 		bool visible;
+
+	private:
+		bool mFileIsLoaded;
 
 	private:
 		friend class SkinnedMeshLoader;

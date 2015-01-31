@@ -16,21 +16,29 @@ namespace NGTech
 
 		bool IsDataExist();
 		bool IsEof();
+
 		char* LoadFile();
+
 		const char* GetDataPath();
+
 		size_t Size();
 		size_t FTell();
 		size_t FSeek(long offset, int mode);
+
 		String GetLine();
+
 		String GetFileExt();
 		String CutFileExt();
+
 		//Revert 0 if all is normal
 		int FClose();
 		void Read(void *buf, int size, int count);
 		void WriteString(const String &text);
 		void Write(void *buf, int size, int count);
 		void ScanF(const char * format, ...);
-		ENGINE_INLINE FILE* GetLowLevelFile(){ return mFile; }
+
+		ENGINE_INLINE FILE* GetLowLevelFile() { return mFile; }
+		ENGINE_INLINE bool IsValid();
 	private:
 		void _OpenFile(const String&path, int _mode, bool _notSearch);
 	private:

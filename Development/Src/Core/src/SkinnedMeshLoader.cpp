@@ -39,7 +39,7 @@ namespace NGTech
 
 	/*
 	*/
-	void SkinnedMeshLoader::Load(const String &path, SkinnedMesh *mesh)
+	bool SkinnedMeshLoader::Load(const String &path, SkinnedMesh *mesh)
 	{
 		VFile file(path.c_str());
 		auto ext = file.GetFileExt();
@@ -48,11 +48,11 @@ namespace NGTech
 		{
 			if (formats[i]->GetExt() == ext)
 			{
-				formats[i]->Load(path, mesh);
-				return;
+				return formats[i]->Load(path, mesh);
 			}
 		}
 		Error("SkinnedMeshLoader::Load() error: format is not supported", true);
+		return false;
 	}
 
 }

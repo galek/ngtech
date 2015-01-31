@@ -4,13 +4,14 @@
 #include "Config.h"
 
 namespace NGTech {
+	//TODO:Сделать получение размер дисплея
 	CVARManager::CVARManager(Config*_c)
 		:r_width(_c->getFloat("r_width", 1024.f)),
 		r_height(_c->getFloat("r_height", 768)),
 		r_bpp(_c->getFloat("r_bpp", 32.f)),
 		r_zdepth(_c->getFloat("r_zdepth", 24.f)),
-		r_fullscreen(_c->getBool("r_fullscreen")),
-		r_showInfo(_c->getBool("r_DisplayInfo")),
+		r_fullscreen(_c->getBool("r_fullscreen", false)),
+		r_showInfo(_c->getBool("r_DisplayInfo", false)),
 		r_shadowsize(_c->getInt("r_shadowsize", 512)),
 		r_shadowtype(_c->getInt("r_shadowtype", 4)),
 		r_specular(_c->getBool("r_specular", true)),

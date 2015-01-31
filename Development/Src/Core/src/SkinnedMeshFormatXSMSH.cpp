@@ -30,10 +30,16 @@ namespace NGTech
 
 	/*
 	*/
-	void SkinnedMeshFormatXSSMSH::Load(const String &path, SkinnedMesh *mesh)
+	bool SkinnedMeshFormatXSSMSH::Load(const String &path, SkinnedMesh *mesh)
 	{
 		//begin loading
 		VFile file(path.c_str());
+
+		if (!file.IsValid())
+		{
+			Warning("File is not valid");
+			return false;
+		}
 
 		//buffer
 		char nameBuffer[NAME_SIZE];
@@ -43,10 +49,7 @@ namespace NGTech
 		file.Read(&header, sizeof(unsigned int), 1);
 
 		if (header != SKINNED_MESH_HEADER)
-		{
 			Error(std::string("MeshLoader::LoadXSSMSH() error: mesh file '" + path + "' has invalid header"), true);
-			return;
-		}
 
 		//num_bones
 		file.Read(&mesh->numBones, sizeof(unsigned int), 1);
@@ -59,8 +62,10 @@ namespace NGTech
 		}
 
 		//num_subsets
-		file.Read(&mesh->numSubsets, sizeof(unsigned int), 1);
-		mesh->subsets = new SkinnedMesh::Subset*[mesh->numSubsets];
+		int numSubsets = 0;
+		file.Read(&numSubsets, sizeof(unsigned int), 1);
+		mesh->subsets = new SkinnedMesh::Subset*[numSubsets];
+		mesh->SetNumSubsets(numSubsets);
 
 		//process subsets
 		for (int s = 0; s < mesh->numSubsets; s++)
@@ -131,6 +136,7 @@ namespace NGTech
 				file.Read(&mesh->frames[i][k].rotation.w, sizeof(float), 1);
 			}
 		}
+		return true;
 	}
 
 	/*

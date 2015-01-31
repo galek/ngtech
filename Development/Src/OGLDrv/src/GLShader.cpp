@@ -406,7 +406,7 @@ namespace NGTech {
 				if (!compiled) {
 					char errorString[1024] = { 0 };
 					glGetProgramInfoLog(this->vs, sizeof(errorString), NULL, errorString);
-					Warning("[%s] Error: shader file '%s' vs compiling error: %s", __FUNCTION__, pathVS.c_str(), String(errorString));
+					Warning("[%s] Error: shader file '%s' vs compiling error: %s", __FUNCTION__, pathVS.c_str(), String(errorString).c_str());
 					Error("Failed compiling shader", true);
 					return false;
 				}
@@ -435,7 +435,7 @@ namespace NGTech {
 				if (!compiled) {
 					char errorString[1024] = { 0 };
 					glGetProgramInfoLog(this->fs, sizeof(errorString), NULL, errorString);
-					Warning("[%s] Error: shader file '%s' fs compiling error: %s", __FUNCTION__, pathFS.c_str(), String(errorString));
+					Warning("[%s] Error: shader file '%s' fs compiling error: %s", __FUNCTION__, pathFS.c_str(), String(errorString).c_str());
 					Error("Failed compiling shader", true);
 					return false;
 				}

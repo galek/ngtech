@@ -70,7 +70,6 @@ namespace NGTech {
 #ifdef _ENGINE_DEBUG_
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 #endif
-		glfwGetInputMode(window, GLFW_STICKY_KEYS);
 
 		GLFWmonitor *mMonitor = NULL;
 		if (fullscreen)

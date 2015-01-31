@@ -35,7 +35,7 @@ namespace NGTech
 
 		/*
 		*/
-		void Load(const String &path, SkinnedMesh *mesh);
+		bool Load(const String &path, SkinnedMesh *mesh);
 
 		/*
 		*/

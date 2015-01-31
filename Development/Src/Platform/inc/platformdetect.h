@@ -114,6 +114,18 @@
 #endif
 #endif
 
+#if !defined(PTRDIFF_T_DEFINED) && !defined(_PTRDIFF_T)
+# ifdef _WIN64
+# ifdef GNUC
+typedef long long ptrdiff_t;
+# else
+typedef __int64 ptrdiff_t;
+# endif
+# else
+typedef int ptrdiff_t;
+# endif
+# endif
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define	_NAME_SEPARATOR_			"|"

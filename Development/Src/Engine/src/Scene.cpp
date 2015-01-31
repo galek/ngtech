@@ -26,6 +26,14 @@ namespace NGTech {
 		hdr(nullptr),
 		query(nullptr),
 		sphere(nullptr),
+		viewportFBO(nullptr),
+		shadowFBO(nullptr),
+		viewportCopy(nullptr),
+		hdrViewportCopy(nullptr),
+		viewportCopy_brightPass_blured(nullptr),
+		matViewportMap(nullptr),
+		matShadowMap(nullptr),
+		matSpotMap(nullptr),
 		camera(new CameraFixed()),
 		frustum(new Frustum())
 	{
@@ -62,10 +70,6 @@ namespace NGTech {
 		query = GetRender()->GetOQ();
 
 		sphere = new ObjectMesh("sphere.nggf");
-
-		matViewportMap = NULL;
-		matShadowMap = NULL;
-		matSpotMap = NULL;
 
 		depthPass = new Material("materials/engine_materials/depth_pass.mat");
 		hdr = new Material("materials/engine_materials/HDR.mat");

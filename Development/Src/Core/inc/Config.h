@@ -23,7 +23,8 @@ namespace NGTech {
 		void setInt(const String &name, const int value);
 		void setBool(const String &name, const bool value);
 		void setString(const String &name, const String &value);
-
+	private:
+		void _LoadCFG(const String &path);
 	private:
 		struct ConfigVar {
 			ConfigVar() {

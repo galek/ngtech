@@ -16,20 +16,7 @@
 namespace NGTech {
 
 	Config::Config(const String &path) {
-		VFile file(path.c_str(), VFile::READ_TEXT, true);
-
-		while (!file.IsEof()) {
-			String line = file.GetLine();
-			if (line[0] == '#' || StringHelper::getWordsNumber(line) < 3) {
-				continue;
-			}
-
-			ConfigVar cv;
-			cv.name = StringHelper::getWord(line, 1);
-			cv.value = StringHelper::getWord(line, 3);
-
-			vars.push_back(cv);
-		}
+		_LoadCFG(path);
 	}
 
 	void Config::save(const String &path) {
@@ -103,4 +90,21 @@ namespace NGTech {
 		}
 	}
 
+	void Config::_LoadCFG(const String &path)
+	{
+		VFile file(path.c_str(), VFile::READ_TEXT, true);
+
+		while (!file.IsEof()) {
+			String line = file.GetLine();
+			if (line[0] == '#' || StringHelper::getWordsNumber(line) < 3) {
+				continue;
+			}
+
+			ConfigVar cv;
+			cv.name = StringHelper::getWord(line, 1);
+			cv.value = StringHelper::getWord(line, 3);
+
+			vars.push_back(cv);
+		}
+	}
 }

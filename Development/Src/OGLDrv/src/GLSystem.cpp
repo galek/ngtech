@@ -88,6 +88,9 @@ namespace NGTech {
 		defAniso = GLTexture::ANISO_X0;
 		defFilter = GLTexture::LINEAR_MIPMAP_LINEAR;
 
+		//clear display
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearDepth(1.0);
 
 		//enable depth testing and culling
 		glDepthFunc(GL_LEQUAL);
@@ -102,11 +105,10 @@ namespace NGTech {
 		GLExtensions::initExtensions();
 		ManageVSync(engine, false);
 		EnableMultiSample(false);
-
-		requireExtension("GL_EXT_direct_state_access", false);
+#ifdef _ENGINE_DEBUG_
 		requireExtension("GL_ARB_debug_output", false);
-
 		EnableDebugOutput();
+#endif
 
 		{
 			FullscreenQuadVertex verts[] = {

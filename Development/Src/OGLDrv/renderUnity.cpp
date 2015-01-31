@@ -4,7 +4,6 @@
 
 #include "src/dllmain.cpp"
 #include "src/GLDisplayList.cpp"
-#include "src/GLew/glew.c"
 #include "src/GLExtensions.cpp"
 #include "src/GLFBO.cpp"
 #include "src/GLOcclusionQuery.cpp"

@@ -10,7 +10,8 @@ namespace NGTech
 
 	/*
 	*/
-	SkinnedMesh::SkinnedMesh(const String &path)
+	SkinnedMesh::SkinnedMesh(const String &path) 
+		:mFileIsLoaded(false), numSubsets(0)
 	{
 		Load(path);
 	}
@@ -34,9 +35,11 @@ namespace NGTech
 	*/
 	void SkinnedMesh::Load(const String &_path)
 	{
-		GetSkinnedMeshLoader()->Load(_path, this);
+		mFileIsLoaded = GetSkinnedMeshLoader()->Load(_path, this);
 
 		path = _path;
+		if (!mFileIsLoaded)
+			return;
 		CalculateTBN();
 		CalculateBoundings();
 		CreateVBO();
@@ -46,7 +49,7 @@ namespace NGTech
 	*/
 	void SkinnedMesh::SetFrame(float frame, int from, int to)
 	{
-		if (numFrames == 0) return;
+		if ((numFrames == 0) || (!mFileIsLoaded)) return;
 
 		if (from < 0) from = 0;
 		if (to < 0) to = numFrames;
@@ -117,6 +120,8 @@ namespace NGTech
 	*/
 	void SkinnedMesh::drawSubset(size_t subset)
 	{
+		if (!mFileIsLoaded)
+			return;
 		Subset *st = subsets[subset];
 
 		st->vertBuff->Bind();
@@ -141,11 +146,12 @@ namespace NGTech
 	*/
 	int SkinnedMesh::GetSubset(String name)
 	{
-		for (unsigned int s = 0; s < numSubsets; s++)
-		{
-			if (subsets[s]->name == name)
-				return s;
-		}
+		if (mFileIsLoaded)
+			for (unsigned int s = 0; s < numSubsets; s++)
+			{
+				if (subsets[s]->name == name)
+					return s;
+			}
 		return 0;
 	}
 
@@ -154,6 +160,8 @@ namespace NGTech
 	*/
 	void SkinnedMesh::CalculateTBN()
 	{
+		if (!mFileIsLoaded)
+			return;
 		SetFrame(0.0);
 
 		for (int s = 0; s < numSubsets; s++)
@@ -227,6 +235,8 @@ namespace NGTech
 	*/
 	void SkinnedMesh::CalculateBoundings()
 	{
+		if (!mFileIsLoaded)
+			return;
 		SetFrame(0.0);
 		for (unsigned int s = 0; s < numSubsets; s++)
 		{
@@ -258,6 +268,8 @@ namespace NGTech
 	/**
 	*/
 	void SkinnedMesh::CreateVBO() {
+		if (!mFileIsLoaded)
+			return;
 		for (unsigned int s = 0; s < numSubsets; s++) {
 			Subset *st = subsets[s];
 			st->vertBuff = GetRender()->CreateVBO(st->vertices, st->numVertices, 2 * sizeof(Vertex), I_VBManager::FLOAT, I_VBManager::STREAM);
