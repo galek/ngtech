@@ -25,12 +25,19 @@
 #endif
 #include <stdarg.h>
 //***************************************************************************
+#include <iostream>
+//***************************************************************************
+#include "../../Platform/inc/stack_exception.hpp"
+//***************************************************************************
 #include "Log.h"
 #include "FileHelper.h"
 #include "Error.h"
 //***************************************************************************
 
 namespace NGTech {
+
+	/**
+	*/
 	void DebugF(String text, const char* _file, int _line){
 		char buf[32];
 		sprintf(buf, "%d", _line);
@@ -43,7 +50,9 @@ namespace NGTech {
 		OutputDebugString(text.c_str());
 #endif
 	}
-
+	
+	/**
+	*/
 	void Warning(const char *fmt, ...){
 
 		char           msg[8000];
@@ -61,7 +70,9 @@ namespace NGTech {
 
 		Log::warning(sMsg.c_str());
 	}
-
+	
+	/**
+	*/
 	void DebugM(const char *fmt, ...){
 
 		char           msg[8000];
@@ -79,6 +90,8 @@ namespace NGTech {
 #endif
 	}
 
+	/**
+	*/
 	void LogPrintf(const char *fmt, ...){
 
 		char           msg[8000];
@@ -94,11 +107,25 @@ namespace NGTech {
 		Log::write(msg);
 	}
 
-	void Error(String text, bool _fatal){
+	/**
+	*/
+	void WriteCallStack()
+	{
+		using namespace stacktrace;
+		call_stack st;
+		LogPrintf(st.to_string().c_str());
+	}
+	/**
+	*/
+	void Error(String text, bool _fatal)
+	{
+		Log::error(text);
+		WriteCallStack();
 		if (_fatal)	Error::showAndExit(text);
-		else Log::error(text);
 	}
 
+	/**
+	*/
 	Log::Log() {
 #if (PLATFORM_OS == PLATFORM_OS_LINUX) || (PLATFORM_OS == PLATFORM_OS_ANDROID)
 		//with read/write/search permissions for owner and group, and with read/search permissions for others.
@@ -126,6 +153,8 @@ namespace NGTech {
 		}
 	}
 
+	/**
+	*/
 	void Log::write(String text) {
 		text += '\n';
 		FILE *fLog;
@@ -143,6 +172,8 @@ namespace NGTech {
 			fclose(fLog);
 	}
 
+	/**
+	*/
 	void Log::writeHeader(String text) {
 		text += '\n';
 		FILE *fLog;
@@ -160,6 +191,8 @@ namespace NGTech {
 			fclose(fLog);
 	}
 
+	/**
+	*/
 	void Log::profiler(String text) {
 		text += '\n';
 		FILE *fLog;
@@ -177,6 +210,8 @@ namespace NGTech {
 			fclose(fLog);
 	}
 
+	/**
+	*/
 	void Log::warning(String text) {
 		text += '\n';
 		FILE *fLog;
@@ -194,6 +229,8 @@ namespace NGTech {
 			fclose(fLog);
 	}
 
+	/**
+	*/
 	void Log::error(String text) {
 		text += '\n';
 		FILE *fLog;
@@ -211,4 +248,6 @@ namespace NGTech {
 			fclose(fLog);
 	}
 
+	/**
+	*/
 }

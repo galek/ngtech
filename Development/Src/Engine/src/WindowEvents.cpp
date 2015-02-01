@@ -361,8 +361,6 @@ namespace NGTech {
 		case GLFW_KEY_UNKNOWN:      return "UNKNOWN";
 #endif
 
-
-
 		else if ((stricmp(_p, "ESC")) == 0)
 			return KEY_ESC;
 		else if ((stricmp(_p, "EQUAL")) == 0)
@@ -376,6 +374,31 @@ namespace NGTech {
 			return KEY_LEFT;
 		else if ((stricmp(_p, "RIGHT")) == 0)
 			return KEY_RIGHT;
+
+		else if ((stricmp(_p, "F1")) == 0)
+			return KEY_F1;
+		else if ((stricmp(_p, "F2")) == 0)
+			return KEY_F2;
+		else if ((stricmp(_p, "F3")) == 0)
+			return KEY_F3;
+		else if ((stricmp(_p, "F4")) == 0)
+			return KEY_F4;
+		else if ((stricmp(_p, "F5")) == 0)
+			return KEY_F5;
+		else if ((stricmp(_p, "F6")) == 0)
+			return KEY_F6;
+		else if ((stricmp(_p, "F7")) == 0)
+			return KEY_F7;
+		else if ((stricmp(_p, "F8")) == 0)
+			return KEY_F8;
+		else if ((stricmp(_p, "F9")) == 0)
+			return KEY_F9;
+		else if ((stricmp(_p, "F10")) == 0)
+			return KEY_F10;
+		else if ((stricmp(_p, "F11")) == 0)
+			return KEY_F11;
+		else if ((stricmp(_p, "F12")) == 0)
+			return KEY_F12;
 
 		return 0;
 	}

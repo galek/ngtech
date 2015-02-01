@@ -552,6 +552,31 @@ namespace NGTech {
 		else if ((stricmp(_p, "RIGHT")) == 0)
 			return KEY_RIGHT;
 
+		else if ((stricmp(_p, "F1")) == 0)
+			return KEY_F1;
+		else if ((stricmp(_p, "F2")) == 0)
+			return KEY_F2;
+		else if ((stricmp(_p, "F3")) == 0)
+			return KEY_F3;
+		else if ((stricmp(_p, "F4")) == 0)
+			return KEY_F4;
+		else if ((stricmp(_p, "F5")) == 0)
+			return KEY_F5;
+		else if ((stricmp(_p, "F6")) == 0)
+			return KEY_F6;
+		else if ((stricmp(_p, "F7")) == 0)
+			return KEY_F7;
+		else if ((stricmp(_p, "F8")) == 0)
+			return KEY_F8;
+		else if ((stricmp(_p, "F9")) == 0)
+			return KEY_F9;
+		else if ((stricmp(_p, "F10")) == 0)
+			return KEY_F10;
+		else if ((stricmp(_p, "F11")) == 0)
+			return KEY_F11;
+		else if ((stricmp(_p, "F12")) == 0)
+			return KEY_F12;
+
 		return 0;
 	}
 
@@ -645,6 +670,31 @@ namespace NGTech {
 			return "LEFT";
 		else if (_p == KEY_RIGHT)
 			return "RIGHT";
+
+		else if (_p == KEY_F1)
+			return "F1";
+		else if (_p == KEY_F2)
+			return "F2";
+		else if (_p == KEY_F3)
+			return "F3";
+		else if (_p == KEY_F4)
+			return "F4";
+		else if (_p == KEY_F5)
+			return "F5";
+		else if (_p == KEY_F6)
+			return "F6";
+		else if (_p == KEY_F7)
+			return "F7";
+		else if (_p == KEY_F8)
+			return "F8";
+		else if (_p == KEY_F9)
+			return "F9";
+		else if (_p == KEY_F10)
+			return "F10";
+		else if (_p == KEY_F11)
+			return "F11";
+		else if (_p == KEY_F12)
+			return "F12";
 
 		return "NULL";
 	}

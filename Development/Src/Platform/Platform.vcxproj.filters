@@ -61,6 +61,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Файлы исходного кода\callstack">
+      <UniqueIdentifier>{6b4ff28e-f8d7-4f7e-807f-ed8ee41b7bc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crashreport\windows\handler\exception_handler.cc">
@@ -125,6 +128,15 @@
     </ClCompile>
     <ClCompile Include="src\glfw\win32_tls.c">
       <Filter>Файлы исходного кода\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="src\call_stack_gcc.cpp">
+      <Filter>Файлы исходного кода\callstack</Filter>
+    </ClCompile>
+    <ClCompile Include="src\call_stack_msvc.cpp">
+      <Filter>Файлы исходного кода\callstack</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StackWalker.cpp">
+      <Filter>Файлы исходного кода\callstack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
