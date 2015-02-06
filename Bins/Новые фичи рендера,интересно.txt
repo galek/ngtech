@@ -10,3 +10,13 @@ gl-420-primitive-line-aa
 gl-420-memory-barrier
 gl-420-interface-matching-рисуем сетку
 gl-420-draw-base-instance
+
+http://on-demand.gputechconf.com/gtc/2014/presentations/S4379-opengl-44-scene-rendering-techniques.pdf
+
+https://github.com/omcfadde/dante -IDtech4 GLES2
+
+Порт на никсы
+http://www.codeproject.com/Articles/81885/Windows-Linux-Porting
+
+Перезагрузка плагина
+http://www.gamedev.ru/code/tip/3DMAX_reloadable_plugin
