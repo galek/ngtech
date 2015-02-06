@@ -115,6 +115,7 @@ namespace NGTech {
 		call_stack st;
 		LogPrintf(st.to_string().c_str());
 	}
+
 	/**
 	*/
 	void Error(String text, bool _fatal)

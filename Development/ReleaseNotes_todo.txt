@@ -36,3 +36,6 @@ http://ogltutor.netau.net/tutorials/tutorial43.html
 
 Прямой экспорт вектора амбиента в материал
 Перепиши партиклы
+
+Аффиные преобразования
+http://compgraphics.info/OpenGL/draw_a_cube.php

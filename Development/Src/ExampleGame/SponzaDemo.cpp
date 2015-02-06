@@ -118,7 +118,7 @@ void ExampleGame::initialise() {
 	particlesYellow->setDispersion(0.1);
 
 	//GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
-	sMesh = new ObjectSkinnedMesh("chammy.xssmsh");
+	sMesh = new ObjectSkinnedMesh("chammy.nggf");
 	sMesh->setMaterial("grid.mat");
 	sMesh->setTransform(Mat4::translate(Vec3(-60, 60, 0)));
 

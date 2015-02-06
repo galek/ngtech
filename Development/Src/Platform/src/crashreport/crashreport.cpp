@@ -1,6 +1,10 @@
+//***************************************************************************
 #include "crashreport/windows/handler/exception_handler.h"
 #include "crashreport/windows/crash_generation/client_info.h"
 #include "crashreport/windows/crash_generation/crash_generation_server.h"
+//***************************************************************************
+#include "../../inc/stack_exception.hpp"
+//***************************************************************************
 
 namespace NGTech
 {
@@ -42,6 +46,13 @@ namespace NGTech
 		crash_server = NULL;
 	}
 
+	void GetCallStackToString(std::string &str)
+	{
+		using namespace stacktrace;
+		call_stack st;
+		str += st.to_string();
+	}
+
 	bool ShowDumpResults(const wchar_t* dump_path,
 		const wchar_t* minidump_id,
 		void* context,
@@ -50,8 +61,10 @@ namespace NGTech
 		bool succeeded)
 	{
 		std::string ex = "General Protection Fault!";
+		std::string desc("Critical Error: \n");
+		GetCallStackToString(desc);
 #ifdef _WIN32
-		MessageBoxA(NULL, ex.c_str(), "Critical Error", MB_OK);
+		MessageBoxA(NULL, desc.c_str(), ex.c_str(), MB_OK);
 #endif
 #ifdef _NDEBUG
 		exit(0);
