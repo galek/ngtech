@@ -25,8 +25,9 @@ namespace NGEd
         public void DoUpdate()
         {
             Application.DoEvents();
-            if (engine != null)
-                engine.Update();
+            if (engine == null)
+                return;
+            engine.Update();
         }
 
         protected override void OnLoad(EventArgs e)

@@ -36,7 +36,7 @@
 #endif
 
 #ifndef ENGINE_RELEASE
-#define USE_PROFILER 1
+//#define USE_PROFILER 1
 #endif
 
 #ifndef LIMITED_FPS

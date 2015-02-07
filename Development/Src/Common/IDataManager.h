@@ -16,7 +16,7 @@ namespace NGTech
 		virtual size_t read(void* _buf, size_t _count) = 0;
 	};
 
-	class DataManager :public Singleton < DataManager >
+	class DataManager
 	{
 	public:
 
@@ -47,6 +47,4 @@ namespace NGTech
 		*/
 		virtual const std::string& getDataPath(const std::string& _name) = 0;
 	};
-	template <> DataManager* Singleton<DataManager>::msInstance = nullptr;
-	template <> const char* Singleton<DataManager>::mClassTypeName = "DataManager";
 } // namespace Common

@@ -49,7 +49,7 @@ namespace NGTech {
 
 		viewportFBO = GetRender()->CreateFBO(cvars->r_width, cvars->r_height);
 		viewportFBO->createDepthAttachment();
-		
+
 		int size = GetCvars()->r_shadowsize;
 		shadowFBO = GetRender()->CreateFBO(size, size);
 		shadowFBO->createDepthAttachment();
@@ -773,16 +773,20 @@ namespace NGTech {
 
 	/**
 	*/
-	void Scene::update()
+	void Scene::update(bool _paused)
 	{
-#pragma message("BUG,if camera is null,on next frame,after creation is will crash")
+		if (!camera)
+			return;
 		//---------update-camera-----------------------------------
 		camera->update();
-		//draw particle systems
-		for (size_t k = 0; k < systems.size(); k++) {
-			if (systems[k]) systems[k]->draw();
+		if (!_paused)
+		{
+			//draw particle systems
+			for (size_t k = 0; k < systems.size(); k++) {
+				if (systems[k]) systems[k]->draw();
+			}
 		}
-		
+
 		//---------draw-scene--------------------------------
 		GetRender()->setMatrixMode_Projection();
 		GetRender()->loadMatrix(camera->getProjection());
@@ -791,108 +795,115 @@ namespace NGTech {
 		GetRender()->loadMatrix(camera->getTransform());
 
 		matTime = GetWindow()->getETime();
-		if (matTime > 0)
+		if (matTime <= 0)
+			return;
+		matViewportMap = viewportCopy;
+		matViewportTransform = Mat4::texBias() * GetRender()->getMatrix_MVP();
+
+		drawAmbient(false);
+
+		Light* tempLight = nullptr;
+
+		for (size_t i = 0; i < lights.size(); i++)
 		{
-			matViewportMap = viewportCopy;
-			matViewportTransform = Mat4::texBias() * GetRender()->getMatrix_MVP();
-
-			drawAmbient(false);
-
-			Light* tempLight = nullptr;
-
-			for (size_t i = 0; i < lights.size(); i++)
+			tempLight = lights[i];
+			if (tempLight->isEnable())
 			{
-				tempLight = lights[i];
-				if (tempLight->isEnable())
+				if (tempLight->getType() == Light::LIGHT_OMNI)
 				{
-					if (tempLight->getType() == Light::LIGHT_OMNI)
-					{
-						checkOmniVisibility((LightPoint*)tempLight);
-						if ((LightPoint*)tempLight->isVisible())
-							getOmniShadowMap((LightPoint*)tempLight);
-					}
-					else if (tempLight->getType() == Light::LIGHT_SPOT) {
-						checkSpotVisibility((LightSpot*)tempLight);
-						if ((LightSpot*)tempLight->isVisible())
-							getSpotShadowMap((LightSpot*)tempLight);
-					}
+					checkOmniVisibility((LightPoint*)tempLight);
+					if ((LightPoint*)tempLight->isVisible())
+						getOmniShadowMap((LightPoint*)tempLight);
+				}
+				else if (tempLight->getType() == Light::LIGHT_SPOT) {
+					checkSpotVisibility((LightSpot*)tempLight);
+					if ((LightSpot*)tempLight->isVisible())
+						getSpotShadowMap((LightSpot*)tempLight);
 				}
 			}
-
-			GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
-			GetRender()->depthMask(false);
-
-			//draw wireframe
-			if (GetCvars()->r_wireframe) {
-				glColor3f(1, 1, 1);//Nick:TODO:Replace
-				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//Nick:TODO:Replace
-
-				for (size_t i = 0; i < objects.size(); i++) {
-					GetRender()->push();
-					GetRender()->multMatrix(objects[i]->getTransform());
-					for (size_t k = 0; k < objects[i]->getNumSubsets(); k++) {
-						objects[i]->drawSubset(k);
-					}
-					GetRender()->pop();
-				}
-				if (terrain) {
-					for (int n = 0; n < terrain->getNumNodes(); n++) {
-						terrain->drawNode(n, camera->getPosition());
-					}
-				}
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);//Nick:TODO:Replace
-			}
-
-			//draw lighting
-			for (size_t i = 0; i < lights.size(); i++)
-			{
-				tempLight = lights[i];
-				if (tempLight->isVisible())
-				{
-					if (tempLight->getType() == Light::LIGHT_OMNI) {
-						drawPoint((LightPoint*)tempLight, false);
-					}
-					else if (tempLight->getType() == Light::LIGHT_SPOT) {
-						drawSpot((LightSpot*)tempLight, false);
-					}
-					else if (tempLight->getType() == Light::LIGHT_DIRECT) {
-						drawDirect((LightDirect*)tempLight, false);
-					}
-				}
-			}
-
-			GetRender()->depthMask(true);
-			GetRender()->disableBlending();
-
-			drawAmbient(true);
-
-			//draw particle systems
-			for (size_t k = 0; k < systems.size(); k++) {
-				if (systems[k]) systems[k]->draw();
-			}
-
-			//---------draw-scene-into-viewport-copy-------------------------------
-			viewportFBO->set();
-			viewportFBO->setColorTarget(viewportCopy);
-			viewportFBO->clear();
-
-			//---------set-camera--------------------------------
-			GetRender()->setMatrixMode_Projection();
-			GetRender()->loadMatrix(camera->getProjection());
-
-			GetRender()->setMatrixMode_Modelview();
-			GetRender()->loadMatrix(camera->getTransform());
-
-			drawAmbient(false);
-
-			GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
-			GetRender()->depthMask(false);
 		}
 
+		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
+		GetRender()->depthMask(false);
+
+		//draw wireframe
+		if (GetCvars()->r_wireframe) {
+			glColor3f(1, 1, 1);//Nick:TODO:Replace
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//Nick:TODO:Replace
+
+			for (size_t i = 0; i < objects.size(); i++) {
+				GetRender()->push();
+				GetRender()->multMatrix(objects[i]->getTransform());
+				for (size_t k = 0; k < objects[i]->getNumSubsets(); k++) {
+					objects[i]->drawSubset(k);
+				}
+				GetRender()->pop();
+			}
+			if (terrain) {
+				for (int n = 0; n < terrain->getNumNodes(); n++) {
+					terrain->drawNode(n, camera->getPosition());
+				}
+			}
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);//Nick:TODO:Replace
+		}
+
+		//draw lighting
+		for (size_t i = 0; i < lights.size(); i++)
+		{
+			tempLight = lights[i];
+			if (tempLight->isVisible())
+			{
+				if (tempLight->getType() == Light::LIGHT_OMNI) {
+					drawPoint((LightPoint*)tempLight, false);
+				}
+				else if (tempLight->getType() == Light::LIGHT_SPOT) {
+					drawSpot((LightSpot*)tempLight, false);
+				}
+				else if (tempLight->getType() == Light::LIGHT_DIRECT) {
+					drawDirect((LightDirect*)tempLight, false);
+				}
+			}
+		}
+
+		GetRender()->depthMask(true);
+		GetRender()->disableBlending();
+
+		drawAmbient(true);
+
+		//draw particle systems
+		for (size_t k = 0; k < systems.size(); k++) {
+			if (systems[k]) systems[k]->draw();
+		}
+
+		//---------draw-scene-into-viewport-copy-------------------------------
+		viewportFBO->set();
+		viewportFBO->setColorTarget(viewportCopy);
+		viewportFBO->clear();
+
+		//---------set-camera--------------------------------
+		GetRender()->setMatrixMode_Projection();
+		GetRender()->loadMatrix(camera->getProjection());
+
+		GetRender()->setMatrixMode_Modelview();
+		GetRender()->loadMatrix(camera->getTransform());
+
+		drawAmbient(false);
+
+		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
+		GetRender()->depthMask(false);
+
 		//---------Рисуем анимированные меши--------------------------------
+		_RenderAnimation();
+	}
+
+	/**
+	*/
+	void Scene::_RenderAnimation()
+	{
 		float mFPS = GetEngine()->GetLastFPS();
 
 		if (mFPS <= 0.f) mFPS = 1.f;
+		if (mFPS >= 60.f) mFPS = 60.f;
 
 		for (size_t i = 0; i < objects.size(); i++)
 		{
@@ -1071,7 +1082,7 @@ namespace NGTech {
 				message = oss.str();*/
 				break;
 			}
-		}
+}
 #endif
 	}
 }

@@ -40,8 +40,8 @@
 namespace NGTech {
 	/**
 	*/
-#define ENGINE_VERSION_NUMBER 0.4
-#define ENGINE_VERSION_STRING "0.4"
+#define ENGINE_VERSION_NUMBER 0.5
+#define ENGINE_VERSION_STRING "0.5"
 	const int TICKS_PER_SECOND = 60;
 	const int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
 	const int MAX_FRAMESKIP = 10;
@@ -295,13 +295,14 @@ namespace NGTech {
 
 		PROFILER_START(Engine::do_update - scene - update);
 		if (this->scene)
-			this->scene->update();
+			this->scene->update(paused);
 		PROFILER_END();
 
 		PROFILER_START(Engine::do_update - sound - update);
 		// run multi-threaded sound
-		if (this->scene)
-			this->scene->runUpdate();//Сейчас обновляем только звук
+		if (!paused)
+			if (this->scene)
+				this->scene->runUpdate();//Сейчас обновляем только звук
 		PROFILER_END();
 
 		PROFILER_START(Engine::do_update - game - update);

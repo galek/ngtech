@@ -105,17 +105,7 @@ namespace NGTech {
 			sceneDesc.cpuDispatcher = mCpuDispatcher;
 		}
 
-#if PLATFORM_OS == PLATFORM_OS_WINDOWS
-		// create GPU dispatcher
-		if (!sceneDesc.gpuDispatcher)
-		{
-			PxCudaContextManagerDesc cudaContextManagerDesc;
-			mCudaContextManager = PxCreateCudaContextManager(*mFoundation, cudaContextManagerDesc, mProfileZoneManager);
-			sceneDesc.gpuDispatcher = mCudaContextManager->getGpuDispatcher();
-			if (!sceneDesc.gpuDispatcher)
-				LogPrintf("Hardware PhysX is not available");
-		}
-#endif
+		_CreateCUDADispatcher(&sceneDesc);
 
 		if (!sceneDesc.filterShader)
 			sceneDesc.filterShader = gDefaultFilterShader;
@@ -294,5 +284,24 @@ namespace NGTech {
 		mCCManager = PxCreateControllerManager(*mScene);
 		if (!mCCManager)
 			Error("PhysSystem::initialise()-create mCCManager failed!", true);
+	}
+
+	/**
+	*/
+	void PhysSystem::_CreateCUDADispatcher(physx::PxSceneDesc*_sceneDesc)
+	{
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
+		// create GPU dispatcher
+		if (!_sceneDesc->gpuDispatcher)
+		{
+			PxCudaContextManagerDesc cudaContextManagerDesc;
+			mCudaContextManager = PxCreateCudaContextManager(*mFoundation, cudaContextManagerDesc, mProfileZoneManager);
+			if (!mCudaContextManager)
+				return;
+			_sceneDesc->gpuDispatcher = mCudaContextManager->getGpuDispatcher();
+			if (!_sceneDesc->gpuDispatcher)
+				LogPrintf("Hardware PhysX is not available");
+		}
+#endif
 	}
 }

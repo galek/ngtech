@@ -63,8 +63,9 @@ namespace NGTech {
 		void UnLockRead();
 		void LockWrite();
 		void UnLockWrite();
-		void _CreateScene(const physx::PxSceneDesc*_sceneDesc);
 	private:
+		void _CreateCUDADispatcher(physx::PxSceneDesc*_sceneDesc);
+		void _CreateScene(const physx::PxSceneDesc*_sceneDesc);
 		void _togglePvdConnection();
 		void _createPvdConnection();
 	private:

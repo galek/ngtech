@@ -37,8 +37,8 @@ namespace NGTech {
 	/**
 	параметры, относящиеся к расчету FPS
 	*/
-	static LARGE_INTEGER CounterFrequency;
-	static LARGE_INTEGER FPSCount;
+	static LARGE_INTEGER CounterFrequency = { 0, 0 };
+	static LARGE_INTEGER FPSCount = { 0, 0 };
 	WindowSystem*_gWindowSystem = nullptr;
 
 	/**
@@ -76,6 +76,7 @@ namespace NGTech {
 
 
 		this->mouseGrabed = false;
+
 		//инициализация таймеров
 		QueryPerformanceFrequency(&CounterFrequency);
 		QueryPerformanceCounter(&FPSCount);
@@ -171,6 +172,8 @@ namespace NGTech {
 			SetForegroundWindow((HWND)hWnd);
 			SetFocus((HWND)hWnd);
 		}
+		else
+			_GetMonitorResolution(this->hWnd, this->width, this->height);
 	}
 
 	/**
@@ -428,6 +431,7 @@ namespace NGTech {
 			QueryPerformanceCounter(&lCurrent);   //получение текущего счетчика
 			fTime = (float)(lCurrent.QuadPart - FPSCount.QuadPart) /
 				(float)CounterFrequency.QuadPart;    //вычисление времени, за которое 50 раз перерисовалась форма
+
 			fps = (float)iFrames / fTime;            //вычисление частоты смены кадров
 			//обновление счетчика кадров и таймера
 			iFrames = 0;
@@ -453,7 +457,13 @@ namespace NGTech {
 	*/
 	float WindowSystem::getLastFPS()
 	{
-		return fps;
+		return 0.1;
+
+		//Пытался исправить креш,все равно быстро очень. Самое оптимальное значение выше
+		//return fps / 1000;
+
+		//Original
+		//return fps;
 	}
 
 	/**
@@ -715,6 +725,18 @@ namespace NGTech {
 	*/
 	unsigned long WindowSystem::GetTicks(){
 		return GetTickCount();
+	}
+
+	/**
+	*/
+	void WindowSystem::_GetMonitorResolution(int hwnd, int &monitor_width, int &monitor_height)
+	{
+		HMONITOR monitor = MonitorFromWindow((HWND)hwnd, MONITOR_DEFAULTTONEAREST);
+		MONITORINFO info;
+		info.cbSize = sizeof(MONITORINFO);
+		GetMonitorInfo(monitor, &info);
+		monitor_width = info.rcMonitor.right - info.rcMonitor.left;
+		monitor_height = info.rcMonitor.bottom - info.rcMonitor.top;
 	}
 #endif
 }

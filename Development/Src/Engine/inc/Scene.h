@@ -35,7 +35,7 @@ namespace NGTech {
 		/**
 		main update function
 		*/
-		void update();
+		void update(bool _paused);
 		void updateSound();
 		/**
 		main draw function
@@ -82,6 +82,7 @@ namespace NGTech {
 
 		void checkOmniVisibility(LightPoint *light);
 		void checkSpotVisibility(LightSpot *light);
+		void _RenderAnimation();
 
 		Vec3 ambient;
 		Camera *camera;

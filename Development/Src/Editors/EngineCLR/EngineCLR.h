@@ -40,9 +40,9 @@ namespace EngineCLR {
 		ENGINE_INLINE bool isInited()	{ return mInited; }
 
 		ENGINE_INLINE void Update() {
-			if (engine) {
-				engine->Update();
-			}
+			if (!engine)
+				return;
+			engine->Update();
 		}
 
 		void MouseGrab(bool _val)

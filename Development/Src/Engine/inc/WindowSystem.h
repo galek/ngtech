@@ -186,6 +186,9 @@ namespace NGTech {
 		virtual void _updateFPSCounter();
 		/**
 		*/
+		void _GetMonitorResolution(int hwnd, int &monitor_width, int &monitor_height);
+		/**
+		*/
 	private:
 		bool isExternalHwnd;
 		float fps;

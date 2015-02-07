@@ -45,6 +45,9 @@ namespace NGTech {
 	void EngineAppBase::Update(){
 		Engine* engine = GetEngine();
 
+		if (!engine)
+			return;
+
 		if (engine->isEditor())
 			engine->editorLoop();
 		else
