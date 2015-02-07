@@ -458,12 +458,6 @@ namespace NGTech {
 	public:
 		/**
 		*/
-		unsigned int currTextureTarget;
-		/**
-		*/
-		int currTextureUnit;
-		/**
-		*/
 		I_Texture::Filter defFilter;
 		/**
 		*/

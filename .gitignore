@@ -306,3 +306,7 @@ Bins/Bin64_d/Graph.dll
 Bins/Bin64_d/GraphNodes.dll
 /Development/Src/Editors/3dparty/Graph/bin/x86/Debug/Graph.dll
 /Development/Src/Editors/3dparty/Graph/bin
+/Bins/Bin64/NGEd.exe.CodeAnalysisLog.xml
+/Bins/Bin64/NGEd.exe.lastcodeanalysissucceeded
+/Bins/Bin64_d/NGEd.vshost.exe.config
+/Bins/Bin64_d/NGEd.exe.config
