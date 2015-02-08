@@ -185,7 +185,7 @@ namespace NGTech {
 					if (!compiled) {
 						char errorString[1024] = { 0 };
 						glGetProgramInfoLog(this->vs, sizeof(errorString), NULL, errorString);
-						Warning("[%s] Error: shader file '%s' vs compiling error: %s", path.c_str(), String(errorString).c_str());
+						Warning("Error: shader file '%s' vs compiling error: %s", path.c_str(), String(errorString).c_str());
 						Error("Failed compiling shader", true);
 						return false;
 					}
@@ -218,7 +218,7 @@ namespace NGTech {
 					if (!compiled) {
 						char errorString[1024] = { 0 };
 						glGetProgramInfoLog(this->fs, sizeof(errorString), 0, errorString);
-						Warning("[%s] Error: shader file '%s' fs compiling error: %s", path.c_str(), String(errorString).c_str());
+						Warning("Error: shader file '%s' fs compiling error: %s", path.c_str(), String(errorString).c_str());
 						Error("Failed compiling shader", true);
 						return false;
 					}
@@ -251,7 +251,7 @@ namespace NGTech {
 					if (!compiled) {
 						char errorString[1024] = { 0 };
 						glGetProgramInfoLog(this->gs, sizeof(errorString), NULL, errorString);
-						Warning("[%s] Error: shader file '%s' gs compiling error: %s", path.c_str(), String(errorString).c_str());
+						Warning("Error: shader file '%s' gs compiling error: %s", path.c_str(), String(errorString).c_str());
 						Error("Failed compiling shader", true);
 						return false;
 					}
@@ -285,7 +285,7 @@ namespace NGTech {
 					if (!compiled) {
 						char errorString[1024] = { 0 };
 						glGetProgramInfoLog(this->tes, sizeof(errorString), NULL, errorString);
-						Warning("[%s] Error: shader file '%s' tes compiling error: %s", path.c_str(), String(errorString).c_str());
+						Warning("Error: shader file '%s' tes compiling error: %s", path.c_str(), String(errorString).c_str());
 						Error("Failed compiling shader", true);
 						return false;
 					}
@@ -318,7 +318,7 @@ namespace NGTech {
 					if (!compiled) {
 						char errorString[1024] = { 0 };
 						glGetProgramInfoLog(this->tcs, sizeof(errorString), NULL, errorString);
-						Warning("[%s] Error: shader file '%s' tcs compiling error: %s", path.c_str(), String(errorString).c_str());
+						Warning("Error: shader file '%s' tcs compiling error: %s", path.c_str(), String(errorString).c_str());
 						Error("Failed compiling shader", true);
 						return false;
 					}

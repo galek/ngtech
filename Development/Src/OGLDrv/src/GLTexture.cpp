@@ -6,6 +6,8 @@
 //see http://www.slideshare.net/Mark_Kilgard/opengl-45-update-for-nvidia-gpus?qid=0ec7626a-1ec3-4178-aefb-2636607cf26e&v=qf1&b=&from_search=1
 namespace NGTech {
 
+	/**
+	*/
 	GLTexture *GLTexture::create2d(const String &path) {
 
 		I_ILImage *image = GetRender()->CreateImage2D(path);
@@ -29,6 +31,8 @@ namespace NGTech {
 		return texture;
 	}
 
+	/**
+	*/
 	GLTexture *GLTexture::createCube(const String &path) {
 
 		I_ILImage *image[6];
@@ -59,6 +63,8 @@ namespace NGTech {
 		return texture;
 	}
 
+	/**
+	*/
 	GLTexture *GLTexture::create2d(I_ILImage *image) {
 
 		GLubyte **data = new GLubyte*[1];
@@ -79,6 +85,8 @@ namespace NGTech {
 		return texture;
 	}
 
+	/**
+	*/
 	GLTexture *GLTexture::create3d(I_ILImage *image) {
 
 		GLubyte **data = new GLubyte*[1];
@@ -98,6 +106,8 @@ namespace NGTech {
 		return texture;
 	}
 
+	/**
+	*/
 	GLTexture *GLTexture::createCube(I_ILImage **image) {
 
 		GLubyte *data[6];
@@ -119,6 +129,8 @@ namespace NGTech {
 		return texture;
 	}
 
+	/**
+	*/
 	GLTexture *GLTexture::create2d(int width, int height, Format format) {
 		GLubyte *data[1];
 		data[0] = NULL;
@@ -126,6 +138,8 @@ namespace NGTech {
 		return create(width, height, 1, TEXTURE_2D, format, (void**)data);
 	}
 
+	/**
+	*/
 	GLTexture *GLTexture::create3d(int width, int height, int depth, Format format) {
 		GLubyte *data[1];
 		data[0] = NULL;
@@ -133,6 +147,8 @@ namespace NGTech {
 		return create(width, height, depth, TEXTURE_3D, format, (void**)data);
 	}
 
+	/**
+	*/
 	GLTexture *GLTexture::createCube(int width, int height, Format format) {
 		GLubyte *data[6];
 		for (int i = 0; i < 6; i++) {
@@ -142,10 +158,14 @@ namespace NGTech {
 		return create(width, height, 1, TEXTURE_CUBE, format, (void**)data);
 	}
 
+	/**
+	*/
 	GLTexture::~GLTexture() {
 		glDeleteTextures(1, &glID);
 	}
 
+	/**
+	*/
 	void GLTexture::setWrap(Wrap _wrap) {
 		static const GLuint Targets[] = {
 			/*ZERO*/0,
@@ -160,6 +180,8 @@ namespace NGTech {
 		glTextureParameteriEXT(glID, target, GL_TEXTURE_WRAP_R, this->wrap);
 	}
 
+	/**
+	*/
 	void GLTexture::setFilter(Filter filter) {
 
 		if (filter == NEAREST) {
@@ -197,6 +219,8 @@ namespace NGTech {
 		}
 	}
 
+	/**
+	*/
 	void GLTexture::setAniso(Aniso _aniso) {
 		if (_aniso > 0) {
 			this->aniso = _aniso;
@@ -204,36 +228,47 @@ namespace NGTech {
 		}
 	}
 
-
+	/**
+	*/
 	void GLTexture::Set()
 	{
 		glEnable(this->target);
 		glBindTexture(this->target, glID);
 	}
 
+	/**
+	*/
 	void GLTexture::UnSet()
 	{
 		glBindTexture(this->target, 0);
 		glDisable(this->target);
 	}
 
+	/**
+	*/
 	void GLTexture::set(size_t tex_unit) {
 		glActiveTextureARB(GL_TEXTURE0_ARB + tex_unit);
 		glEnable(target);
 		glBindTexture(target, glID);
 	}
 
+	/**
+	*/
 	void GLTexture::unset(size_t tex_unit) {
 		glActiveTextureARB(GL_TEXTURE0_ARB + tex_unit);
 		glBindTexture(target, 0);
 		glDisable(target);
 	}
 
+	/**
+	*/
 	void GLTexture::beginRenderTo() {
 		glViewport(0, 0, width, height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
+	/**
+	*/
 	void GLTexture::copy(int face) {
 		glEnable(target);
 		glBindTexture(target, glID);
@@ -249,12 +284,17 @@ namespace NGTech {
 		glDisable(target);
 	}
 
+	/**
+	*/
 	void GLTexture::endRenderTo() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glViewport(0, 0, GetWindow()->getWidth(), GetWindow()->getHeight());
 	}
 
-	GLTexture *GLTexture::create(int width, int height, int depth, Target target, Format format, void **data) {
+	/**
+	*/
+	GLTexture *GLTexture::create(int width, int height, int depth, Target target, Format format, void **data)
+	{
 		static const GLuint Targets[] = {
 			/*ZERO*/0,
 			/*TEXTURE_2D*/0x0DE1,
@@ -263,6 +303,8 @@ namespace NGTech {
 		};
 		GLTexture *texture = new GLTexture();
 
+		texture->selectedTarget = target;
+
 		texture->width = width;
 		texture->height = height;
 		texture->depth = depth;
@@ -270,56 +312,12 @@ namespace NGTech {
 		texture->wrap = GL_REPEAT;
 		texture->target = Targets[target];
 
-		if (format == RGB) {
-			texture->srcFormat = GL_RGB;
-			texture->internalFormat = GL_RGB8;
-			texture->dataType = GL_UNSIGNED_BYTE;
-		}
-		else if (format == RGBA) {
-			texture->srcFormat = GL_RGBA;
-			texture->internalFormat = GL_RGBA8;
-			texture->dataType = GL_UNSIGNED_BYTE;
-		}
-
-		else if (format == RGB_16) {
-			texture->srcFormat = GL_RGB;
-			texture->internalFormat = GL_RGB16;
-			texture->dataType = GL_UNSIGNED_INT;
-		}
-		else if (format == RGBA_16) {
-			texture->srcFormat = GL_RGBA;
-			texture->internalFormat = GL_RGBA16;
-			texture->dataType = GL_UNSIGNED_INT;
-		}
-
-		else if (format == RGB_FP16) {
-			texture->srcFormat = GL_RGB;
-			texture->internalFormat = GL_RGB16F_ARB;
-			texture->dataType = GL_FLOAT;
-		}
-		else if (format == RGBA_FP16) {
-			texture->srcFormat = GL_RGBA;
-			texture->internalFormat = GL_RGBA16F_ARB;
-			texture->dataType = GL_FLOAT;
-		}
-
-		else if (format == RGB_FP32) {
-			texture->srcFormat = GL_RGB;
-			texture->internalFormat = GL_RGB32F_ARB;
-			texture->dataType = GL_FLOAT;
-		}
-		else if (format == RGBA_FP32) {
-			texture->srcFormat = GL_RGBA;
-			texture->internalFormat = GL_RGBA32F_ARB;
-			texture->dataType = GL_FLOAT;
-		}
+		texture->_ActivateFormat(format);
 
 		glGenTextures(1, &texture->glID);
 		glBindTexture(texture->target, texture->glID);//IN DSA is not needed
-		//IN DSA replaced on glTextureParameteri
-		glTexParameteri(texture->target, GL_TEXTURE_WRAP_S, texture->wrap);
-		glTexParameteri(texture->target, GL_TEXTURE_WRAP_T, texture->wrap);
-		glTexParameteri(texture->target, GL_TEXTURE_WRAP_R, texture->wrap);
+
+		texture->_ActivateWrap((Wrap)texture->wrap);
 
 		Aniso aniso = GetRender()->defAniso;
 		if (aniso > 0) {
@@ -328,54 +326,120 @@ namespace NGTech {
 		}
 
 		Filter filter = GetRender()->defFilter;
-		if (filter == NEAREST) {
-			texture->magFilter = GL_NEAREST;
-			texture->minFilter = GL_NEAREST;
-			glTexParameteri(texture->target, GL_TEXTURE_MAG_FILTER, texture->magFilter);
-			glTexParameteri(texture->target, GL_TEXTURE_MIN_FILTER, texture->minFilter);
-		}
-		else if (filter == LINEAR) {
-			texture->magFilter = GL_LINEAR;
-			texture->minFilter = GL_LINEAR;
-			glTexParameteri(texture->target, GL_TEXTURE_MAG_FILTER, texture->magFilter);
-			glTexParameteri(texture->target, GL_TEXTURE_MIN_FILTER, texture->minFilter);
-		}
-		else if (filter == NEAREST_MIPMAP_NEAREST){
-			texture->magFilter = GL_NEAREST;
-			texture->minFilter = GL_NEAREST_MIPMAP_NEAREST;
-			glTexParameteri(texture->target, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
-			glTexParameteri(texture->target, GL_TEXTURE_MAG_FILTER, texture->magFilter);
-			glTexParameteri(texture->target, GL_TEXTURE_MIN_FILTER, texture->minFilter);
-		}
-		else if (filter == LINEAR_MIPMAP_NEAREST) {
-			texture->magFilter = GL_LINEAR;
-			texture->minFilter = GL_LINEAR_MIPMAP_NEAREST;
-			glTexParameteri(texture->target, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
-			glTexParameteri(texture->target, GL_TEXTURE_MAG_FILTER, texture->magFilter);
-			glTexParameteri(texture->target, GL_TEXTURE_MIN_FILTER, texture->minFilter);
-		}
-		else if (filter == LINEAR_MIPMAP_LINEAR) {
-			texture->magFilter = GL_LINEAR;
-			texture->minFilter = GL_LINEAR_MIPMAP_LINEAR;
-			glTexParameteri(texture->target, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
-			glTexParameteri(texture->target, GL_TEXTURE_MAG_FILTER, texture->magFilter);
-			glTexParameteri(texture->target, GL_TEXTURE_MIN_FILTER, texture->minFilter);
-		}
-
-		if (texture->target == GL_TEXTURE_2D) {
-			glTexImage2D(texture->target, 0, texture->internalFormat, texture->width, texture->height, 0, texture->srcFormat, texture->dataType, data[0]);
-		}
-		else if (texture->target == GL_TEXTURE_3D) {
-			glTexImage3DEXT(texture->target, 0, texture->internalFormat, texture->width, texture->height, texture->depth, 0, texture->srcFormat, texture->dataType, data[0]);
-		}
-		else if (texture->target == GL_TEXTURE_CUBE_MAP_ARB) {
-			for (int i = 0; i < 6; i++) {
-				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB + i, 0, texture->internalFormat, texture->width, texture->height, 0, texture->srcFormat, texture->dataType, data[i]);
-			}
-		}
+		texture->setFilter(filter);
+		texture->_ActivateTarget(data);
 		glBindTexture(texture->target, 0);//IN DSA is not needed
 
 		return texture;
 	}
 
+	/**
+	*/
+	void GLTexture::_ActivateTarget(void **data)
+	{
+		if ((this->target == GL_TEXTURE_1D) || (this->target == GL_TEXTURE_1D_ARRAY))
+		{
+			glTexImage1D(this->target, 0, this->internalFormat, this->width, 0, this->srcFormat, this->dataType, data[0]);
+		}
+		else if ((this->target == GL_TEXTURE_2D) || (this->target == GL_TEXTURE_2D_ARRAY))
+		{
+			glTexImage2D(this->target, 0, this->internalFormat, this->width, this->height, 0, this->srcFormat, this->dataType, data[0]);
+		}
+		else if ((this->target == GL_TEXTURE_3D) || (this->target == GL_TEXTURE_CUBE_MAP_ARRAY))
+		{
+			glTexImage3D(this->target, 0, this->internalFormat, this->width, this->height, this->depth, 0, this->srcFormat, this->dataType, data[0]);
+		}
+		else if (this->target == GL_TEXTURE_CUBE_MAP)
+		{
+			for (int i = 0; i < 6; i++) {
+				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, this->internalFormat, this->width, this->height, 0, this->srcFormat, this->dataType, data[i]);
+			}
+		}
+	}
+
+	/**
+	*/
+	void GLTexture::_ActivateFormat(Format _format)
+	{
+		if (_format == RGB) {
+			this->srcFormat = GL_RGB;
+			this->internalFormat = GL_RGB8;
+			this->dataType = GL_UNSIGNED_BYTE;
+		}
+		else if (_format == RGBA) {
+			this->srcFormat = GL_RGBA;
+			this->internalFormat = GL_RGBA8;
+			this->dataType = GL_UNSIGNED_BYTE;
+		}
+
+		else if (_format == RGB_16) {
+			this->srcFormat = GL_RGB;
+			this->internalFormat = GL_RGB16;
+			this->dataType = GL_UNSIGNED_INT;
+		}
+		else if (_format == RGBA_16) {
+			this->srcFormat = GL_RGBA;
+			this->internalFormat = GL_RGBA16;
+			this->dataType = GL_UNSIGNED_INT;
+		}
+
+		else if (_format == RGB_FP16) {
+			this->srcFormat = GL_RGB;
+			this->internalFormat = GL_RGB16F;
+			this->dataType = GL_FLOAT;
+		}
+		else if (_format == RGBA_FP16) {
+			this->srcFormat = GL_RGBA;
+			this->internalFormat = GL_RGBA16F;
+			this->dataType = GL_FLOAT;
+		}
+
+		else if (_format == RGB_FP32) {
+			this->srcFormat = GL_RGB;
+			this->internalFormat = GL_RGB32F;
+			this->dataType = GL_FLOAT;
+		}
+		else if (_format == RGBA_FP32) {
+			this->srcFormat = GL_RGBA;
+			this->internalFormat = GL_RGBA32F;
+			this->dataType = GL_FLOAT;
+		}
+	}
+
+	/**
+	*/
+	void GLTexture::_ActivateWrap(Wrap _wrap)
+	{
+		//IN DSA replaced on glTextureParameteri
+		this->wrap = _wrap;
+		glTexParameteri(this->target, GL_TEXTURE_WRAP_S, this->wrap);
+		glTexParameteri(this->target, GL_TEXTURE_WRAP_T, this->wrap);
+		glTexParameteri(this->target, GL_TEXTURE_WRAP_R, this->wrap);
+	}
+
+	/**
+	*/
+	void GLTexture::SetMinMipLevel(unsigned int level)
+	{
+		_minMipLevel = level;
+		glTextureParameteriEXT(
+			glID,
+			target,
+			GL_TEXTURE_BASE_LEVEL,
+			level
+			);
+	}
+
+	/**
+	*/
+	void GLTexture::SetMaxMipLevel(unsigned int level)
+	{
+		_maxMipLevel = level;
+		glTextureParameteriEXT(
+			glID,
+			target,
+			GL_TEXTURE_MAX_LEVEL,
+			level
+			);
+	}
 }

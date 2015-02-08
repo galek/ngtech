@@ -111,6 +111,12 @@ namespace NGTech {
 		virtual void beginRenderTo() = 0;
 		virtual void copy(int face = -1) = 0;
 		virtual void endRenderTo() = 0;
+
+		virtual void SetMinMipLevel(unsigned int level) = 0;
+		inline unsigned int GetMinMipLevel() const { return _minMipLevel; }
+
+		virtual void SetMaxMipLevel(unsigned int level) = 0;
+		inline unsigned int GetMaxMipLevel() const { return _maxMipLevel; }
 	public:
 		unsigned int glID;
 
@@ -118,6 +124,9 @@ namespace NGTech {
 
 		unsigned int minFilter;
 		unsigned int magFilter;
+		
+		unsigned int _minMipLevel;
+		unsigned int _maxMipLevel;
 
 		unsigned int aniso;
 		unsigned int wrap;
@@ -125,6 +134,7 @@ namespace NGTech {
 		unsigned int internalFormat;
 		unsigned int srcFormat;
 		unsigned int dataType;
+		Target selectedTarget;
 	};
 
 	struct I_Render{
