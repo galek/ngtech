@@ -25,7 +25,7 @@ namespace NGTech {
 		/**
 		gets the current view frustum from Meshview and Projection matrix
 		*/
-		void get();
+		void Get();
 
 		/**
 		Gets the current view frustum from modelview and projection matrix

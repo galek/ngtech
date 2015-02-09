@@ -77,10 +77,10 @@ namespace NGTech {
 		void drawSpot(LightSpot *light, bool blended);
 		void drawDirect(LightDirect *light, bool blended);
 
-		void getOmniShadowMap(LightPoint *light);
+		void getPointShadowMap(LightPoint *light);
 		void getSpotShadowMap(LightSpot *light);
 
-		void checkOmniVisibility(LightPoint *light);
+		void checkPointVisibility(LightPoint *light);
 		void checkSpotVisibility(LightSpot *light);
 		void _RenderAnimation();
 

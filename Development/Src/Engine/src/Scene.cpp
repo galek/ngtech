@@ -1,3 +1,8 @@
+/*
+NOTES:
+	*Нужен рефакторинг
+*/
+//**************************************
 #include "EnginePrivate.h"
 //**************************************
 #include "Engine.h"
@@ -208,7 +213,7 @@ namespace NGTech {
 				matMVP = GetRender()->getMatrix_MVP();
 				matLightColor = ambient;//Тоже заменялось
 
-				frustum->get();
+				frustum->Get();
 
 				for (int n = 0; n < terrain->getNumNodes(); n++) {
 					if (!frustum->isInside(terrain->getMin(n), terrain->getMax(n)))
@@ -234,7 +239,7 @@ namespace NGTech {
 			GetRender()->push();
 			GetRender()->multMatrix(object->getTransform());
 
-			frustum->get();
+			frustum->Get();
 			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
 				GetRender()->pop();
 				continue;
@@ -276,6 +281,9 @@ namespace NGTech {
 	/**
 	*/
 	void Scene::drawPoint(LightPoint *light, bool blended) {
+
+		if (!light->isVisible() || !light->isEnable()) return;
+
 		matLightIRadius = light->getIRadius();//was deleted
 		matLightPosition = light->position;//was deleted
 		matViewPosition = camera->getPosition();//was deleted
@@ -290,7 +298,7 @@ namespace NGTech {
 			if (mtr && mtr->setPass("LightOmni")) {
 				matMVP = GetRender()->getMatrix_MVP();
 
-				frustum->get();
+				frustum->Get();
 
 				for (int n = 0; n < terrain->getNumNodes(); n++)	{
 					if (!frustum->isInside(terrain->getCenter(n), terrain->getRadius(n))) {
@@ -320,7 +328,7 @@ namespace NGTech {
 			GetRender()->push();
 			GetRender()->multMatrix(object->getTransform());
 
-			frustum->get();
+			frustum->Get();
 			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
 				GetRender()->pop();
 				continue;
@@ -335,7 +343,7 @@ namespace NGTech {
 			draw subsets
 			*/
 			for (size_t s = 0; s < object->getNumSubsets(); s++) {
-				frustum->get();
+				frustum->Get();
 				if (!frustum->isInside(object->getCenter(s), object->getRadius(s)))
 					continue;
 
@@ -366,8 +374,8 @@ namespace NGTech {
 
 	/**
 	*/
-	void Scene::getOmniShadowMap(LightPoint *light) {
-		if (!light->getShadows() || !light->castShadows || !cvars->r_shadowtype) {
+	void Scene::getPointShadowMap(LightPoint *light) {
+		if (!light->getShadows() || !light->castShadows || cvars->r_shadowtype == 0) {
 			return;
 		}
 
@@ -403,7 +411,7 @@ namespace NGTech {
 				GetRender()->push();
 				GetRender()->multMatrix(object->getTransform());
 
-				frustum->get();
+				frustum->Get();
 				if ((!frustum->isInside(object->getCenter(), object->getRadius()))
 					|| (((light->position - object->getTransform().getTranslation()).length() >
 					light->radius + object->getRadius())))
@@ -419,7 +427,7 @@ namespace NGTech {
 					Material *mtr = object->getMaterial(s);
 					if (!mtr) continue;
 
-					frustum->get();
+					frustum->Get();
 					if (!frustum->isInside(object->getCenter(s), object->getRadius(s)))
 						continue;
 
@@ -452,7 +460,10 @@ namespace NGTech {
 	/**
 	*/
 	void Scene::drawSpot(LightSpot *light, bool blended) {
-		Mat4 projTransform = Mat4::texBias() *
+
+		if (!light->isVisible() || !light->isEnable()) return;
+
+		light->projTransform = Mat4::texBias() *
 			Mat4::perspective(light->getFOV(), 1, 1, light->getRadius()) *
 			Mat4::lookAt(light->getPosition(), light->getPosition() + light->getDirection(), Vec3(0, 1, 0));
 
@@ -464,7 +475,7 @@ namespace NGTech {
 		matLightColor = light->color;//was deleted
 		matShadowMap = light->shadowMap;//was deleted
 		matSpotMap = light->projMap;//was deleted
-		matSpotTransform = projTransform;//was deleted
+		matSpotTransform = light->projTransform;//was deleted
 
 		/*
 		draw terrain
@@ -476,7 +487,7 @@ namespace NGTech {
 				//set material params
 				matMVP = GetRender()->getMatrix_MVP();
 
-				frustum->get();
+				frustum->Get();
 
 				for (int n = 0; n < terrain->getNumNodes(); n++)	{
 
@@ -507,7 +518,7 @@ namespace NGTech {
 			GetRender()->push();
 			GetRender()->multMatrix(object->getTransform());
 
-			frustum->get();
+			frustum->Get();
 			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
 				GetRender()->pop();
 				continue;
@@ -522,7 +533,7 @@ namespace NGTech {
 			draw subsets
 			*/
 			for (size_t s = 0; s < object->getNumSubsets(); s++) {
-				frustum->get();
+				frustum->Get();
 				if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
 					continue;
 				}
@@ -556,7 +567,7 @@ namespace NGTech {
 	/**
 	*/
 	void Scene::getSpotShadowMap(LightSpot *light) {
-		if (!light->getShadows() || !cvars->r_shadowtype) {
+		if (!light->getShadows() || cvars->r_shadowtype == 0) {
 			return;
 		}
 
@@ -565,16 +576,15 @@ namespace NGTech {
 
 		GetRender()->setMatrixMode_Projection();
 		GetRender()->push();//was deleted
-		GetRender()->loadMatrix(Mat4::perspective(light->fov, 1, 1, light->radius));
+		GetRender()->loadMatrix(Mat4::perspective(light->getFOV(), 1, 1, light->getRadius()));
 
 		GetRender()->setMatrixMode_Modelview();
 		GetRender()->push();//was deleted
-		GetRender()->loadMatrix(Mat4::lookAt(light->position, light->position + light->direction, Vec3(0, 1, 0)));
+		GetRender()->loadMatrix(Mat4::lookAt(light->getPosition(), light->getPosition() + light->direction, Vec3(0, 1, 0)));
 
 		shadowFBO->set();
 		shadowFBO->setColorTarget(light->shadowMap);
 		shadowFBO->clear();
-		GetRender()->clearColor(Vec3(1.0, 1.0, 1.0));
 
 		//DRAW OBJECTS
 		for (size_t m = 0; m < objects.size(); m++) {
@@ -587,7 +597,7 @@ namespace NGTech {
 			GetRender()->push();
 			GetRender()->multMatrix(object->getTransform());
 
-			frustum->get();
+			frustum->Get();
 			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
 				GetRender()->pop();
 				continue;
@@ -604,7 +614,7 @@ namespace NGTech {
 
 				if (!mtr) continue;
 
-				frustum->get();
+				frustum->Get();
 				if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
 					continue;
 				}
@@ -652,7 +662,7 @@ namespace NGTech {
 				matMVP = GetRender()->getMatrix_MVP();
 				if (!mtr->setPass("LightDirect")) return;
 
-				frustum->get();
+				frustum->Get();
 
 				for (int n = 0; n < terrain->getNumNodes(); n++)	{
 					if (!frustum->isInside(terrain->getCenter(n), terrain->getRadius(n))) {
@@ -676,7 +686,7 @@ namespace NGTech {
 			GetRender()->push();
 			GetRender()->multMatrix(object->getTransform());
 
-			frustum->get();
+			frustum->Get();
 			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
 				GetRender()->pop();
 				continue;
@@ -717,9 +727,9 @@ namespace NGTech {
 
 	/**
 	*/
-	void Scene::checkOmniVisibility(LightPoint *light)
+	void Scene::checkPointVisibility(LightPoint *light)
 	{
-		frustum->get();
+		frustum->Get();
 		if (!frustum->isInside(light->position, light->radius)) {
 			light->setVisible(false);
 			return;
@@ -757,7 +767,7 @@ namespace NGTech {
 	void Scene::checkSpotVisibility(LightSpot *light)
 	{
 
-		frustum->get();
+		frustum->Get();
 		if (!frustum->isInside(light->position, light->radius)) {
 			light->setVisible(false);
 			return;
@@ -830,9 +840,9 @@ namespace NGTech {
 			{
 				if (tempLight->getType() == Light::LIGHT_OMNI)
 				{
-					checkOmniVisibility((LightPoint*)tempLight);
+					checkPointVisibility((LightPoint*)tempLight);
 					if ((LightPoint*)tempLight->isVisible())
-						getOmniShadowMap((LightPoint*)tempLight);
+						getPointShadowMap((LightPoint*)tempLight);
 				}
 				else if (tempLight->getType() == Light::LIGHT_SPOT) {
 					checkSpotVisibility((LightSpot*)tempLight);

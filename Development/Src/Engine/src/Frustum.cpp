@@ -74,7 +74,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void Frustum::get() {
+	void Frustum::Get() {
 		Mat4 modl, proj;
 
 		proj = GetRender()->getMatrix_Projection();

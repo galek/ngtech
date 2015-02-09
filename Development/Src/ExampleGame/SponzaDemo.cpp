@@ -96,10 +96,14 @@ void ExampleGame::initialise() {
 	camera->setFOV(60);
 
 
-	omniLight = new LightPoint();
+	/*omniLight = new LightPoint();
 	omniLight->setColor(Vec3(1, 1, 0.8));
 	omniLight->setPosition(Vec3(0, 60, 0));
-	omniLight->setRadius(200);
+	omniLight->setRadius(200);*/
+	auto light = new LightSpot();
+	light->setColor(Vec3(1, 1, 0.8));
+	light->setPosition(Vec3(0, 40, 0));
+	light->setRadius(200);
 
 	particlesPink = new ParticleSystem("smoke.png", 50);
 	particlesPink->setPosition(Vec3(60, 60, 0));
