@@ -30,7 +30,7 @@ namespace NGTech {
 	/**
 	*/
 	CameraFPS::CameraFPS() {
-		this->position = Vec3(0, 0, 0);
+		/*this->position = Vec3(0, 0, 0);*/
 		this->maxVelocity = 1500;
 		this->fov = 60;
 
@@ -81,10 +81,10 @@ namespace NGTech {
 
 		bool inTheAir = false;
 		Vec3 point;
-		if (GetPhysics()->intersectWorldByRay(position - Vec3(0, size.y, 0),
-			position - Vec3(0, size.y + 10, 0), Vec3(),
+		if (GetPhysics()->intersectWorldByRay(getPosition() - Vec3(0, size.y, 0),
+			getPosition() - Vec3(0, size.y + 10, 0), Vec3(),
 			point)) {
-			if (point.y <= position.y - size.y - 10)
+			if (point.y <= getPosition().y - size.y - 10)
 				inTheAir = true;
 		}
 

@@ -62,7 +62,7 @@ void ExampleGame::initialise() {
 
 		sponza->setMaterial("floors.mat", "floors");
 	}
-	sponza->setTransform(Mat4::translate(Vec3(0, -10, 0)));
+	sponza->setTransform(Mat4::translate(Vec3(0, 20, 0)));
 	sponza->setPhysicsStaticMesh();
 
 	for (int i = 0; i < 5; i++) {
@@ -97,7 +97,7 @@ void ExampleGame::initialise() {
 
 
 	omniLight = new LightPoint();
-	omniLight->setColor(Vec3(1, 1, 1));
+	omniLight->setColor(Vec3(1, 1, 0.8));
 	omniLight->setPosition(Vec3(0, 60, 0));
 	omniLight->setRadius(200);
 
@@ -125,7 +125,7 @@ void ExampleGame::initialise() {
 	GetWindow()->grabMouse(true);
 }
 //------------------------------------------------------------
-EventsCallback::EventsCallback() : depth(10.0f){}
+EventsCallback::EventsCallback(){}
 //------------------------------------------------------------
 
 void ShowConsole()

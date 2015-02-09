@@ -154,14 +154,4 @@ namespace NGTech {
 	void GLFBO::clear() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
-
-	//---------------------------------------------------------------------------
-	//Desc:    flushes the frame buffer
-	//Params:  -
-	//Returns: -
-	//---------------------------------------------------------------------------
-	void GLFBO::flush() {
-		glFlush();
-	}
-
 }

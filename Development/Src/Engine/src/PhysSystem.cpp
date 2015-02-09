@@ -173,7 +173,7 @@ namespace NGTech {
 	*/
 	void PhysSystem::update() {
 		mScene->lockWrite();
-		mScene->simulate(1.0f / 30.0f);
+		mScene->simulate(1.0f / 60.0f);
 		mScene->unlockWrite();
 	}
 

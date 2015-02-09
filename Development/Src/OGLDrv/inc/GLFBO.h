@@ -29,10 +29,5 @@ namespace NGTech {
 		Clears the frame buffer
 		*/
 		void clear();
-
-		/**
-		Flushes the frame buffer
-		*/
-		void flush();
 	};
 }

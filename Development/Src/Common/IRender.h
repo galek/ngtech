@@ -838,9 +838,6 @@ namespace NGTech {
 		virtual void clear() = 0;
 		/**
 		*/
-		virtual void flush() = 0;
-		/**
-		*/
 	protected:
 		unsigned int glID;
 

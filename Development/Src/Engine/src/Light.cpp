@@ -22,20 +22,19 @@ namespace NGTech {
 	*/
 	Light::Light(){
 		GetScene()->addLight(this);
+		this->color = Vec3(255, 255, 255);
+		this->position = Vec3(0, 0, 0);
+		this->direction = Vec3(0, 0, -1);
+		this->castShadows = true;
 	}
 
 	/*
 	*/
 	LightPoint::LightPoint() {
-		this->color = Vec3(1, 1, 1);
-		this->position = Vec3(0, 0, 0);
 		this->radius = 200;
 
-		this->castShadows = true;
-
 		int size = GetCvars()->r_shadowsize;
-#pragma message("Мне кажется тут RGB будет достаточно")
-		shadowMap = GetRender()->TextureCreateCube(size, size, I_Texture::RGBA);
+		shadowMap = GetRender()->TextureCreateCube(size, size, I_Texture::RGBA_FP32);
 		shadowMap->setFilter(I_Texture::LINEAR);
 		shadowMap->setAniso(I_Texture::ANISO_X0);
 		shadowMap->setWrap(I_Texture::CLAMP_TO_EDGE);
@@ -123,17 +122,12 @@ namespace NGTech {
 	/**
 	*/
 	LightSpot::LightSpot() {
-		this->color = Vec3(1, 1, 1);
-		this->position = Vec3(0, 0, 0);
-		this->direction = Vec3(1, 0, 0);
 		this->radius = 200;
 		this->fov = 60;
-
-		this->castShadows = true;
-
+		
 		int size = GetCvars()->r_shadowsize;
 
-		shadowMap = GetRender()->TextureCreate2D(size, size, I_Texture::RGBA);
+		shadowMap = GetRender()->TextureCreate2D(size, size, I_Texture::RGBA_FP32);
 		shadowMap->setFilter(I_Texture::LINEAR);
 		shadowMap->setWrap(I_Texture::CLAMP);
 
@@ -224,8 +218,14 @@ namespace NGTech {
 	/**
 	*/
 	LightDirect::LightDirect() {
-		this->color = Vec3(1, 1, 1);
-		this->direction = Vec3(1, 1, 1);
+		int size = GetCvars()->r_shadowsize;
+
+		shadowMap = GetRender()->TextureCreate2D(size, size, I_Texture::RGBA_FP32);
+		shadowMap->setFilter(I_Texture::LINEAR);
+		shadowMap->setWrap(I_Texture::CLAMP);
+
+		/*projMap = GetRender()->TextureCreate2D("effects/spot.jpg");
+		projMap->setWrap(I_Texture::CLAMP);*/
 	}
 
 	/**

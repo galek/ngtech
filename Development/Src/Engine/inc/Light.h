@@ -36,11 +36,16 @@ namespace NGTech {
 		ENGINE_INLINE void setVisible(bool _s) { visible = _s; }
 		ENGINE_INLINE bool isVisible() { return visible; }
 
-		virtual I_Texture *getShadowMap() = 0;
+		ENGINE_INLINE bool getShadows() { return castShadows; };
+		ENGINE_INLINE void setShadows(bool shadows) { castShadows = shadows; };
+
+		ENGINE_INLINE virtual I_Texture *getShadowMap() { return shadowMap; };
 	protected:
 		Vec3 position, direction, color;
+		I_Texture *shadowMap;
 		bool enabled;
 		bool visible;
+		bool castShadows;
 	};
 
 	//---------------------------------------------------------------------------
@@ -55,20 +60,13 @@ namespace NGTech {
 		ENGINE_INLINE float getIRadius() { return 1 / radius; };
 		ENGINE_INLINE void setRadius(float radius) { this->radius = radius; };
 
-		ENGINE_INLINE bool getShadows() { return castShadows; };
-		ENGINE_INLINE void setShadows(bool shadows) { castShadows = shadows; };
-
 		ENGINE_INLINE void setFlare(Flare *flare) { this->flare = flare; };
 
 		ENGINE_INLINE virtual LightType getType() { return LIGHT_OMNI; };
-
-		ENGINE_INLINE virtual I_Texture *getShadowMap(){ return shadowMap; }
-
+		
 		void getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w);
 	private:
 		float radius;
-		bool castShadows;
-
 		I_Texture *shadowMap;
 
 		Flare *flare;
@@ -91,24 +89,16 @@ namespace NGTech {
 		ENGINE_INLINE float getIRadius() { return 1 / radius; };
 		ENGINE_INLINE void setRadius(float radius) { this->radius = radius; };
 
-		ENGINE_INLINE bool getShadows() { return castShadows; };
-		ENGINE_INLINE void setShadows(bool shadows) { castShadows = shadows; };
-
 		ENGINE_INLINE void setFlare(Flare *flare) { this->flare = flare; };
 
 		ENGINE_INLINE virtual LightType getType() { return LIGHT_SPOT; };
-
-		ENGINE_INLINE virtual I_Texture *getShadowMap(){ return shadowMap; }
 
 		void getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w);
 
 	private:
 		float radius, fov;
-		bool castShadows;
 
 		Mat4 projTransform;
-
-		I_Texture *shadowMap;
 		I_Texture *projMap;
 
 		Flare *flare;
@@ -125,15 +115,11 @@ namespace NGTech {
 		virtual ~LightDirect();
 
 		ENGINE_INLINE const Vec3 &getColor() { return color; };
-		ENGINE_INLINE void setColor(const Vec3 &color) { this->color = color; };
 
 		ENGINE_INLINE virtual LightType getType() { return LIGHT_DIRECT; };
 
-
-		ENGINE_INLINE virtual I_Texture *getShadowMap(){ return NULL; }//Not implemented currently
-
+		ENGINE_INLINE virtual I_Texture *getShadowMap(){ return shadowMap; }
 	private:
-
 		friend class Scene;
 	};
 }

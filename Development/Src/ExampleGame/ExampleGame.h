@@ -54,6 +54,4 @@ class GAME_API EventsCallback : public NGTech::ICallback
 public:
 	EventsCallback();
 	virtual void Body();
-private:
-	float depth;
 };

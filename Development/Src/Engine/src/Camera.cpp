@@ -40,7 +40,7 @@ namespace NGTech {
 	/**
 	*/
 	Mat4 Camera::getTransform() {
-		return Mat4::lookAt(position, position + direction, Vec3(0, 1, 0));
+		return Mat4::lookAt(getPosition(), getPosition() + direction, Vec3(0, 1, 0));
 	}
 
 	/**
