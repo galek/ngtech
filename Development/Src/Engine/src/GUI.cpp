@@ -42,6 +42,7 @@ namespace NGTech {
 		mGUI(nullptr),
 		fpsLabel(nullptr),
 		LightCountLabel(nullptr),
+		FBOCalls(nullptr),
 		cvars(_cvars),
 		mDebugShow(false),
 		mInited(false)
@@ -62,10 +63,12 @@ namespace NGTech {
 		guiMtr = new Material("engine_materials/GUI.mat");
 		mInited = true;
 	}
-	
+
 	/**
 	*/
 	GUI::~GUI() {
+		SAFE_DELETE(FBOCalls);
+		SAFE_DELETE(LightCountLabel);
 		SAFE_DELETE(fpsLabel);
 		SAFE_DELETE(mGUI);
 	}
@@ -109,6 +112,12 @@ namespace NGTech {
 		LightCountLabel->setTextShadow(true);
 		LightCountLabel->setVisible(true);
 		LightCountLabel->setCaption("Light Count: ");
+
+		FBOCalls = mGUI->createWidget<MyGUI::TextBox>("TextBox", 100, 600, 180, 180, MyGUI::Align::Default, "Statistic", "InfoTextBox");
+		FBOCalls->setTextColour(MyGUI::Colour::White);
+		FBOCalls->setTextShadow(true);
+		FBOCalls->setVisible(true);
+		FBOCalls->setCaption("Framebuffer Calls: ");
 	}
 
 	/**
@@ -116,6 +125,8 @@ namespace NGTech {
 	void GUI::updateDebugInfo(){
 		fpsLabel->setCaption("FPS: " + std::to_string((int)GetEngine()->GetLastFPS()));
 		LightCountLabel->setCaption("Light Count: " + std::to_string(GetScene()->LightCount()));
+		if (GetDebug()->renderChangesOfFrameBufferr != 0)
+			FBOCalls->setCaption("Framebuffer Calls: " + std::to_string(GetDebug()->GetRenderChangesOfFrameBufferrPerFrame()));
 	}
 
 	/**

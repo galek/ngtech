@@ -92,9 +92,9 @@ namespace NGTech {
 			Warning("[Init] CVARManager Failed");
 
 		// create threads
-		threads = new EngineThreads();
+		/*threads = new EngineThreads();
 		if (!threads)
-			Warning("[Init] EngineThreads Failed");
+		Warning("[Init] EngineThreads Failed");*/
 
 #ifndef DROP_EDITOR
 		if (mIsEditor)
@@ -261,7 +261,7 @@ namespace NGTech {
 
 				next_game_tick += SKIP_TICKS;
 				loops++;
-			}
+}
 		}
 #else
 		while (IsRunning())
@@ -298,23 +298,23 @@ namespace NGTech {
 			this->scene->update(paused);
 		PROFILER_END();
 
-		PROFILER_START(Engine::do_update - sound - update);
-		// run multi-threaded sound
-		if (!paused)
-			if (this->scene)
-				this->scene->runUpdate();//Сейчас обновляем только звук
-		PROFILER_END();
+		//PROFILER_START(Engine::do_update - sound - update);
+		//// run multi-threaded sound
+		//if (!paused)
+		//	if (this->scene)
+		//		this->scene->runUpdate();//Сейчас обновляем только звук
+		//PROFILER_END();
 
 		PROFILER_START(Engine::do_update - game - update);
 		if (this->game)
 			this->game->update();
 		PROFILER_END();
 
-		PROFILER_START(Engine::do_update - physics);
-		// run multi-threaded physics
-		if (!paused)
-			this->physSystem->runUpdate();
-		PROFILER_END();
+		//PROFILER_START(Engine::do_update - physics);
+		//// run multi-threaded physics
+		//if (!paused)
+		//	this->physSystem->runUpdate();
+		//PROFILER_END();
 	}
 
 	/**
@@ -348,17 +348,17 @@ namespace NGTech {
 	*/
 	void Engine::do_swap()
 	{
-		PROFILER_START(Engine::do_swap - physics);
-		// wait multi-threaded physics
-		if (this->physSystem)
-			this->physSystem->waitUpdate();
-		PROFILER_END();
+		//PROFILER_START(Engine::do_swap - physics);
+		//// wait multi-threaded physics
+		//if (this->physSystem)
+		//	this->physSystem->waitUpdate();
+		//PROFILER_END();
 
-		PROFILER_START(Engine::do_swap - sound);
-		// wait multi-threaded sound
-		if (this->scene)
-			this->scene->waitUpdate();
-		PROFILER_END();
+		//PROFILER_START(Engine::do_swap - sound);
+		//// wait multi-threaded sound
+		//if (this->scene)
+		//	this->scene->waitUpdate();
+		//PROFILER_END();
 
 		PROFILER_START(Engine::do_swap - render);
 		if (this->iRender)

@@ -28,6 +28,7 @@ namespace NGTech {
 	class SystemInfo;
 	class MeshLoader;
 	class SkinnedMeshLoader;
+	struct DebugLayer;
 	/**
 	*/
 	struct CORE_API CoreManager{
@@ -138,6 +139,9 @@ namespace NGTech {
 		/**
 		*/
 		SkinnedMeshLoader *skinnedMeshLoader;
+		/**
+		*/
+		DebugLayer* debug;
 #ifdef USE_STEAMWORKS
 		/**
 		*/
@@ -196,6 +200,9 @@ namespace NGTech {
 	/**
 	*/
 	CORE_API MeshLoader* GetMeshLoader();
+	/**
+	*/
+	CORE_API DebugLayer* GetDebug();
 	/**
 	*/
 #ifdef USE_STEAMWORKS

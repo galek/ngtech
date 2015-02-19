@@ -19,7 +19,6 @@ NOTES:
 //**************************************
 
 #include "gl/gl.h"
-
 namespace NGTech {
 
 	/**
@@ -40,6 +39,7 @@ namespace NGTech {
 		matViewportMap(nullptr),
 		matShadowMap(nullptr),
 		matSpotMap(nullptr),
+		needStats(false),
 		currentCamera(new CameraFixed()),
 		frustum(new Frustum())
 	{
@@ -369,7 +369,6 @@ namespace NGTech {
 
 				mtr->unsetPassAlphaTest();
 
-
 				mtr->unsetPass();
 			}
 			GetRender()->pop();
@@ -396,6 +395,8 @@ namespace NGTech {
 		for (size_t f = 0; f < 6; f++)
 		{
 			shadowFBO->set();
+			if (needStats)
+				GetDebug()->renderChangesOfFrameBufferr += 1;
 			shadowFBO->setColorTarget(light->shadowMap, f);
 			shadowFBO->clear();
 
@@ -593,6 +594,8 @@ namespace NGTech {
 		GetRender()->loadMatrix(Mat4::lookAt(light->getPosition(), light->getPosition() + light->direction, Vec3(0, 1, 0)));
 
 		shadowFBO->set();
+		if (needStats)
+			GetDebug()->renderChangesOfFrameBufferr += 1;
 		shadowFBO->setColorTarget(light->shadowMap);
 		shadowFBO->clear();
 
@@ -747,6 +750,7 @@ namespace NGTech {
 			return;
 		}
 
+#if 0//for Work with Denis
 		if ((light->getPosition() - currentCamera->getPosition()).length() > light->radius) {
 			GetRender()->colorMask(false, false, false, false);
 			GetRender()->depthMask(false);
@@ -770,6 +774,7 @@ namespace NGTech {
 				return;
 			}
 		}
+#endif
 		light->setVisible(true);
 	}
 
@@ -893,7 +898,7 @@ namespace NGTech {
 			tempLight = lights[i];
 			if (tempLight->isVisible())
 			{
-				_RenderLight(tempLight,false);
+				_RenderLight(tempLight, false);
 			}
 		}
 
@@ -1024,6 +1029,7 @@ namespace NGTech {
 			GetRender()->disableBlending();
 			GetRender()->enable3d();
 		}
+		needStats = false;
 	}
 
 	/**

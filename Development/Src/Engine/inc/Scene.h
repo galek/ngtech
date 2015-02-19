@@ -62,6 +62,7 @@ namespace NGTech {
 
 		void reloadShaders();
 
+		void EnableStats()	{ needStats = true; }
 		/**
 		*/
 		ENGINE_INLINE size_t ObjCount() { return objects.size(); }
@@ -139,6 +140,8 @@ namespace NGTech {
 		Camera *currentCamera;
 		Light *currentLight;
 		Material *currentMaterial;
+	private:
+		bool needStats;
 	private:
 		friend class ParticleSystem;
 		friend class Flare;

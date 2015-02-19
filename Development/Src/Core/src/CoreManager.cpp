@@ -30,6 +30,7 @@ namespace NGTech {
 		config(nullptr), vfs(nullptr), alSystem(nullptr),
 		physSystem(nullptr), cache(nullptr), gui(nullptr),
 		scene(nullptr), scripting(nullptr), mWatermarkTex(nullptr),
+		debug(nullptr),
 #ifdef USE_STEAMWORKS
 		steamworks(nullptr),
 #endif
@@ -46,6 +47,9 @@ namespace NGTech {
 	*/
 	CoreManager::~CoreManager()
 	{
+		SAFE_DELETE(skinnedMeshLoader);
+		SAFE_DELETE(meshLoader);
+		SAFE_DELETE(debug);
 #ifdef USE_STEAMWORKS
 		SAFE_DELETE(steamworks);
 #endif
@@ -57,6 +61,7 @@ namespace NGTech {
 	void CoreManager::_preInit()
 	{
 		_initUserDir();
+		debug = new DebugLayer();
 		meshLoader = new MeshLoader();
 		meshLoader->RegisterFormat(new MeshFormatXSMSH());
 

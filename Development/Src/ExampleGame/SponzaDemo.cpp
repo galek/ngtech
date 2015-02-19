@@ -17,8 +17,8 @@ void ExampleGame::update() {}
 void ExampleGame::initialise() {
 	events = new GameGUIEvents();
 	//initializing loading screen
-	LoadingScreen lscreen("sponza/background.png");
-	lscreen.show();
+	/*LoadingScreen lscreen("sponza/background.png");
+	lscreen.show();*/
 
 	sponza = new ObjectMesh("sponza.nggf");
 	{
@@ -65,7 +65,7 @@ void ExampleGame::initialise() {
 	sponza->SetTransform(Mat4::translate(Vec3(0, 20, 0)));
 	sponza->setPhysicsStaticMesh();
 
-	for (int i = 0; i < 5; i++) {
+	/*for (int i = 0; i < 5; i++) {
 		box[i] = new ObjectMesh("cube.nggf");
 		box[i]->setMaterial("grid.mat");
 		box[i]->SetTransform(Mat4::translate(Vec3(-10 - i * 2, i * 20 + 10, i - 10)));
@@ -87,7 +87,7 @@ void ExampleGame::initialise() {
 		cylinder[i]->SetTransform(Mat4::translate(Vec3(20 + i * 2, i * 20 + 20, i - 10)));
 		cylinder[i]->setPhysicsConvexHull(10.0f);
 		cylinder[i]->setImpactSound("impact.ogg");
-	}
+	}*/
 
 	camera = new CameraFree();
 	camera->setPosition(Vec3(0, 20, 0));
@@ -96,10 +96,19 @@ void ExampleGame::initialise() {
 	camera->setFOV(60);
 
 
-	omniLight = new LightPoint();
+	/*omniLight = new LightPoint();
 	omniLight->setColor(Vec3(1, 1, 0.8));
 	omniLight->setPosition(Vec3(0, 60, 0));
-	omniLight->setRadius(200);
+	omniLight->setRadius(200);*/
+
+	/*LightPoint *light[5];
+	for (int i = 0; i <5; i++) {
+		light[i] = new LightPoint();
+		light[i]->setColor(Vec3((i + 1), (i + 1), (i + 1)*0.8));
+		light[i]->setPosition(Vec3(-10 - i * 2, i * 20 + 10, i - 10));
+		light[i]->setRadius(200);
+	}*/
+
 
 	//auto light = new LightSpot();
 	//light->setColor(Vec3(1, 1, 0.8));
@@ -110,7 +119,7 @@ void ExampleGame::initialise() {
 	//light->setPosition(Vec3(0, 40, 0));
 	//light->setShadows(false);*/
 
-	particlesPink = new ParticleSystem("smoke.png", 50);
+	/*particlesPink = new ParticleSystem("smoke.png", 50);
 	particlesPink->setPosition(Vec3(60, 60, 0));
 	particlesPink->setColor(Vec3(1, 0.5, 1));
 	particlesPink->setForce(Vec3(-0.5, 1, -0.7));
@@ -124,12 +133,12 @@ void ExampleGame::initialise() {
 	particlesYellow->setForce(Vec3(0.5, 1, 0.5));
 	particlesYellow->setVelocity(Vec3(10, 0, 0));
 	particlesYellow->setParticleLifeTime(10000);
-	particlesYellow->setDispersion(0.1);
+	particlesYellow->setDispersion(0.1);*/
 
 	//GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
-	sMesh = new ObjectSkinnedMesh("chammy.nggf");
+	/*sMesh = new ObjectSkinnedMesh("chammy.nggf");
 	sMesh->setMaterial("grid.mat");
-	sMesh->SetTransform(Mat4::translate(Vec3(-60, 60, 0)));
+	sMesh->SetTransform(Mat4::translate(Vec3(-60, 60, 0)));*/
 
 	GetWindow()->grabMouse(true);
 }
@@ -207,9 +216,10 @@ void EventsCallback::Body(){
 	}
 	if (GetWindow()->isKeyDown("O"))
 	{
-		auto light = new LightSpot();
+		/*auto light = new LightSpot();
 		light->setColor(Vec3(1, 1, 0.8));
-		light->setPosition(Vec3(-10, -5, 60));
+		light->setPosition(Vec3(-10, -5, 60));*/
+		GetScene()->EnableStats();
 	}
 	if (GetWindow()->isKeyDown("I"))
 	{

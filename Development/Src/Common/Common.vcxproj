@@ -261,6 +261,7 @@
     <ClInclude Include="BBox.h" />
     <ClInclude Include="BSphere.h" />
     <ClInclude Include="CommonPrivate.h" />
+    <ClInclude Include="DebugLayer.h" />
     <ClInclude Include="Delegate.h" />
     <ClInclude Include="EString.h" />
     <ClInclude Include="IAudio.h" />
@@ -283,6 +284,7 @@
   <ItemGroup>
     <ClCompile Include="BBox.cpp" />
     <ClCompile Include="BSphere.cpp" />
+    <ClCompile Include="DebugLayer.cpp" />
     <ClCompile Include="I_FFP.cpp" />
     <ClCompile Include="MathLib.cpp" />
     <ClCompile Include="StringHelper.cpp" />

@@ -60,9 +60,6 @@
     <ClInclude Include="inc\Error.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="inc\IncludesAndLibs.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="inc\Log.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -524,6 +521,9 @@
     </ClInclude>
     <ClInclude Include="inc\License\License.h">
       <Filter>Заголовочные файлы\License</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\IncludesAndLibs.h">
+      <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

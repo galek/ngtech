@@ -147,6 +147,16 @@ namespace NGTech {
 
 	/**
 	*/
+	CORE_API DebugLayer* GetDebug() {
+		if (core&&core->debug) {
+			static auto ptr = GetCore()->debug;
+			return ptr;
+		}
+		return nullptr;
+	}
+
+	/**
+	*/
 #ifdef USE_STEAMWORKS
 	SteamWorksMgr* GetSteamworksStats()	{
 		if (core&&core->steamworks) {
