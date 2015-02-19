@@ -112,7 +112,7 @@ namespace NGTech {
 		/**
 		gets camera projection matrix
 		*/
-		const Mat4 &GetProjection(){ return projection; }
+		const Mat4 GetProjection(){ return projection; }
 
 		/*
 		recalculates projection matrix
