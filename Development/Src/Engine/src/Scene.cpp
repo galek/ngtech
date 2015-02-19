@@ -1,6 +1,6 @@
 /*
 NOTES:
-	*Нужен рефакторинг
+*Нужен рефакторинг
 */
 //**************************************
 #include "EnginePrivate.h"
@@ -893,7 +893,7 @@ namespace NGTech {
 			tempLight = lights[i];
 			if (tempLight->isVisible())
 			{
-				_RenderLight(tempLight);
+				_RenderLight(tempLight,false);
 			}
 		}
 
@@ -963,15 +963,7 @@ namespace NGTech {
 		for (size_t i = 0; i < lights.size(); i++) {
 			if (lights[i]->isVisible())
 			{
-				if (lights[i]->getType() == Light::LIGHT_OMNI) {
-					drawPoint((LightPoint*)lights[i], true);
-				}
-				else if (lights[i]->getType() == Light::LIGHT_SPOT) {
-					drawSpot((LightSpot*)lights[i], true);
-				}
-				else if (lights[i]->getType() == Light::LIGHT_DIRECT) {
-					drawDirect((LightDirect*)lights[i], true);
-				}
+				_RenderLight(lights[i], true);
 			}
 		}
 
@@ -1119,24 +1111,24 @@ namespace NGTech {
 
 	/**
 	*/
-	void Scene::_RenderLight(Light* _light)
+	void Scene::_RenderLight(Light* _light, bool _blend)
 	{
 		switch (_light->getType())
 		{
 		case Light::LIGHT_OMNI:
-			drawPoint((LightPoint*)_light, false);
+			drawPoint((LightPoint*)_light, _blend);
 			break;
 
 		case Light::LIGHT_SPOT:
-			drawSpot((LightSpot*)_light, false);
+			drawSpot((LightSpot*)_light, _blend);
 			break;
 
 		case Light::LIGHT_DIRECT:
-			drawDirect((LightDirect*)_light, false);
+			drawDirect((LightDirect*)_light, _blend);
 			break;
 		}
 	}
-	
+
 	/**
 	*/
 	void Scene::_CheckFrustum(){

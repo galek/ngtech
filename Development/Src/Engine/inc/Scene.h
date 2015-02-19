@@ -92,7 +92,7 @@ namespace NGTech {
 		void checkPointVisibility(LightPoint *light);
 		void checkSpotVisibility(LightSpot *light);
 		void _CheckFrustum();
-		void _RenderLight(Light* _light);
+		void _RenderLight(Light* _light, bool _blend);
 		void _RenderAnimation();
 
 		Vec3 ambient;
