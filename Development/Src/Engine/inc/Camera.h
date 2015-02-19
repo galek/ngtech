@@ -105,10 +105,37 @@ namespace NGTech {
 		ENGINE_INLINE virtual Mat4 getTransform();
 
 		/**
-		gets camera projection matrix
-		\return projection matrix
+		sets camera projection matrix
 		*/
-		ENGINE_INLINE virtual Mat4 getProjection();
+		void SetProjection(const Mat4 &projection){ this->projection = projection; }
+
+		/**
+		gets camera projection matrix
+		*/
+		const Mat4 &GetProjection(){ return projection; }
+
+		/*
+		recalculates projection matrix
+		*/
+		void RecalculateProjection();
+
+		/*
+		recalculates view matrix
+		*/
+		void RecalculateView();
+
+		/*
+		recalculates frustum
+		*/
+		void RecalculateFrustum();
+
+		/**
+		*/
+		void SetView(const Mat4 &view);
+
+		/**
+		*/
+		const Mat4 &GetView(){ return view; }
 
 		/**
 		*/
@@ -151,13 +178,6 @@ namespace NGTech {
 		/**
 		*/
 		ENGINE_INLINE virtual Material* GetMaterial(size_t s) { return NULL; };
-		/*
-		recalculates frustum
-		*/
-		void RecalculateFrustum();
-		/**
-		*/
-		void SetView(const Mat4 &view);
 	protected:
 		Frustum *frustum;
 		float angle[2];

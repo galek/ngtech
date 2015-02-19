@@ -833,7 +833,8 @@ namespace NGTech {
 
 		//---------draw-scene--------------------------------
 		GetRender()->setMatrixMode_Projection();
-		GetRender()->loadMatrix(currentCamera->getProjection());
+		currentCamera->RecalculateProjection();
+		GetRender()->loadMatrix(currentCamera->GetProjection());
 
 		GetRender()->setMatrixMode_Modelview();
 		GetRender()->loadMatrix(currentCamera->getTransform());
@@ -919,7 +920,8 @@ namespace NGTech {
 
 		//---------set-camera--------------------------------
 		GetRender()->setMatrixMode_Projection();
-		GetRender()->loadMatrix(currentCamera->getProjection());
+		currentCamera->RecalculateProjection();
+		GetRender()->loadMatrix(currentCamera->GetProjection());
 
 		GetRender()->setMatrixMode_Modelview();
 		GetRender()->loadMatrix(currentCamera->getTransform());

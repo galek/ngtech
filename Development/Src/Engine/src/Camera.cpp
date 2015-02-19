@@ -64,8 +64,8 @@ namespace NGTech {
 
 	/**
 	*/
-	Mat4 Camera::getProjection() {
-		return Mat4::perspective(fov, aspect, zNear, zFar);
+	void Camera::RecalculateProjection() {
+		projection = Mat4::perspective(fov, aspect, zNear, zFar);
 	}
 
 	/**
@@ -73,6 +73,13 @@ namespace NGTech {
 	void Camera::RecalculateFrustum()
 	{
 		frustum->Build(projection * view);
+	}
+
+	/*
+	*/
+	void Camera::RecalculateView()
+	{
+		view = Mat4::lookAt(position, direction, upVector);
 	}
 
 	/**
