@@ -19,35 +19,35 @@ namespace NGTech {
 		virtual ~GLTexture();
 		/**
 		*/
-		void setWrap(Wrap wrap);
+		virtual void setWrap(Wrap wrap);
 		/**
 		*/
-		void setFilter(Filter filter);
+		virtual void setFilter(Filter filter);
 		/**
 		*/
-		void setAniso(Aniso aniso);
+		virtual void setAniso(Aniso aniso);
 		/**
 		*/
-		void Set();
+		virtual void Set();
 		/**
 		*/
-		void UnSet();
+		virtual void UnSet();
 		/**
 		*/
-		void set(size_t tex_unit);
+		virtual void set(size_t tex_unit);
 		/**
 		*/
-		void unset(size_t tex_unit);
+		virtual void unset(size_t tex_unit);
 
 		/**
 		*/
-		void beginRenderTo();
+		virtual void beginRenderTo();
 		/**
 		*/
-		void copy(int face = -1);
+		virtual void copy(int face = -1);
 		/**
 		*/
-		void endRenderTo();
+		virtual void endRenderTo();
 		/**
 		*/
 		virtual void SetMinMipLevel(unsigned int level);

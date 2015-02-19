@@ -1,7 +1,6 @@
 #pragma once
 
 //**************************************
-#include "../../Core/inc/MathLib.h"
 #include "PhysSystem.h"
 #include "Frustum.h"
 #include "Material.h"

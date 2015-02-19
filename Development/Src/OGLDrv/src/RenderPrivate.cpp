@@ -1,6 +1,6 @@
 #include "RenderPrivate.h"
 
 
-#include "glew/glew.c"
+#include "../../../../Externals/RenderAdditions/glew/glew.c"
 
 #pragma comment(lib,"opengl32.lib")

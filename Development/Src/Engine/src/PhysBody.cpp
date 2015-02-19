@@ -245,7 +245,7 @@ namespace NGTech {
 		else
 		{
 			Mat4 t;
-			return t.identity();
+			return t.Identity();
 		}
 	}
 

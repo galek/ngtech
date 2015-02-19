@@ -20,7 +20,7 @@ namespace NGTech {
 	{
 		mesh = new SkinnedMesh("meshes/" + path);
 		materials = new Material*[mesh->GetNumSubsets()];
-		transform.identity();
+		transform.Identity();
 
 	}
 

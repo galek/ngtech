@@ -314,8 +314,6 @@
     <ClInclude Include="inc\adl\adl_structures.h" />
     <ClInclude Include="inc\ASYNCFile.h" />
     <ClInclude Include="inc\ati_eyefinity.h" />
-    <ClInclude Include="inc\BBox.h" />
-    <ClInclude Include="inc\BSphere.h" />
     <ClInclude Include="inc\BuildDefines.h" />
     <ClInclude Include="inc\Config.h" />
     <ClInclude Include="inc\coredll.h" />
@@ -453,7 +451,6 @@
     <ClInclude Include="inc\lua\weak_ref.hpp" />
     <ClInclude Include="inc\lua\wrapper_base.hpp" />
     <ClInclude Include="inc\lua\yield_policy.hpp" />
-    <ClInclude Include="inc\MathLib.h" />
     <ClInclude Include="inc\MeshFormat.h" />
     <ClInclude Include="inc\MeshFormatXSMSH.h" />
     <ClInclude Include="inc\MeshLoader.h" />
@@ -958,14 +955,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\MathLib.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\MeshFormatXSMSH.cpp" />
     <ClCompile Include="src\MeshLoader.cpp" />

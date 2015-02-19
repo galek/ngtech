@@ -33,7 +33,7 @@ extern "C" {
 ** used to make the header, and the header can be found at
 **   http://www.opengl.org/registry/
 **
-** Khronos $Revision: 27684 $ on $Date: 2014-08-11 01:21:35 -0700 (Mon, 11 Aug 2014) $
+** Khronos $Revision: 27775 $ on $Date: 2014-08-20 09:25:35 -0700 (Wed, 20 Aug 2014) $
 */
 
 #if defined(_WIN32) && !defined(APIENTRY) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__)
@@ -53,7 +53,7 @@ extern "C" {
 #define GLAPI extern
 #endif
 
-#define GL_GLEXT_VERSION 20140810
+#define GL_GLEXT_VERSION 20140820
 
 /* Generated C header for:
  * API: gl
@@ -4470,16 +4470,8 @@ GLAPI void APIENTRY glVertexBlendARB (GLint count);
 
 #ifndef GL_ARB_vertex_buffer_object
 #define GL_ARB_vertex_buffer_object 1
-/* HACK: This is a workaround for gltypes.h on OS X 10.9 defining these types as
- *       long instead of ptrdiff_t
- */
-#if defined(__APPLE__)
-typedef long GLsizeiptrARB;
-typedef long GLintptrARB;
-#else
 typedef ptrdiff_t GLsizeiptrARB;
 typedef ptrdiff_t GLintptrARB;
-#endif
 #define GL_BUFFER_SIZE_ARB                0x8764
 #define GL_BUFFER_USAGE_ARB               0x8765
 #define GL_ARRAY_BUFFER_ARB               0x8892

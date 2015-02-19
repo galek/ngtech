@@ -2,7 +2,6 @@
 
 //**************************************
 #include "../../Common/StringHelper.h"
-#include "../../Core/inc/MathLib.h"
 //**************************************
 
 namespace NGTech {

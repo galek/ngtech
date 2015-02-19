@@ -1,14 +1,12 @@
 #include "RenderPrivate.h"
 //***************************************************************************
-#include "Engine.h"
 #include "Error.h"
-#include "WindowSystem.h"
 //***************************************************************************
 #include "GLSystem.h"
 #include "GLTexture.h"
 #include "CommonDefs.h"
+#include "GLExt.h"
 //***************************************************************************
-#include "glew/wglew.h"
 #include "../../Platform/inc/glfw/glfw3.h"
 //***************************************************************************
 
@@ -70,24 +68,8 @@ namespace NGTech {
 
 	/**
 	*/
-	void GLSystem::initialise()	{
-#ifndef DROP_EDITOR
-		if (!createContext(GetWindow()))
+	void GLSystem::_RenderSetDefaults()
 		{
-			Error("[GLSystem] initialise-Failed Creation OpenGL Context", true);
-			return;
-		}
-#endif
-		Log::writeHeader("-- GLSystem --");
-		Log::write("Vendor:         " + getVendor());
-		Log::write("Renderer:       " + getRenderer());
-		Log::write("Version:        " + getVersion());
-		Log::write("Texture units:  " + StringHelper::fromInt(getNumTexUnits()));
-		Log::write("Max anisotropy: " + StringHelper::fromInt(getMaxAniso()));
-
-		defAniso = GLTexture::ANISO_X0;
-		defFilter = GLTexture::LINEAR_MIPMAP_LINEAR;
-
 		//clear display
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClearDepth(1.0);
@@ -97,19 +79,55 @@ namespace NGTech {
 		glCullFace(GL_BACK);
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 		//Texture Params
 		glPixelStorei(GL_PACK_ALIGNMENT, 1);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	}
 
+	/**
+	*/
+	void GLSystem::initialise()	{
+#ifndef DROP_EDITOR
+		if (!createContext(GetWindow()))
+		{
+			Error("[GLSystem] initialise-Failed Creation OpenGL Context", true);
+			return;
+		}
+#endif
+		Log::writeHeader("-- GLSystem --");
+		LogPrintf("Vendor:%s", _GetVendor());
+		LogPrintf("Renderer:%s", _GetRenderer());
+		LogPrintf("Version:%s", _GetVersion());
+		LogPrintf("GLSL Version:%s", _GetGLSLVersion());
+		/*
+		*/
+		defAniso = GLTexture::ANISO_X0;
+		defFilter = GLTexture::LINEAR_MIPMAP_LINEAR;
+		/*
+		*/
+		_RenderSetDefaults();
+		/*
+		*/
 		reshape(GetWindow()->getWidth(), GetWindow()->getHeight());
+		/*
+		*/
 		GLExtensions::initExtensions();
+		/*
+		*/
+		GLExt::init();
+		/*
+		*/
 		ManageVSync(engine, false);
+		/*
+		*/
 		EnableMultiSample(false);
 #ifdef _ENGINE_DEBUG_
 		requireExtension("GL_ARB_debug_output", false);
 		EnableDebugOutput();
 #endif
-
+		/*
+		*/
 		{
 			FullscreenQuadVertex verts[] = {
 				{ { -1.0F, -3.0F } },
@@ -264,36 +282,26 @@ namespace NGTech {
 
 	/**
 	*/
-	String GLSystem::getVendor() {
-		return (char *)glGetString(GL_VENDOR);
+	const char * GLSystem::_GetVendor() {
+		return (const char *)glGetString(GL_VENDOR);
 	}
 
 	/**
 	*/
-	String GLSystem::getRenderer() {
-		return (char *)glGetString(GL_RENDERER);
+	const char * GLSystem::_GetRenderer() {
+		return (const char *)glGetString(GL_RENDERER);
 	}
 
 	/**
 	*/
-	String GLSystem::getVersion() {
-		return (char *)glGetString(GL_VERSION);
+	const char * GLSystem::_GetVersion() {
+		return (const char *)glGetString(GL_VERSION);
 	}
 
 	/**
 	*/
-	int GLSystem::getNumTexUnits() {
-		int nTexUnits;
-		glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, (int *)&nTexUnits);
-		return nTexUnits;
-	}
-
-	/**
-	*/
-	int GLSystem::getMaxAniso() {
-		int maxAniso;
-		glGetIntegerv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAniso);
-		return maxAniso;
+	const char* GLSystem::_GetGLSLVersion() {
+		return (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
 	}
 
 	/**

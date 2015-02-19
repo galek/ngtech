@@ -535,12 +535,12 @@ namespace NGTech {
 	/*
 	*/
 	Mat3::Mat3() {
-		identity();
+		Identity();
 	}
 
 	Mat3::~Mat3() {}
 
-	Mat3 &Mat3::identity() {
+	Mat3 &Mat3::Identity() {
 		e[0] = 1.0f; e[3] = 0.0f; e[6] = 0.0f;
 		e[1] = 0.0f; e[4] = 1.0f; e[7] = 0.0f;
 		e[2] = 0.0f; e[5] = 0.0f; e[8] = 1.0f;
@@ -718,12 +718,12 @@ namespace NGTech {
 	/*
 	*/
 	Mat4::Mat4() {
-		identity();
+		Identity();
 	}
 
 	Mat4::~Mat4() {}
 
-	Mat4 &Mat4::identity() {
+	Mat4 &Mat4::Identity() {
 		e[0] = 1.0f; e[4] = 0.0f; e[8] = 0.0f; e[12] = 0.0f;
 		e[1] = 0.0f; e[5] = 1.0f; e[9] = 0.0f; e[13] = 0.0f;
 		e[2] = 0.0f; e[6] = 0.0f; e[10] = 1.0f; e[14] = 0.0f;

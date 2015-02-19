@@ -65,7 +65,7 @@ namespace NGTech {
 		struct locked_data
 		{
 			void* ptr;
-			GLuint flags;
+			unsigned int flags;
 		};
 		locked_data	vertexdata_locked;
 		locked_data	indexdata_locked;

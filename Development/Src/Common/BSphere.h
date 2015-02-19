@@ -10,7 +10,7 @@ namespace NGTech
 	/**
 	Bounding sphere
 	*/
-	class CORE_API BSphere
+	class BSphere
 	{
 	public:
 		Vec3 center;
@@ -91,5 +91,7 @@ namespace NGTech
 			return (center - sphere.center).length() <= (radius + sphere.radius);
 		}
 	};
+
+	extern BSphere operator*(const Mat4 &a, const BSphere &s);
 
 }

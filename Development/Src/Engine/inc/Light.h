@@ -2,7 +2,6 @@
 
 //**************************************
 #include "../../Common/IRender.h"
-#include "../../Core/inc/MathLib.h"
 #include "Flare.h"
 //**************************************
 

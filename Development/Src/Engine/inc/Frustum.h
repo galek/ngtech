@@ -9,9 +9,9 @@
 #pragma once 
 
 //*************************
-#include "../../Core/inc/MathLib.h"
-#include "../../Core/inc/BBox.h"
-#include "../../Core/inc/BSphere.h"
+#include "../../Common/MathLib.h"
+#include "../../Common/BBox.h"
+#include "../../Common/BSphere.h"
 //*************************
 
 namespace NGTech {

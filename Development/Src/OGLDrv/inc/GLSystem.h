@@ -30,13 +30,6 @@ namespace NGTech {
 		GLSystem(CoreManager*);
 		virtual ~GLSystem();
 
-		String getVendor();
-		String getRenderer();
-		String getVersion();
-
-		virtual int getNumTexUnits();
-		virtual int getMaxAniso();
-
 		virtual void initialise();
 
 		virtual void reshape(int width, int height);
@@ -157,7 +150,18 @@ namespace NGTech {
 	private:
 		virtual bool createContext(I_Window*);
 		virtual void swapBuffers();
-	public:
+		/*
+		OpenGL info
+		*/
+		const char * _GetVendor();
+		const char * _GetRenderer();
+		const char * _GetVersion();
+		const char* _GetGLSLVersion();
+		/*
+		Set default options
+		*/
+		void _RenderSetDefaults();
+	private:
 		//FABRICS
 		virtual GLDisplayList* GetDL();
 		virtual GLOcclusionQuery* GetOQ();

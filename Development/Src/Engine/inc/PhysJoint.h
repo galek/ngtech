@@ -12,7 +12,6 @@
 #include "../../Core/inc/IncludesAndLibs.h"
 //***************************************************************************
 #include "PhysBody.h"
-#include "../../Core/inc/MathLib.h"
 //**************************************
 
 namespace NGTech {

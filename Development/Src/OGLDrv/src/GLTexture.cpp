@@ -167,7 +167,7 @@ namespace NGTech {
 	/**
 	*/
 	void GLTexture::setWrap(Wrap _wrap) {
-		static const GLuint Targets[] = {
+		static const unsigned int Targets[] = {
 			/*ZERO*/0,
 			/*REPEAT*/0x2901,
 			/*CLAMP*/0x2900,

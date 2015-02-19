@@ -127,6 +127,35 @@ typedef int ptrdiff_t;
 # endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+*/
+#define ALIGNED4(VALUE) (((size_t)(VALUE) + 3) & ~3)
+#define ALIGNED8(VALUE) (((size_t)(VALUE) + 7) & ~7)
+#define ALIGNED16(VALUE) (((size_t)(VALUE) + 15) & ~15)
+#define ALIGNED128(VALUE) (((size_t)(VALUE) + 127) & ~127)
+#define IS_ALIGNED4(VALUE) (((size_t)(VALUE) & 3) == 0)
+#define IS_ALIGNED8(VALUE) (((size_t)(VALUE) & 7) == 0)
+#define IS_ALIGNED16(VALUE) (((size_t)(VALUE) & 15) == 0)
+#define IS_ALIGNED128(VALUE) (((size_t)(VALUE) & 127) == 0)
+#define ASSERT_ALIGNED4(VALUE) assert(IS_ALIGNED4(VALUE))
+#define ASSERT_ALIGNED8(VALUE) assert(IS_ALIGNED8(VALUE))
+#define ASSERT_ALIGNED16(VALUE) assert(IS_ALIGNED16(VALUE))
+#define ASSERT_ALIGNED128(VALUE) assert(IS_ALIGNED128(VALUE))
+
+/*
+*/
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
+#define ATTRIBUTE_ALIGNED4(NAME) __declspec(align(4)) NAME
+#define ATTRIBUTE_ALIGNED8(NAME) __declspec(align(8)) NAME
+#define ATTRIBUTE_ALIGNED16(NAME) __declspec(align(16)) NAME
+#define ATTRIBUTE_ALIGNED128(NAME) __declspec(align(128)) NAME
+#else
+#define ATTRIBUTE_ALIGNED4(NAME) NAME __attribute__ ((aligned(4)))
+#define ATTRIBUTE_ALIGNED8(NAME) NAME __attribute__ ((aligned(8)))
+#define ATTRIBUTE_ALIGNED16(NAME) NAME __attribute__ ((aligned(16)))
+#define ATTRIBUTE_ALIGNED128(NAME) NAME __attribute__ ((aligned(128)))
+#endif
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define	_NAME_SEPARATOR_			"|"
 #define	_THREADID_NAME_SEPARATOR_	"@"

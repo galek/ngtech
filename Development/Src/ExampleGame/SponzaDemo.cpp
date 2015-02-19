@@ -96,14 +96,19 @@ void ExampleGame::initialise() {
 	camera->setFOV(60);
 
 
-	/*omniLight = new LightPoint();
+	omniLight = new LightPoint();
 	omniLight->setColor(Vec3(1, 1, 0.8));
 	omniLight->setPosition(Vec3(0, 60, 0));
-	omniLight->setRadius(200);*/
-	auto light = new LightSpot();
-	light->setColor(Vec3(1, 1, 0.8));
-	light->setPosition(Vec3(0, 40, 0));
-	light->setRadius(200);
+	omniLight->setRadius(200);
+
+	//auto light = new LightSpot();
+	//light->setColor(Vec3(1, 1, 0.8));
+	//light->setPosition(Vec3(-10, -5, 60));
+
+	///*auto light = new LightDirect();
+	//light->setColor(Vec3(1, 1, 0.8));
+	//light->setPosition(Vec3(0, 40, 0));
+	//light->setShadows(false);*/
 
 	particlesPink = new ParticleSystem("smoke.png", 50);
 	particlesPink->setPosition(Vec3(60, 60, 0));
@@ -192,6 +197,26 @@ void EventsCallback::Body(){
 	if (GetWindow()->isKeyDown("EQUAL"))
 	{
 		ShowConsole();
+	}
+	if (GetWindow()->isKeyDown("P"))
+	{
+		auto omniLight = new LightPoint();
+		omniLight->setColor(Vec3(1, 1, 0.8));
+		omniLight->setPosition(Vec3(0, 60, 0));
+		omniLight->setRadius(200);
+	}
+	if (GetWindow()->isKeyDown("O"))
+	{
+		auto light = new LightSpot();
+		light->setColor(Vec3(1, 1, 0.8));
+		light->setPosition(Vec3(-10, -5, 60));
+	}
+	if (GetWindow()->isKeyDown("I"))
+	{
+		auto light = new LightDirect();
+		light->setColor(Vec3(1, 1, 0.8));
+		light->setPosition(Vec3(0, 40, 0));
+		light->setShadows(false);
 	}
 }
 #endif

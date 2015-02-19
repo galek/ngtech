@@ -6,11 +6,10 @@
 
 namespace NGTech
 {
-
 	/**
 	Bounding box
 	*/
-	class CORE_API BBox
+	class BBox
 	{
 	public:
 		Vec3 min, max;
@@ -90,5 +89,5 @@ namespace NGTech
 			return (min + max) * 0.5f;
 		}
 	};
-
+	extern BBox operator*(const Mat4 &a, const BBox &b);
 }

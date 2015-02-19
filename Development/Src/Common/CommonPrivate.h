@@ -11,7 +11,7 @@
 #pragma warning (disable : 4275)
 
 #include "StringHelper.h"
-
+#include "MathLib.h"
 #include "IWindow.h"
 #include "IRender.h"
 #include "IGUI.h"

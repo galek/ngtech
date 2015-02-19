@@ -9,7 +9,6 @@
 
 #include "../Src/Core/inc/CoreDLL.h"
 #include "../Src/Core/inc/SteamWorks_API.h"
-#include "../Src/Core/inc/MathLib.h"
 #include "../Src/Core/inc/Log.h"
 #include "../Src/Core/inc/ASYNCFILE.h"
 #include "../Src/Core/inc/Config.h"

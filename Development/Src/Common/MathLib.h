@@ -2,8 +2,7 @@
 
 //***************************************************************************
 #include <math.h>
-#include "..\..\Common\Types.h"
-#include "coredll.h"
+#include "../../Src/Platform/inc/platformdetect.h"
 //***************************************************************************
 
 namespace NGTech {
@@ -21,7 +20,7 @@ namespace NGTech {
 	/**
 	Some math functions
 	*/
-	struct CORE_API Math {
+	struct Math {
 		static float clamp(float v, float min, float max);
 
 		static float angleBetweenVec(const Vec3 &a, const Vec3 &b);
@@ -34,7 +33,7 @@ namespace NGTech {
 	/**
 	2D Vector class
 	*/
-	class CORE_API Vec2 {
+	class Vec2 {
 	public:
 		float x, y;
 
@@ -61,16 +60,16 @@ namespace NGTech {
 		bool operator==(const Vec2 &v) const;
 		bool operator!=(const Vec2 &v) const;
 
-		ENGINE_INLINE float length();
+		float length();
 
-		friend Vec2 CORE_API operator+(const Vec2 &a, const Vec2 &b);
-		friend Vec2 CORE_API operator-(const Vec2 &a, const Vec2 &b);
-		friend Vec2 CORE_API operator*(const Vec2 &a, const Vec2 &b);
-		friend Vec2 CORE_API operator*(const Vec2 &v, float c);
-		friend Vec2 CORE_API operator*(float c, const Vec2 &v);
-		friend Vec2 CORE_API operator/(const Vec2 &a, const Vec2 &b);
-		friend Vec2 CORE_API operator/(const Vec2 &v, float c);
-		friend Vec2 CORE_API operator/(float c, const Vec2 &v);
+		friend Vec2 operator+(const Vec2 &a, const Vec2 &b);
+		friend Vec2 operator-(const Vec2 &a, const Vec2 &b);
+		friend Vec2 operator*(const Vec2 &a, const Vec2 &b);
+		friend Vec2 operator*(const Vec2 &v, float c);
+		friend Vec2 operator*(float c, const Vec2 &v);
+		friend Vec2 operator/(const Vec2 &a, const Vec2 &b);
+		friend Vec2 operator/(const Vec2 &v, float c);
+		friend Vec2 operator/(float c, const Vec2 &v);
 
 		static Vec2 normalize(const Vec2 &a);
 		static ENGINE_INLINE float dot(const Vec2 &a, const Vec2 &b) {
@@ -79,19 +78,19 @@ namespace NGTech {
 		static ENGINE_INLINE Vec2 &Zero(){ static Vec2 mZero(0, 0); return mZero; }
 	};
 
-	extern ENGINE_INLINE Vec2 CORE_API operator+(const Vec2 &a, const Vec2 &b);
-	extern ENGINE_INLINE Vec2 CORE_API operator-(const Vec2 &a, const Vec2 &b);
-	extern ENGINE_INLINE Vec2 CORE_API operator*(const Vec2 &a, const Vec2 &b);
-	extern ENGINE_INLINE Vec2 CORE_API operator*(const Vec2 &v, float c);
-	extern ENGINE_INLINE Vec2 CORE_API operator*(float c, const Vec2 &v);
-	extern ENGINE_INLINE Vec2 CORE_API operator/(const Vec2 &a, const Vec2 &b);
-	extern ENGINE_INLINE Vec2 CORE_API operator/(const Vec2 &v, float c);
-	extern ENGINE_INLINE Vec2 CORE_API operator/(float c, const Vec2 &v);
+	extern Vec2 operator+(const Vec2 &a, const Vec2 &b);
+	extern Vec2 operator-(const Vec2 &a, const Vec2 &b);
+	extern Vec2 operator*(const Vec2 &a, const Vec2 &b);
+	extern Vec2 operator*(const Vec2 &v, float c);
+	extern Vec2 operator*(float c, const Vec2 &v);
+	extern Vec2 operator/(const Vec2 &a, const Vec2 &b);
+	extern Vec2 operator/(const Vec2 &v, float c);
+	extern Vec2 operator/(float c, const Vec2 &v);
 
 	/**
 	3D Vector class
 	*/
-	class CORE_API Vec3 {
+	class Vec3 {
 	public:
 		float x, y, z;
 
@@ -117,38 +116,38 @@ namespace NGTech {
 		bool operator==(const Vec3 &v) const;
 		bool operator!=(const Vec3 &v) const;
 
-		ENGINE_INLINE float length();
+		float length();
 
-		friend Vec3 CORE_API operator+(const Vec3 &a, const Vec3 &b);
-		friend Vec3 CORE_API operator-(const Vec3 &a, const Vec3 &b);
-		friend Vec3 CORE_API operator*(const Vec3 &a, const Vec3 &b);
-		friend Vec3 CORE_API operator*(const Vec3 &v, float c);
-		friend Vec3 CORE_API operator*(float c, const Vec3 &v);
-		friend Vec3 CORE_API operator/(const Vec3 &a, const Vec3 &b);
-		friend Vec3 CORE_API operator/(const Vec3 &v, float c);
-		friend Vec3 CORE_API operator/(float c, const Vec3 &v);
+		friend Vec3 operator+(const Vec3 &a, const Vec3 &b);
+		friend Vec3 operator-(const Vec3 &a, const Vec3 &b);
+		friend Vec3 operator*(const Vec3 &a, const Vec3 &b);
+		friend Vec3 operator*(const Vec3 &v, float c);
+		friend Vec3 operator*(float c, const Vec3 &v);
+		friend Vec3 operator/(const Vec3 &a, const Vec3 &b);
+		friend Vec3 operator/(const Vec3 &v, float c);
+		friend Vec3 operator/(float c, const Vec3 &v);
 
 		static Vec3 normalize(const Vec3 &a);
 		static ENGINE_INLINE float dot(const Vec3 &a, const Vec3 &b) {
 			return (a.x * b.x + a.y * b.y + a.z * b.z);
 		}
-		static ENGINE_INLINE Vec3 cross(const Vec3 &a, const Vec3 &b);
+		static Vec3 cross(const Vec3 &a, const Vec3 &b);
 		static ENGINE_INLINE Vec3 &Zero(){ static Vec3 mZero(0, 0, 0); return mZero; }
 	};
 
-	extern ENGINE_INLINE Vec3 CORE_API operator+(const Vec3 &a, const Vec3 &b);
-	extern ENGINE_INLINE Vec3 CORE_API operator-(const Vec3 &a, const Vec3 &b);
-	extern ENGINE_INLINE Vec3 CORE_API operator*(const Vec3 &a, const Vec3 &b);
-	extern ENGINE_INLINE Vec3 CORE_API operator*(const Vec3 &v, float c);
-	extern ENGINE_INLINE Vec3 CORE_API operator*(float c, const Vec3 &v);
-	extern ENGINE_INLINE Vec3 CORE_API operator/(const Vec3 &a, const Vec3 &b);
-	extern ENGINE_INLINE Vec3 CORE_API operator/(const Vec3 &v, float c);
-	extern ENGINE_INLINE Vec3 CORE_API operator/(float c, const Vec3 &v);
+	extern Vec3 operator+(const Vec3 &a, const Vec3 &b);
+	extern Vec3 operator-(const Vec3 &a, const Vec3 &b);
+	extern Vec3 operator*(const Vec3 &a, const Vec3 &b);
+	extern Vec3 operator*(const Vec3 &v, float c);
+	extern Vec3 operator*(float c, const Vec3 &v);
+	extern Vec3 operator/(const Vec3 &a, const Vec3 &b);
+	extern Vec3 operator/(const Vec3 &v, float c);
+	extern Vec3 operator/(float c, const Vec3 &v);
 
 	/**
 	4D Vector class
 	*/
-	class CORE_API Vec4 {
+	class Vec4 {
 	public:
 		float x, y, z, w;
 
@@ -177,16 +176,16 @@ namespace NGTech {
 		bool operator==(const Vec4 &v) const;
 		bool operator!=(const Vec4 &v) const;
 
-		ENGINE_INLINE float length();
+		float length();
 
-		friend Vec4 CORE_API operator+(const Vec4 &a, const Vec4 &b);
-		friend Vec4 CORE_API operator-(const Vec4 &a, const Vec4 &b);
-		friend Vec4 CORE_API operator*(const Vec4 &a, const Vec4 &b);
-		friend Vec4 CORE_API operator*(const Vec4 &v, float c);
-		friend Vec4 CORE_API operator*(float c, const Vec4 &v);
-		friend Vec4 CORE_API operator/(const Vec4 &a, const Vec4 &b);
-		friend Vec4 CORE_API operator/(const Vec4 &v, float c);
-		friend Vec4 CORE_API operator/(float c, const Vec4 &v);
+		friend Vec4 operator+(const Vec4 &a, const Vec4 &b);
+		friend Vec4 operator-(const Vec4 &a, const Vec4 &b);
+		friend Vec4 operator*(const Vec4 &a, const Vec4 &b);
+		friend Vec4 operator*(const Vec4 &v, float c);
+		friend Vec4 operator*(float c, const Vec4 &v);
+		friend Vec4 operator/(const Vec4 &a, const Vec4 &b);
+		friend Vec4 operator/(const Vec4 &v, float c);
+		friend Vec4 operator/(float c, const Vec4 &v);
 
 		static Vec4 normalize(const Vec4 &a);
 		static ENGINE_INLINE float dot(const Vec4 &a, const Vec4 &b) {
@@ -195,25 +194,26 @@ namespace NGTech {
 		static ENGINE_INLINE Vec4 &Zero(){ static Vec4 mZero(0, 0, 0, 0); return mZero; }
 	};
 
-	extern ENGINE_INLINE Vec4 CORE_API operator+(const Vec4 &a, const Vec4 &b);
-	extern ENGINE_INLINE Vec4 CORE_API operator-(const Vec4 &a, const Vec4 &b);
-	extern ENGINE_INLINE Vec4 CORE_API operator*(const Vec4 &a, const Vec4 &b);
-	extern ENGINE_INLINE Vec4 CORE_API operator*(const Vec4 &v, float c);
-	extern ENGINE_INLINE Vec4 CORE_API operator*(float c, const Vec4 &v);
-	extern ENGINE_INLINE Vec4 CORE_API operator/(const Vec4 &a, const Vec4 &b);
-	extern ENGINE_INLINE Vec4 CORE_API operator/(const Vec4 &v, float c);
-	extern ENGINE_INLINE Vec4 CORE_API operator/(float c, const Vec4 &v);
+	extern Vec4 operator+(const Vec4 &a, const Vec4 &b);
+	extern Vec4 operator-(const Vec4 &a, const Vec4 &b);
+	extern Vec4 operator*(const Vec4 &a, const Vec4 &b);
+	extern Vec4 operator*(const Vec4 &v, float c);
+	extern Vec4 operator*(float c, const Vec4 &v);
+	extern Vec4 operator/(const Vec4 &a, const Vec4 &b);
+	extern Vec4 operator/(const Vec4 &v, float c);
+	extern Vec4 operator/(float c, const Vec4 &v);
 
 	/**
 	3x3 Matrix class
 	*/
-	class CORE_API Mat3 {
+	class Mat3 {
 	public:
 		float e[9];
 
 		Mat3();
 		~Mat3();
-		Mat3 &identity();
+		Mat3 &Identity();
+		Mat3 &Zero();
 		Mat3(float e0, float e3, float e6,
 			float e1, float e4, float e7,
 			float e2, float e5, float e8);
@@ -238,22 +238,23 @@ namespace NGTech {
 		static Mat3 scale(const Vec3 &scale);
 	};
 
-	extern ENGINE_INLINE Mat3 CORE_API operator*(const Mat3 &a, const Mat3 &b);
-	extern ENGINE_INLINE Vec4 CORE_API operator*(const Mat3 &m, const Vec4 &v);
-	extern ENGINE_INLINE Vec4 CORE_API operator*(const Vec4 &v, const Mat3 &m);
-	extern ENGINE_INLINE Vec3 CORE_API operator*(const Mat3 &m, const Vec3 &v);
-	extern ENGINE_INLINE Vec3 CORE_API operator*(const Vec3 &v, const Mat3 &m);
+	extern Mat3 operator*(const Mat3 &a, const Mat3 &b);
+	extern Vec4 operator*(const Mat3 &m, const Vec4 &v);
+	extern Vec4 operator*(const Vec4 &v, const Mat3 &m);
+	extern Vec3 operator*(const Mat3 &m, const Vec3 &v);
+	extern Vec3 operator*(const Vec3 &v, const Mat3 &m);
 
 	/**
 	4x4 Matrix class
 	*/
-	class CORE_API Mat4 {
+	class Mat4 {
 	public:
 		float e[16];
 
 		Mat4();
 		~Mat4();
-		Mat4 &identity();
+		Mat4 &Identity();
+		Mat4 &Zero();
 		Mat4(float e0, float e4, float e8, float e12,
 			float e1, float e5, float e9, float e13,
 			float e2, float e6, float e10, float e14,
@@ -292,16 +293,16 @@ namespace NGTech {
 		static Mat4 texBias();
 	};
 
-	extern ENGINE_INLINE Mat4 CORE_API operator*(const Mat4 &a, const Mat4 &b);
-	extern ENGINE_INLINE Vec4 CORE_API operator*(const Mat4 &m, const Vec4 &v);
-	extern ENGINE_INLINE Vec4 CORE_API operator*(const Vec4 &v, const Mat4 &m);
-	extern ENGINE_INLINE Vec3 CORE_API operator*(const Mat4 &m, const Vec3 &v);
-	extern ENGINE_INLINE Vec3 CORE_API operator*(const Vec3 &v, const Mat4 &m);
+	extern Mat4 operator*(const Mat4 &a, const Mat4 &b);
+	extern Vec4 operator*(const Mat4 &m, const Vec4 &v);
+	extern Vec4 operator*(const Vec4 &v, const Mat4 &m);
+	extern Vec3 operator*(const Mat4 &m, const Vec3 &v);
+	extern Vec3 operator*(const Vec3 &v, const Mat4 &m);
 
 	/**
 	Quat class
 	*/
-	class CORE_API Quat {
+	class Quat {
 	public:
 		float x, y, z, w;
 
@@ -325,7 +326,7 @@ namespace NGTech {
 	/**
 	Computes TBN basis
 	*/
-	struct CORE_API TBNComputer {
+	struct TBNComputer {
 		static void computeN(Vec3 &n, Vec3 p0, Vec3 p1, Vec3 p2);
 		static void computeTBN(Vec3 &t, Vec3 &b, Vec3 p0, Vec3 p1, Vec3 p2, Vec2 t0, Vec2 t1, Vec2 t2, Vec3 n);
 	};

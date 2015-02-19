@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../../Core/inc/mathlib.h"
 
 namespace NGTech{
 

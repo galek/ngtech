@@ -54,6 +54,12 @@
     <ClCompile Include="src\GLSystemFabrics.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="src\GLExt.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GLFfp.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\GLDisplayList.h">
@@ -96,6 +102,9 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="inc\MeshObj.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GLExt.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

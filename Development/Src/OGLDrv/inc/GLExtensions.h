@@ -1,7 +1,11 @@
 #pragma once
 
-#include "glew/glew.h"
-#include "../Common/StringHelper.h"
+#include "../../../../Externals/RenderAdditions/glew/gl/glew.h"
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
+#include "../../../../Externals/RenderAdditions/glew/gl/wglew.h"
+#else
+#include "../../../../Externals/RenderAdditions/glew/gl/glxew.h"
+#endif
 //***************************************************************************
 
 namespace NGTech {
@@ -9,8 +13,8 @@ namespace NGTech {
 	/**
 	OpenGL extensions managing class
 	*/
-	class GLExtensions {
-	public:
+	struct GLExtensions 
+	{
 		/**
 		Is GL extension supported
 		\param name extension name

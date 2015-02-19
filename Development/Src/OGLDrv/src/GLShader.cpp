@@ -175,18 +175,18 @@ namespace NGTech {
 					const char *vsString[1];
 					vsString[0] = (char*)vsCode.c_str();
 
-					this->vs = glCreateShaderObjectARB(GL_VERTEX_SHADER_ARB);
+					this->vs = glCreateShader(GL_VERTEX_SHADER);
 					glShaderSource(this->vs, 1, vsString, NULL);
 					glCompileShader(this->vs);
 
-					int compiled;
+					int compiled = 0;
 					glGetShaderiv(this->vs, GL_COMPILE_STATUS, &compiled);
 
 					if (!compiled) {
-						char errorString[1024] = { 0 };
+						char errorString[32768] = { 0 };
 						glGetProgramInfoLog(this->vs, sizeof(errorString), NULL, errorString);
 						Warning("Error: shader file '%s' vs compiling error: %s", path.c_str(), String(errorString).c_str());
-						Error("Failed compiling shader", true);
+						glDeleteShader(this->vs);
 						return false;
 					}
 				}
@@ -208,18 +208,18 @@ namespace NGTech {
 					const char *fsString[1];
 					fsString[0] = (char*)fsCode.c_str();
 
-					this->fs = glCreateShaderObjectARB(GL_FRAGMENT_SHADER_ARB);
+					this->fs = glCreateShader(GL_FRAGMENT_SHADER);
 					glShaderSource(this->fs, 1, fsString, NULL);
 					glCompileShader(this->fs);
 
-					int compiled;
+					int compiled = 0;
 					glGetShaderiv(this->fs, GL_COMPILE_STATUS, &compiled);
 
 					if (!compiled) {
-						char errorString[1024] = { 0 };
+						char errorString[32768] = { 0 };
 						glGetProgramInfoLog(this->fs, sizeof(errorString), 0, errorString);
 						Warning("Error: shader file '%s' fs compiling error: %s", path.c_str(), String(errorString).c_str());
-						Error("Failed compiling shader", true);
+						glDeleteShader(this->fs);
 						return false;
 					}
 				}
@@ -241,18 +241,18 @@ namespace NGTech {
 					const char *gsString[1];
 					gsString[0] = (char*)gsCode.c_str();
 
-					this->gs = glCreateShaderObjectARB(GL_GEOMETRY_SHADER);
-					glShaderSourceARB(this->gs, 1, gsString, NULL);
-					glCompileShaderARB(this->gs);
+					this->gs = glCreateShader(GL_GEOMETRY_SHADER);
+					glShaderSource(this->gs, 1, gsString, NULL);
+					glCompileShader(this->gs);
 
-					int compiled;
+					int compiled = 0;
 					glGetShaderiv(this->gs, GL_COMPILE_STATUS, &compiled);
 
 					if (!compiled) {
-						char errorString[1024] = { 0 };
+						char errorString[32768] = { 0 };
 						glGetProgramInfoLog(this->gs, sizeof(errorString), NULL, errorString);
 						Warning("Error: shader file '%s' gs compiling error: %s", path.c_str(), String(errorString).c_str());
-						Error("Failed compiling shader", true);
+						glDeleteShader(this->gs);
 						return false;
 					}
 				}
@@ -275,18 +275,18 @@ namespace NGTech {
 					const char *tesString[1];
 					tesString[0] = (char*)tesCode.c_str();
 
-					this->tes = glCreateShaderObjectARB(GL_TESS_EVALUATION_SHADER);
-					glShaderSourceARB(this->tes, 1, tesString, NULL);
-					glCompileShaderARB(this->tes);
+					this->tes = glCreateShader(GL_TESS_EVALUATION_SHADER);
+					glShaderSource(this->tes, 1, tesString, NULL);
+					glCompileShader(this->tes);
 
-					int compiled;
+					int compiled = 0;
 					glGetShaderiv(this->tes, GL_COMPILE_STATUS, &compiled);
 
 					if (!compiled) {
-						char errorString[1024] = { 0 };
+						char errorString[32768] = { 0 };
 						glGetProgramInfoLog(this->tes, sizeof(errorString), NULL, errorString);
 						Warning("Error: shader file '%s' tes compiling error: %s", path.c_str(), String(errorString).c_str());
-						Error("Failed compiling shader", true);
+						glDeleteShader(this->tes);
 						return false;
 					}
 				}
@@ -308,18 +308,18 @@ namespace NGTech {
 					const char *tecString[1];
 					tecString[0] = (char*)tcsCode.c_str();
 
-					this->vs = glCreateShaderObjectARB(GL_TESS_CONTROL_SHADER);
-					glShaderSourceARB(this->tcs, 1, tecString, NULL);
-					glCompileShaderARB(this->tcs);
+					this->vs = glCreateShader(GL_TESS_CONTROL_SHADER);
+					glShaderSource(this->tcs, 1, tecString, NULL);
+					glCompileShader(this->tcs);
 
-					int compiled;
+					int compiled = 0;
 					glGetShaderiv(this->tcs, GL_COMPILE_STATUS, &compiled);
 
 					if (!compiled) {
-						char errorString[1024] = { 0 };
+						char errorString[32768] = { 0 };
 						glGetProgramInfoLog(this->tcs, sizeof(errorString), NULL, errorString);
 						Warning("Error: shader file '%s' tcs compiling error: %s", path.c_str(), String(errorString).c_str());
-						Error("Failed compiling shader", true);
+						glDeleteShader(this->tcs);
 						return false;
 					}
 				}
@@ -396,18 +396,18 @@ namespace NGTech {
 				const char *vsString[1];
 				vsString[0] = (char*)vsCode.c_str();
 
-				this->vs = glCreateShaderObjectARB(GL_VERTEX_SHADER_ARB);
+				this->vs = glCreateShader(GL_VERTEX_SHADER);
 				glShaderSource(this->vs, 1, vsString, NULL);
 				glCompileShader(this->vs);
 
-				int compiled;
+				int compiled = 0;
 				glGetShaderiv(this->vs, GL_COMPILE_STATUS, &compiled);
 
 				if (!compiled) {
-					char errorString[1024] = { 0 };
+					char errorString[32768] = { 0 };
 					glGetProgramInfoLog(this->vs, sizeof(errorString), NULL, errorString);
 					Warning("[%s] Error: shader file '%s' vs compiling error: %s", __FUNCTION__, pathVS.c_str(), String(errorString).c_str());
-					Error("Failed compiling shader", true);
+					glDeleteShader(this->vs);
 					return false;
 				}
 			}
@@ -425,18 +425,18 @@ namespace NGTech {
 				const char *fsString[1];
 				fsString[0] = (char*)fsCode.c_str();
 
-				this->fs = glCreateShaderObjectARB(GL_FRAGMENT_SHADER_ARB);
+				this->fs = glCreateShader(GL_FRAGMENT_SHADER);
 				glShaderSource(this->fs, 1, fsString, NULL);
 				glCompileShader(this->fs);
 
-				int compiled;
+				int compiled = 0;
 				glGetShaderiv(this->fs, GL_COMPILE_STATUS, &compiled);
 
 				if (!compiled) {
-					char errorString[1024] = { 0 };
+					char errorString[32768] = { 0 };
 					glGetProgramInfoLog(this->fs, sizeof(errorString), NULL, errorString);
 					Warning("[%s] Error: shader file '%s' fs compiling error: %s", __FUNCTION__, pathFS.c_str(), String(errorString).c_str());
-					Error("Failed compiling shader", true);
+					glDeleteShader(this->fs);
 					return false;
 				}
 			}
@@ -464,14 +464,15 @@ namespace NGTech {
 
 	bool GLShader::_checkLinked(const char*path)
 	{
-		int linked;
+		int linked = 0;
 		glLinkProgram(this->program);
 		glGetProgramiv(this->program, GL_LINK_STATUS, &linked);
 
 		if (!linked) {
-			char errorString[4096];
+			char errorString[32768] = { 0 };
 			glGetProgramInfoLog(this->program, sizeof(errorString), NULL, errorString);
 			Warning("[%s] Error: shader file '%s' linking error: %s", __FUNCTION__, path, (errorString));
+			glDeleteShader(this->program);
 			return false;
 		}
 		return true;

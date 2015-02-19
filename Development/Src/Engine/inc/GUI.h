@@ -37,7 +37,7 @@ namespace NGTech {
 		CVARManager *cvars;
 		//DebugInfo
 		bool mDebugShow;
-		MyGUI::TextBox *fpsLabel;
+		MyGUI::TextBox *fpsLabel, *LightCountLabel;
 		Material *guiMtr;
 		bool mInited;
 	};

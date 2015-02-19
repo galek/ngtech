@@ -28,7 +28,7 @@ namespace NGTech {
 			for (size_t i = 0; i < materials.size(); i++)
 				materials[i] = nullptr;
 		}
-		transform.identity();
+		transform.Identity();
 	}
 
 	ObjectMesh::~ObjectMesh() {

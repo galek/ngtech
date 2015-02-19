@@ -258,6 +258,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BBox.h" />
+    <ClInclude Include="BSphere.h" />
     <ClInclude Include="CommonPrivate.h" />
     <ClInclude Include="Delegate.h" />
     <ClInclude Include="EString.h" />
@@ -269,6 +271,8 @@
     <ClInclude Include="IRender.h" />
     <ClInclude Include="IScripting.h" />
     <ClInclude Include="IWindow.h" />
+    <ClInclude Include="I_FFP.h" />
+    <ClInclude Include="MathLib.h" />
     <ClInclude Include="NonCopyable.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="StringHelper.h" />
@@ -277,6 +281,10 @@
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BBox.cpp" />
+    <ClCompile Include="BSphere.cpp" />
+    <ClCompile Include="I_FFP.cpp" />
+    <ClCompile Include="MathLib.cpp" />
     <ClCompile Include="StringHelper.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
