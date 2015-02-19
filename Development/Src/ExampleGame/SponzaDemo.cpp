@@ -95,11 +95,10 @@ void ExampleGame::initialise() {
 	camera->setPhysics(Vec3(5, 5, 5), 1.0f);
 	camera->setFOV(60);
 
-
-	/*omniLight = new LightPoint();
+	omniLight = new LightPoint();
 	omniLight->setColor(Vec3(1, 1, 0.8));
 	omniLight->setPosition(Vec3(0, 60, 0));
-	omniLight->setRadius(200);*/
+	omniLight->setRadius(200);
 
 	/*LightPoint *light[5];
 	for (int i = 0; i <5; i++) {
