@@ -23,12 +23,14 @@
 #include "MyGUI_TextBox.h"
 #include "MyGUI_Button.h"
 #include "MyGUI_PointerManager.h"
+//**************************************
 #include "GUI.h"
 #include "WindowSystem.h"
 #include "Log.h"
 #include "Cache.h"
 #include "CVarManager.h"
 #include "VFS.h"
+#include "Scene.h"
 //**************************************
 
 namespace NGTech {
@@ -39,6 +41,7 @@ namespace NGTech {
 		: mPlatform(nullptr),
 		mGUI(nullptr),
 		fpsLabel(nullptr),
+		LightCountLabel(nullptr),
 		cvars(_cvars),
 		mDebugShow(false),
 		mInited(false)
@@ -100,12 +103,19 @@ namespace NGTech {
 		fpsLabel->setTextShadow(true);
 		fpsLabel->setVisible(true);
 		fpsLabel->setCaption("FPS: ");
+
+		LightCountLabel = mGUI->createWidget<MyGUI::TextBox>("TextBox", 100, 30, 180, 180, MyGUI::Align::Default, "Statistic", "InfoTextBox");
+		LightCountLabel->setTextColour(MyGUI::Colour::White);
+		LightCountLabel->setTextShadow(true);
+		LightCountLabel->setVisible(true);
+		LightCountLabel->setCaption("Light Count: ");
 	}
 
 	/**
 	*/
 	void GUI::updateDebugInfo(){
 		fpsLabel->setCaption("FPS: " + std::to_string((int)GetEngine()->GetLastFPS()));
+		LightCountLabel->setCaption("Light Count: " + std::to_string(GetScene()->LightCount()));
 	}
 
 	/**

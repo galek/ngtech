@@ -28,7 +28,7 @@ namespace NGTech {
 		void computeTBN();
 
 		ENGINE_INLINE void setMaterial(const String &path) { this->material = new Material(path); };
-		ENGINE_INLINE Material *getMaterial() { return material; };
+		ENGINE_INLINE Material *GetMaterial() { return material; };
 
 	private:
 		Vec3 lods;

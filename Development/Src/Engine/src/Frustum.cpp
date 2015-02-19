@@ -80,7 +80,7 @@ namespace NGTech {
 		proj = GetRender()->getMatrix_Projection();
 		modl = GetRender()->getMatrix_Modelview();
 
-		Mat4 clip = proj * modl;
+		const Mat4 clip = proj * modl;
 
 		float d;
 

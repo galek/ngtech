@@ -39,7 +39,7 @@ namespace NGTech {
 		//BBox bbox = GetTransformedBBox(subset);
 		//BSphere bsphere = GetTransformedBSphere(subset);
 
-		Camera *camera = GetScene()->getActiveCamera();
+		Camera *camera = GetScene()->GetCurrentCamera();
 		//LightData *light = GetScene()->GetCurrentLight();
 
 		////frustum visibility

@@ -62,9 +62,18 @@ namespace NGTech {
 
 		void reloadShaders();
 
-		ENGINE_INLINE Camera *getActiveCamera() { return camera; }
-		ENGINE_INLINE size_t objCount(){ return objects.size(); }
-
+		/**
+		*/
+		ENGINE_INLINE size_t ObjCount() { return objects.size(); }
+		/**
+		*/
+		ENGINE_INLINE size_t LightCount() { return lights.size(); }
+		/**
+		*/
+		ENGINE_INLINE Light *GetCurrentLight() { return currentLight; }
+		/**
+		*/
+		ENGINE_INLINE Camera *GetCurrentCamera() { return currentCamera; }
 	public:
 		void runUpdate();
 		void waitUpdate();
@@ -82,10 +91,11 @@ namespace NGTech {
 
 		void checkPointVisibility(LightPoint *light);
 		void checkSpotVisibility(LightSpot *light);
+		void _CheckFrustum();
+		void _RenderLight(Light* _light);
 		void _RenderAnimation();
 
 		Vec3 ambient;
-		Camera *camera;
 		Frustum *frustum;
 		Terrain *terrain;
 		Vec3 terrainLods;
@@ -125,7 +135,11 @@ namespace NGTech {
 
 		ObjectMesh *sphere;
 		struct CVARManager*cvars;
-
+		//current state
+		Camera *currentCamera;
+		Light *currentLight;
+		Material *currentMaterial;
+	private:
 		friend class ParticleSystem;
 		friend class Flare;
 		friend class ParticleSystem;
@@ -136,7 +150,6 @@ namespace NGTech {
 		friend class LightDirect;
 
 		friend class Material;
-
 	private:
 		AudioUpdateJob* mUpdateJob;
 		int update_id; // update identifier
