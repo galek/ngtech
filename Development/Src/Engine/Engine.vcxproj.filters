@@ -278,6 +278,9 @@
     <ClCompile Include="Src\InterSection.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="src\ObjectMesh.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="inc\EngineMathToPhysx.inl">

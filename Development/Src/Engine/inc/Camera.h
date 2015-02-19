@@ -24,10 +24,6 @@ namespace NGTech {
 
 		/**
 		*/
-		ENGINE_INLINE virtual void drawSubset(size_t) { }
-
-		/**
-		*/
 		ENGINE_INLINE virtual ObjectType getType() { return OBJECT_CAMERA; };
 
 		/**
@@ -130,6 +126,9 @@ namespace NGTech {
 		*/
 		ENGINE_INLINE void lookAt(float _x, float _y) { angle[0] = -0.4 * _x; angle[1] = -0.4 * _y; }
 
+		/**
+		*/
+		ENGINE_INLINE Frustum* GetFrustum() { return frustum; }
 	protected:
 		/**
 		*/
@@ -151,18 +150,24 @@ namespace NGTech {
 		ENGINE_INLINE virtual float getRadius() { return 0; };
 		/**
 		*/
-		ENGINE_INLINE virtual Material* getMaterial(size_t s) { return NULL; };
+		ENGINE_INLINE virtual Material* GetMaterial(size_t s) { return NULL; };
+		/*
+		recalculates frustum
+		*/
+		void RecalculateFrustum();
+		/**
+		*/
+		void SetView(const Mat4 &view);
 	protected:
+		Frustum *frustum;
 		float angle[2];
 		float fov;
 		float aspect;
 		float zNear, zFar;
 
 		Mat4 view;
-		Mat4 transform;
+		Mat4 projection;
 
-		Vec3 position;
-		Vec3 direction;
 
 		float maxVelocity;
 	};

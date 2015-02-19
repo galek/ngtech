@@ -13,7 +13,8 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	//Desc: base object class
 	//---------------------------------------------------------------------------
-	class ENGINE_API Object {
+	class ENGINE_API Object
+	{
 	public:
 		Object();
 		enum ObjectType {
@@ -24,8 +25,12 @@ namespace NGTech {
 			OBJECT_CAMERA
 		};
 
-		virtual void drawSubset(size_t s) = 0;
-		ENGINE_INLINE virtual size_t getNumSubsets() = 0;
+		/**
+		Renderable
+		*/
+		ENGINE_INLINE virtual Material *GetMaterial(size_t s) = 0;
+		ENGINE_INLINE virtual void DrawSubset(size_t s) {}
+		ENGINE_INLINE virtual size_t GetNumSubsets() { return 0; }
 
 		virtual Vec3 &getMax() = 0;
 		virtual Vec3 &getMin() = 0;
@@ -38,14 +43,27 @@ namespace NGTech {
 		virtual Vec3 &getCenter(size_t s) = 0;
 
 
-		ENGINE_INLINE virtual Material *getMaterial(size_t s) = 0;
-
-		ENGINE_INLINE virtual void setTransform(const Mat4 &trans) {}
-		ENGINE_INLINE virtual Mat4 getTransform() = 0;
 
 		ENGINE_INLINE virtual PhysBody *getPhysBody() = 0;
 
 		ENGINE_INLINE virtual ObjectType getType() { return OBJECT; }
+
+		ENGINE_INLINE const BBox &GetBBox(int subset = -1) { return box; }
+		ENGINE_INLINE const BSphere &GetBSphere(int subset = -1) { return sphere; }
+		ENGINE_INLINE BBox &GetTransformedBBox(int subset = -1) { return GetTransform() * GetBBox(subset); }
+		ENGINE_INLINE BSphere &GetTransformedBSphere(int subset = -1)	{ return GetTransform() * GetBSphere(subset); }
+
+		ENGINE_INLINE virtual void SetTransform(const Mat4 &_transform) { transform = _transform; }
+		ENGINE_INLINE virtual const Mat4 GetTransform() { return transform; }
+	protected:
+		BBox box;
+		BSphere sphere;
+
+		Mat4 transform;
+
+		Vec3 position;
+		Vec3 direction;
+		Vec3 upVector;
 	};
 
 	//---------------------------------------------------------------------------
@@ -57,28 +75,26 @@ namespace NGTech {
 		explicit ObjectMesh(const String &path);
 		virtual ~ObjectMesh();
 
-		virtual void drawSubset(size_t s);
-		ENGINE_INLINE virtual size_t getNumSubsets() { return model->getNumSubsets(); };
+		virtual void DrawSubset(size_t s);
+		ENGINE_INLINE virtual size_t GetNumSubsets() { return mesh->getNumSubsets(); };
 
-		ENGINE_INLINE virtual Vec3 &getMax() { return model->bBox.max; };
-		ENGINE_INLINE virtual Vec3 &getMin() { return model->bBox.min; };
-		ENGINE_INLINE virtual Vec3 &getCenter() { return model->bSphere.center; };
-		ENGINE_INLINE virtual float getRadius() { return model->bSphere.radius; };
+		ENGINE_INLINE virtual Vec3 &getMax() { return mesh->bBox.max; };
+		ENGINE_INLINE virtual Vec3 &getMin() { return mesh->bBox.min; };
+		ENGINE_INLINE virtual Vec3 &getCenter() { return mesh->bSphere.center; };
+		ENGINE_INLINE virtual float getRadius() { return mesh->bSphere.radius; };
 
-		ENGINE_INLINE virtual Vec3 &getMax(size_t s) { return model->subsets[s]->bBox.max; };
-		ENGINE_INLINE virtual Vec3 &getMin(size_t s) { return model->subsets[s]->bBox.min; };
-		ENGINE_INLINE virtual Vec3 &getCenter(size_t s) { return model->subsets[s]->bSphere.center; };
-		ENGINE_INLINE virtual float getRadius(size_t s) { return model->subsets[s]->bSphere.radius; };
+		ENGINE_INLINE virtual Vec3 &getMax(size_t s) { return mesh->subsets[s]->bBox.max; };
+		ENGINE_INLINE virtual Vec3 &getMin(size_t s) { return mesh->subsets[s]->bBox.min; };
+		ENGINE_INLINE virtual Vec3 &getCenter(size_t s) { return mesh->subsets[s]->bSphere.center; };
+		ENGINE_INLINE virtual float getRadius(size_t s) { return mesh->subsets[s]->bSphere.radius; };
 
-		virtual Material *getMaterial(size_t s);
+		virtual Material *GetMaterial(size_t s);
 
 		void setMaterial(const String &path, const String &subsetName = "*");
 		void setMaterialList(const String &path);
 
-		virtual void setTransform(const Mat4 &trans);
-		virtual Mat4 getTransform();
-
-		//---physics---------------------------
+		virtual void SetTransform(const Mat4 &trans);
+		virtual const Mat4 GetTransform();
 	public:
 		void setPhysicsBox(const Vec3 &size, float mass = 0);
 		void setPhysicsSphere(const Vec3 &size, float mass = 0);
@@ -95,13 +111,11 @@ namespace NGTech {
 		ENGINE_INLINE virtual ObjectType getType() { return OBJECT_MESH; };
 
 	private:
-		Model *model;
+		Model *mesh;
 
 		PhysBody *pBody;
 		ALSound *impactSound;
 		std::vector<Material*> materials;
-
-		Mat4 transform;
 
 		bool visible;
 		bool bMultipart;
@@ -110,7 +124,8 @@ namespace NGTech {
 	};
 
 
-	class ENGINE_API ObjectSkinnedMesh : public Object{
+	class ENGINE_API ObjectSkinnedMesh : public Object
+	{
 	public:
 		explicit ObjectSkinnedMesh(const String &path);
 		virtual ~ObjectSkinnedMesh();
@@ -125,19 +140,15 @@ namespace NGTech {
 		ENGINE_INLINE virtual Vec3 &getCenter(size_t s) { return mesh->subsets[s]->bSphere.center; };
 		ENGINE_INLINE virtual float getRadius(size_t s) { return mesh->subsets[s]->bSphere.radius; };
 
-		virtual void setTransform(const Mat4 &trans);
-		virtual Mat4 getTransform();
-
-		//Added
 		/**
 		draws object subset
 		*/
-		virtual void drawSubset(size_t s);
+		virtual void DrawSubset(size_t s);
 
 		/**
 		get number of object subsets
 		*/
-		virtual size_t getNumSubsets();
+		virtual size_t GetNumSubsets();
 
 		/**
 		get BBox of the object subset
@@ -152,7 +163,7 @@ namespace NGTech {
 		/**
 		get subset material by number
 		*/
-		virtual Material *getMaterial(size_t subset);
+		virtual Material *GetMaterial(size_t subset);
 
 		/*
 		Not virtual
@@ -179,8 +190,6 @@ namespace NGTech {
 
 		ALSound *impactSound;
 		Material **materials;
-
-		Mat4 transform;
 
 		bool visible;
 

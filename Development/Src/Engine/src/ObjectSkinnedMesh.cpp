@@ -20,12 +20,10 @@ namespace NGTech {
 	{
 		mesh = new SkinnedMesh("meshes/" + path);
 		materials = new Material*[mesh->GetNumSubsets()];
-		transform.Identity();
-
 	}
 
 	ObjectSkinnedMesh::~ObjectSkinnedMesh() {
-		for (size_t i = 0; i < getNumSubsets(); i++)
+		for (size_t i = 0; i < GetNumSubsets(); i++)
 		{
 			GetCache()->deleteMaterial(materials[i]);
 		}
@@ -34,12 +32,12 @@ namespace NGTech {
 
 	}
 
-	void ObjectSkinnedMesh::drawSubset(size_t subset) {
+	void ObjectSkinnedMesh::DrawSubset(size_t subset) {
 		//Warning(__FUNCTION__);
 		//BBox bbox = GetTransformedBBox(subset);
 		//BSphere bsphere = GetTransformedBSphere(subset);
 
-		Camera *camera = GetScene()->GetCurrentCamera();
+		//Camera *camera = GetScene()->GetCurrentCamera();
 		//LightData *light = GetScene()->GetCurrentLight();
 
 		////frustum visibility
@@ -87,18 +85,9 @@ namespace NGTech {
 	//	}
 	//}
 
-	void ObjectSkinnedMesh::setTransform(const Mat4 &trans) {
-		transform = trans;
-	}
-
-	Mat4 ObjectSkinnedMesh::getTransform() {
-		//Warning(__FUNCTION__);
-		return transform;
-	}
-
 	/**
 	*/
-	size_t ObjectSkinnedMesh::getNumSubsets()
+	size_t ObjectSkinnedMesh::GetNumSubsets()
 	{
 		return mesh->GetNumSubsets();
 	}
@@ -119,7 +108,7 @@ namespace NGTech {
 
 	/**
 	*/
-	Material *ObjectSkinnedMesh::getMaterial(size_t subset)
+	Material *ObjectSkinnedMesh::GetMaterial(size_t subset)
 	{
 		return materials[subset];
 	}

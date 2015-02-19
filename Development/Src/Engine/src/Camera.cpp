@@ -32,8 +32,27 @@ namespace NGTech {
 	/**
 	*/
 	Camera::Camera() {
+		view.Identity();
+		projection.Identity();
+
 		if (GetScene())
 			GetScene()->setCamera(this);
+
+		this->position = Vec3(0.0f, 0.0f, 0.0f);
+		this->direction = Vec3(0.0f, 0.0f, 1.0f);
+		this->upVector = Vec3(0.0f, 1.0f, 0.0f);
+		//this->RecalculateView();
+
+
+		this->fov = 60.0f;
+		this->aspect = 4.0f / 3.0f;
+		this->zNear = 0.1f;
+		this->zFar = 1e4f;
+		//this->RecalculateProjection();
+
+		this->frustum = new Frustum();
+		this->RecalculateFrustum();
+
 	}
 
 
@@ -46,6 +65,21 @@ namespace NGTech {
 	/**
 	*/
 	Mat4 Camera::getProjection() {
-		return Mat4::perspective(fov, (float)4 / (float)3, 0.1, 10000);
+		return Mat4::perspective(fov, aspect, zNear, zFar);
+	}
+
+	/**
+	*/
+	void Camera::RecalculateFrustum()
+	{
+		frustum->Build(projection * view);
+	}
+
+	/**
+	*/
+	void Camera::SetView(const Mat4 &view)
+	{
+		this->view = view;
+		position = Mat4::inverse(view) * Vec3(0.0f, 0.0f, 0.0f);
 	}
 }

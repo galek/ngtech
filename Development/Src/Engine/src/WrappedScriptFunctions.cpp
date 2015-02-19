@@ -24,7 +24,7 @@ namespace NGTech
 	{
 		auto ptr = new ObjectMesh(_p);
 		ptr->setMaterial("defmat.mat");
-		ptr->setTransform(Mat4::translate(Vec3(0, 0, 0)));
+		ptr->SetTransform(Mat4::translate(Vec3(0, 0, 0)));
 		return ptr;
 	}
 	/*

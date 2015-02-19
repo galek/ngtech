@@ -62,13 +62,13 @@ void ExampleGame::initialise() {
 
 		sponza->setMaterial("floors.mat", "floors");
 	}
-	sponza->setTransform(Mat4::translate(Vec3(0, 20, 0)));
+	sponza->SetTransform(Mat4::translate(Vec3(0, 20, 0)));
 	sponza->setPhysicsStaticMesh();
 
 	for (int i = 0; i < 5; i++) {
 		box[i] = new ObjectMesh("cube.nggf");
 		box[i]->setMaterial("grid.mat");
-		box[i]->setTransform(Mat4::translate(Vec3(-10 - i * 2, i * 20 + 10, i - 10)));
+		box[i]->SetTransform(Mat4::translate(Vec3(-10 - i * 2, i * 20 + 10, i - 10)));
 		box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);
 		box[i]->setImpactSound("impact.ogg");
 	}
@@ -76,7 +76,7 @@ void ExampleGame::initialise() {
 	for (int i = 0; i < 5; i++) {
 		sphere[i] = new ObjectMesh("sphere.nggf");
 		sphere[i]->setMaterial("grid.mat");
-		sphere[i]->setTransform(Mat4::translate(Vec3(10 + i * 2, i * 20 + 10, i - 10)));
+		sphere[i]->SetTransform(Mat4::translate(Vec3(10 + i * 2, i * 20 + 10, i - 10)));
 		sphere[i]->setPhysicsSphere(Vec3(5, 5, 5), 10);
 		sphere[i]->setImpactSound("impact.ogg");
 	}
@@ -84,7 +84,7 @@ void ExampleGame::initialise() {
 	for (int i = 0; i < 5; i++) {
 		cylinder[i] = new ObjectMesh("torus.nggf");
 		cylinder[i]->setMaterial("grid.mat");
-		cylinder[i]->setTransform(Mat4::translate(Vec3(20 + i * 2, i * 20 + 20, i - 10)));
+		cylinder[i]->SetTransform(Mat4::translate(Vec3(20 + i * 2, i * 20 + 20, i - 10)));
 		cylinder[i]->setPhysicsConvexHull(10.0f);
 		cylinder[i]->setImpactSound("impact.ogg");
 	}
@@ -129,7 +129,7 @@ void ExampleGame::initialise() {
 	//GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
 	sMesh = new ObjectSkinnedMesh("chammy.nggf");
 	sMesh->setMaterial("grid.mat");
-	sMesh->setTransform(Mat4::translate(Vec3(-60, 60, 0)));
+	sMesh->SetTransform(Mat4::translate(Vec3(-60, 60, 0)));
 
 	GetWindow()->grabMouse(true);
 }

@@ -25,14 +25,15 @@ namespace NGTech {
 		this->color = Vec3(255, 255, 255);
 		this->position = Vec3(0, 0, 0);
 		this->direction = Vec3(0, 0, -1);
+		this->radius = 200.0f;
 		this->castShadows = true;
+		this->enabled = true;
 	}
 
 	/*
 	*/
-	LightPoint::LightPoint() {
-		this->radius = 200;
-
+	LightPoint::LightPoint() :Light()
+	{
 		int size = GetCvars()->r_shadowsize;
 		shadowMap = GetRender()->TextureCreateCube(size, size, I_Texture::RGBA_FP32);
 		shadowMap->setFilter(I_Texture::LINEAR);
@@ -121,8 +122,7 @@ namespace NGTech {
 
 	/**
 	*/
-	LightSpot::LightSpot() {
-		this->radius = 200;
+	LightSpot::LightSpot() :Light() {
 		this->fov = 60;
 		
 		int size = GetCvars()->r_shadowsize;
