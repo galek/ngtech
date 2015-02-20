@@ -845,6 +845,10 @@ namespace NGTech {
 		matViewportMap = viewportCopy;
 		matViewportTransform = Mat4::texBias() * GetRender()->getMatrix_MVP();
 
+		//draw wireframe
+		if (GetCvars()->r_wireframe)
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 		drawAmbient(false);
 
 		Light* tempLight = nullptr;
@@ -872,27 +876,7 @@ namespace NGTech {
 		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 		GetRender()->depthMask(false);
 
-		//draw wireframe
-		if (GetCvars()->r_wireframe) {
-			glColor3f(1, 1, 1);//Nick:TODO:Replace
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);//Nick:TODO:Replace
-
-			for (size_t i = 0; i < objects.size(); i++) {
-				GetRender()->push();
-				GetRender()->multMatrix(objects[i]->GetTransform());
-				for (size_t k = 0; k < objects[i]->GetNumSubsets(); k++) {
-					objects[i]->DrawSubset(k);
-				}
-				GetRender()->pop();
-			}
-			if (terrain) {
-				for (int n = 0; n < terrain->getNumNodes(); n++) {
-					terrain->drawNode(n, currentCamera->getPosition());
-				}
-			}
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);//Nick:TODO:Replace
-		}
-
+	
 		//draw lighting
 		for (size_t i = 0; i < lights.size(); i++)
 		{
@@ -1031,6 +1015,9 @@ namespace NGTech {
 			GetRender()->disableBlending();
 			GetRender()->enable3d();
 		}
+		//draw wireframe
+		if (GetCvars()->r_wireframe)
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		needStats = false;
 	}
 
