@@ -99,7 +99,9 @@ namespace NGTech {
 		void _RenderAnimation();
 		void _RenderScene(Light* light);
 		void _DrawParticles();
-
+		bool _LightInVisibleList(Light* _light);
+		bool _CheckLightOnShadows(Light* _light);
+	private:
 		Vec3 ambient;
 		Frustum *frustum;
 		Terrain *terrain;

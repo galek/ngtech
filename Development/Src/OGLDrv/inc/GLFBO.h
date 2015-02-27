@@ -20,7 +20,6 @@ namespace NGTech {
 		virtual void setDepthTarget(I_Texture *texture = NULL);
 		virtual void setShadowTarget(int target);
 
-		virtual void RenderOnCubeFace(int face, I_Texture* sm);
 		virtual void set();
 
 		/**

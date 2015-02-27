@@ -841,9 +841,6 @@ namespace NGTech {
 		virtual void clear() = 0;
 		/**
 		*/
-		virtual void RenderOnCubeFace(int face, I_Texture* sm) = 0;
-		/**
-		*/
 	protected:
 		unsigned int glID;
 

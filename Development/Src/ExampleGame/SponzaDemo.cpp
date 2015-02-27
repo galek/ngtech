@@ -100,13 +100,13 @@ void ExampleGame::initialise() {
 	omniLight->setPosition(Vec3(0, 60, 0));
 	omniLight->setRadius(200);*/
 
-	LightPoint *light[10];
+	/*LightPoint *light[10];
 	for (int i = 0; i < 10; i++) {
 		light[i] = new LightPoint();
 		light[i]->setColor(Vec3((i + 1), (i + 1), (i + 1)*0.8));
 		light[i]->setPosition(Vec3(-10 - i * 2, i * 20 + 10, i - 10));
 		light[i]->setRadius(200);
-	}
+	}*/
 
 
 	//auto light = new LightSpot();

@@ -388,16 +388,23 @@ namespace NGTech {
 
 	/**
 	*/
+	bool Scene::_LightInVisibleList(Light* _light)
+	{
+		return ((std::find(visibleLights.begin(), visibleLights.end(), _light) != visibleLights.end()));
+	}
+
+	/**
+	*/
+	bool Scene::_CheckLightOnShadows(Light* _light)
+	{
+		return _LightInVisibleList(_light) || !_light->isCastShadows() || !_light->isVisible() || cvars->r_shadowtype == 0;
+	}
+
+	/**
+	*/
 	void Scene::_PointShadowMap(LightPoint *light) {
-		if (!(std::find(visibleLights.begin(), visibleLights.end(), light) != visibleLights.end()))
+		if (!_CheckLightOnShadows(light))
 			return;
-
-
-		//https://www.opengl.org/discussion_boards/showthread.php/177538-Omnidirectional-Shadow-Maps
-		//http://ogltutor.netau.net/tutorials/tutorial43.html
-		/*if (!light->isCastShadows() || !light->isVisible() || cvars->r_shadowtype == 0) {
-		return;
-		}*/
 
 		//set matrices
 		GetRender()->setMatrixMode_Projection();
@@ -414,25 +421,19 @@ namespace NGTech {
 		for (size_t f = 0; f < 6; f++)
 		{
 			shadowFBO->set();
-			//glBindFramebuffer(GL_FRAMEBUFFER, shadowFBO);
-			//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, sm->target, 0);
-			//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 			if (needStats)
 				GetDebug()->renderChangesOfFrameBufferr += 1;
 
-			shadowFBO->setColorTarget(light->shadowMap, f);//Этого в туторе нет
+			shadowFBO->setColorTarget(light->shadowMap, f);
 
-			shadowFBO->clear();
+			shadowFBO->clear(); 
 
 			GetRender()->loadMatrix(Mat4::cube(light->getPosition(), f));
 
 			_RenderScene(light);
 
 			shadowFBO->unset();
-			/*shadowFBO->RenderOnCubeFace(f, light->shadowMap);*/
-
-			//copy shadow map
-			light->getShadowMap()->copy(f);//Это не надо,сразу рендерим
 		}
 
 		GetRender()->setMatrixMode_Projection();

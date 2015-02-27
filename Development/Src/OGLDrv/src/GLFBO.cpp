@@ -174,13 +174,5 @@ namespace NGTech {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void GLFBO::RenderOnCubeFace(int face, I_Texture* sm)
-	{
-		/*glBindFramebuffer(GL_DRAW_FRAMEBUFFER, glID);
-		glDrawBuffer(GL_COLOR_ATTACHMENT0);*/
-		//DELME
-		glBindFramebuffer(GL_FRAMEBUFFER, glID);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, sm->target, 0);
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	}
+
 }
