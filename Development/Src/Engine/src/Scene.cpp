@@ -21,7 +21,7 @@ NOTES:
 //#include "gl/gl.h"
 #include "../../OGLDrv/inc/GLExtensions.h"
 namespace NGTech {
-	
+
 	/**
 	*/
 	Scene::Scene(CVARManager*_cvars)
@@ -391,14 +391,14 @@ namespace NGTech {
 	void Scene::_PointShadowMap(LightPoint *light) {
 		if (!(std::find(visibleLights.begin(), visibleLights.end(), light) != visibleLights.end()))
 			return;
-		
+
 
 		//https://www.opengl.org/discussion_boards/showthread.php/177538-Omnidirectional-Shadow-Maps
 		//http://ogltutor.netau.net/tutorials/tutorial43.html
 		/*if (!light->isCastShadows() || !light->isVisible() || cvars->r_shadowtype == 0) {
-			return;
+		return;
 		}*/
-		
+
 		//set matrices
 		GetRender()->setMatrixMode_Projection();
 		GetRender()->push();
@@ -413,7 +413,7 @@ namespace NGTech {
 
 		for (size_t f = 0; f < 6; f++)
 		{
-			/*shadowFBO->set();*/
+			shadowFBO->set();
 			//glBindFramebuffer(GL_FRAMEBUFFER, shadowFBO);
 			//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, sm->target, 0);
 			//glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -427,14 +427,14 @@ namespace NGTech {
 			GetRender()->loadMatrix(Mat4::cube(light->getPosition(), f));
 
 			_RenderScene(light);
-			
-			/*shadowFBO->unset();
-			shadowFBO->RenderOnCubeFace(f, light->shadowMap);*/
+
+			shadowFBO->unset();
+			/*shadowFBO->RenderOnCubeFace(f, light->shadowMap);*/
 
 			//copy shadow map
-			//light->getShadowMap()->copy(f);//Это не надо,сразу рендерим
+			light->getShadowMap()->copy(f);//Это не надо,сразу рендерим
 		}
-		
+
 		GetRender()->setMatrixMode_Projection();
 		GetRender()->pop();//Выпилить нахер
 
@@ -729,7 +729,7 @@ namespace NGTech {
 		}
 
 #if 0//for Work with Denis
-		if ((light->getPosition() - currentCamera->getPosition()).length() > light->radius) 
+		if ((light->getPosition() - currentCamera->getPosition()).length() > light->radius)
 		{
 			GetRender()->colorMask(false, false, false, false);
 			GetRender()->depthMask(false);
@@ -963,6 +963,8 @@ namespace NGTech {
 		if (GetCvars()->r_wireframe)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		needStats = false;
+
+		visibleLights.clear();
 	}
 
 	/**
@@ -1078,8 +1080,7 @@ namespace NGTech {
 	*/
 	void Scene::_RenderVisibleLights(bool _v)
 	{
-		//_RenderVisibleLights();
-		for (size_t i = 0; i < lights.size(); i++)
+		for (size_t i = 0; i < visibleLights.size(); i++)
 		{
 			_RenderLight(lights[i], _v);
 		}
