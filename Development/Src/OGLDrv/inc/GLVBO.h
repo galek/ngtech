@@ -70,5 +70,10 @@ namespace NGTech {
 		locked_data	vertexdata_locked;
 		locked_data	indexdata_locked;
 		size_t _size;
+		int num_indices;
+	private:
+		void DeleteBuffers();
+		void *_ResizeBuffer(locked_data, int offset = 0, void** data = nullptr);
+		void DeleteBuffer(locked_data);
 	};
 }

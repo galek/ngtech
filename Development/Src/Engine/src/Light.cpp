@@ -28,6 +28,7 @@ namespace NGTech {
 		this->radius = 200.0f;
 		this->castShadows = true;
 		this->enabled = true;
+		this->visible = true;
 	}
 
 	/*

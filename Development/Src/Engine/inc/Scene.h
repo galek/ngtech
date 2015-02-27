@@ -87,14 +87,18 @@ namespace NGTech {
 		void drawSpot(LightSpot *light, bool blended);
 		void drawDirect(LightDirect *light, bool blended);
 
-		void getPointShadowMap(LightPoint *light);
+		void _PointShadowMap(LightPoint *light);
 		void getSpotShadowMap(LightSpot *light);
 
 		void checkPointVisibility(LightPoint *light);
 		void checkSpotVisibility(LightSpot *light);
 		void _CheckFrustum();
 		void _RenderLight(Light* _light, bool _blend);
+		void _RenderVisibleLights(bool _v);
+		void _RenderShadows();
 		void _RenderAnimation();
+		void _RenderScene(Light* light);
+		void _DrawParticles();
 
 		Vec3 ambient;
 		Frustum *frustum;
@@ -103,6 +107,7 @@ namespace NGTech {
 
 		std::vector<Object*> objects;
 		std::vector<Light*> lights;
+		std::vector<Light*> visibleLights;
 		std::vector<ParticleSystem*> systems;
 
 		I_FBOManager *viewportFBO;
@@ -142,6 +147,7 @@ namespace NGTech {
 		Material *currentMaterial;
 	private:
 		bool needStats;
+		bool paused;
 	private:
 		friend class ParticleSystem;
 		friend class Flare;

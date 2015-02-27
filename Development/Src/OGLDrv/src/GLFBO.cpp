@@ -46,10 +46,29 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	void GLFBO::createDepthAttachment() {
 		glBindFramebuffer(GL_FRAMEBUFFER, glID);
-
+#if 0
+		glReadBuffer(GL_NONE);
+		glDrawBuffer(GL_NONE);
+#else
 		glGenRenderbuffers(1, &glDepthID);
 		glBindRenderbuffer(GL_RENDERBUFFER, glDepthID);
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
+#endif
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	//---------------------------------------------------------------------------
+	//Desc:    adds depth attachment to GLFBO
+	//Params:  -
+	//Returns: -
+	//---------------------------------------------------------------------------
+	void GLFBO::setShadowTarget(int target) {
+		glBindFramebuffer(GL_FRAMEBUFFER, glID);
+
+		glReadBuffer(GL_NONE);
+		glDrawBuffer(GL_NONE);
+
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, target, 0);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
@@ -153,5 +172,15 @@ namespace NGTech {
 	//---------------------------------------------------------------------------
 	void GLFBO::clear() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+
+	void GLFBO::RenderOnCubeFace(int face, I_Texture* sm)
+	{
+		/*glBindFramebuffer(GL_DRAW_FRAMEBUFFER, glID);
+		glDrawBuffer(GL_COLOR_ATTACHMENT0);*/
+		//DELME
+		glBindFramebuffer(GL_FRAMEBUFFER, glID);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, sm->target, 0);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 }

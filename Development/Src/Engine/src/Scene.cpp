@@ -18,9 +18,10 @@ NOTES:
 #include "AudioUpdateJob.h"
 //**************************************
 
-#include "gl/gl.h"
+//#include "gl/gl.h"
+#include "../../OGLDrv/inc/GLExtensions.h"
 namespace NGTech {
-
+	
 	/**
 	*/
 	Scene::Scene(CVARManager*_cvars)
@@ -40,6 +41,7 @@ namespace NGTech {
 		matShadowMap(nullptr),
 		matSpotMap(nullptr),
 		needStats(false),
+		paused(false),
 		currentCamera(new CameraFixed()),
 		frustum(new Frustum())
 	{
@@ -101,6 +103,7 @@ namespace NGTech {
 	void Scene::clear() {
 		systems.clear();
 		objects.clear();
+		visibleLights.clear();
 		lights.clear();
 
 		delete terrain;
@@ -286,12 +289,20 @@ namespace NGTech {
 
 		if (!light->isVisible() || !light->isEnable()) return;
 
+		if (!currentCamera->GetFrustum()->isInside(BSphere(light->getPosition(), light->getRadius())))
+			return;
+
 		matLightIRadius = light->getIRadius();//was deleted
 		matLightPosition = light->position;//was deleted
 		matViewPosition = currentCamera->getPosition();//was deleted
 		matLightColor = light->color;//was deleted
 		matShadowMap = light->shadowMap;//was deleted
 
+#if 1//Очищаем глубину
+		//http://freepascal.ru/article/book/opengl-08/
+		glClearDepth(1);
+		glClear(GL_DEPTH_BUFFER_BIT);
+#endif
 		/*
 		Draw terrain
 		*/
@@ -377,11 +388,18 @@ namespace NGTech {
 
 	/**
 	*/
-	void Scene::getPointShadowMap(LightPoint *light) {
-		if (!light->isCastShadows() || cvars->r_shadowtype == 0) {
+	void Scene::_PointShadowMap(LightPoint *light) {
+		if (!(std::find(visibleLights.begin(), visibleLights.end(), light) != visibleLights.end()))
 			return;
-		}
+		
 
+		//https://www.opengl.org/discussion_boards/showthread.php/177538-Omnidirectional-Shadow-Maps
+		//http://ogltutor.netau.net/tutorials/tutorial43.html
+		/*if (!light->isCastShadows() || !light->isVisible() || cvars->r_shadowtype == 0) {
+			return;
+		}*/
+		
+		//set matrices
 		GetRender()->setMatrixMode_Projection();
 		GetRender()->push();
 		GetRender()->loadMatrix(Mat4::perspective(90, 1, 1, light->radius));
@@ -392,72 +410,33 @@ namespace NGTech {
 		matLightIRadius = light->getIRadius();
 		matLightPosition = light->position;
 
+
 		for (size_t f = 0; f < 6; f++)
 		{
-			shadowFBO->set();
+			/*shadowFBO->set();*/
+			//glBindFramebuffer(GL_FRAMEBUFFER, shadowFBO);
+			//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, sm->target, 0);
+			//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			if (needStats)
 				GetDebug()->renderChangesOfFrameBufferr += 1;
-			shadowFBO->setColorTarget(light->shadowMap, f);
+
+			shadowFBO->setColorTarget(light->shadowMap, f);//Этого в туторе нет
+
 			shadowFBO->clear();
 
 			GetRender()->loadMatrix(Mat4::cube(light->getPosition(), f));
 
-			/*
-			draw objects
-			*/
-			for (size_t m = 0; m < objects.size(); m++)
-			{
-				if (!objects[m]) {
-					continue;
-				}
+			_RenderScene(light);
+			
+			/*shadowFBO->unset();
+			shadowFBO->RenderOnCubeFace(f, light->shadowMap);*/
 
-				Object *object = objects[m];
-				Mat4 objTrans = object->GetTransform();
-
-				GetRender()->push();
-				GetRender()->multMatrix(objTrans);
-
-				_CheckFrustum();
-				if ((!frustum->isInside(object->getCenter(), object->getRadius()))
-					|| (((light->position - objTrans.getTranslation()).length() >
-					light->radius + object->getRadius())))
-				{
-					GetRender()->pop();
-					continue;
-				}
-
-				/**
-				draw subsets
-				*/
-				for (size_t s = 0; s < object->GetNumSubsets(); s++) {
-					Material *mtr = object->GetMaterial(s);
-					if (!mtr) continue;
-
-					_CheckFrustum();
-					if (!frustum->isInside(object->getCenter(s), object->getRadius(s)))
-						continue;
-
-
-					//set material params
-					matMVP = GetRender()->getMatrix_MVP();
-					matWorld = objTrans;
-					depthPass->setPass("DepthPass");
-
-					mtr->setPassAlphaTest();
-
-					object->DrawSubset(s);
-
-					mtr->unsetPassAlphaTest();
-
-					depthPass->unsetPass();
-				}
-				GetRender()->pop();
-			}
-			shadowFBO->unset();
+			//copy shadow map
+			//light->getShadowMap()->copy(f);//Это не надо,сразу рендерим
 		}
-
+		
 		GetRender()->setMatrixMode_Projection();
-		GetRender()->pop();
+		GetRender()->pop();//Выпилить нахер
 
 		GetRender()->setMatrixMode_Modelview();
 		GetRender()->pop();
@@ -744,14 +723,14 @@ namespace NGTech {
 	*/
 	void Scene::checkPointVisibility(LightPoint *light)
 	{
-		_CheckFrustum();
-		if (!frustum->isInside(light->getPosition(), light->radius)) {
-			light->setVisible(false);
+		//_CheckFrustum();
+		if (!currentCamera->GetFrustum()->isInside(BSphere(light->getPosition(), light->getRadius()))) {
 			return;
 		}
 
 #if 0//for Work with Denis
-		if ((light->getPosition() - currentCamera->getPosition()).length() > light->radius) {
+		if ((light->getPosition() - currentCamera->getPosition()).length() > light->radius) 
+		{
 			GetRender()->colorMask(false, false, false, false);
 			GetRender()->depthMask(false);
 			query->beginRendering();
@@ -775,7 +754,7 @@ namespace NGTech {
 			}
 		}
 #endif
-		light->setVisible(true);
+		visibleLights.push_back(light);
 	}
 
 	/**
@@ -788,30 +767,30 @@ namespace NGTech {
 			return;
 		}
 
-		if ((light->getPosition() - currentCamera->getPosition()).length() > light->radius) {
-			GetRender()->colorMask(false, false, false, false);
-			GetRender()->depthMask(false);
+		//if ((light->getPosition() - currentCamera->getPosition()).length() > light->radius) {
+		//	GetRender()->colorMask(false, false, false, false);
+		//	GetRender()->depthMask(false);
 
-			query->beginRendering();
+		//	query->beginRendering();
 
-			GetRender()->push();
-			GetRender()->multMatrix(Mat4::translate(light->getPosition()) *
-				Mat4::scale(Vec3(light->radius*0.2, light->radius*0.2, light->radius*0.2)));
+		//	GetRender()->push();
+		//	GetRender()->multMatrix(Mat4::translate(light->getPosition()) *
+		//		Mat4::scale(Vec3(light->radius*0.2, light->radius*0.2, light->radius*0.2)));
 
-			sphere->DrawSubset(0);
+		//	sphere->DrawSubset(0);
 
-			GetRender()->pop();
+		//	GetRender()->pop();
 
-			query->endRendering();
+		//	query->endRendering();
 
-			GetRender()->depthMask(true);
-			GetRender()->colorMask(true, true, true, true);
+		//	GetRender()->depthMask(true);
+		//	GetRender()->colorMask(true, true, true, true);
 
-			if (query->getResult() < 2) {
-				light->setVisible(false);
-				return;
-			}
-		}
+		//	if (query->getResult() < 2) {
+		//		light->setVisible(false);
+		//		return;
+		//	}
+		//}
 		light->setVisible(true);
 	}
 
@@ -819,17 +798,15 @@ namespace NGTech {
 	*/
 	void Scene::update(bool _paused)
 	{
+		if (paused != _paused)
+			paused = _paused;
+
 		if (!currentCamera)
 			return;
 		//---------update-camera-----------------------------------
 		currentCamera->update();
-		if (!_paused)
-		{
-			//draw particle systems
-			for (size_t k = 0; k < systems.size(); k++) {
-				if (systems[k]) systems[k]->draw();
-			}
-		}
+
+		_DrawParticles();
 
 		//---------draw-scene--------------------------------
 		GetRender()->setMatrixMode_Projection();
@@ -851,51 +828,22 @@ namespace NGTech {
 
 		drawAmbient(false);
 
-		Light* tempLight = nullptr;
-
-		for (size_t i = 0; i < lights.size(); i++)
-		{
-			tempLight = lights[i];
-			if (tempLight->isEnable())
-			{
-				if (tempLight->getType() == Light::LIGHT_OMNI)
-				{
-					checkPointVisibility((LightPoint*)tempLight);
-					if ((LightPoint*)tempLight->isVisible())
-						getPointShadowMap((LightPoint*)tempLight);
-				}
-				else if (tempLight->getType() == Light::LIGHT_SPOT) {
-					checkSpotVisibility((LightSpot*)tempLight);
-					if ((LightSpot*)tempLight->isVisible())
-						getSpotShadowMap((LightSpot*)tempLight);
-				}
-			}
-		}
-
+		_RenderShadows();
 		//lighting
 		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 		GetRender()->depthMask(false);
 
-	
+
 		//draw lighting
-		for (size_t i = 0; i < lights.size(); i++)
-		{
-			tempLight = lights[i];
-			if (tempLight->isVisible())
-			{
-				_RenderLight(tempLight, false);
-			}
-		}
+		_RenderVisibleLights(false);
+
 
 		GetRender()->depthMask(true);
 		GetRender()->disableBlending();
 
 		drawAmbient(true);
 
-		//draw particle systems
-		for (size_t k = 0; k < systems.size(); k++) {
-			if (systems[k]) systems[k]->draw();
-		}
+		_DrawParticles();
 
 		//---------draw-scene-into-viewport-copy-------------------------------
 		viewportFBO->set();
@@ -951,20 +899,14 @@ namespace NGTech {
 	{
 		drawAmbient(true);
 
-		for (size_t i = 0; i < lights.size(); i++) {
-			if (lights[i]->isVisible())
-			{
-				_RenderLight(lights[i], true);
-			}
-		}
+		_RenderVisibleLights(true);
 
 		GetRender()->depthMask(true);
 		GetRender()->disableBlending();
 
-		for (size_t k = 0; k < systems.size(); k++) {
-			if (systems[k]) systems[k]->draw();
-		}
+		_DrawParticles();
 
+		GetRender()->flush();
 		viewportFBO->unset();
 
 		matMVP = GetRender()->getMatrix_MVP();
@@ -978,6 +920,7 @@ namespace NGTech {
 			{
 				viewportCopy->Set();
 				GetRender()->drawRect(0, 0, 1, 1, 0, cvars->r_width, cvars->r_height, 0);
+				GetRender()->flush();
 				viewportCopy->UnSet();
 
 				hdrViewportCopy->copy();
@@ -1001,6 +944,7 @@ namespace NGTech {
 			}
 			GetRender()->enable3d();
 
+			GetRender()->flush();
 			viewportFBO->unset();
 
 			//---------draw-bloom-------------------------------
@@ -1127,6 +1071,115 @@ namespace NGTech {
 	/**
 	*/
 	void Scene::_CheckFrustum(){
-		frustum->Get();
+		//frustum->Get();
+	}
+
+	/**
+	*/
+	void Scene::_RenderVisibleLights(bool _v)
+	{
+		//_RenderVisibleLights();
+		for (size_t i = 0; i < lights.size(); i++)
+		{
+			_RenderLight(lights[i], _v);
+		}
+	}
+
+	/**
+	*/
+	void Scene::_RenderShadows()
+	{
+		Light* tempLight = nullptr;
+
+		for (size_t i = 0; i < lights.size(); i++)
+		{
+			tempLight = lights[i];
+
+			switch (tempLight->getType())
+			{
+			case Light::LIGHT_OMNI:
+				checkPointVisibility((LightPoint*)tempLight);
+				_PointShadowMap((LightPoint*)tempLight);
+				break;
+
+			case Light::LIGHT_SPOT:
+				checkSpotVisibility((LightSpot*)tempLight);
+				getSpotShadowMap((LightSpot*)tempLight);
+				break;
+
+			case Light::LIGHT_DIRECT:
+				break;
+			}
+		}
+	}
+
+	/**
+	*/
+	void Scene::_DrawParticles()
+	{
+		if (!paused)
+		{
+			//draw particle systems
+			for (size_t k = 0; k < systems.size(); k++) {
+				if (systems[k]) systems[k]->draw();
+			}
+		}
+	}
+
+	/**
+	*/
+	void Scene::_RenderScene(Light* light)
+	{
+		/*
+		draw objects
+		*/
+		for (size_t m = 0; m < objects.size(); m++)
+		{
+			if (!objects[m]) {
+				continue;
+			}
+
+			Object *object = objects[m];
+			Mat4 objTrans = object->GetTransform();
+
+			GetRender()->push();
+			GetRender()->multMatrix(objTrans);
+
+			_CheckFrustum();
+			if ((!frustum->isInside(object->getCenter(), object->getRadius()))
+				|| (((light->getPosition() - objTrans.getTranslation()).length() >
+				light->getRadius() + object->getRadius())))
+			{
+				GetRender()->pop();
+				continue;
+			}
+
+			/**
+			draw subsets
+			*/
+			for (size_t s = 0; s < object->GetNumSubsets(); s++) {
+				Material *mtr = object->GetMaterial(s);
+				if (!mtr) continue;
+
+				_CheckFrustum();
+				if (!frustum->isInside(object->getCenter(s), object->getRadius(s)))
+					continue;
+
+
+				//set material params
+				matMVP = GetRender()->getMatrix_MVP();
+				matWorld = objTrans;
+				depthPass->setPass("DepthPass");
+
+				mtr->setPassAlphaTest();
+
+				object->DrawSubset(s);
+
+				mtr->unsetPassAlphaTest();
+
+				depthPass->unsetPass();
+			}
+			GetRender()->pop();
+		}
 	}
 }

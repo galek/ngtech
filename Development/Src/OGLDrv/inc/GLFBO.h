@@ -6,19 +6,22 @@
 
 namespace NGTech {
 
-	class GLFBO :public I_FBOManager {
+	class GLFBO :public I_FBOManager 
+	{
+	public:
+		virtual ~GLFBO();
 	public:
 		static GLFBO *create(int width, int height);
-		void createColorAttachment();
-		void createDepthAttachment();
-		void createStencilAttachment();
+		virtual void createColorAttachment();
+		virtual void createDepthAttachment();
+		virtual void createStencilAttachment();
+		
+		virtual void setColorTarget(I_Texture *texture = NULL, int face = -1);
+		virtual void setDepthTarget(I_Texture *texture = NULL);
+		virtual void setShadowTarget(int target);
 
-		virtual ~GLFBO();
-
-		void setColorTarget(I_Texture *texture = NULL, int face = -1);
-		void setDepthTarget(I_Texture *texture = NULL);
-
-		void set();
+		virtual void RenderOnCubeFace(int face, I_Texture* sm);
+		virtual void set();
 
 		/**
 		Unsets GLFBO

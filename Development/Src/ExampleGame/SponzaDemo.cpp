@@ -71,23 +71,23 @@ void ExampleGame::initialise() {
 		box[i]->SetTransform(Mat4::translate(Vec3(-10 - i * 2, i * 20 + 10, i - 10)));
 		box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);
 		box[i]->setImpactSound("impact.ogg");
-	}
+		}
 
-	for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; i++) {
 		sphere[i] = new ObjectMesh("sphere.nggf");
 		sphere[i]->setMaterial("grid.mat");
 		sphere[i]->SetTransform(Mat4::translate(Vec3(10 + i * 2, i * 20 + 10, i - 10)));
 		sphere[i]->setPhysicsSphere(Vec3(5, 5, 5), 10);
 		sphere[i]->setImpactSound("impact.ogg");
-	}
+		}
 
-	for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; i++) {
 		cylinder[i] = new ObjectMesh("torus.nggf");
 		cylinder[i]->setMaterial("grid.mat");
 		cylinder[i]->SetTransform(Mat4::translate(Vec3(20 + i * 2, i * 20 + 20, i - 10)));
 		cylinder[i]->setPhysicsConvexHull(10.0f);
 		cylinder[i]->setImpactSound("impact.ogg");
-	}*/
+		}*/
 
 	camera = new CameraFree();
 	camera->setPosition(Vec3(0, 20, 0));
@@ -95,18 +95,18 @@ void ExampleGame::initialise() {
 	camera->setPhysics(Vec3(5, 5, 5), 1.0f);
 	camera->setFOV(60);
 
-	omniLight = new LightPoint();
+	/*omniLight = new LightPoint();
 	omniLight->setColor(Vec3(1, 1, 0.8));
 	omniLight->setPosition(Vec3(0, 60, 0));
-	omniLight->setRadius(200);
+	omniLight->setRadius(200);*/
 
-	/*LightPoint *light[5];
-	for (int i = 0; i <5; i++) {
+	LightPoint *light[10];
+	for (int i = 0; i < 10; i++) {
 		light[i] = new LightPoint();
 		light[i]->setColor(Vec3((i + 1), (i + 1), (i + 1)*0.8));
 		light[i]->setPosition(Vec3(-10 - i * 2, i * 20 + 10, i - 10));
 		light[i]->setRadius(200);
-	}*/
+	}
 
 
 	//auto light = new LightSpot();

@@ -1,5 +1,7 @@
 #include "RenderPrivate.h"
 //***************************************************************************
+//#include <algorithm>
+//***************************************************************************
 #include "GLSystem.h"
 #include "GLVBO.h"
 //***************************************************************************
@@ -15,13 +17,20 @@ namespace NGTech {
 		_size = 0;
 		vertexdata_locked.ptr = 0;
 		indexdata_locked.ptr = 0;
+		num_indices = 0;
 		_Create();
 	}
 
 	/**
 	*/
-	GLVBO::~GLVBO() {
+	void GLVBO::DeleteBuffers()
+	{
 		glDeleteBuffers(1, &glID);
+	}
+	/**
+	*/
+	GLVBO::~GLVBO() {
+		DeleteBuffers();
 	}
 
 	/**
@@ -50,7 +59,7 @@ namespace NGTech {
 			vbo->drawType = GL_DYNAMIC_DRAW;
 
 		vbo->type = GL_ARRAY_BUFFER;
-				
+
 		vbo->Allocate(vbo->data, vbo->elementSize * vbo->numElements, _drawType);
 
 		return vbo;
@@ -96,21 +105,21 @@ namespace NGTech {
 	void GLVBO::_Create() {
 		glGenBuffers(1, &glID);
 	}
-	
+
 	/**
 	*/
 	void GLVBO::Bind() const
 	{
 		glBindBuffer(type, glID);
 	}
-	
+
 	/**
 	*/
 	void GLVBO::UnBind() const
 	{
 		glBindBuffer(type, 0);
 	}
-	
+
 	/**
 	*/
 	void GLVBO::BindIndex(unsigned int idx) const
@@ -204,38 +213,15 @@ namespace NGTech {
 
 	/**
 	*/
-	void * GLVBO::map(int offset, void** data) 
+	void * GLVBO::map(int offset, void** data)
 	{
 		if (this->mBUFType == BUF_VERTEX)
 		{
-			//if (flags == 0)
-			//	flags = GL_MAP_READ_BIT | GL_MAP_WRITE_BIT;
-			GLint vertex_flags = GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT;
-			vertexdata_locked.ptr = //glMapBufferRange(GL_ARRAY_BUFFER, offset, elementSize, vertex_flags);//Nick:Check:Проверь это
-				glMapNamedBufferEXT(glID, vertex_flags);
-			vertexdata_locked.flags = vertex_flags;
-			if (!vertexdata_locked.ptr)
-				return NULL;
-
-			if (data)
-				(*data) = vertexdata_locked.ptr;
-
-			return vertexdata_locked.ptr;
+			return _ResizeBuffer(vertexdata_locked, offset, data);
 		}
 		else if (this->mBUFType == BUF_INDEX)
 		{
-			GLint index_flags = GL_MAP_INVALIDATE_RANGE_BIT | GL_MAP_WRITE_BIT;
-			indexdata_locked.ptr = //glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, offset, elementSize, index_flags);//Nick:Check:Проверь это
-				glMapNamedBufferEXT(glID, index_flags);
-			indexdata_locked.flags = index_flags;
-
-			if (!indexdata_locked.ptr)
-				return NULL;
-
-			if (data)
-				(*data) = indexdata_locked.ptr;
-
-			return indexdata_locked.ptr;
+			return _ResizeBuffer(indexdata_locked, offset, data);
 		}
 		else
 		{
@@ -247,22 +233,59 @@ namespace NGTech {
 	/**
 	*/
 	void GLVBO::unMap() {
-		if (this->mBUFType == BUF_VERTEX)
+		switch (this->mBUFType)
 		{
-			if (vertexdata_locked.ptr && glID != 0)
-			{
-				/*glUnmapBuffer*/glUnmapNamedBufferEXT(type);
-				vertexdata_locked.ptr = 0;
-			}
-		}
-		else if (this->mBUFType == BUF_INDEX)
-		{
-			if (indexdata_locked.ptr && glID != 0)
-			{
-				/*glUnmapBuffer*/glUnmapNamedBufferEXT(type);
-				indexdata_locked.ptr = 0;
-			}
+		case BUF_VERTEX:
+			DeleteBuffer(vertexdata_locked);
+			break;
+		case BUF_INDEX:
+			DeleteBuffer(indexdata_locked);
+			break;
+		default:
+			Error("GLVBO::unMap() undeterminated", true);
+			break;
 		}
 	}
 
+	/**
+	*/
+	void* GLVBO::_ResizeBuffer(locked_data _data, int offset, void** data)
+	{
+		if (num_indices < numElements * 3)
+		{
+			num_indices = max(num_indices * 2, numElements * 3);
+
+			// delete vbo
+			DeleteBuffers();
+			// create vbo
+			_Create();
+			Bind();
+
+			GLint index_flags = GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT | GL_MAP_UNSYNCHRONIZED_BIT;
+			_data.ptr = glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, offset, elementSize, index_flags);
+			_data.flags = index_flags;
+
+			if (!_data.ptr)
+			{
+				Error("GLExt::render(): can't map indices buffer\n", true);
+				return NULL;
+			}
+
+			if (data)
+				(*data) = _data.ptr;
+
+		}
+		return _data.ptr;
+	}
+
+	/**
+	*/
+	void GLVBO::DeleteBuffer(locked_data _data)
+	{
+		if (_data.ptr && glID != 0)
+		{
+			glUnmapBuffer(type);
+			_data.ptr = 0;
+		}
+	}
 }

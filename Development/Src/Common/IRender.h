@@ -829,6 +829,9 @@ namespace NGTech {
 		virtual void setDepthTarget(I_Texture *texture = NULL) = 0;
 		/**
 		*/
+		virtual void setShadowTarget(int target) = 0;
+		/**
+		*/
 		virtual void set() = 0;
 		/**
 		*/
@@ -836,6 +839,9 @@ namespace NGTech {
 		/**
 		*/
 		virtual void clear() = 0;
+		/**
+		*/
+		virtual void RenderOnCubeFace(int face, I_Texture* sm) = 0;
 		/**
 		*/
 	protected:

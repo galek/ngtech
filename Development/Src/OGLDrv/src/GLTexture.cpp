@@ -177,6 +177,7 @@ namespace NGTech {
 
 		glTexParameteri(target, GL_TEXTURE_WRAP_S, this->wrap);
 		glTexParameteri(target, GL_TEXTURE_WRAP_T, this->wrap);
+		//DEL: было удалено
 		glTexParameteri(target, GL_TEXTURE_WRAP_R, this->wrap);
 	}
 
@@ -247,7 +248,7 @@ namespace NGTech {
 	/**
 	*/
 	void GLTexture::set(size_t tex_unit) {
-		glActiveTextureARB(GL_TEXTURE0_ARB + tex_unit);
+		glActiveTexture(GL_TEXTURE0 + tex_unit);
 		glEnable(target);
 		glBindTexture(target, glID);
 	}
@@ -255,7 +256,7 @@ namespace NGTech {
 	/**
 	*/
 	void GLTexture::unset(size_t tex_unit) {
-		glActiveTextureARB(GL_TEXTURE0_ARB + tex_unit);
+		glActiveTexture(GL_TEXTURE0 + tex_unit);
 		glBindTexture(target, 0);
 		glDisable(target);
 	}
@@ -270,18 +271,21 @@ namespace NGTech {
 	/**
 	*/
 	void GLTexture::copy(int face) {
-		glEnable(target);
+		//Первая строчка,вместо второй дает +2 FPS
+		glActiveTexture(target);
+		//glEnable(target);
 		glBindTexture(target, glID);
 
 		if (face < 0) {
 			glCopyTexSubImage2D(target, 0, 0, 0, 0, 0, width, height);
 		}
 		else {
-			glCopyTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB + face, 0, 0, 0, 0, 0, width, height);
+			glCopyTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, 0, 0, 0, 0, 0, width, height);
 		}
 
 		glBindTexture(target, 0);
-		glDisable(target);
+		//glDisable(target);
+		glActiveTexture(GL_TEXTURE0);
 	}
 
 	/**
