@@ -78,7 +78,6 @@ namespace NGTech {
 	public:
 		void runUpdate();
 		void waitUpdate();
-
 	private:
 		void testInteserction();
 		void drawAmbient(bool blended);
@@ -92,7 +91,6 @@ namespace NGTech {
 
 		void checkPointVisibility(LightPoint *light);
 		void checkSpotVisibility(LightSpot *light);
-		void _CheckFrustum();
 		void _RenderLight(Light* _light, bool _blend);
 		void _RenderVisibleLights(bool _v);
 		void _RenderShadows();

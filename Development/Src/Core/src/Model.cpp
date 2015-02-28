@@ -18,7 +18,7 @@ namespace NGTech {
 
 		calculateTBN();
 		createVBO();
-		calcBoundings();
+		CalculateBoundings();
 	}
 
 	/**
@@ -153,7 +153,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void Model::calcBoundings()
+	void Model::CalculateBoundings()
 	{
 		for (unsigned int s = 0; s < numSubsets; s++)
 		{

@@ -20,3 +20,5 @@ http://www.codeproject.com/Articles/81885/Windows-Linux-Porting
 
 Перезагрузка плагина
 http://www.gamedev.ru/code/tip/3DMAX_reloadable_plugin
+
+http://www.3dcpptutorials.sk/index.php?id=14

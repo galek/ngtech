@@ -217,8 +217,6 @@ namespace NGTech {
 				matMVP = GetRender()->getMatrix_MVP();
 				matLightColor = ambient;//Тоже заменялось
 
-				_CheckFrustum();
-
 				for (int n = 0; n < terrain->getNumNodes(); n++) {
 					if (!frustum->isInside(terrain->getMin(n), terrain->getMax(n)))
 						continue;
@@ -244,13 +242,8 @@ namespace NGTech {
 			GetRender()->push();
 			GetRender()->multMatrix(objTrans);
 
-			_CheckFrustum();
-			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
-				GetRender()->pop();
-				continue;
-			}
-
-			for (size_t s = 0; s < object->GetNumSubsets(); s++) {
+			for (size_t s = 0; s < object->GetNumSubsets(); s++)
+			{
 				if (!frustum->isInside(object->getCenter(s), object->getRadius(s)))
 					continue;
 
@@ -285,7 +278,8 @@ namespace NGTech {
 
 	/**
 	*/
-	void Scene::drawPoint(LightPoint *light, bool blended) {
+	void Scene::drawPoint(LightPoint *light, bool blended) 
+	{
 
 		if (!light->isVisible() || !light->isEnable()) return;
 
@@ -310,8 +304,6 @@ namespace NGTech {
 			Material *mtr = terrain->GetMaterial();
 			if (mtr && mtr->setPass("LightOmni")) {
 				matMVP = GetRender()->getMatrix_MVP();
-
-				_CheckFrustum();
 
 				for (int n = 0; n < terrain->getNumNodes(); n++)	{
 					if (!frustum->isInside(terrain->getCenter(n), terrain->getRadius(n))) {
@@ -343,7 +335,6 @@ namespace NGTech {
 			GetRender()->push();
 			GetRender()->multMatrix(objTrans);
 
-			_CheckFrustum();
 			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
 				GetRender()->pop();
 				continue;
@@ -358,7 +349,6 @@ namespace NGTech {
 			draw subsets
 			*/
 			for (size_t s = 0; s < object->GetNumSubsets(); s++) {
-				_CheckFrustum();
 				if (!frustum->isInside(object->getCenter(s), object->getRadius(s)))
 					continue;
 
@@ -427,7 +417,7 @@ namespace NGTech {
 
 			shadowFBO->setColorTarget(light->shadowMap, f);
 
-			shadowFBO->clear(); 
+			shadowFBO->clear();
 
 			GetRender()->loadMatrix(Mat4::cube(light->getPosition(), f));
 
@@ -476,9 +466,8 @@ namespace NGTech {
 				//set material params
 				matMVP = GetRender()->getMatrix_MVP();
 
-				_CheckFrustum();
-
-				for (int n = 0; n < terrain->getNumNodes(); n++)	{
+				for (int n = 0; n < terrain->getNumNodes(); n++)
+				{
 
 					if (!frustum->isInside(terrain->getCenter(n), terrain->getRadius(n))) {
 						continue;
@@ -499,7 +488,8 @@ namespace NGTech {
 		*/
 		for (size_t m = 0; m < objects.size(); m++)
 		{
-			if (!objects[m]) {
+			if (!objects[m]) 
+			{
 				continue;
 			}
 
@@ -509,7 +499,6 @@ namespace NGTech {
 			GetRender()->push();
 			GetRender()->multMatrix(objTrans);
 
-			_CheckFrustum();
 			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
 				GetRender()->pop();
 				continue;
@@ -523,8 +512,8 @@ namespace NGTech {
 			/*
 			draw subsets
 			*/
-			for (size_t s = 0; s < object->GetNumSubsets(); s++) {
-				_CheckFrustum();
+			for (size_t s = 0; s < object->GetNumSubsets(); s++) 
+			{
 				if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
 					continue;
 				}
@@ -591,7 +580,6 @@ namespace NGTech {
 			GetRender()->push();
 			GetRender()->multMatrix(objTrans);
 
-			_CheckFrustum();
 			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
 				GetRender()->pop();
 				continue;
@@ -608,7 +596,6 @@ namespace NGTech {
 
 				if (!mtr) continue;
 
-				_CheckFrustum();
 				if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
 					continue;
 				}
@@ -656,8 +643,6 @@ namespace NGTech {
 				matMVP = GetRender()->getMatrix_MVP();
 				if (!mtr->setPass("LightDirect")) return;
 
-				_CheckFrustum();
-
 				for (int n = 0; n < terrain->getNumNodes(); n++)	{
 					if (!frustum->isInside(terrain->getCenter(n), terrain->getRadius(n))) {
 						continue;
@@ -681,7 +666,6 @@ namespace NGTech {
 			GetRender()->push();
 			GetRender()->multMatrix(objTrans);
 
-			_CheckFrustum();
 			if (!frustum->isInside(object->getCenter(), object->getRadius())) {
 				GetRender()->pop();
 				continue;
@@ -724,7 +708,6 @@ namespace NGTech {
 	*/
 	void Scene::checkPointVisibility(LightPoint *light)
 	{
-		//_CheckFrustum();
 		if (!currentCamera->GetFrustum()->isInside(BSphere(light->getPosition(), light->getRadius()))) {
 			return;
 		}
@@ -753,20 +736,20 @@ namespace NGTech {
 				light->setVisible(false);
 				return;
 			}
-		}
+	}
 #endif
 		visibleLights.push_back(light);
-	}
+}
 
 	/**
 	*/
 	void Scene::checkSpotVisibility(LightSpot *light)
 	{
-		_CheckFrustum();
-		if (!frustum->isInside(light->position, light->radius)) {
+		//Тут некорректно
+		/*if (!frustum->isInside(light->position, light->radius)) {
 			light->setVisible(false);
 			return;
-		}
+		}*/
 
 		//if ((light->getPosition() - currentCamera->getPosition()).length() > light->radius) {
 		//	GetRender()->colorMask(false, false, false, false);
@@ -792,7 +775,6 @@ namespace NGTech {
 		//		return;
 		//	}
 		//}
-		light->setVisible(true);
 	}
 
 	/**
@@ -1073,12 +1055,6 @@ namespace NGTech {
 
 	/**
 	*/
-	void Scene::_CheckFrustum(){
-		//frustum->Get();
-	}
-
-	/**
-	*/
 	void Scene::_RenderVisibleLights(bool _v)
 	{
 		for (size_t i = 0; i < visibleLights.size(); i++)
@@ -1147,7 +1123,6 @@ namespace NGTech {
 			GetRender()->push();
 			GetRender()->multMatrix(objTrans);
 
-			_CheckFrustum();
 			if ((!frustum->isInside(object->getCenter(), object->getRadius()))
 				|| (((light->getPosition() - objTrans.getTranslation()).length() >
 				light->getRadius() + object->getRadius())))
@@ -1163,7 +1138,6 @@ namespace NGTech {
 				Material *mtr = object->GetMaterial(s);
 				if (!mtr) continue;
 
-				_CheckFrustum();
 				if (!frustum->isInside(object->getCenter(s), object->getRadius(s)))
 					continue;
 

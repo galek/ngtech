@@ -75,7 +75,7 @@ namespace NGTech {
 		BBox bBox;
 		BSphere bSphere;
 
-		void calcBoundings();
+		void CalculateBoundings();
 
 		void calculateTBN();
 

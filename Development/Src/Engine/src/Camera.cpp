@@ -52,7 +52,6 @@ namespace NGTech {
 
 		this->frustum = new Frustum();
 		this->RecalculateFrustum();
-
 	}
 
 

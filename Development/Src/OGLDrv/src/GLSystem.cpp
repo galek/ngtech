@@ -317,15 +317,6 @@ namespace NGTech {
 		}
 		return true;
 	}
-	//Deprecated
-	void perspectiveGL(GLdouble fovY, GLdouble aspect, GLdouble zNear, GLdouble zFar)
-	{
-		const GLdouble pi = 3.1415926535897932384626433832795;
-		GLdouble fW, fH;
-		fH = tan(fovY / 360 * pi) * zNear;
-		fW = fH * aspect;
-		glFrustum(-fW, fW, -fH, fH, zNear, zFar);
-	}
 
 	/**
 	*/
@@ -337,7 +328,6 @@ namespace NGTech {
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		//perspectiveGL(60, (float)width / (float)height, 1, 500);//
 		loadMatrix(Mat4::perspective(cvars->cl_fov, (float)width / (float)height, 1, 500));//TODO:FOV
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
