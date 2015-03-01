@@ -327,7 +327,6 @@
     <ClInclude Include="inc\FileHelper.h" />
     <ClInclude Include="inc\ILImage.h" />
     <ClInclude Include="inc\IncludesAndLibs.h" />
-    <ClInclude Include="inc\libProfiler.h" />
     <ClInclude Include="inc\License\License.h" />
     <ClInclude Include="inc\Log.h" />
     <ClInclude Include="inc\lua\adopt_policy.hpp" />
@@ -455,6 +454,7 @@
     <ClInclude Include="inc\MeshFormatXSMSH.h" />
     <ClInclude Include="inc\MeshLoader.h" />
     <ClInclude Include="inc\Model.h" />
+    <ClInclude Include="inc\Remotery.h" />
     <ClInclude Include="inc\Scripting.h" />
     <ClInclude Include="inc\SkinnedMesh.h" />
     <ClInclude Include="inc\SkinnedMeshFormat.h" />
@@ -959,7 +959,14 @@
     <ClCompile Include="src\MeshFormatXSMSH.cpp" />
     <ClCompile Include="src\MeshLoader.cpp" />
     <ClCompile Include="src\Model.cpp" />
-    <ClCompile Include="src\Profiler.cpp" />
+    <ClCompile Include="src\Remotery.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\Scripting.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>

@@ -219,6 +219,7 @@ void EventsCallback::Body(){
 		light->setColor(Vec3(1, 1, 0.8));
 		light->setPosition(Vec3(-10, -5, 60));*/
 		GetScene()->EnableStats();
+		GetDebug()->CleanDebugInfo();
 	}
 	if (GetWindow()->isKeyDown("I"))
 	{

@@ -44,7 +44,7 @@
 #endif
 
 #ifndef _DEMO_BUILD
-#define _DEMO_BUILD 1
+//#define _DEMO_BUILD 1
 #endif
 
 #endif

@@ -3,7 +3,6 @@
 //***************************************************************************
 #include "IncludesAndLibs.h"
 //***************************************************************************
-#include "../Common/StringHelper.h"
 #include "../Common/IAudio.h"
 #include "ALSound.h"
 #include "ALSoundSource.h"

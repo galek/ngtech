@@ -26,6 +26,8 @@ namespace NGTech {
 		virtual void EnableVSync(bool);
 		void EnableDebugOutput();
 		void DisableDebugOutput();
+		virtual void EnableWireframeMode();
+		virtual void DisableWireframeMode();
 	public:
 		GLSystem(CoreManager*);
 		virtual ~GLSystem();

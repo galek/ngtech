@@ -29,7 +29,8 @@ namespace NGTech {
 		height(_cvars->r_height),
 		bpp(_cvars->r_bpp),
 		zdepth(_cvars->r_zdepth),
-		fullscreen(_cvars->r_fullscreen)
+		fullscreen(_cvars->r_fullscreen),
+		withoutBorder(_cvars->w_withoutBorder)
 	{
 		Log::writeHeader("-- WindowSystem --");
 
@@ -69,7 +70,10 @@ namespace NGTech {
 		//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #ifdef _ENGINE_DEBUG_
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+		glfwWindowHint(GLFW_FLOATING, GL_FALSE);
 #endif
+		if (!fullscreen&&withoutBorder)
+			glfwWindowHint(GLFW_DECORATED, GL_FALSE);
 
 		GLFWmonitor *mMonitor = NULL;
 		if (fullscreen)
@@ -90,6 +94,7 @@ namespace NGTech {
 		glfwSetCursorPosCallback(window, cursor_position_callback);
 		glfwSetWindowSizeCallback(window, window_size_callback);
 		glfwSetWindowCloseCallback(window, window_close_callback);
+		glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 		if (!(hRC = glfwGetWGLContext(window)))
 			Error("WindowSystem::Initialize() error: can't Create a GL rendering context", true);

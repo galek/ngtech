@@ -206,6 +206,12 @@ namespace NGTech {
 		virtual void* GetGUIImageLoader() = 0;
 		/**
 		*/
+		virtual void EnableWireframeMode() = 0;
+		/**
+		*/
+		virtual void DisableWireframeMode() = 0;
+		/**
+		*/
 		//Nick:TODO:Здесь значения для enum'ов взяты из GL рендера
 		//---------------------------------------------------------------------------
 		//Desc: Blending type enum

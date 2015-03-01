@@ -6,7 +6,9 @@
 namespace NGTech {
 	//TODO:Сделать получение размер дисплея
 	CVARManager::CVARManager(Config*_c)
-		:r_width(_c->getFloat("r_width", 1024.f)),
+		:
+		//Render
+		r_width(_c->getFloat("r_width", 1024.f)),
 		r_height(_c->getFloat("r_height", 768)),
 		r_bpp(_c->getFloat("r_bpp", 32.f)),
 		r_zdepth(_c->getFloat("r_zdepth", 24.f)),
@@ -19,6 +21,9 @@ namespace NGTech {
 		r_parallax(_c->getBool("r_parallax", true)),
 		r_reflections(_c->getBool("r_reflections", true)),
 		r_wireframe(_c->getBool("r_wireframe", false)),
-		cl_fov(_c->getFloat("cl_fov", 60.f))
+		//Client
+		cl_fov(_c->getFloat("cl_fov", 60.f)),
+		//Window
+		w_withoutBorder(_c->getBool("w_withoutBorder", false))
 	{}
 }

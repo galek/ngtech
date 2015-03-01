@@ -26,8 +26,15 @@ namespace NGTech {
 		enum Key {
 			KEY_ESC = GLFW_KEY_ESCAPE,
 			KEY_SPACE = GLFW_KEY_SPACE,
+			KEY_MINUS = GLFW_KEY_MINUS,
 			KEY_RETURN = GLFW_KEY_BACKSPACE,
-			KEY_EQUAL = GLFW_KEY_GRAVE_ACCENT,
+			KEY_LEFT_BRACKET = GLFW_KEY_LEFT_BRACKET,
+			KEY_RIGHT_BRACKET = GLFW_KEY_RIGHT_BRACKET,
+			KEY_EQUAL = GLFW_KEY_EQUAL,
+			KEY_BACKSLASH = GLFW_KEY_BACKSLASH,
+			KEY_SEMICOLON = GLFW_KEY_SEMICOLON,
+			KEY_APOSTROPHE = GLFW_KEY_APOSTROPHE,
+			KEY_GRAVE_ACCENT = GLFW_KEY_GRAVE_ACCENT,
 
 			KEY_UP = GLFW_KEY_UP,
 			KEY_DOWN = GLFW_KEY_DOWN,
@@ -62,9 +69,17 @@ namespace NGTech {
 			KEY_F7, KEY_F8,
 			KEY_F9, KEY_F10,
 			KEY_F11, KEY_F12,
+			KEY_F13, KEY_F14,
+			KEY_F15, KEY_F16,
+			KEY_F17, KEY_F18,
+			KEY_F19, KEY_F20,
+			KEY_F21, KEY_F22,
+			KEY_F23, KEY_F24,
+			KEY_F25, KEY_F26
 		};
-
 	public:
+		/**
+		*/
 		explicit WindowSystemGLFW(CVARManager*_cvars);
 		/**
 		Creates new WindowSystem
@@ -300,7 +315,7 @@ namespace NGTech {
 		HGLRC hRC;
 	public:
 		int width, height, bpp, zdepth;
-		bool fullscreen;
+		bool fullscreen, withoutBorder;
 
 		//Delme
 		int eTime, dTime;

@@ -1,14 +1,23 @@
 #include "CorePrivate.h"
 
-#include "libProfiler.h"
-
-namespace NGTech {
+namespace NGTech 
+{
 	/**
 	*/
 	bool DemoStartCheck();
+
 	/**
 	*/
 	void ILSystemInit();
+
+	/**
+	*/
+	bool EnableProfiler();
+
+	/**
+	*/
+	void DisableProfiler();
+
 	/**
 	*/
 #ifdef USE_STEAMWORKS
@@ -17,14 +26,19 @@ namespace NGTech {
 	*/
 	void DestroySteamWorks();
 #endif
+
 #ifdef USE_OWN_MINIDUMP
+	/**
+	*/
 	bool InitMiniDump();
 #endif
 	/**
 	*/
 	bool InitAdditions()
 	{
-		PROFILER_ENABLE;
+		if (!EnableProfiler())
+			return false;
+
 #ifndef _ENGINE_DEBUG_
 #ifdef USE_OWN_MINIDUMP
 		if (!InitMiniDump())
@@ -44,10 +58,29 @@ namespace NGTech {
 	*/
 	void DestroyAdditions()
 	{
-		PROFILER_DISABLE;
+		DisableProfiler();
 
 #ifdef USE_STEAMWORKS
 		DestroySteamWorks();
 #endif
+	}
+
+	static Remotery *rmt;
+
+	/**
+	*/
+	bool EnableProfiler()
+	{
+		if (RMT_ERROR_NONE != rmt_CreateGlobalInstance(&rmt)) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	*/
+	void DisableProfiler()
+	{
+		rmt_DestroyGlobalInstance(rmt);
 	}
 }

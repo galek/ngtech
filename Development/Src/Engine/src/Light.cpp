@@ -45,7 +45,7 @@ namespace NGTech {
 	/*
 	*/
 	LightPoint::~LightPoint() {
-		delete shadowMap;
+		SAFE_DELETE(shadowMap);
 	}
 
 	/**

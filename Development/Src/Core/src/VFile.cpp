@@ -68,7 +68,7 @@ namespace NGTech
 		if (!IsDataExist())
 			return nullptr;
 
-		PROFILER_START(VFile::LoadFile);
+		//PROFILER_START(VFile::LoadFile);
 
 		// obtain file size:
 		fseek(mFile, 0, SEEK_END);
@@ -81,7 +81,7 @@ namespace NGTech
 		fread(memoryBuffer, sizeof(char), mSize, mFile);
 		memoryBuffer[mSize] = '\0';
 
-		PROFILER_END();
+		//PROFILER_END();
 
 		return memoryBuffer;
 	}

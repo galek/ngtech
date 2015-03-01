@@ -6,13 +6,23 @@
 
 namespace NGTech
 {
+	/**
+	*/
 	DebugLayer::DebugLayer()
-		:renderChangesOfFrameBufferr(-1),
-		frameNumber(-1)
+		:renderChangesOfFrameBufferr(0),
+		frameNumber(0)
 	{}
 
-	int DebugLayer::GetRenderChangesOfFrameBufferrPerFrame()
+	/**
+	*/
+	void DebugLayer::CleanDebugInfo() {
+		renderChangesOfFrameBufferr = 0;
+	}
+
+	/**
+	*/
+	void DebugLayer::CleanRenderChangesOfFrameBufferr()
 	{
-		return renderChangesOfFrameBufferr;
+		renderChangesOfFrameBufferr = 0;
 	}
 }

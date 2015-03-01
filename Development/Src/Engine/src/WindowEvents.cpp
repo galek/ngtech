@@ -237,85 +237,84 @@ namespace NGTech {
 		else if ((stricmp(_p, "SPACE")) == 0)
 			return KEY_SPACE;
 
-#pragma message("uncomment and add this code")
-		/*else if ((stricmp(_p, "MINUS")) == 0)
+		else if ((stricmp(_p, "MINUS")) == 0)
 			return KEY_MINUS;
-			else if ((stricmp(_p, "LEFT BRACKET")) == 0)
+		else if ((stricmp(_p, "LEFT BRACKET")) == 0)
 			return KEY_LEFT_BRACKET;
-			else if ((stricmp(_p, "RIGHT BRACKET")) == 0)
+		else if ((stricmp(_p, "RIGHT BRACKET")) == 0)
 			return KEY_RIGHT_BRACKET;
-			else if ((stricmp(_p, "BACKSLASH")) == 0)
+		else if ((stricmp(_p, "BACKSLASH")) == 0)
 			return KEY_BACKSLASH;
-			else if ((stricmp(_p, "SEMICOLON")) == 0)
+		else if ((stricmp(_p, "SEMICOLON")) == 0)
 			return KEY_SEMICOLON;
-			else if ((stricmp(_p, "APOSTROPHE")) == 0)
+		else if ((stricmp(_p, "APOSTROPHE")) == 0)
 			return KEY_APOSTROPHE;
-			else if ((stricmp(_p, "GRAVE ACCENT")) == 0)
+		else if ((stricmp(_p, "GRAVE ACCENT")) == 0)
 			return KEY_GRAVE_ACCENT;
-			else if ((stricmp(_p, "COMMA")) == 0)
+		/*else if ((stricmp(_p, "COMMA")) == 0)
 			return KEY_COMMA;
-			else if ((stricmp(_p, "PERIOD")) == 0)
+		else if ((stricmp(_p, "PERIOD")) == 0)
 			return KEY_PERIOD;
-			else if ((stricmp(_p, "SLASH")) == 0)
+		else if ((stricmp(_p, "SLASH")) == 0)
 			return KEY_SLASH;
-			else if ((stricmp(_p, "WORLD 1")) == 0)
+		else if ((stricmp(_p, "WORLD 1")) == 0)
 			return KEY_WORLD_1;
-			else if ((stricmp(_p, "WORLD 2")) == 0)
-			return KEY_WORLD_2;
+		else if ((stricmp(_p, "WORLD 2")) == 0)
+			return KEY_WORLD_2;*/
 
 
-			else if ((stricmp(_p, "F1")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F2")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F3")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F4")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F5")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F6")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F7")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F8")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F9")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F10")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F11")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F12")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F13")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F14")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F15")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F16")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F17")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F18")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F19")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F20")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F21")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F22")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F23")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F24")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F25")) == 0)
-			return KEY_ESC;
-			else if ((stricmp(_p, "F26")) == 0)
-			return KEY_ESC;*/
+		else if ((stricmp(_p, "F1")) == 0)
+			return KEY_F1;
+		else if ((stricmp(_p, "F2")) == 0)
+			return KEY_F2;
+		else if ((stricmp(_p, "F3")) == 0)
+			return KEY_F3;
+		else if ((stricmp(_p, "F4")) == 0)
+			return KEY_F4;
+		else if ((stricmp(_p, "F5")) == 0)
+			return KEY_F5;
+		else if ((stricmp(_p, "F6")) == 0)
+			return KEY_F6;
+		else if ((stricmp(_p, "F7")) == 0)
+			return KEY_F7;
+		else if ((stricmp(_p, "F8")) == 0)
+			return KEY_F8;
+		else if ((stricmp(_p, "F9")) == 0)
+			return KEY_F9;
+		else if ((stricmp(_p, "F10")) == 0)
+			return KEY_F10;
+		else if ((stricmp(_p, "F11")) == 0)
+			return KEY_F11;
+		else if ((stricmp(_p, "F12")) == 0)
+			return KEY_F12;
+		else if ((stricmp(_p, "F13")) == 0)
+			return KEY_F13;
+		else if ((stricmp(_p, "F14")) == 0)
+			return KEY_F14;
+		else if ((stricmp(_p, "F15")) == 0)
+			return KEY_F15;
+		else if ((stricmp(_p, "F16")) == 0)
+			return KEY_F16;
+		else if ((stricmp(_p, "F17")) == 0)
+			return KEY_F17;
+		else if ((stricmp(_p, "F18")) == 0)
+			return KEY_F18;
+		else if ((stricmp(_p, "F19")) == 0)
+			return KEY_F19;
+		else if ((stricmp(_p, "F20")) == 0)
+			return KEY_F20;
+		else if ((stricmp(_p, "F21")) == 0)
+			return KEY_F21;
+		else if ((stricmp(_p, "F22")) == 0)
+			return KEY_F22;
+		else if ((stricmp(_p, "F23")) == 0)
+			return KEY_F23;
+		else if ((stricmp(_p, "F24")) == 0)
+			return KEY_F24;
+		else if ((stricmp(_p, "F25")) == 0)
+			return KEY_F25;
+		else if ((stricmp(_p, "F26")) == 0)
+			return KEY_F26;
 
 #if 0
 		case GLFW_KEY_LEFT_SHIFT:   return "LEFT SHIFT";
@@ -374,31 +373,6 @@ namespace NGTech {
 			return KEY_LEFT;
 		else if ((stricmp(_p, "RIGHT")) == 0)
 			return KEY_RIGHT;
-
-		else if ((stricmp(_p, "F1")) == 0)
-			return KEY_F1;
-		else if ((stricmp(_p, "F2")) == 0)
-			return KEY_F2;
-		else if ((stricmp(_p, "F3")) == 0)
-			return KEY_F3;
-		else if ((stricmp(_p, "F4")) == 0)
-			return KEY_F4;
-		else if ((stricmp(_p, "F5")) == 0)
-			return KEY_F5;
-		else if ((stricmp(_p, "F6")) == 0)
-			return KEY_F6;
-		else if ((stricmp(_p, "F7")) == 0)
-			return KEY_F7;
-		else if ((stricmp(_p, "F8")) == 0)
-			return KEY_F8;
-		else if ((stricmp(_p, "F9")) == 0)
-			return KEY_F9;
-		else if ((stricmp(_p, "F10")) == 0)
-			return KEY_F10;
-		else if ((stricmp(_p, "F11")) == 0)
-			return KEY_F11;
-		else if ((stricmp(_p, "F12")) == 0)
-			return KEY_F12;
 
 		return 0;
 	}
@@ -565,4 +539,19 @@ namespace NGTech {
 		//TODO:Выводить сообщение,как в DEUS EX
 #pragma message("TODO:Выводить сообщение,как в DEUS EX")
 	}
+
+	/**
+	*/
+	void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+	{
+		glViewport(0, 0, width, height);
+	}
+
+	/**
+	*/
+	void CloseGLFWWindow(GLFWwindow* window)
+	{
+		glfwWindowShouldClose(window);
+	}
+
 }

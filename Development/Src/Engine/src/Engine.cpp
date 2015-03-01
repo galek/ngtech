@@ -246,6 +246,8 @@ namespace NGTech {
 	*/
 	void Engine::mainLoop()
 	{
+		rmt_SetCurrentThreadName("Main");
+		rmt_LogText("start profiling");
 #if LIMITED_FPS
 		auto next_game_tick = this->iWindow->GetTicks();
 		int loops;
@@ -266,54 +268,58 @@ namespace NGTech {
 #else
 		while (IsRunning())
 		{
+			PROFILER_START(ENGINE_mainLoop);
 			do_update();
 			do_render();
 			do_swap();
+			PROFILER_END();
 		}
 #endif
+		rmt_LogText("end profiling");
 	}
 
 	/**
 	*/
 	void Engine::do_update()
 	{
-		PROFILER_START(Engine::do_update - window);
+		PROFILER_START(ENGINE_do_update);
 		if (iWindow)
 			this->iWindow->update();
-		PROFILER_END();
 
-		PROFILER_START(Engine::do_update - game - event_callback);
+		PROFILER_START(Game);
 		if (this->game)
 			if (this->game->ec)
 				this->game->runEventsCallback();
 		PROFILER_END();
 
-		PROFILER_START(Engine::do_update - render - clear);
+		PROFILER_START(Render);
 		if (this->iRender)
 			this->iRender->clear(I_Render::COLOR_BUFFER | I_Render::DEPTH_BUFFER | I_Render::STENCIL_BUFFER);
 		PROFILER_END();
 
-		PROFILER_START(Engine::do_update - scene - update);
+		PROFILER_START(Scene);
 		if (this->scene)
 			this->scene->update(paused);
 		PROFILER_END();
 
-		PROFILER_START(Engine::do_update - sound - update);
+		PROFILER_START(Audio);
 		// run multi-threaded sound
 		if (!paused)
 			if (this->scene)
 				this->scene->runUpdate();//Сейчас обновляем только звук
 		PROFILER_END();
 
-		PROFILER_START(Engine::do_update - game - update);
+		PROFILER_START(Game);
 		if (this->game)
 			this->game->update();
 		PROFILER_END();
 
-		PROFILER_START(Engine::do_update - physics);
+
+		PROFILER_START(Physics);
 		// run multi-threaded physics
 		if (!paused)
 			this->physSystem->runUpdate();
+		PROFILER_END();
 		PROFILER_END();
 	}
 
@@ -321,22 +327,31 @@ namespace NGTech {
 	*/
 	void Engine::do_render()
 	{
-		PROFILER_START(Engine::do_render - render);
+		PROFILER_START(ENGINE_do_render);
+
+		PROFILER_START(Scene_Render);
 		if (this->scene)
 			this->scene->render();
+		PROFILER_END();
 
+		PROFILER_START(GUI);
 		if (this->gui)
 			this->gui->render();
+		PROFILER_END();
 
+		PROFILER_START(Game_Callbacks);
 		if (this->game)
 			if (this->game->rc)
 				this->game->runRenderCallback();
+		PROFILER_END();
 
 		if (mWatermarkTex)
 			RenderWatermark(mWatermarkTex);
 
+		PROFILER_START(Game_Render);
 		if (this->game)
 			this->game->render();
+		PROFILER_END();
 
 		if (this->iRender)
 			this->iRender->flush();
@@ -348,21 +363,24 @@ namespace NGTech {
 	*/
 	void Engine::do_swap()
 	{
-		PROFILER_START(Engine::do_swap - physics);
+		PROFILER_START(ENGINE_do_swap);
+
+		PROFILER_START(physSystem_waitUpdate);
 		// wait multi-threaded physics
 		if (this->physSystem)
 			this->physSystem->waitUpdate();
 		PROFILER_END();
 
-		PROFILER_START(Engine::do_swap - sound);
 		// wait multi-threaded sound
+		PROFILER_START(scene_waitUpdate);
 		if (this->scene)
 			this->scene->waitUpdate();
 		PROFILER_END();
 
-		PROFILER_START(Engine::do_swap - render);
+		PROFILER_START(render_endFrame);
 		if (this->iRender)
 			this->iRender->endFrame();
+		PROFILER_END();
 
 		PROFILER_END();
 	}
@@ -370,7 +388,6 @@ namespace NGTech {
 	/**
 	*/
 	void Engine::quit() {
-		PROFILER_LOG();
 		running = false;
 	}
 
@@ -418,7 +435,6 @@ namespace NGTech {
 	*/
 	void RenderWatermark(I_Texture* _watermark)
 	{
-		PROFILER_START(RenderWatermark);
 		GetRender()->disableCulling();
 		GetRender()->enableBlending(I_Render::SRC_ALPHA, I_Render::ONE_MINUS_SRC_ALPHA);
 		_watermark->set(0);
@@ -431,6 +447,5 @@ namespace NGTech {
 		_watermark->unset(0);
 		GetRender()->disableBlending();
 		GetRender()->enableCulling();
-		PROFILER_END();
 	}
 }

@@ -18,8 +18,6 @@ NOTES:
 #include "AudioUpdateJob.h"
 //**************************************
 
-//#include "gl/gl.h"
-#include "../../OGLDrv/inc/GLExtensions.h"
 namespace NGTech {
 
 	/**
@@ -278,7 +276,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void Scene::drawPoint(LightPoint *light, bool blended) 
+	void Scene::drawPoint(LightPoint *light, bool blended)
 	{
 
 		if (!light->isVisible() || !light->isEnable()) return;
@@ -292,11 +290,6 @@ namespace NGTech {
 		matLightColor = light->color;//was deleted
 		matShadowMap = light->shadowMap;//was deleted
 
-#if 1//Очищаем глубину
-		//http://freepascal.ru/article/book/opengl-08/
-		glClearDepth(1);
-		glClear(GL_DEPTH_BUFFER_BIT);
-#endif
 		/*
 		Draw terrain
 		*/
@@ -413,7 +406,7 @@ namespace NGTech {
 			shadowFBO->set();
 
 			if (needStats)
-				GetDebug()->renderChangesOfFrameBufferr += 1;
+				GetDebug()->SetRenderChangesOfFrameBufferrPerFrame(GetDebug()->GetRenderChangesOfFrameBufferrPerFrame() + 1);
 
 			shadowFBO->setColorTarget(light->shadowMap, f);
 
@@ -488,7 +481,7 @@ namespace NGTech {
 		*/
 		for (size_t m = 0; m < objects.size(); m++)
 		{
-			if (!objects[m]) 
+			if (!objects[m])
 			{
 				continue;
 			}
@@ -512,7 +505,7 @@ namespace NGTech {
 			/*
 			draw subsets
 			*/
-			for (size_t s = 0; s < object->GetNumSubsets(); s++) 
+			for (size_t s = 0; s < object->GetNumSubsets(); s++)
 			{
 				if (!frustum->isInside(object->getCenter(s), object->getRadius(s))) {
 					continue;
@@ -564,7 +557,8 @@ namespace NGTech {
 
 		shadowFBO->set();
 		if (needStats)
-			GetDebug()->renderChangesOfFrameBufferr += 1;
+			GetDebug()->SetRenderChangesOfFrameBufferrPerFrame(GetDebug()->GetRenderChangesOfFrameBufferrPerFrame() + 1);
+
 		shadowFBO->setColorTarget(light->shadowMap);
 		shadowFBO->clear();
 
@@ -736,10 +730,10 @@ namespace NGTech {
 				light->setVisible(false);
 				return;
 			}
-	}
+		}
 #endif
 		visibleLights.push_back(light);
-}
+	}
 
 	/**
 	*/
@@ -749,7 +743,7 @@ namespace NGTech {
 		/*if (!frustum->isInside(light->position, light->radius)) {
 			light->setVisible(false);
 			return;
-		}*/
+			}*/
 
 		//if ((light->getPosition() - currentCamera->getPosition()).length() > light->radius) {
 		//	GetRender()->colorMask(false, false, false, false);
@@ -807,7 +801,7 @@ namespace NGTech {
 
 		//draw wireframe
 		if (GetCvars()->r_wireframe)
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			GetRender()->EnableWireframeMode();
 
 		drawAmbient(false);
 
@@ -889,7 +883,6 @@ namespace NGTech {
 
 		_DrawParticles();
 
-		GetRender()->flush();
 		viewportFBO->unset();
 
 		matMVP = GetRender()->getMatrix_MVP();
@@ -903,7 +896,6 @@ namespace NGTech {
 			{
 				viewportCopy->Set();
 				GetRender()->drawRect(0, 0, 1, 1, 0, cvars->r_width, cvars->r_height, 0);
-				GetRender()->flush();
 				viewportCopy->UnSet();
 
 				hdrViewportCopy->copy();
@@ -927,7 +919,6 @@ namespace NGTech {
 			}
 			GetRender()->enable3d();
 
-			GetRender()->flush();
 			viewportFBO->unset();
 
 			//---------draw-bloom-------------------------------
@@ -944,7 +935,7 @@ namespace NGTech {
 		}
 		//draw wireframe
 		if (GetCvars()->r_wireframe)
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			GetRender()->DisableWireframeMode();
 		needStats = false;
 
 		visibleLights.clear();

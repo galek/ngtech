@@ -37,4 +37,8 @@ namespace NGTech {
 	/*
 	*/
 	void window_close_callback(GLFWwindow* window);
+
+	/*
+	*/
+	void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 }

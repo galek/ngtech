@@ -90,7 +90,7 @@ namespace NGTech {
 				mPlatform->getRenderManagerPtr()->drawOneFrame();
 
 			if (mDebugShow)
-				updateDebugInfo();
+				UpdateDebugInfo();
 
 			GetRender()->disableBlending();
 			GetRender()->enableCulling();
@@ -100,7 +100,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void GUI::createDebugInfo(){
+	void GUI::CreateDebugInfo(){
 		fpsLabel = mGUI->createWidget<MyGUI::TextBox>("TextBox", 100, 0, 180, 180, MyGUI::Align::Default, "Statistic", "InfoTextBox");
 		fpsLabel->setTextColour(MyGUI::Colour::White);
 		fpsLabel->setTextShadow(true);
@@ -113,7 +113,7 @@ namespace NGTech {
 		LightCountLabel->setVisible(true);
 		LightCountLabel->setCaption("Light Count: ");
 
-		FBOCalls = mGUI->createWidget<MyGUI::TextBox>("TextBox", 100, 600, 180, 180, MyGUI::Align::Default, "Statistic", "InfoTextBox");
+		FBOCalls = mGUI->createWidget<MyGUI::TextBox>("TextBox", 100, 60, 180, 180, MyGUI::Align::Default, "Statistic", "InfoTextBox");
 		FBOCalls->setTextColour(MyGUI::Colour::White);
 		FBOCalls->setTextShadow(true);
 		FBOCalls->setVisible(true);
@@ -122,10 +122,10 @@ namespace NGTech {
 
 	/**
 	*/
-	void GUI::updateDebugInfo(){
+	void GUI::UpdateDebugInfo() {
 		fpsLabel->setCaption("FPS: " + std::to_string((int)GetEngine()->GetLastFPS()));
 		LightCountLabel->setCaption("Light Count: " + std::to_string(GetScene()->LightCount()));
-		if (GetDebug()->renderChangesOfFrameBufferr != 0)
+		if (GetDebug()->GetRenderChangesOfFrameBufferrPerFrame() != 0)
 			FBOCalls->setCaption("Framebuffer Calls: " + std::to_string(GetDebug()->GetRenderChangesOfFrameBufferrPerFrame()));
 	}
 
@@ -139,7 +139,7 @@ namespace NGTech {
 	*/
 	void GUI::showDebugInfo(bool _show){
 		if (_show)
-			createDebugInfo();
+			CreateDebugInfo();
 		mDebugShow = _show;
 	}
 }

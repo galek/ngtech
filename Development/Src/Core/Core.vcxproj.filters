@@ -495,9 +495,6 @@
     <ClInclude Include="inc\MeshLoader.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="inc\libProfiler.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="inc\Model.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -523,6 +520,9 @@
       <Filter>Заголовочные файлы\License</Filter>
     </ClInclude>
     <ClInclude Include="inc\IncludesAndLibs.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Remotery.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
@@ -758,9 +758,6 @@
     <ClCompile Include="src\steamworks_api.cpp">
       <Filter>Файлы исходного кода\steamworks</Filter>
     </ClCompile>
-    <ClCompile Include="src\Profiler.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="src\MeshFormatXSMSH.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -790,6 +787,9 @@
     </ClCompile>
     <ClCompile Include="src\License\License.cpp">
       <Filter>Файлы исходного кода\License</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Remotery.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

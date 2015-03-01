@@ -28,9 +28,11 @@ namespace NGTech {
 		void showDebugInfo(bool _show);
 		ENGINE_INLINE MyGUI::Gui* getGUI(){ return mGUI; };
 	private:
+		GUI(){}
+		GUI(const GUI&){}
 		//DebugInfo
-		void createDebugInfo();
-		void updateDebugInfo();
+		void CreateDebugInfo();
+		void UpdateDebugInfo();
 	private:
 		MyGUI::OpenGLPlatform* mPlatform;
 		MyGUI::Gui*mGUI;

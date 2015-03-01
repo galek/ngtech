@@ -59,7 +59,8 @@ namespace NGTech {
 		oldMouseY(0),
 		width(_cvars->r_width),
 		height(_cvars->r_height),
-		fullscreen(_cvars->r_fullscreen)
+		fullscreen(_cvars->r_fullscreen),
+		withoutBorder(_cvars->w_withoutBorder)
 	{
 		Log::writeHeader("-- WindowSystem --");
 

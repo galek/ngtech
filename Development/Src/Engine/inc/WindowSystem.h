@@ -26,11 +26,20 @@ namespace NGTech {
 		/**
 		Keyboard keys enum
 		*/
+		// see http://www.mods.com.au/budapi_docs/Virtual%20Key%20Codes.htm
+		// and Platform\src\glfw\win32_window.c
 		enum Key {
 			KEY_ESC = VK_ESCAPE,
 			KEY_SPACE = VK_SPACE,
+			KEY_MINUS = VK_OEM_MINUS,
 			KEY_RETURN = VK_BACK,
-			KEY_EQUAL = VK_OEM_3,
+			KEY_LEFT_BRACKET = 0x1A,
+			KEY_RIGHT_BRACKET = 0x1B,
+			KEY_EQUAL = 0x0D,
+			KEY_BACKSLASH = 0xDC/*VK_BACKSLASH*/,
+			KEY_SEMICOLON = 0x27/*VK_SEMICOLON*/,
+			KEY_APOSTROPHE = 0x28/*VK_APOSTROPHE*/,
+			KEY_GRAVE_ACCENT = 0x29,
 
 			KEY_UP = VK_UP,
 			KEY_DOWN = VK_DOWN,
@@ -65,6 +74,13 @@ namespace NGTech {
 			KEY_F7, KEY_F8,
 			KEY_F9, KEY_F10,
 			KEY_F11, KEY_F12,
+			KEY_F13, KEY_F14,
+			KEY_F15, KEY_F16,
+			KEY_F17, KEY_F18,
+			KEY_F19, KEY_F20,
+			KEY_F21, KEY_F22,
+			KEY_F23, KEY_F24,
+			KEY_F25, KEY_F26
 		};
 	public:
 		/**
@@ -194,7 +210,7 @@ namespace NGTech {
 		float fps;
 
 		//int  bpp, zdepth;
-		bool fullscreen;
+		bool fullscreen, withoutBorder;
 
 		int eTime, dTime;
 		int mouseX, mouseY;

@@ -249,6 +249,20 @@ namespace NGTech {
 
 	/**
 	*/
+	void GLSystem::EnableWireframeMode()
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+
+	/**
+	*/
+	void GLSystem::DisableWireframeMode()
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+
+	/**
+	*/
 	void GLSystem::DisableDebugOutput()
 	{
 #ifdef _ENGINE_DEBUG_
