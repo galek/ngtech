@@ -246,8 +246,8 @@ namespace NGTech {
 	*/
 	void Engine::mainLoop()
 	{
-		rmt_SetCurrentThreadName("Main");
-		rmt_LogText("start profiling");
+		PROFILER_SET_CATEGORY("Main");
+		PROFILER_ENABLE();
 #if LIMITED_FPS
 		auto next_game_tick = this->iWindow->GetTicks();
 		int loops;
@@ -275,7 +275,6 @@ namespace NGTech {
 			PROFILER_END();
 		}
 #endif
-		rmt_LogText("end profiling");
 	}
 
 	/**
@@ -388,6 +387,7 @@ namespace NGTech {
 	/**
 	*/
 	void Engine::quit() {
+		PROFILER_DISABLE();
 		running = false;
 	}
 

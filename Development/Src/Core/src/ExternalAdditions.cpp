@@ -44,8 +44,6 @@ namespace NGTech
 		if (!InitMiniDump())
 			return false;
 #endif
-		/*	if (!DemoStartCheck())
-				return false;*/
 #endif	
 		if (!DemoStartCheck())
 			return false;
@@ -64,16 +62,18 @@ namespace NGTech
 		DestroySteamWorks();
 #endif
 	}
-
+#if USE_PROFILER
 	static Remotery *rmt;
-
+#endif
 	/**
 	*/
 	bool EnableProfiler()
 	{
+#if USE_PROFILER
 		if (RMT_ERROR_NONE != rmt_CreateGlobalInstance(&rmt)) {
 			return false;
 		}
+#endif
 		return true;
 	}
 
@@ -81,6 +81,8 @@ namespace NGTech
 	*/
 	void DisableProfiler()
 	{
+#if USE_PROFILER
 		rmt_DestroyGlobalInstance(rmt);
+#endif
 	}
 }

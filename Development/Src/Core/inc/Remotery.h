@@ -1,49 +1,9 @@
-
-
-/*
-Copyright 2014 Celtoys Ltd
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-
-/*
-
-Compiling
----------
-
-* Windows (MSVC) - add lib/Remotery.c and lib/Remotery.h to your program. Set include
-  directories to add Remotery/lib path. The required library ws2_32.lib should be picked
-  up through the use of the #pragma comment(lib, "ws2_32.lib") directive in Remotery.c.
-
-* Mac OS X (XCode) - simply add lib/Remotery.c and lib/Remotery.h to your program.
-
-* Linux (GCC) - add the source in lib folder. Compilation of the code requires -pthreads for
-  library linkage. For example to compile the same run: cc lib/Remotery.c sample/sample.c
-  -I lib -pthread -lm
-
-You can define some extra macros to modify what features are compiled into Remotery. These are
-documented just below this comment.
-
-*/
 #include "coredll.h"
 
 #ifndef RMT_INCLUDED_H
 #define RMT_INCLUDED_H
 
-
-// Disable this to not include any bits of Remotery in your build
-#define RMT_ENABLED
+#if USE_PROFILER
 
 // Used by the Celtoys TinyCRT library (not released yet)
 //#define RMT_USE_TINYCRT
@@ -92,22 +52,22 @@ documented just below this comment.
 
 // Allows macros to be written that can work around the inability to do: #define(x) #ifdef x
 // with the C preprocessor.
-#ifdef RMT_ENABLED
-    #define IFDEF_RMT_ENABLED(t, f) t
+#ifdef USE_PROFILER
+    #define IFDEF_USE_PROFILER(t, f) t
 #else
-    #define IFDEF_RMT_ENABLED(t, f) f
+    #define IFDEF_USE_PROFILER(t, f) f
 #endif
-#if defined(RMT_ENABLED) && defined(RMT_USE_CUDA)
+#if defined(USE_PROFILER) && defined(RMT_USE_CUDA)
     #define IFDEF_RMT_USE_CUDA(t, f) t
 #else
     #define IFDEF_RMT_USE_CUDA(t, f) f
 #endif
-#if defined(RMT_ENABLED) && defined(RMT_USE_D3D11)
+#if defined(USE_PROFILER) && defined(RMT_USE_D3D11)
     #define IFDEF_RMT_USE_D3D11(t, f) t
 #else
     #define IFDEF_RMT_USE_D3D11(t, f) f
 #endif
-#if defined(RMT_ENABLED) && defined(RMT_USE_OPENGL)
+#if defined(USE_PROFILER) && defined(RMT_USE_OPENGL)
 #define IFDEF_RMT_USE_OPENGL(t, f) t
 #else
 #define IFDEF_RMT_USE_OPENGL(t, f) f
@@ -237,34 +197,34 @@ typedef enum rmtError
 // TODO: Can embed extern "C" in these macros?
 
 #define rmt_Settings()																\
-    RMT_OPTIONAL_RET(RMT_ENABLED, _rmt_Settings(), NULL )
+    RMT_OPTIONAL_RET(USE_PROFILER, _rmt_Settings(), NULL )
 
 #define rmt_CreateGlobalInstance(rmt)                                               \
-    RMT_OPTIONAL_RET(RMT_ENABLED, _rmt_CreateGlobalInstance(rmt), RMT_ERROR_NONE)
+    RMT_OPTIONAL_RET(USE_PROFILER, _rmt_CreateGlobalInstance(rmt), RMT_ERROR_NONE)
 
 #define rmt_DestroyGlobalInstance(rmt)                                              \
-    RMT_OPTIONAL(RMT_ENABLED, _rmt_DestroyGlobalInstance(rmt))
+    RMT_OPTIONAL(USE_PROFILER, _rmt_DestroyGlobalInstance(rmt))
 
 #define rmt_SetGlobalInstance(rmt)                                                  \
-    RMT_OPTIONAL(RMT_ENABLED, _rmt_SetGlobalInstance(rmt))
+    RMT_OPTIONAL(USE_PROFILER, _rmt_SetGlobalInstance(rmt))
 
 #define rmt_GetGlobalInstance()                                                     \
-    RMT_OPTIONAL_RET(RMT_ENABLED, _rmt_GetGlobalInstance(), NULL)
+    RMT_OPTIONAL_RET(USE_PROFILER, _rmt_GetGlobalInstance(), NULL)
 
 #define rmt_SetCurrentThreadName(rmt)                                               \
-    RMT_OPTIONAL(RMT_ENABLED, _rmt_SetCurrentThreadName(rmt))
+    RMT_OPTIONAL(USE_PROFILER, _rmt_SetCurrentThreadName(rmt))
 
 #define rmt_LogText(text)                                                           \
-    RMT_OPTIONAL(RMT_ENABLED, _rmt_LogText(text))
+    RMT_OPTIONAL(USE_PROFILER, _rmt_LogText(text))
 
 #define rmt_BeginCPUSample(name)                                                    \
-    RMT_OPTIONAL(RMT_ENABLED, {                                                     \
+    RMT_OPTIONAL(USE_PROFILER, {                                                     \
         static rmtU32 rmt_sample_hash_##name = 0;                                   \
         _rmt_BeginCPUSample(#name, &rmt_sample_hash_##name);                        \
     })
 
 #define rmt_EndCPUSample()                                                          \
-    RMT_OPTIONAL(RMT_ENABLED, _rmt_EndCPUSample())
+    RMT_OPTIONAL(USE_PROFILER, _rmt_EndCPUSample())
 
 
 // Memory allocation functions
@@ -367,25 +327,6 @@ typedef struct rmtCUDABind
 #define rmt_EndOpenGLSample()                                               \
     RMT_OPTIONAL(RMT_USE_OPENGL, _rmt_EndOpenGLSample())
 
-
-
-/*
-------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------
-   C++ Public Interface Extensions
-------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------
-*/
-
-
-
-#ifdef __cplusplus
-
-
-#ifdef RMT_ENABLED
-
-
-
 /*
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
@@ -425,11 +366,12 @@ void _rmt_BeginOpenGLSample(rmtPStr name, rmtU32* hash_cache);
 void _rmt_EndOpenGLSample(void);
 #endif
 
-#define PROFILER_ENABLE 
-#define PROFILER_DISABLE 
+#define PROFILER_ENABLE() PROFILER_LOG("start profiling");
+#define PROFILER_DISABLE() PROFILER_LOG("end profiling");
 #define PROFILER_START(x) rmt_BeginCPUSample(x)
 #define PROFILER_END() rmt_EndCPUSample();
-#define PROFILER_LOG() //LogProfiler()
+#define PROFILER_LOG(x) rmt_LogText(x)
+#define PROFILER_SET_CATEGORY(x) rmt_SetCurrentThreadName(x)
 
 struct rmt_EndCPUSampleOnScopeExit
 {
@@ -471,22 +413,10 @@ struct rmt_EndOpenGLSampleOnScopeExit
 };
 #endif
 
-#else // RMT_ENABLED
-
-#define PROFILER_LOG()
-
-#define PROFILER_ENABLE
-#define PROFILER_DISABLE
-#define PROFILER_START(x)
-#define PROFILER_END()
-#endif // RMT_ENABLED
-
-
-
 // Pairs a call to rmt_Begin<TYPE>Sample with its call to rmt_End<TYPE>Sample when leaving scope
 #define rmt_ScopedCPUSample(name)                                                                       \
-        RMT_OPTIONAL(RMT_ENABLED, rmt_BeginCPUSample(name));                                            \
-        RMT_OPTIONAL(RMT_ENABLED, rmt_EndCPUSampleOnScopeExit rmt_ScopedCPUSample##name);
+        RMT_OPTIONAL(USE_PROFILER, rmt_BeginCPUSample(name));                                            \
+        RMT_OPTIONAL(USE_PROFILER, rmt_EndCPUSampleOnScopeExit rmt_ScopedCPUSample##name);
 #define rmt_ScopedCUDASample(name, stream)                                                              \
         RMT_OPTIONAL(RMT_USE_CUDA, rmt_BeginCUDASample(name, stream));                                  \
         RMT_OPTIONAL(RMT_USE_CUDA, rmt_EndCUDASampleOnScopeExit rmt_ScopedCUDASample##name(stream));
@@ -497,6 +427,18 @@ struct rmt_EndOpenGLSampleOnScopeExit
         RMT_OPTIONAL(RMT_USE_OPENGL, rmt_BeginOpenGLSample(name));                                      \
         RMT_OPTIONAL(RMT_USE_OPENGL, rmt_EndOpenGLSampleOnScopeExit rmt_ScopedOpenGLSample##name);
 
-#endif
+
+
+#else // USE_PROFILER
+
+#define PROFILER_LOG()
+
+#define PROFILER_ENABLE()
+#define PROFILER_DISABLE()
+#define PROFILER_START(x)
+#define PROFILER_END()
+#define PROFILER_SET_CATEGORY()
+
+#endif // USE_PROFILER
 
 #endif
