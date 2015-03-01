@@ -2,13 +2,16 @@
 #include "CorePrivate.h"
 //**************************************
 #include "Model.h"
-#include "MeshFormatXSMSH.h"
+#include "MeshFormatNGGFStatic.h"
 //**************************************
 
 namespace NGTech
 {
+	/**
+	*/
 #define NAME_SIZE 64
-
+	/**
+	*/
 	void ReadName(char *buffer, std::string &name, VFile *file)
 	{
 		memset(buffer, 0, NAME_SIZE);
@@ -22,10 +25,10 @@ namespace NGTech
 	*/
 #define MESH_HEADER ('x' | 's' << 8 | 'm' << 16 | 's' << 24)
 #define MESH_HEADER_UNWRAPPED ('x' | 's' << 8 | 'm' << 16 | 'u' << 24)
-	
+
 	/**
 	*/
-	void MeshFormatXSMSH::Load(const std::string &path, Model *mesh)
+	void MeshFormatNGGFStatic::Load(const std::string &path, Model *mesh)
 	{
 		//begin loading
 		VFile file(path.c_str());
@@ -101,7 +104,7 @@ namespace NGTech
 
 	/**
 	*/
-	void MeshFormatXSMSH::Save(const String &path, Model *mesh)
+	void MeshFormatNGGFStatic::Save(const String &path, Model *mesh)
 	{
 	}
 

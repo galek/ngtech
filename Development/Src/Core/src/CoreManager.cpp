@@ -8,9 +8,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 //**************************************
-#include "MeshFormatXSMSH.h"
+#include "MeshFormatNGGFStatic.h"
 #include "SkinnedMeshLoader.h"
-#include "SkinnedMeshFormatXSSMSH.h"
+#include "MeshFormatNGGFSkinned.h"
 //**************************************
 #include "SteamWorksMgr.h"
 #include "StatsAndAchievements.h"
@@ -63,12 +63,12 @@ namespace NGTech {
 		_initUserDir();
 		debug = new DebugLayer();
 		meshLoader = new MeshLoader();
-		meshLoader->RegisterFormat(new MeshFormatXSMSH());
+		meshLoader->RegisterFormat(new MeshFormatNGGFStatic());
 
 		/**
 		*/
 		skinnedMeshLoader = new SkinnedMeshLoader();
-		skinnedMeshLoader->RegisterFormat(new SkinnedMeshFormatXSSMSH());
+		skinnedMeshLoader->RegisterFormat(new MeshFormatNGGFSkinned());
 	}
 
 	/**

@@ -15,6 +15,8 @@
 #include "IWindow.h"
 #include "IRender.h"
 #include "IGUI.h"
+#include "I_MeshFormat.h"
+#include "I_MeshFormatSkinned.h"
 #include "IILImage.h"
 #include "IGame.h"
 #include "Utils.h"

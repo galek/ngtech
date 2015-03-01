@@ -1,25 +1,25 @@
 #pragma once
 
 //**************************************
-#include "MeshFormat.h"
+#include "I_MeshFormat.h"
 //**************************************
 
 namespace NGTech
 {
 
 	/**
-	Mesh format XSMSH
+	Mesh format NGGF
 	*/
-	class MeshFormatXSMSH : public MeshFormat
+	class MeshFormatNGGFStatic : public I_MeshFormat
 	{
 	public:
 		/*
 		*/
-		MeshFormatXSMSH(){}
+		MeshFormatNGGFStatic(){}
 
 		/*
 		*/
-		virtual ~MeshFormatXSMSH(){}
+		virtual ~MeshFormatNGGFStatic(){}
 
 		/*
 		*/
@@ -31,10 +31,7 @@ namespace NGTech
 
 		/*
 		*/
-		virtual std::string GetExt()
-		{
-			return "nggf";
-		}
+		ENGINE_INLINE virtual const char* GetExt() { return "nggf"; }
 	};
 
 }

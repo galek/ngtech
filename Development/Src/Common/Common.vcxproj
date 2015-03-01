@@ -273,6 +273,8 @@
     <ClInclude Include="IScripting.h" />
     <ClInclude Include="IWindow.h" />
     <ClInclude Include="I_FFP.h" />
+    <ClInclude Include="I_MeshFormat.h" />
+    <ClInclude Include="I_MeshFormatSkinned.h" />
     <ClInclude Include="MathLib.h" />
     <ClInclude Include="NonCopyable.h" />
     <ClInclude Include="Singleton.h" />

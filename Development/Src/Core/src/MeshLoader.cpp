@@ -2,7 +2,7 @@
 #include "CorePrivate.h"
 //**************************************
 #include "MeshLoader.h"
-#include "MeshFormat.h"
+#include "I_MeshFormat.h"
 //**************************************
 
 namespace NGTech
@@ -26,7 +26,7 @@ namespace NGTech
 
 	/*
 	*/
-	void MeshLoader::RegisterFormat(MeshFormat *format)
+	void MeshLoader::RegisterFormat(I_MeshFormat *format)
 	{
 		formats.push_back(format);
 	}

@@ -8,12 +8,10 @@ namespace NGTech
 	/**
 	Mesh loader class
 	*/
-	class MeshFormat
+	class I_MeshFormat
 	{
 	public:
-		virtual ~MeshFormat()
-		{
-		}
+		virtual ~I_MeshFormat()	{}
 
 		/*
 		*/
@@ -25,7 +23,7 @@ namespace NGTech
 
 		/*
 		*/
-		virtual std::string GetExt() = 0;
+		virtual const char* GetExt() = 0;
 	};
 
 }

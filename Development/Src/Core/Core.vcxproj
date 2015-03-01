@@ -450,15 +450,13 @@
     <ClInclude Include="inc\lua\weak_ref.hpp" />
     <ClInclude Include="inc\lua\wrapper_base.hpp" />
     <ClInclude Include="inc\lua\yield_policy.hpp" />
-    <ClInclude Include="inc\MeshFormat.h" />
-    <ClInclude Include="inc\MeshFormatXSMSH.h" />
+    <ClInclude Include="inc\MeshFormatNGGFStatic.h" />
     <ClInclude Include="inc\MeshLoader.h" />
     <ClInclude Include="inc\Model.h" />
     <ClInclude Include="inc\Remotery.h" />
     <ClInclude Include="inc\Scripting.h" />
     <ClInclude Include="inc\SkinnedMesh.h" />
-    <ClInclude Include="inc\SkinnedMeshFormat.h" />
-    <ClInclude Include="inc\SkinnedMeshFormatXSSMSH.h" />
+    <ClInclude Include="inc\MeshFormatNGGFSkinned.h" />
     <ClInclude Include="inc\SkinnedMeshLoader.h" />
     <ClInclude Include="inc\StatsAndAchievements.h" />
     <ClInclude Include="inc\SteamWorksMgr.h" />
@@ -956,7 +954,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\MeshFormatXSMSH.cpp" />
+    <ClCompile Include="src\MeshFormatNGGFStatic.cpp" />
     <ClCompile Include="src\MeshLoader.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Remotery.cpp">
@@ -976,7 +974,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\SkinnedMesh.cpp" />
-    <ClCompile Include="src\SkinnedMeshFormatXSMSH.cpp" />
+    <ClCompile Include="src\MeshFormatNGGFSkinned.cpp" />
     <ClCompile Include="src\SkinnedMeshLoader.cpp" />
     <ClCompile Include="src\steamworks.cpp" />
     <ClCompile Include="src\steamworks_api.cpp" />

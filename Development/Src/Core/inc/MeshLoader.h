@@ -4,7 +4,7 @@
 namespace NGTech
 {
 	class Model;
-	class MeshFormat;
+	class I_MeshFormat;
 
 	/**
 	Mesh loader class
@@ -30,11 +30,11 @@ namespace NGTech
 
 		/*
 		*/
-		void RegisterFormat(MeshFormat *format);
+		void RegisterFormat(I_MeshFormat *format);
 
 
 	protected:
-		std::vector<MeshFormat*> formats;
+		std::vector<I_MeshFormat*> formats;
 	};
 
 }

@@ -167,7 +167,7 @@ namespace NGTech
 
 	private:
 		friend class SkinnedMeshLoader;
-		friend class SkinnedMeshFormatXSSMSH;
+		friend class MeshFormatNGGFSkinned;
 		friend class SceneNodeSkinnedMesh;
 	};
 

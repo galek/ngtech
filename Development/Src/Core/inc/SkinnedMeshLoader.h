@@ -13,7 +13,7 @@
 
 namespace NGTech
 {
-	class SkinnedMeshFormat;
+	class I_MeshFormatSkinned;
 	class SkinnedMesh;
 	/**
 	Mesh loader class
@@ -39,11 +39,11 @@ namespace NGTech
 
 		/*
 		*/
-		void RegisterFormat(SkinnedMeshFormat *format);
+		void RegisterFormat(I_MeshFormatSkinned *format);
 
 
 	protected:
-		std::vector<SkinnedMeshFormat*> formats;
+		std::vector<I_MeshFormatSkinned*> formats;
 	};
 
 }

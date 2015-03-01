@@ -2,7 +2,6 @@
 #include "CorePrivate.h"
 //**************************************
 #include "SkinnedMeshLoader.h"
-#include "SkinnedMeshFormat.h"
 #include "SkinnedMesh.h"
 //**************************************
 
@@ -27,7 +26,7 @@ namespace NGTech
 
 	/*
 	*/
-	void SkinnedMeshLoader::RegisterFormat(SkinnedMeshFormat *format)	{
+	void SkinnedMeshLoader::RegisterFormat(I_MeshFormatSkinned *format)	{
 		formats.push_back(format);
 	}
 

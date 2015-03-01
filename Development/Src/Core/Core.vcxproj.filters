@@ -486,12 +486,6 @@
     <ClInclude Include="inc\SteamWorks_API.h">
       <Filter>Заголовочные файлы\steamworks</Filter>
     </ClInclude>
-    <ClInclude Include="inc\MeshFormat.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\MeshFormatXSMSH.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="inc\MeshLoader.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -499,12 +493,6 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="inc\SkinnedMesh.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\SkinnedMeshFormat.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\SkinnedMeshFormatXSSMSH.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="inc\SkinnedMeshLoader.h">
@@ -523,6 +511,12 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="inc\Remotery.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\MeshFormatNGGFStatic.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\MeshFormatNGGFSkinned.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
@@ -758,9 +752,6 @@
     <ClCompile Include="src\steamworks_api.cpp">
       <Filter>Файлы исходного кода\steamworks</Filter>
     </ClCompile>
-    <ClCompile Include="src\MeshFormatXSMSH.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="src\MeshLoader.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
@@ -771,9 +762,6 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="src\SkinnedMesh.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SkinnedMeshFormatXSMSH.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="src\SkinnedMeshLoader.cpp">
@@ -789,6 +777,12 @@
       <Filter>Файлы исходного кода\License</Filter>
     </ClCompile>
     <ClCompile Include="src\Remotery.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MeshFormatNGGFStatic.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MeshFormatNGGFSkinned.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
