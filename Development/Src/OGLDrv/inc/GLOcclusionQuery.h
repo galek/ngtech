@@ -29,6 +29,12 @@ namespace NGTech {
 		*/
 		unsigned int getResult();
 
+		/**
+		Get status
+		\return status
+		*/
+		virtual int IsCompleted();
+
 		/** 
 		clear query
 		TODO:пока нигде не используется

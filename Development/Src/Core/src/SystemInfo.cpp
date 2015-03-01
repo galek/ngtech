@@ -7,28 +7,37 @@
 #include <wbemidl.h>
 #include <intrin.h>
 #pragma comment(lib,"wbemuuid.lib")
-#ifdef HAVE_NVCPL
-#include "NvCpl/NvCpl.h"
+#ifdef HAVE_NVAPI
+#include "../../../../Externals/RenderAdditions/NVApi/NVApi.h"
+#pragma comment(lib,"nvapi.lib")
 #endif
-#ifdef HAVE_ATIMGPU
-#include "atimgpud/atimgpud.h"
-#if _WIN64
-#pragma comment(lib,"atimgpud/atimgpud_s_x64.lib")
-#else
-#pragma comment(lib,"atimgpud/atimgpud_s_x86.lib")
+
+#ifdef HAVE_AMDADL
+#include "../../../../Externals/RenderAdditions/ADL/adl_sdk.h"
 #endif
-#endif
+
 #elif PLATFORM_OS == PLATFORM_OS_LINUX
 #include <dlfcn.h>
 #include <unistd.h>
 #include <sys/sysctl.h>
+#ifndef ARCH_ARM
 #include <X11/Xlib.h>
-#include <GL/glx.h>
-#include <GL/glxext.h>
 #ifdef HAVE_NVCTRL
-#include <NVCtrl/NVCtrl.h>
-#include <NVCtrl/NVCtrlLib.h>
+#include "../../../../Externals/RenderAdditions/NVCtrl/NVCtrl.h"
+#include "../../../../Externals/RenderAdditions/NVCtrl/NVCtrlLib.h"
 #endif
+#ifdef HAVE_AMDADL
+#define LINUX
+#include "../../../../Externals/RenderAdditions/ADL/adl_sdk.h"
+#endif
+#endif
+#elif PLATFORM_OS == PLATFORM_OS_MACOSX
+#include <sys/sysctl.h>
+#elif PLATFORM_OS == PLATFORM_OS_ANDROID
+#include <dlfcn.h>
+#elif PLATFORM_OS == PLATFORM_OS_IOS
+#include <dlfcn.h>
+#include <sys/sysctl.h>
 #endif
 
 #include "SystemInfo.h"
@@ -75,6 +84,38 @@ namespace NGTech {
 #endif
 #ifdef __INTEL_COMPILER
 		strcat(info," Intel C++ " GET_VERSION(__INTEL_COMPILER));
+#elif __GNUC__
+		strcat(info," GCC " GET_VERSION(__GNUC__) "." GET_VERSION(__GNUC_MINOR__) "." GET_VERSION(__GNUC_PATCHLEVEL__));
+#endif
+
+#elif _MACOS
+
+		strcpy(info,"MacOS");
+#ifdef ARCH_X64
+		strcat(info," 64bit");
+#else
+		strcat(info," 32bit");
+#endif
+#ifdef __clang__
+		strcat(info," CLANG " GET_VERSION(__clang_major__) "." GET_VERSION(__clang_minor__) "." GET_VERSION(__clang_patchlevel__));
+#elif __GNUC__
+		strcat(info," GCC " GET_VERSION(__GNUC__) "." GET_VERSION(__GNUC_MINOR__) "." GET_VERSION(__GNUC_PATCHLEVEL__));
+#endif
+
+#elif _ANDROID
+
+		strcpy(info,"Android");
+#ifdef __clang__
+		strcat(info," CLANG " GET_VERSION(__clang_major__) "." GET_VERSION(__clang_minor__) "." GET_VERSION(__clang_patchlevel__));
+#elif __GNUC__
+		strcat(info," GCC " GET_VERSION(__GNUC__) "." GET_VERSION(__GNUC_MINOR__) "." GET_VERSION(__GNUC_PATCHLEVEL__));
+#endif
+
+#elif _IOS
+
+		strcpy(info,"iOS");
+#ifdef __clang__
+		strcat(info," CLANG " GET_VERSION(__clang_major__) "." GET_VERSION(__clang_minor__) "." GET_VERSION(__clang_patchlevel__));
 #elif __GNUC__
 		strcat(info," GCC " GET_VERSION(__GNUC__) "." GET_VERSION(__GNUC_MINOR__) "." GET_VERSION(__GNUC_PATCHLEVEL__));
 #endif
@@ -320,6 +361,14 @@ namespace NGTech {
 
 	/*
 	 */
+#ifdef HAVE_AMDADL
+	static void *__stdcall ADL_Main_Memory_Alloc(int size) {
+		return malloc(size);
+	}
+#endif
+
+	/*
+	 */
 	static const char *get_gpu_info(int &memory_size, int &count) {
 
 		static char info[1024];
@@ -375,41 +424,65 @@ namespace NGTech {
 		}
 		if (hr == S_OK) CoUninitialize();
 
-#if HAVE_NVCPL
-		HINSTANCE nvcpl = LoadLibrary("NVCPL.dll");
-		if (nvcpl != NULL) {
-			NvCplGetDataIntType NvCplGetDataInt = (NvCplGetDataIntType)GetProcAddress(nvcpl, "NvCplGetDataInt");
-			if (NvCplGetDataInt != NULL) {
-				long value = 0;
-				if (NvCplGetDataInt(NV_DATA_TYPE_VIDEO_MEMORY_SIZE, &value)) {
-					memory_size = (int)value;
-				}
-				if (NvCplGetDataInt(NVCPL_API_NUMBER_OF_GPUS, &value)) {
-					count = (int)value;
-				}
-				if (NvCplGetDataInt(NVCPL_API_SLI_MULTI_GPU_RENDERING_MODE, &value)) {
-					if (value & NVCPL_API_SLI_ENABLED) {
-						if (value & NVCPL_API_SLI_RENDERING_MODE_AUTOSELECT) strcat(info, " SLI Auto");
-						else if (value & NVCPL_API_SLI_RENDERING_MODE_AFR) strcat(info, " SLI AFR");
-						else if (value & NVCPL_API_SLI_RENDERING_MODE_SFR) strcat(info, " SLI SFR");
-						else if (value & NVCPL_API_SLI_RENDERING_MODE_SINGLE_GPU) strcat(info, " SLI Single");
+#ifdef HAVE_NVAPI
+		if (NvAPI_Initialize() == NVAPI_OK) {
+			NvU32 num_handles = 0;
+			NvPhysicalGpuHandle handles[NVAPI_MAX_PHYSICAL_GPUS];
+			if (NvAPI_EnumPhysicalGPUs(handles, &num_handles) == NVAPI_OK && num_handles > 0) {
+				for (NvU32 i = 0; i < num_handles; i++) {
+					NV_DISPLAY_DRIVER_MEMORY_INFO_V2 memory_info;
+					memory_info.version = NV_DISPLAY_DRIVER_MEMORY_INFO_VER_2;
+					if (NvAPI_GPU_GetMemoryInfo(handles[i], &memory_info) == NVAPI_OK) {
+						int size = memory_info.dedicatedVideoMemory / 1024;
+						if (memory_size < size) memory_size = size;
 					}
 				}
 			}
-			FreeLibrary(nvcpl);
 		}
 #endif
 
-#if HAVE_ATIMGPU
-		count = AtiMultiGPUAdapters();
-		if(count > 3) strcat(info," QuadFireX");
-		else if(count > 1) strcat(info," CrossFireX");
+#ifdef HAVE_AMDADL
+		HMODULE handle = LoadLibraryA("atiadlxx.dll");
+		if(handle == NULL) handle = LoadLibraryA("atiadlxy.dll");
+		if(handle != NULL) {
+			typedef int *(*ADL_MAIN_CONTROL_CREATE)(ADL_MAIN_MALLOC_CALLBACK,int);
+			typedef int *(*ADL_MAIN_CONTROL_DESTROY)();
+			typedef int *(*ADL_ADAPTER_NUMBEROFADAPTERS_GET)(int*);
+			typedef int *(*ADL_ADAPTER_ADAPTERINFO_GET)(LPAdapterInfo,int);
+			typedef int *(*ADL_ADAPTER_ACTIVE_GET)(int,int*);
+			typedef int *(*ADL_ADAPTER_MEMORYINFO_GET)(int,ADLMemoryInfo*);
+			ADL_MAIN_CONTROL_CREATE ADL_Main_Control_Create = (ADL_MAIN_CONTROL_CREATE)GetProcAddress(handle,"ADL_Main_Control_Create");
+			ADL_MAIN_CONTROL_DESTROY ADL_Main_Control_Destroy = (ADL_MAIN_CONTROL_DESTROY)GetProcAddress(handle,"ADL_Main_Control_Destroy");
+			ADL_ADAPTER_NUMBEROFADAPTERS_GET ADL_Adapter_NumberOfAdapters_Get = (ADL_ADAPTER_NUMBEROFADAPTERS_GET)GetProcAddress(handle,"ADL_Adapter_NumberOfAdapters_Get");
+			ADL_ADAPTER_ADAPTERINFO_GET ADL_Adapter_AdapterInfo_Get = (ADL_ADAPTER_ADAPTERINFO_GET)GetProcAddress(handle,"ADL_Adapter_AdapterInfo_Get");
+			ADL_ADAPTER_MEMORYINFO_GET ADL_Adapter_MemoryInfo_Get = (ADL_ADAPTER_MEMORYINFO_GET)GetProcAddress(handle,"ADL_Adapter_MemoryInfo_Get");
+			if(ADL_Main_Control_Create != NULL && ADL_Main_Control_Destroy != NULL && ADL_Adapter_NumberOfAdapters_Get != NULL && ADL_Adapter_AdapterInfo_Get != NULL && ADL_Adapter_MemoryInfo_Get != NULL) {
+				if(ADL_Main_Control_Create(ADL_Main_Memory_Alloc,1) == ADL_OK) {
+					int num_adapters = 0;
+					if(ADL_Adapter_NumberOfAdapters_Get(&num_adapters) == ADL_OK && num_adapters > 0) {
+						int *devices = new int[num_adapters];
+						AdapterInfo *adapter_info = new AdapterInfo[num_adapters];
+						if(ADL_Adapter_AdapterInfo_Get(adapter_info,sizeof(AdapterInfo) * num_adapters) == ADL_OK) {
+							for(int i = 0; i < num_adapters; i++) {
+								ADLMemoryInfo memory_info;
+								if(ADL_Adapter_MemoryInfo_Get(adapter_info[i].iAdapterIndex,&memory_info) == ADL_OK) {
+									int size = (int)(memory_info.iMemorySize / 1024 / 1024);
+									if(memory_size < size) memory_size = size;
+								}
+							}
+						}
+						delete [] adapter_info;
+						delete [] devices;
+					}
+				}
+			}
+		}
 #endif
-#elif PLATFORM_OS == PLATFORM_OS_LINUX
 
-		Display *display = XOpenDisplay(NULL);
+#elif _LINUX
 
 #ifdef HAVE_NVCTRL
+		Display *display = XOpenDisplay(NULL);
 		if (display) {
 			int event_base, error_base;
 			if (XNVCTRLQueryExtension(display, &event_base, &error_base)) {
@@ -419,7 +492,12 @@ namespace NGTech {
 						char *str = NULL;
 						int value = 0;
 						if (XNVCTRLQueryStringAttribute(display, i, 0, NV_CTRL_STRING_PRODUCT_NAME, &str)) {
-							strcpy(info, str);
+							if(strcmp(info,str)) {
+								if(strlen(info)) strcat(info,"/");
+								strcat(info,str);
+							} else {
+								count++;
+							}
 							XFree(str);
 						}
 						if(XNVCTRLQueryAttribute(display,i,0,NV_CTRL_BUS_TYPE,&value)) {
@@ -433,76 +511,125 @@ namespace NGTech {
 							XFree(str);
 						}
 						if(XNVCTRLQueryAttribute(display,i,0,NV_CTRL_VIDEO_RAM,&value)) {
-							memory_size = value / 1024;
+							int size = value / 1024;
+							if(memory_size < size) memory_size = size;
 						}
+					}
+				}
+			}
+			XCloseDisplay(display);
+		}
+#endif
+
+#ifdef HAVE_AMDADL
+		void *handle = dlopen("libatiadlxx.so",RTLD_LAZY);
+		if(handle != NULL) {
+			typedef int *(*ADL_MAIN_CONTROL_CREATE)(ADL_MAIN_MALLOC_CALLBACK,int);
+			typedef int *(*ADL_MAIN_CONTROL_DESTROY)();
+			typedef int *(*ADL_ADAPTER_NUMBEROFADAPTERS_GET)(int*);
+			typedef int *(*ADL_ADAPTER_ADAPTERINFO_GET)(LPAdapterInfo,int);
+			typedef int *(*ADL_ADAPTER_ACTIVE_GET)(int,int*);
+			typedef int *(*ADL_ADAPTER_MEMORYINFO_GET)(int,ADLMemoryInfo*);
+			ADL_MAIN_CONTROL_CREATE ADL_Main_Control_Create = (ADL_MAIN_CONTROL_CREATE)dlsym(handle,"ADL_Main_Control_Create");
+			ADL_MAIN_CONTROL_DESTROY ADL_Main_Control_Destroy = (ADL_MAIN_CONTROL_DESTROY)dlsym(handle,"ADL_Main_Control_Destroy");
+			ADL_ADAPTER_NUMBEROFADAPTERS_GET ADL_Adapter_NumberOfAdapters_Get = (ADL_ADAPTER_NUMBEROFADAPTERS_GET)dlsym(handle,"ADL_Adapter_NumberOfAdapters_Get");
+			ADL_ADAPTER_ADAPTERINFO_GET ADL_Adapter_AdapterInfo_Get = (ADL_ADAPTER_ADAPTERINFO_GET)dlsym(handle,"ADL_Adapter_AdapterInfo_Get");
+			ADL_ADAPTER_ACTIVE_GET ADL_Adapter_Active_Get = (ADL_ADAPTER_ACTIVE_GET)dlsym(handle,"ADL_Adapter_Active_Get");
+			ADL_ADAPTER_MEMORYINFO_GET ADL_Adapter_MemoryInfo_Get = (ADL_ADAPTER_MEMORYINFO_GET)dlsym(handle,"ADL_Adapter_MemoryInfo_Get");
+			if(ADL_Main_Control_Create != NULL && ADL_Main_Control_Destroy != NULL && ADL_Adapter_NumberOfAdapters_Get != NULL && ADL_Adapter_AdapterInfo_Get != NULL && ADL_Adapter_Active_Get != NULL && ADL_Adapter_MemoryInfo_Get != NULL) {
+				if(ADL_Main_Control_Create(ADL_Main_Memory_Alloc,1) == ADL_OK) {
+					int num_adapters = 0;
+					if(ADL_Adapter_NumberOfAdapters_Get(&num_adapters) == ADL_OK && num_adapters > 0) {
+						int num_devices = 0;
+						int *devices = new int[num_adapters];
+						AdapterInfo *adapter_info = new AdapterInfo[num_adapters];
+						if(ADL_Adapter_AdapterInfo_Get(adapter_info,sizeof(AdapterInfo) * num_adapters) == ADL_OK) {
+							for(int i = 0; i < num_adapters; i++) {
+								int active = 0;
+								if(ADL_Adapter_Active_Get(adapter_info[i].iAdapterIndex,&active) != ADL_OK) continue;
+								for(int j = 0; j < num_devices; j++) {
+									if(devices[j] == adapter_info[i].iDeviceNumber) {
+										active = ADL_FALSE;
+										break;
+									}
+								}
+								if(active != ADL_TRUE) continue;
+								devices[num_devices++] = adapter_info[i].iDeviceNumber;
+								char *name = adapter_info[i].strAdapterName;
+								size_t length = strlen(adapter_info[i].strAdapterName);
+								while(length > 0 && name[length - 1] == ' ') name[length - 1] = '\0';
+								if(strcmp(info,name)) {
+									if(strlen(info)) strcat(info,"/");
+									strcat(info,name);
+								} else {
+									count++;
+								}
+								ADLMemoryInfo memory_info;
+								if(ADL_Adapter_MemoryInfo_Get(adapter_info[i].iAdapterIndex,&memory_info) == ADL_OK) {
+									int size = (int)(memory_info.iMemorySize / 1024 / 1024);
+									if(memory_size < size) memory_size = size;
+								}
+							}
+						}
+						delete [] adapter_info;
+						delete [] devices;
 					}
 				}
 			}
 		}
 #endif
 
-		if(display) {
-			if(info[0] == '\0') {
-				void *handle = dlopen("libGL.so.1",RTLD_GLOBAL | RTLD_LAZY);
-				if (handle == NULL) handle = dlopen("libGL.so.1", RTLD_LAZY);
-				if(handle != NULL) {
-					typedef XVisualInfo *(*GLXCHOOSEVISUAL)(Display*,int,int*);
-					typedef GLXContext (*GLXCREATECONTEXT)(Display*,XVisualInfo*,GLXContext,Bool);
-					typedef void (*GLXDESTROYCONTEXT)(Display*,GLXContext);
-					typedef Bool (*GLXMAKECURRENT)(Display*,GLXDrawable,GLXContext);
-					typedef const char *(APIENTRY *GLGETSTRING)(GLenum);
-					typedef void (APIENTRY *GLGETINTEGERV)(GLenum,GLint*);
-					GLXCHOOSEVISUAL dlglXChooseVisual = (GLXCHOOSEVISUAL)dlsym(handle,"glXChooseVisual");
-					GLXCREATECONTEXT dlglXCreateContext = (GLXCREATECONTEXT)dlsym(handle,"glXCreateContext");
-					GLXDESTROYCONTEXT dlglXDestroyContext = (GLXDESTROYCONTEXT)dlsym(handle,"glXDestroyContext");
-					GLXMAKECURRENT dlglXMakeCurrent = (GLXMAKECURRENT)dlsym(handle,"glXMakeCurrent");
-					GLGETSTRING dlglGetString = (GLGETSTRING)dlsym(handle,"glGetString");
-					GLGETINTEGERV dlglGetIntegerv = (GLGETINTEGERV)dlsym(handle,"glGetIntegerv");
-					int screen = DefaultScreen(display);
-					int attribs[] = {
-						GLX_RGBA, GLX_DOUBLEBUFFER,
-						GLX_RED_SIZE, 8, GLX_GREEN_SIZE, 8, GLX_BLUE_SIZE, 8, GLX_ALPHA_SIZE, 8,
-						GLX_DEPTH_SIZE, 24, GLX_STENCIL_SIZE, 8,
-						0,
-					};
-					XVisualInfo *visual = dlglXChooseVisual(display,screen,attribs);
-					GLXContext context = dlglXCreateContext(display,visual,NULL,GL_TRUE);
-					if(context) {
-						XSetWindowAttributes attr;
-						memset(&attr,0,sizeof(attr));
-						Window root_window = RootWindow(display,screen);
-						attr.colormap = XCreateColormap(display,root_window,visual->visual,AllocNone);
-						Window window = XCreateWindow(display,root_window,0,0,1,1,0,visual->depth,InputOutput,visual->visual,CWColormap,&attr);
-						if(dlglXMakeCurrent(display,window,context)) {
-							strcpy(info,dlglGetString(GL_RENDERER));
-							strcat(info," ");
-							strcat(info,dlglGetString(GL_VERSION));
-							if(strstr(dlglGetString(GL_EXTENSIONS),"ATI_meminfo")) {
-								GLint params[4];
-								dlglGetIntegerv(0x87fc,params);
-								params[0] /= 1024;
-								memory_size = 1;
-								while(memory_size < params[0]) {
-									memory_size *= 2;
-								}
-							}
-						} else {
-							Error("get_gpu_info(): can't set OpenGL context\n",true);
-						}
-						dlglXDestroyContext(display,context);
-						XDestroyWindow(display,window);
-					} else {
-						Error("get_gpu_info(): can't create OpenGL context\n",true);
-					}
-					XFree(visual);
-				} else {
-					Error("get_gpu_info(): can't load \"%s\" library\n%s\n","libGL.so.1",true,dlerror());
+#elif _MACOS
+
+		FILE *file = popen("system_profiler SPDisplaysDataType","r");
+		if(file) {
+			char *d = info;
+			char buf[1024];
+			while(fgets(buf,sizeof(buf),file)) {
+				char *s = buf;
+				while(*s == ' ') s++;
+				if(!strncmp(s,"Chipset Model: ",15)) {
+					s += 15;
+					if(d != info) *d++ = '/';
+					while(*s && *s != '\n') *d++ = *s++;
+				} else if(!strncmp(s,"VRAM (Total): ",14)) {
+					s += 14;
+					int size = atoi(s);
+					while(isdigit(*s)) s++;
+					while(*s == ' ') s++;
+					if(!strncmp(s,"GB",2)) size *= 1024;
+					if(memory_size < size) memory_size = size;
 				}
 			}
+			pclose(file);
+		} else {
+			Log::error("get_gpu_info(): can't run \"%s\"\n","system_profiler SPDisplaysDataType");
 		}
 
-		if(display) {
-			XCloseDisplay(display);
+#elif _ANDROID
+
+		FILE *file = fopen("/proc/meminfo","rb");
+		if(file) {
+			char buf[1024];
+			while(fgets(buf,sizeof(buf),file)) {
+				if(!strncmp(buf,"MemTotal:",9)) {
+					memory_size = (atoi(buf + 9) / 1024) / 4;
+					if(memory_size > 256) memory_size = 256;
+					break;
+				}
+			}
+			fclose(file);
+		} else {
+			Log::error("get_gpu_info(): can't open \"%s\" file\n","/proc/meminfo");
+		}
+
+#elif _IOS
+
+		int64_t data = 0;
+		size_t size = sizeof(data);
+		if(sysctlbyname("hw.memsize",&data,&size,NULL,0) == 0) {
+			memory_size = (data / 1024 / 1024) / 4;
+			if(memory_size > 256) memory_size = 256;
 		}
 
 #endif
@@ -634,6 +761,11 @@ namespace NGTech {
 	int SystemInfo::hasSSE5() {
 		assert(initialized);
 		return (strstr(cpu_info, "SSE5") != NULL);
+	}
+
+	int SystemInfo::hasAVX() {
+		assert(initialized);
+		return (strstr(cpu_info, "AVX") != NULL);
 	}
 
 	int SystemInfo::has3DNow() {

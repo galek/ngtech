@@ -775,6 +775,12 @@ namespace NGTech {
 		virtual unsigned int getResult() = 0;
 
 		/**
+		Get status
+		\return status
+		*/
+		virtual int IsCompleted() = 0;
+
+		/**
 		clear query
 		*/
 		virtual void clear() = 0;

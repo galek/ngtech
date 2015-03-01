@@ -35,6 +35,7 @@ namespace NGTech {
 		static int hasSSE3();
 		static int hasSSE4();
 		static int hasSSE5();
+		static int hasAVX();
 		static int has3DNow();
 		static int hasAltiVec();
 

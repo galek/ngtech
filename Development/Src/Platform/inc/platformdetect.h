@@ -18,6 +18,7 @@
 #define PLATFORM_OS_LINUX       2
 #define PLATFORM_OS_MACOSX      3
 #define PLATFORM_OS_ANDROID     4
+#define PLATFORM_OS_IOS			5
 
 #if defined( __WIN32__ ) || defined( _WIN32 ) || defined( __WIN64__ ) || defined( _WIN64 ) || defined( WIN32 )
 #   define IS_OS_WINDOWS    1
