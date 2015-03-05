@@ -1,5 +1,7 @@
 #include "CorePrivate.h"
 //***************************************************************************
+#include "string.h"//memset for gcc
+//***************************************************************************
 #include "ILImage.h"
 #include "Log.h"
 #include "FileHelper.h"

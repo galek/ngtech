@@ -69,7 +69,10 @@ extern "C" {
 /*************************************************************************
  * System headers and types
  *************************************************************************/
-#ifdef _WIN32
+#if (defined(__GNUC__)&&defined(__LINUX__))
+#define GLFW_EXPOSE_NATIVE_X11
+#define GLFW_EXPOSE_NATIVE_GLX
+#elif _WIN32
 #define GLFW_EXPOSE_NATIVE_WIN32
 #define GLFW_EXPOSE_NATIVE_WGL
 #endif

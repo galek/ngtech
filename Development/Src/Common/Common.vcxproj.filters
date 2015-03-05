@@ -66,9 +66,6 @@
     <ClInclude Include="NonCopyable.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="I_FFP.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="MathLib.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -90,9 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="StringHelper.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="I_FFP.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="MathLib.cpp">

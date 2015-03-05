@@ -1,6 +1,6 @@
 #include "CorePrivate.h"
 #include "WrappedScriptFunctions.h"
-#include "log.h"
+#include "../inc/Log.h"
 
 namespace NGTech
 {

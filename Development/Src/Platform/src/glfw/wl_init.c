@@ -26,6 +26,8 @@
 
 #include "internal.h"
 
+#if __LINUX__
+
 #include <linux/input.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -627,3 +629,4 @@ const char* _glfwPlatformGetVersionString(void)
     return version;
 }
 
+#endif

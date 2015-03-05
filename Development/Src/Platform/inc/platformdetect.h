@@ -2,16 +2,6 @@
 #define PLATFORM_DETECT_H
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// includes
-
-#include <stdio.h>
-#include <stdarg.h>
-#include <vector>
-#include <map>
-#include <string>
-#include <algorithm>
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
 // OS definition
 
 #define PLATFORM_OS_WINDOWS     1
@@ -20,13 +10,13 @@
 #define PLATFORM_OS_ANDROID     4
 #define PLATFORM_OS_IOS			5
 
-#if defined( __WIN32__ ) || defined( _WIN32 ) || defined( __WIN64__ ) || defined( _WIN64 ) || defined( WIN32 )
+#if (defined( __WIN32__ ) || defined( _WIN32 ) || defined( __WIN64__ ) || defined( _WIN64 ) || defined( WIN32 )) && (!defined(__ANDROID__)) && (!defined(__MINGW__)) && (!defined(__LINUX__))
 #   define IS_OS_WINDOWS    1
 #   define IS_OS_LINUX      0
 #   define IS_OS_MACOSX     0
 #   define PLATFORM_OS      PLATFORM_OS_WINDOWS
 #   pragma message("Platform OS is Windows.")
-#elif defined(__linux__) && (!defined(__ANDROID__) )|| defined( LINUX )
+#elif defined(__LINUX__) && (!defined(__ANDROID__) ) || defined( LINUX )
 #   define IS_OS_WINDOWS    0
 #   define IS_OS_LINUX      1
 #   define IS_OS_MACOSX     0
@@ -40,7 +30,7 @@
 #   define DROP_EDITOR      1
 #   define PLATFORM_OS      PLATFORM_OS_MACOSX
 #   pragma message("Platform OS is MacOSX.")
-#elif defined(__linux__) && (defined(__ANDROID__) )
+#elif defined(__LINUX__) && (defined(__ANDROID__) )
 #   define IS_OS_WINDOWS    0
 #   define IS_OS_LINUX      0
 #   define IS_OS_MACOSX     0
@@ -115,9 +105,14 @@
 #endif
 #endif
 
+#if (!defined(__MINGW__)) && (defined(__LINUX__) && (defined(__GNUC__)))
+#define _strnicmp strncasecmp
+#define _stricmp strcasecmp
+
+#else
 #if !defined(PTRDIFF_T_DEFINED) && !defined(_PTRDIFF_T)
 # ifdef _WIN64
-# ifdef GNUC
+# ifdef __GNUC__
 typedef long long ptrdiff_t;
 # else
 typedef __int64 ptrdiff_t;
@@ -126,6 +121,7 @@ typedef __int64 ptrdiff_t;
 typedef int ptrdiff_t;
 # endif
 # endif
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /*

@@ -24,7 +24,7 @@
 #ifndef LUABIND_TYPETRAITS_HPP_INCLUDED
 #define LUABIND_TYPETRAITS_HPP_INCLUDED
 
-#include "../detail/primitives.hpp"
+#include "primitives.hpp"
 
 namespace luabind { namespace detail 
 {

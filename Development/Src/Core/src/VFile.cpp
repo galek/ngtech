@@ -15,14 +15,18 @@
 * A copy of the NGTech License Agreement is available by contacting
 * NG Games Ltd. at http://nggames.com/
 */
+//***************************************************************************
 #include "CorePrivate.h"
-
-#include "VFS.h"
-#include "FileHelper.h"
+//***************************************************************************
 #include <iostream>
 #include <fstream>
 #include <stdarg.h>
-
+//***************************************************************************
+#include "string.h"//memset for gcc
+//***************************************************************************
+#include "VFS.h"
+#include "FileHelper.h"
+//***************************************************************************
 #if PLATFORM_OS == PLATFORM_OS_WINDOWS
 #include  <io.h>
 #include  <stdio.h>
@@ -30,6 +34,7 @@
 #else
 #include <unistd.h>
 #endif
+//***************************************************************************
 
 namespace NGTech
 {
@@ -230,7 +235,7 @@ namespace NGTech
 				mFile = fopen(path.c_str(), "rt");
 			else if (_mode == READ_BIN)
 				mFile = fopen(path.c_str(), "rb");
-		}//»щем
+		}
 		else{
 			if (!IsDataExist())
 				return;

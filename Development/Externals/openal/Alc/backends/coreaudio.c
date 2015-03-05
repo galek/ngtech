@@ -18,7 +18,9 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
-#include "config.h"
+#include "../../config.h"
+
+#if HAVE_COREAUDIO
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -705,3 +707,4 @@ void alc_ca_probe(enum DevProbe type)
             break;
     }
 }
+#endif

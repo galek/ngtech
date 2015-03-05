@@ -18,7 +18,7 @@
 
 /* NB: this is dead code, retained purely for doc and reference value
 	   don't try to compile it */
-
+#if 0//Nick:Disabled
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -528,3 +528,4 @@ int main(int argc, char *argv[]){
 	fprintf(stderr, "Done\n\n");
 	return 0;
 }
+#endif

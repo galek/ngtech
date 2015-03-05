@@ -18,8 +18,9 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
-#include "config.h"
+#include "../../config.h"
 
+#if HAVE_ALSA
 #include <stdlib.h>
 #include <stdio.h>
 #include <memory.h>
@@ -1385,3 +1386,4 @@ ALCbackendFactory *ALCalsaBackendFactory_getFactory(void)
     static ALCalsaBackendFactory factory = ALCALSABACKENDFACTORY_INITIALIZER;
     return STATIC_CAST(ALCbackendFactory, &factory);
 }
+#endif

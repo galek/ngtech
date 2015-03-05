@@ -1,5 +1,4 @@
-
-#include "config.h"
+#include "../config.h"
 
 #include "atomic.h"
 

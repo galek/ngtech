@@ -1,7 +1,7 @@
 #pragma once
 
 #include "coredll.h"
-#include "..\..\Common\IDataManager.h"
+#include "../../Common/IDataManager.h"
 
 namespace NGTech
 {

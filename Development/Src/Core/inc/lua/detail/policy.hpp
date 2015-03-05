@@ -25,16 +25,15 @@
 #define LUABIND_POLICY_HPP_INCLUDED
 
 #include "../config.hpp"
-#include "../detail/primitives.hpp"
-#include "../detail/decorate_type.hpp"
+#include "primitives.hpp"
+#include "decorate_type.hpp"
 
 #include <typeinfo>
 #include <type_traits>
 #include <string>
 #include <memory>
 
-//#include "detail/conversion_policies/conversion_policies.hpp"
-#include "../detail/meta.hpp"
+#include "meta.hpp"
 
 #if LUA_VERSION_NUM < 502
 # define lua_rawlen lua_objlen

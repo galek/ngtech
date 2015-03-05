@@ -7,7 +7,7 @@
 #ifndef __DATA_MANAGER_H__
 #define __DATA_MANAGER_H__
 
-#include "..\..\Common\IDataManager.h"
+#include "../../Common/IDataManager.h"
 
 namespace NGTech
 {

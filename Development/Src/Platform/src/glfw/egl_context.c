@@ -27,6 +27,7 @@
 
 #include "internal.h"
 
+#if _GLFW_EGL
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -530,3 +531,4 @@ GLFWAPI EGLSurface glfwGetEGLSurface(GLFWwindow* handle)
     _GLFW_REQUIRE_INIT_OR_RETURN(EGL_NO_SURFACE);
     return window->egl.surface;
 }
+#endif

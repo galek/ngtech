@@ -19,8 +19,9 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
-#include "config.h"
+#include "../../config.h"
 
+#if HAVE_PULSEAUDIO
 #include <string.h>
 
 #include "alMain.h"
@@ -1783,3 +1784,4 @@ ALCbackendFactory *ALCpulseBackendFactory_getFactory(void)
     static ALCpulseBackendFactory factory = ALCPULSEBACKENDFACTORY_INITIALIZER;
     return STATIC_CAST(ALCbackendFactory, &factory);
 }
+#endif

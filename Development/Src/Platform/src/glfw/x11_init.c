@@ -27,6 +27,7 @@
 
 #include "internal.h"
 
+#if _GLFW_X11
 #include <X11/Xresource.h>
 
 #include <stdlib.h>
@@ -816,3 +817,4 @@ const char* _glfwPlatformGetVersionString(void)
 
     return version;
 }
+#endif

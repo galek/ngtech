@@ -26,7 +26,7 @@
 //========================================================================
 
 #include "glfw/internal.h"
-
+#if __LINUX__
 
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
@@ -64,3 +64,4 @@ _GLFWwindow* _glfwPlatformGetCurrentContext(void)
     return pthread_getspecific(_glfw.posix_tls.context);
 }
 
+#endif

@@ -27,6 +27,7 @@
 
 #include "glfw/internal.h"
 
+#if __LINUX__
 #include <sys/time.h>
 #include <time.h>
 
@@ -95,3 +96,4 @@ void _glfwPlatformSetTime(double time)
         (uint64_t) (time / _glfw.posix_time.resolution);
 }
 
+#endif

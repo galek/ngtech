@@ -24,6 +24,8 @@
 //
 //========================================================================
 
+#if __LINUX__
+
 #define _GNU_SOURCE
 
 #include "internal.h"
@@ -491,3 +493,4 @@ const char* _glfwPlatformGetClipboardString(_GLFWwindow* window)
     return NULL;
 }
 
+#endif

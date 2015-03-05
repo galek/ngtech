@@ -50,6 +50,7 @@
     <ClCompile Include="src\glfw\win32_window.c" />
     <ClCompile Include="src\glfw\window.c" />
     <ClCompile Include="src\glfw\winmm_joystick.c" />
+    <ClCompile Include="src\snprintf.c" />
     <ClCompile Include="src\StackWalker.cpp" />
   </ItemGroup>
   <ItemGroup>

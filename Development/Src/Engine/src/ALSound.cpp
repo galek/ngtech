@@ -15,13 +15,17 @@
 * A copy of the NGTech License Agreement is available by contacting
 * NG Games Ltd. at http://nggames.com/
 */
+//***************************************************************************
 #include "EnginePrivate.h"
+//***************************************************************************
+#include "string.h"//memset for gcc
+//***************************************************************************
+#include "../../Externals/libvorbis/include/vorbis/vorbisfile.h"
 //***************************************************************************
 #include "ALSystem.h"
 #include "Log.h"
 #include "FileHelper.h" 
 #include "Error.h"
-#include "../../Externals/libvorbis/include/vorbis/vorbisfile.h"
 //***************************************************************************
 
 namespace NGTech {

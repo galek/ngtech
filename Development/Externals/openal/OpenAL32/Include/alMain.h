@@ -34,7 +34,7 @@
 #include "align.h"
 #include "atomic.h"
 #include "uintmap.h"
-#include "vector.h"
+#include "../../Alc/vector.h"
 #include "alstring.h"
 
 #ifndef ALC_SOFT_HRTF

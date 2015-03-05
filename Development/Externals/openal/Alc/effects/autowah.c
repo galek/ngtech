@@ -20,7 +20,7 @@
 
 #include <stdlib.h>
 
-#include "config.h"
+#include "../../config.h"
 #include "alu.h"
 #include "alFilter.h"
 #include "alError.h"

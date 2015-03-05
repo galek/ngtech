@@ -141,7 +141,7 @@ namespace NGTech {
 		Gets frames ticks
 		\return ulTicks
 		*/
-		ENGINE_INLINE virtual unsigned long GetTicks();
+		virtual unsigned long GetTicks();
 
 		/**
 		Gets elapsed time

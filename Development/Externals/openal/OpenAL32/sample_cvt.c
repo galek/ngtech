@@ -1,5 +1,4 @@
-
-#include "config.h"
+#include "../config.h"
 
 #include "sample_cvt.h"
 

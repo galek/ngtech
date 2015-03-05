@@ -5,7 +5,6 @@
 #include "GLSystem.h"
 #include "GLTexture.h"
 #include "CommonDefs.h"
-#include "GLExt.h"
 //***************************************************************************
 #include "../../Platform/inc/glfw/glfw3.h"
 //***************************************************************************
@@ -113,9 +112,6 @@ namespace NGTech {
 		/*
 		*/
 		GLExtensions::initExtensions();
-		/*
-		*/
-		GLExt::init();
 		/*
 		*/
 		ManageVSync(engine, false);

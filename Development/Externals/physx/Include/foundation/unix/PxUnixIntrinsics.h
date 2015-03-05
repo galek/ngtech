@@ -89,13 +89,13 @@ namespace physx
 	//! \brief platform-specific finiteness check (not INF or NAN)
 	PX_FORCE_INLINE bool isFinite(float a)
 	{
-		return isfinite(a);
+		return std::isfinite(a);
 	}
 
 	//! \brief platform-specific finiteness check (not INF or NAN)
 	PX_FORCE_INLINE bool isFinite(double a)
 	{
-		return isfinite(a);
+		return std::isfinite(a);
 	}
 
 	/*!

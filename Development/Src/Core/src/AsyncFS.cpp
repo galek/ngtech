@@ -1,10 +1,11 @@
 #include "CorePrivate.h"
-#include "ASYNCFILE.h"
+#include "ASYNCFile.h"
 #include "strtools.h"
+
+#if PLATFORM_OS == PLATFORM_OS_WINDOWS
 
 namespace NGTech
 {
-
 
 	HANDLE ASYNCFILE::CreateTempFile(std::string &WritePath, std::string &FileName)
 	{
@@ -109,3 +110,4 @@ namespace NGTech
 		return bSuccess && (numBytesWritten == size);
 	}
 }
+#endif

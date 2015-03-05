@@ -1,4 +1,4 @@
-#include "config.h"
+#include "../config.h"
 
 #include "alMain.h"
 #include "alSource.h"

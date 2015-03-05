@@ -2,8 +2,8 @@
 
 //***************************************************
 #include "coredll.h"
-#include "..\..\Common\Types.h"
-#include "..\..\Common\IScripting.h"
+#include "../../Common/Types.h"
+#include "../../Common/IScripting.h"
 //***************************************************
 struct lua_State;
 

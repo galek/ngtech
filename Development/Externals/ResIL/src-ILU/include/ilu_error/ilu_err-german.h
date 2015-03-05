@@ -14,7 +14,7 @@
 #ifndef ILU_ERR_GERMAN_H
 #define ILU_ERR_GERMAN_H
 
-#include "../include/ilu_internal.h"
+#include "../ilu_internal.h"
 
 ILconst_string iluErrorStringsGerman[IL_FILE_READ_ERROR - IL_INVALID_ENUM + 1] = {
 	IL_TEXT("Ungültiger Enumerator"),

@@ -138,6 +138,9 @@
     <ClCompile Include="src\StackWalker.cpp">
       <Filter>Файлы исходного кода\callstack</Filter>
     </ClCompile>
+    <ClCompile Include="src\snprintf.c">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\crashreport\windows\crash_generation\client_info.h">

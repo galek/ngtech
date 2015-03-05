@@ -14,7 +14,7 @@
 #ifndef ILU_ERR_JAPANESE_H
 #define ILU_ERR_JAPANESE_H
 
-#include "../include/ilu_internal.h"
+#include "../ilu_internal.h"
 
 ILconst_string iluErrorStringsJapanese[IL_FILE_READ_ERROR - IL_INVALID_ENUM + 1] = {
 	IL_TEXT("無効な列挙値"), //"invalid enumerant"),

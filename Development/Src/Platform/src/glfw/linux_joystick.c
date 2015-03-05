@@ -27,6 +27,7 @@
 
 #include "glfw/internal.h"
 
+#if __LINUX__
 #ifdef __linux__
 #include <linux/joystick.h>
 
@@ -251,3 +252,4 @@ const char* _glfwPlatformGetJoystickName(int joy)
     return _glfw.linux_js[joy].name;
 }
 
+#endif

@@ -27,6 +27,7 @@
 
 #include "internal.h"
 
+#if _GLFW_GLX
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -555,3 +556,4 @@ GLFWAPI GLXContext glfwGetGLXContext(GLFWwindow* handle)
     _GLFW_REQUIRE_INIT_OR_RETURN(NULL);
     return window->glx.context;
 }
+#endif

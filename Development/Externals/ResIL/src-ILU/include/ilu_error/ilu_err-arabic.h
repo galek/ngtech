@@ -14,7 +14,7 @@
 #ifndef IL_ERR_ARABIC_H
 #define IL_ERR_ARABIC_H
 
-#include "../include/ilu_internal.h"
+#include "../ilu_internal.h"
 
 ILconst_string iluErrorStringsArabic[IL_FILE_READ_ERROR - IL_INVALID_ENUM + 1] = {
 	IL_TEXT("enumerant خاطئ"),

@@ -14,7 +14,7 @@
 #ifndef ILU_ERR_ENGLISH_H
 #define ILU_ERR_ENGLISH_H
 
-#include "../include/ilu_internal.h"
+#include "../ilu_internal.h"
 
 ILconst_string iluErrorStringsEnglish[IL_FILE_READ_ERROR - IL_INVALID_ENUM + 1] = {
 	IL_TEXT("invalid enumerant"),

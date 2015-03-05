@@ -5,8 +5,8 @@
 #include "lua/operator.hpp"
 #include "lua/lua.hpp"
 //***************************************************
-#include "../Common/IAudio.h"
-#include "../Common/IDataManager.h"
+#include "../../Common/IAudio.h"
+#include "../../Common/IDataManager.h"
 //***************************************************
 #include "WrappedScriptFunctions.h"
 #include "SteamWorks_API.h"

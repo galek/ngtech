@@ -496,7 +496,7 @@ namespace NGTech {
 			return false;
 		}
 		full_dump_file_path.resize(full_dump_file_path.size() - 4);  // strip .dmp
-		full_dump_file_path.append(TEXT("-full.dmp"));
+		full_dump_file_path.append(L"-full.dmp");
 
 		full_dump_file_ = CreateFileW(full_dump_file_path.c_str(),
 			GENERIC_WRITE,
@@ -569,7 +569,7 @@ namespace NGTech {
 		create_uuid(&id);
 		wstring id_str = GUIDString::GUIDToWString(&id);
 
-		*file_path = dump_path_ + TEXT("\\") + id_str + TEXT(".dmp");
+		*file_path = dump_path_ + L"\\" + id_str + L".dmp";
 		return true;
 	}
 

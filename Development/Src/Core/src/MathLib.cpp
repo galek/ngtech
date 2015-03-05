@@ -966,7 +966,7 @@ namespace NGTech {
 		return oMat;
 	}
 
-	ENGINE_INLINE Mat4 operator*(const Mat4 &a, const Mat4 &b) {
+	Mat4 operator*(const Mat4 &a, const Mat4 &b) {
 		Mat4 result;
 
 		result.e[0] = (a.e[0] * b.e[0]) + (a.e[4] * b.e[1]) + (a.e[8] * b.e[2]) + (a.e[12] * b.e[3]);
@@ -992,7 +992,7 @@ namespace NGTech {
 		return result;
 	}
 
-	ENGINE_INLINE Vec4 operator*(const Mat4 &m, const Vec4 &v) {
+	Vec4 operator*(const Mat4 &m, const Vec4 &v) {
 		Vec4 result;
 		result.x = m.e[0] * v.x + m.e[4] * v.y + m.e[8] * v.z + m.e[12] * v.w;
 		result.y = m.e[1] * v.x + m.e[5] * v.y + m.e[9] * v.z + m.e[13] * v.w;
@@ -1002,7 +1002,7 @@ namespace NGTech {
 	}
 
 
-	ENGINE_INLINE Vec4 operator*(const Vec4 &v, const Mat4 &m) {
+	Vec4 operator*(const Vec4 &v, const Mat4 &m) {
 		Vec4 result;
 		result.x = m.e[0] * v.x + m.e[4] * v.y + m.e[8] * v.z + m.e[12] * v.w;
 		result.y = m.e[1] * v.x + m.e[5] * v.y + m.e[9] * v.z + m.e[13] * v.w;
@@ -1011,7 +1011,7 @@ namespace NGTech {
 		return result;
 	}
 
-	ENGINE_INLINE Vec3 operator*(const Mat4 &m, const Vec3 &v) {
+    Vec3 operator*(const Mat4 &m, const Vec3 &v) {
 		Vec3 result;
 		result.x = m.e[0] * v.x + m.e[4] * v.y + m.e[8] * v.z + m.e[12];
 		result.y = m.e[1] * v.x + m.e[5] * v.y + m.e[9] * v.z + m.e[13];
@@ -1019,8 +1019,7 @@ namespace NGTech {
 		return result;
 	}
 
-
-	ENGINE_INLINE Vec3 operator*(const Vec3 &v, const Mat4 &m) {
+	Vec3 operator*(const Vec3 &v, const Mat4 &m) {
 		Vec3 result;
 		result.x = m.e[0] * v.x + m.e[4] * v.y + m.e[8] * v.z + m.e[12];
 		result.y = m.e[1] * v.x + m.e[5] * v.y + m.e[9] * v.z + m.e[13];

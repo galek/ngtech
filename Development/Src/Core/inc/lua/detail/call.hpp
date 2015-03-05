@@ -5,13 +5,13 @@
 #ifndef LUABIND_CALL2_080911_HPP
 #define LUABIND_CALL2_080911_HPP
 
-#include "config.hpp"
+#include "../config.hpp"
 #include <typeinfo>
-#include "detail/meta.hpp"
-#include "detail/policy.hpp"
-#include "yield_policy.hpp"
-#include "detail/decorate_type.hpp"
-#include "detail/object.hpp"
+#include "meta.hpp"
+#include "policy.hpp"
+#include "../yield_policy.hpp"
+#include "decorate_type.hpp"
+#include "object.hpp"
 
 #ifdef LUABIND_NO_INTERNAL_TAG_ARGUMENTS
 #include <tuple>

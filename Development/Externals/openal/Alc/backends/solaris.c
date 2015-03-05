@@ -18,8 +18,9 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
-#include "config.h"
+#include "../../config.h"
 
+#if HAVE_SOLARIS
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -286,3 +287,4 @@ void alc_solaris_probe(enum DevProbe type)
             break;
     }
 }
+#endif

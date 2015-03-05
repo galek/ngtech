@@ -19,8 +19,9 @@
  * bundled with NDK.
  */
 
-#include "config.h"
+#include "../../config.h"
 
+#if HAVE_OPENSL
 #include <stdlib.h>
 
 #include "alMain.h"
@@ -422,3 +423,4 @@ void alc_opensl_probe(enum DevProbe type)
             break;
     }
 }
+#endif

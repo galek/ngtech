@@ -272,7 +272,6 @@
     <ClInclude Include="IRender.h" />
     <ClInclude Include="IScripting.h" />
     <ClInclude Include="IWindow.h" />
-    <ClInclude Include="I_FFP.h" />
     <ClInclude Include="I_MeshFormat.h" />
     <ClInclude Include="I_MeshFormatSkinned.h" />
     <ClInclude Include="MathLib.h" />
@@ -287,7 +286,6 @@
     <ClCompile Include="BBox.cpp" />
     <ClCompile Include="BSphere.cpp" />
     <ClCompile Include="DebugLayer.cpp" />
-    <ClCompile Include="I_FFP.cpp" />
     <ClCompile Include="MathLib.cpp" />
     <ClCompile Include="StringHelper.cpp" />
   </ItemGroup>

@@ -27,6 +27,7 @@
 
 #include "internal.h"
 
+#if _GLFW_X11
 #include <sys/select.h>
 
 #include <string.h>
@@ -1853,3 +1854,4 @@ GLFWAPI Window glfwGetX11Window(GLFWwindow* handle)
     _GLFW_REQUIRE_INIT_OR_RETURN(None);
     return window->x11.handle;
 }
+#endif

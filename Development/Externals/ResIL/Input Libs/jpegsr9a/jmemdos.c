@@ -30,7 +30,7 @@
  * You can disable use of extended/expanded memory entirely by altering these
  * definitions or overriding them from the Makefile (eg, -DEMS_SUPPORTED=0).
  */
-
+#if 0//Nick:Disabled
 #ifndef XMS_SUPPORTED
 #define XMS_SUPPORTED  1
 #endif
@@ -636,3 +636,4 @@ jpeg_mem_term (j_common_ptr cinfo)
   _fheapmin();
 #endif
 }
+#endif

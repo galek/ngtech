@@ -24,6 +24,7 @@
 //
 //========================================================================
 
+#if __LINUX__
 #include "glfw/internal.h"
 
 #include <stdio.h>
@@ -248,3 +249,4 @@ void _glfwPlatformSetGammaRamp(_GLFWmonitor* monitor, const GLFWgammaramp* ramp)
     fprintf(stderr, "_glfwPlatformSetGammaRamp not implemented yet\n");
 }
 
+#endif
