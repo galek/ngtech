@@ -57,6 +57,9 @@
 #	define MYGUI_FORCEINLINE __inline
 #endif
 
+#if (defined NGTECH_STATIC_LIBS)
+#define MYGUI_STATIC
+#endif
 
 // Windows settings
 #if MYGUI_PLATFORM == MYGUI_PLATFORM_WIN32

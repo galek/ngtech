@@ -64,15 +64,15 @@ endif(NOT X11_FOUND)
 
 
 
-#if(CMAKE_COMPILER_IS_GNUCXX)
+if(CMAKE_COMPILER_IS_GNUCXX)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11  -fexceptions -w -fpermissive")
-#set(CMAKE_EXE_LINKER_FLAGS "-lpthread")
-
-#endif()
+set(CMAKE_EXE_LINKER_FLAGS "-lpthread")
+endif()
 
 add_definitions(-D__LINUX__)
 ENDIF(UNIX)
 
+add_definitions(-DNGTECH_STATIC_LIBS)
 
 find_package(OpenGL REQUIRED)
 if(NOT OPENGL_FOUND)

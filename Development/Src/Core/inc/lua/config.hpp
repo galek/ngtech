@@ -47,7 +47,7 @@
 #endif
 
 #ifdef LUABIND_DYNAMIC_LINK
-# if defined (WIN32)
+# if defined (WIN32) &&(!defined NGTECH_STATIC_LIBS)
 #  ifdef CORE_EXPORTS
 #   define LUABIND_API __declspec(dllexport)
 #  else
