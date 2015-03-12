@@ -75,7 +75,7 @@ namespace NGTech {
 			KEY_F19, KEY_F20,
 			KEY_F21, KEY_F22,
 			KEY_F23, KEY_F24,
-			KEY_F25, KEY_F26
+			KEY_F25
 		};
 	public:
 		/**
@@ -312,8 +312,6 @@ namespace NGTech {
 		*/
 		const int _get_key_name(const char* _p);
 	public:
-		HGLRC hRC;
-	public:
 		int width, height, bpp, zdepth;
 		bool fullscreen, withoutBorder;
 
@@ -325,8 +323,8 @@ namespace NGTech {
 		bool mouseButtons[3];
 		bool oldMouseButtons[3];
 
-		bool keys[315];
-		bool oldKeys[315];
+		bool keys[GLFW_KEY_LAST];
+		bool oldKeys[GLFW_KEY_LAST];
 
 		int mouseX, mouseY, oldMouseX, oldMouseY;
 		bool mousing, cursorVisible, mouseGrabed;

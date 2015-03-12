@@ -26,7 +26,7 @@ namespace NGTech {
 	{
 		switch (key)
 		{
-			// Printable keys
+		// Printable keys
 		case GLFW_KEY_A:            return "A";
 		case GLFW_KEY_B:            return "B";
 		case GLFW_KEY_C:            return "C";
@@ -65,7 +65,7 @@ namespace NGTech {
 		case GLFW_KEY_0:            return "0";
 		case GLFW_KEY_SPACE:        return "SPACE";
 		case GLFW_KEY_MINUS:        return "MINUS";
-		case GLFW_KEY_EQUAL:        return "EQUAL";
+		case GLFW_KEY_EQUAL:		return "EQUAL";
 		case GLFW_KEY_LEFT_BRACKET: return "LEFT BRACKET";
 		case GLFW_KEY_RIGHT_BRACKET: return "RIGHT BRACKET";
 		case GLFW_KEY_BACKSLASH:    return "BACKSLASH";
@@ -253,13 +253,13 @@ namespace NGTech {
 			return KEY_GRAVE_ACCENT;
 		/*else if ((stricmp(_p, "COMMA")) == 0)
 			return KEY_COMMA;
-		else if ((stricmp(_p, "PERIOD")) == 0)
+			else if ((stricmp(_p, "PERIOD")) == 0)
 			return KEY_PERIOD;
-		else if ((stricmp(_p, "SLASH")) == 0)
+			else if ((stricmp(_p, "SLASH")) == 0)
 			return KEY_SLASH;
-		else if ((stricmp(_p, "WORLD 1")) == 0)
+			else if ((stricmp(_p, "WORLD 1")) == 0)
 			return KEY_WORLD_1;
-		else if ((stricmp(_p, "WORLD 2")) == 0)
+			else if ((stricmp(_p, "WORLD 2")) == 0)
 			return KEY_WORLD_2;*/
 
 
@@ -313,8 +313,6 @@ namespace NGTech {
 			return KEY_F24;
 		else if ((stricmp(_p, "F25")) == 0)
 			return KEY_F25;
-		else if ((stricmp(_p, "F26")) == 0)
-			return KEY_F26;
 
 #if 0
 		case GLFW_KEY_LEFT_SHIFT:   return "LEFT SHIFT";
@@ -364,6 +362,8 @@ namespace NGTech {
 			return KEY_ESC;
 		else if ((stricmp(_p, "EQUAL")) == 0)
 			return KEY_EQUAL;
+		else if ((stricmp(_p, "GRAVE ACCENT")) == 0)
+			return KEY_GRAVE_ACCENT;
 
 		else if ((stricmp(_p, "UP")) == 0)
 			return KEY_UP;

@@ -202,7 +202,7 @@ void EventsCallback::Body(){
 	if (GetWindow()->isKeyDown("ESC"))
 		exit(0);
 
-	if (GetWindow()->isKeyDown("EQUAL"))
+	if (GetWindow()->isKeyDown("GRAVE ACCENT"))
 	{
 		ShowConsole();
 	}

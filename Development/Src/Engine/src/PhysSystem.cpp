@@ -14,8 +14,6 @@
 #include "PxFiltering.h"
 #include "foundation/PxMemory.h"
 
-#include "PsFile.h"
-
 #include "extensions/PxDefaultStreams.h"
 
 #include "pvd/PxVisualDebugger.h"

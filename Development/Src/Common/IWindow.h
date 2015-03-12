@@ -142,8 +142,10 @@ namespace NGTech {
 		*/
 		inline virtual int divider() { return 1; }
 	public:
+#ifndef DROP_EDITOR
 		void* hRC;
 		//For Native windows opengl
+#endif
 	public:
 		int  bpp, zdepth;
 		void* hInstance;

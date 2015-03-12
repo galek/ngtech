@@ -37,7 +37,7 @@ namespace NGTech {
 		for (int i = 0; i < 3; i++)
 			this->mouseButtons[i] = false;
 
-		for (int i = 0; i < 315; i++)
+		for (int i = 0; i < GLFW_KEY_LAST; i++)
 			this->keys[i] = false;
 	}
 
@@ -96,8 +96,10 @@ namespace NGTech {
 		glfwSetWindowCloseCallback(window, window_close_callback);
 		glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+#ifndef DROP_EDITOR
 		if (!(hRC = glfwGetWGLContext(window)))
 			Error("WindowSystem::Initialize() error: can't Create a GL rendering context", true);
+#endif
 
 		_updateFPSCounter();
 	}
