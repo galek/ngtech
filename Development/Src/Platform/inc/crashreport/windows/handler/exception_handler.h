@@ -52,7 +52,7 @@
 //   ExceptionHandler *f = new ExceptionHandler(...);
 //   delete e;
 // This will put the exception filter stack into an inconsistent state.
-
+#ifndef __LINUX__
 #ifndef CLIENT_WINDOWS_HANDLER_EXCEPTION_HANDLER_H__
 #define CLIENT_WINDOWS_HANDLER_EXCEPTION_HANDLER_H__
 
@@ -507,3 +507,4 @@ namespace NGTech {
 #pragma warning(pop)
 
 #endif  // CLIENT_WINDOWS_HANDLER_EXCEPTION_HANDLER_H__
+#endif

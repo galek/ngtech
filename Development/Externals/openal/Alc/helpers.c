@@ -26,7 +26,7 @@
 #endif
 #endif
 
-#include "../config.h"
+#include "openal_config.h"
 
 #include <stdlib.h>
 #include <time.h>
@@ -90,7 +90,7 @@ DEFINE_DEVPROPKEY(DEVPKEY_Device_FriendlyName, 0xa45c254e, 0xdf1c, 0x4efd, 0x80,
 #include "alu.h"
 #include "atomic.h"
 #include "uintmap.h"
-#include "vector.h"
+#include "openal_vector.h"
 #include "alstring.h"
 #include "compat.h"
 #include "threads.h"

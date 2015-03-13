@@ -14,7 +14,6 @@
 #include "../include/il_register.h"
 #include "../include/il_pal.h"
 #include <string.h>
-#include <tchar.h>
 
 // Returns a widened version of a string.
 // Make sure to free this after it is used.  Code help from
@@ -94,7 +93,7 @@ ILenum ILAPIENTRY ilTypeFromExt(ILconst_string FileName)
 	else if (!iStrCmp(Ext, IL_TEXT("iff")))
 		Type = IL_IFF;
 	else if (!iStrCmp(Ext, IL_TEXT("ilbm")) || !iStrCmp(Ext, IL_TEXT("lbm")) ||
-        !iStrCmp(Ext, IL_TEXT("ham")))
+		!iStrCmp(Ext, IL_TEXT("ham")))
 		Type = IL_ILBM;
 	else if (!iStrCmp(Ext, IL_TEXT("ico")) || !iStrCmp(Ext, IL_TEXT("cur")))
 		Type = IL_ICO;
@@ -137,9 +136,9 @@ ILenum ILAPIENTRY ilTypeFromExt(ILconst_string FileName)
 		!iStrCmp(Ext, IL_TEXT("rgb")) || !iStrCmp(Ext, IL_TEXT("rgba")))
 		Type = IL_SGI;
 	else if (!iStrCmp(Ext, IL_TEXT("sun")) || !iStrCmp(Ext, IL_TEXT("ras")) ||
-			 !iStrCmp(Ext, IL_TEXT("rs")) || !iStrCmp(Ext, IL_TEXT("im1")) ||
-			 !iStrCmp(Ext, IL_TEXT("im8")) || !iStrCmp(Ext, IL_TEXT("im24")) ||
-			 !iStrCmp(Ext, IL_TEXT("im32")))
+		!iStrCmp(Ext, IL_TEXT("rs")) || !iStrCmp(Ext, IL_TEXT("im1")) ||
+		!iStrCmp(Ext, IL_TEXT("im8")) || !iStrCmp(Ext, IL_TEXT("im24")) ||
+		!iStrCmp(Ext, IL_TEXT("im32")))
 		Type = IL_SUN;
 	else if (!iStrCmp(Ext, IL_TEXT("texture")))
 		Type = IL_TEXTURE;
@@ -196,230 +195,232 @@ ILenum ILAPIENTRY ilDetermineTypeFuncs()
 	const int bufSize = 512;
 	ILubyte buf[bufSize];
 	ILint64 read = iCurImage->io.read(iCurImage->io.handle, buf, 1, bufSize);
-	iCurImage->io.seek(iCurImage->io.handle, -read, SEEK_CUR);
+	iCurImage->io.devil_seek(iCurImage->io.handle, -read, SEEK_CUR);
 	if (read < 16)
 		return IL_TYPE_UNKNOWN;
 
-	switch(buf[0]) {
-		case 0x01:
-			if (buf[1] == 0xda)
-				#ifndef IL_NO_SGI
-				if (iIsValidSgi())
-				#endif
-					return IL_SGI;
-			break;
-		#ifndef IL_NO_PCX
-		case 0x0a:
-			if (iIsValidPcx(&iCurImage->io))
-				return IL_PCX;
-			break;
-		#endif
-		case '#':
-			if (buf[1] == '?' && buf[2] == 'R')
-				return IL_HDR;
-			break;
-		case '8':
-			if (buf[1] == 'B' && buf[2] == 'P' && buf[3] == 'S')
-				#ifndef IL_NO_PSD
-				if (iIsValidPsd())
-					return IL_PSD;
-				#else
+	switch (buf[0]) {
+	case 0x01:
+		if (buf[1] == 0xda)
+#ifndef IL_NO_SGI
+			if (iIsValidSgi())
+#endif
+				return IL_SGI;
+		break;
+#ifndef IL_NO_PCX
+	case 0x0a:
+		if (iIsValidPcx(&iCurImage->io))
+			return IL_PCX;
+		break;
+#endif
+	case '#':
+		if (buf[1] == '?' && buf[2] == 'R')
+			return IL_HDR;
+		break;
+	case '8':
+		if (buf[1] == 'B' && buf[2] == 'P' && buf[3] == 'S')
+#ifndef IL_NO_PSD
+			if (iIsValidPsd())
 				return IL_PSD;
-				#endif
-			break;
-		case 'A':
-			if (buf[1] == 'H')
-				return IL_HALO_PAL;
-			break;
-		case 'B':
-			if (buf[1] == 'M')
-				#ifndef IL_NO_BMP
-				if (iIsValidBmp(&iCurImage->io))
-					return IL_BMP;
-				#else
+#else
+			return IL_PSD;
+#endif
+		break;
+	case 'A':
+		if (buf[1] == 'H')
+			return IL_HALO_PAL;
+		break;
+	case 'B':
+		if (buf[1] == 'M')
+#ifndef IL_NO_BMP
+			if (iIsValidBmp(&iCurImage->io))
 				return IL_BMP;
-				#endif
-			break;
-		case 'G':
-			if (!strnicmp((const char*) buf, "GIF87A", 6))
-				return IL_GIF;
-			if (!strnicmp((const char*) buf, "GIF89A", 6))
-				return IL_GIF;		
-			break;
-		case 'I':
-			if (buf[1] == 'I')
-				if (buf[2] == 42) {
-					#ifndef IL_NO_TIF
-					if (ilIsValidTiffFunc(&iCurImage->io))
-						return IL_TIF;
-					#else
-					return IL_TIF;
-					#endif
-				} else if (buf[2] == 0xBC){
-					return IL_WDP;
-				}
-		case 'M':
-			if (buf[1] == 'M')
-				#ifndef IL_NO_TIF
+#else
+			return IL_BMP;
+#endif
+		break;
+	case 'G':
+		if (!strnicmp((const char*)buf, "GIF87A", 6))
+			return IL_GIF;
+		if (!strnicmp((const char*)buf, "GIF89A", 6))
+			return IL_GIF;
+		break;
+	case 'I':
+		if (buf[1] == 'I')
+			if (buf[2] == 42) {
+#ifndef IL_NO_TIF
 				if (ilIsValidTiffFunc(&iCurImage->io))
 					return IL_TIF;
-				#else
+#else
 				return IL_TIF;
-				#endif
-		case 'P':
-			if (strnicmp((const char*) buf, "Paint Shop Pro Image File", 25) == 0) {
-				#ifndef IL_NO_PSP
-				if (iIsValidPsp())
-				#endif
-					return IL_PSP;
-			} else if (buf[1] >= '1' && buf[1] <= '6') {
-					return IL_PNM; // il_pnm's test doesn't add anything here
+#endif
 			}
-			break;
-		case 'S':
-			if (!strnicmp((const char*) buf, "SDPX", 4))
-				return IL_DPX;
-			if (!strnicmp((const char*) buf, "SIMPLE", 6))
-				return IL_FITS;
-			break;
-		case 'V':
-			if (buf[1] == 'T' && buf[2] == 'F')
-				#ifndef IL_NO_VTF
-				if (iIsValidVtf(&iCurImage->io))
-					return IL_VTF;
-				#else
+			else if (buf[2] == 0xBC){
+				return IL_WDP;
+			}
+	case 'M':
+		if (buf[1] == 'M')
+#ifndef IL_NO_TIF
+			if (ilIsValidTiffFunc(&iCurImage->io))
+				return IL_TIF;
+#else
+			return IL_TIF;
+#endif
+	case 'P':
+		if (strnicmp((const char*)buf, "Paint Shop Pro Image File", 25) == 0) {
+#ifndef IL_NO_PSP
+			if (iIsValidPsp())
+#endif
+				return IL_PSP;
+		}
+		else if (buf[1] >= '1' && buf[1] <= '6') {
+			return IL_PNM; // il_pnm's test doesn't add anything here
+		}
+		break;
+	case 'S':
+		if (!strnicmp((const char*)buf, "SDPX", 4))
+			return IL_DPX;
+		if (!strnicmp((const char*)buf, "SIMPLE", 6))
+			return IL_FITS;
+		break;
+	case 'V':
+		if (buf[1] == 'T' && buf[2] == 'F')
+#ifndef IL_NO_VTF
+			if (iIsValidVtf(&iCurImage->io))
 				return IL_VTF;
-				#endif
-			break;
-		case 'X':
-			if (!strnicmp((const char*) buf, "XDPX", 4))
-				return IL_DPX;
-			break;
-		case 0x59:
-			if (buf[1] == 0xA6 && buf[2] == 0x6A && buf[3] == 0x95)
-				#ifndef IL_NO_SUN
-				if (iIsValidSun(&iCurImage->io))
-					return IL_SUN;
-				#endif
-			break;
-		case 'v':
-			if (buf[1] == '/' && buf[2] == '1' && buf[3] == 1)
-				#ifndef IL_NO_EXR
-				if (iIsValidExr())
-				#endif
-					return IL_EXR;
-			break;
-		case 0x89:
-			if (buf[1] == 'P' && buf[2] == 'N' && buf[3] == 'G')
-				#ifndef IL_NO_PNG
-				if (iIsValidPng(&iCurImage->io))
-					return IL_PNG;
-				#else
+#else
+			return IL_VTF;
+#endif
+		break;
+	case 'X':
+		if (!strnicmp((const char*)buf, "XDPX", 4))
+			return IL_DPX;
+		break;
+	case 0x59:
+		if (buf[1] == 0xA6 && buf[2] == 0x6A && buf[3] == 0x95)
+#ifndef IL_NO_SUN
+			if (iIsValidSun(&iCurImage->io))
+				return IL_SUN;
+#endif
+		break;
+	case 'v':
+		if (buf[1] == '/' && buf[2] == '1' && buf[3] == 1)
+#ifndef IL_NO_EXR
+			if (iIsValidExr())
+#endif
+				return IL_EXR;
+		break;
+	case 0x89:
+		if (buf[1] == 'P' && buf[2] == 'N' && buf[3] == 'G')
+#ifndef IL_NO_PNG
+			if (iIsValidPng(&iCurImage->io))
 				return IL_PNG;
-				#endif
-			break;
-		case 0x8a:
-			if (buf[1] == 0x4D
-			&&  buf[2] == 0x4E
-			&&  buf[3] == 0x47
-			&&  buf[4] == 0x0D
-			&&  buf[5] == 0x0A
-			&&  buf[6] == 0x1A
-			&&  buf[7] == 0x0A)
-			{
-				return IL_MNG;
-			}
-			break;
-		case 0xff:
-			if (buf[1] == 0xd8)
-				return IL_JPG;
-			break;
+#else
+			return IL_PNG;
+#endif
+		break;
+	case 0x8a:
+		if (buf[1] == 0x4D
+			&& buf[2] == 0x4E
+			&& buf[3] == 0x47
+			&& buf[4] == 0x0D
+			&& buf[5] == 0x0A
+			&& buf[6] == 0x1A
+			&& buf[7] == 0x0A)
+		{
+			return IL_MNG;
+		}
+		break;
+	case 0xff:
+		if (buf[1] == 0xd8)
+			return IL_JPG;
+		break;
 	}
 
 	if (read >= 131) {
-		if (buf[128] == 'D' 
-		&&  buf[129] == 'I' 
-		&&  buf[130] == 'C' 
-		&&  buf[131] == 'M')
+		if (buf[128] == 'D'
+			&&  buf[129] == 'I'
+			&&  buf[130] == 'C'
+			&&  buf[131] == 'M')
 		{
 			return IL_DICOM;
 		}
 	}
 
-	#ifndef IL_NO_DDS
+#ifndef IL_NO_DDS
 	if (iIsValidDds(&iCurImage->io))
 		return IL_DDS;
-	#endif
+#endif
 
-	#ifndef IL_NO_ICNS
+#ifndef IL_NO_ICNS
 	if (iIsValidIcns(&iCurImage->io))
 		return IL_ICNS;
-	#endif
+#endif
 
-	#ifndef IL_NO_ILBM
+#ifndef IL_NO_ILBM
 	if (iIsValidIlbm())
 		return IL_ILBM;
-	#endif
+#endif
 
-	#ifndef IL_NO_IWI
+#ifndef IL_NO_IWI
 	if (ilIsValidIwiF(File))
 		return IL_IWI;
-	#endif
+#endif
 
-	#ifndef IL_NO_JP2
+#ifndef IL_NO_JP2
 	if (iIsValidJp2(&iCurImage->io))
 		return IL_JP2;
-	#endif
+#endif
 
-	#ifndef IL_NO_LIF
+#ifndef IL_NO_LIF
 	if (ilIsValidLifF(File))
 		return IL_LIF;
-	#endif
+#endif
 
-	#ifndef IL_NO_MDL
+#ifndef IL_NO_MDL
 	if (ilIsValidMdlF(File))
 		return IL_MDL;
-	#endif
+#endif
 
-	#ifndef IL_NO_MDL
+#ifndef IL_NO_MDL
 	if (ilIsValidMp3F(File))
 		return IL_MP3;
-	#endif
+#endif
 
-	#ifndef IL_NO_PIC
+#ifndef IL_NO_PIC
 	if (iIsValidPic(&iCurImage->io))
 		return IL_PIC;
-	#endif
+#endif
 
-	#ifndef IL_NO_PIX
+#ifndef IL_NO_PIX
 	if (iIsValidPix(&iCurImage->io))
 		return IL_PIX;
-	#endif
+#endif
 
-	#ifndef IL_NO_TPL
+#ifndef IL_NO_TPL
 	if (ilIsValidTplF(File))
 		return IL_TPL;
-	#endif
+#endif
 
-	#ifndef IL_NO_XPM
+#ifndef IL_NO_XPM
 	if (iIsValidXpm(&iCurImage->io))
 		return IL_XPM;
-	#endif
+#endif
 
 	// Some file types have a weak signature, so we test for these formats 
 	// after checking for most other formats
-	#ifndef IL_NO_ICO
+#ifndef IL_NO_ICO
 	if (iIsValidIcon())
 		return IL_ICO;
-	#endif
+#endif
 
 	//moved tga to end of list because it has no magic number
 	//in header to assure that this is really a tga... (20040218)
-	#ifndef IL_NO_TGA
+#ifndef IL_NO_TGA
 	if (iIsValidTarga(&iCurImage->io))
 		return IL_TGA;
-	#endif
-	
+#endif
+
 	return IL_TYPE_UNKNOWN;
 }
 
@@ -444,140 +445,140 @@ ILboolean ILAPIENTRY iIsValid(ILenum Type, SIO* io)
 
 	switch (Type)
 	{
-		#ifndef IL_NO_TGA
-		case IL_TGA:
-			return iIsValidTarga(io);
-		#endif
+#ifndef IL_NO_TGA
+	case IL_TGA:
+		return iIsValidTarga(io);
+#endif
 
-		#ifndef IL_NO_JPG
-		case IL_JPG:
-			return iIsValidJpeg(io);
-		#endif
+#ifndef IL_NO_JPG
+	case IL_JPG:
+		return iIsValidJpeg(io);
+#endif
 
-		#ifndef IL_NO_DDS
-		case IL_DDS:
-			return iIsValidDds(io);
-		#endif
+#ifndef IL_NO_DDS
+	case IL_DDS:
+		return iIsValidDds(io);
+#endif
 
-		#ifndef IL_NO_PNG
-		case IL_PNG:
-			return iIsValidPng(io);
-		#endif
+#ifndef IL_NO_PNG
+	case IL_PNG:
+		return iIsValidPng(io);
+#endif
 
-		#ifndef IL_NO_BMP
-		case IL_BMP:
-			return iIsValidBmp(io);
-		#endif
+#ifndef IL_NO_BMP
+	case IL_BMP:
+		return iIsValidBmp(io);
+#endif
 
-		#ifndef IL_NO_DICOM
-		case IL_DICOM:
-			return iIsValidDicom(io);
-		#endif
+#ifndef IL_NO_DICOM
+	case IL_DICOM:
+		return iIsValidDicom(io);
+#endif
 
-		#ifndef IL_NO_EXR
-		case IL_EXR:
-			return ilIsValidExr(io);
-		#endif
+#ifndef IL_NO_EXR
+	case IL_EXR:
+		return ilIsValidExr(io);
+#endif
 
-		#ifndef IL_NO_GIF
-		case IL_GIF:
-			return iIsValidGif(io);
-		#endif
+#ifndef IL_NO_GIF
+	case IL_GIF:
+		return iIsValidGif(io);
+#endif
 
-		#ifndef IL_NO_HDR
-		case IL_HDR:
-			return iIsValidHdr(io);
-		#endif
+#ifndef IL_NO_HDR
+	case IL_HDR:
+		return iIsValidHdr(io);
+#endif
 
-		#ifndef IL_NO_ICNS
-		case IL_ICNS:
-			return iIsValidIcns(io);
-		#endif
+#ifndef IL_NO_ICNS
+	case IL_ICNS:
+		return iIsValidIcns(io);
+#endif
 
-		#ifndef IL_NO_IWI
-		case IL_IWI:
-			return ilIsValidIwi(io);
-		#endif
+#ifndef IL_NO_IWI
+	case IL_IWI:
+		return ilIsValidIwi(io);
+#endif
 
-    	#ifndef IL_NO_ILBM
-        case IL_ILBM:
-            return iIsValidIlbm();
-	    #endif
+#ifndef IL_NO_ILBM
+	case IL_ILBM:
+		return iIsValidIlbm();
+#endif
 
-		#ifndef IL_NO_JP2
-		case IL_JP2:
-			return iIsValidJp2(io);
-		#endif
+#ifndef IL_NO_JP2
+	case IL_JP2:
+		return iIsValidJp2(io);
+#endif
 
-		#ifndef IL_NO_LIF
-		case IL_LIF:
-			return ilIsValidLif(io);
-		#endif
+#ifndef IL_NO_LIF
+	case IL_LIF:
+		return ilIsValidLif(io);
+#endif
 
-		#ifndef IL_NO_MDL
-		case IL_MDL:
-			return ilIsValidMdl(io);
-		#endif
+#ifndef IL_NO_MDL
+	case IL_MDL:
+		return ilIsValidMdl(io);
+#endif
 
-		#ifndef IL_NO_MP3
-		case IL_MP3:
-			return iIsValidMp3(io);
-		#endif
+#ifndef IL_NO_MP3
+	case IL_MP3:
+		return iIsValidMp3(io);
+#endif
 
-		#ifndef IL_NO_PCX
-		case IL_PCX:
-			return iIsValidPcx(io);
-		#endif
+#ifndef IL_NO_PCX
+	case IL_PCX:
+		return iIsValidPcx(io);
+#endif
 
-		#ifndef IL_NO_PIC
-		case IL_PIC:
-			return iIsValidPic(io);
-		#endif
+#ifndef IL_NO_PIC
+	case IL_PIC:
+		return iIsValidPic(io);
+#endif
 
-		#ifndef IL_NO_PNM
-		case IL_PNM:
-			return iIsValidPnm();
-		#endif
+#ifndef IL_NO_PNM
+	case IL_PNM:
+		return iIsValidPnm();
+#endif
 
-		#ifndef IL_NO_PSD
-		case IL_PSD:
-			return iIsValidPsd();
-		#endif
+#ifndef IL_NO_PSD
+	case IL_PSD:
+		return iIsValidPsd();
+#endif
 
-		#ifndef IL_NO_PSP
-		case IL_PSP:
-			return iIsValidPsp();
-		#endif
+#ifndef IL_NO_PSP
+	case IL_PSP:
+		return iIsValidPsp();
+#endif
 
-		#ifndef IL_NO_SGI
-		case IL_SGI:
-			return iIsValidSgi();
-		#endif
+#ifndef IL_NO_SGI
+	case IL_SGI:
+		return iIsValidSgi();
+#endif
 
-		#ifndef IL_NO_SUN
-		case IL_SUN:
-			return iIsValidSun(io);
-		#endif
+#ifndef IL_NO_SUN
+	case IL_SUN:
+		return iIsValidSun(io);
+#endif
 
-		#ifndef IL_NO_TIF
-		case IL_TIF:
-			return ilIsValidTiffFunc(io);
-		#endif
+#ifndef IL_NO_TIF
+	case IL_TIF:
+		return ilIsValidTiffFunc(io);
+#endif
 
-		#ifndef IL_NO_TPL
-		case IL_TPL:
-			return ilIsValidTpl(io);
-		#endif
+#ifndef IL_NO_TPL
+	case IL_TPL:
+		return ilIsValidTpl(io);
+#endif
 
-		#ifndef IL_NO_VTF
-		case IL_VTF:
-			return iIsValidVtf(io);
-		#endif
+#ifndef IL_NO_VTF
+	case IL_VTF:
+		return iIsValidVtf(io);
+#endif
 
-		#ifndef IL_NO_XPM
-		case IL_XPM:
-			return iIsValidXpm(io);
-		#endif
+#ifndef IL_NO_XPM
+	case IL_XPM:
+		return iIsValidXpm(io);
+#endif
 	}
 
 	ilSetError(IL_INVALID_ENUM);
@@ -626,9 +627,10 @@ ILboolean ILAPIENTRY ilIsValidL(ILenum Type, void *Lump, ILuint Size)
 	IL_UTX, IL_VTF, IL_WAL, IL_WBMP, IL_XPM, IL_RAW, IL_JASC_PAL and IL_TYPE_UNKNOWN.
 	If IL_TYPE_UNKNOWN is specified, ilLoad will try to determine the type of the file and load it.
 	\param FileName Ansi or Unicode string, depending on the compiled version of DevIL, that gives
-	       the filename of the file to load.
+	the filename of the file to load.
 	\return Boolean value of failure or success.  Returns IL_FALSE if all three loading methods
-	       have been tried and failed.*/
+	have been tried and failed.*/
+#ifdef _UNICODE
 ILboolean ILAPIENTRY ilLoad(ILenum Type, ILconst_string FileName)
 {
 	if (FileName == NULL || ilStrLen(FileName) < 1) {
@@ -644,15 +646,15 @@ ILboolean ILAPIENTRY ilLoad(ILenum Type, ILconst_string FileName)
 
 		if (Type == IL_CUT) {
 			// Attempt to load the palette
-			auto fnLen = _tcslen(FileName);
+			auto fnLen = wcslen(FileName);
 			if (fnLen > 4) {
 				if (FileName[fnLen-4] == '.'
-				&&  FileName[fnLen-3] == 'c'
-				&&  FileName[fnLen-2] == 'u'
-				&&  FileName[fnLen-1] == 't') {
-					TCHAR* palFN = (TCHAR*) ialloc(2*fnLen+2);
-					_tcscpy(palFN, FileName);
-					_tcscpy(&palFN[fnLen - 3], _T("pal"));
+					&&  FileName[fnLen-3] == 'c'
+					&&  FileName[fnLen-2] == 'u'
+					&&  FileName[fnLen-1] == 't') {
+					wchar_t* palFN = (wchar_t*) ialloc(2*fnLen+2);
+					wcscpy(palFN, FileName);
+					wcscpy(&palFN[fnLen - 3], L"pal");
 					iCurImage->io.handle = iCurImage->io.openReadOnly(palFN);
 					if (iCurImage->io.handle != NULL) {
 						ilLoadHaloPal(palFN);
@@ -667,7 +669,47 @@ ILboolean ILAPIENTRY ilLoad(ILenum Type, ILconst_string FileName)
 	} else
 		return IL_FALSE;
 }
+#else
+ILboolean ILAPIENTRY ilLoad(ILenum Type, ILconst_string FileName)
+{
+	if (FileName == NULL || ilStrLen(FileName) < 1) {
+		ilSetError(IL_INVALID_PARAM);
+		return IL_FALSE;
+	}
 
+	ilResetRead();
+	iCurImage->io.handle = iCurImage->io.openReadOnly(FileName);
+	if (iCurImage->io.handle != NULL) {
+		ILboolean bRet = ilLoadFuncs(Type);
+		iCurImage->io.close(iCurImage->io.handle);
+
+		if (Type == IL_CUT) {
+			// Attempt to load the palette
+			auto fnLen = strlen(FileName);
+			if (fnLen > 4) {
+				if (FileName[fnLen - 4] == '.'
+					&&  FileName[fnLen - 3] == 'c'
+					&&  FileName[fnLen - 2] == 'u'
+					&&  FileName[fnLen - 1] == 't') {
+					char* palFN = (char*)ialloc(2 * fnLen + 2);
+					strcpy(palFN, FileName);
+					strcpy(&palFN[fnLen - 3], "pal");
+					iCurImage->io.handle = iCurImage->io.openReadOnly(palFN);
+					if (iCurImage->io.handle != NULL) {
+						ilLoadHaloPal(palFN);
+						iCurImage->io.close(iCurImage->io.handle);
+					}
+					ifree(palFN);
+				}
+			}
+		}
+
+		return bRet;
+	}
+	else
+		return IL_FALSE;
+}
+#endif
 
 //! Attempts to load an image from a file stream.  The file format is specified by the user.
 /*! \param Type Format of this file.  Acceptable values are IL_BLP, IL_BMP, IL_CUT, IL_DCX, IL_DDS,
@@ -687,7 +729,7 @@ ILboolean ILAPIENTRY ilLoadF(ILenum Type, ILHANDLE File)
 
 	ilResetRead();
 	iCurImage->io.handle = File;
-	iCurImage->io.seek(iCurImage->io.handle, 0, IL_SEEK_SET);
+	iCurImage->io.devil_seek(iCurImage->io.handle, 0, IL_SEEK_SET);
 	if (Type == IL_TYPE_UNKNOWN)
 		Type = ilDetermineTypeFuncs();
 
@@ -700,242 +742,242 @@ ILboolean ILAPIENTRY ilLoadFuncs2(ILimage* image, ILenum type)
 {
 	switch (type)
 	{
-		case IL_TYPE_UNKNOWN:
-			return IL_FALSE;
+	case IL_TYPE_UNKNOWN:
+		return IL_FALSE;
 
-		#ifndef IL_NO_BMP
-		case IL_BMP:
-			return iLoadBitmapInternal(image);
-		#endif
+#ifndef IL_NO_BMP
+	case IL_BMP:
+		return iLoadBitmapInternal(image);
+#endif
 
-		#ifndef IL_NO_CUT
-		case IL_CUT:
-			return iLoadCutInternal(image);
-		#endif
+#ifndef IL_NO_CUT
+	case IL_CUT:
+		return iLoadCutInternal(image);
+#endif
 
-		#ifndef IL_NO_ICO
-		case IL_ICO:
-			return iLoadIconInternal(image);
-		#endif
+#ifndef IL_NO_ICO
+	case IL_ICO:
+		return iLoadIconInternal(image);
+#endif
 
-		#ifndef IL_NO_JPG
-			#ifndef IL_USE_IJL
-			case IL_JPG:
-				return iLoadJpegInternal(image);
-			#endif
-		#endif
+#ifndef IL_NO_JPG
+#ifndef IL_USE_IJL
+	case IL_JPG:
+		return iLoadJpegInternal(image);
+#endif
+#endif
 
-		#ifndef IL_NO_ILBM
-		case IL_ILBM:
-			return iLoadIlbmInternal();
-		#endif
+#ifndef IL_NO_ILBM
+	case IL_ILBM:
+		return iLoadIlbmInternal();
+#endif
 
-		#ifndef IL_NO_PCD
-		case IL_PCD:
-			return iLoadPcdInternal(image);
-		#endif
+#ifndef IL_NO_PCD
+	case IL_PCD:
+		return iLoadPcdInternal(image);
+#endif
 
-		#ifndef IL_NO_PCX
-		case IL_PCX:
-			return iLoadPcxInternal(image);
-		#endif
+#ifndef IL_NO_PCX
+	case IL_PCX:
+		return iLoadPcxInternal(image);
+#endif
 
-		#ifndef IL_NO_PIC
-		case IL_PIC:
-			return iLoadPicInternal(image);
-		#endif
+#ifndef IL_NO_PIC
+	case IL_PIC:
+		return iLoadPicInternal(image);
+#endif
 
-		#ifndef IL_NO_PNG
-		case IL_PNG:
-			return iLoadPngInternal(image);
-		#endif
+#ifndef IL_NO_PNG
+	case IL_PNG:
+		return iLoadPngInternal(image);
+#endif
 
-		#ifndef IL_NO_PNM
-		case IL_PNM:
-			return iLoadPnmInternal();
-		#endif
+#ifndef IL_NO_PNM
+	case IL_PNM:
+		return iLoadPnmInternal();
+#endif
 
-		#ifndef IL_NO_SGI
-		case IL_SGI:
-			return iLoadSgiInternal();
-		#endif
+#ifndef IL_NO_SGI
+	case IL_SGI:
+		return iLoadSgiInternal();
+#endif
 
-		#ifndef IL_NO_TGA
-		case IL_TGA:
-			return iLoadTargaInternal(image);
-		#endif
+#ifndef IL_NO_TGA
+	case IL_TGA:
+		return iLoadTargaInternal(image);
+#endif
 
-		#ifndef IL_NO_TIF
-		case IL_TIF:
-			return iLoadTiffInternal(image);
-		#endif
+#ifndef IL_NO_TIF
+	case IL_TIF:
+		return iLoadTiffInternal(image);
+#endif
 
-		#ifndef IL_NO_RAW
-		case IL_RAW:
-			return iLoadRawInternal();
-		#endif
+#ifndef IL_NO_RAW
+	case IL_RAW:
+		return iLoadRawInternal();
+#endif
 
 		// Currently broken - need wrappers for streams?
 		/*#ifndef IL_NO_JP2
 		case IL_JP2:
-			return iLoadJp2Internal(image);
+		return iLoadJp2Internal(image);
 		#endif*/
 
-		#ifndef IL_NO_MNG
-		case IL_MNG:
-			return iLoadMngInternal();
-		#endif
+#ifndef IL_NO_MNG
+	case IL_MNG:
+		return iLoadMngInternal();
+#endif
 
-		#ifndef IL_NO_GIF
-		case IL_GIF:
-			return iLoadGifInternal(image);
-		#endif
+#ifndef IL_NO_GIF
+	case IL_GIF:
+		return iLoadGifInternal(image);
+#endif
 
-		#ifndef IL_NO_DDS
-		case IL_DDS:
-			return iLoadDdsInternal(image);
-		#endif
+#ifndef IL_NO_DDS
+	case IL_DDS:
+		return iLoadDdsInternal(image);
+#endif
 
-		#ifndef IL_NO_PSD
-		case IL_PSD:
-			return iLoadPsdInternal(image);
-		#endif
+#ifndef IL_NO_PSD
+	case IL_PSD:
+		return iLoadPsdInternal(image);
+#endif
 
-		#ifndef IL_NO_BLP
-		case IL_BLP:
-			return iLoadBlpInternal(image);
-		#endif
+#ifndef IL_NO_BLP
+	case IL_BLP:
+		return iLoadBlpInternal(image);
+#endif
 
-		#ifndef IL_NO_PSP
-		case IL_PSP:
-			return iLoadPspInternal();
-		#endif
+#ifndef IL_NO_PSP
+	case IL_PSP:
+		return iLoadPspInternal();
+#endif
 
-		#ifndef IL_NO_PIX
-		case IL_PIX:
-			return iLoadPixInternal(image);
-		#endif
+#ifndef IL_NO_PIX
+	case IL_PIX:
+		return iLoadPixInternal(image);
+#endif
 
-		#ifndef IL_NO_PXR
-		case IL_PXR:
-			return iLoadPxrInternal();
-		#endif
+#ifndef IL_NO_PXR
+	case IL_PXR:
+		return iLoadPxrInternal();
+#endif
 
-		#ifndef IL_NO_XPM
-		case IL_XPM:
-			return iLoadXpmInternal();
-		#endif
+#ifndef IL_NO_XPM
+	case IL_XPM:
+		return iLoadXpmInternal();
+#endif
 
-		#ifndef IL_NO_HDR
-		case IL_HDR:
-			return iLoadHdrInternal(image);
-		#endif
+#ifndef IL_NO_HDR
+	case IL_HDR:
+		return iLoadHdrInternal(image);
+#endif
 
-		#ifndef IL_NO_ICNS
-		case IL_ICNS:
-			return iLoadIcnsInternal(image);
-		#endif
+#ifndef IL_NO_ICNS
+	case IL_ICNS:
+		return iLoadIcnsInternal(image);
+#endif
 
-		#ifndef IL_NO_VTF
-		case IL_VTF:
-			return iLoadVtfInternal(iCurImage);
-		#endif
+#ifndef IL_NO_VTF
+	case IL_VTF:
+		return iLoadVtfInternal(iCurImage);
+#endif
 
-		#ifndef IL_NO_WBMP
-		case IL_WBMP:
-			return iLoadWbmpInternal(&iCurImage->io);
-		#endif
+#ifndef IL_NO_WBMP
+	case IL_WBMP:
+		return iLoadWbmpInternal(&iCurImage->io);
+#endif
 
-		#ifndef IL_NO_SUN
-		case IL_SUN:
-			return iLoadSunInternal(iCurImage);
-		#endif
+#ifndef IL_NO_SUN
+	case IL_SUN:
+		return iLoadSunInternal(iCurImage);
+#endif
 
-		#ifndef IL_NO_IFF
-		case IL_IFF:
-			return iLoadIffInternal();
-		#endif
+#ifndef IL_NO_IFF
+	case IL_IFF:
+		return iLoadIffInternal();
+#endif
 
-		#ifndef IL_NO_FITS
-		case IL_FITS:
-			return iLoadFitsInternal(image);
-		#endif
+#ifndef IL_NO_FITS
+	case IL_FITS:
+		return iLoadFitsInternal(image);
+#endif
 
-		#ifndef IL_NO_DICOM
-		case IL_DICOM:
-			return iLoadDicomInternal(image);
-		#endif
+#ifndef IL_NO_DICOM
+	case IL_DICOM:
+		return iLoadDicomInternal(image);
+#endif
 
-		#ifndef IL_NO_DOOM
-		case IL_DOOM:
-			return iLoadDoomInternal();
-		case IL_DOOM_FLAT:
-			return iLoadDoomFlatInternal();
-		#endif
+#ifndef IL_NO_DOOM
+	case IL_DOOM:
+		return iLoadDoomInternal();
+	case IL_DOOM_FLAT:
+		return iLoadDoomFlatInternal();
+#endif
 
-		#ifndef IL_NO_TEXTURE
-		case IL_TEXTURE:
-			//return ilLoadTextureF(File);
-			// From http://forums.totalwar.org/vb/showthread.php?t=70886, all that needs to be done
-			//  is to strip out the first 48 bytes, and then it is DDS data.
-			iCurImage->io.seek(iCurImage->io.handle, 48, IL_SEEK_CUR);
-			return iLoadDdsInternal(image);
-		#endif
+#ifndef IL_NO_TEXTURE
+	case IL_TEXTURE:
+		//return ilLoadTextureF(File);
+		// From http://forums.totalwar.org/vb/showthread.php?t=70886, all that needs to be done
+		//  is to strip out the first 48 bytes, and then it is DDS data.
+		iCurImage->io.devil_seek(iCurImage->io.handle, 48, IL_SEEK_CUR);
+		return iLoadDdsInternal(image);
+#endif
 
-		#ifndef IL_NO_DPX
-		case IL_DPX:
-			return iLoadDpxInternal(image);
-		#endif
+#ifndef IL_NO_DPX
+	case IL_DPX:
+		return iLoadDpxInternal(image);
+#endif
 
-		#ifndef IL_NO_EXR
-		case IL_EXR:
-			return iLoadExrInternal();
-		#endif
+#ifndef IL_NO_EXR
+	case IL_EXR:
+		return iLoadExrInternal();
+#endif
 
-		#ifndef IL_NO_FTX
-		case IL_FTX:
-			return iLoadFtxInternal();
-		#endif
+#ifndef IL_NO_FTX
+	case IL_FTX:
+		return iLoadFtxInternal();
+#endif
 
-		#ifndef IL_NO_IWI
-		case IL_IWI:
-			return ilLoadIwiF(File);
-		#endif
+#ifndef IL_NO_IWI
+	case IL_IWI:
+		return ilLoadIwiF(File);
+#endif
 
-		#ifndef IL_NO_LIF
-		case IL_LIF:
-			return ilLoadLifF(File);
-		#endif
+#ifndef IL_NO_LIF
+	case IL_LIF:
+		return ilLoadLifF(File);
+#endif
 
-		#ifndef IL_NO_MDL
-		case IL_MDL:
-			return ilLoadMdlF(File);
-		#endif
+#ifndef IL_NO_MDL
+	case IL_MDL:
+		return ilLoadMdlF(File);
+#endif
 
-		#ifndef IL_NO_MP3
-		case IL_MP3:
-			return iLoadMp3Internal(image);
-		#endif
+#ifndef IL_NO_MP3
+	case IL_MP3:
+		return iLoadMp3Internal(image);
+#endif
 
-		#ifndef IL_NO_ROT
-		case IL_ROT:
-			return ilLoadRotF(File);
-		#endif
+#ifndef IL_NO_ROT
+	case IL_ROT:
+		return ilLoadRotF(File);
+#endif
 
-		#ifndef IL_NO_TPL
-		case IL_TPL:
-			return ilLoadTplF(File);
-		#endif
+#ifndef IL_NO_TPL
+	case IL_TPL:
+		return ilLoadTplF(File);
+#endif
 
-		#ifndef IL_NO_UTX
-		case IL_UTX:
-			return ilLoadUtxF(File);
-		#endif
+#ifndef IL_NO_UTX
+	case IL_UTX:
+		return ilLoadUtxF(File);
+#endif
 
-		#ifndef IL_NO_WAL
-		case IL_WAL:
-			return ilLoadWalF(File);
-		#endif
+#ifndef IL_NO_WAL
+	case IL_WAL:
+		return ilLoadWalF(File);
+#endif
 	}
 
 	ilSetError(IL_INVALID_ENUM);
@@ -989,16 +1031,17 @@ ILboolean ILAPIENTRY ilLoadL(ILenum Type, const void *Lump, ILuint Size)
 	the image based on various image header verification functions, such as ilIsValidPngF.
 	If all this checking fails, IL_FALSE is returned with no modification to the current bound image.
 	\param FileName Ansi or Unicode string, depending on the compiled version of DevIL, that gives
-	       the filename of the file to load.
+	the filename of the file to load.
 	\return Boolean value of failure or success.  Returns IL_FALSE if all three loading methods
-	       have been tried and failed.*/
+	have been tried and failed.*/
 ILboolean ILAPIENTRY ilLoadImage(ILconst_string FileName)
 {
 	ILenum type = ilDetermineType(FileName);
 
 	if (type != IL_TYPE_UNKNOWN) {
 		return ilLoad(type, FileName);
-	} else {
+	}
+	else {
 		ilSetError(IL_INVALID_EXTENSION);
 		return IL_FALSE;
 	}
@@ -1009,120 +1052,120 @@ ILboolean ILAPIENTRY ilSaveFuncs2(ILimage* image, ILenum type)
 {
 	ILboolean bRet = false;
 
-	switch(type) {
-	#ifndef IL_NO_BMP
+	switch (type) {
+#ifndef IL_NO_BMP
 	case IL_BMP:
 		bRet = iSaveBitmapInternal(image);
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_JPG
+#ifndef IL_NO_JPG
 	case IL_JPG:
 		bRet = iSaveJpegInternal(image);
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_PCX
+#ifndef IL_NO_PCX
 	case IL_PCX:
 		bRet = iSavePcxInternal(image);
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_PNG
+#ifndef IL_NO_PNG
 	case IL_PNG:
 		bRet = iSavePngInternal(image);
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_PNM  // Not sure if binary or ascii should be defaulted...maybe an option?
+#ifndef IL_NO_PNM  // Not sure if binary or ascii should be defaulted...maybe an option?
 	case IL_PNM:
 		bRet = iSavePnmInternal();
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_SGI
+#ifndef IL_NO_SGI
 	case IL_SGI:
 		bRet = iSaveSgiInternal();
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_TGA
+#ifndef IL_NO_TGA
 	case IL_TGA:
 		bRet = iSaveTargaInternal(image);
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_TIF
+#ifndef IL_NO_TIF
 	case IL_TIF:
 		bRet = iSaveTiffInternal(image);
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_CHEAD
+#ifndef IL_NO_CHEAD
 	case IL_CHEAD:
 		bRet = ilSaveCHeader(image, "IL_IMAGE");
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_RAW
+#ifndef IL_NO_RAW
 	case IL_RAW:
 		bRet = iSaveRawInternal();
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_MNG
+#ifndef IL_NO_MNG
 	case IL_MNG:
 		bRet = iSaveMngInternal();
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_DDS
+#ifndef IL_NO_DDS
 	case IL_DDS:
 		bRet = iSaveDdsInternal();
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_PSD
+#ifndef IL_NO_PSD
 	case IL_PSD:
 		bRet = iSavePsdInternal(image);
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_HDR
+#ifndef IL_NO_HDR
 	case IL_HDR:
 		bRet = iSaveHdrInternal(image);
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_JP2
+#ifndef IL_NO_JP2
 	case IL_JP2:
 		bRet = iSaveJp2Internal(image);
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_EXR
+#ifndef IL_NO_EXR
 	case IL_EXR:
 		bRet = iSaveExrInternal(FileName);
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_VTF
+#ifndef IL_NO_VTF
 	case IL_VTF:
 		bRet = iSaveVtfInternal(iCurImage);
 		break;
-	#endif
+#endif
 
-	#ifndef IL_NO_WBMP
+#ifndef IL_NO_WBMP
 	case IL_WBMP:
 		bRet = iSaveWbmpInternal(&iCurImage->io);
 		break;
-	#endif
+#endif
 
-	// Check if we just want to save the palette.
-	// @todo: must be ported to use iCurImage->io
-/*	case IL_JASC_PAL:
-		bRet = ilSavePal(FileName);
-		break;*/
+		// Check if we just want to save the palette.
+		// @todo: must be ported to use iCurImage->io
+		/*	case IL_JASC_PAL:
+				bRet = ilSavePal(FileName);
+				break;*/
 	default:
 		ilSetError(IL_INVALID_EXTENSION);
 	}
@@ -1145,7 +1188,7 @@ ILAPI ILboolean ILAPIENTRY ilSaveFuncs(ILenum type)
 	IL_HDR, IL_JP2, IL_JPG, IL_PCX, IL_PNG, IL_PNM, IL_PSD, IL_RAW, IL_SGI, IL_TGA, IL_TIF,
 	IL_VTF, IL_WBMP and IL_JASC_PAL.
 	\param FileName Ansi or Unicode string, depending on the compiled version of DevIL, that gives
-	       the filename to save to.
+	the filename to save to.
 	\return Boolean value of failure or success.  Returns IL_FALSE if saving failed.*/
 ILboolean ILAPIENTRY ilSave(ILenum type, ILconst_string FileName)
 {
@@ -1173,8 +1216,8 @@ ILboolean ILAPIENTRY ilSave(ILenum type, ILconst_string FileName)
 
 //! Saves the current image based on the extension given in FileName.
 /*! \param FileName Ansi or Unicode string, depending on the compiled version of DevIL, that gives
-	       the filename to save to.
-	\return Boolean value of failure or success.  Returns IL_FALSE if saving failed.*/
+		   the filename to save to.
+		   \return Boolean value of failure or success.  Returns IL_FALSE if saving failed.*/
 ILboolean ILAPIENTRY ilSaveImage(ILconst_string FileName)
 {
 	if (FileName == NULL || ilStrLen(FileName) < 1) {
@@ -1222,12 +1265,12 @@ ILuint ILAPIENTRY ilSaveF(ILenum type, ILHANDLE File)
 ILuint ILAPIENTRY ilSaveL(ILenum Type, void *Lump, ILuint Size)
 {
 	iSetOutputLump(Lump, Size);
-	ILint64 pos1 = iCurImage->io.tell(iCurImage->io.handle);
+	ILint64 pos1 = iCurImage->io.devil_tell(iCurImage->io.handle);
 	ILboolean bRet = ilSaveFuncs2(iCurImage, Type);
-	ILint64 pos2 = iCurImage->io.tell(iCurImage->io.handle);
+	ILint64 pos2 = iCurImage->io.devil_tell(iCurImage->io.handle);
 
 	if (bRet)
-		return pos2-pos1;  // Return the number of bytes written.
+		return pos2 - pos1;  // Return the number of bytes written.
 	else
 		return 0;  // Error occurred
 }

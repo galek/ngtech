@@ -73,7 +73,6 @@ namespace NGTech
 	void Console::notifyComboAccept(MyGUI::ComboBox* _sender, size_t _index)
 	{
 		String command{ _sender->getOnlyText().asUTF8_c_str() };
-		//ѕринудитльно переводим в нижний регистр
 		std::transform(command.begin(), command.end(), command.begin(), ::tolower);
 
 		if (command == "") return;
@@ -113,7 +112,7 @@ namespace NGTech
 	{
 		MyGUI::EditBox* edit = _sender->castType<MyGUI::EditBox>();
 		size_t len = edit->getCaption().length();
-		if ((_key == MyGUI::KeyCode::Backspace) && (len > 0) && (mAutocomleted))
+		if ((_key == MyGUI::KeyCode::MK_Backspace) && (len > 0) && (mAutocomleted))
 		{
 			edit->deleteTextSelection();
 			len = edit->getCaption().length();
@@ -124,7 +123,6 @@ namespace NGTech
 		if (command.length() == 0)
 			return;
 
-		//ѕринудитльно переводим в нижний регистр
 		std::transform(command.begin(), command.end(), command.begin(), ::tolower);
 		edit->setCaption(command);
 

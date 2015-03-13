@@ -18,9 +18,8 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
-#include "../../config.h"
+#include "openal_config.h"
 
-#if HAVE_PORTAUDIO
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -468,4 +467,3 @@ void alc_pa_probe(enum DevProbe type)
             break;
     }
 }
-#endif

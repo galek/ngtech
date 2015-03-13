@@ -23,7 +23,7 @@ BITFILE *bfile(ILHANDLE File)
 		ToReturn = (BITFILE*)ialloc(sizeof(BITFILE));
 		if (ToReturn != NULL) {
 			ToReturn->File = File;
-			ToReturn->BitPos = iCurImage->io.tell(iCurImage->io.handle) << 3;
+			ToReturn->BitPos = iCurImage->io.devil_tell(iCurImage->io.handle) << 3;
 			ToReturn->ByteBitOff = 8;
 			ToReturn->Buff = 0;
 		}
@@ -66,24 +66,24 @@ ILint bseek(BITFILE *BitFile, ILuint Offset, ILuint Mode)
 	switch (Mode)
 	{
 		case IL_SEEK_SET:
-			if (!iCurImage->io.seek(iCurImage->io.handle, Offset >> 3, Mode)) {
+			if (!iCurImage->io.devil_seek(iCurImage->io.handle, Offset >> 3, Mode)) {
 				BitFile->BitPos = Offset;
 				BitFile->ByteBitOff = BitFile->BitPos % 8;
 			}
 			break;
 		case IL_SEEK_CUR:
-			if (!iCurImage->io.seek(iCurImage->io.handle, Offset >> 3, Mode)) {
+			if (!iCurImage->io.devil_seek(iCurImage->io.handle, Offset >> 3, Mode)) {
 				BitFile->BitPos += Offset;
 				BitFile->ByteBitOff = BitFile->BitPos % 8;
 			}
 			break;
 		case IL_SEEK_END:
-			KeepPos = iCurImage->io.tell(iCurImage->io.handle);
-			iCurImage->io.seek(iCurImage->io.handle, 0, IL_SEEK_END);
-			Len = iCurImage->io.tell(iCurImage->io.handle);
-			iCurImage->io.seek(iCurImage->io.handle, 0, IL_SEEK_SET);
+			KeepPos = iCurImage->io.devil_tell(iCurImage->io.handle);
+			iCurImage->io.devil_seek(iCurImage->io.handle, 0, IL_SEEK_END);
+			Len = iCurImage->io.devil_tell(iCurImage->io.handle);
+			iCurImage->io.devil_seek(iCurImage->io.handle, 0, IL_SEEK_SET);
 
-			if (!iCurImage->io.seek(iCurImage->io.handle, Offset >> 3, Mode)) {
+			if (!iCurImage->io.devil_seek(iCurImage->io.handle, Offset >> 3, Mode)) {
 				BitFile->BitPos = (Len << 3) + Offset;
 				BitFile->ByteBitOff = BitFile->BitPos % 8;
 			}

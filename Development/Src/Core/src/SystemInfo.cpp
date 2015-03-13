@@ -40,7 +40,8 @@
 #include <sys/sysctl.h>
 #endif
 
-#include "SystemInfo.h"
+#include "systeminfo.h"
+#include <string.h>
 
 namespace NGTech {
 	/******************************************************************************\
@@ -219,7 +220,7 @@ namespace NGTech {
 			}
 			fclose(file);
 		} else 
-			Error("get_system_info(): can't open \"%s\" file\n","/proc/meminfo",true);
+			Error("get_system_info(): can't open \"/proc/meminfo\" file\n",true);
 #endif
 
 		if (info[0] == '\0') {
@@ -340,7 +341,7 @@ namespace NGTech {
 			}
 			fclose(file);
 		} else {
-			Error("get_cpu_info(): can't open \"%s\" file\n","/proc/cpuinfo",true);
+			Error("get_cpu_info(): can't open \"/proc/cpuinfo\" file\n",true);
 		}
 
 #endif	

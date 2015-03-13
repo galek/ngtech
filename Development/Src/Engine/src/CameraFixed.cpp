@@ -49,7 +49,9 @@ namespace NGTech {
 	/**
 	*/
 	void CameraFixed::setPhysics(const Vec3 &size, float mass) {
+#ifndef __LINUX__
 		pBody = PhysBody::CreateSphere(size.y, &Mat4::translate(position), mass);
+#endif
 	}
 
 	/**

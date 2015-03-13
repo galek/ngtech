@@ -20,7 +20,7 @@
 #include "Engine.h"
 #include "EngineThreads.h"
 #include "Utils.h"
-#include "SystemInfo.h"
+#include "../../Core/inc/systeminfo.h"
 #include "Scene.h"
 //***************************************************
 

@@ -30,6 +30,7 @@
  */
 #include "tiffiop.h"
 
+#ifdef _WIN32
 #include <windows.h>
 
 static tmsize_t
@@ -438,3 +439,4 @@ TIFFErrorHandler _TIFFerrorHandler = Win32ErrorHandler;
  * fill-column: 78
  * End:
  */
+#endif

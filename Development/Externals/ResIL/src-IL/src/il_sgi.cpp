@@ -48,7 +48,7 @@ ILboolean iIsValidSgi()
 {
 	iSgiHeader	Head;
 	ILint read = iGetSgiHead(&Head);
-	iCurImage->io.seek(iCurImage->io.handle, -read, IL_SEEK_CUR);  // Restore previous file position
+	iCurImage->io.devil_seek(iCurImage->io.handle, -read, IL_SEEK_CUR);  // Restore previous file position
 
 	if (read == sizeof(Head))
 		return iCheckSgi(&Head);
@@ -166,7 +166,7 @@ ILboolean iReadRleSgi(iSgiHeader *Head)
 			RleLen = LenTable[ixHeight + ixPlane * Head->YSize];
 			
 			// Seeks to the offset table position
-			iCurImage->io.seek(iCurImage->io.handle, RleOff, IL_SEEK_SET);
+			iCurImage->io.devil_seek(iCurImage->io.handle, RleOff, IL_SEEK_SET);
 			if (iGetScanLine((TempData[ixPlane]) + (ixHeight * Head->XSize * Head->Bpc),
 				Head, RleLen) != Head->XSize * Head->Bpc) {
 					ilSetError(IL_ILLEGAL_FILE_VALUE);
@@ -382,58 +382,6 @@ ILboolean iNewSgi(iSgiHeader *Head)
 	return IL_TRUE;
 }
 
-/*----------------------------------------------------------------------------*/
-
-//! Writes a SGI file
-/*ILboolean ilSaveSgi(const ILstring FileName)
-{
-	ILHANDLE	SgiFile;
-	ILuint		SgiSize;
-
-	if (ilGetBoolean(IL_FILE_MODE) == IL_FALSE) {
-		if (iFileExists(FileName)) {
-			ilSetError(IL_FILE_ALREADY_EXISTS);
-			return IL_FALSE;
-		}
-	}
-
-	SgiFile = iCurImage->io.openWrite(FileName);
-	if (SgiFile == NULL) {
-		ilSetError(IL_COULD_NOT_OPEN_FILE);
-		return IL_FALSE;
-	}
-
-	SgiSize = ilSaveSgiF(SgiFile);
-	iCurImage->io.close(SgiFile);
-
-	if (SgiSize == 0)
-		return IL_FALSE;
-	return IL_TRUE;
-}
-
-
-//! Writes a Sgi to an already-opened file
-ILuint ilSaveSgiF(ILHANDLE File)
-{
-	ILuint Pos;
-	iSetOutputFile(File);
-	Pos = iCurImage->io.tell(iCurImage->io.handle);
-	if (iSaveSgiInternal() == IL_FALSE)
-		return 0;  // Error occurred
-	return iCurImage->io.tell(iCurImage->io.handle) - Pos;  // Return the number of bytes written.
-}
-
-
-//! Writes a Sgi to a memory "lump"
-ILuint ilSaveSgiL(void *Lump, ILuint Size)
-{
-	ILuint Pos;
-	iSetOutputLump(Lump, Size);
-	Pos = iCurImage->io.tell(iCurImage->io.handle);
-	if (iSaveSgiInternal() == IL_FALSE)
-		return 0;  // Error occurred
-	return iCurImage->io.tell(iCurImage->io.handle) - Pos;  // Return the number of bytes written.
-}*/
 
 
 ILenum DetermineSgiType(ILenum Type)
@@ -488,14 +436,14 @@ ILboolean iSaveSgiInternal()
 
 	SaveBigUShort(&iCurImage->io, SGI_MAGICNUM);  // 'Magic' number
 	if (Compress)
-		iCurImage->io.putc(1, iCurImage->io.handle);
+		iCurImage->io.devil_putc(1, iCurImage->io.handle);
 	else
-		iCurImage->io.putc(0, iCurImage->io.handle);
+		iCurImage->io.devil_putc(0, iCurImage->io.handle);
 
 	if (Temp->Type == IL_UNSIGNED_BYTE)
-		iCurImage->io.putc(1, iCurImage->io.handle);
+		iCurImage->io.devil_putc(1, iCurImage->io.handle);
 	else if (Temp->Type == IL_UNSIGNED_SHORT)
-		iCurImage->io.putc(2, iCurImage->io.handle);
+		iCurImage->io.devil_putc(2, iCurImage->io.handle);
 	// Need to error here if not one of the two...
 
 	if (Temp->Format == IL_LUMINANCE || Temp->Format == IL_COLOUR_INDEX)
@@ -535,12 +483,12 @@ ILboolean iSaveSgiInternal()
 		iCurImage->io.write(FName, 1, c, iCurImage->io.handle);
 		c = 80 - c;
 		for (i = 0; i < c; i++) {
-			iCurImage->io.putc(0, iCurImage->io.handle);
+			iCurImage->io.devil_putc(0, iCurImage->io.handle);
 		}
 	}
 	else {
 		for (i = 0; i < 80; i++) {
-			iCurImage->io.putc(0, iCurImage->io.handle);
+			iCurImage->io.devil_putc(0, iCurImage->io.handle);
 		}
 	}
 
@@ -568,7 +516,7 @@ ILboolean iSaveSgiInternal()
 	if (!Compress) {
 		for (c = 0; c < Temp->Bpp; c++) {
 			for (i = c; i < Temp->SizeOfData; i += Temp->Bpp) {
-				iCurImage->io.putc(TempData[i], iCurImage->io.handle);  // Have to save each colour plane separately.
+				iCurImage->io.devil_putc(TempData[i], iCurImage->io.handle);  // Have to save each colour plane separately.
 			}
 		}
 	}
@@ -610,11 +558,11 @@ ILboolean iSaveRleSgi(ILubyte *Data, ILuint w, ILuint h, ILuint numChannels,
 	}
 
 	// These just contain dummy values at this point.
-	TableOff = iCurImage->io.tell(iCurImage->io.handle);
+	TableOff = iCurImage->io.devil_tell(iCurImage->io.handle);
 	iCurImage->io.write(StartTable, sizeof(ILuint), h * numChannels, iCurImage->io.handle);
 	iCurImage->io.write(LenTable, sizeof(ILuint), h * numChannels, iCurImage->io.handle);
 
-	DataOff = iCurImage->io.tell(iCurImage->io.handle);
+	DataOff = iCurImage->io.devil_tell(iCurImage->io.handle);
 	for (c = 0; c < numChannels; c++) {
 		for (y = 0; y < h; y++) {
 			i = y * bps + c;
@@ -627,7 +575,7 @@ ILboolean iSaveRleSgi(ILubyte *Data, ILuint w, ILuint h, ILuint numChannels,
 		}
 	}
 
-	iCurImage->io.seek(iCurImage->io.handle, TableOff, IL_SEEK_SET);
+	iCurImage->io.devil_seek(iCurImage->io.handle, TableOff, IL_SEEK_SET);
 
 	j = h * numChannels;
 	for (y = 0; y < j; y++) {

@@ -65,7 +65,7 @@ ILboolean iIsValidGif(SIO* io)
 {
 	char Header[6];
 	ILint64 read = io->read(io->handle, Header, 1, 6);
-	io->seek(io->handle, -read, IL_SEEK_CUR);
+	io->devil_seek(io->handle, -read, IL_SEEK_CUR);
 
 	if (read != 6)
 		return IL_FALSE;
@@ -260,14 +260,14 @@ ILint get_next_code(GifLoadState* state) {
 	ILuint	ret;
 
 	//20050102: Tests for IL_EOF were added because this function
-	//crashed sometimes if iCurImage->io.getc(iCurImage->io.handle) returned IL_EOF
+	//crashed sometimes if iCurImage->io.devil_getc(iCurImage->io.handle) returned IL_EOF
 	//(for example "table-add-column-before-active.gif" included in the
 	//mozilla source package)
 
 	if (state->nbits_left == 0) {
 		if (state->navail_bytes <= 0) {
 			state->resetBufIndex();
-			state->navail_bytes = iCurImage->io.getc(iCurImage->io.handle);
+			state->navail_bytes = iCurImage->io.devil_getc(iCurImage->io.handle);
 
 			if(state->navail_bytes == IL_EOF) {
 				return state->ending;
@@ -275,7 +275,7 @@ ILint get_next_code(GifLoadState* state) {
 
 			if (state->navail_bytes) {
 				for (i = 0; i < state->navail_bytes; i++) {
-					if((t = iCurImage->io.getc(iCurImage->io.handle)) == IL_EOF) {
+					if((t = iCurImage->io.devil_getc(iCurImage->io.handle)) == IL_EOF) {
 						return state->ending;
 					}
 					state->setByteBuff(i, t);
@@ -291,7 +291,7 @@ ILint get_next_code(GifLoadState* state) {
 	while (state->curr_size >state-> nbits_left) {
 		if (state->navail_bytes <= 0) {
 			state->resetBufIndex();
-			state->navail_bytes = iCurImage->io.getc(iCurImage->io.handle);
+			state->navail_bytes = iCurImage->io.devil_getc(iCurImage->io.handle);
 
 			if(state->navail_bytes == IL_EOF) {
 				return state->ending;
@@ -299,7 +299,7 @@ ILint get_next_code(GifLoadState* state) {
 
 			if (state->navail_bytes) {
 				for (i = 0; i < state->navail_bytes; i++) {
-					if((t = iCurImage->io.getc(iCurImage->io.handle)) == IL_EOF) {
+					if((t = iCurImage->io.devil_getc(iCurImage->io.handle)) == IL_EOF) {
 						return state->ending;
 					}
 					state->setByteBuff(i, t);
@@ -333,7 +333,7 @@ ILboolean GifGetData(ILimage *Image, ILubyte *Data, ILuint ImageSize,
 
 	if (!Gfx->Used)
 		DisposalMethod = (Gfx->Packed & 0x1C) >> 2;
-	if((size = iCurImage->io.getc(iCurImage->io.handle)) == IL_EOF)
+	if((size = iCurImage->io.devil_getc(iCurImage->io.handle)) == IL_EOF)
 		return IL_FALSE;
 
 	if (size < 2 || 9 < size) {
@@ -463,13 +463,13 @@ ILboolean GetImages(ILimage* Image, ILpal *GlobalPal, GIFHEAD *GifHead)
 	OldImageDesc.ImageInfo = 0; // to initialize the data with an harmless value 
 	Gfx.Used = IL_TRUE;
 
-	while (!iCurImage->io.eof(iCurImage->io.handle)) {
+	while (!iCurImage->io.devil_eof(iCurImage->io.handle)) {
 		ILubyte DisposalMethod = 1;
 		
-		i = iCurImage->io.tell(iCurImage->io.handle);
+		i = iCurImage->io.devil_tell(iCurImage->io.handle);
 		if (!SkipExtensions(&Gfx))
 			goto error_clean;
-		i = iCurImage->io.tell(iCurImage->io.handle);
+		i = iCurImage->io.devil_tell(iCurImage->io.handle);
 
 		if (!Gfx.Used)
 			DisposalMethod = (Gfx.Packed & 0x1C) >> 2;
@@ -489,7 +489,7 @@ ILboolean GetImages(ILimage* Image, ILpal *GlobalPal, GIFHEAD *GifHead)
       if (!setMinSizes(ImageDesc.OffX + ImageDesc.Width, ImageDesc.OffY + ImageDesc.Height, Image))
 			goto error_clean;
 
-		if (iCurImage->io.eof(iCurImage->io.handle)) {
+		if (iCurImage->io.devil_eof(iCurImage->io.handle)) {
 			ilGetError();  // Gets rid of the IL_FILE_READ_ERROR that inevitably results.
 			break;
 		}
@@ -567,13 +567,13 @@ ILboolean GetImages(ILimage* Image, ILpal *GlobalPal, GIFHEAD *GifHead)
 				}
 	    	}
 		}
-		i = iCurImage->io.tell(iCurImage->io.handle);
+		i = iCurImage->io.devil_tell(iCurImage->io.handle);
 		// Terminates each block.
-		if((input = iCurImage->io.getc(iCurImage->io.handle)) == IL_EOF)
+		if((input = iCurImage->io.devil_getc(iCurImage->io.handle)) == IL_EOF)
 			goto error_clean;
 
 		if (input != 0x00)
-		    iCurImage->io.seek(iCurImage->io.handle, -1, IL_SEEK_CUR);
+		    iCurImage->io.devil_seek(iCurImage->io.handle, -1, IL_SEEK_CUR);
 		//	break;
 
 		OldImageDesc = ImageDesc;
@@ -659,26 +659,26 @@ ILboolean SkipExtensions(GFXCONTROL *Gfx)
 	ILint	Size;
 
 	do {
-		if((Code = iCurImage->io.getc(iCurImage->io.handle)) == IL_EOF)
+		if((Code = iCurImage->io.devil_getc(iCurImage->io.handle)) == IL_EOF)
 			return IL_FALSE;
 
 		if (Code != 0x21) {
-			iCurImage->io.seek(iCurImage->io.handle, -1, IL_SEEK_CUR);
+			iCurImage->io.devil_seek(iCurImage->io.handle, -1, IL_SEEK_CUR);
 			return IL_TRUE;
 		}
 
-		if((Label = iCurImage->io.getc(iCurImage->io.handle)) == IL_EOF)
+		if((Label = iCurImage->io.devil_getc(iCurImage->io.handle)) == IL_EOF)
 			return IL_FALSE;
 
 		switch (Label)
 		{
 			case 0xF9:
-				Gfx->Size = iCurImage->io.getc(iCurImage->io.handle);
-				Gfx->Packed = iCurImage->io.getc(iCurImage->io.handle);
+				Gfx->Size = iCurImage->io.devil_getc(iCurImage->io.handle);
+				Gfx->Packed = iCurImage->io.devil_getc(iCurImage->io.handle);
 				Gfx->Delay = GetLittleUShort(&iCurImage->io);
-				Gfx->Transparent = iCurImage->io.getc(iCurImage->io.handle);
-				Gfx->Terminator = iCurImage->io.getc(iCurImage->io.handle);
-				if (iCurImage->io.eof(iCurImage->io.handle))
+				Gfx->Transparent = iCurImage->io.devil_getc(iCurImage->io.handle);
+				Gfx->Terminator = iCurImage->io.devil_getc(iCurImage->io.handle);
+				if (iCurImage->io.devil_eof(iCurImage->io.handle))
 					return IL_FALSE;
 				Gfx->Used = IL_FALSE;
 				break;
@@ -689,14 +689,14 @@ ILboolean SkipExtensions(GFXCONTROL *Gfx)
 				break;*/
 			default:
 				do {
-					if((Size = iCurImage->io.getc(iCurImage->io.handle)) == IL_EOF)
+					if((Size = iCurImage->io.devil_getc(iCurImage->io.handle)) == IL_EOF)
 						return IL_FALSE;
-					iCurImage->io.seek(iCurImage->io.handle, Size, IL_SEEK_CUR);
-				} while (!iCurImage->io.eof(iCurImage->io.handle) && Size != 0);
+					iCurImage->io.devil_seek(iCurImage->io.handle, Size, IL_SEEK_CUR);
+				} while (!iCurImage->io.devil_eof(iCurImage->io.handle) && Size != 0);
 		}
 
 		// @TODO:  Handle this better.
-		if (iCurImage->io.eof(iCurImage->io.handle)) {
+		if (iCurImage->io.devil_eof(iCurImage->io.handle)) {
 			ilSetError(IL_FILE_READ_ERROR);
 			return IL_FALSE;
 		}

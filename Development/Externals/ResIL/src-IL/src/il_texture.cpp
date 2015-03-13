@@ -21,7 +21,7 @@ ILboolean ilLoadTextureL(ILimage* image, const void *Lump, ILuint Size)
 	iSetInputLump(Lump, Size);
 	// From http://forums.totalwar.org/vb/showthread.php?t=70886, all that needs to be done
 	//  is to strip out the first 48 bytes, and then it is DDS data.
-	image->io.seek(image->io.handle, 48, IL_SEEK_CUR);
+	image->io.devil_seek(image->io.handle, 48, IL_SEEK_CUR);
 	return iLoadDdsInternal(image);
 }
 

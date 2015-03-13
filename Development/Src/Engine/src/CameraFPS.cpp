@@ -81,13 +81,14 @@ namespace NGTech {
 
 		bool inTheAir = false;
 		Vec3 point;
+#ifndef __LINUX__
 		if (GetPhysics()->intersectWorldByRay(getPosition() - Vec3(0, size.y, 0),
 			getPosition() - Vec3(0, size.y + 10, 0), Vec3(),
 			point)) {
 			if (point.y <= getPosition().y - size.y - 10)
 				inTheAir = true;
 		}
-
+#endif
 		if (GetWindow()->isKeyPressed("W")) {
 			movement += forwardVec;
 		}

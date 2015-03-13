@@ -4,20 +4,22 @@
 #include <stdlib.h>
 #include <iostream>
 //***************************************************
-#include "../../Platform/inc/glfw/glfw3.h"
-#include "mygui.h"
+#include "../../../Externals/glfw/include/GLFW/glfw3.h"
+#include "../../Platform/inc/platformdetect.h"
+#include "MyGUI.h"
 //***************************************************
-#include "../Core/inc/CVARManager.h"
+#include "../../Core/inc/CvarManager.h"
 #include "../inc/WindowSystem_GLFW.h"
 #include "../inc/intersection.h"
 //***************************************************
+#include "../../Platform/inc/platformdetect.h"
 
 namespace NGTech {
 
 	/**
 	*/
 	void error_callback(int error, const char* description)	{
-		Error(std::string("[Window System]") + description, true);
+        Warning(description,error);
 	}
 
 	/**
@@ -401,13 +403,13 @@ namespace NGTech {
 	{
 		using namespace MyGUI;
 		if (key == GLFW_KEY_DOWN)
-			scancode = KeyCode::Enum::ArrowDown;
+			scancode = KeyCode::Enum::MK_ArrowDown;
 		else if (key == GLFW_KEY_LEFT)
-			scancode = KeyCode::Enum::ArrowLeft;
+			scancode = KeyCode::Enum::MK_ArrowLeft;
 		else if (key == GLFW_KEY_RIGHT)
-			scancode = KeyCode::Enum::ArrowRight;
+			scancode = KeyCode::Enum::MK_ArrowRight;
 		else if (key == GLFW_KEY_UP)
-			scancode = KeyCode::Enum::ArrowUp;
+			scancode = KeyCode::Enum::MK_ArrowUp;
 	}
 	/**
 	*/
@@ -508,8 +510,6 @@ namespace NGTech {
 		win->oldMouseX = win->mouseX;
 		win->oldMouseY = win->mouseY;
 
-#pragma message("BUG,если сильно крутануть,то выйдет за границы ")
-
 		win->mouseX = mx;
 		win->mouseY = my;
 
@@ -536,8 +536,6 @@ namespace NGTech {
 	/**
 	*/
 	void window_close_callback(GLFWwindow* window) {
-		//TODO:¬ыводить сообщение,как в DEUS EX
-#pragma message("TODO:¬ыводить сообщение,как в DEUS EX")
 	}
 
 	/**

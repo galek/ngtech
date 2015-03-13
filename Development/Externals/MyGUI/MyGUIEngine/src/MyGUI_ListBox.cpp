@@ -97,7 +97,7 @@ namespace MyGUI
 		// очень секретный метод, запатентованный механизм движения курсора
 		size_t sel = mIndexSelect;
 
-		if (_key == KeyCode::ArrowUp)
+		if (_key == KeyCode::MK_ArrowUp)
 		{
 			if (sel != 0)
 			{
@@ -107,7 +107,7 @@ namespace MyGUI
 					sel --;
 			}
 		}
-		else if (_key == KeyCode::ArrowDown)
+		else if (_key == KeyCode::MK_ArrowDown)
 		{
 			if (sel == ITEM_NONE)
 				sel = 0;
@@ -120,19 +120,19 @@ namespace MyGUI
 				sel = mIndexSelect;
 			}
 		}
-		else if (_key == KeyCode::Home)
+		else if (_key == KeyCode::MK_Home)
 		{
 			if (sel != 0)
 				sel = 0;
 		}
-		else if (_key == KeyCode::End)
+		else if (_key == KeyCode::MK_End)
 		{
 			if (sel != (getItemCount() - 1))
 			{
 				sel = getItemCount() - 1;
 			}
 		}
-		else if (_key == KeyCode::PageUp)
+		else if (_key == KeyCode::MK_PageUp)
 		{
 			if (sel != 0)
 			{
@@ -150,7 +150,7 @@ namespace MyGUI
 				}
 			}
 		}
-		else if (_key == KeyCode::PageDown)
+		else if (_key == KeyCode::MK_PageDown)
 		{
 			if (sel != (getItemCount() - 1))
 			{
@@ -166,7 +166,7 @@ namespace MyGUI
 				}
 			}
 		}
-		else if ((_key == KeyCode::Return) || (_key == KeyCode::NumpadEnter))
+		else if ((_key == KeyCode::MK_Return) || (_key == KeyCode::MK_NumpadEnter))
 		{
 			if (sel != ITEM_NONE)
 			{
@@ -239,7 +239,7 @@ namespace MyGUI
 
 	void ListBox::notifyMousePressed(Widget* _sender, int _left, int _top, MouseButton _id)
 	{
-		if (MouseButton::Left == _id)
+		if (MouseButton::MB_Left == _id)
 		{
 			// если выделен клиент, то сбрасываем
 			if (_sender == _getClientWidget())

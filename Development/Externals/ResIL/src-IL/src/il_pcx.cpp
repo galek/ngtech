@@ -44,7 +44,7 @@ ILboolean iIsValidPcx(SIO* io)
 {
 	PCXHEAD Head;
 	ILint read = iGetPcxHead(io, &Head);
-	io->seek(io->handle, -read, IL_SEEK_CUR);
+	io->devil_seek(io->handle, -read, IL_SEEK_CUR);
 
 	if (read == sizeof(Head))
 		return iCheckPcx(&Head);
@@ -212,7 +212,7 @@ ILboolean iUncompressPcx(ILimage* image, PCXHEAD *Header)
 
 	// Read in the palette
 	if (Header->Version == 5 && image->Bpp == 1) {
-		x = image->io.tell(image->io.handle);
+		x = image->io.devil_tell(image->io.handle);
 		if (image->io.read(image->io.handle, &ByteHead, 1, 1) == 0) {  // If true, assume that we have a luminance image.
 			ilGetError();  // Get rid of the IL_FILE_READ_ERROR.
 			image->Format = IL_LUMINANCE;
@@ -223,7 +223,7 @@ ILboolean iUncompressPcx(ILimage* image, PCXHEAD *Header)
 		}
 		else {
 			if (ByteHead != 12)  // Some Quake2 .pcx files don't have this byte for some reason.
-				image->io.seek(image->io.handle, -1, IL_SEEK_CUR);
+				image->io.devil_seek(image->io.handle, -1, IL_SEEK_CUR);
 			if (image->io.read(image->io.handle, image->Pal.Palette, 1, image->Pal.PalSize) != image->Pal.PalSize)
 				goto file_read_error;
 		}
@@ -312,7 +312,7 @@ ILboolean iUncompressSmall(ILimage* image, PCXHEAD *Header)
 			// Not the good size - don't need it, padding inside data already !
 
 		//	if(!((image->Width >> 3) & 0x1))
-		//		image->io.getc(image->io.handle);	// Skip pad byte
+		//		image->io.devil_getc(image->io.handle);	// Skip pad byte
 		}
 	}
 	else if (Header->NumPlanes == 4 && Header->Bpp == 1){   // 4-bit images
@@ -382,14 +382,14 @@ ILuint encput(SIO* io, ILubyte byt, ILubyte cnt)
 {
 	if (cnt) {
 		if ((cnt == 1) && (0xC0 != (0xC0 & byt))) {
-			if (IL_EOF == io->putc(byt, io->handle))
+			if (IL_EOF == io->devil_putc(byt, io->handle))
 				return(0);     /* disk write error (probably full) */
 			return(1);
 		}
 		else {
-			if (IL_EOF == io->putc((ILubyte)((ILuint)0xC0 | cnt), io->handle))
+			if (IL_EOF == io->devil_putc((ILubyte)((ILuint)0xC0 | cnt), io->handle))
 				return (0);      /* disk write error */
-			if (IL_EOF == io->putc(byt, io->handle))
+			if (IL_EOF == io->devil_putc(byt, io->handle))
 				return (0);      /* disk write error */
 			return (2);
 		}
@@ -442,12 +442,12 @@ ILuint encLine(SIO* io, ILubyte *inBuff, ILint inLen, ILubyte Stride)
 		if (! (i = encput(io, last, runCount)))
 			return (0);
 		if (inLen % 2)
-			io->putc(0, io->handle);
+			io->devil_putc(0, io->handle);
 		return (total + i);
 	}
 	else {
 		if (inLen % 2)
-			io->putc(0, io->handle);
+			io->devil_putc(0, io->handle);
 	}
 
 	return (total);
@@ -509,10 +509,10 @@ ILboolean iSavePcxInternal(ILimage* image)
 	}
 
 
-	image->io.putc(0xA, image->io.handle);  // Manufacturer - always 10
-	image->io.putc(0x5, image->io.handle);  // Version Number - always 5
-	image->io.putc(0x1, image->io.handle);  // Encoding - always 1
-	image->io.putc(0x8, image->io.handle);  // Bits per channel
+	image->io.devil_putc(0xA, image->io.handle);  // Manufacturer - always 10
+	image->io.devil_putc(0x5, image->io.handle);  // Version Number - always 5
+	image->io.devil_putc(0x1, image->io.handle);  // Encoding - always 1
+	image->io.devil_putc(0x8, image->io.handle);  // Bits per channel
 	SaveLittleUShort(&image->io, 0);  // X Minimum
 	SaveLittleUShort(&image->io, 0);  // Y Minimum
 	SaveLittleUShort(&image->io, (ILushort)(image->Width - 1));
@@ -522,18 +522,18 @@ ILboolean iSavePcxInternal(ILimage* image)
 
 	// Useless palette info?
 	for (i = 0; i < 48; i++) {
-		image->io.putc(0, image->io.handle);
+		image->io.devil_putc(0, image->io.handle);
 	}
-	image->io.putc(0x0, image->io.handle);  // Reserved - always 0
+	image->io.devil_putc(0x0, image->io.handle);  // Reserved - always 0
 
-	image->io.putc(image->Bpp, image->io.handle);  // Number of planes - only 1 is supported right now
+	image->io.devil_putc(image->Bpp, image->io.handle);  // Number of planes - only 1 is supported right now
 
 	SaveLittleUShort(&image->io, (ILushort)(image->Width & 1 ? image->Width + 1 : image->Width));  // Bps
 	SaveLittleUShort(&image->io, 0x1);  // Palette type - ignored?
 
 	// Mainly filler info
 	for (i = 0; i < 58; i++) {
-		image->io.putc(0x0, image->io.handle);
+		image->io.devil_putc(0x0, image->io.handle);
 	}
 
 	// Output data
@@ -545,7 +545,7 @@ ILboolean iSavePcxInternal(ILimage* image)
 
 	// Automatically assuming we have a palette...dangerous!
 	//	Also assuming 3 bpp palette
-	image->io.putc(0xC, image->io.handle);  // Pad byte must have this value
+	image->io.devil_putc(0xC, image->io.handle);  // Pad byte must have this value
 
 	// If the current image has a palette, take care of it
 	if (TempImage->Format == IL_COLOUR_INDEX) {
@@ -572,7 +572,7 @@ ILboolean iSavePcxInternal(ILimage* image)
 	// If the palette is not all 256 colours, we have to pad it.
 	PalSize = 768 - image->Pal.PalSize;
 	for (i = 0; i < PalSize; i++) {
-		image->io.putc(0x0, image->io.handle);
+		image->io.devil_putc(0x0, image->io.handle);
 	}
 
 	if (TempImage->Origin == IL_ORIGIN_LOWER_LEFT)

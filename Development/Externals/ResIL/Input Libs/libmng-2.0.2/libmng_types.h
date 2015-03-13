@@ -200,10 +200,10 @@
 #endif
 #define JPEG_INTERNAL_OPTIONS          /* for RGB_PIXELSIZE */
 /* There has been a change in jpeg-9 : */
-#ifndef _WIN32
-#define HAVE_BOOLEAN
-typedef int boolean;
-#endif
+//#ifndef _WIN32
+//#define HAVE_BOOLEAN
+//typedef int boolean;
+//#endif
 #include "../jpegsr9a/jpeglib.h"
 #endif /* MNG_INCLUDE_IJG6B */
 

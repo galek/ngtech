@@ -56,7 +56,7 @@
     <ClCompile Include="openal\Alc\alcConfig.c" />
     <ClCompile Include="openal\Alc\alcRing.c" />
     <ClCompile Include="openal\Alc\ALu.c" />
-    <ClCompile Include="openal\Alc\backends\baseBackEnd.c" />
+    <ClCompile Include="openal\Alc\backends\base_backend.c" />
     <ClCompile Include="openal\Alc\backends\dsound.c" />
     <ClCompile Include="openal\Alc\backends\loopback.c" />
     <ClCompile Include="openal\Alc\backends\mmdevapi.c" />
@@ -864,7 +864,7 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>windows_configs;openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
@@ -921,7 +921,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>windows_configs;openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -942,7 +942,7 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_WINDOWS;%(PreprocessorDefinitions);AL_BUILD_LIBRARY;AL_ALEXT_PROTOTYPES;_LARGEFILE_SOURCE;_LARGE_FILES;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_WIN32;_WIN32_WINNT=0x0502</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>windows_configs;openal;openal/alc;openal/include;openal/OpenAL32/Include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>

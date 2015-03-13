@@ -33,7 +33,7 @@ ILboolean iIsValidTarga(SIO* io)
 {
 	TARGAHEAD	Head;
 	auto read = iGetTgaHead(io, &Head);
-	io->seek(io->handle, -read, IL_SEEK_CUR);
+	io->devil_seek(io->handle, -read, IL_SEEK_CUR);
 
 	if (read == sizeof(Head)) 
 		return iCheckTarga(&Head);
@@ -197,7 +197,7 @@ ILboolean iReadColMapTga(ILimage* image, TARGAHEAD *Header)
 		for (i = 0; i < image->Pal.PalSize; i += 4)
 		{
 			Pixel = GetBigUShort(&image->io);
-			if (image->io.eof(image->io.handle))
+			if (image->io.devil_eof(image->io.handle))
 				return IL_FALSE;
 			image->Pal.Palette[3] = (Pixel & 0x8000) >> 12;
 			image->Pal.Palette[0] = (Pixel & 0xFC00) >> 7;
@@ -342,7 +342,7 @@ ILboolean iUncompressTgaData(ILimage *image)
 	Size = image->Width * image->Height * image->Depth * image->Bpp;
 	
 	while (BytesRead < Size) {
-		Header = (ILubyte)image->io.getc(image->io.handle);
+		Header = (ILubyte)image->io.devil_getc(image->io.handle);
 		if (Header & BIT_7) {
 			ClearBits(Header, BIT_7);
 			if (image->io.read(image->io.handle, Color, 1, image->Bpp) != image->Bpp) {
@@ -370,7 +370,7 @@ ILboolean iUncompressTgaData(ILimage *image)
 			BytesRead += RunLen;
 
 			if (BytesRead + RunLen > Size)
-				image->io.seek(image->io.handle, RunLen - ToRead, IL_SEEK_CUR);
+				image->io.devil_seek(image->io.handle, RunLen - ToRead, IL_SEEK_CUR);
 		}
 	}
 	
@@ -603,7 +603,7 @@ ILboolean iSaveTargaInternal(ILimage* image)
 	}
 	
 	// Write the extension area.
-	ExtOffset = image->io.tell(image->io.handle);
+	ExtOffset = image->io.devil_tell(image->io.handle);
 	SaveLittleUShort(&image->io, 495);	// Number of bytes in the extension area (TGA 2.0 spec)
 	image->io.write(AuthName, 1, ilCharStrLen(AuthName), image->io.handle);
 	ipad(41 - ilCharStrLen(AuthName));
@@ -625,7 +625,7 @@ ILboolean iSaveTargaInternal(ILimage* image)
 		SaveLittleUShort(&image->io, 0);
 	}
 	for (i = 0; i < 41; i++) {	// Job name/ID
-		image->io.putc(0, image->io.handle);
+		image->io.devil_putc(0, image->io.handle);
 	}
 	for (i = 0; i < 3; i++) {  // Job time
 		SaveLittleUShort(&image->io, 0);
@@ -633,10 +633,10 @@ ILboolean iSaveTargaInternal(ILimage* image)
 	
 	image->io.write(idString, 1, ilCharStrLen(idString), image->io.handle);	// Software ID
 	for (i = 0; i < 41 - ilCharStrLen(idString); i++) {
-		image->io.putc(0, image->io.handle);
+		image->io.devil_putc(0, image->io.handle);
 	}
 	SaveLittleUShort(&image->io, IL_VERSION);  // Software version
-	image->io.putc(' ', image->io.handle);  // Release letter (not beta anymore, so use a space)
+	image->io.devil_putc(' ', image->io.handle);  // Release letter (not beta anymore, so use a space)
 	
 	SaveLittleUInt(&image->io, 0);	// Key colour
 	SaveLittleUInt(&image->io, 0);	// Pixel aspect ratio
@@ -644,7 +644,7 @@ ILboolean iSaveTargaInternal(ILimage* image)
 	SaveLittleUInt(&image->io, 0);	// Colour correction offset
 	SaveLittleUInt(&image->io, 0);	// Postage stamp offset
 	SaveLittleUInt(&image->io, 0);	// Scan line offset
-	image->io.putc(3, image->io.handle);  // Attributes type
+	image->io.devil_putc(3, image->io.handle);  // Attributes type
 	
 	// Write the footer.
 	SaveLittleUInt(&image->io, ExtOffset);	// No extension area

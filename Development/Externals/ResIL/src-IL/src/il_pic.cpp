@@ -60,7 +60,7 @@ ILboolean iIsValidPic(SIO* io)
 	PIC_HEAD	Head;
 
 	auto read = iGetPicHead(io, &Head);
-	io->seek(io->handle, -read, IL_SEEK_CUR);  // Go ahead and restore to previous state
+	io->devil_seek(io->handle, -read, IL_SEEK_CUR);  // Go ahead and restore to previous state
 	if (read == sizeof(Head))
 		return iCheckPic(&Head);
 	else
@@ -75,17 +75,17 @@ ILboolean channelReadMixed(SIO* io, ILubyte *scan, ILint width, ILint noCol, ILi
 	ILubyte	col[4];
 
 	for(i = 0; i < width; i += count) {
-		if (io->eof(io->handle))
+		if (io->devil_eof(io->handle))
 			return IL_FALSE;
 
-		count = io->getc(io->handle);
+		count = io->devil_getc(io->handle);
 		if (count == IL_EOF)
 			return IL_FALSE;
 
 		if (count >= 128) {  // Repeated sequence
 			if (count == 128) {  // Long run
 				count = GetBigUShort(io);
-				if (io->eof(io->handle)) {
+				if (io->devil_eof(io->handle)) {
 					ilSetError(IL_FILE_READ_ERROR);
 					return IL_FALSE;
 				}
@@ -137,7 +137,7 @@ ILboolean channelReadRaw(SIO* io, ILubyte *scan, ILint width, ILint noCol, ILint
 	ILint i, j;
 
 	for (i = 0; i < width; i++) {
-		if (io->eof(io->handle))
+		if (io->devil_eof(io->handle))
 			return IL_FALSE;
 		for (j = 0; j < noCol; j++)
 			if (io->read(io->handle, &scan[off[j]], 1, 1) != 1)
@@ -155,14 +155,14 @@ ILboolean channelReadPure(SIO* io, ILubyte *scan, ILint width, ILint noCol, ILin
 	int			i, j, k;
 
 	for (i = width; i > 0; ) {
-		count = io->getc(io->handle);
+		count = io->devil_getc(io->handle);
 		if (count == IL_EOF)
 			return IL_FALSE;
 		if (count > width)
 			count = width;
 		i -= count;
 		
-		if (io->eof(io->handle))
+		if (io->devil_eof(io->handle))
 			return IL_FALSE;
 		
 		for (j = 0; j < noCol; j++)
@@ -289,11 +289,11 @@ ILboolean iLoadPicInternal(ILimage* image)
 		}
 		Channels->Next = NULL;
 
-		Chained = image->io.getc(image->io.handle);
-		Channels->Size = image->io.getc(image->io.handle);
-		Channels->Type = image->io.getc(image->io.handle);
-		Channels->Chan = image->io.getc(image->io.handle);
-		if (image->io.eof(image->io.handle)) {
+		Chained = image->io.devil_getc(image->io.handle);
+		Channels->Size = image->io.devil_getc(image->io.handle);
+		Channels->Type = image->io.devil_getc(image->io.handle);
+		Channels->Chan = image->io.devil_getc(image->io.handle);
+		if (image->io.devil_eof(image->io.handle)) {
 			Read = IL_FALSE;
 			goto finish;
 		}

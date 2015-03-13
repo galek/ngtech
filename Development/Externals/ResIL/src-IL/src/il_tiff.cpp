@@ -63,15 +63,15 @@ ILboolean ilIsValidTiffFunc(SIO* io)
 
 	if (Header1 == MAGIC_HEADER1) {
 		Header2 = GetLittleUShort(io);
-		io->seek(io->handle, -4, SEEK_CUR);
+		io->devil_seek(io->handle, -4, SEEK_CUR);
 	}
 	else if (Header1 == MAGIC_HEADER2) {
 		Header2 = GetBigUShort(io);
-		io->seek(io->handle, -4, SEEK_CUR);
+		io->devil_seek(io->handle, -4, SEEK_CUR);
 	}
 	else {
 		bRet = IL_FALSE;
-		io->seek(io->handle, -2, SEEK_CUR);
+		io->devil_seek(io->handle, -2, SEEK_CUR);
 	}
 
 	if (Header2 != 42)
@@ -605,8 +605,8 @@ _tiffFileSeekProc(thandle_t fd, toff_t tOff, int whence)
 	if (tOff == 0xFFFFFFFF)
 		return 0xFFFFFFFF;
 
-	iCurImage->io.seek(iCurImage->io.handle, tOff, whence);
-	return iCurImage->io.tell(iCurImage->io.handle);
+	iCurImage->io.devil_seek(iCurImage->io.handle, tOff, whence);
+	return iCurImage->io.devil_tell(iCurImage->io.handle);
 	//return tOff;
 }
 
@@ -619,8 +619,8 @@ _tiffFileSeekProcW(thandle_t fd, toff_t tOff, int whence)
 	if (tOff == 0xFFFFFFFF)
 		return 0xFFFFFFFF;
 
-	iCurImage->io.seek(iCurImage->io.handle, tOff, whence);
-	return iCurImage->io.tell(iCurImage->io.handle);
+	iCurImage->io.devil_seek(iCurImage->io.handle, tOff, whence);
+	return iCurImage->io.devil_tell(iCurImage->io.handle);
 	//return tOff;
 }
 
@@ -639,10 +639,10 @@ static toff_t
 _tiffFileSizeProc(thandle_t fd)
 {
 	ILint Offset, Size;
-	Offset = iCurImage->io.tell(iCurImage->io.handle);
-	iCurImage->io.seek(iCurImage->io.handle, 0, IL_SEEK_END);
-	Size = iCurImage->io.tell(iCurImage->io.handle);
-	iCurImage->io.seek(iCurImage->io.handle, Offset, IL_SEEK_SET);
+	Offset = iCurImage->io.devil_tell(iCurImage->io.handle);
+	iCurImage->io.devil_seek(iCurImage->io.handle, 0, IL_SEEK_END);
+	Size = iCurImage->io.devil_tell(iCurImage->io.handle);
+	iCurImage->io.devil_seek(iCurImage->io.handle, Offset, IL_SEEK_SET);
 
 	fd;
 
@@ -655,10 +655,10 @@ static toff_t
 _tiffFileSizeProcW(thandle_t fd)
 {
 	ILint Offset, Size;
-	Offset = iCurImage->io.tell(iCurImage->io.handle);
-	iCurImage->io.seek(iCurImage->io.handle, 0, IL_SEEK_END);
-	Size = iCurImage->io.tell(iCurImage->io.handle);
-	iCurImage->io.seek(iCurImage->io.handle, Offset, IL_SEEK_SET);
+	Offset = iCurImage->io.devil_tell(iCurImage->io.handle);
+	iCurImage->io.devil_seek(iCurImage->io.handle, 0, IL_SEEK_END);
+	Size = iCurImage->io.devil_tell(iCurImage->io.handle);
+	iCurImage->io.devil_seek(iCurImage->io.handle, Offset, IL_SEEK_SET);
 
 	return Size;
 }

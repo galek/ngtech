@@ -102,7 +102,7 @@ ILboolean iIsValidSun(SIO* io)
 {
 	SUNHEAD Head;
 	ILint read = iGetSunHead(io, &Head);
-	io->seek(io->handle, -read, IL_SEEK_CUR);
+	io->devil_seek(io->handle, -read, IL_SEEK_CUR);
 
 	if (read == sizeof(Head))
 		return iCheckSun(&Head);
@@ -118,16 +118,16 @@ ILuint iSunGetRle(ILimage* image, ILubyte *Data, ILuint Length)
 	ILuint	Count;
 
 	for (i = 0; i < Length; ) {
-		Flag = image->io.getc(image->io.handle);
+		Flag = image->io.devil_getc(image->io.handle);
 		if (Flag == 0x80) {  // Run follows (or 1 byte of 0x80)
-			Count = image->io.getc(image->io.handle);
+			Count = image->io.devil_getc(image->io.handle);
 			if (Count == 0) {  // 1 pixel of value (0x80)
 				*Data = 0x80;
 				Data++;
 				i++;
 			}
 			else {  // Here we have a run.
-				Value = image->io.getc(image->io.handle);
+				Value = image->io.devil_getc(image->io.handle);
 				Count++;  // Should really be Count+1
 				for (j = 0; j < Count && i + j < Length; j++, Data++) {
 					*Data = Value;
@@ -161,16 +161,16 @@ void iSunDecodeRle(ILimage* image)
 {
 	ILuint dataOffset = 0;
 
-	while (dataOffset < image->SizeOfData && !image->io.eof(image->io.handle)) {
-		ILubyte Flag = image->io.getc(image->io.handle);
+	while (dataOffset < image->SizeOfData && !image->io.devil_eof(image->io.handle)) {
+		ILubyte Flag = image->io.devil_getc(image->io.handle);
 		if (Flag == 0x80) {
-			ILuint count = image->io.getc(image->io.handle);
+			ILuint count = image->io.devil_getc(image->io.handle);
 			if (count == 0) {
 				// Output 0x80 once (input values of 0x80 are encoded as 0x8000)
 				writeSunPixels(image, dataOffset, 0x80, 1);
 			} else {
 				// Here we have a run.
-				ILubyte value = image->io.getc(image->io.handle);
+				ILubyte value = image->io.devil_getc(image->io.handle);
 				writeSunPixels(image, dataOffset, value, count+1);
 			}
 		} else {
@@ -298,7 +298,7 @@ ILboolean iLoadSunInternal(ILimage* image)
 				for (i = 0; i < Header.Height; i++) {
 					image->io.read(image->io.handle, image->Data + i * Header.Width, 1, image->Bps);
 					if (Padding)  // Only possible for padding to be 0 or 1.
-						image->io.getc(image->io.handle);
+						image->io.devil_getc(image->io.handle);
 				}
 			}
 			else {  // RLE image data
@@ -308,7 +308,7 @@ ILboolean iLoadSunInternal(ILimage* image)
 
 		case 24:
 			if (Header.ColorMapLength > 0)  // Ignore any possible colormaps.
-				image->io.seek(image->io.handle, Header.ColorMapLength, IL_SEEK_CUR);
+				image->io.devil_seek(image->io.handle, Header.ColorMapLength, IL_SEEK_CUR);
 
 			if (Header.Type == IL_SUN_RGB) {
 				if (!ilTexImage(Header.Width, Header.Height, 1, 3, IL_RGB, IL_UNSIGNED_BYTE, NULL))
@@ -325,7 +325,7 @@ ILboolean iLoadSunInternal(ILimage* image)
 				for (i = 0; i < Header.Height; i++) {
 					image->io.read(image->io.handle, image->Data + i * Header.Width * 3, 1, image->Bps);
 					if (Padding)  // Only possible for padding to be 0 or 1.
-						image->io.getc(image->io.handle);
+						image->io.devil_getc(image->io.handle);
 				}
 			}
 			else {  // RLE image data
@@ -336,7 +336,7 @@ ILboolean iLoadSunInternal(ILimage* image)
 
 		case 32:
 			if (Header.ColorMapLength > 0)  // Ignore any possible colormaps.
-				image->io.seek(image->io.handle, Header.ColorMapLength, IL_SEEK_CUR);
+				image->io.devil_seek(image->io.handle, Header.ColorMapLength, IL_SEEK_CUR);
 
 			if (Header.Type == IL_SUN_RGB) {
 				if (!ilTexImage(Header.Width, Header.Height, 1, 3, IL_RGB, IL_UNSIGNED_BYTE, NULL))

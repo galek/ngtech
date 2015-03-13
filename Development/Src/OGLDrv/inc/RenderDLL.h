@@ -2,7 +2,7 @@
 
 #include "../../Platform/inc/platformdetect.h"
 
-#if (PLATFORM_OS == PLATFORM_OS_WINDOWS) &&(!defined NGTECH_STATIC_LIBS)
+#if  PLATFORM_OS == PLATFORM_OS_WINDOWS
 #ifndef RENDER_API
 #ifdef RENDER_EXPORTS
 #define RENDER_API __declspec(dllexport)

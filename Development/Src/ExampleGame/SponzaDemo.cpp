@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\..\API\NGTechEngineAPI.h"
+#include "../../API/NGTechEngineAPI.h"
 
 #define SPONZA_DEMO
 
@@ -15,6 +15,7 @@ using namespace NGTech;
 void ExampleGame::update() {}
 //------------------------------------------------------------
 void ExampleGame::initialise() {
+#ifndef __LINUX__
 	events = new GameGUIEvents();
 	//initializing loading screen
 	/*LoadingScreen lscreen("sponza/background.png");
@@ -140,6 +141,7 @@ void ExampleGame::initialise() {
 	sMesh->SetTransform(Mat4::translate(Vec3(-60, 60, 0)));*/
 
 	GetWindow()->grabMouse(true);
+	#endif
 }
 //------------------------------------------------------------
 EventsCallback::EventsCallback(){}
@@ -152,6 +154,7 @@ void ShowConsole()
 	GetWindow()->grabMouse(status);
 }
 
+#ifndef __LINUX__
 void AsyncLoad(const char* _file)
 {
 	unsigned char * data = NULL;
@@ -196,7 +199,7 @@ void AsyncLoad(const char* _file)
 		Warning((char*)data);
 	}
 }
-
+#endif
 
 void EventsCallback::Body(){
 	if (GetWindow()->isKeyDown("ESC"))

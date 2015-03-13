@@ -33,15 +33,15 @@ namespace MyGUI
 		char buf[32];
 		sprintf(buf, "%d", _line);
 		std::string line = std::string(buf);
-		
+	/*TODO:Расскоментируй
 		if (_level == MyGUI::LogLevel::Info)
 			NGTech::DebugF("[GUI] " + _section + " " + _message + " In: ", _file, _line);
 		else if (_level == MyGUI::LogLevel::Warning)
-			NGTech::LogPrintf("[GUI] ", _section, " ",_message," In: ",_file, " : ", line);
+			NGTech::LogPrintf("[GUI] ", _section.c_str(), " ",_message.c_str()," In: ",_file, " : ", line);
 		else if (_level == MyGUI::LogLevel::Error)
 			NGTech::Warning("[GUI] %s %s In:%s : %i",_section.c_str(),_message,_file,line);
 		else if (_level == MyGUI::LogLevel::Critical)
-			NGTech::Error("[GUI] " + _section + " " + _message + " In: " + _file + " : " + line, true);
+			NGTech::Error("[GUI] " + _section + " " + _message + " In: " + _file + " : " + line, true);*/
 	}
 
 } // namespace MyGUI

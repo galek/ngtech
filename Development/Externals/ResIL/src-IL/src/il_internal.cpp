@@ -25,7 +25,7 @@ ILimage *iCurImage = NULL;
 #if !_WIN32 || (_WIN32 && __GNUC__) // Cygwin
 	int stricmp(const char *src1, const char *src2)
 	{
-		return strcasecmp(src1, src2);
+		return _stricmp(src1, src2);
 	}
 	int strnicmp(const char *src1, const char *src2, size_t max)
 	{
@@ -45,7 +45,7 @@ ILimage *iCurImage = NULL;
 #ifdef _WIN32_WCE
 	char *strdup(const char *src)
 	{
-		return _strdup(src);
+		return strdup(src);
 	}
 #endif//_WIN32_WCE
 
@@ -185,7 +185,7 @@ ILbyte *iFgets(char *buffer, ILuint maxlen)
 	ILuint	counter = 0;
 	ILint	temp = '\0';
 
-	while ((temp = iCurImage->io.getc(iCurImage->io.handle)) && temp != '\n' && temp != IL_EOF && counter < maxlen) {
+	while ((temp = iCurImage->io.devil_getc(iCurImage->io.handle)) && temp != '\n' && temp != IL_EOF && counter < maxlen) {
 		buffer[counter] = temp;
 		counter++;
 	}

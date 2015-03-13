@@ -60,9 +60,9 @@ ILboolean iIsValidVtf(SIO* io)
 {
 	VTFHEAD Header;
 
-	ILint64 oldReadPos = io->tell(io->handle);
+	ILint64 oldReadPos = io->devil_tell(io->handle);
 	ILboolean gotHeader = iGetVtfHead(io, &Header);
-	io->seek(io->handle, oldReadPos, IL_SEEK_SET);
+	io->devil_seek(io->handle, oldReadPos, IL_SEEK_SET);
 	
 	if (gotHeader)
 		return iCheckVtf(&Header);
@@ -160,7 +160,7 @@ ILboolean iLoadVtfInternal(ILimage*)
 	SizeOfData = IL_MAX(Head.LowResImageWidth * Head.LowResImageHeight / 2, 8);
 	if (Head.LowResImageWidth == 0 && Head.LowResImageHeight == 0)
 		SizeOfData = 0;  // No low resolution image present.
-	iCurImage->io.seek(iCurImage->io.handle, SizeOfData, IL_SEEK_CUR);
+	iCurImage->io.devil_seek(iCurImage->io.handle, SizeOfData, IL_SEEK_CUR);
 
 	//@TODO: Make this a helper function that set channels, bpc and format.
 	switch (Head.HighResImageFormat)
@@ -740,18 +740,18 @@ ILboolean iSaveVtfInternal(ILimage*)
 	// Image format
 	SaveLittleUInt(&iCurImage->io, Format);
 	// Mipmap count - @TODO: Use mipmaps
-	iCurImage->io.putc(1, iCurImage->io.handle);
+	iCurImage->io.devil_putc(1, iCurImage->io.handle);
 	// Low resolution image format - @TODO: Create low resolution image.
 	SaveLittleUInt(&iCurImage->io, 0xFFFFFFFF);
 	// Low resolution image width and height
-	iCurImage->io.putc(0, iCurImage->io.handle);
-	iCurImage->io.putc(0, iCurImage->io.handle);
+	iCurImage->io.devil_putc(0, iCurImage->io.handle);
+	iCurImage->io.devil_putc(0, iCurImage->io.handle);
 	// Depth of the image - @TODO: Support for volumetric images.
 	SaveLittleUShort(&iCurImage->io, 1);
 
 	// Write final padding for the header (out to 80 bytes).
 	for (i = 0; i < 15; i++) {
-		iCurImage->io.putc(0, iCurImage->io.handle);
+		iCurImage->io.devil_putc(0, iCurImage->io.handle);
 	}
 
 	if (Compression == IL_DXT_NO_COMP) {

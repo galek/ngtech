@@ -515,7 +515,7 @@ SYMBOL BinSrchKey(const char *id)
     while (r >= l)
     {
         x = (l+r)/2;
-        res = cmsstrcasecmp(id, TabKeys[x-1].id);
+        res = cms_stricmp(id, TabKeys[x-1].id);
         if (res == 0) return TabKeys[x-1].sy;
         if (res < 0) r = x - 1;
         else l = x + 1;
@@ -1126,7 +1126,7 @@ cmsBool IsAvailableOnList(KEYVALUE* p, const char* Key, const char* Subkey, KEYV
 
         if (*Key != '#') { // Comments are ignored
 
-            if (cmsstrcasecmp(Key, p->Keyword) == 0)
+            if (cms_stricmp(Key, p->Keyword) == 0)
                 break;
         }
     }
@@ -1143,7 +1143,7 @@ cmsBool IsAvailableOnList(KEYVALUE* p, const char* Key, const char* Subkey, KEYV
 
         if (LastPtr) *LastPtr = p;
 
-        if (cmsstrcasecmp(Subkey, p->Subkey) == 0)
+        if (cms_stricmp(Subkey, p->Subkey) == 0)
             return TRUE;
     }
 
@@ -2148,7 +2148,7 @@ void CookPointers(cmsIT8* it8)
         if (!Fld) continue;
 
 
-        if (cmsstrcasecmp(Fld, "SAMPLE_ID") == 0) {
+        if (cms_stricmp(Fld, "SAMPLE_ID") == 0) {
 
                     t -> SampleID = idField;
 
@@ -2173,7 +2173,7 @@ void CookPointers(cmsIT8* it8)
 
         // "LABEL" is an extension. It keeps references to forward tables
 
-        if ((cmsstrcasecmp(Fld, "LABEL") == 0) || Fld[0] == '$' ) {
+        if ((cms_stricmp(Fld, "LABEL") == 0) || Fld[0] == '$' ) {
 
                     // Search for table references...
                     for (i=0; i < t -> nPatches; i++) {
@@ -2477,7 +2477,7 @@ int LocatePatch(cmsIT8* it8, const char* cPatch)
 
         if (data != NULL) {
 
-                if (cmsstrcasecmp(data, cPatch) == 0)
+                if (cms_stricmp(data, cPatch) == 0)
                         return i;
                 }
         }
@@ -2516,7 +2516,7 @@ int LocateSample(cmsIT8* it8, const char* cSample)
     for (i=0; i < t->nSamples; i++) {
 
         fld = GetDataFormat(it8, i);
-        if (cmsstrcasecmp(fld, cSample) == 0)
+        if (cms_stricmp(fld, cSample) == 0)
             return i;
     }
 
@@ -2636,7 +2636,7 @@ cmsBool CMSEXPORT cmsIT8SetData(cmsHANDLE hIT8, const char* cPatch, const char* 
         CookPointers(it8);
     }
 
-    if (cmsstrcasecmp(cSample, "SAMPLE_ID") == 0) {
+    if (cms_stricmp(cSample, "SAMPLE_ID") == 0) {
 
         iSet   = LocateEmptyPatch(it8);
         if (iSet < 0) {
@@ -2734,7 +2734,7 @@ int CMSEXPORT cmsIT8SetTableByLabel(cmsHANDLE hIT8, const char* cSet, const char
 
     if (ExpectedType) {
 
-        if (cmsstrcasecmp(Type, ExpectedType) != 0) return -1;
+        if (cms_stricmp(Type, ExpectedType) != 0) return -1;
     }
 
     return cmsIT8SetTable(hIT8, nTable);

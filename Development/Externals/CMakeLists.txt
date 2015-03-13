@@ -8,15 +8,6 @@ include_directories(openal/alc)
 include_directories(openal/include)
 include_directories(openal/OpenAL32/Include)
 
-#OPENAL
-file(GLOB OPENAL
-    "openal/common/*.c"
-    "openal/OpenAL32/*.c"
-    "openal/Alc/*.c"
-    "openal/Alc/midi/*.c"
-    "openal/Alc/effects/*.c"
-    "openal/Alc/backends/*.c"
-)
 #LIBOGG LIBVORBIS
 file(GLOB LIBOGGVORBIS
     "libogg/src/*.c"
@@ -58,12 +49,17 @@ file(GLOB MYGUI
 )
 #TODO:Сделать отдельно OGL рендер для GUI
 
-#IF(UNIX)
-#add_definitions(-D__LINUX__)
-#ENDIF(UNIX)
+IF(UNIX)
+add_definitions(-D__LINUX__)
+ENDIF(UNIX)
 
-add_library(Externals ${OPENAL} ${LIBOGGVORBIS} ${RESIL} ${FREETYPE} ${MYGUI})
-#target_link_libraries(Externals "${LIBRARIES_FROM_REFERENCES}")
+add_subdirectory(openal)
+add_subdirectory(glfw)
+
+add_library(Externals ${LIBOGGVORBIS} ${RESIL} ${FREETYPE} ${MYGUI} glfw openal)
+#Nick
+target_link_libraries(Externals "${LIBRARIES_FROM_REFERENCES}")
+
 add_definitions(-D_LIB -DMYGUI_BUILD -DAL_BUILD_LIBRARY -DAL_ALEXT_PROTOTYPES -D_LARGEFILE_SOURCE -D_LARGE_FILES -D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE -DHAVE_GCC_DESTRUCTOR)
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -D_DEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_DEBUG")

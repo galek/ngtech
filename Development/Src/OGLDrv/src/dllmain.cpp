@@ -20,7 +20,7 @@
 
 extern "C"
 {
-	void __declspec(dllexport) dllStartPlugin(void) throw(){
+	void /*__declspec(dllexport)*/ dllStartPlugin(void) throw(){
 		using namespace NGTech;
 		Debug("Loading dllStartPlugin");
 		auto core = GetCore();

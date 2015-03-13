@@ -1,5 +1,6 @@
 #pragma once
 
+#ifndef __LINUX__
 #include <windows.h>
 
 // special defines for VC5/6 (if no actual PSDK is installed):
@@ -175,4 +176,5 @@ protected:
     c.ContextFlags = contextFlags; \
     RtlCaptureContext(&c); \
   } while(0);
+#endif
 #endif

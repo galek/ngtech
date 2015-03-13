@@ -1,3 +1,4 @@
+#ifndef __LINUX__
 #include <windows.h>
 #include <tchar.h>
 #include <stdio.h>
@@ -1133,3 +1134,4 @@ void StackWalker::OnOutput(LPCSTR buffer)
 {
 	OutputDebugStringA(buffer);
 }
+#endif

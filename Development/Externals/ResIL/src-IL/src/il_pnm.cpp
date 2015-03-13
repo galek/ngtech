@@ -40,7 +40,7 @@ ILboolean iIsValidPnm()
 	ILint	Read;
 
 	Read = iCurImage->io.read(iCurImage->io.handle, Head, 1, 2);
-	iCurImage->io.seek(iCurImage->io.handle, -Read, IL_SEEK_CUR);  // Go ahead and restore to previous state
+	iCurImage->io.devil_seek(iCurImage->io.handle, -Read, IL_SEEK_CUR);  // Go ahead and restore to previous state
 	if (Read != 2)
 		return IL_FALSE;
 
@@ -284,16 +284,6 @@ ILimage *ilReadBinaryPpm(PPMINFO *Info)
 	}
 	iCurImage->Origin = IL_ORIGIN_UPPER_LEFT;
 
-	/* 4/3/2007 Dario Meloni
-	 Here it seems we have eaten too much bytes and it is needed to fix 
-	 the starting point
-	 works well on various images
-	
-	No more need of this workaround. fixed iGetWord
-	iCurImage->io.seek(iCurImage->io.handle, 0,IL_SEEK_END);
-	ILuint size = iCurImage->io.tell(iCurImage->io.handle);
-	iCurImage->io.seek(iCurImage->io.handle, size-Size,IL_SEEK_SET);
-	*/
 	if (iCurImage->io.read(iCurImage->io.handle, iCurImage->Data, 1, Size ) != Size) {
 		ilCloseImage(iCurImage);	
 		return NULL;
@@ -313,7 +303,7 @@ ILimage *ilReadBitPbm(PPMINFO *Info)
 
 	x = 0;
 	for (j = 0; j < iCurImage->SizeOfData;) {
-		CurrByte = iCurImage->io.getc(iCurImage->io.handle);
+		CurrByte = iCurImage->io.devil_getc(iCurImage->io.handle);
 		for (m = 128; m > 0 && x < Info->Width; m >>= 1, ++x, ++j) {
 			iCurImage->Data[j] = (CurrByte & m)?255:0;
 		}
@@ -332,11 +322,11 @@ ILboolean iGetWord(ILboolean final)
 	ILboolean Started = IL_FALSE;
 	ILboolean Looping = IL_TRUE;
 
-	if (iCurImage->io.eof(iCurImage->io.handle))
+	if (iCurImage->io.devil_eof(iCurImage->io.handle))
 		return IL_FALSE;
 
 	while (Looping) {
-		while ((Current = iCurImage->io.getc(iCurImage->io.handle)) != IL_EOF && Current != '\n' && Current != '#' && Current != ' ') {
+		while ((Current = iCurImage->io.devil_getc(iCurImage->io.handle)) != IL_EOF && Current != '\n' && Current != '#' && Current != ' ') {
 			if (WordPos >= MAX_BUFFER)  // We have hit the maximum line length.
 				return IL_FALSE;
 
@@ -361,15 +351,15 @@ ILboolean iGetWord(ILboolean final)
 			break;
 
 		if (Current == '#') {  // '#' is a comment...read until end of line
-			while ((Current = iCurImage->io.getc(iCurImage->io.handle)) != IL_EOF && Current != '\n');
+			while ((Current = iCurImage->io.devil_getc(iCurImage->io.handle)) != IL_EOF && Current != '\n');
 		}
 
 		// Get rid of any erroneous spaces
-		while ((Current = iCurImage->io.getc(iCurImage->io.handle)) != IL_EOF) {
+		while ((Current = iCurImage->io.devil_getc(iCurImage->io.handle)) != IL_EOF) {
 			if (Current != ' ')
 				break;
 		}
-		iCurImage->io.seek(iCurImage->io.handle, -1, IL_SEEK_CUR);
+		iCurImage->io.devil_seek(iCurImage->io.handle, -1, IL_SEEK_CUR);
 
 		if (WordPos > 0)
 			break;
@@ -383,58 +373,6 @@ ILboolean iGetWord(ILboolean final)
 	return IL_TRUE;
 }
 
-
-//! Writes a Pnm file
-/*ILboolean ilSavePnm(const ILstring FileName)
-{
-	ILHANDLE	PnmFile;
-	ILuint		PnmSize;
-
-	if (ilGetBoolean(IL_FILE_MODE) == IL_FALSE) {
-		if (iFileExists(FileName)) {
-			ilSetError(IL_FILE_ALREADY_EXISTS);
-			return IL_FALSE;
-		}
-	}
-
-	PnmFile = iCurImage->io.openWrite(FileName);
-	if (PnmFile == NULL) {
-		ilSetError(IL_COULD_NOT_OPEN_FILE);
-		return IL_FALSE;
-	}
-
-	PnmSize = ilSavePnmF(PnmFile);
-	iCurImage->io.close(PnmFile);
-
-	if (PnmSize == 0)
-		return IL_FALSE;
-	return IL_TRUE;
-}
-
-
-//! Writes a Pnm to an already-opened file
-ILuint ilSavePnmF(ILHANDLE File)
-{
-	ILuint Pos;
-	iSetOutputFile(File);
-	Pos = iCurImage->io.tell(iCurImage->io.handle);
-	if (iSavePnmInternal() == IL_FALSE)
-		return 0;  // Error occurred
-	return iCurImage->io.tell(iCurImage->io.handle) - Pos;  // Return the number of bytes written.
-}
-
-
-//! Writes a Pnm to a memory "lump"
-ILuint ilSavePnmL(void *Lump, ILuint Size)
-{
-	ILuint Pos;
-	FName = NULL;
-	iSetOutputLump(Lump, Size);
-	Pos = iCurImage->io.tell(iCurImage->io.handle);
-	if (iSavePnmInternal() == IL_FALSE)
-		return 0;  // Error occurred
-	return iCurImage->io.tell(iCurImage->io.handle) - Pos;  // Return the number of bytes written.
-}*/
 
 
 // Internal function used to save the Pnm.
@@ -555,10 +493,10 @@ ILboolean iSavePnmInternal()
 		for (j = 0; j < Bpp; j++) {
 			if (Binary) {
 				if (Type == IL_PBM_BINARY) {
-					iCurImage->io.putc((ILubyte)(TempData[i] > 127 ? 1 : 0), iCurImage->io.handle);
+					iCurImage->io.devil_putc((ILubyte)(TempData[i] > 127 ? 1 : 0), iCurImage->io.handle);
 				}
 				else {
-					iCurImage->io.putc(TempData[i], iCurImage->io.handle);
+					iCurImage->io.devil_putc(TempData[i], iCurImage->io.handle);
 				}
 			}
 			else {

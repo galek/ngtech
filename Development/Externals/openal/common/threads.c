@@ -17,7 +17,7 @@
  *  Boston, MA  02111-1307, USA.
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
-#include "../config.h"
+#include "openal_config.h"
 
 #include "threads.h"
 

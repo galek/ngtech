@@ -421,24 +421,6 @@ ILboolean ilIsValidXpmF(SIO* io, ILHANDLE File);
 ILboolean ilIsValidXpmL(const void *Lump, ILuint Size);
 ILboolean iIsValidXpm(SIO* io);
 ILboolean iLoadXpmInternal();
-//ILboolean ilLoadXpm(ILconst_string FileName);
-//ILboolean ilLoadXpmF(ILHANDLE File);
-//ILboolean ilLoadXpmL(const void *Lump, ILuint Size);
-
-
-// OpenEXR is written in C++, so we have to wrap this to avoid linker errors.
-/*#ifndef IL_NO_EXR
-	#ifdef __cplusplus
-	extern "C" {
-	#endif
-		ILboolean ilLoadExr(ILconst_string FileName);
-	#ifdef __cplusplus
-	}
-	#endif
-#endif*/
-
-//ILboolean ilLoadExr(ILconst_string FileName);
-
 
 #ifdef _WIN32
 #ifndef strnicmp
@@ -453,5 +435,11 @@ ILboolean iLoadXpmInternal();
 ILAPI ILboolean ILAPIENTRY iDxtcDataToSurface(ILimage* image);
 ILAPI ILboolean ILAPIENTRY iSurfaceToDxtcData(ILimage* image, ILenum Format);
 
+
+#ifdef __GNUC__ 
+//not #if defined(_WIN32) || defined(_WIN64) because we have strncasecmp in mingw
+#define _strnicmp strncasecmp
+#define _stricmp strcasecmp
+#endif
 
 #endif//INTERNAL_H

@@ -54,7 +54,7 @@ ILboolean iGetDicomHead(SIO* io, DICOMHEAD *Header)
 	ILubyte		Var2, UID[65];
 
 	// Signature should be "DICM" at position 128.
-	iCurImage->io.seek(iCurImage->io.handle, 128, IL_SEEK_SET);
+	iCurImage->io.devil_seek(iCurImage->io.handle, 128, IL_SEEK_SET);
 	if (iCurImage->io.read(iCurImage->io.handle, Header->Signature, 1, 4) != 4)
 		return IL_FALSE;
 
@@ -139,9 +139,9 @@ ILboolean iGetDicomHead(SIO* io, DICOMHEAD *Header)
 				switch (ElementNum)
 				{
 					case 0x10:  // This element is the actual pixel data.  We are done with the header here.
-						if (iCurImage->io.getc(iCurImage->io.handle) != 'O')  // @TODO: Can we assume that this is always 'O'?
+						if (iCurImage->io.devil_getc(iCurImage->io.handle) != 'O')  // @TODO: Can we assume that this is always 'O'?
 							return IL_FALSE;
-						Var2 = iCurImage->io.getc(iCurImage->io.handle);
+						Var2 = iCurImage->io.devil_getc(iCurImage->io.handle);
 						if (Var2 != 'B' && Var2 != 'W' && Var2 != 'F')  // 'OB', 'OW' and 'OF' accepted for this element.
 							return IL_FALSE;
 						GetLittleUShort(&iCurImage->io);  // Skip the 2 reserved bytes.
@@ -158,9 +158,9 @@ ILboolean iGetDicomHead(SIO* io, DICOMHEAD *Header)
 				if (!SkipElement(Header, GroupNum, ElementNum))  // We do not understand this entry, so we just skip it.
 					return IL_FALSE;
 		}
-	} while (!io->eof(io->handle) && !ReachedData);
+	} while (!io->devil_eof(io->handle) && !ReachedData);
 
-	if (io->eof(io->handle))
+	if (io->devil_eof(io->handle))
 		return IL_FALSE;
 
 	// Some DICOM images do not have the depth (number of frames) field.
@@ -217,14 +217,14 @@ ILboolean iCheckDicom(DICOMHEAD *Header)
 ILboolean iIsValidDicom(SIO* io)
 {
 	DICOMHEAD	Header;
-	ILuint		Pos = io->tell(io->handle);
+	ILuint		Pos = io->devil_tell(io->handle);
 
 	// Clear the header to all 0s to make checks later easier.
 	memset(&Header, 0, sizeof(DICOMHEAD));
 	ILboolean gotHeader = iGetDicomHead(io, &Header);
 
 	// The length of the header varies, so we just go back to the original position.
-	io->seek(io->handle, Pos, IL_SEEK_CUR);
+	io->devil_seek(io->handle, Pos, IL_SEEK_CUR);
 
 	if (gotHeader)
 		return iCheckDicom(&Header);
@@ -239,8 +239,8 @@ ILboolean SkipElement(DICOMHEAD *Header, ILushort GroupNum, ILushort ElementNum)
 	ILuint	ValLen;
 
 	// 2 byte character string telling what type this element is ('OB', 'UI', etc.)
-	VR1 = iCurImage->io.getc(iCurImage->io.handle);
-	VR2 = iCurImage->io.getc(iCurImage->io.handle);
+	VR1 = iCurImage->io.devil_getc(iCurImage->io.handle);
+	VR2 = iCurImage->io.devil_getc(iCurImage->io.handle);
 
 	if ((VR1 == 'O' && VR2 == 'B') || (VR1 == 'O' && VR2 == 'W') || (VR1 == 'O' && VR2 == 'F') ||
 		(VR1 == 'S' && VR2 == 'Q') || (VR1 == 'U' && VR2 == 'T') || (VR1 == 'U' && VR2 == 'N')) {
@@ -251,7 +251,7 @@ ILboolean SkipElement(DICOMHEAD *Header, ILushort GroupNum, ILushort ElementNum)
 			return IL_FALSE;
 		if (ElementNum != 0x00)  // Element numbers of 0 tell the size of the full group, so we do not skip this.
 								 //  @TODO: We could use this to skip groups that we do not care about.
-			if (iCurImage->io.seek(iCurImage->io.handle, ValLen, IL_SEEK_CUR))
+			if (iCurImage->io.devil_seek(iCurImage->io.handle, ValLen, IL_SEEK_CUR))
 				return IL_FALSE;
 	}
 	else {
@@ -261,7 +261,7 @@ ILboolean SkipElement(DICOMHEAD *Header, ILushort GroupNum, ILushort ElementNum)
 		//	ValLen++;  // Add the extra byte to seek.
 		//if (ElementNum != 0x00)  // Element numbers of 0 tell the size of the full group, so we do not skip this.
 								 //  @TODO: We could use this to skip groups that we do not care about.
-			if (iCurImage->io.seek(iCurImage->io.handle, ValLen, IL_SEEK_CUR))
+			if (iCurImage->io.devil_seek(iCurImage->io.handle, ValLen, IL_SEEK_CUR))
 				return IL_FALSE;
 	}
 
@@ -355,8 +355,8 @@ ILboolean GetNumericValue(DICOMHEAD *Header, ILushort GroupNum, ILuint *Number)
 	ILushort	ValLen;
 
 	// 2 byte character string telling what type this element is ('OB', 'UI', etc.)
-	VR1 = iCurImage->io.getc(iCurImage->io.handle);
-	VR2 = iCurImage->io.getc(iCurImage->io.handle);
+	VR1 = iCurImage->io.devil_getc(iCurImage->io.handle);
+	VR2 = iCurImage->io.devil_getc(iCurImage->io.handle);
 
 	if (VR1 == 'U' && VR2 == 'S') {  // Unsigned short
 		ValLen = GetShort(Header, GroupNum);//GetLittleUShort();
@@ -397,8 +397,8 @@ ILboolean GetUID(ILubyte *UID)
 	ILushort	ValLen;
 
 	// 2 byte character string telling what type this element is ('OB', 'UI', etc.)
-	VR1 = iCurImage->io.getc(iCurImage->io.handle);
-	VR2 = iCurImage->io.getc(iCurImage->io.handle);
+	VR1 = iCurImage->io.devil_getc(iCurImage->io.handle);
+	VR2 = iCurImage->io.devil_getc(iCurImage->io.handle);
 
 	if (VR1 != 'U' || VR2 != 'I')  // 'UI' == UID
 		return IL_FALSE;

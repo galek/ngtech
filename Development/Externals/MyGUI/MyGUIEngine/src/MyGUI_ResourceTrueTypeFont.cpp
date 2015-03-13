@@ -11,8 +11,8 @@
 #include "MyGUI_RenderManager.h"
 #include "MyGUI_Bitwise.h"
 
-#include "..\..\..\src\Core\inc\VFS.h"
-#include "..\..\..\src\Core\inc\CoreManager.h"
+#include "../../../Src/Core/inc/VFS.h"
+#include "../../../Src/Core/inc/CoreManager.h"
 
 #ifdef MYGUI_USE_FREETYPE
 

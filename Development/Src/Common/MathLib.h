@@ -44,8 +44,8 @@ namespace NGTech {
 
 		Vec2& operator=(const Vec2 &in);
 
-		float& operator[](ptrdiff_t index);//ptrdiff_t Was int,check in clang
-		float operator[](ptrdiff_t index) const;//ptrdiff_t Was int,check in clang
+		float& operator[](int index);//ptrdiff_t Was int,check in clang
+		float operator[](int index) const;//ptrdiff_t Was int,check in clang
 
 		operator float*();
 		operator const float*() const;
@@ -101,8 +101,8 @@ namespace NGTech {
 		Vec3(const Vec4 &in);
 
 		Vec3& operator=(const Vec3 &in);
-		float& operator[](ptrdiff_t index);//ptrdiff_t Was int,check in clang
-		float operator[](ptrdiff_t index) const;//ptrdiff_t Was int,check in clang
+		float& operator[](int index);//ptrdiff_t Was int,check in clang
+		float operator[](int index) const;//ptrdiff_t Was int,check in clang
 		operator float*();
 		operator const float*() const;
 
@@ -159,8 +159,8 @@ namespace NGTech {
 		Vec4(const Vec3 &in, float cw);
 
 		Vec4& operator=(const Vec4 &in);
-		float& operator[](ptrdiff_t index);//ptrdiff_t Was int,check in clang
-		float operator[](ptrdiff_t index) const;//ptrdiff_t Was int,check in clang
+		float& operator[](int index);//ptrdiff_t Was int,check in clang
+		float operator[](int index) const;//ptrdiff_t Was int,check in clang
 
 		operator float*();
 		operator const float*() const;
@@ -224,8 +224,8 @@ namespace NGTech {
 		Mat3 &operator=(const Mat3 &in);
 		Mat3 &operator*=(const Mat3 &in);
 
-		float &operator[](ptrdiff_t index);//ptrdiff_t Was int,check in clang
-		float operator[](ptrdiff_t index) const;//ptrdiff_t Was int,check in clang
+		float &operator[](int index);//ptrdiff_t Was int,check in clang
+		float operator[](int index) const;//ptrdiff_t Was int,check in clang
 		operator float*();
 		operator const float*() const;
 
@@ -265,8 +265,8 @@ namespace NGTech {
 		Mat4 &operator=(const Mat4 &in);
 		Mat4 &operator*=(const Mat4 &in);
 
-		float &operator[](ptrdiff_t index);//ptrdiff_t Was int,check in clang
-		float operator[](ptrdiff_t index) const;//ptrdiff_t Was int,check in clang
+		float &operator[](int index);//ptrdiff_t Was int,check in clang
+		float operator[](int index) const;//ptrdiff_t Was int,check in clang
 		operator float*();
 		operator const float*() const;
 
@@ -315,8 +315,8 @@ namespace NGTech {
 		operator float*();
 		operator const float*() const;
 
-		float &operator[](ptrdiff_t i);//ptrdiff_t Was int,check in clang
-		const float operator[](ptrdiff_t i) const;//ptrdiff_t Was int,check in clang
+		float &operator[](int i);//ptrdiff_t Was int,check in clang
+		const float operator[](int i) const;//ptrdiff_t Was int,check in clang
 
 		Quat operator*(const Quat &q) const;
 		static Quat slerp(const Quat &q0, const Quat &q1, float t);

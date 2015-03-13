@@ -48,9 +48,9 @@ ILboolean ilIsValidDcxF(ILHANDLE File)
 	ILboolean	bRet;
 
 	iSetInputFile(File);
-	FirstPos = iCurImage->io.tell(iCurImage->io.handle);
+	FirstPos = iCurImage->io.devil_tell(iCurImage->io.handle);
 	bRet = iIsValidDcx();
-	iCurImage->io.seek(iCurImage->io.handle, FirstPos, IL_SEEK_SET);
+	iCurImage->io.devil_seek(iCurImage->io.handle, FirstPos, IL_SEEK_SET);
 
 	return bRet;
 }
@@ -89,7 +89,7 @@ ILboolean iIsValidDcx()
 
 	if (iCurImage->io.read(iCurImage->io.handle, &Signature, 1, 4) != 4)
 		return IL_FALSE;
-	iCurImage->io.seek(iCurImage->io.handle, -4, IL_SEEK_CUR);
+	iCurImage->io.devil_seek(iCurImage->io.handle, -4, IL_SEEK_CUR);
 
 	return (Signature == 987654321);
 }
@@ -154,9 +154,9 @@ ILboolean ilLoadDcxF(ILHANDLE File)
 	ILboolean	bRet;
 
 	iSetInputFile(File);
-	FirstPos = iCurImage->io.tell(iCurImage->io.handle);
+	FirstPos = iCurImage->io.devil_tell(iCurImage->io.handle);
 	bRet = iLoadDcxInternal();
-	iCurImage->io.seek(iCurImage->io.handle, FirstPos, IL_SEEK_SET);
+	iCurImage->io.devil_seek(iCurImage->io.handle, FirstPos, IL_SEEK_SET);
 
 	return bRet;
 }
@@ -192,7 +192,7 @@ ILboolean iLoadDcxInternal()
 	} while (Entries[Num-1] != 0);
 
 	for (i = 0; i < Num; i++) {
-		iCurImage->io.seek(iCurImage->io.handle, Entries[i], IL_SEEK_SET);
+		iCurImage->io.devil_seek(iCurImage->io.handle, Entries[i], IL_SEEK_SET);
 		iGetDcxHead(&Header);
 		/*if (!iCheckDcx(&Header)) {
 			ilSetError(IL_INVALID_FILE_HEADER);
@@ -272,38 +272,6 @@ ILimage *iUncompressDcx(DCXHEAD *Header)
 			ilSetError(IL_ILLEGAL_FILE_VALUE);
 			goto dcx_error;
 	}
-
-
-		/*StartPos = iCurImage->io.tell(iCurImage->io.handle);
-		Compressed = (ILubyte*)ialloc(Image->SizeOfData * 4 / 3);
-		iCurImage->io.read(iCurImage->io.handle, Compressed, 1, Image->SizeOfData * 4 / 3);
-
-		for (y = 0; y < Image->Height; y++) {
-			for (c = 0; c < Image->Bpp; c++) {
-				x = 0;
-				while (x < Header->Bps) {
-					ByteHead = Compressed[Read++];
-					if ((ByteHead & 0xC0) == 0xC0) {
-						ByteHead &= 0x3F;
-						Colour = Compressed[Read++];
-						for (i = 0; i < ByteHead; i++) {
-							ScanLine[x++] = Colour;
-						}
-					}
-					else {
-						ScanLine[x++] = ByteHead;
-					}
-				}
-
-				for (x = 0; x < Image->Width; x++) {  // 'Cleverly' ignores the pad bytes ;)
-					Image->Data[y * Image->Bps + x * Image->Bpp + c] = ScanLine[x];
-				}
-			}
-		}
-
-		ifree(Compressed);
-		iCurImage->io.seek(iCurImage->io.handle, StartPos + Read, IL_SEEK_SET);*/
-
 	//TODO: because the .pcx-code was broken this
 	//code is probably broken, too
 	for (y = 0; y < Image->Height; y++) {
@@ -337,10 +305,10 @@ ILimage *iUncompressDcx(DCXHEAD *Header)
 
 	// Read in the palette
 	if (Image->Bpp == 1) {
-		ByteHead = iCurImage->io.getc(iCurImage->io.handle);	// the value 12, because it signals there's a palette for some reason...
+		ByteHead = iCurImage->io.devil_getc(iCurImage->io.handle);	// the value 12, because it signals there's a palette for some reason...
 							//	We should do a check to make certain it's 12...
 		if (ByteHead != 12)
-			iCurImage->io.seek(iCurImage->io.handle, -1, IL_SEEK_CUR);
+			iCurImage->io.devil_seek(iCurImage->io.handle, -1, IL_SEEK_CUR);
 		if (iCurImage->io.read(iCurImage->io.handle, Image->Pal.Palette, 1, Image->Pal.PalSize) != Image->Pal.PalSize) {
 			ilCloseImage(Image);
 			return NULL;
@@ -413,7 +381,7 @@ ILimage *iUncompressDcxSmall(DCXHEAD *Header)
 				}
 			}
 			if (Data != 0)
-				iCurImage->io.getc(iCurImage->io.handle);  // Skip pad byte if last byte not a 0
+				iCurImage->io.devil_getc(iCurImage->io.handle);  // Skip pad byte if last byte not a 0
 		}
 	}
 	else {   // 4-bit images

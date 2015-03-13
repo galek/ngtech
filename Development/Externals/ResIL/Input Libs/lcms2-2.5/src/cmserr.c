@@ -29,7 +29,7 @@
 // that hopefully would be fully portable.
 
 // compare two strings ignoring case
-int CMSEXPORT cmsstrcasecmp(const char* s1, const char* s2)
+int CMSEXPORT cms_stricmp(const char* s1, const char* s2)
 {
          register const unsigned char *us1 = (const unsigned char *)s1,
                                       *us2 = (const unsigned char *)s2;

@@ -65,14 +65,14 @@ ILboolean iGetFitsHead(FITSHEAD *Header)
 			return IL_FALSE;
 		if (CardKey == CARD_NOT_SIMPLE)
 			return IL_FALSE;
-	} while (!iCurImage->io.eof(iCurImage->io.handle));
+	} while (!iCurImage->io.devil_eof(iCurImage->io.handle));
 
 	// The header should never reach the end of the file.
-	if (iCurImage->io.eof(iCurImage->io.handle))
+	if (iCurImage->io.devil_eof(iCurImage->io.handle))
 		return IL_FALSE;  // Error needed?
 
 	// The header must always be a multiple of 2880, so we skip the padding bytes (spaces).
-	iCurImage->io.seek(iCurImage->io.handle, (2880 - (iCurImage->io.tell(iCurImage->io.handle) % 2880)) % 2880, IL_SEEK_CUR);
+	iCurImage->io.devil_seek(iCurImage->io.handle, (2880 - (iCurImage->io.devil_tell(iCurImage->io.handle) % 2880)) % 2880, IL_SEEK_CUR);
 
 	switch (Header->BitsPixel)
 	{
@@ -130,12 +130,12 @@ ILboolean iGetFitsHead(FITSHEAD *Header)
 ILboolean iIsValidFits(void)
 {
 	FITSHEAD	Header;
-	ILuint		Pos = iCurImage->io.tell(iCurImage->io.handle);
+	ILuint		Pos = iCurImage->io.devil_tell(iCurImage->io.handle);
 
 	if (!iGetFitsHead(&Header))
 		return IL_FALSE;
 	// The length of the header varies, so we just go back to the original position.
-	iCurImage->io.seek(iCurImage->io.handle, Pos, IL_SEEK_CUR);
+	iCurImage->io.devil_seek(iCurImage->io.handle, Pos, IL_SEEK_CUR);
 
 	return iCheckFits(&Header);
 }

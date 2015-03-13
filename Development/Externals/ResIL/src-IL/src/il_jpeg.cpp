@@ -72,9 +72,6 @@ ILboolean ilLoadFromJpegStruct(ILimage* image, void *_JpegInfo);
 // Internal function used to get the .jpg header from the current file.
 ILint iGetJpgHead(SIO* io, ILubyte *Header)
 {
-	/*Header[0] = gIO.getc(gIO.handle);
-	Header[1] = gIO.getc(gIO.handle);
-	return;*/
 	return io->read(io->handle, Header, 1, 2);
 }
 
@@ -94,7 +91,7 @@ ILboolean iIsValidJpeg(SIO* io)
 	ILubyte Head[2];
 
 	auto read = iGetJpgHead(io, Head);
-	io->seek(io->handle, -read, IL_SEEK_CUR);  // Go ahead and restore to previous state
+	io->devil_seek(io->handle, -read, IL_SEEK_CUR);  // Go ahead and restore to previous state
 
 	if (read == 2)
 		return iCheckJpg(Head);
@@ -226,7 +223,7 @@ static void iJpegErrorExit( j_common_ptr cinfo )
 }
 
 // Internal function used to load the jpeg.
-ILboolean __cdecl iLoadJpegInternal(ILimage* image)
+ILboolean iLoadJpegInternal(ILimage* image)
 {
 	struct jpeg_error_mgr			Error;
 	struct jpeg_decompress_struct	JpegInfo;

@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include "commondefs.h"
+#include "CommonDefs.h"
 
 #include <vector>
 

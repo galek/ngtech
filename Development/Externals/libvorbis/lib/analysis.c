@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include <../../libogg/include/ogg/ogg.h>
+#include "../../libogg/include/ogg/ogg.h"
 #include "../include/vorbis/codec.h"
 #include "codec_internal.h"
 #include "registry.h"

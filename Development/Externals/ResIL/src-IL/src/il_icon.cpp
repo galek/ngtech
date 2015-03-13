@@ -19,20 +19,20 @@
 #endif
 
 struct ICONDIR {
-	WORD reserved;
-	WORD iconType;
-	WORD iconCount;
+	unsigned short reserved;
+	unsigned short iconType;
+	unsigned short iconCount;
 };
 
 struct ICONDIRENTRY {
-	BYTE width;
-	BYTE height;
-	BYTE colorsInPalette;
-	BYTE reserved;
-	WORD variant1;
-	WORD variant2;
-	DWORD dataSize;
-	DWORD dataOffset;
+	unsigned char width;
+	unsigned char height;
+	unsigned char colorsInPalette;
+	unsigned char reserved;
+	unsigned short variant1;
+	unsigned short variant2;
+	unsigned long dataSize;
+	unsigned long dataOffset;
 };
 
 // Internal function to get the header and check it.
@@ -46,7 +46,7 @@ ILboolean iIsValidIcon()
 	// Not sure whether big endian architectures are a concern in 2014
 	ILint read = iCurImage->io.read(iCurImage->io.handle, &dir, 1, sizeof(dir));
 	read += iCurImage->io.read(iCurImage->io.handle, &entry, 1, sizeof(entry));
-	iCurImage->io.seek(iCurImage->io.handle, -read, SEEK_CUR);
+	iCurImage->io.devil_seek(iCurImage->io.handle, -read, SEEK_CUR);
 
 	if (read == sizeof(dir) + sizeof(entry)
 		&& dir.reserved == 0
@@ -55,7 +55,7 @@ ILboolean iIsValidIcon()
 		&& (entry.reserved == 0 || entry.reserved == 0xff)
 		&& entry.dataSize > 0
 		//&&  entry.dataSize >= entry.width * entry.height
-		&& entry.dataOffset >= (DWORD)read)
+		&& entry.dataOffset >= (unsigned long)read)
 		//&&  entry.dataSize + entry.dataOffset < fileSize // would disclude incomplete icons
 	{
 		return IL_TRUE;
@@ -86,7 +86,7 @@ ILboolean iLoadIconInternal(ILimage* image)
 	IconDir.Type = GetLittleShort(&iCurImage->io);
 	IconDir.Count = GetLittleShort(&iCurImage->io);
 
-	if (iCurImage->io.eof(iCurImage->io.handle))
+	if (iCurImage->io.devil_eof(iCurImage->io.handle))
 		goto file_read_error;
 
 	DirEntries = (ICODIRENTRY*)ialloc(sizeof(ICODIRENTRY) * IconDir.Count);
@@ -102,24 +102,24 @@ ILboolean iLoadIconInternal(ILimage* image)
 		imemclear(&IconImages[i], sizeof(ICOIMAGE));
 
 	for (i = 0; i < IconDir.Count; ++i) {
-		DirEntries[i].Width = (ILubyte)iCurImage->io.getc(iCurImage->io.handle);
-		DirEntries[i].Height = (ILubyte)iCurImage->io.getc(iCurImage->io.handle);
-		DirEntries[i].NumColours = (ILubyte)iCurImage->io.getc(iCurImage->io.handle);
-		DirEntries[i].Reserved = (ILubyte)iCurImage->io.getc(iCurImage->io.handle);
+		DirEntries[i].Width = (ILubyte)iCurImage->io.devil_getc(iCurImage->io.handle);
+		DirEntries[i].Height = (ILubyte)iCurImage->io.devil_getc(iCurImage->io.handle);
+		DirEntries[i].NumColours = (ILubyte)iCurImage->io.devil_getc(iCurImage->io.handle);
+		DirEntries[i].Reserved = (ILubyte)iCurImage->io.devil_getc(iCurImage->io.handle);
 		DirEntries[i].Planes = GetLittleShort(&iCurImage->io);
 		DirEntries[i].Bpp = GetLittleShort(&iCurImage->io);
 		DirEntries[i].SizeOfData = GetLittleUInt(&iCurImage->io);
 		DirEntries[i].Offset = GetLittleUInt(&iCurImage->io);
 
-		if (iCurImage->io.eof(iCurImage->io.handle))
+		if (iCurImage->io.devil_eof(iCurImage->io.handle))
 			goto file_read_error;
 	}
 
 	for (i = 0; i < IconDir.Count; i++) {
-		iCurImage->io.seek(iCurImage->io.handle, DirEntries[i].Offset, IL_SEEK_SET);
+		iCurImage->io.devil_seek(iCurImage->io.handle, DirEntries[i].Offset, IL_SEEK_SET);
 
 		// 08-22-2008: Adding test for compressed PNG data
-		iCurImage->io.getc(iCurImage->io.handle); // Skip the first character...seems to vary.
+		iCurImage->io.devil_getc(iCurImage->io.handle); // Skip the first character...seems to vary.
 		iCurImage->io.read(iCurImage->io.handle, PNGTest, 3, 1);
 		if (!strnicmp((char*)PNGTest, "PNG", 3))  // Characters 'P', 'N', 'G' for PNG header
 		{
@@ -127,7 +127,7 @@ ILboolean iLoadIconInternal(ILimage* image)
 			ilSetError(IL_FORMAT_NOT_SUPPORTED);  // Cannot handle these without libpng.
 			goto file_read_error;
 #else
-			iCurImage->io.seek(iCurImage->io.handle, DirEntries[i].Offset, IL_SEEK_SET);
+			iCurImage->io.devil_seek(iCurImage->io.handle, DirEntries[i].Offset, IL_SEEK_SET);
 			if (!iLoadIconPNG(&IconImages[i]))
 				goto file_read_error;
 #endif
@@ -135,7 +135,7 @@ ILboolean iLoadIconInternal(ILimage* image)
 		else
 		{
 			// Need to go back the 4 bytes that were just read.
-			iCurImage->io.seek(iCurImage->io.handle, DirEntries[i].Offset, IL_SEEK_SET);
+			iCurImage->io.devil_seek(iCurImage->io.handle, DirEntries[i].Offset, IL_SEEK_SET);
 
 			IconImages[i].Head.Size = GetLittleInt(&iCurImage->io);
 			IconImages[i].Head.Width = GetLittleInt(&iCurImage->io);
@@ -149,7 +149,7 @@ ILboolean iLoadIconInternal(ILimage* image)
 			IconImages[i].Head.ColourUsed = GetLittleInt(&iCurImage->io);
 			IconImages[i].Head.ColourImportant = GetLittleInt(&iCurImage->io);
 
-			if (iCurImage->io.eof(iCurImage->io.handle))
+			if (iCurImage->io.devil_eof(iCurImage->io.handle))
 				goto file_read_error;
 
 			if (IconImages[i].Head.BitCount < 8) {

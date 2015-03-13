@@ -1,5 +1,3 @@
-// Launcher.cpp: определяет точку входа для приложения.
-//
 #include "stdafx.h"
 #include "../Core/inc/BuildDefines.h"
 #include "../ExampleGame/DLLx.h"
@@ -8,8 +6,10 @@
 
 GAME_API void ExampleGameStart();
 
-#ifdef _WIN32
-int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
+#ifndef __LINUX
+#include <Windows.h>
+
+int APIENTRY WinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPTSTR    lpCmdLine,
 	_In_ int       nCmdShow)

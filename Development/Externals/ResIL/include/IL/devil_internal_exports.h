@@ -64,11 +64,11 @@ struct SIO {
 	fOpenProc openWrite;
 	fCloseProc close;
 	fReadProc read;
-	fSeekProc seek;
-	fEofProc eof;
-	fGetcProc getc;
-	fTellProc tell;
-	fPutcProc putc;
+	fSeekProc devil_seek;
+	fEofProc devil_eof;
+	fGetcProc devil_getc;
+	fTellProc devil_tell;
+	fPutcProc devil_putc;
 	fWriteProc write;
 
 	ILint64 lumpPos;

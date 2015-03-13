@@ -252,7 +252,7 @@ iff_chunk iff_begin_read_chunk()
 		return chunkStack[0];
 	}
 
-	chunkStack[chunkDepth].start = iCurImage->io.tell(iCurImage->io.handle);
+	chunkStack[chunkDepth].start = iCurImage->io.devil_tell(iCurImage->io.handle);
 	chunkStack[chunkDepth].tag = GetBigInt(&iCurImage->io);
 	chunkStack[chunkDepth].size = GetBigInt(&iCurImage->io);
     
@@ -282,7 +282,7 @@ void iff_end_read_chunk()
 	    end += 4 - part;   
 	}
 
-	iCurImage->io.seek(iCurImage->io.handle, end, IL_SEEK_SET);
+	iCurImage->io.devil_seek(iCurImage->io.handle, end, IL_SEEK_SET);
 
 	chunkDepth--;
 }

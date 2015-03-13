@@ -78,9 +78,9 @@ ILboolean iLoadIlbmInternal()
 #define Uint32 ILuint
 
 #define SDL_RWops void
-#define SDL_RWtell(s) iCurImage->io.tell(iCurImage->io.handle)
+#define SDL_RWtell(s) iCurImage->io.devil_tell(iCurImage->io.handle)
 #define SDL_RWread(s,ptr,size,nmemb) iCurImage->io.read(iCurImage->io.handle, ptr,size,nmemb)
-#define SDL_RWseek(s,offset,whence) iCurImage->io.seek(iCurImage->io.handle, offset, IL_ ## whence)
+#define SDL_RWseek(s,offset,whence) iCurImage->io.devil_seek(iCurImage->io.handle, offset, IL_ ## whence)
 
 
 /* use different function names to avoid any possible symbol contamination

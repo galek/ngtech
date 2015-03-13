@@ -71,7 +71,7 @@ namespace MyGUI
 			x(_x),
 			y(_y),
 			id(_id),
-			code(KeyCode::None),
+			code(KeyCode::MK_None),
 			key(0)
 		{
 		}
@@ -81,7 +81,7 @@ namespace MyGUI
 			notify(_notify),
 			x(0),
 			y(0),
-			id(MouseButton::None),
+			id(MouseButton::MB_None),
 			code(_code),
 			key(_key)
 		{
@@ -92,9 +92,9 @@ namespace MyGUI
 			notify(_notify),
 			x(0),
 			y(0),
-			id(MouseButton::None),
+			id(MouseButton::MB_None),
 			code(_code),
-			key(KeyCode::None)
+			key(KeyCode::MK_None)
 		{
 		}
 

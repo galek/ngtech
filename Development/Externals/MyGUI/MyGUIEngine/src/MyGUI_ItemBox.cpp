@@ -598,7 +598,7 @@ namespace MyGUI
 	{
 		mouseButtonPressed(_id);
 
-		if ( MouseButton::Left == _id)
+		if ( MouseButton::MB_Left == _id)
 		{
 			size_t old = mIndexSelect;
 
@@ -617,7 +617,7 @@ namespace MyGUI
 			}
 
 			// смещение внутри виджета, куда кликнули мышкой
-			mClickInWidget = InputManager::getInstance().getLastPressedPosition(MouseButton::Left) - _sender->getAbsolutePosition();
+			mClickInWidget = InputManager::getInstance().getLastPressedPosition(MouseButton::MB_Left) - _sender->getAbsolutePosition();
 
 			// отсылаем событие
 			eventMouseItemActivate(this, mIndexSelect);

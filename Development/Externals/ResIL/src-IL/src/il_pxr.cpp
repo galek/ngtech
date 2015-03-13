@@ -35,47 +35,6 @@ typedef struct PIXHEAD
 #endif
 
 
-//! Reads a Pxr file
-/*ILboolean ilLoadPxr(ILconst_string FileName)
-{
-	ILHANDLE	PxrFile;
-	ILboolean	bPxr = IL_FALSE;
-
-	PxrFile = iCurImage->io.openReadOnly(FileName);
-	if (PxrFile == NULL) {
-		ilSetError(IL_COULD_NOT_OPEN_FILE);
-		return bPxr;
-	}
-
-	bPxr = ilLoadPxrF(PxrFile);
-	iCurImage->io.close(PxrFile);
-
-	return bPxr;
-}
-
-
-//! Reads an already-opened Pxr file
-ILboolean ilLoadPxrF(ILHANDLE File)
-{
-	ILuint		FirstPos;
-	ILboolean	bRet;
-
-	iSetInputFile(File);
-	FirstPos = iCurImage->io.tell(iCurImage->io.handle);
-	bRet = iLoadPxrInternal();
-	iCurImage->io.seek(iCurImage->io.handle, FirstPos, IL_SEEK_SET);
-
-	return bRet;
-}
-
-
-//! Reads from a memory "lump" that contains a Pxr
-ILboolean ilLoadPxrL(const void *Lump, ILuint Size)
-{
-	iSetInputLump(Lump, Size);
-	return iLoadPxrInternal();
-}*/
-
 
 // Internal function used to load the Pxr.
 ILboolean iLoadPxrInternal()
@@ -85,11 +44,11 @@ ILboolean iLoadPxrInternal()
 
 	Width = sizeof(PIXHEAD);
 
-	iCurImage->io.seek(iCurImage->io.handle, 416, IL_SEEK_SET);
+	iCurImage->io.devil_seek(iCurImage->io.handle, 416, IL_SEEK_SET);
 	Height = GetLittleUShort(&iCurImage->io);
 	Width = GetLittleUShort(&iCurImage->io);
-	iCurImage->io.seek(iCurImage->io.handle, 424, IL_SEEK_SET);
-	Bpp = (ILubyte)iCurImage->io.getc(iCurImage->io.handle);
+	iCurImage->io.devil_seek(iCurImage->io.handle, 424, IL_SEEK_SET);
+	Bpp = (ILubyte)iCurImage->io.devil_getc(iCurImage->io.handle);
 
 	switch (Bpp)
 	{
@@ -107,7 +66,7 @@ ILboolean iLoadPxrInternal()
 			return IL_FALSE;
 	}
 
-	iCurImage->io.seek(iCurImage->io.handle, 1024, IL_SEEK_SET);
+	iCurImage->io.devil_seek(iCurImage->io.handle, 1024, IL_SEEK_SET);
 	iCurImage->io.read(iCurImage->io.handle, iCurImage->Data, 1, iCurImage->SizeOfData);
 	iCurImage->Origin = IL_ORIGIN_UPPER_LEFT;
 

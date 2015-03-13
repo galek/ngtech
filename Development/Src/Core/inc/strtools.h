@@ -1,3 +1,4 @@
+#ifndef __LINUX__
 //===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
@@ -448,3 +449,4 @@ bool V_GenerateUniqueName( char *name, int memsize, const char *prefix, const Na
 
 
 #endif	// TIER1_STRTOOLS_H
+#endif

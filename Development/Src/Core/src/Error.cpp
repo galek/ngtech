@@ -17,6 +17,7 @@ namespace NGTech {
 		MessageBox(NULL, text.c_str(), "NGTech error", MB_OK | MB_ICONERROR);
 		exit(0);
 #else
+        printf(text.c_str());
 		exit(0);
 #endif
 	}

@@ -11,8 +11,8 @@
 #include "MyGUI_Bitwise.h"
 #include "MyGUI_Constants.h"
 
-#include "..\..\..\src\Core\inc\VFS.h"
-#include "..\..\..\src\Core\inc\CoreManager.h"
+#include "../../../Src/Core/inc/VFS.h"
+#include "../../../Src/Core/inc/CoreManager.h"
 
 namespace MyGUI
 {

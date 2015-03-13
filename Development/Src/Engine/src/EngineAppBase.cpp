@@ -17,7 +17,7 @@
 */
 #include "EnginePrivate.h"
 #include "EngineAppBase.h"
-#include "..\..\Common\IGame.h"
+#include "../../Common/IGame.h"
 #include <thread>
 
 namespace NGTech {

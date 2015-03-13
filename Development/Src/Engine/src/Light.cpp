@@ -14,7 +14,7 @@
 #include "Config.h"
 #include "WindowSystem.h"
 #include "Scene.h"
-#include "../../Core/inc/CVARManager.h"
+#include "../../Core/inc/CvarManager.h"
 //**************************************
 
 namespace NGTech {

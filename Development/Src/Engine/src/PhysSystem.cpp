@@ -6,7 +6,7 @@
 #include "PhysBody.h"
 #include "Log.h"
 #include "Config.h"
-#include "CVARManager.h"
+#include "CvarManager.h"
 //***************************************************************************
 
 #include "PxPhysicsAPI.h"

@@ -17,15 +17,15 @@
 */
 #include "EnginePrivate.h"
 //***************************************************
-#include "..\Common\IRender.h"
-#include "..\Common\IWindow.h"
+#include "../Common/IRender.h"
+#include "../Common/IWindow.h"
 #include "WindowSystem.h"
 #include "Log.h"
 #include "Config.h"
 #include "Error.h"
 #include "CvarManager.h"
 #include "GUI.h"
-#include "mygui.h"
+#include "MyGUI.h"
 //***************************************************
 #if PLATFORM_OS == PLATFORM_OS_WINDOWS
 #include <windows.h>
@@ -35,7 +35,6 @@
 namespace NGTech {
 #ifndef DROP_EDITOR
 	/**
-	параметры, относящиеся к расчету FPS
 	*/
 	static LARGE_INTEGER CounterFrequency = { 0, 0 };
 	static LARGE_INTEGER FPSCount = { 0, 0 };
@@ -78,7 +77,6 @@ namespace NGTech {
 
 		this->mouseGrabed = false;
 
-		//инициализация таймеров
 		QueryPerformanceFrequency(&CounterFrequency);
 		QueryPerformanceCounter(&FPSCount);
 
@@ -220,7 +218,6 @@ namespace NGTech {
 		{
 			if (_gWindowSystem)
 				_gWindowSystem->keys[wParam] = true;
-			//Nick:TODO: сделай ввод
 
 			return 0;
 		}
@@ -229,7 +226,6 @@ namespace NGTech {
 		{
 			if (_gWindowSystem)
 				_gWindowSystem->keys[wParam] = false;
-			//Nick:TODO: сделай ввод
 
 			return 0;
 		}
@@ -422,19 +418,16 @@ namespace NGTech {
 	*/
 	void WindowSystem::_updateFPSCounter()
 	{
-		//периодический расчет частоты смены кадров (каждые 50 кадров)
-		static int iFrames = 0;    //счетчик кадров
-		//fps = 0.0f;   //частота смены кадров (количество кадров в секунду)
-		iFrames++;      //увеличение числа кадров на единицу при рендеринге
+		static int iFrames = 0; 
+		iFrames++;
 		if (iFrames == 50){
 			float fTime;
 			LARGE_INTEGER lCurrent;
-			QueryPerformanceCounter(&lCurrent);   //получение текущего счетчика
+			QueryPerformanceCounter(&lCurrent);
 			fTime = (float)(lCurrent.QuadPart - FPSCount.QuadPart) /
-				(float)CounterFrequency.QuadPart;    //вычисление времени, за которое 50 раз перерисовалась форма
+				(float)CounterFrequency.QuadPart;
 
-			fps = (float)iFrames / fTime;            //вычисление частоты смены кадров
-			//обновление счетчика кадров и таймера
+			fps = (float)iFrames / fTime;
 			iFrames = 0;
 			QueryPerformanceCounter(&FPSCount);
 		}

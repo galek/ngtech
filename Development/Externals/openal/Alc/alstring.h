@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-#include "vector.h"
+#include "openal_vector.h"
 
 
 typedef char al_string_char_type;

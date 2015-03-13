@@ -28,7 +28,7 @@
 #include "WindowSystem.h"
 #include "Log.h"
 #include "Cache.h"
-#include "CVarManager.h"
+#include "../Core/inc/CvarManager.h"
 #include "VFS.h"
 #include "Scene.h"
 //**************************************

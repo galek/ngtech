@@ -44,9 +44,9 @@ ILboolean ILAPIENTRY ilLoadDataF(ILHANDLE File, ILuint Width, ILuint Height, ILu
 	ILboolean	bRet;
 
 	iSetInputFile(File);
-	FirstPos = iCurImage->io.tell(iCurImage->io.handle);
+	FirstPos = iCurImage->io.devil_tell(iCurImage->io.handle);
 	bRet = iLoadDataInternal(Width, Height, Depth, Bpp);
-	iCurImage->io.seek(iCurImage->io.handle, FirstPos, IL_SEEK_SET);
+	iCurImage->io.devil_seek(iCurImage->io.handle, FirstPos, IL_SEEK_SET);
 
 	return bRet;
 }

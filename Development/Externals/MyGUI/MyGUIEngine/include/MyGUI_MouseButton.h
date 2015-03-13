@@ -7,8 +7,6 @@
 #ifndef __MYGUI_MOUSE_BUTTON_H__
 #define __MYGUI_MOUSE_BUTTON_H__
 
-#include "MyGUI_Prerequest.h"
-
 namespace MyGUI
 {
 
@@ -16,24 +14,24 @@ namespace MyGUI
 	{
 		enum Enum
 		{
-			None = -1,
+			MB_None = -1,
 
-			Left = 0,
-			Right,
-			Middle,
+			MB_Left=0,
+			MB_Right,
+			MB_Middle,
 
-			Button0 = 0,
-			Button1,
-			Button2,
-			Button3,
-			Button4,
-			Button5,
-			Button6,
-			Button7,
-			MAX
+			MB_Button0=0,
+			MB_Button1,
+			MB_Button2,
+			MB_Button3,
+			MB_Button4,
+			MB_Button5,
+			MB_Button6,
+			MB_Button7,
+			MB_MAX
 		};
 
-		MouseButton(Enum _value = None) :
+		MouseButton(Enum _value = MB_None) :
 			mValue(_value)
 		{
 		}

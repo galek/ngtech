@@ -137,11 +137,13 @@ namespace NGTech {
 	}
 
 	Terrain::~Terrain() {
+#ifndef __LINUX__
 		delete vertBuff;
 		delete [] vertices;
 		for(int i = 0; i < numNodes; i++) {
 			delete [] nodes[i].indices;
 		}
+#endif
 	}
 
 	void Terrain::computeTBN() {

@@ -17,6 +17,7 @@
 #include "../include/il_pal.h"
 #include "../include/il_bits.h"
 
+#  define DEVIL_min(x,y)  ((x)>(y)?(y):(x))
 
 // Wrap it just in case...
 #ifdef _MSC_VER
@@ -90,7 +91,7 @@ bool readScanLine(ILimage* image, ILubyte* chunk, ILushort chunkSize, int y)
 			if (chunkOffset+1 < chunkSize) {
 				// RLE decoding
 				ILubyte value = chunk[chunkOffset+1];
-				auto toCopy = min(controlByte-128, image->Width-outOffset);
+				auto toCopy = DEVIL_min(controlByte - 128, image->Width - outOffset);
 				memset(&data[outOffset], value, toCopy);
 				chunkOffset += 2;
 				outOffset += toCopy;
@@ -102,7 +103,7 @@ bool readScanLine(ILimage* image, ILubyte* chunk, ILushort chunkSize, int y)
 			ILuint bytesToCopy = controlByte;
 			if (chunkOffset+bytesToCopy+1 < chunkSize) {
 				// Raw copying
-				bytesToCopy = min(bytesToCopy, image->Width-outOffset);
+				bytesToCopy = DEVIL_min(bytesToCopy, image->Width - outOffset);
 				memcpy(&data[outOffset], &chunk[chunkOffset+1], bytesToCopy);
 				chunkOffset += bytesToCopy+1;
 				outOffset += bytesToCopy;

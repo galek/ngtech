@@ -18,9 +18,8 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
-#include "../../config.h"
+#include "openal_config.h"
 
-#if HAVE_QSA
 #include <stdlib.h>
 #include <stdio.h>
 #include <sched.h>
@@ -1160,4 +1159,3 @@ void alc_qsa_probe(enum DevProbe type)
              break;
     }
 }
-#endif

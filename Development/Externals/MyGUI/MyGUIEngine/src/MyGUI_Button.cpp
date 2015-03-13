@@ -26,7 +26,7 @@ namespace MyGUI
 	{
 		Base::initialiseOverride();
 
-		///@wskin_child{Button, ImageBox, Image} Картинка, в режиме картинки отображает состояние кнопки.
+		///@wskin_child{Button, ImageBox, Image} пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
 		assignWidget(mImage, "Image");
 	}
 
@@ -53,7 +53,7 @@ namespace MyGUI
 
 	void Button::onMouseButtonPressed(int _left, int _top, MouseButton _id)
 	{
-		if (_id == MouseButton::Left)
+		if (_id == MouseButton::MB_Left)
 		{
 			mIsMousePressed = true;
 			updateButtonState();
@@ -64,7 +64,7 @@ namespace MyGUI
 
 	void Button::onMouseButtonReleased(int _left, int _top, MouseButton _id)
 	{
-		if (_id == MouseButton::Left)
+		if (_id == MouseButton::MB_Left)
 		{
 			mIsMousePressed = false;
 			updateButtonState();
@@ -178,19 +178,19 @@ namespace MyGUI
 		if (_key == "StateSelected")
 			setStateSelected(utility::parseValue<bool>(_value));
 
-		/// @wproperty{Button, ModeImage, bool} Устанавливает режим работы кнопки, в котором она свои состояния берет из картинки.
+		/// @wproperty{Button, ModeImage, bool} пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
 		else if (_key == "ModeImage")
 			setModeImage(utility::parseValue<bool>(_value));
 
-		/// @wproperty{Button, ImageResource, string} Ссылка на ресурс картинки.
+		/// @wproperty{Button, ImageResource, string} пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
 		else if (_key == "ImageResource")
 			setImageResource(_value);
 
-		/// @wproperty{Button, ImageGroup, string} Группа картинки в ресурсе.
+		/// @wproperty{Button, ImageGroup, string} пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
 		else if (_key == "ImageGroup")
 			setImageGroup(_value);
 
-		/// @wproperty{Button, ImageName, string} Имя картинки в ресурсе.
+		/// @wproperty{Button, ImageName, string} пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
 		else if (_key == "ImageName")
 			setImageName(_value);
 

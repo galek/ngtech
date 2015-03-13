@@ -164,7 +164,7 @@ namespace MyGUI
 
 	void Window::notifyMousePressed(MyGUI::Widget* _sender, int _left, int _top, MouseButton _id)
 	{
-		if (MouseButton::Left == _id)
+		if (MouseButton::MB_Left == _id)
 		{
 			mPreActionCoord = mCoord;
 			mCurrentActionScale = _getActionScale(_sender);
@@ -178,10 +178,10 @@ namespace MyGUI
 
 	void Window::notifyMouseDrag(MyGUI::Widget* _sender, int _left, int _top, MouseButton _id)
 	{
-		if (_id != MouseButton::Left)
+		if (_id != MouseButton::MB_Left)
 			return;
 
-		const IntPoint& point = InputManager::getInstance().getLastPressedPosition(MouseButton::Left);
+		const IntPoint& point = InputManager::getInstance().getLastPressedPosition(MouseButton::MB_Left);
 
 		IntCoord coord = mCurrentActionScale;
 		coord.left *= (_left - point.left);
@@ -538,7 +538,7 @@ namespace MyGUI
 
 	void Window::notifyMouseReleased(MyGUI::Widget* _sender, int _left, int _top, MouseButton _id)
 	{
-		if (MouseButton::Left == _id)
+		if (MouseButton::MB_Left == _id)
 		{
 			mCurrentActionScale.clear();
 		}

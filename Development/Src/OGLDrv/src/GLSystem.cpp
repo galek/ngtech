@@ -6,7 +6,7 @@
 #include "GLTexture.h"
 #include "CommonDefs.h"
 //***************************************************************************
-#include "../../Platform/inc/glfw/glfw3.h"
+#include "../../../Externals/glfw/include/GLFW/glfw3.h"
 //***************************************************************************
 
 namespace NGTech {
@@ -805,7 +805,7 @@ namespace NGTech {
 	/**
 	*/
 	void GLSystem::DrawElements(void *indices, int indexCount) {
-		//Баженов переписывал это
+		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
 		glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, indices);
 		drawCalls++;
 	}
@@ -873,8 +873,8 @@ namespace NGTech {
 			return true;
 		}
 
+else
 #endif
-		else
 		{
 			Debug("Implemented in {WindowSystemGLFW::initialise} because crossplatform");
 			return true;

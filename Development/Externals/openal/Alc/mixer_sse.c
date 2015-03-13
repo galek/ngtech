@@ -1,4 +1,4 @@
-#include "../config.h"
+#include "openal_config.h"
 
 #ifdef IN_IDE_PARSER
 /* KDevelop's parser won't recognize these defines that get added by the -msse

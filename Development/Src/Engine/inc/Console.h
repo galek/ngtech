@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\GUI\BaseLayout\BaseLayout.h"
+#include "../GUI/BaseLayout/BaseLayout.h"
 
 namespace NGTech {
 	/**
@@ -59,7 +59,7 @@ namespace NGTech {
 				if (!MyGUI::utility::parseComplex(_value, _result))
 				{
 					addToConsole(getConsoleStringError(), _key, _value);
-					addToConsole(getConsoleStringFormat(), _key, _format.empty() ? formates::format<T>() : _format);
+				//TODO	addToConsole(getConsoleStringFormat(), _key, _format.empty() ? formates::format<T>() : _format);
 				}
 				else
 				{
@@ -92,7 +92,6 @@ namespace NGTech {
 		MyGUI::UString mStringUnknow;
 		MyGUI::UString mStringFormat;
 
-		// если текущий текст автодополнен
 		bool mAutocomleted;
 
 		bool minputStatus;

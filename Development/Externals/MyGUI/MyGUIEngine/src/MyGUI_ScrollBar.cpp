@@ -192,7 +192,7 @@ namespace MyGUI
 		if (mWidgetTrack == nullptr)
 			return;
 
-		const IntPoint& point = InputManager::getInstance().getLastPressedPosition(MouseButton::Left);
+		const IntPoint& point = InputManager::getInstance().getLastPressedPosition(MouseButton::MB_Left);
 
 		if (mVerticalAlignment)
 		{
@@ -260,7 +260,7 @@ namespace MyGUI
 		// диспечерезируем нажатие своих детей как свое
 		eventMouseButtonPressed(this, _left, _top, _id);
 
-		if (MouseButton::Left != _id)
+		if (MouseButton::MB_Left != _id)
 			return;
 
 		if (mMoveToClick &&
@@ -270,7 +270,7 @@ namespace MyGUI
 		{
 			if (mWidgetTrack != nullptr)
 			{
-				mPreActionOffset = InputManager::getInstance().getLastPressedPosition(MouseButton::Left);
+				mPreActionOffset = InputManager::getInstance().getLastPressedPosition(MouseButton::MB_Left);
 				const IntPoint& point = InputManager::getInstance().getMousePositionByLayer() - mWidgetTrack->getParent()->getAbsolutePosition();
 
 				mPreActionOffset.left -= getTrackSize() / 2;
@@ -357,7 +357,7 @@ namespace MyGUI
 
 	void ScrollBar::notifyMouseDrag(Widget* _sender, int _left, int _top, MouseButton _id)
 	{
-		if (_id == MouseButton::Left)
+		if (_id == MouseButton::MB_Left)
 			TrackMove(_left, _top);
 	}
 

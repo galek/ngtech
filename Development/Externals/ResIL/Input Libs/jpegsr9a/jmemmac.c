@@ -1,3 +1,4 @@
+#if 0
 /*
  * jmemmac.c
  *
@@ -48,7 +49,7 @@
  * Contributed by Sam Bushell (jsam@iagu.on.net) and
  * Dan Gildor (gyld@in-touch.com).
  */
-#if 0//Nick:Disabled
+
 #define JPEG_INTERNALS
 #include "jinclude.h"
 #include "jpeglib.h"
@@ -287,4 +288,5 @@ jpeg_mem_term (j_common_ptr cinfo)
 {
   /* no work */
 }
+
 #endif

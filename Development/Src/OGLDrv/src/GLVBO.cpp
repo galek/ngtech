@@ -1,6 +1,6 @@
 #include "RenderPrivate.h"
 //***************************************************************************
-//#include <algorithm>
+#include <algorithm>
 //***************************************************************************
 #include "GLSystem.h"
 #include "GLVBO.h"
@@ -152,7 +152,7 @@ namespace NGTech {
 	/**
 	*/
 	void GLVBO::FillBuffer(size_t offset) {
-		// заполним VBO данными
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ VBO пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		GLSystem::RecordMemoryWrite(elementSize * numElements);
 		glNamedBufferSubDataEXT(glID, offset, elementSize * numElements, data);
 	}
@@ -253,7 +253,7 @@ namespace NGTech {
 	{
 		if (num_indices < numElements * 3)
 		{
-			num_indices = max(num_indices * 2, numElements * 3);
+			num_indices = std::max(num_indices * 2, numElements * 3);
 
 			// delete vbo
 			DeleteBuffers();

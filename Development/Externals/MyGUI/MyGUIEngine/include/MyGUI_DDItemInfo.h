@@ -16,15 +16,15 @@ namespace MyGUI
 	{
 		enum Enum
 		{
-			None,
-			Start, /**< start drag */
-			End, /**< end drag (drop) */
-			Miss, /**< drag DDContainer over empty space or widgets that don't have drag'n'drop */
-			Accept, /**< drag DDContainer over another DDContainer that accept dropping on it */
-			Refuse /**< drag DDContainer over another DDContainer that refuse dropping on it */
+			DDItemState_None,
+			DDItemState_Start, /**< start drag */
+			DDItemState_End, /**< end drag (drop) */
+			DDItemState_Miss, /**< drag DDContainer over empty space or widgets that don't have drag'n'drop */
+			DDItemState_Accept, /**< drag DDContainer over another DDContainer that accept dropping on it */
+			DDItemState_Refuse /**< drag DDContainer over another DDContainer that refuse dropping on it */
 		};
 
-		DDItemState(Enum _value = None) :
+		DDItemState(Enum _value = DDItemState_None) :
 			mValue(_value)
 		{
 		}

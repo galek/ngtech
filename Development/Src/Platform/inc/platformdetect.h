@@ -15,21 +15,21 @@
 #   define IS_OS_LINUX      0
 #   define IS_OS_MACOSX     0
 #   define PLATFORM_OS      PLATFORM_OS_WINDOWS
-#   pragma message("Platform OS is Windows.")
+//#   pragma message("Platform OS is Windows.")
 #elif defined(__LINUX__) && (!defined(__ANDROID__) ) || defined( LINUX )
 #   define IS_OS_WINDOWS    0
 #   define IS_OS_LINUX      1
 #   define IS_OS_MACOSX     0
 #   define DROP_EDITOR      1
 #   define PLATFORM_OS      PLATFORM_OS_LINUX
-#   pragma message("Platform OS is Linux.")
+//#   pragma message("Platform OS is Linux.")
 #elif ( defined(__APPLE__) && defined(__MACH__) )  || defined( MACOSX )
 #   define IS_OS_WINDOWS    0
 #   define IS_OS_LINUX      0
 #   define IS_OS_MACOSX     1
 #   define DROP_EDITOR      1
 #   define PLATFORM_OS      PLATFORM_OS_MACOSX
-#   pragma message("Platform OS is MacOSX.")
+//#   pragma message("Platform OS is MacOSX.")
 #elif defined(__LINUX__) && (defined(__ANDROID__) )
 #   define IS_OS_WINDOWS    0
 #   define IS_OS_LINUX      0
@@ -54,7 +54,7 @@
 #   define IS_COMPILER_CLANG      0
 #   define IS_COMPILER_INTEL      0
 #   define ENGINE_INLINE		  __forceinline
-#   pragma message("Platform Compiler is Microsoft Visual C++.")
+//#   pragma message("Platform Compiler is Microsoft Visual C++.")
 #	pragma comment(lib,"winmm.lib")
 #elif defined( __GNUC__ )
 #   define PLATFORM_COMPILER            PLATFORM_COMPILER_GCC
@@ -64,7 +64,7 @@
 #   define IS_COMPILER_CLANG      0
 #   define IS_COMPILER_INTEL      0
 #   define ENGINE_INLINE		  inline
-#   pragma message("Platform Compiler is GCC.")
+//#   pragma message("Platform Compiler is GCC.")
 #elif defined( __CLANG__ )
 #   define PLATFORM_COMPILER            PLATFORM_COMPILER_CLANG
 #   define PLATFORM_COMPILER_VERSION    (__CLANG_MAJOR__ + __CLANG_MINOR__ + __CLANG_PATCHLEVEL__)
@@ -85,7 +85,7 @@
 #   define IS_PLATFORM_64BIT                1
 #   define IS_PLATFORM_32BIT                0
 #   define PLATFORM_MEMORY_ADDRESS_SPACE    PLATFORM_MEMORY_ADDRESS_SPACE_64BIT
-#   pragma message("Using 64bit memory address space.")
+//#   pragma message("Using 64bit memory address space.")
 #else
 #   define IS_PLATFORM_64BIT                0
 #   define IS_PLATFORM_32BIT                1
@@ -108,6 +108,7 @@
 #if (!defined(__MINGW__)) && (defined(__LINUX__) && (defined(__GNUC__)))
 #define _strnicmp strncasecmp
 #define _stricmp strcasecmp
+#define stricmp strcasecmp
 
 #else
 #if !defined(PTRDIFF_T_DEFINED) && !defined(_PTRDIFF_T)

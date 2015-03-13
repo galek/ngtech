@@ -526,7 +526,7 @@ namespace NGTech {
 	}
 
 	void Material::setPassAlphaTest() {
-#pragma message("не сделан Material::setPassAlphaTest")
+//TODO
 	}
 
 	void Material::unsetPassBlending() {

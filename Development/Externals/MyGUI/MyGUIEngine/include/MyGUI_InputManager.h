@@ -158,10 +158,10 @@ namespace MyGUI
 		IntPoint mMousePosition;
 
 		// last mouse press position
-		IntPoint mLastPressed[MouseButton::MAX];
+		IntPoint mLastPressed[MouseButton::MB_MAX];
 
 		// is mouse button captured by active widget
-		bool mMouseCapture[MouseButton::MAX];
+		bool mMouseCapture[MouseButton::MB_MAX];
 
 		// клавиша для повтора
 		KeyCode mHoldKey;

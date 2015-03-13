@@ -60,7 +60,7 @@ ILboolean iIsValidPng(SIO* io)
 	ILint		Read;
 
 	Read = io->read(io->handle, Signature, 1, 8);
-	io->seek(io->handle, -Read, IL_SEEK_CUR);
+	io->devil_seek(io->handle, -Read, IL_SEEK_CUR);
 
 	return png_check_sig(Signature, 8);
 }

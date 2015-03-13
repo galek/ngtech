@@ -392,9 +392,9 @@ ILboolean ilLoadColPal(ILconst_string FileName)
 		iCurImage->Pal.Palette = NULL;
 	}
 
-	iCurImage->io.seek(iCurImage->io.handle, 0, IL_SEEK_END);
+	iCurImage->io.devil_seek(iCurImage->io.handle, 0, IL_SEEK_END);
 	RealFileSize = ftell((FILE*)ColFile);
-	iCurImage->io.seek(iCurImage->io.handle, 0, IL_SEEK_SET);
+	iCurImage->io.devil_seek(iCurImage->io.handle, 0, IL_SEEK_SET);
 
 	if (RealFileSize > 768) {  // has a header
 		fread(&FileSize, 4, 1, (FILE*)ColFile);

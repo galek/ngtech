@@ -52,7 +52,7 @@ ILboolean iIsValidPsp()
 {
 	if (!iGetPspHead())
 		return IL_FALSE;
-	iCurImage->io.seek(iCurImage->io.handle, -(ILint)sizeof(PSPHEAD), IL_SEEK_CUR);
+	iCurImage->io.devil_seek(iCurImage->io.handle, -(ILint)sizeof(PSPHEAD), IL_SEEK_CUR);
 
 	return iCheckPsp();
 }
@@ -72,47 +72,6 @@ ILboolean iCheckPsp()
 	return IL_TRUE;
 }
 
-
-//! Reads a PSP file
-/*ILboolean ilLoadPsp(ILconst_string FileName)
-{
-	ILHANDLE	PSPFile;
-	ILboolean	bPsp = IL_FALSE;
-
-	PSPFile = iCurImage->io.openReadOnly(FileName);
-	if (PSPFile == NULL) {
-		ilSetError(IL_COULD_NOT_OPEN_FILE);
-		return bPsp;
-	}
-
-	bPsp = ilLoadPspF(PSPFile);
-	iCurImage->io.close(PSPFile);
-
-	return bPsp;
-}
-
-
-//! Reads an already-opened PSP file
-ILboolean ilLoadPspF(ILHANDLE File)
-{
-	ILuint		FirstPos;
-	ILboolean	bRet;
-
-	iSetInputFile(File);
-	FirstPos = iCurImage->io.tell(iCurImage->io.handle);
-	bRet = iLoadPspInternal();
-	iCurImage->io.seek(iCurImage->io.handle, FirstPos, IL_SEEK_SET);
-
-	return bRet;
-}
-
-
-//! Reads from a memory "lump" that contains a PSP
-ILboolean ilLoadPspL(const void *Lump, ILuint Size)
-{
-	iSetInputLump(Lump, Size);
-	return iLoadPspInternal();
-}*/
 
 
 // Internal function used to load the PSP.
@@ -176,7 +135,7 @@ ILboolean ReadGenAttributes()
 	// Can have new entries in newer versions of the spec (4.0).
 	Padding = (ChunkLen) - sizeof(AttChunk);
 	if (Padding > 0)
-		iCurImage->io.seek(iCurImage->io.handle, Padding, IL_SEEK_CUR);
+		iCurImage->io.devil_seek(iCurImage->io.handle, Padding, IL_SEEK_CUR);
 
 	// @TODO:  Anything but 24 not supported yet...
 	if (AttChunk.BitDepth != 24 && AttChunk.BitDepth != 8) {
@@ -218,7 +177,7 @@ ILboolean ParseChunks()
 		UShort(&Block.BlockID);
 		UInt(&Block.BlockLen);
 
-		Pos = iCurImage->io.tell(iCurImage->io.handle);
+		Pos = iCurImage->io.devil_tell(iCurImage->io.handle);
 
 		switch (Block.BlockID)
 		{
@@ -239,11 +198,11 @@ ILboolean ParseChunks()
 
 			// Gets done in the next iseek, so this is now commented out.
 			//default:
-				//iCurImage->io.seek(iCurImage->io.handle, Block.BlockLen, IL_SEEK_CUR);
+				//iCurImage->io.devil_seek(iCurImage->io.handle, Block.BlockLen, IL_SEEK_CUR);
 		}
 
 		// Skip to next block just in case we didn't read the entire block.
-		iCurImage->io.seek(iCurImage->io.handle, Pos + Block.BlockLen, IL_SEEK_SET);
+		iCurImage->io.devil_seek(iCurImage->io.handle, Pos + Block.BlockLen, IL_SEEK_SET);
 
 		// @TODO: Do stuff here.
 
@@ -280,7 +239,7 @@ ILboolean ReadLayerBlock(ILuint BlockLen)
 
 
 	if (Header.MajorVersion == 3) {
-		iCurImage->io.seek(iCurImage->io.handle, 256, IL_SEEK_CUR);  // We don't care about the name of the layer.
+		iCurImage->io.devil_seek(iCurImage->io.handle, 256, IL_SEEK_CUR);  // We don't care about the name of the layer.
 		iCurImage->io.read(iCurImage->io.handle, &LayerInfo, sizeof(LayerInfo), 1);
 		if (iCurImage->io.read(iCurImage->io.handle, &Bitmap, sizeof(Bitmap), 1) != 1)
 			return IL_FALSE;
@@ -288,7 +247,7 @@ ILboolean ReadLayerBlock(ILuint BlockLen)
 	else {  // Header.MajorVersion >= 4
 		ChunkSize = GetLittleUInt(&iCurImage->io);
 		NumChars = GetLittleUShort(&iCurImage->io);
-		iCurImage->io.seek(iCurImage->io.handle, NumChars, IL_SEEK_CUR);  // We don't care about the layer's name.
+		iCurImage->io.devil_seek(iCurImage->io.handle, NumChars, IL_SEEK_CUR);  // We don't care about the layer's name.
 
 		ChunkSize -= (2 + 4 + NumChars);
 
@@ -298,14 +257,14 @@ ILboolean ReadLayerBlock(ILuint BlockLen)
 		// Can have new entries in newer versions of the spec (5.0).
 		Padding = (ChunkSize) - sizeof(LayerInfo);
 		if (Padding > 0)
-			iCurImage->io.seek(iCurImage->io.handle, Padding, IL_SEEK_CUR);
+			iCurImage->io.devil_seek(iCurImage->io.handle, Padding, IL_SEEK_CUR);
 
 		ChunkSize = GetLittleUInt(&iCurImage->io);
 		if (iCurImage->io.read(iCurImage->io.handle, &Bitmap, sizeof(Bitmap), 1) != 1)
 			return IL_FALSE;
 		Padding = (ChunkSize - 4) - sizeof(Bitmap);
 		if (Padding > 0)
-			iCurImage->io.seek(iCurImage->io.handle, Padding, IL_SEEK_CUR);
+			iCurImage->io.devil_seek(iCurImage->io.handle, Padding, IL_SEEK_CUR);
 	}
 
 
@@ -345,7 +304,7 @@ ILboolean ReadAlphaBlock(ILuint BlockLen)
 		NumAlpha = GetLittleUShort(&iCurImage->io);
 		Padding = (ChunkSize - 4 - 2);
 		if (Padding > 0)
-			iCurImage->io.seek(iCurImage->io.handle, Padding, IL_SEEK_CUR);
+			iCurImage->io.devil_seek(iCurImage->io.handle, Padding, IL_SEEK_CUR);
 	}
 
 	// Alpha channel header
@@ -367,32 +326,26 @@ ILboolean ReadAlphaBlock(ILuint BlockLen)
 	if (Header.MajorVersion >= 4) {
 		ChunkSize = GetLittleUInt(&iCurImage->io);
 		StringSize = GetLittleUShort(&iCurImage->io);
-		iCurImage->io.seek(iCurImage->io.handle, StringSize, IL_SEEK_CUR);
+		iCurImage->io.devil_seek(iCurImage->io.handle, StringSize, IL_SEEK_CUR);
 		if (iCurImage->io.read(iCurImage->io.handle, &AlphaInfo, sizeof(AlphaInfo), 1) != 1)
 			return IL_FALSE;
 		Padding = (ChunkSize - 4 - 2 - StringSize - sizeof(AlphaInfo));
 		if (Padding > 0)
-			iCurImage->io.seek(iCurImage->io.handle, Padding, IL_SEEK_CUR);
+			iCurImage->io.devil_seek(iCurImage->io.handle, Padding, IL_SEEK_CUR);
 
 		ChunkSize = GetLittleUInt(&iCurImage->io);
 		if (iCurImage->io.read(iCurImage->io.handle, &AlphaChunk, sizeof(AlphaChunk), 1) != 1)
 			return IL_FALSE;
 		Padding = (ChunkSize - 4 - sizeof(AlphaChunk));
 		if (Padding > 0)
-			iCurImage->io.seek(iCurImage->io.handle, Padding, IL_SEEK_CUR);
+			iCurImage->io.devil_seek(iCurImage->io.handle, Padding, IL_SEEK_CUR);
 	}
 	else {
-		iCurImage->io.seek(iCurImage->io.handle, 256, IL_SEEK_CUR);
+		iCurImage->io.devil_seek(iCurImage->io.handle, 256, IL_SEEK_CUR);
 		iCurImage->io.read(iCurImage->io.handle, &AlphaInfo, sizeof(AlphaInfo), 1);
 		if (iCurImage->io.read(iCurImage->io.handle, &AlphaChunk, sizeof(AlphaChunk), 1) != 1)
 			return IL_FALSE;
 	}
-
-
-	/*Alpha = (ILubyte*)ialloc(AlphaInfo.AlphaRect.x2 * AlphaInfo.AlphaRect.y2);
-	if (Alpha == NULL) {
-		return IL_FALSE;
-	}*/
 
 
 	Alpha = GetChannel();
@@ -435,7 +388,7 @@ ILubyte *GetChannel()
 
 		Padding = (ChunkSize - 4) - sizeof(Channel);
 		if (Padding > 0)
-			iCurImage->io.seek(iCurImage->io.handle, Padding, IL_SEEK_CUR);
+			iCurImage->io.devil_seek(iCurImage->io.handle, Padding, IL_SEEK_CUR);
 	}
 	else {
 		if (iCurImage->io.read(iCurImage->io.handle, &Channel, sizeof(Channel), 1) != 1)
@@ -488,37 +441,8 @@ ILubyte *GetChannel()
 ILboolean UncompRLE(ILubyte *CompData, ILubyte *Data, ILuint CompLen)
 {
 	ILubyte	Run, Colour;
-	ILint	i, /*x, y,*/ Count/*, Total = 0*/;
+	ILint	i, Count;
 
-	/*for (y = 0; y < AttChunk.Height; y++) {
-		for (x = 0, Count = 0; x < AttChunk.Width; ) {
-			Run = *CompData++;
-			if (Run > 128) {
-				Run -= 128;
-				Colour = *CompData++;
-				memset(Data, Colour, Run);
-				Data += Run;
-				Count += 2;
-			}
-			else {
-				memcpy(Data, CompData, Run);
-				CompData += Run;
-				Data += Run;
-				Count += Run;
-			}
-			x += Run;
-		}
-
-		Total += Count;
-
-		if (Count % 4) {  // Has to be on a 4-byte boundary.
-			CompData += (4 - (Count % 4)) % 4;
-			Total += (4 - (Count % 4)) % 4;
-		}
-
-		if (Total >= CompLen)
-			return IL_FALSE;
-	}*/
 
 	for (i = 0, Count = 0; i < (ILint)CompLen; ) {
 		Run = *CompData++;
@@ -551,7 +475,7 @@ ILboolean ReadPalette(ILuint BlockLen)
 		PalCount = GetLittleUInt(&iCurImage->io);
 		Padding = (ChunkSize - 4 - 4);
 		if (Padding > 0)
-			iCurImage->io.seek(iCurImage->io.handle, Padding, IL_SEEK_CUR);
+			iCurImage->io.devil_seek(iCurImage->io.handle, Padding, IL_SEEK_CUR);
 	}
 	else {
 		PalCount = GetLittleUInt(&iCurImage->io);

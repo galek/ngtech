@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../../../../Externals/RenderAdditions/glew/gl/glew.h"
+#include "../../../../Externals/RenderAdditions/glew/GL/glew.h"
 #if PLATFORM_OS == PLATFORM_OS_WINDOWS
 #include "../../../../Externals/RenderAdditions/glew/gl/wglew.h"
 #else
-#include "../../../../Externals/RenderAdditions/glew/gl/glxew.h"
+#include "../../../../Externals/RenderAdditions/glew/GL/glxew.h"
 #endif
 //***************************************************************************
 

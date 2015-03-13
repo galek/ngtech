@@ -27,6 +27,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Externals\glfw\src\context.c" />
+    <ClCompile Include="..\..\Externals\glfw\src\init.c" />
+    <ClCompile Include="..\..\Externals\glfw\src\input.c" />
+    <ClCompile Include="..\..\Externals\glfw\src\monitor.c" />
+    <ClCompile Include="..\..\Externals\glfw\src\wgl_context.c" />
+    <ClCompile Include="..\..\Externals\glfw\src\win32_init.c" />
+    <ClCompile Include="..\..\Externals\glfw\src\win32_monitor.c" />
+    <ClCompile Include="..\..\Externals\glfw\src\win32_time.c" />
+    <ClCompile Include="..\..\Externals\glfw\src\win32_tls.c" />
+    <ClCompile Include="..\..\Externals\glfw\src\win32_window.c" />
+    <ClCompile Include="..\..\Externals\glfw\src\window.c" />
+    <ClCompile Include="..\..\Externals\glfw\src\winmm_joystick.c" />
     <ClCompile Include="src\call_stack_gcc.cpp" />
     <ClCompile Include="src\call_stack_msvc.cpp" />
     <ClCompile Include="src\crashreport\common\windows\guid_string.cc" />
@@ -36,20 +48,6 @@
     <ClCompile Include="src\crashreport\windows\crash_generation\crash_generation_server.cc" />
     <ClCompile Include="src\crashreport\windows\crash_generation\minidump_generator.cc" />
     <ClCompile Include="src\crashreport\windows\handler\exception_handler.cc" />
-    <ClCompile Include="src\glfw\context.c" />
-    <ClCompile Include="src\glfw\init.c" />
-    <ClCompile Include="src\glfw\input.c" />
-    <ClCompile Include="src\glfw\joystick.c" />
-    <ClCompile Include="src\glfw\monitor.c" />
-    <ClCompile Include="src\glfw\time.c" />
-    <ClCompile Include="src\glfw\wgl_context.c" />
-    <ClCompile Include="src\glfw\win32_init.c" />
-    <ClCompile Include="src\glfw\win32_monitor.c" />
-    <ClCompile Include="src\glfw\win32_time.c" />
-    <ClCompile Include="src\glfw\win32_tls.c" />
-    <ClCompile Include="src\glfw\win32_window.c" />
-    <ClCompile Include="src\glfw\window.c" />
-    <ClCompile Include="src\glfw\winmm_joystick.c" />
     <ClCompile Include="src\snprintf.c" />
     <ClCompile Include="src\StackWalker.cpp" />
   </ItemGroup>
@@ -99,8 +97,6 @@
     <ClInclude Include="inc\crashreport\windows\crash_generation\crash_generation_server.h" />
     <ClInclude Include="inc\crashreport\windows\crash_generation\minidump_generator.h" />
     <ClInclude Include="inc\crashreport\windows\handler\exception_handler.h" />
-    <ClInclude Include="inc\glfw\glfw3.h" />
-    <ClInclude Include="inc\glfw\glfw3native.h" />
     <ClInclude Include="inc\platformdetect.h" />
     <ClInclude Include="inc\PlatformPrivate.h" />
     <ClInclude Include="inc\StackWalker.h" />

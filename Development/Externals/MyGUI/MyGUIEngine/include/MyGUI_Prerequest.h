@@ -96,7 +96,7 @@ namespace MyGUI
 
 #include "MyGUI_DeprecatedTypes.h"
 
-#include "../../../../src/core/inc/DataStream.h"
-#include "../../../../src/core/inc/Log.h"
+#include "../../../../Src/Core/inc/DataStream.h"
+#include "../../../../Src/Core/inc/Log.h"
 using namespace NGTech;
 #endif // __MYGUI_PREREQUEST_H__

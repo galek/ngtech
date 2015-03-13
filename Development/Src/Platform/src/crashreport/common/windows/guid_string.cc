@@ -30,7 +30,7 @@
 // guid_string.cc: Convert GUIDs to strings.
 //
 // See guid_string.h for documentation.
-
+#ifndef __LINUX__
 #include <wchar.h>
 
 #include "crashreport/common/windows/string_utils-inl.h"
@@ -74,3 +74,4 @@ namespace NGTech {
 	}
 
 }  // namespace NGTech
+#endif

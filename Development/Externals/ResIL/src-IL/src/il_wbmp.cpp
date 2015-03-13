@@ -27,7 +27,7 @@ ILuint WbmpGetMultibyte(SIO* io)
 	ILubyte Cur;
 
 	for (i = 0; i < 5; i++) {  // Should not be more than 5 bytes.
-		Cur = io->getc(io->handle);
+		Cur = io->devil_getc(io->handle);
 		Val = (Val << 7) | (Cur & 0x7F);  // Drop the MSB of Cur.
 		if (!(Cur & 0x80)) {  // Check the MSB and break if 0.
 			break;
@@ -49,7 +49,7 @@ ILboolean iLoadWbmpInternal(SIO* io)
 		return IL_FALSE;
 	}
 	
-	if (io->getc(io->handle) != 0 || io->getc(io->handle) != 0) {  // The first two bytes have to be 0 (the "header")
+	if (io->devil_getc(io->handle) != 0 || io->devil_getc(io->handle) != 0) {  // The first two bytes have to be 0 (the "header")
 		ilSetError(IL_INVALID_FILE_HEADER);
 		return IL_FALSE;
 	}
@@ -106,7 +106,7 @@ ILboolean WbmpPutMultibyte(SIO* io, ILuint Val)
 		MultiVal = (Val >> (i * 7)) & 0x7F;
 		if (i != 0)
 			MultiVal |= 0x80;
-		io->putc(MultiVal, io->handle);
+		io->devil_putc(MultiVal, io->handle);
 	}
 
 	return IL_TRUE;
@@ -128,8 +128,8 @@ ILboolean iSaveWbmpInternal(SIO* io)
 	ILubyte	Val;
 	ILubyte	*TempData;
 
-	io->putc(0, io->handle);  // First two header values
-	io->putc(0, io->handle);  //  must be 0.
+	io->devil_putc(0, io->handle);  // First two header values
+	io->devil_putc(0, io->handle);  //  must be 0.
 
 	WbmpPutMultibyte(io, iCurImage->Width);  // Write the width
 	WbmpPutMultibyte(io, iCurImage->Height); //  and the height.
@@ -162,7 +162,7 @@ ILboolean iSaveWbmpInternal(SIO* io)
 					Val |= ((TempData[TempImage->Width * i + j + k] == 1) ? (0x80 >> k) : 0x00);
 				}
 			}
-			io->putc(Val, io->handle);
+			io->devil_putc(Val, io->handle);
 		}
 	}
 

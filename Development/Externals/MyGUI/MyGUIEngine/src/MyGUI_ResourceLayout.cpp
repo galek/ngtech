@@ -58,12 +58,12 @@ namespace MyGUI
 		if (_widget->findAttribute("position", tmp))
 		{
 			widgetInfo.intCoord = IntCoord::parse(tmp);
-			widgetInfo.positionType = WidgetInfo::Pixels;
+			widgetInfo.positionType = WidgetInfo::PT_Pixels;
 		}
 		else if (_widget->findAttribute("position_real", tmp))
 		{
 			widgetInfo.floatCoord = FloatCoord::parse(tmp);
-			widgetInfo.positionType = WidgetInfo::Relative;
+			widgetInfo.positionType = WidgetInfo::PT_Relative;
 		}
 
 		// берем детей и крутимся
@@ -126,8 +126,8 @@ namespace MyGUI
 		}
 
 		IntCoord coord;
-		if (_widgetInfo.positionType == WidgetInfo::Pixels) coord = _widgetInfo.intCoord;
-		else if (_widgetInfo.positionType == WidgetInfo::Relative)
+		if (_widgetInfo.positionType == WidgetInfo::PT_Pixels) coord = _widgetInfo.intCoord;
+		else if (_widgetInfo.positionType == WidgetInfo::PT_Relative)
 		{
 			if (_parent == nullptr || style == WidgetStyle::Popup)
 				coord = CoordConverter::convertFromRelative(_widgetInfo.floatCoord, RenderManager::getInstance().getViewSize());

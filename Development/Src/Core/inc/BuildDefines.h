@@ -20,12 +20,16 @@
 #endif
 
 #ifndef USE_OWN_MINIDUMP
+#ifndef __LINUX__
 #define USE_OWN_MINIDUMP 1
+#endif
 #endif
 
 //Is depreated?
 #ifndef EYEFINITY_SUPPORT
+#ifndef __LINUX__
 #define EYEFINITY_SUPPORT 1
+#endif
 #endif
 
 #ifndef DROP_EDITOR

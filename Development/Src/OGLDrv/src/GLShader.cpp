@@ -17,14 +17,18 @@
 */
 #include "RenderPrivate.h"
 //***************************************************************************
+#if defined(_WIN32)
 #include <direct.h> //_mkdir
+#else
+#include <sys/stat.h>
+#endif
 //***************************************************************************
 #include "GLSystem.h"
 #include "GLShader.h"
 #include "Log.h"
 #include "FileHelper.h"
 #include "Error.h"
-#include "vfs.h"
+#include "VFS.h"
 //***************************************************************************
 
 namespace NGTech {
@@ -123,11 +127,11 @@ namespace NGTech {
 
 	bool GLShader::CreateShader(const String &path, const String &defines, bool _save)
 	{
-		int Success = 0;
 
 		glGenProgramPipelines(1, &PipelineName);
 
 #ifndef _ENGINE_DEBUG_
+		/*int Success = 0;
 		{
 			GLenum Format = 0;
 			GLint Size = 0;
@@ -147,7 +151,7 @@ namespace NGTech {
 		DebugM("Validation shader binary is %i", Success);
 		if (Success)
 			return true;
-		else
+		else*/
 #endif
 		{
 			if (_save)
@@ -350,7 +354,7 @@ namespace NGTech {
 
 	bool GLShader::CreateShader(const String &pathFS, const String &pathVS, const String &defines, bool _save)
 	{
-		int Success = 0;
+		//int Success = 0;
 
 		glGenProgramPipelines(1, &PipelineName);
 
@@ -501,7 +505,11 @@ namespace NGTech {
 #else
 		static const char* dir = "../userData/ShaderCache.64/";
 #endif
+#if defined(_WIN32)
 		_mkdir(dir);
+		#else
+		mkdir(dir, 777);
+		#endif
 		Filename = dir;
 		Filename += _file;
 		Filename += ".bin";

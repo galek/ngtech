@@ -19,23 +19,23 @@ file(GLOB SOURCE
     "src/lua/*.c"
 )
 
-#TODO: Сделай тут макрос на SHARED либу
-# и -DCORE_EXPORTS
 #add_library(Core SHARED ${SOURCE})
 add_library(Core ${SOURCE})
 
-
-#target_link_libraries(Core "${LIBRARIES_FROM_REFERENCES}")
+IF(UNIX AND NOT MAC)
+target_link_libraries(Core "${LIBRARIES_FROM_REFERENCES}" Common Externals dl rt pthread )
+ELSE(UNIX AND NOT MAC)
+target_link_libraries(Core "${LIBRARIES_FROM_REFERENCES}" Common Externals )
+ENDIF(UNIX AND NOT MAC)
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} ")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ")
 
-#IF(UNIX)
-#add_definitions(-D__LINUX__)
-#ENDIF(UNIX)
+IF(UNIX)
+add_definitions(-D__LINUX__)
+ENDIF(UNIX)
 
 IF(WIN32) # Check if we are on Windows
   if(MSVC) # Check if we are using the Visual Studio compiler
-  #TODO: Тут сделай тоже макрос
 	add_definitions(-DCORE_EXPORTS)
   elseif(CMAKE_COMPILER_IS_GNUCXX)
     # SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows") # Not tested

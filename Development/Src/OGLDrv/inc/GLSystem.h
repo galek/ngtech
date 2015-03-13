@@ -9,7 +9,7 @@
 #include "GLDisplayList.h"
 #include "GLFBO.h"
 #include "GLOcclusionQuery.h"
-#include "Renderdll.h"
+#include "RenderDLL.h"
 #include <vector>
 #include "meshobject.hh"
 //***************************************************************************

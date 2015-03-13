@@ -1,9 +1,9 @@
 //***************************************************
 #include "EnginePrivate.h"
 //***************************************************
-#include "../../Platform/inc/glfw/glfw3.h"
-#include "../../Platform/inc/glfw/glfw3native.h"
-#include "mygui.h"
+#include "../../../Externals/glfw/include/GLFW/glfw3.h"
+#include "../../../Externals/glfw/include/GLFW/glfw3native.h"
+#include "MyGUI.h"
 //***************************************************
 #include "CvarManager.h"
 //***************************************************

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\Common\IGame.h"
+#include "../Common/IGame.h"
 //#define MANDELBROT_DEMO
 //#define TERRAIN_DEMO
 #include "DLLx.h"

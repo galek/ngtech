@@ -18,7 +18,7 @@
 #include "EnginePrivate.h"
 //***************************************************
 #include "Engine.h"
-#include "CVARManager.h"
+#include "../../Core/inc/CvarManager.h"
 #include "ALSystem.h"
 #include "Cache.h"
 #include "Scene.h"
@@ -28,7 +28,7 @@
 //***************************************************
 #include "EngineScriptInterp.h"
 //***************************************************
-#include "../../OGLDRV/inc/GLSystem.h"
+#include "../../OGLDrv/inc/GLSystem.h"
 #include "EngineThreads.h"
 //***************************************************
 #include "WindowSystem.h"
@@ -246,8 +246,10 @@ namespace NGTech {
 	*/
 	void Engine::mainLoop()
 	{
+#ifndef __LINUX__
 		PROFILER_SET_CATEGORY("Main");
 		PROFILER_ENABLE();
+#endif
 #if LIMITED_FPS
 		auto next_game_tick = this->iWindow->GetTicks();
 		int loops;
@@ -268,11 +270,15 @@ namespace NGTech {
 #else
 		while (IsRunning())
 		{
+#ifndef __LINUX__
 			PROFILER_START(ENGINE_mainLoop);
+#endif
 			do_update();
 			do_render();
 			do_swap();
+#ifndef __LINUX__
 			PROFILER_END();
+#endif
 		}
 #endif
 	}
@@ -281,45 +287,64 @@ namespace NGTech {
 	*/
 	void Engine::do_update()
 	{
+#ifndef __LINUX__
 		PROFILER_START(ENGINE_do_update);
+#endif
 		if (iWindow)
 			this->iWindow->update();
 
+#ifndef __LINUX__
 		PROFILER_START(Game);
+#endif
 		if (this->game)
 			if (this->game->ec)
 				this->game->runEventsCallback();
+#ifndef __LINUX__
 		PROFILER_END();
+#endif
 
+#ifndef __LINUX__
 		PROFILER_START(Render);
+#endif
 		if (this->iRender)
 			this->iRender->clear(I_Render::COLOR_BUFFER | I_Render::DEPTH_BUFFER | I_Render::STENCIL_BUFFER);
+#ifndef __LINUX__
 		PROFILER_END();
 
 		PROFILER_START(Scene);
+#endif
 		if (this->scene)
 			this->scene->update(paused);
+#ifndef __LINUX__
 		PROFILER_END();
 
+
 		PROFILER_START(Audio);
+#endif
 		// run multi-threaded sound
 		if (!paused)
 			if (this->scene)
-				this->scene->runUpdate();//Сейчас обновляем только звук
+				this->scene->runUpdate();
+#ifndef __LINUX__
 		PROFILER_END();
 
 		PROFILER_START(Game);
+#endif
 		if (this->game)
 			this->game->update();
+#ifndef __LINUX__
 		PROFILER_END();
 
 
 		PROFILER_START(Physics);
+#endif
 		// run multi-threaded physics
 		if (!paused)
 			this->physSystem->runUpdate();
+#ifndef __LINUX__
 		PROFILER_END();
 		PROFILER_END();
+#endif
 	}
 
 	/**

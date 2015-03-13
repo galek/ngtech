@@ -51,9 +51,9 @@ ILboolean iGetMp3Head(SIO* io, MP3HEAD *Header)
 {
 	if (io->read(io->handle, Header->Signature, 3, 1) != 1)
 		return IL_FALSE;
-	Header->VersionMajor = io->getc(io->handle);
-	Header->VersionMinor = io->getc(io->handle);
-	Header->Flags = io->getc(io->handle);
+	Header->VersionMajor = io->devil_getc(io->handle);
+	Header->VersionMinor = io->devil_getc(io->handle);
+	Header->Flags = io->devil_getc(io->handle);
 	Header->Length = GetSynchInt(io);
 
 	return IL_TRUE;
@@ -64,12 +64,12 @@ ILboolean iGetMp3Head(SIO* io, MP3HEAD *Header)
 ILboolean iIsValidMp3(SIO* io)
 {
 	MP3HEAD		Header;
-	ILuint		Pos = io->tell(io->handle);
+	ILuint		Pos = io->devil_tell(io->handle);
 
 	if (!iGetMp3Head(io, &Header))
 		return IL_FALSE;
 	// The length of the header varies, so we just go back to the original position.
-	io->seek(io->handle, Pos, IL_SEEK_CUR);
+	io->devil_seek(io->handle, Pos, IL_SEEK_CUR);
 
 	return iCheckMp3(&Header);
 }
@@ -110,10 +110,10 @@ ILuint iFindMp3Pic(SIO* io, MP3HEAD *Header)
 		//@TODO: Support multiple APIC entries in an mp3 file.
 		if (!strncmp(ID, "APIC", 4)) {
 			//@TODO: Use TextEncoding properly - UTF16 strings starting with FFFE or FEFF.
-			TextEncoding = io->getc(io->handle);
+			TextEncoding = io->devil_getc(io->handle);
 			// Get the MimeType (read until we hit 0).
 			for (i = 0; i < 65; i++) {
-				MimeType[i] = io->getc(io->handle);
+				MimeType[i] = io->devil_getc(io->handle);
 				if (MimeType[i] == 0)
 					break;
 			}
@@ -127,11 +127,11 @@ ILuint iFindMp3Pic(SIO* io, MP3HEAD *Header)
 			else
 				Type = MP3_NONE;
 
-			PicType = io->getc(io->handle);  // Whether this is a cover, band logo, etc.
+			PicType = io->devil_getc(io->handle);  // Whether this is a cover, band logo, etc.
 
 			// Skip the description.
 			for (i = 0; i < 65; i++) {
-				Description[i] = io->getc(io->handle);
+				Description[i] = io->devil_getc(io->handle);
 				if (Description[i] == 0)
 					break;
 			}
@@ -140,11 +140,11 @@ ILuint iFindMp3Pic(SIO* io, MP3HEAD *Header)
 			return Type;
 		}
 		else {
-			io->seek(io->handle, FrameSize, IL_SEEK_CUR);
+			io->devil_seek(io->handle, FrameSize, IL_SEEK_CUR);
 		}
 
 		//if (!strncmp(MimeType, "
-	} while (!io->eof(io->handle) && io->tell(io->handle) < Header->Length);
+	} while (!io->devil_eof(io->handle) && io->devil_tell(io->handle) < Header->Length);
 
 	return Type;
 }

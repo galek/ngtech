@@ -28,7 +28,7 @@ namespace MyGUI
 	void DDContainer::onMouseButtonPressed(int _left, int _top, MouseButton _id)
 	{
 		// смещение внутри виджета, куда кликнули мышкой
-		mClickInWidget = InputManager::getInstance().getLastPressedPosition(MouseButton::Left) - getAbsolutePosition();
+		mClickInWidget = InputManager::getInstance().getLastPressedPosition(MouseButton::MB_Left) - getAbsolutePosition();
 
 		mouseButtonPressed(_id);
 
@@ -51,7 +51,7 @@ namespace MyGUI
 
 	void DDContainer::mouseButtonPressed(MouseButton _id)
 	{
-		if (MouseButton::Left == _id)
+		if (MouseButton::MB_Left == _id)
 		{
 			// сбрасываем инфу для дропа
 			mDropResult = false;
@@ -73,7 +73,7 @@ namespace MyGUI
 
 	void DDContainer::mouseButtonReleased(MouseButton _id)
 	{
-		if (MouseButton::Left == _id)
+		if (MouseButton::MB_Left == _id)
 		{
 			endDrop(false);
 		}
@@ -81,7 +81,7 @@ namespace MyGUI
 
 	void DDContainer::mouseDrag(MouseButton _id)
 	{
-		if (MouseButton::Left != _id)
+		if (MouseButton::MB_Left != _id)
 			return;
 
 		// нужно ли обновить данные
@@ -101,7 +101,7 @@ namespace MyGUI
 
 			if (mNeedDrop)
 			{
-				eventChangeDDState(this, DDItemState::Start);
+				eventChangeDDState(this, DDItemState::DDItemState_Start);
 			}
 			else
 			{
@@ -176,19 +176,19 @@ namespace MyGUI
 		{
 			data.accept = false;
 			data.refuse = false;
-			state = DDItemState::Miss;
+			state = DDItemState::DDItemState_Miss;
 		}
 		else if (mDropResult)
 		{
 			data.accept = true;
 			data.refuse = false;
-			state = DDItemState::Accept;
+			state = DDItemState::DDItemState_Accept;
 		}
 		else
 		{
 			data.accept = false;
 			data.refuse = true;
-			state = DDItemState::Refuse;
+			state = DDItemState::DDItemState_Refuse;
 		}
 
 		updateDropItemsState(data);
@@ -207,7 +207,7 @@ namespace MyGUI
 
 			if (_reset) mDropResult = false;
 			eventDropResult(this, mDropInfo, mDropResult);
-			eventChangeDDState(this, DDItemState::End);
+			eventChangeDDState(this, DDItemState::DDItemState_End);
 
 			// сбрасываем инфу для дропа
 			mStartDrop = false;
@@ -249,7 +249,7 @@ namespace MyGUI
 
 	void DDContainer::notifyInvalideDrop(DDContainer* _sender)
 	{
-		mouseDrag(MouseButton::Left);
+		mouseDrag(MouseButton::MB_Left);
 	}
 
 	void DDContainer::setPropertyOverride(const std::string& _key, const std::string& _value)

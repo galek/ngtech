@@ -50,10 +50,10 @@ void ReadScanline(ILimage* image, ILubyte *scanline, ILuint w) {
 	ILubyte *runner;
 	ILuint r, g, b, e, read, shift;
 
-	r = image->io.getc(image->io.handle);
-	g = image->io.getc(image->io.handle);
-	b = image->io.getc(image->io.handle);
-	e = image->io.getc(image->io.handle);
+	r = image->io.devil_getc(image->io.handle);
+	g = image->io.devil_getc(image->io.handle);
+	b = image->io.devil_getc(image->io.handle);
+	e = image->io.devil_getc(image->io.handle);
 
 	//check if the scanline is in the new format
 	//if so, e, r, g, b are stored separated and are
@@ -67,9 +67,9 @@ void ReadScanline(ILimage* image, ILubyte *scanline, ILuint w) {
 			runner = scanline + k;
 			j = 0;
 			while (j < length) {
-				t = image->io.getc(image->io.handle);
+				t = image->io.devil_getc(image->io.handle);
 				if (t > 128) { //Run?
-					ILubyte val = image->io.getc(image->io.handle);
+					ILubyte val = image->io.devil_getc(image->io.handle);
 					t &= 127;
 					//copy current byte
 					while (t > 0 && j < length) {
@@ -82,7 +82,7 @@ void ReadScanline(ILimage* image, ILubyte *scanline, ILuint w) {
 				else { //No Run.
 					//read new bytes
 					while (t > 0 && j < length) {
-						*runner = image->io.getc(image->io.handle);
+						*runner = image->io.devil_getc(image->io.handle);
 						runner += 4;
 						--t;
 						++j;
@@ -99,10 +99,10 @@ void ReadScanline(ILimage* image, ILubyte *scanline, ILuint w) {
 	runner = scanline;
 	while (read < w) {
 		if (read != 0) {
-			r = image->io.getc(image->io.handle);
-			g = image->io.getc(image->io.handle);
-			b = image->io.getc(image->io.handle);
-			e = image->io.getc(image->io.handle);
+			r = image->io.devil_getc(image->io.handle);
+			g = image->io.devil_getc(image->io.handle);
+			b = image->io.devil_getc(image->io.handle);
+			e = image->io.devil_getc(image->io.handle);
 		}
 
 		//if all three mantissas are 1, then this is a rle
@@ -163,7 +163,7 @@ ILboolean iLoadHdrInternal(ILimage* image)
 	auto headerEnd = hstr-header;
 	while (headerEnd < read && header[headerEnd] != 0x0a)
 		++headerEnd;
-	image->io.seek(image->io.handle, headerEnd+1, IL_SEEK_SET);
+	image->io.devil_seek(image->io.handle, headerEnd+1, IL_SEEK_SET);
 
 	if (width == 0 || height == 0) {
 		ilSetError(IL_INVALID_FILE_HEADER);

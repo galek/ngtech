@@ -68,7 +68,7 @@ ILboolean iIsValidPix(SIO* io)
 {
 	PIXHEAD	Head;
 	auto read = iGetPixHead(io, &Head);
-	io->seek(io->handle, -read, IL_SEEK_CUR);
+	io->devil_seek(io->handle, -read, IL_SEEK_CUR);
 
 	if (read == sizeof(Head))
 		return iCheckPix(&Head);
@@ -100,7 +100,7 @@ ILboolean iLoadPixInternal(ILimage* image)
 		return IL_FALSE;
 
 	for (i = 0; i < image->SizeOfData; ) {
-		ByteHead = image->io.getc(image->io.handle);
+		ByteHead = image->io.devil_getc(image->io.handle);
 		if (image->io.read(image->io.handle, Colour, 1, 3) != 3)
 			return IL_FALSE;
 		for (j = 0; j < ByteHead; j++) {

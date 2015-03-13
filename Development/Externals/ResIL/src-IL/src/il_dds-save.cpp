@@ -598,15 +598,15 @@ ILuint Compress(ILimage *Image, ILenum DXTCFormat)
 					Get3DcBlock(AlphaBlock, Runner8, Image, x, y, 0);
 					ChooseAlphaEndpoints(AlphaBlock, &a0, &a1);
 					GenAlphaBitMask(a0, a1, AlphaBlock, AlphaBitMask, NULL);
-					iCurImage->io.putc(a0, iCurImage->io.handle);
-					iCurImage->io.putc(a1, iCurImage->io.handle);
+					iCurImage->io.devil_putc(a0, iCurImage->io.handle);
+					iCurImage->io.devil_putc(a1, iCurImage->io.handle);
 					iCurImage->io.write(AlphaBitMask, 1, 6, iCurImage->io.handle);
 
 					Get3DcBlock(AlphaBlock, Runner8, Image, x, y, 1);
 					ChooseAlphaEndpoints(AlphaBlock, &a0, &a1);
 					GenAlphaBitMask(a0, a1, AlphaBlock, AlphaBitMask, NULL);
-					iCurImage->io.putc(a0, iCurImage->io.handle);
-					iCurImage->io.putc(a1, iCurImage->io.handle);
+					iCurImage->io.devil_putc(a0, iCurImage->io.handle);
+					iCurImage->io.devil_putc(a1, iCurImage->io.handle);
 					iCurImage->io.write(AlphaBitMask, 1, 6, iCurImage->io.handle);
 
 					Count += 16;
@@ -638,8 +638,8 @@ ILuint Compress(ILimage *Image, ILenum DXTCFormat)
 					GetAlphaBlock(AlphaBlock, Runner8, Image, x, y);
 					ChooseAlphaEndpoints(AlphaBlock, &a0, &a1);
 					GenAlphaBitMask(a0, a1, AlphaBlock, AlphaBitMask, NULL);
-					iCurImage->io.putc(a0, iCurImage->io.handle);
-					iCurImage->io.putc(a1, iCurImage->io.handle);
+					iCurImage->io.devil_putc(a0, iCurImage->io.handle);
+					iCurImage->io.devil_putc(a1, iCurImage->io.handle);
 					iCurImage->io.write(AlphaBitMask, 1, 6, iCurImage->io.handle);
 					Count += 8;
 				}
@@ -771,32 +771,13 @@ ILuint Compress(ILimage *Image, ILenum DXTCFormat)
 				}
 				break;
 
-			/*case IL_DXT2:
-				for (y = 0; y < Image->Height; y += 4) {
-					for (x = 0; x < Image->Width; x += 4) {
-						GetAlphaBlock(AlphaBlock, Alpha, Image, x, y);
-						for (i = 0; i < 16; i += 2) {
-							iCurImage->io.putc(iCurImage->io.handle, (ILubyte)(((AlphaBlock[i] >> 4) << 4) | (AlphaBlock[i+1] >> 4)));
-						}
-
-						GetBlock(Block, Data, Image, x, y);
-						PreMult(Block, AlphaBlock);
-						ChooseEndpoints(Block, &ex0, &ex1);
-						SaveLittleUShort(&iCurImage->io, ex0);
-						SaveLittleUShort(&iCurImage->io, ex1);
-						BitMask = GenBitMask(ex0, ex1, 4, Block, NULL, NULL);
-						SaveLittleUInt(&iCurImage->io,BitMask);
-					}		
-				}
-				break;*/
-
 			case IL_DXT3:
 				for (z = 0; z < Image->Depth; z++) {
 					for (y = 0; y < Image->Height; y += 4) {
 						for (x = 0; x < Image->Width; x += 4) {
 							GetAlphaBlock(AlphaBlock, Runner8, Image, x, y);
 							for (i = 0; i < 16; i += 2) {
-								iCurImage->io.putc((ILubyte)(((AlphaBlock[i+1] >> 4) << 4) | (AlphaBlock[i] >> 4)), iCurImage->io.handle);
+								iCurImage->io.devil_putc((ILubyte)(((AlphaBlock[i+1] >> 4) << 4) | (AlphaBlock[i] >> 4)), iCurImage->io.handle);
 							}
 
 							GetBlock(Block, Runner16, Image, x, y);
@@ -834,8 +815,8 @@ ILuint Compress(ILimage *Image, ILenum DXTCFormat)
 								a1 = a0;
 								a0 = Rms2;
 							}*/
-							iCurImage->io.putc(a0, iCurImage->io.handle);
-							iCurImage->io.putc(a1, iCurImage->io.handle);
+							iCurImage->io.devil_putc(a0, iCurImage->io.handle);
+							iCurImage->io.devil_putc(a1, iCurImage->io.handle);
 							iCurImage->io.write(AlphaBitMask, 1, 6, iCurImage->io.handle);
 
 							GetBlock(Block, Runner16, Image, x, y);

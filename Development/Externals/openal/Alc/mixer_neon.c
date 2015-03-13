@@ -1,6 +1,5 @@
-#include "../config.h"
+#include "openal_config.h"
 
-#if defined (_M_ARM)
 #include <arm_neon.h>
 
 #include "AL/al.h"
@@ -117,4 +116,3 @@ void MixDirect_Neon(const ALfloat *data, ALuint OutChans, ALfloat (*restrict Out
             OutBuffer[c][OutPos+pos] += data[pos]*gain;
     }
 }
-#endif

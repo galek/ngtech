@@ -23,7 +23,7 @@
 #ifdef LCMS_NODIRINCLUDE
 #include <lcms.h>
 #else
-#include <lcms/lcms.h>
+#include "../../Input Libs/lcms2-2.5/include/lcms2.h"
 #endif
 
 #else
@@ -118,7 +118,7 @@ ILboolean ILAPIENTRY ilApplyProfile(ILstring InProfile, ILstring OutProfile)
 		}
 		break;
 
-		// These aren't supported right now.
+		/*These aren't supported right now.*/
 	case IL_INT:
 	case IL_UNSIGNED_INT:
 	case IL_FLOAT:

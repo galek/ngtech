@@ -61,12 +61,12 @@ ILboolean ILAPIENTRY iDefaultEof(ILHANDLE Handle)
 	ILuint OrigPos, FileSize;
 
 	// Find out the filesize for checking for the end of file
-	OrigPos = iCurImage->io.tell(iCurImage->io.handle);
-	iCurImage->io.seek(iCurImage->io.handle, 0, IL_SEEK_END);
-	FileSize = iCurImage->io.tell(iCurImage->io.handle);
-	iCurImage->io.seek(iCurImage->io.handle, OrigPos, IL_SEEK_SET);
+	OrigPos = iCurImage->io.devil_tell(iCurImage->io.handle);
+	iCurImage->io.devil_seek(iCurImage->io.handle, 0, IL_SEEK_END);
+	FileSize = iCurImage->io.devil_tell(iCurImage->io.handle);
+	iCurImage->io.devil_seek(iCurImage->io.handle, OrigPos, IL_SEEK_SET);
 
-	if (iCurImage->io.tell(iCurImage->io.handle) >= FileSize)
+	if (iCurImage->io.devil_tell(iCurImage->io.handle) >= FileSize)
 		return IL_TRUE;
 	return IL_FALSE;
 }
@@ -162,11 +162,11 @@ void ILAPIENTRY ilSetRead(fOpenProc aOpen, fCloseProc aClose, fEofProc aEof, fGe
 		memset(&iCurImage->io, 0, sizeof(SIO));
 		iCurImage->io.openReadOnly    = aOpen;
 		iCurImage->io.close   = aClose;
-		iCurImage->io.eof   = aEof;
-		iCurImage->io.getc  = aGetc;
+		iCurImage->io.devil_eof   = aEof;
+		iCurImage->io.devil_getc  = aGetc;
 		iCurImage->io.read  = aRead;
-		iCurImage->io.seek = aSeek;
-		iCurImage->io.tell = aTell;
+		iCurImage->io.devil_seek = aSeek;
+		iCurImage->io.devil_tell = aTell;
 	}
 
 	return;
@@ -181,10 +181,10 @@ void ILAPIENTRY ilSetWrite(fOpenProc Open, fCloseProc Close, fPutcProc Putc, fSe
 		memset(&iCurImage->io, 0, sizeof(SIO));
 		iCurImage->io.openWrite = Open;
 		iCurImage->io.close = Close;
-		iCurImage->io.putc  = Putc;
+		iCurImage->io.devil_putc  = Putc;
 		iCurImage->io.write = Write;
-		iCurImage->io.seek  = Seek;
-		iCurImage->io.tell  = Tell;
+		iCurImage->io.devil_seek  = Seek;
+		iCurImage->io.devil_tell  = Tell;
 	}
 }
 
@@ -194,13 +194,13 @@ void iSetInputFile(ILHANDLE File)
 {
 	if (iCurImage != NULL) {
 		memset(&iCurImage->io, 0, sizeof(SIO));
-		iCurImage->io.eof  = iDefaultEof;
-		iCurImage->io.getc = iDefaultGetc;
+		iCurImage->io.devil_eof  = iDefaultEof;
+		iCurImage->io.devil_getc = iDefaultGetc;
 		iCurImage->io.read = iDefaultRead;
-		iCurImage->io.seek = iDefaultSeek;
-		iCurImage->io.tell = iDefaultTell;
+		iCurImage->io.devil_seek = iDefaultSeek;
+		iCurImage->io.devil_tell = iDefaultTell;
 		iCurImage->io.handle = File;
-		iCurImage->io.ReadFileStart = iCurImage->io.tell(iCurImage->io.handle);
+		iCurImage->io.ReadFileStart = iCurImage->io.devil_tell(iCurImage->io.handle);
 	}
 }
 
@@ -210,11 +210,11 @@ void iSetInputLump(const void *Lump, ILuint Size)
 {
 	if (iCurImage != NULL) {
 		memset(&iCurImage->io, 0, sizeof(SIO));
-		iCurImage->io.eof  = iEofLump;
-		iCurImage->io.getc = iGetcLump;
+		iCurImage->io.devil_eof  = iEofLump;
+		iCurImage->io.devil_getc = iGetcLump;
 		iCurImage->io.read = iReadLump;
-		iCurImage->io.seek = iSeekLump;
-		iCurImage->io.tell = iTellLump;
+		iCurImage->io.devil_seek = iSeekLump;
+		iCurImage->io.devil_tell = iTellLump;
 		iCurImage->io.lump = Lump;
 		iCurImage->io.lumpPos = 0;
 		iCurImage->io.lumpSize = Size;
@@ -227,10 +227,10 @@ void iSetOutputFile(ILHANDLE File)
 {
 	if (iCurImage != NULL) {
 		memset(&iCurImage->io, 0, sizeof(SIO));
-		iCurImage->io.eof  = iEofLump;
-		iCurImage->io.putc  = iDefaultPutc;
-		iCurImage->io.seek = iDefaultSeek;
-		iCurImage->io.tell = iDefaultTell;
+		iCurImage->io.devil_eof  = iEofLump;
+		iCurImage->io.devil_putc  = iDefaultPutc;
+		iCurImage->io.devil_seek = iDefaultSeek;
+		iCurImage->io.devil_tell = iDefaultTell;
 		iCurImage->io.write = iDefaultWrite;
 		iCurImage->io.handle = File;
 	}
@@ -243,9 +243,9 @@ void iSetOutputFake(void)
 {
 	if (iCurImage != NULL) {
 		memset(&iCurImage->io, 0, sizeof(SIO));
-		iCurImage->io.putc = iSizePutc;
-		iCurImage->io.seek = iSizeSeek;
-		iCurImage->io.tell = iSizeTell;
+		iCurImage->io.devil_putc = iSizePutc;
+		iCurImage->io.devil_seek = iSizeSeek;
+		iCurImage->io.devil_tell = iSizeTell;
 		iCurImage->io.write = iSizeWrite;
 	}
 }
@@ -259,9 +259,9 @@ void iSetOutputLump(void *Lump, ILuint Size)
 	if (Lump == NULL || iCurImage == NULL)
 		return;
 
-	iCurImage->io.putc  = iPutcLump;
-	iCurImage->io.seek = iSeekLump;
-	iCurImage->io.tell = iTellLump;
+	iCurImage->io.devil_putc  = iPutcLump;
+	iCurImage->io.devil_seek = iSeekLump;
+	iCurImage->io.devil_tell = iTellLump;
 	iCurImage->io.write = iWriteLump;
 	iCurImage->io.lump = Lump;
 	iCurImage->io.lumpPos = 0;
@@ -299,7 +299,7 @@ void ipad(ILuint NumZeros)
 {
 	ILuint i = 0;
 	for (; i < NumZeros; i++)
-		iCurImage->io.putc(0, iCurImage->io.handle);
+		iCurImage->io.devil_putc(0, iCurImage->io.handle);
 	return;
 }
 

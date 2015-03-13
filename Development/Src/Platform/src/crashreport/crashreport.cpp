@@ -5,7 +5,7 @@
 //***************************************************************************
 #include "../../inc/stack_exception.hpp"
 //***************************************************************************
-
+#ifndef __LINUX__
 namespace NGTech
 {
 	static ExceptionHandler* handler = NULL;
@@ -96,3 +96,4 @@ namespace NGTech
 		return true;
 	}
 }
+#endif

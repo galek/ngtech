@@ -30,17 +30,17 @@ ILint XpmGetsInternal(SIO* io, ILubyte *Buffer, ILint MaxLen)
 {
 	ILint	i = 0, Current;
 
-	if (io->eof(io->handle))
+	if (io->devil_eof(io->handle))
 		return IL_EOF;
 
-	while ((Current = io->getc(io->handle)) != IL_EOF && i < MaxLen - 1) {
+	while ((Current = io->devil_getc(io->handle)) != IL_EOF && i < MaxLen - 1) {
 		if (Current == IL_EOF)
 			return 0;
 		if (Current == '\n') //unix line ending
 			break;
 
 		if (Current == '\r') { //dos/mac line ending
-			Current = io->getc(io->handle);
+			Current = io->devil_getc(io->handle);
 			if (Current == '\n') //dos line ending
 				break;
 
@@ -63,10 +63,10 @@ ILint XpmGetsInternal(SIO* io, ILubyte *Buffer, ILint MaxLen)
 ILboolean iIsValidXpm(SIO* io)
 {
 	ILubyte	Buffer[10];
-	ILuint	Pos = io->tell(io->handle);
+	ILuint	Pos = io->devil_tell(io->handle);
 
 	XpmGetsInternal(io, Buffer, 10);
-	io->seek(io->handle, Pos, IL_SEEK_SET);  // Restore position
+	io->devil_seek(io->handle, Pos, IL_SEEK_SET);  // Restore position
 
 	if (strncmp("/* XPM */", (char*)Buffer, strlen("/* XPM */")))
 		return IL_FALSE;

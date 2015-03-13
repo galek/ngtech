@@ -1,9 +1,10 @@
-//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: String Tools
 //
 //===========================================================================//
 #include "CorePrivate.h"
+#ifndef __LINUX__
+
 using namespace NGTech;
 #include "strtools.h"
 
@@ -1959,3 +1960,4 @@ char *V_AddBackSlashesToSpecialChars( char const *pSrc )
 	*( pOut++ ) = 0;
 	return pRet;
 }
+#endif

@@ -89,7 +89,7 @@ ILboolean iIsValidDds(SIO* io)
 	DDSHEAD		Head;
 
 	iGetDdsHead(io, &Head);
-	io->seek(io->handle, -(ILint)sizeof(DDSHEAD), IL_SEEK_CUR);  // Go ahead and restore to previous state
+	io->devil_seek(io->handle, -(ILint)sizeof(DDSHEAD), IL_SEEK_CUR);  // Go ahead and restore to previous state
 
 	IsValid = iCheckDds(&Head);
 

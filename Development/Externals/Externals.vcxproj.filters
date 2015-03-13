@@ -1305,9 +1305,6 @@
     <ClCompile Include="openal\Alc\mixer_sse.c">
       <Filter>OpenAl</Filter>
     </ClCompile>
-    <ClCompile Include="openal\Alc\backends\baseBackEnd.c">
-      <Filter>OpenAl\backends</Filter>
-    </ClCompile>
     <ClCompile Include="openal\OpenAL32\alMidi.c">
       <Filter>OpenAl</Filter>
     </ClCompile>
@@ -1328,6 +1325,9 @@
     </ClCompile>
     <ClCompile Include="openal\Alc\midi\soft.c">
       <Filter>OpenAl</Filter>
+    </ClCompile>
+    <ClCompile Include="openal\Alc\backends\base_backend.c">
+      <Filter>OpenAl\backends</Filter>
     </ClCompile>
     <ClCompile Include="openal\Alc\backends\null_backend.c">
       <Filter>OpenAl\backends</Filter>

@@ -1,4 +1,4 @@
-#include "../../config.h"
+#include "openal_config.h"
 
 #include <stdio.h>
 #include <stdlib.h>

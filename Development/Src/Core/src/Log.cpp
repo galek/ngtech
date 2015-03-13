@@ -111,9 +111,11 @@ namespace NGTech {
 	*/
 	void WriteCallStack()
 	{
+#ifndef __LINUX__
 		using namespace stacktrace;
 		call_stack st;
 		LogPrintf(st.to_string().c_str());
+#endif
 	}
 
 	/**

@@ -19,7 +19,7 @@
 //***************************************************************************
 #include <assert.h>
 #include "EngineScriptInterp.h"
-#include "log.h"
+#include "../../Core/inc/Log.h"
 
 namespace NGTech{
 

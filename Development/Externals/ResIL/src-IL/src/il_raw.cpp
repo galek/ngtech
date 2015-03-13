@@ -34,7 +34,7 @@ ILboolean iLoadRawInternal()
 
 	iCurImage->Depth = GetLittleUInt(&iCurImage->io);
 
-	iCurImage->Bpp = (ILubyte)iCurImage->io.getc(iCurImage->io.handle);
+	iCurImage->Bpp = (ILubyte)iCurImage->io.devil_getc(iCurImage->io.handle);
 
 	if (iCurImage->io.read(iCurImage->io.handle, &iCurImage->Bpc, 1, 1) != 1)
 		return IL_FALSE;
@@ -66,58 +66,6 @@ ILboolean iLoadRawInternal()
 }
 
 
-//! Writes a Raw file
-/*ILboolean ilSaveRaw(const ILstring FileName)
-{
-	ILHANDLE	RawFile;
-	ILuint		RawSize;
-
-	if (ilGetBoolean(IL_FILE_MODE) == IL_FALSE) {
-		if (iFileExists(FileName)) {
-			ilSetError(IL_FILE_ALREADY_EXISTS);
-			return IL_FALSE;
-		}
-	}
-
-	RawFile = iCurImage->io.openWrite(FileName);
-	if (RawFile == NULL) {
-		ilSetError(IL_COULD_NOT_OPEN_FILE);
-		return IL_FALSE;
-	}
-
-	RawSize = ilSaveRawF(RawFile);
-	iCurImage->io.close(RawFile);
-
-	if (RawSize == 0)
-		return IL_FALSE;
-	return IL_TRUE;
-}
-
-
-//! Writes Raw to an already-opened file
-ILuint ilSaveRawF(ILHANDLE File)
-{
-	ILuint Pos;
-	iSetOutputFile(File);
-	Pos = iCurImage->io.tell(iCurImage->io.handle);
-	if (iSaveRawInternal() == IL_FALSE)
-		return 0;  // Error occurred
-	return iCurImage->io.tell(iCurImage->io.handle) - Pos;  // Return the number of bytes written.
-}
-
-
-//! Writes Raw to a memory "lump"
-ILuint ilSaveRawL(void *Lump, ILuint Size)
-{
-	ILuint Pos;
-	iSetOutputLump(Lump, Size);
-	Pos = iCurImage->io.tell(iCurImage->io.handle);
-	if (iSaveRawInternal() == IL_FALSE)
-		return 0;  // Error occurred
-	return iCurImage->io.tell(iCurImage->io.handle) - Pos;  // Return the number of bytes written.
-}*/
-
-
 // Internal function used to load the raw data.
 ILboolean iSaveRawInternal()
 {
@@ -129,8 +77,8 @@ ILboolean iSaveRawInternal()
 	SaveLittleUInt(&iCurImage->io, iCurImage->Width);
 	SaveLittleUInt(&iCurImage->io, iCurImage->Height);
 	SaveLittleUInt(&iCurImage->io, iCurImage->Depth);
-	iCurImage->io.putc(iCurImage->Bpp, iCurImage->io.handle);
-	iCurImage->io.putc(iCurImage->Bpc, iCurImage->io.handle);
+	iCurImage->io.devil_putc(iCurImage->Bpp, iCurImage->io.handle);
+	iCurImage->io.devil_putc(iCurImage->Bpc, iCurImage->io.handle);
 	iCurImage->io.write(iCurImage->Data, 1, iCurImage->SizeOfData, iCurImage->io.handle);
 
 	return IL_TRUE;

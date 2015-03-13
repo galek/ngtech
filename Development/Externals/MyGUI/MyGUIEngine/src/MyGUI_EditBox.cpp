@@ -147,14 +147,14 @@ namespace MyGUI
 		if (mModeStatic)
 			return;
 
-		IntPoint point = InputManager::getInstance().getLastPressedPosition(MouseButton::Left);
+		IntPoint point = InputManager::getInstance().getLastPressedPosition(MouseButton::MB_Left);
 		mCursorPosition = mClientText->getCursorPosition(point);
 		mClientText->setCursorPosition(mCursorPosition);
 		mClientText->setVisibleCursor(true);
 		mCursorTimer = 0;
 		updateSelectText();
 
-		if (_id == MouseButton::Left)
+		if (_id == MouseButton::MB_Left)
 			mMouseLeftPressed = true;
 	}
 
@@ -166,7 +166,7 @@ namespace MyGUI
 
 	void EditBox::notifyMouseDrag(Widget* _sender, int _left, int _top, MouseButton _id)
 	{
-		if (_id != MouseButton::Left)
+		if (_id != MouseButton::MB_Left)
 			return;
 
 		if (mClientText == nullptr)
@@ -213,7 +213,7 @@ namespace MyGUI
 		if (mModeStatic)
 			return;
 
-		const IntPoint& lastPressed = InputManager::getInstance().getLastPressedPosition(MouseButton::Left);
+		const IntPoint& lastPressed = InputManager::getInstance().getLastPressedPosition(MouseButton::MB_Left);
 
 		size_t cursorPosition = mClientText->getCursorPosition(lastPressed);
 		mStartSelect = cursorPosition;
@@ -311,11 +311,11 @@ namespace MyGUI
 		mClientText->setVisibleCursor(true);
 		mCursorTimer = 0.0f;
 
-		if (_key == KeyCode::Escape)
+		if (_key == KeyCode::MK_Escape)
 		{
 			InputManager::getInstance().setKeyFocusWidget(nullptr);
 		}
-		else if (_key == KeyCode::Backspace)
+		else if (_key == KeyCode::MK_Backspace)
 		{
 			// если нуно то удаляем выделенный текст
 			if (!mModeReadOnly)
@@ -337,7 +337,7 @@ namespace MyGUI
 			}
 
 		}
-		else if (_key == KeyCode::Delete)
+		else if (_key == KeyCode::MK_Delete)
 		{
 			if (input.isShiftPressed())
 			{
@@ -364,7 +364,7 @@ namespace MyGUI
 			}
 
 		}
-		else if (_key == KeyCode::Insert)
+		else if (_key == KeyCode::MK_Insert)
 		{
 			if (input.isShiftPressed())
 			{
@@ -379,7 +379,7 @@ namespace MyGUI
 			}
 
 		}
-		else if ((_key == KeyCode::Return) || (_key == KeyCode::NumpadEnter))
+		else if ((_key == KeyCode::MK_Return) || (_key == KeyCode::MK_NumpadEnter))
 		{
 			// работаем только в режиме редактирования
 			if (!mModeReadOnly)
@@ -408,7 +408,7 @@ namespace MyGUI
 			}
 
 		}
-		else if (_key == KeyCode::ArrowRight)
+		else if (_key == KeyCode::MK_ArrowRight)
 		{
 			if ((mCursorPosition) < mTextLength)
 			{
@@ -423,7 +423,7 @@ namespace MyGUI
 			}
 
 		}
-		else if (_key == KeyCode::ArrowLeft)
+		else if (_key == KeyCode::MK_ArrowLeft)
 		{
 			if (mCursorPosition != 0)
 			{
@@ -438,7 +438,7 @@ namespace MyGUI
 			}
 
 		}
-		else if (_key == KeyCode::ArrowUp)
+		else if (_key == KeyCode::MK_ArrowUp)
 		{
 			IntPoint point = mClientText->getCursorPoint(mCursorPosition);
 			point.top -= mClientText->getFontHeight();
@@ -466,7 +466,7 @@ namespace MyGUI
 			}
 
 		}
-		else if (_key == KeyCode::ArrowDown)
+		else if (_key == KeyCode::MK_ArrowDown)
 		{
 			IntPoint point = mClientText->getCursorPoint(mCursorPosition);
 			point.top += mClientText->getFontHeight();
@@ -494,7 +494,7 @@ namespace MyGUI
 			}
 
 		}
-		else if (_key == KeyCode::Home)
+		else if (_key == KeyCode::MK_Home)
 		{
 			// в начало строки
 			if (!input.isControlPressed())
@@ -529,7 +529,7 @@ namespace MyGUI
 			}
 
 		}
-		else if (_key == KeyCode::End)
+		else if (_key == KeyCode::MK_End)
 		{
 			// в конец строки
 			if (!input.isControlPressed())
@@ -564,7 +564,7 @@ namespace MyGUI
 			}
 
 		}
-		else if (_key == KeyCode::PageUp)
+		else if (_key == KeyCode::MK_PageUp)
 		{
 			// на размер окна, но не меньше одной строки
 			IntPoint point = mClientText->getCursorPoint(mCursorPosition);
@@ -593,7 +593,7 @@ namespace MyGUI
 			}
 
 		}
-		else if (_key == KeyCode::PageDown)
+		else if (_key == KeyCode::MK_PageDown)
 		{
 			// на размер окна, но не меньше одной строки
 			IntPoint point = mClientText->getCursorPoint(mCursorPosition);
@@ -622,7 +622,7 @@ namespace MyGUI
 			}
 
 		}
-		else if ((_key == KeyCode::LeftShift) || (_key == KeyCode::RightShift))
+		else if ((_key == KeyCode::MK_LeftShift) || (_key == KeyCode::MK_RightShift))
 		{
 			// для правильно выделения
 			if (mStartSelect == ITEM_NONE)
@@ -656,12 +656,12 @@ namespace MyGUI
 					}
 				}
 			}
-			else if (_key == KeyCode::C)
+			else if (_key == KeyCode::MK_C)
 			{
 				commandCopy();
 
 			}
-			else if (_key == KeyCode::X)
+			else if (_key == KeyCode::MK_X)
 			{
 				// сбрасываем повтор
 				commandResetRedo();
@@ -669,7 +669,7 @@ namespace MyGUI
 				commandCut();
 
 			}
-			else if (_key == KeyCode::V)
+			else if (_key == KeyCode::MK_V)
 			{
 				// сбрасываем повтор
 				commandResetRedo();
@@ -677,19 +677,19 @@ namespace MyGUI
 				commandPast();
 
 			}
-			else if (_key == KeyCode::A)
+			else if (_key == KeyCode::MK_A)
 			{
 				// выделяем весь текст
 				setTextSelection(0, mTextLength);
 
 			}
-			else if (_key == KeyCode::Z)
+			else if (_key == KeyCode::MK_Z)
 			{
 				// отмена
 				commandUndo();
 
 			}
-			else if (_key == KeyCode::Y)
+			else if (_key == KeyCode::MK_Y)
 			{
 				// повтор
 				commandRedo();

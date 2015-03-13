@@ -39,7 +39,7 @@ ILboolean DpxGetFileInfo(DPX_FILE_INFO *FileInfo)
 	if (iCurImage->io.read(iCurImage->io.handle, FileInfo->Copyright, 200, 1) != 1)
 		return IL_FALSE;
 	FileInfo->Key = GetBigUInt(&iCurImage->io);
-	iCurImage->io.seek(iCurImage->io.handle, 104, IL_SEEK_CUR);  // Skip reserved section.
+	iCurImage->io.devil_seek(iCurImage->io.handle, 104, IL_SEEK_CUR);  // Skip reserved section.
 
 	return IL_TRUE;
 }
@@ -52,10 +52,10 @@ ILboolean GetImageElement(DPX_IMAGE_ELEMENT *ImageElement)
 	iCurImage->io.read(iCurImage->io.handle, &ImageElement->RefLowQuantity, 1, 4);
 	ImageElement->RefHighData = GetBigUInt(&iCurImage->io);
 	iCurImage->io.read(iCurImage->io.handle, &ImageElement->RefHighQuantity, 1, 4);
-	ImageElement->Descriptor = iCurImage->io.getc(iCurImage->io.handle);
-	ImageElement->Transfer = iCurImage->io.getc(iCurImage->io.handle);
-	ImageElement->Colorimetric = iCurImage->io.getc(iCurImage->io.handle);
-	ImageElement->BitSize = iCurImage->io.getc(iCurImage->io.handle);
+	ImageElement->Descriptor = iCurImage->io.devil_getc(iCurImage->io.handle);
+	ImageElement->Transfer = iCurImage->io.devil_getc(iCurImage->io.handle);
+	ImageElement->Colorimetric = iCurImage->io.devil_getc(iCurImage->io.handle);
+	ImageElement->BitSize = iCurImage->io.devil_getc(iCurImage->io.handle);
 	ImageElement->Packing = GetBigUShort(&iCurImage->io);
 	ImageElement->Encoding = GetBigUShort(&iCurImage->io);
 	ImageElement->DataOffset = GetBigUInt(&iCurImage->io);
@@ -83,7 +83,7 @@ ILboolean DpxGetImageInfo(DPX_IMAGE_INFO *ImageInfo)
 		GetImageElement(&ImageInfo->ImageElement[i]);
 	}
 
-	iCurImage->io.seek(iCurImage->io.handle, 52, IL_SEEK_CUR);  // Skip padding bytes.
+	iCurImage->io.devil_seek(iCurImage->io.handle, 52, IL_SEEK_CUR);  // Skip padding bytes.
 
 	return IL_TRUE;
 }
@@ -108,7 +108,7 @@ ILboolean DpxGetImageOrient(DPX_IMAGE_ORIENT *ImageOrient)
 	ImageOrient->Border[3] = GetBigUShort(&iCurImage->io);
 	ImageOrient->PixelAspect[0] = GetBigUInt(&iCurImage->io);
 	ImageOrient->PixelAspect[1] = GetBigUInt(&iCurImage->io);
-	iCurImage->io.seek(iCurImage->io.handle, 28, IL_SEEK_CUR);  // Skip reserved bytes.
+	iCurImage->io.devil_seek(iCurImage->io.handle, 28, IL_SEEK_CUR);  // Skip reserved bytes.
 
 	return IL_TRUE;
 }
@@ -140,7 +140,7 @@ ILboolean iLoadDpxInternal(ILimage* image)
 	if (!DpxGetImageOrient(&ImageOrient))
 		return IL_FALSE;
 
-	iCurImage->io.seek(iCurImage->io.handle, ImageInfo.ImageElement[CurElem].DataOffset, IL_SEEK_SET);
+	iCurImage->io.devil_seek(iCurImage->io.handle, ImageInfo.ImageElement[CurElem].DataOffset, IL_SEEK_SET);
 
 //@TODO: Deal with different origins!
 

@@ -28,7 +28,7 @@ namespace MyGUI
 		mLayerMouseFocus(nullptr),
 		mIsShiftPressed(false),
 		mIsControlPressed(false),
-		mHoldKey(KeyCode::None),
+		mHoldKey(KeyCode::MK_None),
 		mHoldChar(0),
 		mFirstPressKey(false),
 		mTimerKey(0.0f),
@@ -46,13 +46,13 @@ namespace MyGUI
 		mWidgetMouseFocus = 0;
 		mWidgetKeyFocus = 0;
 		mLayerMouseFocus = 0;
-		for (int i = MouseButton::Button0; i < MouseButton::MAX; ++i)
+		for (int i = MouseButton::MB_Button0; i < MouseButton::MB_MAX; ++i)
 		{
 			mMouseCapture[i] = false;
 		}
 		mIsShiftPressed = false;
 		mIsControlPressed = false;
-		mHoldKey = KeyCode::None;
+		mHoldKey = KeyCode::MK_None;
 		mHoldChar = 0;
 		mFirstPressKey = true;
 		mTimerKey = 0.0f;
@@ -102,7 +102,7 @@ namespace MyGUI
 				if (mLayerMouseFocus != nullptr)
 				{
 					IntPoint point = mLayerMouseFocus->getPosition(_absx, _absy);
-					for (int i = MouseButton::Button0; i < MouseButton::MAX; ++i)
+					for (int i = MouseButton::MB_Button0; i < MouseButton::MB_MAX; ++i)
 					{
 						if (mMouseCapture[i])
 							mWidgetMouseFocus->_riseMouseDrag(point.left, point.top, MouseButton::Enum(i));
@@ -233,7 +233,7 @@ namespace MyGUI
 		if (!mWidgetMouseFocus->getEnabled())
 			return true;
 
-		if (MouseButton::None != _id && MouseButton::MAX != _id)
+		if (MouseButton::MB_None != _id && MouseButton::MB_MAX != _id)
 		{
 			// start capture
 			mMouseCapture[_id.getValue()] = true;
@@ -293,7 +293,7 @@ namespace MyGUI
 			if (!mWidgetMouseFocus->getEnabled())
 				return true;
 
-			if (_id != MouseButton::None && _id != MouseButton::MAX)
+			if (_id != MouseButton::MB_None && _id != MouseButton::MB_MAX)
 			{
 				if (mMouseCapture[_id.getValue()])
 				{
@@ -307,7 +307,7 @@ namespace MyGUI
 			// после вызова, виджет может быть сброшен
 			if (nullptr != mWidgetMouseFocus)
 			{
-				if (MouseButton::Left == _id)
+				if (MouseButton::MB_Left == _id)
 				{
 					if (mTimer.getMilliseconds() < INPUT_TIME_DOUBLE_CLICK)
 					{
@@ -375,9 +375,9 @@ namespace MyGUI
 
 	void InputManager::firstEncoding(KeyCode _key, bool bIsKeyPressed)
 	{
-		if ((_key == KeyCode::LeftShift) || (_key == KeyCode::RightShift))
+		if ((_key == KeyCode::MK_LeftShift) || (_key == KeyCode::MK_RightShift))
 			mIsShiftPressed = bIsKeyPressed;
-		if ((_key == KeyCode::LeftControl) || (_key == KeyCode::RightControl))
+		if ((_key == KeyCode::MK_LeftControl) || (_key == KeyCode::MK_RightControl))
 			mIsControlPressed = bIsKeyPressed;
 	}
 
@@ -447,7 +447,7 @@ namespace MyGUI
 			root_focus = root_focus->getParent();
 		}
 
-		for (int i = MouseButton::Button0; i < MouseButton::MAX; ++i)
+		for (int i = MouseButton::MB_Button0; i < MouseButton::MB_MAX; ++i)
 		{
 			if (mMouseCapture[i])
 			{
@@ -524,13 +524,13 @@ namespace MyGUI
 
 	void InputManager::storeKey(KeyCode _key, Char _text)
 	{
-		mHoldKey = KeyCode::None;
+		mHoldKey = KeyCode::MK_None;
 		mHoldChar = 0;
 
 		if ( !isFocusKey() ) return;
-		if ( (_key == KeyCode::LeftShift) || (_key == KeyCode::RightShift)
-			|| (_key == KeyCode::LeftControl) || (_key == KeyCode::RightControl)
-			|| (_key == KeyCode::LeftAlt) || (_key == KeyCode::RightAlt)
+		if ( (_key == KeyCode::MK_LeftShift) || (_key == KeyCode::MK_RightShift)
+			|| (_key == KeyCode::MK_LeftControl) || (_key == KeyCode::MK_RightControl)
+			|| (_key == KeyCode::MK_LeftAlt) || (_key == KeyCode::MK_RightAlt)
 			) return;
 
 		mFirstPressKey = true;
@@ -541,18 +541,18 @@ namespace MyGUI
 
 	void InputManager::resetKey()
 	{
-		mHoldKey = KeyCode::None;
+		mHoldKey = KeyCode::MK_None;
 		mHoldChar = 0;
 	}
 
 	void InputManager::frameEntered(float _frame)
 	{
-		if ( mHoldKey == KeyCode::None)
+		if ( mHoldKey == KeyCode::MK_None)
 			return;
 
 		if ( !isFocusKey() )
 		{
-			mHoldKey = KeyCode::None;
+			mHoldKey = KeyCode::MK_None;
 			mHoldChar = 0;
 			return;
 		}
@@ -607,7 +607,7 @@ namespace MyGUI
 
 	bool InputManager::isCaptureMouse() const
 	{
-		for (int i = MouseButton::Button0; i < MouseButton::MAX; ++i)
+		for (int i = MouseButton::MB_Button0; i < MouseButton::MB_MAX; ++i)
 		{
 			if (mMouseCapture[i])
 				return true;
@@ -632,7 +632,7 @@ namespace MyGUI
 
 	const IntPoint& InputManager::getLastPressedPosition(MouseButton _id) const
 	{
-		if (_id != MouseButton::None && _id != MouseButton::MAX)
+		if (_id != MouseButton::MB_None && _id != MouseButton::MB_MAX)
 		{
 			return mLastPressed[_id.getValue()];
 		}
@@ -661,7 +661,7 @@ namespace MyGUI
 
 	void InputManager::resetMouseCaptureWidget()
 	{
-		for (int i = MouseButton::Button0; i < MouseButton::MAX; ++i)
+		for (int i = MouseButton::MB_Button0; i < MouseButton::MB_MAX; ++i)
 		{
 			mMouseCapture[i] = false;
 		}

@@ -35,13 +35,13 @@ ILboolean iIsValidJp2(SIO* io)
 {
 	ILubyte Signature[4];
 
-	io->seek(io->handle, 4, IL_SEEK_CUR);  // Skip the 4 bytes that tell the size of the signature box.
+	io->devil_seek(io->handle, 4, IL_SEEK_CUR);  // Skip the 4 bytes that tell the size of the signature box.
 	if (io->read(io->handle, Signature, 1, 4) != 4) {
-		io->seek(io->handle, -4, IL_SEEK_CUR);
+		io->devil_seek(io->handle, -4, IL_SEEK_CUR);
 		return IL_FALSE;  // File read error
 	}
 
-	io->seek(io->handle, -8, IL_SEEK_CUR);  // Restore to previous state
+	io->devil_seek(io->handle, -8, IL_SEEK_CUR);  // Restore to previous state
 
 	// Signature is 'jP\040\040' by the specs (or 0x6A502020).
 	//  http://www.jpeg.org/public/fcd15444-6.pdf
@@ -225,11 +225,11 @@ static long iJp2_file_seek(jas_stream_obj_t *obj, long offset, int origin)
 	switch (origin)
 	{
 		case SEEK_SET:
-			return iCurImage->io.seek(iCurImage->io.handle, offset, IL_SEEK_SET);
+			return iCurImage->io.devil_seek(iCurImage->io.handle, offset, IL_SEEK_SET);
 		case SEEK_CUR:
-			return iCurImage->io.seek(iCurImage->io.handle, offset, IL_SEEK_CUR);
+			return iCurImage->io.devil_seek(iCurImage->io.handle, offset, IL_SEEK_CUR);
 		case SEEK_END:
-			return iCurImage->io.seek(iCurImage->io.handle, offset, IL_SEEK_END);
+			return iCurImage->io.devil_seek(iCurImage->io.handle, offset, IL_SEEK_END);
 	}
 	return 0;  // Failed
 }
@@ -436,59 +436,6 @@ jas_stream_t *iJp2WriteStream()
 	
 	return stream;
 }
-
-
-
-//! Writes a Jp2 file
-/*ILboolean ilSaveJp2(ILimage* image, const ILstring FileName)
-{
-	ILHANDLE	Jp2File;
-	ILuint		Jp2Size;
-
-	if (ilGetBoolean(IL_FILE_MODE) == IL_FALSE) {
-		if (iFileExists(FileName)) {
-			ilSetError(IL_FILE_ALREADY_EXISTS);
-			return IL_FALSE;
-		}
-	}
-
-	Jp2File = iCurImage->io.openWrite(FileName);
-	if (Jp2File == NULL) {
-		ilSetError(IL_COULD_NOT_OPEN_FILE);
-		return IL_FALSE;
-	}
-
-	Jp2Size = ilSaveJp2F(image, Jp2File);
-	iCurImage->io.close(Jp2File);
-
-	if (Jp2Size == 0)
-		return IL_FALSE;
-	return IL_TRUE;
-}
-
-
-//! Writes a Jp2 to an already-opened file
-ILuint ilSaveJp2F(ILimage* image, ILHANDLE File)
-{
-	ILuint Pos;
-	iSetOutputFile(File);
-	Pos = iCurImage->io.tell(iCurImage->io.handle);
-	if (iSaveJp2Internal(image) == IL_FALSE)
-		return 0;  // Error occurred
-	return iCurImage->io.tell(iCurImage->io.handle) - Pos;  // Return the number of bytes written.
-}
-
-
-//! Writes a Jp2 to a memory "lump"
-ILuint ilSaveJp2L(ILimage* image, void *Lump, ILuint Size)
-{
-	ILuint Pos;
-	iSetOutputLump(Lump, Size);
-	Pos = iCurImage->io.tell(iCurImage->io.handle);
-	if (iSaveJp2Internal(image) == IL_FALSE)
-		return 0;  // Error occurred
-	return iCurImage->io.tell(iCurImage->io.handle) - Pos;  // Return the number of bytes written.
-}*/
 
 
 

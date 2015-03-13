@@ -40,7 +40,7 @@ ILboolean iIsValidIcns(SIO* io)
 	ICNSHEAD	Header;
 
 	ILint read = io->read(io->handle, Header.Head, 1, 4);
-	io->seek(io->handle, -read, IL_SEEK_CUR);  // Go ahead and restore to previous state
+	io->devil_seek(io->handle, -read, IL_SEEK_CUR);  // Go ahead and restore to previous state
 
 	if (read != 4 || strncmp(Header.Head, "icns", 4) != 0)  // First 4 bytes have to be 'icns'.
 		return IL_FALSE;
@@ -70,7 +70,7 @@ ILboolean iLoadIcnsInternal(ILimage* image)
 	if (strncmp(Header.Head, "icns", 4))  // First 4 bytes have to be 'icns'.
 		return IL_FALSE;
 
-	while ((ILint)image->io.tell(image->io.handle) < Header.Size && !image->io.eof(image->io.handle))
+	while ((ILint)image->io.devil_tell(image->io.handle) < Header.Size && !image->io.devil_eof(image->io.handle))
 	{
 		image->io.read(image->io.handle, Entry.ID, 4, 1);
 		Entry.Size = GetBigInt(&image->io);
@@ -129,7 +129,7 @@ ILboolean iLoadIcnsInternal(ILimage* image)
 #endif//IL_NO_JP2
 		else  // Not a valid format or one that we can use
 		{
-			image->io.seek(image->io.handle, Entry.Size - 8, IL_SEEK_CUR);
+			image->io.devil_seek(image->io.handle, Entry.Size - 8, IL_SEEK_CUR);
 		}
 	}
 

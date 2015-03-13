@@ -7,10 +7,10 @@
 #include "../Src/Common/IGame.h"
 #include "../Src/Common/IScripting.h"
 
-#include "../Src/Core/inc/CoreDLL.h"
+#include "../Src/Core/inc/coredll.h"
 #include "../Src/Core/inc/SteamWorks_API.h"
 #include "../Src/Core/inc/Log.h"
-#include "../Src/Core/inc/ASYNCFILE.h"
+#include "../Src/Core/inc/ASYNCFile.h"
 #include "../Src/Core/inc/Config.h"
 
 

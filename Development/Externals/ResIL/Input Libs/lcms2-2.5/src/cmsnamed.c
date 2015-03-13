@@ -630,7 +630,7 @@ cmsInt32Number CMSEXPORT cmsNamedColorIndex(const cmsNAMEDCOLORLIST* NamedColorL
     if (NamedColorList == NULL) return -1;
     n = cmsNamedColorCount(NamedColorList);
     for (i=0; i < n; i++) {
-        if (cmsstrcasecmp(Name,  NamedColorList->List[i].Name) == 0)
+        if (cms_stricmp(Name,  NamedColorList->List[i].Name) == 0)
             return i;
     }
 

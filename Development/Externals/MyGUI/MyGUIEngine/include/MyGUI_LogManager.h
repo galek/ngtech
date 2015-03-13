@@ -27,7 +27,6 @@
 #include "MyGUI_LogSource.h"
 #include "MyGUI_Diagnostic.h"
 #include <vector>
-#include <TCHAR.H>
 
 namespace MyGUI
 {

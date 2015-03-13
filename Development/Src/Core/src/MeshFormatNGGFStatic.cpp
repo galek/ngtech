@@ -3,6 +3,7 @@
 //**************************************
 #include "Model.h"
 #include "MeshFormatNGGFStatic.h"
+#include <string.h>//memset for gcc
 //**************************************
 
 namespace NGTech

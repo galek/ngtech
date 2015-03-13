@@ -1,6 +1,6 @@
 /*
 NOTES:
-*Нужен рефакторинг
+*neeeded refactoring
 */
 //**************************************
 #include "EnginePrivate.h"
@@ -16,6 +16,10 @@ NOTES:
 #include "CvarManager.h"
 //**************************************
 #include "AudioUpdateJob.h"
+//**************************************
+#include <iostream>
+#include <algorithm>
+#include <vector>
 //**************************************
 
 namespace NGTech {
@@ -420,7 +424,7 @@ namespace NGTech {
 		}
 
 		GetRender()->setMatrixMode_Projection();
-		GetRender()->pop();//Выпилить нахер
+		GetRender()->pop();
 
 		GetRender()->setMatrixMode_Modelview();
 		GetRender()->pop();
@@ -739,7 +743,7 @@ namespace NGTech {
 	*/
 	void Scene::checkSpotVisibility(LightSpot *light)
 	{
-		//Тут некорректно
+		//is incorrect
 		/*if (!frustum->isInside(light->position, light->radius)) {
 			light->setVisible(false);
 			return;
@@ -840,7 +844,6 @@ namespace NGTech {
 		GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 		GetRender()->depthMask(false);
 
-		//---------Рисуем анимированные меши--------------------------------
 		_RenderAnimation();
 	}
 
@@ -886,7 +889,6 @@ namespace NGTech {
 		viewportFBO->unset();
 
 		matMVP = GetRender()->getMatrix_MVP();
-#pragma message("Тормозит,все из-за HDR")
 		if (GetCvars()->r_hdr)
 		{
 			viewportFBO->set();

@@ -72,28 +72,28 @@ ILboolean iLoadPcdInternal(ILimage* image)
 		return IL_FALSE;
 	}
 
-	image->io.seek(image->io.handle, 72, IL_SEEK_CUR);
+	image->io.devil_seek(image->io.handle, 72, IL_SEEK_CUR);
 	if (image->io.read(image->io.handle, &VertOrientation, 1, 1) != 1)
 		return IL_FALSE;
 
-	image->io.seek(image->io.handle, -72, IL_SEEK_CUR);  // Can't rewind
+	image->io.devil_seek(image->io.handle, -72, IL_SEEK_CUR);  // Can't rewind
 
 	PicNum = iGetInt(IL_PCD_PICNUM);
 
 	switch (PicNum)
 	{
 		case 0:
-			image->io.seek(image->io.handle, 0x02000, IL_SEEK_CUR);
+			image->io.devil_seek(image->io.handle, 0x02000, IL_SEEK_CUR);
 			Width = 192;
 			Height = 128;
 			break;
 		case 1:
-			image->io.seek(image->io.handle, 0x0b800, IL_SEEK_CUR);
+			image->io.devil_seek(image->io.handle, 0x0b800, IL_SEEK_CUR);
 			Width = 384;
 			Height = 256;
 			break;
 		case 2:
-			image->io.seek(image->io.handle, 0x30000, IL_SEEK_CUR);
+			image->io.devil_seek(image->io.handle, 0x30000, IL_SEEK_CUR);
 			Width = 768;
 			Height = 512;
 			break;
@@ -102,7 +102,7 @@ ILboolean iLoadPcdInternal(ILimage* image)
 			return IL_FALSE;
 	}
 
-	if (image->io.tell(image->io.handle) == IL_EOF)  // Supposed to have data here.
+	if (image->io.devil_tell(image->io.handle) == IL_EOF)  // Supposed to have data here.
 		return IL_FALSE;
 
 	Y1 = (ILubyte*)ialloc(Width);

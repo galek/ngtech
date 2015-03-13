@@ -8,7 +8,7 @@
 #include "GLTexture.h"
 #include "CommonDefs.h"
 //***************************************************************************
-#include "../../Platform/inc/glfw/glfw3.h"
+#include "../../../Externals/glfw/include/GLFW/glfw3.h"
 //***************************************************************************
 
 namespace NGTech {

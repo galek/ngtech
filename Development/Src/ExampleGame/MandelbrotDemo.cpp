@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\..\API\NGTechEngineAPI.h"
+#include "../../API/NGTechEngineAPI.h"
 
 using namespace NGTech;
 

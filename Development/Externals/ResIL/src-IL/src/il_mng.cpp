@@ -53,7 +53,7 @@ ILboolean ilIsValidMng(SIO* io)
 {
 	unsigned char mngSig[8];
 	ILint read = io->read(io->handle, mngSig, 1, sizeof(mngSig));
-	io->seek(io->handle, -read, SEEK_CUR);
+	io->devil_seek(io->handle, -read, SEEK_CUR);
 
 	if (mngSig[0] == 0x8A
 		&& mngSig[1] == 0x4D
