@@ -11,3 +11,6 @@ TempFiles/
 Development/Externals/physx/lib/
 Development/Libs/
 Libs/
+*.opensdf
+*.ipch
+*.suo

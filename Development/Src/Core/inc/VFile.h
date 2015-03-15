@@ -38,6 +38,7 @@ namespace NGTech
 		void ScanF(const char * format, ...);
 
 		ENGINE_INLINE FILE* GetLowLevelFile() { return mFile; }
+		ENGINE_INLINE String GetName() { return mName; }
 		bool IsValid();
 	private:
 		void _OpenFile(const String&path, int _mode, bool _notSearch);
