@@ -14,3 +14,7 @@ Libs/
 *.opensdf
 *.ipch
 *.suo
+*.dll
+*.pdb
+/Bins/Bin64
+/Bins/Logs

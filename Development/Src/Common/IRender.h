@@ -773,13 +773,7 @@ namespace NGTech {
 		\return number of passed samples
 		*/
 		virtual unsigned int getResult() = 0;
-
-		/**
-		Get status
-		\return status
-		*/
-		virtual int IsCompleted() = 0;
-
+		
 		/**
 		clear query
 		*/

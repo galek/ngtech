@@ -40,15 +40,6 @@ namespace NGTech {
 		if (available) glGetQueryObjectuiv(query_id, GL_QUERY_RESULT, &result);
 		return result;
 	}
-
-	/**
-	*/
-	int GLOcclusionQuery::IsCompleted() {
-		if (query_id == 0) return 1;
-		GLuint available = 0;
-		glGetQueryObjectuiv(query_id, GL_QUERY_RESULT_AVAILABLE, &available);
-		return (available != 0);
-	}
 	
 	/**
 	*/
