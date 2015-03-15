@@ -39,3 +39,6 @@ http://compgraphics.info/OpenGL/draw_a_cube.php
 
 HIZ
 http://rastergrid.com/blog/2010/10/hierarchical-z-map-based-occlusion-culling/
+
+Интересный блог
+http://ephenationopengl.blogspot.ru/
