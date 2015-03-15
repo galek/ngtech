@@ -29,6 +29,7 @@ namespace NGTech {
 		this->castShadows = true;
 		this->enabled = true;
 		this->visible = true;
+		this->mType = Light::LIGHT;
 	}
 
 	/*
@@ -40,6 +41,7 @@ namespace NGTech {
 		shadowMap->setFilter(I_Texture::LINEAR);
 		shadowMap->setAniso(I_Texture::ANISO_X0);
 		shadowMap->setWrap(I_Texture::CLAMP_TO_EDGE);
+		this->mType = Light::LIGHT_OMNI;
 	}
 
 	/*
@@ -124,6 +126,7 @@ namespace NGTech {
 	/**
 	*/
 	LightSpot::LightSpot() :Light() {
+		this->mType = Light::LIGHT_SPOT;
 		this->fov = 60;
 		
 		int size = GetCvars()->r_shadowsize;
@@ -219,6 +222,7 @@ namespace NGTech {
 	/**
 	*/
 	LightDirect::LightDirect() {
+		this->mType = Light::LIGHT_DIRECT;
 		int size = GetCvars()->r_shadowsize;
 
 		shadowMap = GetRender()->TextureCreate2D(size, size, I_Texture::RGBA_FP32);

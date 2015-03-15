@@ -20,9 +20,6 @@ Tools:
 Из GFX ветки:
 1)Система состояний-смотри семпл Menu_Kit
 
-
-Добавить либу CharactedCinematic для физикса
-
 freetype-смотри семпл skybox
 
 Решить,что делать с mygui
@@ -39,3 +36,6 @@ http://ogltutor.netau.net/tutorials/tutorial43.html
 
 Аффиные преобразования
 http://compgraphics.info/OpenGL/draw_a_cube.php
+
+HIZ
+http://rastergrid.com/blog/2010/10/hierarchical-z-map-based-occlusion-culling/

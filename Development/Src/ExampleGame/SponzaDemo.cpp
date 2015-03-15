@@ -66,29 +66,29 @@ void ExampleGame::initialise() {
 	sponza->SetTransform(Mat4::translate(Vec3(0, 20, 0)));
 	sponza->setPhysicsStaticMesh();
 
-	/*for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 5; i++) {
 		box[i] = new ObjectMesh("cube.nggf");
 		box[i]->setMaterial("grid.mat");
 		box[i]->SetTransform(Mat4::translate(Vec3(-10 - i * 2, i * 20 + 10, i - 10)));
 		box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);
 		box[i]->setImpactSound("impact.ogg");
-		}
+	}
 
-		for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 5; i++) {
 		sphere[i] = new ObjectMesh("sphere.nggf");
 		sphere[i]->setMaterial("grid.mat");
 		sphere[i]->SetTransform(Mat4::translate(Vec3(10 + i * 2, i * 20 + 10, i - 10)));
 		sphere[i]->setPhysicsSphere(Vec3(5, 5, 5), 10);
 		sphere[i]->setImpactSound("impact.ogg");
-		}
+	}
 
-		for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 5; i++) {
 		cylinder[i] = new ObjectMesh("torus.nggf");
 		cylinder[i]->setMaterial("grid.mat");
 		cylinder[i]->SetTransform(Mat4::translate(Vec3(20 + i * 2, i * 20 + 20, i - 10)));
 		cylinder[i]->setPhysicsConvexHull(10.0f);
 		cylinder[i]->setImpactSound("impact.ogg");
-		}*/
+	}
 
 	camera = new CameraFree();
 	camera->setPosition(Vec3(0, 20, 0));
@@ -96,30 +96,21 @@ void ExampleGame::initialise() {
 	camera->setPhysics(Vec3(5, 5, 5), 1.0f);
 	camera->setFOV(60);
 
-	/*omniLight = new LightPoint();
+	omniLight = new LightPoint();
 	omniLight->setColor(Vec3(1, 1, 0.8));
 	omniLight->setPosition(Vec3(0, 60, 0));
-	omniLight->setRadius(200);*/
+	omniLight->setRadius(200);
+	
+	auto light = new LightSpot();
+	light->setColor(Vec3(1, 1, 0.8));
+	light->setPosition(Vec3(-10, -5, 60));
 
-	/*LightPoint *light[10];
-	for (int i = 0; i < 10; i++) {
-		light[i] = new LightPoint();
-		light[i]->setColor(Vec3((i + 1), (i + 1), (i + 1)*0.8));
-		light[i]->setPosition(Vec3(-10 - i * 2, i * 20 + 10, i - 10));
-		light[i]->setRadius(200);
-	}*/
+	auto lightD = new LightDirect();
+	lightD->setColor(Vec3(1, 1, 0.8));
+	lightD->setPosition(Vec3(0, 40, 0));
+	lightD->setShadows(false);
 
-
-	//auto light = new LightSpot();
-	//light->setColor(Vec3(1, 1, 0.8));
-	//light->setPosition(Vec3(-10, -5, 60));
-
-	///*auto light = new LightDirect();
-	//light->setColor(Vec3(1, 1, 0.8));
-	//light->setPosition(Vec3(0, 40, 0));
-	//light->setShadows(false);*/
-
-	/*particlesPink = new ParticleSystem("smoke.png", 50);
+	particlesPink = new ParticleSystem("smoke.png", 50);
 	particlesPink->setPosition(Vec3(60, 60, 0));
 	particlesPink->setColor(Vec3(1, 0.5, 1));
 	particlesPink->setForce(Vec3(-0.5, 1, -0.7));
@@ -133,15 +124,15 @@ void ExampleGame::initialise() {
 	particlesYellow->setForce(Vec3(0.5, 1, 0.5));
 	particlesYellow->setVelocity(Vec3(10, 0, 0));
 	particlesYellow->setParticleLifeTime(10000);
-	particlesYellow->setDispersion(0.1);*/
+	particlesYellow->setDispersion(0.1);
 
-	//GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
-	/*sMesh = new ObjectSkinnedMesh("chammy.nggf");
+	GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
+	sMesh = new ObjectSkinnedMesh("chammy.nggf");
 	sMesh->setMaterial("grid.mat");
-	sMesh->SetTransform(Mat4::translate(Vec3(-60, 60, 0)));*/
+	sMesh->SetTransform(Mat4::translate(Vec3(-60, 60, 0)));
 
 	GetWindow()->grabMouse(true);
-	#endif
+#endif
 }
 //------------------------------------------------------------
 EventsCallback::EventsCallback(){}
@@ -154,53 +145,6 @@ void ShowConsole()
 	GetWindow()->grabMouse(status);
 }
 
-#ifndef __LINUX__
-void AsyncLoad(const char* _file)
-{
-	unsigned char * data = NULL;
-	size_t size = 0;
-
-	HANDLE fileHandle = CreateFileA(
-		_file,            // pointer to name of the file
-		FILE_READ_DATA,           // access (read-write) mode
-		FILE_SHARE_READ,                      // share mode
-		NULL,                   // pointer to security attributes
-		OPEN_EXISTING,          // how to create
-		FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED,
-		NULL);
-	if (fileHandle != INVALID_HANDLE_VALUE)
-	{
-		// overlapped is Win32s async io file handle
-		OVERLAPPED overlapped;
-		memset(&overlapped, 0, sizeof(OVERLAPPED));
-		{
-			// Get the file size
-			LARGE_INTEGER FileSize;
-			GetFileSizeEx(fileHandle, &FileSize);
-			size = FileSize.LowPart;
-		}
-
-		// read 100 bytes of the file in overlapped mode
-		data = new unsigned char[size + 1];
-		data[size] = NULL;
-		ReadFile(fileHandle, data, 100, NULL, &overlapped);
-
-		// poll until completed
-		BOOL complete = false;
-		DWORD bytesTransferred = 0;
-		do
-		{
-			// to make good use of overlapped IO, we really
-			// should be doing something useful here
-			complete = GetOverlappedResult(
-				fileHandle, &overlapped, &bytesTransferred, FALSE);
-		} while (!complete);
-		//assert(bytesTransferred == 100);
-		Warning((char*)data);
-	}
-}
-#endif
-
 void EventsCallback::Body(){
 	if (GetWindow()->isKeyDown("ESC"))
 		exit(0);
@@ -208,28 +152,6 @@ void EventsCallback::Body(){
 	if (GetWindow()->isKeyDown("GRAVE ACCENT"))
 	{
 		ShowConsole();
-	}
-	if (GetWindow()->isKeyDown("P"))
-	{
-		auto omniLight = new LightPoint();
-		omniLight->setColor(Vec3(1, 1, 0.8));
-		omniLight->setPosition(Vec3(0, 60, 0));
-		omniLight->setRadius(200);
-	}
-	if (GetWindow()->isKeyDown("O"))
-	{
-		/*auto light = new LightSpot();
-		light->setColor(Vec3(1, 1, 0.8));
-		light->setPosition(Vec3(-10, -5, 60));*/
-		GetScene()->EnableStats();
-		GetDebug()->CleanDebugInfo();
-	}
-	if (GetWindow()->isKeyDown("I"))
-	{
-		auto light = new LightDirect();
-		light->setColor(Vec3(1, 1, 0.8));
-		light->setPosition(Vec3(0, 40, 0));
-		light->setShadows(false);
 	}
 }
 #endif

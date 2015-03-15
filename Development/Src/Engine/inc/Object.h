@@ -10,6 +10,7 @@
 
 namespace NGTech {
 
+	class Scene;
 	//---------------------------------------------------------------------------
 	//Desc: base object class
 	//---------------------------------------------------------------------------
@@ -29,7 +30,7 @@ namespace NGTech {
 		Renderable
 		*/
 		ENGINE_INLINE virtual Material *GetMaterial(size_t s) = 0;
-		ENGINE_INLINE virtual void DrawSubset(size_t s) {}
+		ENGINE_INLINE virtual void DrawSubset(size_t s, Scene * _scene) {}
 		ENGINE_INLINE virtual size_t GetNumSubsets() { return 0; }
 
 		virtual Vec3 &getMax() = 0;
@@ -75,7 +76,7 @@ namespace NGTech {
 		explicit ObjectMesh(const String &path);
 		virtual ~ObjectMesh();
 
-		virtual void DrawSubset(size_t s);
+		virtual void DrawSubset(size_t s, Scene * _scene);
 		ENGINE_INLINE virtual size_t GetNumSubsets() { return mesh->getNumSubsets(); };
 
 		ENGINE_INLINE virtual Vec3 &getMax() { return mesh->bBox.max; };
@@ -101,7 +102,7 @@ namespace NGTech {
 
 		void setPhysicsCylinder(float radius, float width, float mass = 0);
 		void setPhysicsCapsule(float radius, float height, float mass = 0);
-		
+
 		void setPhysicsConvexHull(float mass = 0);
 		void setPhysicsStaticMesh();
 		void setPhysicsCloth();
@@ -143,7 +144,7 @@ namespace NGTech {
 		/**
 		draws object subset
 		*/
-		virtual void DrawSubset(size_t s);
+		virtual void DrawSubset(size_t s, Scene * _scene);
 
 		/**
 		get number of object subsets

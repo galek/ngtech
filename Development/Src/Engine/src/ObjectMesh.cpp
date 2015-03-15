@@ -7,7 +7,7 @@
 #include "Scene.h"
 //**************************************
 
-namespace NGTech 
+namespace NGTech
 {
 	ObjectMesh::ObjectMesh(const String &path)
 		:Object(), pBody(nullptr), bMultipart(false)
@@ -43,30 +43,26 @@ namespace NGTech
 			SAFE_DELETE(pBody);
 	}
 
-	void ObjectMesh::DrawSubset(size_t subset) {
-		//BBox bbox = GetTransformedBBox(subset);
-		//BSphere bsphere = GetTransformedBSphere(subset);
+	void ObjectMesh::DrawSubset(size_t subset, Scene * _scene) {
+		BBox bbox = GetTransformedBBox(subset);
+		BSphere bsphere = GetTransformedBSphere(subset);
 
-		//Camera *camera = GetScene()->GetCurrentCamera();
-		//Light *light = GetScene()->GetCurrentLight();
+		auto camera = _scene->GetCurrentCamera();
+		auto light = _scene->GetCurrentLight();
 
-		////frustum visibility
-		//if (!camera)
-		//	return;
-		//	if (!camera->GetFrustum()->IsBSphereInside(bsphere))
-		//		return;
-		//Этого не было
-		//	if (!camera->GetFrustum()->IsBBoxInside(bbox))
-		//		return;
+		//frustum visibility
+		if (camera)
+		{
+			if (!camera->GetFrustum()->isInside(bsphere) || !camera->GetFrustum()->isInside(bbox))
+				return;
+		}
+		if (!light)
+			return;
 
-		//light visibility
-		//if (!light)
-		//	return;
-
-		//BSphere lightSphere = BSphere(light->getPosition(), light->getRadius());
-		//if (!lightSphere.IntersectsSphere(bsphere))
-		//	return;
-
+		BSphere lightSphere = BSphere(light->getPosition(), light->getRadius());
+		if (!lightSphere.IntersectsSphere(bsphere))
+			return;
+	
 		//draw
 		this->mesh->drawSubset(subset);
 

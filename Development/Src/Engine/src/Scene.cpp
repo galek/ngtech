@@ -42,6 +42,7 @@ namespace NGTech {
 		matViewportMap(nullptr),
 		matShadowMap(nullptr),
 		matSpotMap(nullptr),
+		currentLight(nullptr),
 		needStats(false),
 		paused(false),
 		currentCamera(new CameraFixed()),
@@ -266,7 +267,7 @@ namespace NGTech {
 
 				if (!mtr->setPass("Ambient")) continue;
 
-				object->DrawSubset(s);
+				object->DrawSubset(s, this);
 
 				mtr->unsetPassAlphaTest();
 				if (mtr->passHasBlending("Ambient") && blended){
@@ -282,7 +283,7 @@ namespace NGTech {
 	*/
 	void Scene::drawPoint(LightPoint *light, bool blended)
 	{
-
+		currentLight = light;
 		if (!light->isVisible() || !light->isEnable()) return;
 
 		if (!currentCamera->GetFrustum()->isInside(BSphere(light->getPosition(), light->getRadius())))
@@ -363,7 +364,7 @@ namespace NGTech {
 
 				mtr->setPassAlphaTest();
 
-				object->DrawSubset(s);
+				object->DrawSubset(s, this);
 
 				mtr->unsetPassAlphaTest();
 
@@ -531,7 +532,7 @@ namespace NGTech {
 				if (!mtr->setPass("LightSpot")) continue;
 				mtr->setPassAlphaTest();
 
-				object->DrawSubset(s);
+				object->DrawSubset(s, this);
 
 				mtr->unsetPassAlphaTest();
 
@@ -604,7 +605,7 @@ namespace NGTech {
 
 				mtr->setPassAlphaTest();
 
-				object->DrawSubset(s);
+				object->DrawSubset(s, this);
 
 				mtr->unsetPassAlphaTest();
 
@@ -626,6 +627,7 @@ namespace NGTech {
 	*/
 	void Scene::drawDirect(LightDirect *light, bool blended)
 	{
+		currentLight = light;
 		if (!light->isVisible() || !light->isEnable()) return;
 
 		//set material params
@@ -693,7 +695,7 @@ namespace NGTech {
 
 				mtr->setPassAlphaTest();
 
-				object->DrawSubset(s);
+				object->DrawSubset(s, this);
 
 				mtr->unsetPassAlphaTest();
 				mtr->unsetPass();
@@ -706,36 +708,34 @@ namespace NGTech {
 	*/
 	void Scene::checkPointVisibility(LightPoint *light)
 	{
-		if (!currentCamera->GetFrustum()->isInside(BSphere(light->getPosition(), light->getRadius()))) {
+		//frustum visibility
+		if (!currentCamera->GetFrustum()->isInside(BSphere(light->getPosition(), light->getRadius())))
 			return;
-		}
 
-#if 0//for Work with Denis
-		if ((light->getPosition() - currentCamera->getPosition()).length() > light->radius)
+		//occlusion culling
+		if ((light->getPosition() - currentCamera->getPosition()).length() > light->getRadius())
 		{
 			GetRender()->colorMask(false, false, false, false);
 			GetRender()->depthMask(false);
+
 			query->beginRendering();
 
 			GetRender()->push();
 			GetRender()->multMatrix(Mat4::translate(light->getPosition()) *
-				Mat4::scale(Vec3(light->radius*0.2, light->radius*0.2, light->radius*0.2)));
+				Mat4::scale(Vec3(light->getRadius(), light->getRadius(), light->getRadius())));
 
-			sphere->DrawSubset(0);
+			sphere->DrawSubset(0, this);
 
 			GetRender()->pop();
-
 			query->endRendering();
 
 			GetRender()->depthMask(true);
 			GetRender()->colorMask(true, true, true, true);
 
-			if (query->getResult() < 2) {
-				light->setVisible(false);
+			if (query->getResult() < 2)
 				return;
-			}
 		}
-#endif
+
 		visibleLights.push_back(light);
 	}
 
@@ -1142,7 +1142,7 @@ namespace NGTech {
 
 				mtr->setPassAlphaTest();
 
-				object->DrawSubset(s);
+				object->DrawSubset(s, this);
 
 				mtr->unsetPassAlphaTest();
 

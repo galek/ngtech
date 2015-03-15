@@ -11,7 +11,7 @@ namespace NGTech {
 	public:
 		Light();
 		enum LightType {
-			LIGHT,
+			LIGHT = 0,
 			LIGHT_OMNI,
 			LIGHT_SPOT,
 			LIGHT_DIRECT,
@@ -31,7 +31,7 @@ namespace NGTech {
 		ENGINE_INLINE const Vec3 &getDirection() { return direction; };
 		ENGINE_INLINE void setDirection(const Vec3 &direction) { this->direction = direction; };
 
-		ENGINE_INLINE virtual LightType getType() { return LIGHT; }
+		ENGINE_INLINE virtual LightType getType() { return mType; }
 
 		ENGINE_INLINE void setEnable(bool flag) { enabled = flag; }
 		ENGINE_INLINE bool isEnable() { return enabled; }
@@ -44,6 +44,7 @@ namespace NGTech {
 
 		ENGINE_INLINE I_Texture *getShadowMap() { return shadowMap; };
 	protected:
+		LightType mType;
 		Vec3 position, direction, color;
 		I_Texture *shadowMap;
 		bool enabled;
@@ -62,8 +63,6 @@ namespace NGTech {
 
 		ENGINE_INLINE void setFlare(Flare *flare) { this->flare = flare; };
 
-		ENGINE_INLINE virtual LightType getType() { return LIGHT_OMNI; };
-		
 		void getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w);
 	private:
 		Flare *flare;
@@ -83,9 +82,7 @@ namespace NGTech {
 		ENGINE_INLINE void setFOV(float fov) { this->fov = fov; };
 
 		ENGINE_INLINE void setFlare(Flare *flare) { this->flare = flare; };
-
-		ENGINE_INLINE virtual LightType getType() { return LIGHT_SPOT; };
-
+		
 		void getScissorRect(const Vec3 &cameraPos, int &x, int &y, int &z, int &w);
 
 	private:
@@ -108,8 +105,6 @@ namespace NGTech {
 		virtual ~LightDirect();
 
 		ENGINE_INLINE const Vec3 &getColor() { return color; };
-
-		ENGINE_INLINE virtual LightType getType() { return LIGHT_DIRECT; };
 	private:
 		friend class Scene;
 	};

@@ -32,7 +32,7 @@ namespace NGTech {
 
 	}
 
-	void ObjectSkinnedMesh::DrawSubset(size_t subset) {
+	void ObjectSkinnedMesh::DrawSubset(size_t subset, Scene*) {
 		//Warning(__FUNCTION__);
 		//BBox bbox = GetTransformedBBox(subset);
 		//BSphere bsphere = GetTransformedBSphere(subset);
