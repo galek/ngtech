@@ -900,36 +900,37 @@ namespace NGTech {
 				GetRender()->drawRect(0, 0, 1, 1, 0, cvars->r_width, cvars->r_height, 0);
 				viewportCopy->UnSet();
 
-				hdrViewportCopy->copy();
+				//hdrViewportCopy->copy();//Тормозит
 				viewportFBO->clear();
 
-				//---------bright-pass--------------------------------
+				//BrightPass
 				hdr->setPass("BrightPass");
-				matViewportMap = viewportCopy;
-				GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
+				matViewportMap = hdrViewportCopy;
+				GetRender()->drawRect(0, 0, 1, 1, 0, 1/*cvars->r_width*/, 1/*cvars->r_height*/, 0);
 				hdr->unsetPass();
 
-				hdrViewportCopy->copy();
+				//hdrViewportCopy->copy();//Тормозит
 				viewportFBO->clear();
 
-				//BlurPass
+				//BlurV
 				hdr->setPass("BlurPass");
 				matViewportMap = hdrViewportCopy;
-				GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
+				GetRender()->drawRect(0, 0, 1, 1, 0, /*cvars->r_width*/1, /*cvars->r_height*/1, 0);
 				hdr->unsetPass();
-				hdrViewportCopy->copy();
+
+				//hdrViewportCopy->copy();//Тормозит
 			}
 			GetRender()->enable3d();
 
 			viewportFBO->unset();
 
-			//---------draw-bloom-------------------------------
+			//BlurH
 			GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
 			GetRender()->enable2d(true);
 			{
 				hdr->setPass("BlurPass");
-				matViewportMap = viewportCopy_brightPass_blured;
-				GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
+				matViewportMap = hdrViewportCopy;
+				GetRender()->drawRect(0, 0, 1, 1, 0, /*cvars->r_width*/1, /*cvars->r_height*/1, 0);
 				hdr->unsetPass();
 			}
 			GetRender()->disableBlending();

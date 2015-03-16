@@ -27,3 +27,4 @@ Resize не работает!
 https://app.asana.com/0/24912658642073/24912658642073
 
 Не работает Frustum Culling
+Не работает HDR
