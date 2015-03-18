@@ -19,13 +19,13 @@ namespace NGTech {
 		virtual ~GLTexture();
 		/**
 		*/
-		virtual void setWrap(Wrap wrap);
+		virtual void setWrap(Wrap _wrap);
 		/**
 		*/
-		virtual void setFilter(Filter filter);
+		virtual void setFilter(Filter _filter);
 		/**
 		*/
-		virtual void setAniso(Aniso aniso);
+		virtual void setAniso(Aniso _aniso);
 		/**
 		*/
 		virtual void Set();
@@ -89,10 +89,10 @@ namespace NGTech {
 		void _ActivateTarget(void **data);
 		/**
 		*/
-		void _ActivateFormat(Format format);
+		void _ActivateFormat(Format _format);
 		/**
 		*/
-		void _ActivateWrap(Wrap wrap);
+		void _ActivateWrap(Wrap _wrap);
 		/**
 		*/
 	private:

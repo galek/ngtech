@@ -42,3 +42,23 @@ http://rastergrid.com/blog/2010/10/hierarchical-z-map-based-occlusion-culling/
 
 Интересный блог
 http://ephenationopengl.blogspot.ru/
+
+http://steps3d.narod.ru/tutorials/image-load-store-tutorial.html
+http://steps3d.narod.ru/tutorials/debug-output-tutorial.html
+http://steps3d.narod.ru/tutorials/buffer-storage-tutorial.html
+http://steps3d.narod.ru/tutorials/brdf-tutorial.html
+http://steps3d.narod.ru/tutorials/atomic-counters-tutorial.html
+http://steps3d.narod.ru/tutorials/separate-shader-objects.html
+http://steps3d.narod.ru/tutorials/glsl-more.html
+http://steps3d.narod.ru/tutorials/gl3-more.html
+http://steps3d.narod.ru/tutorials/texture-storage-tutorial.html
+http://steps3d.narod.ru/tutorials/ssbo-tutorial.html
+http://steps3d.narod.ru/tutorials/copy-buffers-tutorial.html
+http://steps3d.narod.ru/tutorials/program-binary-tutorial.html
+http://steps3d.narod.ru/tutorials/sampler-tutorial.html
+http://steps3d.narod.ru/tutorials/async-queries-tutorial.html
+http://steps3d.narod.ru/tutorials/sync-tutorial.html
+
+http://vbomesh.blogspot.ru/2012/12/opengl-43-fbo.html
+
+http://opengl-tutorial.blogspot.ru/p/12-opengl.html

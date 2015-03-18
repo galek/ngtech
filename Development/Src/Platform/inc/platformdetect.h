@@ -94,14 +94,18 @@
 #endif
 
 #if IS_OS_WINDOWS
+#if  _MSC_VER < 1900
 #if !defined(snprintf)
 #define snprintf sprintf_s
 #endif
 #endif
+#endif
 
 #if IS_OS_WINDOWS
+#if  _MSC_VER < 1900
 #if !defined(vnsprintf)
 #define vnsprintf vsprintf_s
+#endif
 #endif
 #endif
 

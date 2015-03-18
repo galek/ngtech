@@ -8,6 +8,66 @@
 
 namespace NGTech {
 
+	struct GLExt
+	{
+		/*
+		*/
+		static void waitSync(GLsync &sync) {
+			if (sync == NULL) return;
+			int ret = glClientWaitSync(sync, 0, 0);
+			while (ret != GL_ALREADY_SIGNALED && ret != GL_CONDITION_SATISFIED) {
+				ret = glClientWaitSync(sync, GL_SYNC_FLUSH_COMMANDS_BIT, 1000000000);
+				assert(ret != GL_WAIT_FAILED && "GLExt::waitSync(): waiting failed");
+			}
+			glDeleteSync(sync);
+			sync = NULL;
+		}
+
+		static void waitSync(GLsync sync[3]) {
+			if (sync[0]) waitSync(sync[0]);
+			if (sync[1]) waitSync(sync[1]);
+			if (sync[2]) waitSync(sync[2]);
+		}
+
+		static void waitSync(GLsync sync[3], int &offset, int flush, int size) {
+			int size_3 = size / 3;
+			int size_32 = size_3 * 2;
+			if (offset + flush > size) {
+				waitSync(sync[0]);
+				offset = 0;
+			}
+			else if (offset <= size_3 && offset + flush > size_3) {
+				waitSync(sync[1]);
+				offset = size_3;
+			}
+			else if (offset <= size_32 && offset + flush > size_32) {
+				waitSync(sync[2]);
+				offset = size_32;
+			}
+		}
+
+		static void fenceSync(GLsync sync[3], int offset, int flush, int size) {
+			int size_3 = size / 3;
+			int size_32 = size_3 * 2;
+			if (offset == 0) {
+				if (sync[2]) glDeleteSync(sync[2]);
+				sync[2] = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+			}
+			else if (offset <= size_3 && offset + flush > size_3) {
+				if (sync[0]) glDeleteSync(sync[0]);
+				sync[0] = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+			}
+			else if (offset <= size_32 && offset + flush > size_32) {
+				if (sync[1]) glDeleteSync(sync[1]);
+				sync[1] = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
+			}
+		}
+	};
+
+
+	int vertex_offset;
+	unsigned char *vertex_ptr;
+	GLsync vertex_sync[3];
 	/**
 	*/
 	GLVBO::GLVBO()
@@ -84,7 +144,7 @@ namespace NGTech {
 		vbo->drawType = GL_STREAM_DRAW;
 		vbo->type = GL_ELEMENT_ARRAY_BUFFER;
 
-		if (numElements <= 65536){
+		if (numElements <= 65536) {
 			vbo->dataType = GL_UNSIGNED_SHORT;
 			vbo->elementSize = sizeof(unsigned short);
 			vbo->Allocate(vbo->data, sizeof(unsigned short) * vbo->numElements, STREAM);
@@ -152,7 +212,6 @@ namespace NGTech {
 	/**
 	*/
 	void GLVBO::FillBuffer(size_t offset) {
-		// �������� VBO �������
 		GLSystem::RecordMemoryWrite(elementSize * numElements);
 		glNamedBufferSubDataEXT(glID, offset, elementSize * numElements, data);
 	}
@@ -213,15 +272,15 @@ namespace NGTech {
 
 	/**
 	*/
-	void * GLVBO::map(int offset, void** data)
+	void * GLVBO::map(int offset, void** _data)
 	{
 		if (this->mBUFType == BUF_VERTEX)
 		{
-			return _ResizeBuffer(vertexdata_locked, offset, data);
+			return _ResizeBuffer(vertexdata_locked, offset, _data);
 		}
 		else if (this->mBUFType == BUF_INDEX)
 		{
-			return _ResizeBuffer(indexdata_locked, offset, data);
+			return _ResizeBuffer(indexdata_locked, offset, _data);
 		}
 		else
 		{
@@ -251,30 +310,53 @@ namespace NGTech {
 	*/
 	void* GLVBO::_ResizeBuffer(locked_data _data, int offset, void** data)
 	{
+		// per-frame buffers
+		//if (frame != App::get()->getFrame()) {
+		//	frame = App::get()->getFrame();
+		//	num_frame_buffer_v = buffer_size;
+		//}
+		//else {
+		//	num_frame_buffer_v += buffer_size;
+		//}
+
 		if (num_indices < numElements * 3)
 		{
 			num_indices = std::max(num_indices * 2, numElements * 3);
 
-			// delete vbo
-			DeleteBuffers();
-			// create vbo
-			_Create();
-			Bind();
+			// synchronization
+			GLExt::waitSync(vertex_sync);
 
-			GLint index_flags = GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT | GL_MAP_UNSYNCHRONIZED_BIT;
-			_data.ptr = glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, offset, elementSize, index_flags);
+			// delete vbo
+			DeleteBuffers();//Unigine style
+			// create vbo
+			_Create();//Unigine style
+			Bind();//Unigine style
+
+			GLint index_flags = GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT /*| GL_MAP_UNSYNCHRONIZED_BIT*/;
+			glBufferStorage(this->type, this->elementSize, NULL, GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT | GL_DYNAMIC_STORAGE_BIT);
+			_data.ptr = glMapBufferRange(this->type, offset, this->elementSize, index_flags);
 			_data.flags = index_flags;
+			vertex_offset = 0;
 
 			if (!_data.ptr)
 			{
-				Error("GLExt::render(): can't map indices buffer\n", true);
+				Error("GLExt::render(): can't map buffer\n", true);
 				return NULL;
 			}
 
 			if (data)
 				(*data) = _data.ptr;
 
+			// update vertices vao
+			//update_vertex_array();
 		}
+
+		// synchronization
+		GLExt::waitSync(vertex_sync, vertex_offset, buffer_size, num_indices);
+
+		// copy vertices
+		//Math::memcpy(vertex_ptr + vertex_offset, vertex.get(), vertex_flush);
+
 		return _data.ptr;
 	}
 

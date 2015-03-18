@@ -36,18 +36,18 @@ namespace NGTech {
 
 		/**
 		*/
-		ENGINE_INLINE virtual void setPosition(const Vec3 &position) { this->position = position; }
+		ENGINE_INLINE virtual void setPosition(const Vec3 &_position) { this->position = _position; }
 
 		/**
 		sets camera screen aspect
 		*/
 		ENGINE_INLINE virtual Vec3 &getDirection() { return direction; }
 
-		ENGINE_INLINE virtual void setDirection(const Vec3 &direction) { this->direction = direction; }
+		ENGINE_INLINE virtual void setDirection(const Vec3 &_direction) { this->direction = _direction; }
 
 		ENGINE_INLINE virtual float getMaxVelocity() { return maxVelocity; }
 
-		ENGINE_INLINE virtual void setMaxVelocity(float maxVelocity) { this->maxVelocity = maxVelocity; }
+		ENGINE_INLINE virtual void setMaxVelocity(float _maxVelocity) { this->maxVelocity = _maxVelocity; }
 
 		virtual Vec3 &getMax(size_t s) { return Vec3::Zero(); }
 		virtual Vec3 &getMin(size_t s) { return Vec3::Zero(); }

@@ -68,7 +68,7 @@ namespace NGTech {
 	/**
 	*/
 	void GLSystem::_RenderSetDefaults()
-		{
+	{
 		//clear display
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClearDepth(1.0);
@@ -86,7 +86,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void GLSystem::initialise()	{
+	void GLSystem::initialise() {
 #ifndef DROP_EDITOR
 		if (!createContext(GetWindow()))
 		{
@@ -230,7 +230,8 @@ namespace NGTech {
 	void GLSystem::EnableDebugOutput()
 	{
 #ifdef _ENGINE_DEBUG_
-		if (glDebugMessageCallback){
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
+		if (glDebugMessageCallback) {
 			Debug("Enabling GL debug output");
 			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 			glDebugMessageCallback(ReportGLError, nullptr);
@@ -271,7 +272,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void GLSystem::EnableMultiSample(bool v){
+	void GLSystem::EnableMultiSample(bool v) {
 		if (v)
 			glEnable(GL_MULTISAMPLE);
 		else
@@ -280,7 +281,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void GLSystem::EnableVSync(bool _v){
+	void GLSystem::EnableVSync(bool _v) {
 		ManageVSync(engine, _v);
 	}
 
@@ -846,7 +847,7 @@ namespace NGTech {
 				0, 0, 0										// Layer Masks Ignored
 			};
 
-			if (!(_window->hDC = GetDC((HWND)_window->hWnd)))	{
+			if (!(_window->hDC = GetDC((HWND)_window->hWnd))) {
 				Error("WindowSystem::initialise() error: can't create a GL device context", true);
 				return false;
 			}
@@ -856,12 +857,12 @@ namespace NGTech {
 				return false;
 			}
 
-			if (!(SetPixelFormat((HDC)_window->hDC, _window->pixelFormat, &pfd)))	{
+			if (!(SetPixelFormat((HDC)_window->hDC, _window->pixelFormat, &pfd))) {
 				Error("WindowSystem::initialise() error: can't set the pixel format", true);
 				return false;
 			}
 
-			if (!(_window->hRC = wglCreateContext((HDC)_window->hDC)))	{
+			if (!(_window->hRC = wglCreateContext((HDC)_window->hDC))) {
 				Error("WindowSystem::initialise() error: can't create a GL rendering context", true);
 				return false;
 			}
@@ -873,7 +874,7 @@ namespace NGTech {
 			return true;
 		}
 
-else
+		else
 #endif
 		{
 			Debug("Implemented in {WindowSystemGLFW::initialise} because crossplatform");
