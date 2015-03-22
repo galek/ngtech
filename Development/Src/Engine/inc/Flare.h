@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../Common/IRender.h"
+#include "../../Common/MathLib.h"
 #include <vector>
 
 namespace NGTech {

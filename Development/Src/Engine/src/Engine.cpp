@@ -434,7 +434,7 @@ namespace NGTech {
 	{
 		float mTime = iWindow->getDTime();
 		if (mTime > 0)
-			return 1000 / iWindow->getDTime();
+			return 1000 / mTime;
 		return 1.0f;
 	}
 
