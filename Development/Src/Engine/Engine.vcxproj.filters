@@ -144,6 +144,9 @@
     <ClInclude Include="inc\intersection.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="API\RenderAPI.h">
+      <Filter>Заголовочные файлы\API</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ALSound.cpp">
@@ -280,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="src\ObjectMesh.cpp">
       <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\API\RenderAPI.cpp">
+      <Filter>Файлы исходного кода\API</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

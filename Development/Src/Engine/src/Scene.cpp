@@ -69,12 +69,12 @@ namespace NGTech {
 		viewportCopy->setWrap(I_Texture::CLAMP_TO_EDGE);
 		viewportCopy->setFilter(I_Texture::LINEAR);
 
-		hdrViewportCopy = GetRender()->TextureCreate2D(128, 128, I_Texture::RGBA);
+		hdrViewportCopy = GetRender()->TextureCreate2D(128, 128, I_Texture::RGBA_FP32);
 		hdrViewportCopy->setWrap(I_Texture::CLAMP_TO_EDGE);
 		hdrViewportCopy->setFilter(I_Texture::LINEAR);
 		hdrViewportCopy->setAniso(I_Texture::ANISO_X0);
 
-		viewportCopy_brightPass_blured = GetRender()->TextureCreate2D(512, 512, I_Texture::RGBA);
+		viewportCopy_brightPass_blured = GetRender()->TextureCreate2D(512, 512, I_Texture::RGBA_FP32);
 		viewportCopy_brightPass_blured->setWrap(I_Texture::CLAMP_TO_EDGE);
 		viewportCopy_brightPass_blured->setFilter(I_Texture::LINEAR);
 
@@ -891,6 +891,7 @@ namespace NGTech {
 		matMVP = GetRender()->getMatrix_MVP();
 		if (GetCvars()->r_hdr)
 		{
+#if 0
 			viewportFBO->set();
 			viewportFBO->clear();
 
@@ -935,6 +936,57 @@ namespace NGTech {
 			}
 			GetRender()->disableBlending();
 			GetRender()->enable3d();
+#else
+			if (GetCvars()->r_hdr)
+			{
+				//---------bright-pass--------------------------------
+				viewportFBO->set();
+				viewportFBO->setColorTarget(hdrViewportCopy);
+				viewportFBO->clear();
+
+				GetRender()->enable2d(true);
+
+				matViewportMap = viewportCopy;
+				hdr->setPass("BrightPass");
+				GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
+				hdr->unsetPass();
+
+				GetRender()->enable3d();
+
+				//test 
+				GetRender()->flush();
+				viewportFBO->unset();
+
+				//---------bright-pass-blur--------------------------------
+				viewportFBO->set();
+				viewportFBO->setColorTarget(viewportCopy_brightPass_blured);
+				viewportFBO->clear();
+
+				GetRender()->enable2d(true);
+
+				matViewportMap = hdrViewportCopy;
+				hdr->setPass("BlurPass");
+				GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
+				hdr->unsetPass();
+
+				GetRender()->enable3d();
+				//test 
+				GetRender()->flush();
+				viewportFBO->unset();
+
+				//---------draw-bloom-------------------------------
+				GetRender()->enable2d(true);
+				GetRender()->enableBlending(I_Render::ONE, I_Render::ONE);
+
+				matViewportMap = viewportCopy_brightPass_blured;
+				hdr->setPass("BlurPass");
+				GetRender()->drawRect(0, 0, 1, 1, 0, 1, 1, 0);
+				hdr->unsetPass();
+
+				GetRender()->disableBlending();
+				GetRender()->enable3d();
+			}
+#endif
 		}
 		//draw wireframe
 		if (GetCvars()->r_wireframe)

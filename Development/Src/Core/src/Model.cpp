@@ -5,6 +5,13 @@
 //**************************************
 
 namespace NGTech {
+
+	/**
+	*/
+	Model::Model()
+		:subsets(nullptr)
+	{}
+
 	/**
 	*/
 	Model::Model(const String &path) {
@@ -14,7 +21,12 @@ namespace NGTech {
 	/**
 	*/
 	void Model::_load(const String &path) {
-		GetMeshLoader()->Load(path, this);
+		if (!GetMeshLoader()->Load(path, this))
+			return;
+
+		if (!subsets)
+			return;
+
 
 		calculateTBN();
 		createVBO();

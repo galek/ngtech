@@ -222,4 +222,21 @@ namespace NGTech{
 				def("API_SteamWorks_GetStat", &API_SteamWorks_GetStat)
 			];
 	}
+
+	/**
+	*/
+	void lua_stacktrace(lua_State* L)
+	{
+		lua_Debug entry;
+		int depth = 0;
+
+		while (lua_getstack(L, depth, &entry))
+		{
+			int status = lua_getinfo(L, "Sln", &entry);
+			assert(status);
+
+			DebugM("%s(%d): %s\n", entry.short_src, entry.currentline, entry.name ? entry.name : "?");
+			depth++;
+		}
+	}
 }

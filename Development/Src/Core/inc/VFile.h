@@ -14,7 +14,8 @@ namespace NGTech
 		explicit VFile(const String &_name, int _mode = READ_BIN, bool _notSearch = false);
 		~VFile();
 
-		bool IsDataExist();
+		//Check what file exist,or write in log(if warn=true)
+		bool IsDataExist(bool _warn = true);
 		bool IsEof();
 
 		char* LoadFile();
@@ -40,6 +41,8 @@ namespace NGTech
 		ENGINE_INLINE FILE* GetLowLevelFile() { return mFile; }
 		ENGINE_INLINE String GetName() { return mName; }
 		bool IsValid();
+
+		static bool IsDataExist(const char* _name, bool _warn = true);
 	private:
 		void _OpenFile(const String&path, int _mode, bool _notSearch);
 	private:

@@ -59,10 +59,19 @@ namespace NGTech
 
 	/**
 	*/
-	bool VFile::IsDataExist() {
+	bool VFile::IsDataExist(bool _warn) {
 		bool status = GetVFS()->isDataExist(mName);
-		if ((!status))
+		if ((!status) && _warn)
 			Warning("File %s :is not exist", mName.c_str());
+		return status;
+	}
+
+	/**
+	*/
+	bool VFile::IsDataExist(const char* _name,bool _warn) {
+		bool status = GetVFS()->isDataExist(_name);
+		if ((!status) && _warn)
+			Warning("File %s :is not exist", _name);
 		return status;
 	}
 

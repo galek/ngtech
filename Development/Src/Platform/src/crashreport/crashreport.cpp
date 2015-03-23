@@ -53,7 +53,7 @@ namespace NGTech
 		str += st.to_string();
 	}
 
-	bool ShowDumpResults(const wchar_t* dump_path,
+	bool ShowDumpResults(const wchar_t* _dump_path,
 		const wchar_t* minidump_id,
 		void* context,
 		EXCEPTION_POINTERS* exinfo,
@@ -65,6 +65,8 @@ namespace NGTech
 		GetCallStackToString(desc);
 #ifdef _WIN32
 		MessageBoxA(NULL, desc.c_str(), ex.c_str(), MB_OK);
+#else
+		printf(desc.c_str());
 #endif
 #ifdef _NDEBUG
 		exit(0);

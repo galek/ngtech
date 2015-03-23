@@ -18,8 +18,8 @@ void ExampleGame::initialise() {
 #ifndef __LINUX__
 	events = new GameGUIEvents();
 	//initializing loading screen
-	/*LoadingScreen lscreen("sponza/background.png");
-	lscreen.show();*/
+	LoadingScreen lscreen("sponza/background.png");
+	lscreen.show();
 
 	sponza = new ObjectMesh("sponza.nggf");
 	{
@@ -153,5 +153,9 @@ void EventsCallback::Body(){
 	{
 		ShowConsole();
 	}
+
+	if (GetWindow()->isKeyDown("F12"))
+		API_Make_ScreenShot();
 }
+
 #endif

@@ -34,3 +34,6 @@
 #include "../Engine/inc/WrappedScriptFunctions.h"
 
 //***************************************************
+
+//End user API
+#include "../Engine/API/RenderAPI.h"

@@ -12,6 +12,7 @@ namespace NGTech {
 	class CORE_API Model {
 	public:
 		explicit Model(const String &path);
+		Model();
 		~Model();
 
 		void save(const String &path);

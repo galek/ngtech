@@ -26,7 +26,7 @@ namespace NGTech
 
 		/*
 		*/
-		void Load(const String &path, Model *mesh);
+		bool Load(const String &path, Model *mesh);
 
 		/*
 		*/

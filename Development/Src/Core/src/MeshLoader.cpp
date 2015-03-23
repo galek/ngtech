@@ -40,7 +40,7 @@ namespace NGTech
 
 	/*
 	*/
-	void MeshLoader::Load(const String &path, Model *mesh)
+	bool MeshLoader::Load(const String &path, Model *mesh)
 	{
 		VFile file(path.c_str());
 		auto ext = file.GetFileExt();
@@ -50,10 +50,11 @@ namespace NGTech
 			if (formats[i]->GetExt() == ext)
 			{
 				formats[i]->Load(path, mesh);
-				return;
+				return true;
 			}
 		}
-		Error("MeshLoader::Load() error: format is not supported", true);
+		Warning("MeshLoader::Load() error: format is not supported");
+		return false;
 	}
 
 }

@@ -359,6 +359,7 @@ PxTask.lib
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="API\RenderAPI.h" />
     <ClInclude Include="inc\ALSound.h" />
     <ClInclude Include="inc\ALSoundSource.h" />
     <ClInclude Include="inc\ALSystem.h" />
@@ -423,6 +424,7 @@ PxTask.lib
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|x64'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Src\API\RenderAPI.cpp" />
     <ClCompile Include="src\Cache.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Mixed|Win32'">Use</PrecompiledHeader>

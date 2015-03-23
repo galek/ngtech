@@ -36,7 +36,7 @@ namespace NGTech
 		{
 			CCT_CAPSULE,
 			CCT_BOX
-#pragma message("Make CCT_BOX")
+//TODO:NICK:("Make CCT_BOX")
 		};
 
 		CharacterControllerDesc(Mode = CCT_CAPSULE);
