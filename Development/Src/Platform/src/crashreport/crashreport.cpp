@@ -11,16 +11,15 @@ namespace NGTech
 	static ExceptionHandler* handler = NULL;
 	static CrashGenerationServer* crash_server = NULL;
 	const wchar_t kPipeName[] = L"/./NGTechCrashService";
+	const std::wstring dump_path = L"./../logs/";
 
 	void CrashServerStart() {
 		// Do not create another instance of the server.
 		if (crash_server) {
 			return;
 		}
-
-		std::wstring dump_path = L"../logs/";
-
-		_wmkdir(dump_path.c_str());
+		if (0 == _waccess(dump_path.c_str(), 02))
+			_wmkdir(dump_path.c_str());
 
 		crash_server = new CrashGenerationServer(kPipeName,
 			NULL,
@@ -83,7 +82,7 @@ namespace NGTech
 		// failures and instead let the code handle it.
 		_CrtSetReportMode(_CRT_ASSERT, 0);
 
-		handler = new ExceptionHandler(L"../logs/",
+		handler = new ExceptionHandler(dump_path,
 			NULL,
 			ShowDumpResults,
 			NULL,
