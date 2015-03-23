@@ -74,7 +74,7 @@ namespace EngineCLR {
 		{
 			posX = x;
 			posY = y;
-			auto cam = GetScene()->getActiveCamera();
+			auto cam = GetScene()->GetCurrentCamera();
 			if (cam && engine)
 				cam->lookAt(posX, posY);
 			else

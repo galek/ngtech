@@ -18,4 +18,6 @@ Libs/
 *.pdb
 /Bins/Bin64
 /Bins/Logs
+
 *.ide
+Bins/userData/

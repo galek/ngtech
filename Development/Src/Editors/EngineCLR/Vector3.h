@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Core/inc/MathLib.h"
+#include "../../Common/MathLib.h"
 
 using namespace System;
 using namespace NGTech;
