@@ -4,77 +4,22 @@
 //***************************************************************************
 #include "GLSystem.h"
 #include "GLVBO.h"
+#include "GLSynch.h"
 //***************************************************************************
 
 namespace NGTech {
 
-	struct GLExt
-	{
-		/*
-		*/
-		static void waitSync(GLsync &sync) {
-			if (sync == NULL) return;
-			int ret = glClientWaitSync(sync, 0, 0);
-			while (ret != GL_ALREADY_SIGNALED && ret != GL_CONDITION_SATISFIED) {
-				ret = glClientWaitSync(sync, GL_SYNC_FLUSH_COMMANDS_BIT, 1000000000);
-				assert(ret != GL_WAIT_FAILED && "GLExt::waitSync(): waiting failed");
-			}
-			glDeleteSync(sync);
-			sync = NULL;
-		}
-
-		static void waitSync(GLsync sync[3]) {
-			if (sync[0]) waitSync(sync[0]);
-			if (sync[1]) waitSync(sync[1]);
-			if (sync[2]) waitSync(sync[2]);
-		}
-
-		static void waitSync(GLsync sync[3], int &offset, int flush, int size) {
-			int size_3 = size / 3;
-			int size_32 = size_3 * 2;
-			if (offset + flush > size) {
-				waitSync(sync[0]);
-				offset = 0;
-			}
-			else if (offset <= size_3 && offset + flush > size_3) {
-				waitSync(sync[1]);
-				offset = size_3;
-			}
-			else if (offset <= size_32 && offset + flush > size_32) {
-				waitSync(sync[2]);
-				offset = size_32;
-			}
-		}
-
-		static void fenceSync(GLsync sync[3], int offset, int flush, int size) {
-			int size_3 = size / 3;
-			int size_32 = size_3 * 2;
-			if (offset == 0) {
-				if (sync[2]) glDeleteSync(sync[2]);
-				sync[2] = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
-			}
-			else if (offset <= size_3 && offset + flush > size_3) {
-				if (sync[0]) glDeleteSync(sync[0]);
-				sync[0] = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
-			}
-			else if (offset <= size_32 && offset + flush > size_32) {
-				if (sync[1]) glDeleteSync(sync[1]);
-				sync[1] = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
-			}
-		}
-	};
-
-
-	int vertex_offset;
-	unsigned char *vertex_ptr;
 	GLsync vertex_sync[3];
 	/**
 	*/
 	GLVBO::GLVBO()
 	{
 		data = nullptr;
+		numElements = 0;
+		frame = 0;
 		glID = 0;
 		_size = 0;
+		vertex_offset = 0;
 		vertexdata_locked.ptr = 0;
 		indexdata_locked.ptr = 0;
 		num_indices = 0;
@@ -85,6 +30,15 @@ namespace NGTech {
 	*/
 	void GLVBO::DeleteBuffers()
 	{
+		if (vertex_sync[0] && glIsSync(vertex_sync[0])) glDeleteSync(vertex_sync[0]);
+		if (vertex_sync[1] && glIsSync(vertex_sync[1])) glDeleteSync(vertex_sync[1]);
+		if (vertex_sync[2] && glIsSync(vertex_sync[2])) glDeleteSync(vertex_sync[2]);
+		vertexdata_locked.ptr = 0;
+		indexdata_locked.ptr = 0;
+		vertex_sync[0] = NULL;
+		vertex_sync[1] = NULL;
+		vertex_sync[2] = NULL;
+
 		glDeleteBuffers(1, &glID);
 	}
 	/**
@@ -310,21 +264,25 @@ namespace NGTech {
 	*/
 	void* GLVBO::_ResizeBuffer(locked_data _data, int offset, void** data)
 	{
+		// update vertices buffer
+		vertex_offset += buffer_size;
+		buffer_size = sizeof(data);//Nick?
+
 		// per-frame buffers
-		//if (frame != App::get()->getFrame()) {
-		//	frame = App::get()->getFrame();
-		//	num_frame_buffer_v = buffer_size;
-		//}
-		//else {
-		//	num_frame_buffer_v += buffer_size;
-		//}
+		if (frame != GetWindow()->frame) {
+			frame = GetWindow()->frame;
+			numElements = buffer_size;
+		}
+		else {
+			numElements += buffer_size;
+		}
 
 		if (num_indices < numElements * 3)
 		{
 			num_indices = std::max(num_indices * 2, numElements * 3);
 
 			// synchronization
-			GLExt::waitSync(vertex_sync);
+			GLSynch::waitSync(vertex_sync);
 
 			// delete vbo
 			DeleteBuffers();//Unigine style
@@ -352,10 +310,10 @@ namespace NGTech {
 		}
 
 		// synchronization
-		GLExt::waitSync(vertex_sync, vertex_offset, buffer_size, num_indices);
+		GLSynch::waitSync(vertex_sync, vertex_offset, buffer_size, num_indices);
 
 		// copy vertices
-		//Math::memcpy(vertex_ptr + vertex_offset, vertex.get(), vertex_flush);
+		//Math::memcpy(_data.ptr + vertex_offset, vertex.get(), vertex_flush);
 
 		return _data.ptr;
 	}

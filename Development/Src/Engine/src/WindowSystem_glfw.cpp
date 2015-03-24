@@ -177,7 +177,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void WindowSystemGLFW::showOSCursor(int show){
+	void WindowSystemGLFW::showOSCursor(int show) {
 		int value = GLFW_CURSOR_NORMAL;
 		if (show == 1)
 			value = GLFW_CURSOR_NORMAL;
@@ -244,6 +244,10 @@ namespace NGTech {
 		}
 		else // FPS calculation time interval hasn't elapsed yet? Simply increment the FPS frame counter
 			fpsFrameCount++;
+
+		if (++this->frame > 0x5fffffff) {
+			this->frame = 0;
+		}
 	}
 
 	/**
@@ -255,19 +259,19 @@ namespace NGTech {
 
 	/**
 	*/
-	const int WindowSystemGLFW::Input_GetKeyValueByChar(const char*  _p){
+	const int WindowSystemGLFW::Input_GetKeyValueByChar(const char*  _p) {
 		return _get_key_name(_p);
 	}
 
 	/**
 	*/
-	const char* WindowSystemGLFW::Input_GetKeyValueByInt(int _p){
+	const char* WindowSystemGLFW::Input_GetKeyValueByInt(int _p) {
 		return get_key_name(_p);
 	}
 
 	/**
 	*/
-	void WindowSystemGLFW::ManageVSync(bool _v){
+	void WindowSystemGLFW::ManageVSync(bool _v) {
 		glfwSwapInterval(_v);
 	}
 }

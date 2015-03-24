@@ -31,7 +31,7 @@ namespace NGTech {
 		virtual void UnBind() const;
 		virtual void BindIndex(unsigned int idx) const;
 		virtual void UnbindIndex(unsigned int idx) const;
-		virtual void Allocate(const void *data, size_t size, TypeDraw usage);
+		virtual void Allocate(const void *_data, size_t _size, TypeDraw _usage);
 
 		virtual void setVertexSource(int numComp, int stride, int offset);
 		virtual void setNormalSource(int stride, int offset);
@@ -45,7 +45,7 @@ namespace NGTech {
 
 		virtual void FillBuffer(size_t offset);
 
-		virtual void *map(int offset = 0, void** data = nullptr);
+		virtual void *map(int offset = 0, void** _data = nullptr);
 		virtual void unMap();
 		void SetType(BUFType _b)
 		{
@@ -70,10 +70,10 @@ namespace NGTech {
 		locked_data	vertexdata_locked;
 		locked_data	indexdata_locked;
 		size_t _size;
-		int num_indices, buffer_size;
+		int num_indices, buffer_size, frame, vertex_offset;
 	private:
 		void DeleteBuffers();
-		void *_ResizeBuffer(locked_data, int offset = 0, void** data = nullptr);
+		void *_ResizeBuffer(locked_data, int _offset = 0, void** _data = nullptr);
 		void DeleteBuffer(locked_data);
 	};
 }

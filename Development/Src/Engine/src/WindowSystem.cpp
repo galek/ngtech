@@ -431,6 +431,10 @@ namespace NGTech {
 			iFrames = 0;
 			QueryPerformanceCounter(&FPSCount);
 		}
+
+		if (++this->frame > 0x5fffffff) {
+			this->frame = 0;
+		}
 	}
 
 	/**

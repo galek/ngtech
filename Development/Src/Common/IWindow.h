@@ -27,9 +27,11 @@
 namespace NGTech {
 	struct I_Window {
 	public:
+		I_Window() :frame(0)
+		{}
 		/**
 		*/
-		virtual ~I_Window(){}
+		virtual ~I_Window() {}
 		/**
 		*/
 		virtual void initialise(int _hwnd) = 0;
@@ -134,10 +136,10 @@ namespace NGTech {
 		virtual const char* Input_GetKeyValueByInt(int _p) = 0;
 		/**
 		*/
-		virtual void swapBuffers(){}
+		virtual void swapBuffers() {}
 		/**
 		*/
-		virtual void ManageVSync(bool _v){}
+		virtual void ManageVSync(bool _v) {}
 		/**
 		*/
 		inline virtual int divider() { return 1; }
@@ -150,7 +152,7 @@ namespace NGTech {
 		int  bpp, zdepth;
 		void* hInstance;
 		void* hDC;
-		int hWnd;
+		int hWnd, frame;
 		unsigned int pixelFormat;
 	};
 }
