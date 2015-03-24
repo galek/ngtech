@@ -62,3 +62,6 @@ http://steps3d.narod.ru/tutorials/sync-tutorial.html
 http://vbomesh.blogspot.ru/2012/12/opengl-43-fbo.html
 
 http://opengl-tutorial.blogspot.ru/p/12-opengl.html
+
+В демке Physx Sample Bridges можно ходить сидя для контроллера камеры(кнопка C). Shift(ускорение),T,R еще смотри
+Large world-есть стриминг

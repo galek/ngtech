@@ -27,7 +27,7 @@
 namespace NGTech {
 	struct I_Window {
 	public:
-		I_Window() :frame(0)
+		I_Window() :frameNumber(0)
 		{}
 		/**
 		*/
@@ -152,7 +152,7 @@ namespace NGTech {
 		int  bpp, zdepth;
 		void* hInstance;
 		void* hDC;
-		int hWnd, frame;
+		int hWnd, frameNumber;
 		unsigned int pixelFormat;
 	};
 }

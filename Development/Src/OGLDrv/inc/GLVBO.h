@@ -70,7 +70,8 @@ namespace NGTech {
 		locked_data	vertexdata_locked;
 		locked_data	indexdata_locked;
 		size_t _size;
-		int num_indices, buffer_size, frame, vertex_offset;
+		int num_indices, buffer_size, frameNumber, buffer_offset;
+		GLsync buffer_sync[3];
 	private:
 		void DeleteBuffers();
 		void *_ResizeBuffer(locked_data, int _offset = 0, void** _data = nullptr);

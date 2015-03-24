@@ -4,3 +4,5 @@ XCOPY data !production\data /D /E /C /R /I /K /Y
 COPY production_user.ltx !production\user.ltx
 del "!production\*.pdb"  /F /S
 del "!production\*.bsc"  /F /S
+del "!production\*.dmp"  /F /S
+del "!production\*.log"  /F /S

@@ -53,6 +53,10 @@ namespace NGTech
 		int height = GetCvars()->r_height;
 		int	blends = 1;
 
+		if (_waccess(L"../userData/screenshots/", 00) == -1)
+			_wmkdir(L"../userData/screenshots/");
+
+
 		R_ScreenshotFilename(lastNumber, "../userData/screenshots/shot", checkname);
 
 		GetRender()->WriteScreenshot(checkname.c_str());

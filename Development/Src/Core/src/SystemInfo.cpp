@@ -179,7 +179,7 @@ namespace NGTech {
 			sprintf(info, "Windows 8");
 		else if (CompareWindowsVersion(6, 3))
 			sprintf(info, "Windows 8.1");
-		else if ((CompareWindowsVersion(6, 4)) || (CompareWindowsVersion(10, 0)))
+		else if (CompareWindowsVersion(10, 0))
 			sprintf(info, "Windows 10");
 #ifdef _WIN64
 		strcat(info, " 64bit");

@@ -18,7 +18,8 @@ namespace NGTech
 		if (crash_server) {
 			return;
 		}
-		if (0 == _waccess(dump_path.c_str(), 02))
+
+		if (_waccess(dump_path.c_str(), 00) == -1)
 			_wmkdir(dump_path.c_str());
 
 		crash_server = new CrashGenerationServer(kPipeName,

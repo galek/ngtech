@@ -432,8 +432,8 @@ namespace NGTech {
 			QueryPerformanceCounter(&FPSCount);
 		}
 
-		if (++this->frame > 0x5fffffff) {
-			this->frame = 0;
+		if (++this->frameNumber > 0x5fffffff) {
+			this->frameNumber = 0;
 		}
 	}
 

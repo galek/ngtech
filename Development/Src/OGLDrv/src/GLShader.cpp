@@ -17,6 +17,7 @@
 */
 #include "RenderPrivate.h"
 //***************************************************************************
+#include <io.h>//_access
 #if defined(_WIN32)
 #include <direct.h> //_mkdir
 #else
@@ -42,7 +43,7 @@ namespace NGTech {
 			return NULL;
 	}
 
-	GLShader *GLShader::createFromPath(const String &pathFS, const String &pathVS, const String &defines){
+	GLShader *GLShader::createFromPath(const String &pathFS, const String &pathVS, const String &defines) {
 		GLShader *shader = new GLShader();
 
 		if (shader->CreateShader(pathFS, pathVS, defines, true))
@@ -506,10 +507,12 @@ namespace NGTech {
 		static const char* dir = "../userData/ShaderCache.64/";
 #endif
 #if defined(_WIN32)
-		_mkdir(dir);
-		#else
+
+		if (_access(dir, 00) == -1)
+			_mkdir(dir);
+#else
 		mkdir(dir, 777);
-		#endif
+#endif
 		Filename = dir;
 		Filename += _file;
 		Filename += ".bin";
@@ -525,7 +528,7 @@ namespace NGTech {
 
 		if (result == -1)
 		{
-			if (!isOptional){
+			if (!isOptional) {
 				Warning("could not find uniform \"%s\" in program %d", uniform, this->program);
 			}
 		}
@@ -541,7 +544,7 @@ namespace NGTech {
 
 		if (result == -1)
 		{
-			if (!isOptional){
+			if (!isOptional) {
 				Warning("could not find uniform \"%s\" in program %d", attribute, this->program);
 			}
 		}
@@ -823,7 +826,7 @@ namespace NGTech {
 
 	/**
 	*/
-	GLuint GLShader::operator()(const std::string& uniform){
+	GLuint GLShader::operator()(const std::string& uniform) {
 		return _uniformLocationList[uniform];
 	}
 
@@ -835,7 +838,7 @@ namespace NGTech {
 
 	/**
 	*/
-	GLuint GLShader::operator()(const char* uniform){
+	GLuint GLShader::operator()(const char* uniform) {
 		return _uniformLocationList[uniform];
 	}
 }

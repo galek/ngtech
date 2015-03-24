@@ -245,8 +245,8 @@ namespace NGTech {
 		else // FPS calculation time interval hasn't elapsed yet? Simply increment the FPS frame counter
 			fpsFrameCount++;
 
-		if (++this->frame > 0x5fffffff) {
-			this->frame = 0;
+		if (++this->frameNumber > 0x5fffffff) {
+			this->frameNumber = 0;
 		}
 	}
 

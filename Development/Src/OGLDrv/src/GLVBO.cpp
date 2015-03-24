@@ -9,17 +9,16 @@
 
 namespace NGTech {
 
-	GLsync vertex_sync[3];
 	/**
 	*/
 	GLVBO::GLVBO()
 	{
 		data = nullptr;
 		numElements = 0;
-		frame = 0;
+		frameNumber = 0;
 		glID = 0;
 		_size = 0;
-		vertex_offset = 0;
+		buffer_offset = 0;
 		vertexdata_locked.ptr = 0;
 		indexdata_locked.ptr = 0;
 		num_indices = 0;
@@ -30,14 +29,14 @@ namespace NGTech {
 	*/
 	void GLVBO::DeleteBuffers()
 	{
-		if (vertex_sync[0] && glIsSync(vertex_sync[0])) glDeleteSync(vertex_sync[0]);
-		if (vertex_sync[1] && glIsSync(vertex_sync[1])) glDeleteSync(vertex_sync[1]);
-		if (vertex_sync[2] && glIsSync(vertex_sync[2])) glDeleteSync(vertex_sync[2]);
+		if (buffer_sync[0] && glIsSync(buffer_sync[0])) glDeleteSync(buffer_sync[0]);
+		if (buffer_sync[1] && glIsSync(buffer_sync[1])) glDeleteSync(buffer_sync[1]);
+		if (buffer_sync[2] && glIsSync(buffer_sync[2])) glDeleteSync(buffer_sync[2]);
 		vertexdata_locked.ptr = 0;
 		indexdata_locked.ptr = 0;
-		vertex_sync[0] = NULL;
-		vertex_sync[1] = NULL;
-		vertex_sync[2] = NULL;
+		buffer_sync[0] = NULL;
+		buffer_sync[1] = NULL;
+		buffer_sync[2] = NULL;
 
 		glDeleteBuffers(1, &glID);
 	}
@@ -262,15 +261,15 @@ namespace NGTech {
 
 	/**
 	*/
-	void* GLVBO::_ResizeBuffer(locked_data _data, int offset, void** data)
+	void* GLVBO::_ResizeBuffer(locked_data _data, int offset, void** _ptr)
 	{
 		// update vertices buffer
-		vertex_offset += buffer_size;
-		buffer_size = sizeof(data);//Nick?
+		buffer_offset += buffer_size;
+		buffer_size = sizeof(_ptr);//Nick?
 
 		// per-frame buffers
-		if (frame != GetWindow()->frame) {
-			frame = GetWindow()->frame;
+		if (frameNumber != GetWindow()->frameNumber) {
+			frameNumber = GetWindow()->frameNumber;
 			numElements = buffer_size;
 		}
 		else {
@@ -282,7 +281,7 @@ namespace NGTech {
 			num_indices = std::max(num_indices * 2, numElements * 3);
 
 			// synchronization
-			GLSynch::waitSync(vertex_sync);
+			GLSynch::waitSync(buffer_sync);
 
 			// delete vbo
 			DeleteBuffers();//Unigine style
@@ -290,11 +289,11 @@ namespace NGTech {
 			_Create();//Unigine style
 			Bind();//Unigine style
 
-			GLint index_flags = GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT /*| GL_MAP_UNSYNCHRONIZED_BIT*/;
+			GLint index_flags = GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT;
 			glBufferStorage(this->type, this->elementSize, NULL, GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT | GL_DYNAMIC_STORAGE_BIT);
 			_data.ptr = glMapBufferRange(this->type, offset, this->elementSize, index_flags);
 			_data.flags = index_flags;
-			vertex_offset = 0;
+			buffer_offset = 0;
 
 			if (!_data.ptr)
 			{
@@ -302,15 +301,15 @@ namespace NGTech {
 				return NULL;
 			}
 
-			if (data)
-				(*data) = _data.ptr;
+			if (_ptr)
+				(*_ptr) = _data.ptr;
 
 			// update vertices vao
 			//update_vertex_array();
 		}
 
 		// synchronization
-		GLSynch::waitSync(vertex_sync, vertex_offset, buffer_size, num_indices);
+		GLSynch::waitSync(buffer_sync, buffer_offset, buffer_size, num_indices);
 
 		// copy vertices
 		//Math::memcpy(_data.ptr + vertex_offset, vertex.get(), vertex_flush);
