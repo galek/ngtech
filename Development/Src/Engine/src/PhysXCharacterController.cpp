@@ -12,8 +12,12 @@
 
 namespace NGTech
 {
+	/**
+	*/
 	using namespace physx;
-
+	
+	/**
+	*/
 	CharacterControllerDesc::CharacterControllerDesc(Mode _mMode)
 	{
 		mMode = _mMode;
@@ -32,6 +36,8 @@ namespace NGTech
 		maxJumpHeight = 0.0f;
 	}
 
+	/**
+	*/
 	PhysXCharacterController::PhysXCharacterController(CharacterControllerDesc&_desc)
 		:desc(_desc),
 		mController(nullptr)
@@ -42,11 +48,15 @@ namespace NGTech
 			_createBoxCharacterController();
 	}
 
+	/**
+	*/
 	PhysXCharacterController::~PhysXCharacterController()
 	{
 		mController->release();
 	}
 
+	/**
+	*/
 	void PhysXCharacterController::_createCapsuleCharacterController()
 	{
 		PxCapsuleControllerDesc pdesc;
@@ -72,12 +82,14 @@ namespace NGTech
 		mController = GetPhysics()->GetPxControllerManager()->createController(pdesc);
 	}
 
+	/**
+	*/
 	void PhysXCharacterController::_createBoxCharacterController()
 	{
 		PxBoxControllerDesc pdesc;
 		pdesc.halfForwardExtent = desc.radius;
 		pdesc.halfSideExtent = desc.radius;
-		pdesc.halfHeight = desc.height / 2;
+		pdesc.halfHeight = desc.height;
 
 
 		pdesc.density = desc.density;
@@ -99,8 +111,8 @@ namespace NGTech
 		mController = GetPhysics()->GetPxControllerManager()->createController(pdesc);
 	}
 
-
-
+	/**
+	*/
 	void PhysXCharacterController::move(float x, float y, float z, float elapsedTime)
 	{
 		PxVec3 moveVec(x, y, z);
@@ -114,6 +126,8 @@ namespace NGTech
 		}
 	}
 
+	/**
+	*/
 	Vec3 PhysXCharacterController::getPosition()
 	{
 		mPos = Vec3(fpos.x, fpos.y, fpos.z);

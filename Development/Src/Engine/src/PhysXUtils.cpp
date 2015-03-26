@@ -10,7 +10,9 @@
 
 namespace NGTech {
 	using namespace physx;
-
+	
+	/**
+	*/
 	PxConvexMesh* createConvexMesh(const PxVec3* verts, const PxU32 numVerts, PxPhysics& physics, PxCooking& cooking)
 	{
 		// Create descriptor for convex mesh
@@ -31,6 +33,8 @@ namespace NGTech {
 		return convexMesh;
 	}
 
+	/**
+	*/
 	PxConvexMesh* createCylinderConvexMesh(const PxF32 width, const PxF32 radius, const PxU32 numCirclePoints, PxPhysics& physics, PxCooking& cooking)
 	{
 #define  MAX_NUM_VERTS_IN_CIRCLE 100
@@ -49,11 +53,26 @@ namespace NGTech {
 
 		return createConvexMesh(verts, numVerts, physics, cooking);
 	}
-
+	
+	/**
+	*/
 	void SetupDefaultRigidDynamic(PxRigidDynamic& body, bool kinematic)
 	{
 		body.setActorFlag(PxActorFlag::eVISUALIZATION, true);
 		body.setAngularDamping(0.5f);
 		body.setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, kinematic);
+	}
+	
+	/**
+	*/
+	void addForceAtLocalPos(PxRigidBody& body, const PxVec3& force, const PxVec3& pos,
+		PxForceMode::Enum mode, bool wakeup)
+	{
+		const PxVec3 globalForcePos = body.getGlobalPose().transform(pos);  // to world space
+		const PxTransform globalPose = body.getGlobalPose();
+		const PxVec3 centerOfMass = globalPose.transform(body.getCMassLocalPose().p);
+		const PxVec3 torque = (globalForcePos - centerOfMass).cross(force);
+		body.addForce(force, mode, wakeup);
+		body.addTorque(torque, mode, wakeup);
 	}
 }
