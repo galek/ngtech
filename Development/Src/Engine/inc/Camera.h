@@ -213,17 +213,12 @@ namespace NGTech {
 		//---physics---------------------------
 	public:
 		virtual void setPhysics(const Vec3 &size, float mass);
-		/**
-		gets camera phys body
-		\return phys body
-		*/
-		ENGINE_INLINE virtual PhysBody *getPhysBody() { return pBody; };
 
 	private:
 		ALSound *jumpSnd;
 		ALSoundSource *jumpSrc;
 
-		PhysBody *pBody;
+		struct PhysXCharacterController* pBody;
 		PhysJointUpVector *pJoint;
 		Vec3 size;
 	};

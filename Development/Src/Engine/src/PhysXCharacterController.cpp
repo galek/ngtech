@@ -38,6 +38,8 @@ namespace NGTech
 	{
 		if (desc.mMode == desc.CCT_CAPSULE)
 			_createCapsuleCharacterController();
+		else
+			_createBoxCharacterController();
 	}
 
 	PhysXCharacterController::~PhysXCharacterController()
@@ -69,6 +71,35 @@ namespace NGTech
 		pdesc.material = GetPhysics()->GetPxMaterial();
 		mController = GetPhysics()->GetPxControllerManager()->createController(pdesc);
 	}
+
+	void PhysXCharacterController::_createBoxCharacterController()
+	{
+		PxBoxControllerDesc pdesc;
+		pdesc.halfForwardExtent = desc.radius;
+		pdesc.halfSideExtent = desc.radius;
+		pdesc.halfHeight = desc.height / 2;
+
+
+		pdesc.density = desc.density;
+
+		pdesc.contactOffset = desc.contactOffset;
+
+		pdesc.stepOffset = desc.stepOffset;
+
+		pdesc.invisibleWallHeight = desc.invisibleWallHeight;
+		pdesc.maxJumpHeight = desc.maxJumpHeight;
+		pdesc.scaleCoeff = desc.scaleCoeff;
+		pdesc.slopeLimit = desc.slopeLimit;
+		pdesc.volumeGrowth = desc.volumeGrowth;
+
+		pdesc.position = PxExtendedVec3(desc.position.x, desc.position.y, desc.position.z);
+		pdesc.upDirection = PxVec3(desc.upDirection.x, desc.upDirection.y, desc.upDirection.z);
+
+		pdesc.material = GetPhysics()->GetPxMaterial();
+		mController = GetPhysics()->GetPxControllerManager()->createController(pdesc);
+	}
+
+
 
 	void PhysXCharacterController::move(float x, float y, float z, float elapsedTime)
 	{

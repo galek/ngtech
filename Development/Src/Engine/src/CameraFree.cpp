@@ -32,14 +32,12 @@ namespace NGTech {
 	/**
 	*/
 	CameraFree::CameraFree() :Camera() {
-	/*	this->position = Vec3(0, 0, 0);
+		this->position = Vec3(0, 0, 0);
 		this->maxVelocity = 1500;
 		this->fov = 60;
 		this->aspect = 4.0 / 3.0;
 		this->zNear = 0.1;
-		this->zFar = 1e4;*/
-		//this->buildProjection();
-
+		this->zFar = 1e4;
 		pBody = NULL;
 	}
 
