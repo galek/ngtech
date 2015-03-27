@@ -171,7 +171,7 @@ namespace NGTech {
 	*/
 	void PhysSystem::update() {
 		mScene->lockWrite();
-		const PxReal timestep = 1.0f / 60.0f;
+		const PxReal timestep = 1.0f / 30.0f;
 		auto dtime = GetWindow()->getDTime();
 		while (dtime>0.0f)
 		{

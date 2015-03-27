@@ -56,14 +56,33 @@ namespace NGTech
 	};
 
 
-	struct PhysXCharacterController
+	class PhysXCharacterController
 	{
+	public:
 		PhysXCharacterController(CharacterControllerDesc&desc);
 		~PhysXCharacterController();
 
 		void move(float x, float y, float z, float elapsedTime);
 		Vec3 getPosition();
+		void Jump(Vec3 &height);
+		bool CanJump();
 	private:
+		class JumpAction
+		{
+		public:
+			JumpAction();
+
+			float		mV0;
+			float		mJumpTime;
+			bool		mJump;
+
+			void		StartJump(float v0);
+			void		StopJump();
+			float		GetHeight(float elapsedTime,float _descHeight);
+		};
+		JumpAction mJump;
+	private:
+		float _JumpGetHeight(float _time,float _descHeight);
 		void _createCapsuleCharacterController();
 		void _createBoxCharacterController();
 	private:

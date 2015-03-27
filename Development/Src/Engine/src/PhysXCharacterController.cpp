@@ -91,7 +91,7 @@ namespace NGTech
 		PxBoxControllerDesc pdesc;
 		pdesc.halfForwardExtent = desc.radius;
 		pdesc.halfSideExtent = desc.radius;
-		pdesc.halfHeight = desc.height;
+		pdesc.halfHeight = desc.height / 2;
 
 
 		pdesc.density = desc.density;
@@ -141,21 +141,23 @@ namespace NGTech
 	*/
 	void PhysXCharacterController::Jump(Vec3 &movement)
 	{
-		//if (CanJump())
+		if (CanJump())
 		{
 			mJump.StartJump(desc.maxJumpHeight);
 
 			float dtime = GetWindow()->getDTime();
-			const float heightDelta = JumpGetHeight(dtime);
 			float dy;
+			const float heightDelta = _JumpGetHeight(dtime, desc.maxJumpHeight);
 			if (heightDelta != 0.0f)
 				dy = heightDelta;
 			else
 				dy = -9.81f * dtime;
 
 			movement.y += dy;
+
 			mJump.StopJump();
 		}
+		else Debug("can't jump");
 	}
 
 	/**
@@ -169,8 +171,8 @@ namespace NGTech
 
 	/**
 	*/
-	float PhysXCharacterController::JumpGetHeight(float _f)
+	float PhysXCharacterController::_JumpGetHeight(float _f, float _descHeight)
 	{
-		return mJump.GetHeight(_f);
+		return mJump.GetHeight(_f, _descHeight);
 	}
 }

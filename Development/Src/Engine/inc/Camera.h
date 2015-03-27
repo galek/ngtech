@@ -218,7 +218,7 @@ namespace NGTech {
 		ALSound *jumpSnd;
 		ALSoundSource *jumpSrc;
 
-		struct PhysXCharacterController* pBody;
+		class PhysXCharacterController* pBody;
 		PhysJointUpVector *pJoint;
 		Vec3 size;
 	};
@@ -239,7 +239,7 @@ namespace NGTech {
 		virtual void setPhysics(const Vec3 &size, float mass);
 
 	private:
-		struct PhysXCharacterController* pBody;
+		class PhysXCharacterController* pBody;
 	};
 
 	/**

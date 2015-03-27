@@ -26,7 +26,7 @@
 //**************************************
 #include "PhysXCharacterController.h"
 //**************************************
-
+//see http://physx3.googlecode.com/svn/trunk/PhysX-3.2_PC_SDK_Core/Samples/SampleCCTSharedCode/SampleCCTActor.cpp
 namespace NGTech {
 	/**
 	*/
@@ -53,18 +53,20 @@ namespace NGTech {
 	*/
 	void CameraFPS::setPhysics(const Vec3 &_size, float mass) {
 		CharacterControllerDesc desc;
-		desc.height = 10.f;
+		desc.height = 20.f;
 		desc.contactOffset = 0.05f; // Originally had it lower, raising it didn't seem to do much.
 		desc.position = position;
 		desc.radius = 5 * 0.4;
 		desc.upDirection = Vec3(0, 1, 0);
 		desc.stepOffset = 0.01f;
-		desc.maxJumpHeight = 30.0f;
+		desc.maxJumpHeight = 1.f;
 
-		desc.slopeLimit = 0.0f;
+		desc.slopeLimit = 45.0f;//”гол наклона
 		desc.contactOffset = 0.1f;
 		desc.stepOffset = 0.1f;
 		desc.invisibleWallHeight = 0.0f;
+
+		desc.scaleCoeff = 1.f;
 
 		pBody = new PhysXCharacterController(desc);
 	}
@@ -120,17 +122,28 @@ namespace NGTech {
 			movement = Vec3::normalize(movement);
 		}
 
-
+		static bool jump = false;
 		if (GetWindow()->isKeyDown("SPACE")) {
+			jump = true;
+			int ticks = 0;
 			pBody->Jump(movement);
+			movement += Vec3(0, 9.8, 0);
 		}
-		
-		
+		else {
+			if (!jump)
+			{
+				float dtime = GetWindow()->getDTime();
+				float dy = -9.81f * dtime;
+				movement.y += dy;
+			}
+			else
+				jump = false;
+		}
+
 		if (pBody)
 			pBody->move(movement.x, movement.y, movement.z, GetEngine()->GetTimePerFrame());
 		else
 			position += movement;
-
 		transform = Mat4::translate(position) * Mat4::rotate(90, direction);
 		view = Mat4::lookAt(position, position + direction, Vec3(0, 1, 0));
 	}

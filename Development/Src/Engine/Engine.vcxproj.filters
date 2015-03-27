@@ -287,6 +287,9 @@
     <ClCompile Include="Src\API\RenderAPI.cpp">
       <Filter>Файлы исходного кода\API</Filter>
     </ClCompile>
+    <ClCompile Include="src\PhysxCharacterControllerJump.cpp">
+      <Filter>Файлы исходного кода\PhysX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="inc\EngineMathToPhysx.inl">

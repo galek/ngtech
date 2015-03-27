@@ -57,6 +57,9 @@ namespace NGTech {
 		desc.radius = 5 * 0.4;
 		desc.upDirection = Vec3(0, 1, 0);
 		desc.stepOffset = 0.01f;
+
+		desc.scaleCoeff = 1.f;
+
 		pBody = new PhysXCharacterController(desc);
 	}
 
