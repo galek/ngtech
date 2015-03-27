@@ -49,9 +49,9 @@ namespace NGTech {
 
 	/**
 	*/
-	void CameraFree::setPhysics(const Vec3 &size, float mass) {
+	void CameraFree::setPhysics(const Vec3 &_size) {
 		CharacterControllerDesc desc;
-		desc.height = 10.f;
+		desc.height = _size.y;
 		desc.contactOffset = 0.05f; // Originally had it lower, raising it didn't seem to do much.
 		desc.position = position;
 		desc.radius = 5 * 0.4;
@@ -61,6 +61,12 @@ namespace NGTech {
 		desc.scaleCoeff = 1.f;
 
 		pBody = new PhysXCharacterController(desc);
+	}
+
+	/**
+	*/
+	void CameraFree::setPhysics(const CharacterControllerDesc *desc) {
+		pBody = new PhysXCharacterController(*desc);
 	}
 
 	/**

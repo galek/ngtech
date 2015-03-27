@@ -36,9 +36,6 @@ namespace NGTech {
 		this->aspect = 4.0 / 3.0;
 		this->zNear = 0.1;
 		this->zFar = 1e4;
-		//this->buildProjection();
-
-		pBody = NULL;
 	}
 
 	/**
@@ -48,41 +45,7 @@ namespace NGTech {
 
 	/**
 	*/
-	void CameraFixed::setPhysics(const Vec3 &size, float mass) {
-#ifndef __LINUX__
-		pBody = PhysBody::CreateSphere(size.y, &Mat4::translate(position), mass);
-#endif
-	}
-
-	/**
-	*/
 	void CameraFixed::update() {
-		if (pBody) {
-			position = pBody->GetTransform().getTranslation();
-			pBody->SetLinearVelocity(Vec3(0, 0, 0));
-		}
-
-		Vec3 forwardVec = Vec3(sinf(DEG_TO_RAD * angle[0]) * cosf(DEG_TO_RAD * angle[1]),
-			sinf(DEG_TO_RAD * angle[1]),
-			cosf(DEG_TO_RAD * angle[0]) * cosf(DEG_TO_RAD * angle[1]));
-
-		Vec3 leftVec = Vec3(sinf(DEG_TO_RAD * (angle[0] + 90)), 0, cosf(DEG_TO_RAD * (angle[0] + 90)));
-		Vec3 movement = Vec3(0, 0, 0);
-
-		direction.x = sinf(DEG_TO_RAD * angle[0]) * cosf(DEG_TO_RAD * angle[1]);
-		direction.y = sinf(DEG_TO_RAD * angle[1]);
-		direction.z = cosf(DEG_TO_RAD * angle[0]) * cosf(DEG_TO_RAD * angle[1]);
-		direction = Vec3::normalize(direction);
-
-		if (movement.length() > EPSILON) {
-			movement = Vec3::normalize(movement);
-		}
-
-		if (pBody)
-			pBody->SetTransform(Mat4::translate(position + movement));
-		else
-			position += movement;
-
 		transform = Mat4::translate(position) * Mat4::rotate(90, direction);
 		view = Mat4::lookAt(position, position + direction, Vec3(0, 1, 0));
 	}

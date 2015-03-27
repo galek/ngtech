@@ -8,7 +8,8 @@
 //**************************************
 
 namespace NGTech {
-
+	//Forward Declaration
+	struct CharacterControllerDesc;
 	//---------------------------------------------------------------------------
 	//Desc: base class of the camera
 	//---------------------------------------------------------------------------
@@ -102,17 +103,17 @@ namespace NGTech {
 
 		/**
 		*/
-		ENGINE_INLINE virtual Mat4 getTransform();
+		virtual Mat4 getTransform();
 
 		/**
 		sets camera projection matrix
 		*/
-		void SetProjection(const Mat4 &projection){ this->projection = projection; }
+		void SetProjection(const Mat4 &projection) { this->projection = projection; }
 
 		/**
 		gets camera projection matrix
 		*/
-		const Mat4 GetProjection(){ return projection; }
+		const Mat4 GetProjection() { return projection; }
 
 		/*
 		recalculates projection matrix
@@ -135,7 +136,7 @@ namespace NGTech {
 
 		/**
 		*/
-		const Mat4 &GetView(){ return view; }
+		const Mat4 &GetView() { return view; }
 
 		/**
 		*/
@@ -158,8 +159,10 @@ namespace NGTech {
 		ENGINE_INLINE Frustum* GetFrustum() { return frustum; }
 	protected:
 		/**
+		//Nick:TODO:
+		//Nick:Note: В текущий момент учитывается только Y координата-высота
 		*/
-		ENGINE_INLINE virtual void setPhysics(const Vec3 &size, float mass) {}
+		ENGINE_INLINE virtual void setPhysics(const Vec3 &size) {}
 		/**
 		gets camera phys body
 		\return phys body
@@ -212,7 +215,10 @@ namespace NGTech {
 
 		//---physics---------------------------
 	public:
-		virtual void setPhysics(const Vec3 &size, float mass);
+		//Nick:TODO:
+		//Nick:Note: В текущий момент учитывается только Y координата-высота
+		virtual void setPhysics(const Vec3 &size);
+		virtual void setPhysics(const CharacterControllerDesc *desc);
 
 	private:
 		ALSound *jumpSnd;
@@ -236,7 +242,10 @@ namespace NGTech {
 
 		//---physics---------------------------
 	public:
-		virtual void setPhysics(const Vec3 &size, float mass);
+		//Nick:TODO:
+		//Nick:Note: В текущий момент учитывается только Y координата-высота
+		virtual void setPhysics(const Vec3 &size);
+		virtual void setPhysics(const CharacterControllerDesc *desc);
 
 	private:
 		class PhysXCharacterController* pBody;
@@ -255,9 +264,9 @@ namespace NGTech {
 
 		//---physics---------------------------
 	public:
-		virtual void setPhysics(const Vec3 &size, float mass);
-
-	private:
-		PhysBody *pBody;
+		//Nick:TODO:
+		//Nick:Note: В текущий момент учитывается только Y координата-высота
+		virtual void setPhysics(const Vec3 &size) {}
+		virtual void setPhysics(const CharacterControllerDesc *desc) {}
 	};
 }

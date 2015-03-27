@@ -69,7 +69,7 @@ void ExampleGame::initialise() {
 	for (int i = 0; i < 5; i++) {
 		box[i] = new ObjectMesh("cube.nggf");
 		box[i]->setMaterial("grid.mat");
-		box[i]->SetTransform(Mat4::translate(Vec3(-10 - i * 2, i * 20 + 10, i - 10)));
+		box[i]->SetTransform(Mat4::translate(Vec3(-10 - i * 2, i * 20 + 1000, i - 10)));
 		box[i]->setPhysicsBox(Vec3(10, 10, 10), 10);
 		box[i]->setImpactSound("impact.ogg");
 	}
@@ -77,7 +77,7 @@ void ExampleGame::initialise() {
 	for (int i = 0; i < 5; i++) {
 		sphere[i] = new ObjectMesh("sphere.nggf");
 		sphere[i]->setMaterial("grid.mat");
-		sphere[i]->SetTransform(Mat4::translate(Vec3(10 + i * 2, i * 20 + 10, i - 10)));
+		sphere[i]->SetTransform(Mat4::translate(Vec3(10 + i * 2, i * 20 + 1000, i - 10)));
 		sphere[i]->setPhysicsSphere(Vec3(5, 5, 5), 10);
 		sphere[i]->setImpactSound("impact.ogg");
 	}
@@ -85,22 +85,22 @@ void ExampleGame::initialise() {
 	for (int i = 0; i < 5; i++) {
 		cylinder[i] = new ObjectMesh("torus.nggf");
 		cylinder[i]->setMaterial("grid.mat");
-		cylinder[i]->SetTransform(Mat4::translate(Vec3(20 + i * 2, i * 20 + 20, i - 10)));
+		cylinder[i]->SetTransform(Mat4::translate(Vec3(20 + i * 2, i * 20 + 2000, i - 10)));
 		cylinder[i]->setPhysicsConvexHull(10.0f);
 		cylinder[i]->setImpactSound("impact.ogg");
 	}
 
-	camera = new CameraFree();
+	camera = new CameraFPS();
 	camera->setPosition(Vec3(0, 20, 0));
 	camera->setMaxVelocity(2000);
-	camera->setPhysics(Vec3(5, 5, 5), 1.0f);
+	camera->setPhysics(Vec3(0, 20, 0));
 	camera->setFOV(60);
 
 	omniLight = new LightPoint();
 	omniLight->setColor(Vec3(1, 1, 0.8));
 	omniLight->setPosition(Vec3(0, 60, 0));
 	omniLight->setRadius(200);
-	
+
 	auto light = new LightSpot();
 	light->setColor(Vec3(1, 1, 0.8));
 	light->setPosition(Vec3(-10, -5, 60));
@@ -135,7 +135,7 @@ void ExampleGame::initialise() {
 #endif
 }
 //------------------------------------------------------------
-EventsCallback::EventsCallback(){}
+EventsCallback::EventsCallback() {}
 //------------------------------------------------------------
 
 void ShowConsole()
@@ -145,7 +145,7 @@ void ShowConsole()
 	GetWindow()->grabMouse(status);
 }
 
-void EventsCallback::Body(){
+void EventsCallback::Body() {
 	if (GetWindow()->isKeyDown("ESC"))
 		exit(0);
 

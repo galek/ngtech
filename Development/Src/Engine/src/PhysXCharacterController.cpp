@@ -50,6 +50,18 @@ namespace NGTech
 
 	/**
 	*/
+	PhysXCharacterController::PhysXCharacterController(const CharacterControllerDesc & _desc)
+		:desc(_desc),
+		mController(nullptr)
+	{
+			if (desc.mMode == desc.CCT_CAPSULE)
+				_createCapsuleCharacterController();
+			else
+				_createBoxCharacterController();
+	}
+
+	/**
+	*/
 	PhysXCharacterController::~PhysXCharacterController()
 	{
 		mController->release();

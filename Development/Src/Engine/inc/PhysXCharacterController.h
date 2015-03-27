@@ -60,6 +60,7 @@ namespace NGTech
 	{
 	public:
 		PhysXCharacterController(CharacterControllerDesc&desc);
+		PhysXCharacterController(const CharacterControllerDesc&desc);
 		~PhysXCharacterController();
 
 		void move(float x, float y, float z, float elapsedTime);
@@ -78,11 +79,11 @@ namespace NGTech
 
 			void		StartJump(float v0);
 			void		StopJump();
-			float		GetHeight(float elapsedTime,float _descHeight);
+			float		GetHeight(float elapsedTime, float _descHeight);
 		};
 		JumpAction mJump;
 	private:
-		float _JumpGetHeight(float _time,float _descHeight);
+		float _JumpGetHeight(float _time, float _descHeight);
 		void _createCapsuleCharacterController();
 		void _createBoxCharacterController();
 	private:
