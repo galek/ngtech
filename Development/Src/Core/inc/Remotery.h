@@ -437,7 +437,7 @@ struct rmt_EndOpenGLSampleOnScopeExit
 #define PROFILER_DISABLE()
 #define PROFILER_START(x)
 #define PROFILER_END()
-#define PROFILER_SET_CATEGORY()
+#define PROFILER_SET_CATEGORY(x)
 
 #endif // USE_PROFILER
 

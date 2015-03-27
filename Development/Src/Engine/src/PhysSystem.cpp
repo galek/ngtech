@@ -171,7 +171,15 @@ namespace NGTech {
 	*/
 	void PhysSystem::update() {
 		mScene->lockWrite();
-		mScene->simulate(1.0f / 60.0f);
+		const PxReal timestep = 1.0f / 60.0f;
+		auto dtime = GetWindow()->getDTime();
+		while (dtime>0.0f)
+		{
+			const PxReal dt = dtime >= timestep ? timestep : dtime;
+			mScene->simulate(dt);
+			mScene->fetchResults(true);
+			dtime -= dt;
+		}
 		mScene->unlockWrite();
 	}
 
@@ -186,11 +194,11 @@ namespace NGTech {
 	*/
 	void PhysSystem::_togglePvdConnection() {
 		Debug("PhysSystem::_togglePvdConnection()");
-		if (!mPhysics->getPvdConnectionManager()){
+		if (!mPhysics->getPvdConnectionManager()) {
 			Debug("PhysSystem::togglePvdConnection()-1");
 			return;
 		}
-		if (mPhysics->getPvdConnectionManager()->isConnected()){
+		if (mPhysics->getPvdConnectionManager()->isConnected()) {
 			Debug("PhysSystem::togglePvdConnection()-2");
 			mPhysics->getPvdConnectionManager()->disconnect();
 		}
@@ -200,10 +208,10 @@ namespace NGTech {
 
 	/**
 	*/
-	void PhysSystem::_createPvdConnection()	{
+	void PhysSystem::_createPvdConnection() {
 		Debug("PhysSystem::_createPvdConnection()");
 		auto mCon = PxVisualDebuggerExt::createConnection(mPhysics->getPvdConnectionManager(), "127.0.0.1", 5425, 100, PxVisualDebuggerExt::getAllConnectionFlags());
-		if (mCon){
+		if (mCon) {
 			mPhysics->getVisualDebugger()->setVisualizeConstraints(true);
 			mPhysics->getVisualDebugger()->setVisualDebuggerFlag(physx::PxVisualDebuggerFlag::Enum::eTRANSMIT_CONTACTS, true);
 		}
@@ -211,16 +219,16 @@ namespace NGTech {
 
 	/**
 	*/
-	void PhysSystem::SetGravity(const Vec3&_vec)	{
+	void PhysSystem::SetGravity(const Vec3&_vec) {
 		if (mScene)
 			mScene->setGravity(PxVec3(_vec.x, _vec.y, _vec.z));
 	}
 
 	/**
 	*/
-	Vec3 PhysSystem::GetGravity()	{
+	Vec3 PhysSystem::GetGravity() {
 		Vec3 Mvec(0, 0, 0);
-		if (mScene){
+		if (mScene) {
 			PxVec3 pvec = mScene->getGravity();
 			Mvec = { pvec.x, pvec.y, pvec.z };
 		}
@@ -237,37 +245,33 @@ namespace NGTech {
 
 	/**
 	*/
-	void PhysSystem::waitUpdate(){
+	void PhysSystem::waitUpdate() {
 		if (mUpdateJob) {
 			GetEngine()->threads->waitJobs(update_id);
-
-			LockRead();
-			mScene->fetchResults(true);
-			UnLockRead();
 		}
 	}
 
 	/**
 	*/
-	void PhysSystem::LockRead(){
+	void PhysSystem::LockRead() {
 		mScene->lockRead();
 	}
 
 	/**
 	*/
-	void PhysSystem::UnLockRead(){
+	void PhysSystem::UnLockRead() {
 		mScene->unlockRead();
 	}
 
 	/**
 	*/
-	void PhysSystem::LockWrite(){
+	void PhysSystem::LockWrite() {
 		mScene->lockWrite();
 	}
 
 	/**
 	*/
-	void PhysSystem::UnLockWrite(){
+	void PhysSystem::UnLockWrite() {
 		mScene->unlockWrite();
 	}
 

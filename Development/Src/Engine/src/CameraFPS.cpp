@@ -59,6 +59,13 @@ namespace NGTech {
 		desc.radius = 5 * 0.4;
 		desc.upDirection = Vec3(0, 1, 0);
 		desc.stepOffset = 0.01f;
+		desc.maxJumpHeight = 30.0f;
+
+		desc.slopeLimit = 0.0f;
+		desc.contactOffset = 0.1f;
+		desc.stepOffset = 0.1f;
+		desc.invisibleWallHeight = 0.0f;
+
 		pBody = new PhysXCharacterController(desc);
 	}
 
@@ -113,10 +120,12 @@ namespace NGTech {
 			movement = Vec3::normalize(movement);
 		}
 
-		if (GetWindow()->isKeyDown("q") && !inTheAir) {
-			movement += Vec3(0, 1.5, 0);
-		}
 
+		if (GetWindow()->isKeyDown("SPACE")) {
+			pBody->Jump(movement);
+		}
+		
+		
 		if (pBody)
 			pBody->move(movement.x, movement.y, movement.z, GetEngine()->GetTimePerFrame());
 		else

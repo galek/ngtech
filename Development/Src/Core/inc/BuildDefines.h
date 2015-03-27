@@ -45,7 +45,7 @@
 #endif
 
 #ifndef LIMITED_FPS
-//#define LIMITED_FPS 1
+#define LIMITED_FPS 1
 #endif
 
 #ifndef _DEMO_BUILD

@@ -15,7 +15,7 @@ namespace NGTech
 	/**
 	*/
 	using namespace physx;
-	
+
 	/**
 	*/
 	CharacterControllerDesc::CharacterControllerDesc(Mode _mMode)
@@ -27,10 +27,10 @@ namespace NGTech
 
 		upDirection = Vec3(0.0f, 1.0f, 0.0f);
 		position = Vec3(0.0f, 0.0f, 0.0f);
-		slopeLimit = 0.707f;
+		slopeLimit = 0.1f;
 		contactOffset = 0.1f;
-		stepOffset = 0.5f;
-		scaleCoeff = 0.8f;
+		stepOffset = 0.1f;
+		scaleCoeff = 0.9f;
 		volumeGrowth = 1.5f;
 		invisibleWallHeight = 0.0f;
 		maxJumpHeight = 0.0f;
@@ -63,6 +63,7 @@ namespace NGTech
 		pdesc.height = desc.height;
 
 		pdesc.radius = desc.radius;
+		pdesc.material = GetPhysics()->GetPxMaterial();
 		pdesc.density = desc.density;
 
 		pdesc.contactOffset = desc.contactOffset;
@@ -72,6 +73,7 @@ namespace NGTech
 		pdesc.invisibleWallHeight = desc.invisibleWallHeight;
 		pdesc.maxJumpHeight = desc.maxJumpHeight;
 		pdesc.scaleCoeff = desc.scaleCoeff;
+		pdesc.climbingMode = PxCapsuleClimbingMode::eEASY;
 		pdesc.slopeLimit = desc.slopeLimit;
 		pdesc.volumeGrowth = desc.volumeGrowth;
 
@@ -93,6 +95,7 @@ namespace NGTech
 
 
 		pdesc.density = desc.density;
+		pdesc.material = GetPhysics()->GetPxMaterial();
 
 		pdesc.contactOffset = desc.contactOffset;
 
@@ -132,5 +135,42 @@ namespace NGTech
 	{
 		mPos = Vec3(fpos.x, fpos.y, fpos.z);
 		return mPos;
+	}
+
+	/**
+	*/
+	void PhysXCharacterController::Jump(Vec3 &movement)
+	{
+		//if (CanJump())
+		{
+			mJump.StartJump(desc.maxJumpHeight);
+
+			float dtime = GetWindow()->getDTime();
+			const float heightDelta = JumpGetHeight(dtime);
+			float dy;
+			if (heightDelta != 0.0f)
+				dy = heightDelta;
+			else
+				dy = -9.81f * dtime;
+
+			movement.y += dy;
+			mJump.StopJump();
+		}
+	}
+
+	/**
+	*/
+	bool PhysXCharacterController::CanJump()
+	{
+		PxControllerState cctState;
+		mController->getState(cctState);
+		return (cctState.collisionFlags & PxControllerCollisionFlag::eCOLLISION_DOWN) != 0;
+	}
+
+	/**
+	*/
+	float PhysXCharacterController::JumpGetHeight(float _f)
+	{
+		return mJump.GetHeight(_f);
 	}
 }

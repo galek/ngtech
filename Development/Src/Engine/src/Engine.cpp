@@ -42,8 +42,8 @@ namespace NGTech {
 	*/
 #define ENGINE_VERSION_NUMBER 0.5
 #define ENGINE_VERSION_STRING "0.5"
-	const int TICKS_PER_SECOND = 250;
-	const int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
+	const int MAXIMUM_FPS_TICKS_PER_SECOND = 250;
+	const int SKIP_TICKS = 1000 / MAXIMUM_FPS_TICKS_PER_SECOND;
 	const int MAX_FRAMESKIP = 10;
 	/**
 	*/
