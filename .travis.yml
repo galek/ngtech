@@ -10,11 +10,12 @@ before_install:
   - rvm use $RVM --install --binary --fuzzy
   - gem update --system
   - gem --version
+  - sudo apt-get update -cmake
 
 before_script:
   - cmake Development/Src/CMakeLists.txt
 script:
-  -cmake --build
+  - cmake --build
   
 branches:
   only:
