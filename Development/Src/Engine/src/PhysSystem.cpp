@@ -172,7 +172,7 @@ namespace NGTech {
 	*/
 	void PhysSystem::update() {
 		mScene->lockWrite();
-		const PxReal timestep = 1.0f / 30.0f;
+		const PxReal timestep = 1.0f / 60.0f;
 		auto dtime = GetWindow()->getDTime();
 		while (dtime>0.0f)
 		{
@@ -234,7 +234,7 @@ namespace NGTech {
 	/**
 	*/
 	const Vec3& PhysSystem::GetGravity() {
-		Vec3 Mvec(0, 0, 0);
+		static Vec3 Mvec(0, 0, 0);
 		if (mScene) {
 			PxVec3 pvec = mScene->getGravity();
 			Mvec = { pvec.x, pvec.y, pvec.z };

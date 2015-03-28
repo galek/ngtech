@@ -51,6 +51,4 @@ namespace NGTech
 			Warning("In: %s:%i height: %f of jump <0,it's correct?", __FUNCTION__, __LINE__, h);
 		return h*elapsedTime;
 	}
-
-
 }
