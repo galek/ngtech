@@ -54,10 +54,10 @@ namespace NGTech
 		:desc(_desc),
 		mController(nullptr)
 	{
-			if (desc.mMode == desc.CCT_CAPSULE)
-				_createCapsuleCharacterController();
-			else
-				_createBoxCharacterController();
+		if (desc.mMode == desc.CCT_CAPSULE)
+			_createCapsuleCharacterController();
+		else
+			_createBoxCharacterController();
 	}
 
 	/**
@@ -157,15 +157,15 @@ namespace NGTech
 		{
 			mJump.StartJump(desc.maxJumpHeight);
 
-			float dtime = GetWindow()->getDTime();
+			float dtime = GetPhysics()->GetDTime();
 			float dy;
 			const float heightDelta = _JumpGetHeight(dtime, desc.maxJumpHeight);
 			if (heightDelta != 0.0f)
+			{
 				dy = heightDelta;
-			else
-				dy = -9.81f * dtime;
+				movement.y += dy;
+			}
 
-			movement.y += dy;
 
 			mJump.StopJump();
 		}

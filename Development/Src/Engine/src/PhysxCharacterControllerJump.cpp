@@ -13,9 +13,7 @@
 namespace NGTech
 {
 	using namespace physx;
-
-	static float gJumpGravity = 0.005f;
-
+	
 	PhysXCharacterController::JumpAction::JumpAction() :
 		mV0(0.0f),
 		mJumpTime(0.0f),
@@ -44,7 +42,11 @@ namespace NGTech
 		if (!mJump)	return 0.0f;
 		mJumpTime += elapsedTime;
 
-		const float h = _descHeight;//Nick:TODO:Зафиксировал прыжок,но он короткосрочный
+		static float gJumpGravity = -(GetPhysics()->GetGravityAsFloat());
+
+		float h = gJumpGravity*mJumpTime*mJumpTime + mV0*mJumpTime;
+		if (h > _descHeight)
+			h = _descHeight;
 		if (h <= 0)
 			Warning("In: %s:%i height: %f of jump <0,it's correct?", __FUNCTION__, __LINE__, h);
 		return h*elapsedTime;

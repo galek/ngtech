@@ -133,14 +133,12 @@ namespace NGTech {
 		static bool jump = false;
 		if (GetWindow()->isKeyDown("SPACE")) {
 			jump = true;
-			int ticks = 0;
 			pBody->Jump(movement);
-			movement += Vec3(0, 9.8, 0);
 		}
 		else {
 			if (!jump)
 			{
-				float dtime = GetWindow()->getDTime();
+				float dtime = GetPhysics()->GetDTime();//Nick:TODO:Mass
 				float dy = -9.81f * dtime;
 				movement.y += dy;
 			}

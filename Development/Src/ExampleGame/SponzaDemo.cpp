@@ -93,7 +93,7 @@ void ExampleGame::initialise() {
 	camera = new CameraFPS();
 	camera->setPosition(Vec3(0, 20, 0));
 	camera->setMaxVelocity(2000);
-	camera->setPhysics(Vec3(0, 20, 0));
+	camera->setPhysics(Vec3(0, 30, 0));
 	camera->setFOV(60);
 
 	omniLight = new LightPoint();
@@ -126,10 +126,10 @@ void ExampleGame::initialise() {
 	particlesYellow->setParticleLifeTime(10000);
 	particlesYellow->setDispersion(0.1);
 
-	GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
+	/*GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
 	sMesh = new ObjectSkinnedMesh("chammy.nggf");
 	sMesh->setMaterial("grid.mat");
-	sMesh->SetTransform(Mat4::translate(Vec3(-60, 60, 0)));
+	sMesh->SetTransform(Mat4::translate(Vec3(-60, 60, 0)));*/
 
 	GetWindow()->grabMouse(true);
 #endif

@@ -50,7 +50,8 @@ namespace NGTech {
 		mCudaContextManager(nullptr),
 #endif
 		mScene(nullptr),
-		mCCManager(nullptr)
+		mCCManager(nullptr),
+		mGravityFloat(-9.81f)
 	{}
 
 	/**
@@ -93,7 +94,7 @@ namespace NGTech {
 			Error("createMaterial failed!", true);
 
 		static PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
-		sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
+		sceneDesc.gravity = PxVec3(0.0f, mGravityFloat, 0.0f);
 
 		if (!sceneDesc.cpuDispatcher)
 		{
@@ -176,6 +177,7 @@ namespace NGTech {
 		while (dtime>0.0f)
 		{
 			const PxReal dt = dtime >= timestep ? timestep : dtime;
+			physxDTime = dtime;
 			mScene->simulate(dt);
 			mScene->fetchResults(true);
 			dtime -= dt;
@@ -224,9 +226,14 @@ namespace NGTech {
 			mScene->setGravity(PxVec3(_vec.x, _vec.y, _vec.z));
 	}
 
+	const float PhysSystem::GetGravityAsFloat()
+	{
+		return mGravityFloat;
+	}
+
 	/**
 	*/
-	Vec3 PhysSystem::GetGravity() {
+	const Vec3& PhysSystem::GetGravity() {
 		Vec3 Mvec(0, 0, 0);
 		if (mScene) {
 			PxVec3 pvec = mScene->getGravity();
