@@ -186,6 +186,13 @@ namespace NGTech {
 		return *this;
 	}
 
+	Vec2 & Vec2::operator*=(const float & v)
+	{
+		x *= v;
+		y *= v;
+		return *this;
+	}
+
 	bool Vec2::operator==(const Vec2 &v) const {
 		return (x == v.x && y == v.y);
 	}
@@ -318,6 +325,14 @@ namespace NGTech {
 		x /= v.x;
 		y /= v.y;
 		z /= v.z;
+		return *this;
+	}
+
+	Vec3 & Vec3::operator*=(const float & v)
+	{
+		x *= v;
+		y *= v;
+		z *= v;
 		return *this;
 	}
 
@@ -482,6 +497,15 @@ namespace NGTech {
 		y /= v.y;
 		z /= v.z;
 		w /= v.w;
+		return *this;
+	}
+
+	Vec4 & Vec4::operator*=(const float & v)
+	{
+		x *= v;
+		y *= v;
+		z *= v;
+		w *= v;
 		return *this;
 	}
 
@@ -1291,7 +1315,7 @@ namespace NGTech {
 		n = normal;
 	}
 
-	void TBNComputer::computeTBN(Vec3 &t, Vec3 &b, Vec3 p0, Vec3 p1, Vec3 p2, Vec2 t0, Vec2 t1, Vec2 t2, Vec3 n){
+	void TBNComputer::computeTBN(Vec3 &t, Vec3 &b, Vec3 p0, Vec3 p1, Vec3 p2, Vec2 t0, Vec2 t1, Vec2 t2, Vec3 n) {
 		Vec3 position[3];
 		Vec2 texcoords[3];
 

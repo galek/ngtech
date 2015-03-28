@@ -126,10 +126,10 @@ void ExampleGame::initialise() {
 	particlesYellow->setParticleLifeTime(10000);
 	particlesYellow->setDispersion(0.1);
 
-	/*GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
+	GetScene()->setAmbient(Vec3(0.2, 0.2, 0.2));
 	sMesh = new ObjectSkinnedMesh("chammy.nggf");
 	sMesh->setMaterial("grid.mat");
-	sMesh->SetTransform(Mat4::translate(Vec3(-60, 60, 0)));*/
+	sMesh->SetTransform(Mat4::translate(Vec3(-60, 60, 0)));
 
 	GetWindow()->grabMouse(true);
 #endif

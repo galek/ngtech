@@ -56,6 +56,7 @@ namespace NGTech {
 		Vec2& operator-=(const Vec2 &v);
 		Vec2& operator*=(const Vec2 &v);
 		Vec2& operator/=(const Vec2 &v);
+		Vec2& operator*=(const float &v);
 
 		bool operator==(const Vec2 &v) const;
 		bool operator!=(const Vec2 &v) const;
@@ -75,7 +76,7 @@ namespace NGTech {
 		static ENGINE_INLINE float dot(const Vec2 &a, const Vec2 &b) {
 			return (a.x * b.x + a.y * b.y);
 		}
-		static ENGINE_INLINE Vec2 &Zero(){ static Vec2 mZero(0, 0); return mZero; }
+		static ENGINE_INLINE Vec2 &Zero() { static Vec2 mZero(0, 0); return mZero; }
 	};
 
 	extern Vec2 operator+(const Vec2 &a, const Vec2 &b);
@@ -112,6 +113,7 @@ namespace NGTech {
 		Vec3& operator-=(const Vec3 &v);
 		Vec3& operator*=(const Vec3 &v);
 		Vec3& operator/=(const Vec3 &v);
+		Vec3& operator*=(const float &v);
 
 		bool operator==(const Vec3 &v) const;
 		bool operator!=(const Vec3 &v) const;
@@ -132,7 +134,7 @@ namespace NGTech {
 			return (a.x * b.x + a.y * b.y + a.z * b.z);
 		}
 		static Vec3 cross(const Vec3 &a, const Vec3 &b);
-		static ENGINE_INLINE Vec3 &Zero(){ static Vec3 mZero(0, 0, 0); return mZero; }
+		static ENGINE_INLINE Vec3 &Zero() { static Vec3 mZero(0, 0, 0); return mZero; }
 	};
 
 	extern Vec3 operator+(const Vec3 &a, const Vec3 &b);
@@ -172,6 +174,7 @@ namespace NGTech {
 		Vec4& operator-=(const Vec4 &v);
 		Vec4& operator*=(const Vec4 &v);
 		Vec4& operator/=(const Vec4 &v);
+		Vec4& operator*=(const float &v);
 
 		bool operator==(const Vec4 &v) const;
 		bool operator!=(const Vec4 &v) const;
@@ -191,7 +194,7 @@ namespace NGTech {
 		static ENGINE_INLINE float dot(const Vec4 &a, const Vec4 &b) {
 			return (a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w);
 		}
-		static ENGINE_INLINE Vec4 &Zero(){ static Vec4 mZero(0, 0, 0, 0); return mZero; }
+		static ENGINE_INLINE Vec4 &Zero() { static Vec4 mZero(0, 0, 0, 0); return mZero; }
 	};
 
 	extern Vec4 operator+(const Vec4 &a, const Vec4 &b);

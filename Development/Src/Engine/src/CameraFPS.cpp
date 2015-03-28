@@ -60,14 +60,14 @@ namespace NGTech {
 		desc.radius = 5 * 0.4;
 		desc.upDirection = Vec3(0, 1, 0);
 		desc.stepOffset = 0.01f;
-		desc.maxJumpHeight = 1.f;
+		desc.maxJumpHeight = 2.46f;//–екорд мира,в прыжке,в высоту
 
 		desc.slopeLimit = 45.0f;//”гол наклона
 		desc.contactOffset = 0.1f;
 		desc.stepOffset = 0.1f;
 		desc.invisibleWallHeight = 0.0f;
 
-		desc.scaleCoeff = 1.f;
+		desc.scaleCoeff = 1.f;//Nick:TODO:сделать возможность задавать Scale дл€ камеры
 
 		pBody = new PhysXCharacterController(desc);
 	}
@@ -107,8 +107,9 @@ namespace NGTech {
 		direction.z = cosf(DEG_TO_RAD * angle[0]) * cosf(DEG_TO_RAD * angle[1]);
 		direction = Vec3::normalize(direction);
 
-		bool inTheAir = false;
 		Vec3 point;
+		float dtime = GetPhysics()->GetDTime();
+
 		if (GetWindow()->isKeyPressed("W")) {
 			movement += forwardVec;
 		}
@@ -120,10 +121,6 @@ namespace NGTech {
 		}
 		if (GetWindow()->isKeyPressed("D")) {
 			movement -= leftVec;
-		}
-
-		if (inTheAir) {
-			movement = movement * 0.5;
 		}
 
 		if (movement.length() > EPSILON) {
@@ -138,7 +135,6 @@ namespace NGTech {
 		else {
 			if (!jump)
 			{
-				float dtime = GetPhysics()->GetDTime();//Nick:TODO:Mass
 				float dy = -9.81f * dtime;
 				movement.y += dy;
 			}
@@ -147,7 +143,10 @@ namespace NGTech {
 		}
 
 		if (pBody)
+		{
+			movement *= dtime;
 			pBody->move(movement.x, movement.y, movement.z, GetEngine()->GetTimePerFrame());
+		}
 		else
 			position += movement;
 		transform = Mat4::translate(position) * Mat4::rotate(90, direction);

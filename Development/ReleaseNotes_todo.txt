@@ -23,7 +23,6 @@ Tools:
 freetype-смотри семпл skybox
 
 Решить,что делать с mygui
-Можно ограничить физику по аналогии с главным циклом
 
 http://ogltutor.netau.net/tutorials/tutorial38.html
 http://ogltutor.netau.net/tutorials/tutorial42.html
@@ -65,3 +64,8 @@ http://opengl-tutorial.blogspot.ru/p/12-opengl.html
 
 В демке Physx Sample Bridges можно ходить сидя для контроллера камеры(кнопка C). Shift(ускорение),T,R еще смотри
 Large world-есть стриминг
+
+Внедрить профайлер в GL рендер.
+GL платформу GUI пернести в рендер
+Сделать возможность ускорения и присядки
+Внести VFile возможность грузить файл потоком(Stream)
